@@ -226,7 +226,7 @@ export async function createReview(review: Omit<Review, "id" | "is_approved" | "
   try {
     const { data, error } = await supabase
       .from("reviews")
-      .insert([review])
+      .insert([{ ...review, is_approved: false }])
       .select()
       .single();
 
@@ -238,9 +238,20 @@ export async function createReview(review: Omit<Review, "id" | "is_approved" | "
   }
 }
 
-export async function createStore(store: Omit<Store, "id">) {
+export async function createStore(store: any) {
   try {
-    const { data, error } = await supabase.from("stores").insert([store]).select().single();
+    const dbStore = {
+      store_name: store.storeName || store.store_name,
+      description: store.description,
+      city: store.city,
+      phone: store.phone,
+      whatsapp: store.whatsapp,
+      website: store.website,
+      logo_url: store.logoUrl || store.logo_url,
+      specialization: store.specialization,
+      is_active: false // Admin must approve
+    };
+    const { data, error } = await supabase.from("stores").insert([dbStore]).select().single();
     if (error) throw error;
     return data;
   } catch (error) {
@@ -249,9 +260,13 @@ export async function createStore(store: Omit<Store, "id">) {
   }
 }
 
-export async function createMarketplaceAd(ad: Omit<MarketplaceAd, "id" | "date" | "is_featured">) {
+export async function createMarketplaceAd(ad: any) {
   try {
-    const { data, error } = await supabase.from("marketplace_ads").insert([{ ...ad, is_active: true }]).select().single();
+    const dbAd = {
+      ...ad,
+      is_active: false // Admin must approve
+    };
+    const { data, error } = await supabase.from("marketplace_ads").insert([dbAd]).select().single();
     if (error) throw error;
     return data;
   } catch (error) {
