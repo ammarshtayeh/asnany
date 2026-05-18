@@ -10,7 +10,8 @@ import {
   Platform, 
   Image, 
   ActivityIndicator,
-  Dimensions
+  Dimensions,
+  TextInput
 } from "react-native";
 import { supabase } from "../../lib/supabase";
 
@@ -37,11 +38,29 @@ interface Doctor {
   accepts_insurance: boolean;
 }
 
+interface Review {
+  id: string;
+  doctor_id: string;
+  name: string;
+  rating: number;
+  text: string;
+  is_approved: boolean;
+  created_at: string;
+}
+
 export default function DoctorDetailsScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const [doctor, setDoctor] = useState<Doctor | null>(null);
+  const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
   const [activePhoto, setActivePhoto] = useState(0);
+
+  // Review form states
+  const [revName, setRevName] = useState("");
+  const [revRating, setRevRating] = useState(5);
+  const [revText, setRevText] = useState("");
+  const [revSuccess, setRevSuccess] = useState(false);
+  const [revSaving, setRevSaving] = useState(false);
 
   useEffect(() => {
     fetchDoctorDetails();
@@ -55,6 +74,7 @@ export default function DoctorDetailsScreen() {
         return;
       }
 
+      // Fetch Doctor Info
       const { data, error } = await supabase
         .from("doctors")
         .select("*")
@@ -63,8 +83,21 @@ export default function DoctorDetailsScreen() {
 
       if (error) throw error;
       setDoctor(data);
+
+      // Fetch Approved Reviews
+      const { data: reviewsData, error: revError } = await supabase
+        .from("reviews")
+        .select("*")
+        .eq("doctor_id", id)
+        .eq("is_approved", true)
+        .order("created_at", { ascending: false });
+
+      if (!revError) {
+        setReviews(reviewsData || []);
+      }
+
     } catch (err) {
-      console.error("Error fetching mobile doctor detail:", err);
+      console.error("Error fetching mobile doctor detail & reviews:", err);
     } finally {
       setLoading(false);
     }
@@ -82,11 +115,43 @@ export default function DoctorDetailsScreen() {
     Linking.openURL(url || `https://www.google.com/maps/search/?api=1&query=${latLng}`);
   };
 
+  const handleReviewSubmit = async () => {
+    if (!revName || !revText) {
+      alert("يرجى إدخال اسمك وتفاصيل المراجعة.");
+      return;
+    }
+
+    setRevSaving(true);
+    try {
+      const { error } = await supabase!
+        .from("reviews")
+        .insert([{
+          doctor_id: id,
+          name: revName,
+          rating: revRating,
+          text: revText,
+          is_approved: false // Admin must approve review before display
+        }]);
+
+      if (error) throw error;
+
+      setRevSuccess(true);
+      setRevName("");
+      setRevText("");
+      setRevRating(5);
+    } catch (err) {
+      console.error("Error submitting doctor review mobile:", err);
+      alert("فشل إرسال التقييم. حاول مرة أخرى.");
+    } finally {
+      setRevSaving(false);
+    }
+  };
+
   if (loading) {
     return (
       <View style={styles.loaderContainer}>
-        <ActivityIndicator size="large" color="#0e766e" />
-        <Text style={styles.loaderText}>جاري تحميل تفاصيل الطبيب والعيادة...</Text>
+        <ActivityIndicator size="large" color="#0d9488" />
+        <Text style={styles.loaderText}>جاري تحميل تفاصيل الطبيب والعيادة والتقييمات...</Text>
       </View>
     );
   }
@@ -109,7 +174,7 @@ export default function DoctorDetailsScreen() {
         <View style={styles.avatarCard}>
           <Image 
             source={{ uri: doctor.image_url || "https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=250&auto=format&fit=crop&q=80" }} 
-            style={styles.avatar} 
+            style={styles.avatar as any} 
           />
           <View style={styles.avatarInfo}>
             <View style={styles.nameRow}>
@@ -135,7 +200,7 @@ export default function DoctorDetailsScreen() {
             <Text style={styles.sectionTitle}>📸 جولة في عيادة الطبيب</Text>
             <Image 
               source={{ uri: doctor.clinic_photos[activePhoto] }} 
-              style={styles.clinicMainImage} 
+              style={styles.clinicMainImage as any} 
             />
             {doctor.clinic_photos.length > 1 && (
               <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.thumbnailRow}>
@@ -145,11 +210,19 @@ export default function DoctorDetailsScreen() {
                     onPress={() => setActivePhoto(index)}
                     style={[styles.thumbnailWrapper, activePhoto === index && styles.thumbnailWrapperActive]}
                   >
-                    <Image source={{ uri: photo }} style={styles.thumbnailImage} />
+                    <Image source={{ uri: photo }} style={styles.thumbnailImage as any} />
                   </Pressable>
                 ))}
               </ScrollView>
             )}
+          </View>
+        )}
+
+        {/* Bio */}
+        {doctor.bio && (
+          <View style={styles.card}>
+            <Text style={styles.sectionTitle}>📝 نبذة وسيرة مهنية</Text>
+            <Text style={styles.bioText}>{doctor.bio}</Text>
           </View>
         )}
 
@@ -200,13 +273,92 @@ export default function DoctorDetailsScreen() {
           </View>
         )}
 
-        {/* Bio */}
-        {doctor.bio && (
-          <View style={styles.card}>
-            <Text style={styles.sectionTitle}>📝 نبذة وسيرة مهنية</Text>
-            <Text style={styles.bioText}>{doctor.bio}</Text>
-          </View>
-        )}
+        {/* 💬 Patient Reviews & Testimonials Section */}
+        <View style={styles.card}>
+          <Text style={styles.sectionTitle}>💬 تقييمات ومراجعات المرضى ({reviews.length})</Text>
+          {reviews.length === 0 ? (
+            <Text style={[styles.itemText, { color: "#64748b", fontStyle: "italic", textAlign: "center", marginVertical: 10 }]}>
+              لا توجد تقييمات منشورة لهذا الطبيب بعد. كن أول من يقيّم!
+            </Text>
+          ) : (
+            <View style={styles.reviewsList}>
+              {reviews.map((rev) => (
+                <View key={rev.id} style={styles.reviewItem}>
+                  <View style={styles.reviewHeader}>
+                    <View style={styles.reviewUserBadge}>
+                      <Text style={styles.reviewUserInitials}>{rev.name.substring(0, 1)}</Text>
+                    </View>
+                    <View style={styles.reviewUserInfo}>
+                      <Text style={styles.reviewUserName}>{rev.name}</Text>
+                      <Text style={styles.reviewDate}>{new Date(rev.created_at).toLocaleDateString("ar-EG")}</Text>
+                    </View>
+                    <View style={styles.reviewStarsBox}>
+                      <Text style={styles.reviewStarsText}>⭐ {rev.rating}</Text>
+                    </View>
+                  </View>
+                  <Text style={styles.reviewComment}>{rev.text}</Text>
+                </View>
+              ))}
+            </View>
+          )}
+        </View>
+
+        {/* ✍ Interactive Write Review Form */}
+        <View style={styles.card}>
+          <Text style={styles.sectionTitle}>✍ قيّم طبيبك وشارك تجربتك</Text>
+          {revSuccess ? (
+            <View style={styles.successReviewBox}>
+              <Text style={styles.successReviewTitle}>🎉 تم إرسال تقييمك بنجاح!</Text>
+              <Text style={styles.successReviewDesc}>شكراً لك! تم استلام مراجعتك بنجاح وسوف تظهر في ملف الطبيب فور مراجعة واعتماد الإدارة للتأكد من الموثوقية.</Text>
+              <Pressable onPress={() => setRevSuccess(false)} style={[styles.button, { backgroundColor: "#0f172a", marginTop: 8 }]}>
+                <Text style={styles.buttonText}>كتابة تقييم آخر</Text>
+              </Pressable>
+            </View>
+          ) : (
+            <View style={styles.formContainer}>
+              <Text style={styles.inputLabel}>الاسم الكامل *:</Text>
+              <TextInput 
+                value={revName} 
+                onChangeText={setRevName} 
+                placeholder="أدخل اسمك الكريم..." 
+                style={styles.formInput} 
+                textAlign="right" 
+              />
+
+              <Text style={styles.inputLabel}>اختر التقييم (من 1 إلى 5 نجوم) *:</Text>
+              <View style={styles.starSelectorRow}>
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <Pressable 
+                    key={star} 
+                    onPress={() => setRevRating(star)} 
+                    style={[styles.starBtn, revRating >= star && styles.starBtnActive]}
+                  >
+                    <Text style={[styles.starBtnText, revRating >= star && styles.starBtnTextActive]}>⭐</Text>
+                  </Pressable>
+                ))}
+              </View>
+
+              <Text style={styles.inputLabel}>رأيك وتجربتك بالعيادة بالتفصيل *:</Text>
+              <TextInput 
+                value={revText} 
+                onChangeText={setRevText} 
+                multiline 
+                numberOfLines={3} 
+                placeholder="شاركنا رأيك في مستوى الخدمة، التعقيم، المعاملة والأسعار..." 
+                style={[styles.formInput, { height: 80 }]} 
+                textAlign="right" 
+              />
+
+              <Pressable 
+                disabled={revSaving} 
+                onPress={handleReviewSubmit} 
+                style={[styles.button, { backgroundColor: "#0d9488", marginTop: 10 }]}
+              >
+                <Text style={styles.buttonText}>{revSaving ? "جاري الحفظ..." : "💾 إرسال تقييمي للمراجعة"}</Text>
+              </Pressable>
+            </View>
+          )}
+        </View>
 
         {/* WhatsApp & Booking CTAs */}
         <View style={styles.bookingRow}>
@@ -241,7 +393,7 @@ const styles = StyleSheet.create({
   page: {
     padding: 16,
     gap: 16,
-    backgroundColor: "#f8fafc",
+    backgroundColor: "#f4f6fa",
     paddingBottom: 40
   },
   loaderContainer: {
@@ -284,7 +436,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     shadowColor: "#0f172a",
     shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.12,
     shadowRadius: 15,
     elevation: 4
   },
@@ -292,7 +444,9 @@ const styles = StyleSheet.create({
     width: 90,
     height: 90,
     borderRadius: 24,
-    backgroundColor: "#f1f5f9"
+    backgroundColor: "#f1f5f9",
+    borderWidth: 1,
+    borderColor: "#334155"
   },
   avatarInfo: {
     flex: 1,
@@ -350,8 +504,8 @@ const styles = StyleSheet.create({
     padding: 20,
     gap: 12,
     borderWidth: 1,
-    borderColor: "#f1f5f9",
-    shadowColor: "#000",
+    borderColor: "#e2e8f0",
+    shadowColor: "#0f172a",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.02,
     shadowRadius: 10,
@@ -368,8 +522,8 @@ const styles = StyleSheet.create({
   },
   clinicMainImage: {
     width: "100%",
-    height: 180,
-    borderRadius: 16,
+    height: 185,
+    borderRadius: 18,
     resizeMode: "cover",
     marginTop: 4
   },
@@ -476,5 +630,135 @@ const styles = StyleSheet.create({
   },
   phoneButton: {
     backgroundColor: "#0f172a"
+  },
+  reviewsList: {
+    gap: 12,
+    marginTop: 4
+  },
+  reviewItem: {
+    backgroundColor: "#f8fafc",
+    borderRadius: 16,
+    padding: 14,
+    borderWidth: 1,
+    borderColor: "#e2e8f0",
+    gap: 6
+  },
+  reviewHeader: {
+    flexDirection: "row-reverse",
+    gap: 10,
+    alignItems: "center"
+  },
+  reviewUserBadge: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: "#0d9488",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  reviewUserInitials: {
+    color: "#ffffff",
+    fontSize: 14,
+    fontWeight: "900"
+  },
+  reviewUserInfo: {
+    flex: 1,
+    gap: 2
+  },
+  reviewUserName: {
+    fontSize: 13,
+    fontWeight: "800",
+    color: "#1e293b",
+    textAlign: "right"
+  },
+  reviewDate: {
+    fontSize: 10,
+    color: "#94a3b8",
+    textAlign: "right"
+  },
+  reviewStarsBox: {
+    backgroundColor: "#fffbeb",
+    borderWidth: 1,
+    borderColor: "#fde68a",
+    paddingHorizontal: 6,
+    paddingVertical: 3,
+    borderRadius: 8
+  },
+  reviewStarsText: {
+    fontSize: 11,
+    fontWeight: "800",
+    color: "#b45309"
+  },
+  reviewComment: {
+    fontSize: 12,
+    fontWeight: "600",
+    color: "#475569",
+    textAlign: "right",
+    lineHeight: 18
+  },
+  successReviewBox: {
+    alignItems: "center",
+    padding: 12,
+    gap: 8
+  },
+  successReviewTitle: {
+    fontSize: 15,
+    fontWeight: "900",
+    color: "#10b981"
+  },
+  successReviewDesc: {
+    fontSize: 11,
+    color: "#475569",
+    textAlign: "center",
+    lineHeight: 16,
+    fontWeight: "600"
+  },
+  formContainer: {
+    gap: 8
+  },
+  inputLabel: {
+    fontSize: 12,
+    fontWeight: "900",
+    color: "#475569",
+    textAlign: "right",
+    marginTop: 4
+  },
+  formInput: {
+    backgroundColor: "#f8fafc",
+    borderRadius: 14,
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+    borderWidth: 1,
+    borderColor: "#e2e8f0",
+    fontSize: 12,
+    fontWeight: "700",
+    color: "#1e293b"
+  },
+  starSelectorRow: {
+    flexDirection: "row-reverse",
+    gap: 10,
+    justifyContent: "center",
+    paddingVertical: 4
+  },
+  starBtn: {
+    width: 40,
+    height: 40,
+    borderRadius: 12,
+    backgroundColor: "#f1f5f9",
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 1,
+    borderColor: "#e2e8f0"
+  },
+  starBtnActive: {
+    backgroundColor: "#fffbeb",
+    borderColor: "#fde68a"
+  },
+  starBtnText: {
+    fontSize: 18,
+    opacity: 0.2
+  },
+  starBtnTextActive: {
+    opacity: 1
   }
 });
