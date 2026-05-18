@@ -136,6 +136,37 @@ ALTER TABLE articles ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "public read articles" ON articles FOR SELECT USING (true);
 CREATE POLICY "admin all articles" ON articles USING (auth.role() = 'authenticated');
 
+-- Unified service listings for beauty centers, medical labs, consultations, partners, media sponsors, and future hubs
+CREATE TABLE IF NOT EXISTS medical_services (
+  id              UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  service_type    TEXT NOT NULL, -- beauty | lab | consultation | partner | media | booking
+  name            TEXT NOT NULL,
+  category        TEXT,
+  city            TEXT,
+  area            TEXT,
+  description     TEXT,
+  services        TEXT[],
+  price_range     TEXT,
+  phone           TEXT,
+  whatsapp        TEXT,
+  website         TEXT,
+  image_url       TEXT,
+  gallery         TEXT[],
+  address         TEXT,
+  lat             FLOAT8,
+  lng             FLOAT8,
+  rating          FLOAT4 DEFAULT 0,
+  is_featured     BOOLEAN DEFAULT false,
+  is_active       BOOLEAN DEFAULT true,
+  sort_order      INT4 DEFAULT 0,
+  created_at      TIMESTAMPTZ DEFAULT NOW(),
+  updated_at      TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE medical_services ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "public read active medical services" ON medical_services FOR SELECT USING (is_active = true);
+CREATE POLICY "admin all medical services" ON medical_services USING (auth.role() = 'authenticated');
+
 -- Admins Table
 CREATE TABLE admins (
   id          UUID DEFAULT gen_random_uuid() PRIMARY KEY,
@@ -152,5 +183,4 @@ CREATE POLICY "admin all admins" ON admins USING (true);
 INSERT INTO admins (email, password)
 VALUES ('admin@asnany.ps', 'admin_secret_123')
 ON CONFLICT (email) DO NOTHING;
-
 

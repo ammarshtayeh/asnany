@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Stethoscope, Tags, ShoppingBag, BookOpen, UserCircle2, Store } from "lucide-react";
+import { Stethoscope, Tags, ShoppingBag, BookOpen, UserCircle2, Store, Sparkles, Microscope, CalendarCheck2 } from "lucide-react";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -15,6 +15,9 @@ export default function Navbar() {
     { href: "/", label: "الرئيسية", icon: Stethoscope },
     { href: "/offers", label: "العروض الحصرية", icon: Tags },
     { href: "/marketplace", label: "سوق أسناني", icon: Store },
+    { href: "/beauty", label: "التجميل", icon: Sparkles },
+    { href: "/labs", label: "المختبرات", icon: Microscope },
+    { href: "/booking", label: "الحجز", icon: CalendarCheck2 },
     { href: "/blog", label: "المدونة الطبية", icon: BookOpen },
     { href: "/stores", label: "دليل الموردين", icon: ShoppingBag },
   ];
@@ -32,7 +35,7 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop Links */}
-        <div className="hidden md:flex items-center gap-2 bg-slate-100/50 p-1.5 rounded-2xl border border-slate-200/50">
+        <div className="hidden md:flex items-center gap-1 bg-slate-100/50 p-1.5 rounded-2xl border border-slate-200/50 max-w-[58vw] overflow-x-auto hide-scrollbar">
           {links.map((link) => {
             const isActive = currentPath === link.href || (link.href !== '/' && currentPath.startsWith(link.href));
             const Icon = link.icon;
@@ -41,7 +44,7 @@ export default function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm transition-all ${
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-sm transition-all whitespace-nowrap ${
                   isActive 
                   ? "bg-white text-primary shadow-sm shadow-slate-200 border border-slate-200/50" 
                   : "text-slate-600 hover:text-slate-900 hover:bg-slate-200/50"
@@ -68,7 +71,7 @@ export default function Navbar() {
 
       {/* Mobile Bottom Navigation (Visible only on small screens) */}
       <div className="md:hidden fixed bottom-0 left-0 w-full bg-white/90 backdrop-blur-xl border-t border-slate-200 pb-safe z-50">
-        <div className="flex justify-around p-2">
+        <div className="flex gap-2 p-2 overflow-x-auto hide-scrollbar snap-x">
           {links.map((link) => {
             const isActive = currentPath === link.href || (link.href !== '/' && currentPath.startsWith(link.href));
             const Icon = link.icon;
@@ -76,7 +79,7 @@ export default function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`flex flex-col items-center gap-1 p-2 rounded-xl min-w-[70px] ${
+                className={`flex flex-col items-center gap-1 p-2 rounded-xl min-w-[76px] snap-start ${
                   isActive ? "text-primary" : "text-slate-500"
                 }`}
               >

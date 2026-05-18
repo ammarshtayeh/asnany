@@ -1,11 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { Users, Calendar as CalendarIcon, Megaphone, Store, Star, LayoutDashboard, LogOut, Link2, Check } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { Users, Calendar as CalendarIcon, Megaphone, Store, Star, LayoutDashboard, LogOut, Link2, Check, Sparkles } from "lucide-react";
 import Link from "next/link";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const [copied, setCopied] = useState(false);
+  const pathname = usePathname();
+
+  if (pathname === "/admin/login") {
+    return <>{children}</>;
+  }
 
   const handleCopyLink = () => {
     const registrationUrl = `${window.location.origin}/doctors/register`;
@@ -38,6 +44,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           </Link>
           <Link href="/admin/stores" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:bg-white/10 hover:text-white transition-colors">
             <Store className="w-5 h-5" /> المتاجر
+          </Link>
+          <Link href="/admin/services" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:bg-white/10 hover:text-white transition-colors">
+            <Sparkles className="w-5 h-5" /> خدمات المنصة
           </Link>
           <Link href="/admin/reviews" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:bg-white/10 hover:text-white transition-colors">
             <Star className="w-5 h-5" /> التقييمات

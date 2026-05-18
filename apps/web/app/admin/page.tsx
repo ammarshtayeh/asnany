@@ -1,13 +1,14 @@
-import { Users, Calendar, Megaphone, CheckCircle2, Store } from "lucide-react";
+import { Users, Calendar, Megaphone, CheckCircle2, Store, Sparkles } from "lucide-react";
 import Link from "next/link";
-import { getDoctors, getAdvertisements, getStores, getAppointments } from "@/lib/data";
+import { getDoctors, getAdvertisements, getStores, getAppointments, getMedicalServices } from "@/lib/data";
 
 export default async function AdminDashboard() {
-  const [doctors, ads, stores, appointments] = await Promise.all([
+  const [doctors, ads, stores, appointments, services] = await Promise.all([
     getDoctors(),
     getAdvertisements(),
     getStores(),
-    getAppointments()
+    getAppointments(),
+    getMedicalServices()
   ]);
 
   const totalDoctors = doctors.length;
@@ -15,12 +16,25 @@ export default async function AdminDashboard() {
   const activeStores = stores.length;
   const totalAppointments = appointments.length;
   const pendingAppointments = appointments.filter(a => a.status === "pending").length;
+  const totalServices = services.length;
 
   return (
     <div className="p-6 md:p-10 font-sans" dir="rtl">
       <div className="mb-8">
         <h1 className="text-3xl font-black text-slate-900">لوحة التحكم</h1>
         <p className="text-slate-500 mt-1">نظرة عامة حية ومباشرة من قاعدة البيانات</p>
+      </div>
+
+      <div className="mb-10 bg-gradient-to-l from-slate-950 to-sky-950 rounded-3xl p-6 md:p-8 text-white flex flex-col md:flex-row md:items-center md:justify-between gap-5">
+        <div>
+          <p className="text-sky-200 font-black text-sm mb-2">منصة أسناني المتكاملة</p>
+          <h2 className="text-2xl font-black">إدارة الأقسام الجديدة مربوطة الآن بقاعدة البيانات</h2>
+          <p className="text-slate-300 mt-2 font-medium">مراكز التجميل، المختبرات، الاستشارات، الحجز، الميديا، والشركات من مكان واحد.</p>
+        </div>
+        <Link href="/admin/services" className="inline-flex items-center justify-center gap-2 bg-white text-slate-950 px-5 py-3 rounded-xl font-black hover:bg-sky-100 transition-colors">
+          <Sparkles className="w-5 h-5" />
+          إدارة خدمات المنصة ({totalServices})
+        </Link>
       </div>
 
       {/* Stats Cards */}

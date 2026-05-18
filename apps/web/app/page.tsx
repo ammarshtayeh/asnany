@@ -6,6 +6,7 @@ import { Search, MapPin, Navigation, Star, CheckCircle2, Route, HeartPulse, Shie
 import Link from "next/link";
 import Image from "next/image";
 import AdSlider from "@/components/AdSlider";
+import PlatformExpansion from "@/components/PlatformExpansion";
 import { Doctor, Advertisement } from "@/lib/types";
 import { CITIES } from "@/lib/constants";
 import { getDistance } from "@/lib/distance";
@@ -516,6 +517,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <PlatformExpansion />
 
       {/* Sleek Footer */}
       <footer className="bg-white border-t border-slate-200 py-12 px-4 lg:px-8">

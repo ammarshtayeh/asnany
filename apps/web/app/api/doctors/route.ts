@@ -1,8 +1,12 @@
 import { NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
+import { isSupabaseConfigured, supabase } from "@/lib/supabase";
 
 export async function GET(request: Request) {
   try {
+    if (!isSupabaseConfigured) {
+      return NextResponse.json([]);
+    }
+
     const { searchParams } = new URL(request.url);
     const city = searchParams.get("city");
     const specialty = searchParams.get("specialty");

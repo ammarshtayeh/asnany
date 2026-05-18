@@ -4,13 +4,14 @@ import {
   Advertisement,
   Store
 } from "@pal-dental/shared";
-import { supabase } from "./supabase";
-import { Offer, Article, MarketplaceAd, Review } from "./types";
+import { isSupabaseConfigured, supabase } from "./supabase";
+import { Offer, Article, MarketplaceAd, Review, MedicalService, MedicalServiceType } from "./types";
 
 // Force database execution globally
 const USE_DEMO = false;
 
 export async function getDoctors(city?: string, specialty?: string): Promise<Doctor[]> {
+  if (!isSupabaseConfigured) return [];
   try {
     let query = supabase.from("doctors").select("*").eq("verified", true);
     if (city) query = query.eq("city", city);
@@ -26,6 +27,7 @@ export async function getDoctors(city?: string, specialty?: string): Promise<Doc
 }
 
 export async function getDoctorById(id: string): Promise<Doctor | undefined> {
+  if (!isSupabaseConfigured) return undefined;
   try {
     const { data, error } = await supabase
       .from("doctors")
@@ -42,6 +44,9 @@ export async function getDoctorById(id: string): Promise<Doctor | undefined> {
 }
 
 export async function getDashboardSnapshot() {
+  if (!isSupabaseConfigured) {
+    return { doctors: 0, featuredDoctors: 0, pendingAppointments: 0, activeAds: 0 };
+  }
   try {
     const [doctorsRes, appointmentsRes, adsRes] = await Promise.all([
       supabase.from("doctors").select("id").eq("verified", true),
@@ -67,6 +72,7 @@ export async function getDashboardSnapshot() {
 }
 
 export async function getAppointments(): Promise<Appointment[]> {
+  if (!isSupabaseConfigured) return [];
   try {
     const { data, error } = await supabase.from("appointments").select("*");
     if (error) throw error;
@@ -94,6 +100,7 @@ export async function createAppointment(appointment: Omit<Appointment, "id">) {
 }
 
 export async function getAdvertisements(): Promise<Advertisement[]> {
+  if (!isSupabaseConfigured) return [];
   try {
     const { data, error } = await supabase
       .from("advertisements")
@@ -129,6 +136,7 @@ export async function trackAdClick(adId: string) {
 }
 
 export async function getStores(): Promise<Store[]> {
+  if (!isSupabaseConfigured) return [];
   try {
     const { data, error } = await supabase
       .from("stores")
@@ -144,6 +152,7 @@ export async function getStores(): Promise<Store[]> {
 }
 
 export async function getOffers(): Promise<Offer[]> {
+  if (!isSupabaseConfigured) return [];
   try {
     const { data, error } = await supabase
       .from("offers")
@@ -159,6 +168,7 @@ export async function getOffers(): Promise<Offer[]> {
 }
 
 export async function getArticles(): Promise<Article[]> {
+  if (!isSupabaseConfigured) return [];
   try {
     const { data, error } = await supabase
       .from("articles")
@@ -174,6 +184,7 @@ export async function getArticles(): Promise<Article[]> {
 }
 
 export async function getArticleById(id: string): Promise<Article | undefined> {
+  if (!isSupabaseConfigured) return undefined;
   try {
     const { data, error } = await supabase
       .from("articles")
@@ -190,6 +201,7 @@ export async function getArticleById(id: string): Promise<Article | undefined> {
 }
 
 export async function getMarketplaceAds(): Promise<MarketplaceAd[]> {
+  if (!isSupabaseConfigured) return [];
   try {
     const { data, error } = await supabase
       .from("marketplace_ads")
@@ -206,6 +218,7 @@ export async function getMarketplaceAds(): Promise<MarketplaceAd[]> {
 }
 
 export async function getReviewsByDoctorId(doctorId: string): Promise<Review[]> {
+  if (!isSupabaseConfigured) return [];
   try {
     const { data, error } = await supabase
       .from("reviews")
@@ -283,5 +296,29 @@ export async function createOffer(offer: Omit<Offer, "id">) {
   } catch (error) {
     console.error("Error creating offer:", error);
     throw error;
+  }
+}
+
+export async function getMedicalServices(serviceType?: MedicalServiceType): Promise<MedicalService[]> {
+  if (!isSupabaseConfigured) return [];
+  try {
+    let query = supabase
+      .from("medical_services")
+      .select("*")
+      .eq("is_active", true)
+      .order("is_featured", { ascending: false })
+      .order("sort_order", { ascending: true })
+      .order("created_at", { ascending: false });
+
+    if (serviceType) {
+      query = query.eq("service_type", serviceType);
+    }
+
+    const { data, error } = await query;
+    if (error) throw error;
+    return (data as MedicalService[]) || [];
+  } catch (error) {
+    console.error("Error fetching medical services:", error);
+    return [];
   }
 }

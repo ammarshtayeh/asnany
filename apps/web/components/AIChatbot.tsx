@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { MessageSquare, X, Send, Sparkles, AlertCircle, Calendar } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 interface Message {
   sender: "bot" | "user";
@@ -12,6 +13,7 @@ interface Message {
 }
 
 export default function AIChatbot() {
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<Message[]>([
@@ -85,6 +87,8 @@ export default function AIChatbot() {
       ]);
     }, 1200);
   };
+
+  if (pathname?.startsWith("/admin")) return null;
 
   return (
     <div className="fixed bottom-6 right-6 z-[999]" dir="rtl">

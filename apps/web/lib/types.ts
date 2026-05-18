@@ -102,3 +102,31 @@ export type Review = {
   is_approved: boolean;
   created_at: string;
 };
+
+export type MedicalServiceType = "beauty" | "lab" | "consultation" | "partner" | "media" | "booking";
+
+export type MedicalService = {
+  id: string;
+  service_type: MedicalServiceType;
+  name: string;
+  category?: string;
+  city?: string;
+  area?: string;
+  description?: string;
+  services?: string[];
+  price_range?: string;
+  phone?: string;
+  whatsapp?: string;
+  website?: string;
+  image_url?: string;
+  gallery?: string[];
+  address?: string;
+  lat?: number;
+  lng?: number;
+  rating: number;
+  is_featured: boolean;
+  is_active: boolean;
+  sort_order: number;
+  created_at: string;
+  updated_at?: string;
+};

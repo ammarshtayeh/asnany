@@ -9,6 +9,8 @@
     "dev:web": "npm --workspace @pal-dental/web run dev",
     "dev:mobile": "npm --workspace @pal-dental/mobile run start",
     "lint:web": "npm --workspace @pal-dental/web run lint",
-    "typecheck:web": "npm --workspace @pal-dental/web run typecheck"
+    "typecheck:web": "npm --workspace @pal-dental/web run typecheck",
+    "supabase:link": "npx supabase link",
+    "supabase:db:push": "npx supabase db push"
   }
 }
