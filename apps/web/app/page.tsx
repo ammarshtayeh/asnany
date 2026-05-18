@@ -504,9 +504,12 @@ export default function Home() {
                 <p className="text-slate-300 font-medium text-lg mb-8 max-w-xl mx-auto">
                   انضم لأكبر شبكة طبية، احصل على حجوزات أكثر، واعرض خدماتك أمام الآلاف من المرضى يومياً.
                 </p>
-                <button className="bg-white text-slate-900 hover:bg-primary hover:text-white px-8 py-4 rounded-2xl font-black text-lg transition-all shadow-lg hover:shadow-primary/40">
+                <Link 
+                  href="/join"
+                  className="inline-block bg-white text-slate-900 hover:bg-primary hover:text-white px-8 py-4 rounded-2xl font-black text-lg transition-all shadow-lg hover:shadow-primary/40"
+                >
                   سجّل عيادتك الآن
-                </button>
+                </Link>
               </div>
             </div>
 
