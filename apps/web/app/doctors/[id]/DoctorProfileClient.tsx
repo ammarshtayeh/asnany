@@ -337,10 +337,17 @@ export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
           <div className="bg-white rounded-3xl shadow-xl shadow-slate-200/40 border border-slate-100 p-6 sticky top-6">
             <h3 className="font-black text-slate-900 text-lg mb-6">تواصل وحجز مباشر</h3>
             
-            <a href="#booking-form" className="w-full mb-4 bg-gradient-to-r from-primary to-blue-500 hover:from-primary-dark hover:to-blue-600 text-white font-black py-4 rounded-2xl shadow-lg shadow-primary/30 transition-all flex justify-center items-center gap-3 hover:scale-[1.02]">
-              <Calendar className="w-6 h-6" />
-              حجز موعد إلكتروني
-            </a>
+            {doctor.whatsapp ? (
+              <a href={`https://wa.me/${doctor.whatsapp.replace(/\+/g, "")}`} target="_blank" rel="noreferrer" className="w-full mb-4 bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white font-black py-4 rounded-2xl shadow-lg shadow-emerald-500/30 transition-all flex justify-center items-center gap-3 hover:scale-[1.02]">
+                <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.101.824z"/></svg>
+                تواصل للحجز المباشر
+              </a>
+            ) : doctor.phone ? (
+              <a href={`tel:${doctor.phone}`} className="w-full mb-4 bg-gradient-to-r from-primary to-blue-500 hover:from-primary-dark hover:to-blue-600 text-white font-black py-4 rounded-2xl shadow-lg shadow-primary/30 transition-all flex justify-center items-center gap-3 hover:scale-[1.02]">
+                <Phone className="w-6 h-6" />
+                اتصل للحجز المباشر
+              </a>
+            ) : null}
             
             <div className="flex gap-3">
               {doctor.whatsapp && (
@@ -381,134 +388,39 @@ export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
         </div>
       </div>
 
-      {/* Modern Booking Form Section */}
-      <div id="booking-form" className="mt-12 bg-white rounded-[2.5rem] shadow-2xl shadow-slate-200/50 border border-slate-100 p-8 md:p-12 relative overflow-hidden">
+      {/* Modern Contact Banner replacing booking form */}
+      <div className="mt-12 bg-white rounded-[2.5rem] shadow-2xl shadow-slate-200/50 border border-slate-100 p-8 md:p-12 relative overflow-hidden text-center">
         <div className="absolute top-0 right-0 w-32 h-full bg-gradient-to-l from-primary/5 to-transparent pointer-events-none" />
-        
         <div className="max-w-3xl mx-auto relative z-10">
-          <div className="text-center mb-10">
-            <span className="bg-primary/10 text-primary font-bold px-4 py-1.5 rounded-full text-sm inline-block mb-4">حجز سريع وسهل</span>
-            <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-4">احجز موعدك مع {doctor.name}</h2>
-            <p className="text-slate-500 text-lg">أدخل بياناتك وسيتم تأكيد حجزك في أقرب وقت متاح.</p>
-          </div>
-          
-          <form onSubmit={handleBookingSubmit} className="space-y-6">
-            <div className="grid md:grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <label className="block text-sm font-bold text-slate-700">الاسم الكامل</label>
-                <input 
-                  type="text" 
-                  required 
-                  className="w-full px-5 py-4 rounded-2xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-primary focus:border-primary transition-all outline-none font-medium text-slate-900 placeholder:text-slate-400" 
-                  placeholder="اكتب اسمك الثلاثي" 
-                  value={bookingName}
-                  onChange={(e) => setBookingName(e.target.value)}
-                />
-              </div>
-              <div className="space-y-2">
-                <label className="block text-sm font-bold text-slate-700">رقم الهاتف (للتواصل)</label>
-                <input 
-                  type="tel" 
-                  required 
-                  className="w-full px-5 py-4 rounded-2xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-primary focus:border-primary transition-all outline-none font-medium text-slate-900 placeholder:text-slate-400" 
-                  placeholder="05x xxxxxxx" 
-                  value={bookingPhone}
-                  onChange={(e) => setBookingPhone(e.target.value)}
-                />
-              </div>
-            </div>
+          <span className="bg-primary/10 text-primary font-bold px-4 py-1.5 rounded-full text-sm inline-block mb-4">قنوات التواصل المباشرة</span>
+          <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-4">احجز موعدك مباشرة مع {doctor.name}</h2>
+          <p className="text-slate-500 text-lg mb-8">تم تفعيل قنوات التواصل والاتصال المباشر لتسريع عملية الحجز وتأكيد المواعيد فورياً.</p>
+
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
+            {doctor.whatsapp && (
+              <a 
+                href={`https://wa.me/${doctor.whatsapp.replace(/\+/g, "")}`} 
+                target="_blank" 
+                rel="noreferrer" 
+                className="w-full sm:w-auto bg-[#25D366] hover:bg-[#20ba56] text-white px-8 py-4 rounded-2xl font-black transition-all flex items-center justify-center gap-3 shadow-lg shadow-[#25D366]/30 hover:scale-105"
+              >
+                <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.101.824z"/></svg>
+                محادثة واتساب الفورية
+              </a>
+            )}
             
-            <div className="grid md:grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <label className="block text-sm font-bold text-slate-700">التاريخ المفضل</label>
-                <input 
-                  type="date" 
-                  required 
-                  className="w-full px-5 py-4 rounded-2xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-primary focus:border-primary transition-all outline-none font-medium text-slate-900" 
-                  value={bookingDate}
-                  onChange={(e) => setBookingDate(e.target.value)}
-                />
-              </div>
-              <div className="space-y-2">
-                <label className="block text-sm font-bold text-slate-700">الفترة المفضلة</label>
-                <select 
-                  className="w-full px-5 py-4 rounded-2xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-primary focus:border-primary transition-all outline-none font-medium text-slate-900 appearance-none"
-                  value={bookingPeriod}
-                  onChange={(e) => setBookingPeriod(e.target.value)}
-                >
-                  <option value="">اختر الفترة...</option>
-                  <option value="morning">صباحية (9 ص - 12 م)</option>
-                  <option value="afternoon">مسائية (1 م - 5 م)</option>
-                </select>
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <label className="block text-sm font-bold text-slate-700">هل تود إضافة ملاحظات للطبيب؟ (اختياري)</label>
-              <textarea 
-                rows={4} 
-                className="w-full px-5 py-4 rounded-2xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-primary focus:border-primary transition-all outline-none font-medium text-slate-900 resize-none placeholder:text-slate-400" 
-                placeholder="مثال: أشعر بألم في ضرس العقل..." 
-                value={bookingNotes}
-                onChange={(e) => setBookingNotes(e.target.value)}
-              />
-            </div>
-
-            <button 
-              type="submit" 
-              disabled={isSubmitting}
-              className="w-full bg-slate-900 hover:bg-slate-800 text-white font-black text-xl py-5 rounded-2xl shadow-xl shadow-slate-900/20 transition-all flex justify-center items-center gap-3 hover:scale-[1.01] disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              <Calendar className="w-6 h-6" />
-              {isSubmitting ? "جاري المعالجة..." : "إرسال طلب الحجز الآن"}
-            </button>
-            <p className="text-center text-sm text-slate-400 font-medium mt-4">نحن نحترم خصوصيتك، بياناتك مشفرة وآمنة تماماً.</p>
-          </form>
+            {doctor.phone && (
+              <a 
+                href={`tel:${doctor.phone}`} 
+                className="w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-white px-8 py-4 rounded-2xl font-black transition-all flex items-center justify-center gap-3 shadow-lg hover:scale-105"
+              >
+                <Phone className="w-6 h-6" />
+                اتصال هاتفي مباشر
+              </a>
+            )}
+          </div>
         </div>
       </div>
-
-      {/* WhatsApp Automated Success Modal Simulation */}
-      {showSuccessModal && (
-        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-[999] flex items-center justify-center p-4 animate-fade-in">
-          <div className="bg-white rounded-[2.5rem] max-w-lg w-full p-8 md:p-10 shadow-2xl relative overflow-hidden border border-slate-100 flex flex-col items-center text-center">
-            
-            {/* Background design glow */}
-            <div className="absolute top-0 right-0 w-32 h-32 bg-[#25D366]/10 blur-2xl rounded-full -translate-y-10 translate-x-10" />
-
-            {/* Glowing Whatsapp Icon */}
-            <div className="w-20 h-20 bg-[#25D366]/10 text-[#25D366] rounded-3xl flex items-center justify-center mb-6 shadow-lg shadow-[#25D366]/20 border border-[#25D366]/20 animate-bounce">
-              <svg className="w-10 h-10 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.101.824z"/></svg>
-            </div>
-
-            <h3 className="text-2xl md:text-3xl font-black text-slate-900 mb-3">تم إرسال طلب الحجز!</h3>
-            <p className="text-slate-500 font-medium mb-6 leading-relaxed">
-              عزيزي <strong className="text-slate-900">{bookingName}</strong>، لقد استلمنا حجزك بنجاح لمقابلة {doctor.name}.
-            </p>
-
-            {/* Smart simulated Bot message alert */}
-            <div className="bg-[#25D366]/5 border border-[#25D366]/20 p-5 rounded-2xl text-right w-full mb-8" dir="rtl">
-              <span className="text-[10px] font-black text-[#25D366] bg-[#25D366]/10 px-2 py-0.5 rounded-full inline-block mb-2">روبوت أسناني الذكي (WhatsApp Bot)</span>
-              <p className="text-sm font-bold text-slate-700 leading-relaxed">
-                سيصلك إشعار فوري وتأكيد للموعد برسالة نصية على رقم واتساب الخاص بك: <span className="text-[#25D366] font-black">{bookingPhone}</span> بمجرد مراجعة العيادة للطلب.
-              </p>
-            </div>
-
-            <button 
-              onClick={() => {
-                setShowSuccessModal(false);
-                setBookingName("");
-                setBookingPhone("");
-                setBookingDate("");
-                setBookingPeriod("");
-                setBookingNotes("");
-              }}
-              className="bg-slate-900 hover:bg-slate-800 text-white w-full py-4 rounded-xl font-bold transition-all shadow-lg"
-            >
-              فهمت، حسناً
-            </button>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
