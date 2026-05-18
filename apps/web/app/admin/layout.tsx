@@ -1,7 +1,19 @@
-import { Users, Calendar as CalendarIcon, Megaphone, Store, Star, LayoutDashboard, LogOut } from "lucide-react";
+"use client";
+
+import { useState } from "react";
+import { Users, Calendar as CalendarIcon, Megaphone, Store, Star, LayoutDashboard, LogOut, Link2, Check } from "lucide-react";
 import Link from "next/link";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopyLink = () => {
+    const registrationUrl = `${window.location.origin}/doctors/register`;
+    navigator.clipboard.writeText(registrationUrl);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   return (
     <div className="min-h-screen bg-slate-50 flex" dir="rtl">
       {/* Sidebar Navigation */}
@@ -30,11 +42,28 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <Link href="/admin/reviews" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:bg-white/10 hover:text-white transition-colors">
             <Star className="w-5 h-5" /> التقييمات
           </Link>
+
+          <div className="px-3 mt-4">
+            <button 
+              onClick={handleCopyLink}
+              className={`w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-bold text-xs transition-all shadow-md border-0 cursor-pointer ${copied ? "bg-emerald-500 hover:bg-emerald-600 text-white shadow-emerald-500/10" : "bg-primary hover:bg-primary-dark text-white shadow-primary/10"}`}
+            >
+              {copied ? (
+                <>
+                  <Check className="w-4 h-4" /> تم نسخ الرابط!
+                </>
+              ) : (
+                <>
+                  <Link2 className="w-4 h-4" /> نسخ رابط تسجيل الأطباء
+                </>
+              )}
+            </button>
+          </div>
         </nav>
 
         <div className="p-4 border-t border-white/10">
           <form action="/api/auth/logout" method="POST">
-            <button className="flex w-full items-center gap-3 px-3 py-2.5 rounded-lg text-red-400 hover:bg-red-500/10 transition-colors">
+            <button className="flex w-full items-center gap-3 px-3 py-2.5 rounded-lg text-red-400 hover:bg-red-500/10 transition-colors border-0 cursor-pointer bg-transparent">
               <LogOut className="w-5 h-5" /> تسجيل خروج
             </button>
           </form>
