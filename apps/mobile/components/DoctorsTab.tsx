@@ -144,7 +144,9 @@ export default function DoctorsTab({
                       </View>
                       <View style={styles.specialtyRow}>
                         {doc.specialty && doc.specialty.map((s, i) => (
-                          <Text key={i} style={styles.specialtyText}>{s}</Text>
+                          <View key={i} style={styles.specialtyText as any}>
+                            <Text style={{ color: "#0d9488", fontSize: 10, fontWeight: "800" }}>{s}</Text>
+                          </View>
                         ))}
                       </View>
                     </View>
@@ -155,7 +157,9 @@ export default function DoctorsTab({
                       <View style={styles.insuranceRow}>
                         <Text style={styles.insuranceTitle}>🛡️ التأمين المقبول:</Text>
                         {doc.insurance_list.map((ins, i) => (
-                          <Text key={i} style={styles.insuranceBadge}>{ins}</Text>
+                          <View key={i} style={styles.insuranceBadge as any}>
+                            <Text style={{ color: "#0284c7", fontSize: 10, fontWeight: "800" }}>{ins}</Text>
+                          </View>
                         ))}
                       </View>
                     )}

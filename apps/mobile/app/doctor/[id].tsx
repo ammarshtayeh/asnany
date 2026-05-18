@@ -184,7 +184,9 @@ export default function DoctorDetailsScreen() {
             
             <View style={styles.specialtyRow}>
               {doctor.specialty && doctor.specialty.map((spec, i) => (
-                <Text key={i} style={styles.specialtyBadge}>{spec}</Text>
+                <View key={i} style={styles.specialtyBadge as any}>
+                  <Text style={{ color: "#0d9488", fontSize: 11, fontWeight: "800" }}>{spec}</Text>
+                </View>
               ))}
             </View>
 
@@ -249,7 +251,9 @@ export default function DoctorDetailsScreen() {
             {doctor.insurance_list && doctor.insurance_list.length > 0 ? (
               <View style={styles.insuranceBadgeGrid}>
                 {doctor.insurance_list.map((ins, i) => (
-                  <Text key={i} style={styles.insuranceBadgeText}>{ins}</Text>
+                  <View key={i} style={styles.insuranceBadgeText as any}>
+                    <Text style={{ color: "#0284c7", fontSize: 12, fontWeight: "800" }}>{ins}</Text>
+                  </View>
                 ))}
               </View>
             ) : (
