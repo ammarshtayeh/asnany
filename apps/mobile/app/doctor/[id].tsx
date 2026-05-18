@@ -42,13 +42,13 @@ export default function DoctorDetailsScreen() {
           <Text style={styles.item}>Phone: {doctor.phone}</Text>
           <Text style={styles.item}>
             Insurance:{" "}
-            {doctor.acceptsInsurance ? doctor.insuranceList.join(", ") : "Not listed"}
+            {doctor.acceptsInsurance && doctor.insuranceList ? doctor.insuranceList.join(", ") : "Not listed"}
           </Text>
         </View>
 
         <View style={styles.card}>
           <Text style={styles.sectionTitle}>Working hours</Text>
-          {Object.entries(doctor.workingHours).map(([day, slot]) => (
+          {doctor.workingHours && Object.entries(doctor.workingHours).map(([day, slot]) => (
             <Text style={styles.item} key={day}>
               {day}: {slot.closed ? "Closed" : `${slot.open} - ${slot.close}`}
             </Text>
@@ -64,12 +64,14 @@ export default function DoctorDetailsScreen() {
           </Pressable>
         )}
 
-        <Pressable
-          style={styles.button}
-          onPress={() => Linking.openURL(`https://wa.me/${doctor.whatsapp.replace("+", "")}`)}
-        >
-          <Text style={styles.buttonText}>Request appointment on WhatsApp</Text>
-        </Pressable>
+        {doctor.whatsapp && (
+          <Pressable
+            style={styles.button}
+            onPress={() => Linking.openURL(`https://wa.me/${doctor.whatsapp!.replace("+", "")}`)}
+          >
+            <Text style={styles.buttonText}>Request appointment on WhatsApp</Text>
+          </Pressable>
+        )}
       </ScrollView>
     </>
   );

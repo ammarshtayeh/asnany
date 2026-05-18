@@ -487,10 +487,10 @@ export default function Home() {
             <p className="text-slate-500 font-medium mt-2">دليلك الأذكى للرعاية السنية في فلسطين.</p>
           </div>
           <div className="flex gap-6 text-sm font-bold text-slate-600">
-            <Link href="#" className="hover:text-primary transition-colors">عن المنصة</Link>
-            <Link href="#" className="hover:text-primary transition-colors">انضم كطبيب</Link>
-            <Link href="#" className="hover:text-primary transition-colors">أعلن معنا</Link>
-            <Link href="#" className="hover:text-primary transition-colors">الشروط والأحكام</Link>
+            <Link href="/about" className="hover:text-primary transition-colors">عن المنصة</Link>
+            <Link href="/join" className="hover:text-primary transition-colors">انضم كطبيب</Link>
+            <Link href="/advertise" className="hover:text-primary transition-colors">أعلن معنا</Link>
+            <Link href="/terms" className="hover:text-primary transition-colors">الشروط والأحكام</Link>
           </div>
           <p className="text-slate-400 text-sm font-medium">© {new Date().getFullYear()} Asnani.ps. جميع الحقوق محفوظة.</p>
         </div>
