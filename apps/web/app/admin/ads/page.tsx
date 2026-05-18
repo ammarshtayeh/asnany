@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Megaphone, Plus, Link as LinkIcon, BarChart2, Eye, Calendar, Sparkles } from "lucide-react";
+import { Megaphone, Plus, Link as LinkIcon, BarChart2, Eye, Calendar, Trash2, Power } from "lucide-react";
 import { Advertisement } from "@pal-dental/shared";
 
 export default function AdminAds() {
@@ -39,6 +39,42 @@ export default function AdminAds() {
   useEffect(() => {
     fetchAds();
   }, []);
+
+  const handleToggleAdActive = async (id: string, currentStatus: boolean) => {
+    try {
+      const res = await fetch("/api/admin/ads/toggle-active", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, is_active: !currentStatus }),
+      });
+      if (res.ok) {
+        setAds(ads.map(ad => ad.id === id ? { ...ad, is_active: !currentStatus } : ad));
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleDeleteAd = async (id: string, name: string) => {
+    if (!confirm(`هل أنت متأكد من حذف إعلان المعلن "${name}" نهائياً؟`)) {
+      return;
+    }
+
+    try {
+      const res = await fetch("/api/admin/ads/delete", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      });
+      if (res.ok) {
+        setAds(ads.filter(ad => ad.id !== id));
+      } else {
+        alert("فشل حذف الإعلان");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const handleAddAd = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -117,6 +153,7 @@ export default function AdminAds() {
             const adImg = ad.image_url || ad.imageUrl || "";
             const adTypeVal = ad.ad_type || ad.adType || "banner";
             const adLink = ad.link_url || ad.linkUrl || "";
+            const isActive = ad.is_active !== undefined ? ad.is_active : ad.isActive !== undefined ? ad.isActive : true;
 
             return (
               <div key={ad.id} className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden flex flex-col hover:shadow-md transition-all duration-300">
@@ -145,11 +182,21 @@ export default function AdminAds() {
                   </div>
 
                   <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <span className="flex items-center gap-1 bg-blue-50 text-blue-600 px-2.5 py-1 rounded-lg text-xs font-bold border border-blue-100">
-                        <Eye className="w-3.5 h-3.5" />
-                        نشط حالياً
-                      </span>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => handleToggleAdActive(ad.id, isActive)}
+                        className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold border transition-colors ${isActive ? 'bg-emerald-50 text-emerald-600 border-emerald-200 hover:bg-emerald-100' : 'bg-red-50 text-red-600 border-red-200 hover:bg-red-100'}`}
+                      >
+                        <Power className="w-3.5 h-3.5" />
+                        {isActive ? "نشط" : "معطل"}
+                      </button>
+                      <button
+                        onClick={() => handleDeleteAd(ad.id, adName)}
+                        className="p-1 text-red-500 hover:bg-red-50 rounded border border-red-100 transition-colors"
+                        title="حذف الإعلان"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
                     </div>
                     
                     <div className="flex items-center gap-1.5 text-slate-700 font-black">

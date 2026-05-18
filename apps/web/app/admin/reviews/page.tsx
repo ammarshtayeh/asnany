@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Star, CheckCircle, XCircle, Search, Calendar, User } from "lucide-react";
+import { Star, CheckCircle, XCircle, Search, Calendar, User, Trash2 } from "lucide-react";
 import { Review } from "@/lib/types";
 
 export default function AdminReviews() {
@@ -42,6 +42,27 @@ export default function AdminReviews() {
     }
   };
 
+  const handleDeleteReview = async (id: string, patientName: string) => {
+    if (!confirm(`هل أنت متأكد تماماً من حذف تقييم المريض "${patientName}" بشكل نهائي؟`)) {
+      return;
+    }
+
+    try {
+      const res = await fetch("/api/admin/reviews/delete", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      });
+      if (res.ok) {
+        setReviews(reviews.filter(r => r.id !== id));
+      } else {
+        alert("فشل حذف التقييم");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const filteredReviews = reviews.filter(rev => 
     rev.patient_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     (rev.comment || "").toLowerCase().includes(searchQuery.toLowerCase())
@@ -55,7 +76,7 @@ export default function AdminReviews() {
           <h1 className="text-3xl font-black text-slate-900 flex items-center gap-3">
             <Star className="w-8 h-8 text-yellow-500 fill-current" /> إدارة التقييمات والمراجعات
           </h1>
-          <p className="text-slate-500 mt-1">مراجعة وتوثيق واعتماد تقييمات المرضى لأطباء الأسنان</p>
+          <p className="text-slate-500 mt-1">مراجعة وتوثيق واعتماد وإلغاء تقييمات المرضى لأطباء الأسنان</p>
         </div>
       </div>
 
@@ -111,7 +132,14 @@ export default function AdminReviews() {
               </div>
 
               <div className="pt-4 border-t border-slate-100 flex items-center justify-between mt-auto">
-                <span className="text-xs text-slate-400 font-bold">تقييم عيادة الطبيب</span>
+                <button
+                  onClick={() => handleDeleteReview(rev.id, rev.patient_name)}
+                  className="inline-flex items-center gap-1 text-red-500 hover:text-red-700 hover:bg-red-50 px-2 py-1 rounded border border-red-100 transition-all text-xs font-bold"
+                  title="حذف التقييم نهائياً"
+                >
+                  <Trash2 className="w-3.5 h-3.5" />
+                  حذف
+                </button>
                 
                 <button
                   onClick={() => handleToggleApprove(rev.id, rev.is_approved)}
