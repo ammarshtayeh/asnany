@@ -68,6 +68,16 @@ export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
     }
   }, [doctor]);
 
+  const handleOpenNavigation = () => {
+    if (!doctor.lat || !doctor.lng) return;
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
+    if (isIOS) {
+      window.open(`maps://maps.apple.com/?q=${doctor.name}&ll=${doctor.lat},${doctor.lng}`, "_blank");
+    } else {
+      window.open(`https://www.google.com/maps/search/?api=1&query=${doctor.lat},${doctor.lng}`, "_blank");
+    }
+  };
+
   const handleBookingSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!bookingName || !bookingPhone || !bookingDate || !bookingPeriod) {
@@ -152,7 +162,16 @@ export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
                     </div>
                     <div>
                       <strong className="block text-slate-900 mb-0.5">{doctor.city}</strong>
-                      <span className="text-slate-500 leading-relaxed">{doctor.area}</span>
+                      <span className="text-slate-500 leading-relaxed block">{doctor.area}</span>
+                      {doctor.lat && doctor.lng && (
+                        <button
+                          onClick={handleOpenNavigation}
+                          className="mt-2 text-primary hover:text-slate-900 text-xs font-bold flex items-center gap-1.5 bg-white border border-slate-200 px-3 py-1.5 rounded-lg shadow-sm hover:shadow transition-all"
+                        >
+                          <Navigation className="w-3.5 h-3.5" />
+                          فتح في تطبيق الخرائط (GPS)
+                        </button>
+                      )}
                     </div>
                   </div>
                   {doctor.accepts_insurance && (
@@ -209,9 +228,19 @@ export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
           <div className="bg-white rounded-3xl shadow-xl shadow-slate-200/30 border border-slate-100 p-3 relative h-[450px] overflow-hidden group">
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-20 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             <DoctorMap doctors={[doctor]} userLocation={userLoc || undefined} />
-            <div className="absolute bottom-6 right-6 z-30 bg-white/90 backdrop-blur-md px-4 py-2 rounded-xl shadow-lg border border-white font-bold text-sm text-slate-800 flex items-center gap-2">
-              <Navigation className="w-4 h-4 text-primary" /> عرض ذكي للموقع
-            </div>
+             {doctor.lat && doctor.lng ? (
+               <button
+                 onClick={handleOpenNavigation}
+                 className="absolute bottom-6 right-6 z-30 bg-slate-900 hover:bg-primary text-white hover:scale-105 transition-all px-5 py-3 rounded-2xl shadow-xl font-bold text-sm flex items-center gap-2 cursor-pointer border-0"
+               >
+                 <Navigation className="w-4 h-4 text-white animate-pulse" />
+                 توجيه وفتح في تطبيق الخرائط
+               </button>
+             ) : (
+               <div className="absolute bottom-6 right-6 z-30 bg-white/90 backdrop-blur-md px-4 py-2 rounded-xl shadow-lg border border-white font-bold text-sm text-slate-800 flex items-center gap-2">
+                 <Navigation className="w-4 h-4 text-primary" /> عرض ذكي للموقع
+               </div>
+             )}
           </div>
 
           {/* Clinic Photos Gallery */}

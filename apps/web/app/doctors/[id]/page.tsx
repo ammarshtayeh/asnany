@@ -3,43 +3,20 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Doctor } from "@/lib/types";
 import DoctorProfileClient from "./DoctorProfileClient";
+import { supabase } from "@/lib/supabase";
 
-// Mock Data fetching function
+// Database fetching function
 async function getDoctor(id: string): Promise<Doctor> {
-  // Demo mock data
-  return {
-    id,
-    name: "د. أحمد محمود",
-    specialty: ["زراعة الأسنان", "تجميل الأسنان", "جراحة الفكين"],
-    city: "رام الله",
-    area: "الماصيون - عمارة النور الطابق 3",
-    lat: 31.898,
-    lng: 35.201,
-    rating: 4.9,
-    is_featured: true,
-    accepts_insurance: true,
-    verified: true,
-    phone: "022987654",
-    whatsapp: "+970599123456",
-    bio: "طبيب أسنان استشاري متخصص في زراعة وتجميل الأسنان بخبرة تزيد عن 15 عاماً. حاصل على البورد الأمريكي في جراحة الفم والفكين، وعضو الجمعية العالمية لزراعة الأسنان. يمتلك العيادة أحدث أجهزة الليزر والتصوير ثلاثي الأبعاد لضمان دقة التشخيص وأفضل النتائج العلاجية والتجميلية.",
-    working_hours: {
-      "السبت": "09:00 ص - 05:00 م",
-      "الأحد": "09:00 ص - 05:00 م",
-      "الإثنين": "09:00 ص - 05:00 م",
-      "الثلاثاء": "09:00 ص - 05:00 م",
-      "الأربعاء": "09:00 ص - 05:00 م",
-      "الخميس": "09:00 ص - 02:00 م",
-      "الجمعة": "مغلق"
-    },
-    image_url: "https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=800&auto=format&fit=crop",
-    clinic_photos: [
-      "https://images.unsplash.com/photo-1606811841689-23dfddce3e95?q=80&w=1200&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?q=80&w=1200&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1629909613654-28e377c37b09?q=80&w=1200&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=1200&auto=format&fit=crop"
-    ],
-    created_at: new Date().toISOString(),
-  };
+  const { data, error } = await supabase
+    .from("doctors")
+    .select("*")
+    .eq("id", id)
+    .single();
+
+  if (error || !data) {
+    throw new Error("الطبيب غير موجود");
+  }
+  return data;
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
