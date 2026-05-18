@@ -1,0 +1,14 @@
+{
+  "name": "palestine-dental-directory",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:web": "npm --workspace @pal-dental/web run dev",
+    "dev:mobile": "npm --workspace @pal-dental/mobile run start",
+    "lint:web": "npm --workspace @pal-dental/web run lint",
+    "typecheck:web": "npm --workspace @pal-dental/web run typecheck"
+  }
+}
