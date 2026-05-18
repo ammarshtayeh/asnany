@@ -1,30 +1,48 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { Article } from "@/lib/types";
 import { Calendar, Clock, UserCircle2, ArrowLeft, HeartPulse, Sparkles, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-
-// Same mock data as before for simplicity
-const MOCK_ARTICLES: Article[] = [
-  {
-    id: "art1",
-    title: "أسباب ألم ضرس العقل ومتى يجب خلعه؟",
-    excerpt: "يعتبر ضرس العقل من أكثر الأسنان تسبباً في الألم والمشاكل السنية. في هذا المقال نناقش الأعراض التي تستدعي تدخلاً جراحياً فورياً...",
-    content: "يعتبر ضرس العقل (Third Molar) من الأسنان التي تظهر في مرحلة متأخرة من العمر، وغالباً ما تواجه مشكلة في النمو بسبب ضيق مساحة الفك. في هذا المقال نستعرض أهم الأسباب التي تجعل ألم ضرس العقل لا يُحتمل.\n\nأولاً: الانطمار أو النمو المائل، مما يسبب ضغطاً على الأسنان المجاورة.\nثانياً: صعوبة التنظيف بسبب موقعه في مؤخرة الفم، مما يجعله عرضة للتسوس السريع والتهاب اللثة المحيطة.\nثالثاً: تكون الأكياس السنية (Cysts) حول الضرس المنطمر والتي قد تدمر عظم الفك إذا تم تجاهلها.\n\nإذا كنت تعاني من ألم مستمر، تورم في الفك، أو صعوبة في فتح الفم، فلا تتردد في حجز موعد للفحص وتصوير الأشعة البانورامية.",
-    image_url: "https://images.unsplash.com/photo-1598256989800-fea5ce5146c2?q=80&w=1200&auto=format&fit=crop",
-    doctor_id: "1",
-    doctor_name: "د. أحمد محمود",
-    category: "جراحة الأسنان",
-    date: "15 مايو 2026",
-    read_time: "3 دقائق"
-  }
-];
+import { getArticleById } from "@/lib/data";
 
 export default function ArticlePage() {
-  const { id } = useParams();
-  const article = MOCK_ARTICLES.find(a => a.id === id) || MOCK_ARTICLES[0]; // fallback
+  const params = useParams();
+  const id = params?.id as string;
+
+  const [article, setArticle] = useState<Article | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (id) {
+      getArticleById(id).then((data) => {
+        setArticle(data || null);
+        setLoading(false);
+      });
+    }
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-white flex justify-center items-center">
+        <div className="w-12 h-12 rounded-full border-4 border-emerald-500 border-t-transparent animate-spin" />
+      </div>
+    );
+  }
+
+  if (!article) {
+    return (
+      <div className="min-h-screen bg-slate-50 flex flex-col justify-center items-center p-4 text-center">
+        <h3 className="text-2xl font-black text-slate-800 mb-2">المقال غير موجود</h3>
+        <p className="text-slate-500 mb-6 font-medium">عذراً، لم نتمكن من العثور على المقال المطلوب.</p>
+        <Link href="/blog" className="bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-6 py-2.5 rounded-full transition-all">
+          العودة للمدونة
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <main className="min-h-screen bg-white font-sans pb-24">

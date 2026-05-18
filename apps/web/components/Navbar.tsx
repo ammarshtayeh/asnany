@@ -6,9 +6,10 @@ import { Stethoscope, Tags, ShoppingBag, BookOpen, UserCircle2, Store } from "lu
 
 export default function Navbar() {
   const pathname = usePathname();
+  const currentPath = pathname || "";
   
   // Hide navbar in admin routes
-  if (pathname.startsWith("/admin")) return null;
+  if (currentPath.startsWith("/admin")) return null;
 
   const links = [
     { href: "/", label: "الرئيسية", icon: Stethoscope },
@@ -33,7 +34,7 @@ export default function Navbar() {
         {/* Desktop Links */}
         <div className="hidden md:flex items-center gap-2 bg-slate-100/50 p-1.5 rounded-2xl border border-slate-200/50">
           {links.map((link) => {
-            const isActive = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href));
+            const isActive = currentPath === link.href || (link.href !== '/' && currentPath.startsWith(link.href));
             const Icon = link.icon;
             
             return (
@@ -69,7 +70,7 @@ export default function Navbar() {
       <div className="md:hidden fixed bottom-0 left-0 w-full bg-white/90 backdrop-blur-xl border-t border-slate-200 pb-safe z-50">
         <div className="flex justify-around p-2">
           {links.map((link) => {
-            const isActive = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href));
+            const isActive = currentPath === link.href || (link.href !== '/' && currentPath.startsWith(link.href));
             const Icon = link.icon;
             return (
               <Link

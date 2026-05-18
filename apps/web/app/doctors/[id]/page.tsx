@@ -42,7 +42,7 @@ async function getDoctor(id: string): Promise<Doctor> {
   };
 }
 
-export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const resolvedParams = await params;
   const doctor = await getDoctor(resolvedParams.id);
   return {
@@ -52,7 +52,7 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
   };
 }
 
-export default async function DoctorPage({ params }: { params: { id: string } }) {
+export default async function DoctorPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params;
   const doctor = await getDoctor(resolvedParams.id);
 

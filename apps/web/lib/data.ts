@@ -8,11 +8,12 @@ import {
   Advertisement,
   Store
 } from "@pal-dental/shared";
-import { supabase } from "./supabase";
+import { supabase as rawSupabase } from "./supabase";
 import { Offer, Article, MarketplaceAd, Review } from "./types";
 
 // Fallback to demo data if Supabase is not configured
-const USE_DEMO = !supabase;
+const supabase = rawSupabase!;
+const USE_DEMO = !rawSupabase;
 
 export async function getDoctors(city?: string, specialty?: string): Promise<Doctor[]> {
   if (USE_DEMO) {
