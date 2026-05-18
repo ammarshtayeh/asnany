@@ -392,3 +392,49 @@ export async function createReview(review: Omit<Review, "id" | "is_approved" | "
   }
 }
 
+
+export async function createStore(store: Omit<Store, "id">) {
+  if (USE_DEMO) {
+    return { id: `store-${Date.now()}`, ...store };
+  }
+
+  try {
+    const { data, error } = await supabase.from("stores").insert([store]).select().single();
+    if (error) throw error;
+    return data;
+  } catch (error) {
+    console.error("Error creating store:", error);
+    throw error;
+  }
+}
+
+export async function createMarketplaceAd(ad: Omit<MarketplaceAd, "id" | "date" | "is_featured">) {
+  if (USE_DEMO) {
+    return { id: `ad-${Date.now()}`, date: "الآن", is_featured: false, ...ad };
+  }
+
+  try {
+    const { data, error } = await supabase.from("marketplace_ads").insert([{ ...ad, is_active: true }]).select().single();
+    if (error) throw error;
+    return data;
+  } catch (error) {
+    console.error("Error creating marketplace ad:", error);
+    throw error;
+  }
+}
+
+export async function createOffer(offer: Omit<Offer, "id">) {
+  if (USE_DEMO) {
+    return { id: `off-${Date.now()}`, ...offer };
+  }
+
+  try {
+    const { data, error } = await supabase.from("offers").insert([offer]).select().single();
+    if (error) throw error;
+    return data;
+  } catch (error) {
+    console.error("Error creating offer:", error);
+    throw error;
+  }
+}
+
