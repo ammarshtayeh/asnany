@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
+import { supabaseAdmin } from "@/lib/supabase";
 
 export async function POST(request: Request) {
   try {
@@ -22,7 +22,7 @@ export async function POST(request: Request) {
       is_active: true
     };
 
-    const { data, error } = await supabase
+    const { data, error } = await supabaseAdmin
       .from("stores")
       .insert([newStore])
       .select()

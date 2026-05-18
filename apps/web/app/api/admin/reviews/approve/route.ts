@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
+import { supabaseAdmin } from "@/lib/supabase";
 
 export async function POST(request: Request) {
   try {
@@ -9,7 +9,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Missing review ID" }, { status: 400 });
     }
 
-    const { data, error } = await supabase
+    const { data, error } = await supabaseAdmin
       .from("reviews")
       .update({ is_approved })
       .eq("id", id)
@@ -21,6 +21,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ success: true, review: data });
   } catch (err: any) {
     console.error("Approve Review Error:", err);
-    return NextResponse.json({ error: err.message || "حدث خطأ أثناء تعديل حالة التقييم" }, { status: 500 });
+    return NextResponse.json({ error: err.message || "حدث خطأ أثناء تعديل اعتماد التقييم" }, { status: 500 });
   }
 }

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
+import { supabaseAdmin } from "@/lib/supabase";
 
 export async function POST(request: Request) {
   try {
@@ -9,7 +9,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Missing doctor ID" }, { status: 400 });
     }
 
-    const { data, error } = await supabase
+    const { data, error } = await supabaseAdmin
       .from("doctors")
       .update({ verified })
       .eq("id", id)
@@ -21,6 +21,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ success: true, doctor: data });
   } catch (err: any) {
     console.error("Verify Doctor Error:", err);
-    return NextResponse.json({ error: err.message || "حدث خطأ أثناء تعديل حالة الطبيب" }, { status: 500 });
+    return NextResponse.json({ error: err.message || "حدث خطأ أثناء تعديل توثيق الطبيب" }, { status: 500 });
   }
 }
