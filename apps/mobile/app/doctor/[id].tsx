@@ -103,7 +103,7 @@ export default function DoctorDetailsScreen() {
   return (
     <>
       <Stack.Screen options={{ title: doctor.name, headerTitleAlign: "center" }} />
-      <ScrollView contentContainerStyle={styles.page} dir="rtl">
+      <ScrollView contentContainerStyle={styles.page}>
         
         {/* Doctor Avatar Card */}
         <View style={styles.avatarCard}>
