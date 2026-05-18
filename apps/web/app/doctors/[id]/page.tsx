@@ -57,3 +57,5 @@ export default async function DoctorPage({ params }: { params: Promise<{ id: str
     </main>
   );
 }
+
+

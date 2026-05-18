@@ -15,6 +15,7 @@ const aliases = {
   react: resolveFromProject("react"),
   "react-dom": resolveFromProject("react-dom"),
   "react-native": resolveFromProject("react-native"),
+  "react-native-screens": resolveFromProject("react-native-screens"),
   "react-native-web": resolveFromProject("react-native-web"),
 };
 
