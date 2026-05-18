@@ -236,22 +236,28 @@ export default function Home() {
           </p>
 
           {/* Premium Search Bar */}
-          <div className="w-full max-w-4xl bg-white/80 backdrop-blur-2xl p-3 md:p-4 rounded-3xl md:rounded-[2.5rem] flex flex-col md:flex-row gap-3 shadow-[0_20px_60px_-15px_rgba(14,165,233,0.15)] border border-white/50 relative z-30 transition-transform duration-500 hover:scale-[1.01]">
-            <div className="flex-1 relative">
-              <Search className="absolute right-6 top-1/2 -translate-y-1/2 text-primary w-6 h-6" />
+          <div className="w-full max-w-4xl bg-white rounded-full p-2 flex flex-col md:flex-row items-center gap-1 shadow-[0_15px_50px_-10px_rgba(0,0,0,0.08)] border border-slate-100/80 relative z-30 transition-all duration-300 hover:shadow-[0_20px_60px_-5px_rgba(0,0,0,0.12)]" dir="rtl">
+            
+            {/* 🔍 Search Input */}
+            <div className="flex-1 w-full relative flex items-center pr-4">
+              <Search className="text-sky-500 w-5 h-5 ml-3" />
               <input
                 type="text"
-                placeholder="ابحث باسم الطبيب أو العيادة..."
-                className="w-full pl-4 pr-16 py-4 rounded-2xl bg-slate-100/50 hover:bg-slate-100 focus:bg-white focus:ring-2 focus:ring-primary border-transparent transition-all outline-none text-slate-900 font-black placeholder:font-bold text-lg"
+                placeholder="ابحث باسم الطبيب..."
+                className="w-full bg-transparent border-none outline-none py-3 text-slate-800 font-bold placeholder:text-slate-400 placeholder:font-semibold text-base"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
             
-            <div className="w-full md:w-64 relative">
-              <MapPin className="absolute right-5 top-1/2 -translate-y-1/2 text-primary w-6 h-6" />
+            {/* Divider */}
+            <div className="hidden md:block w-[1px] h-8 bg-slate-200/80" />
+
+            {/* 📍 Governorates Dropdown */}
+            <div className="w-full md:w-56 relative flex items-center px-4">
+              <MapPin className="text-sky-500 w-5 h-5 ml-2.5" />
               <select
-                className="w-full pl-4 pr-14 py-4 rounded-2xl bg-slate-100/50 hover:bg-slate-100 focus:bg-white focus:ring-2 focus:ring-primary border-transparent transition-all outline-none text-slate-900 appearance-none font-bold text-lg cursor-pointer"
+                className="w-full bg-transparent border-none outline-none py-3 text-slate-800 font-bold text-base cursor-pointer appearance-none"
                 value={selectedCity}
                 onChange={(e) => setSelectedCity(e.target.value)}
               >
@@ -262,11 +268,14 @@ export default function Home() {
               </select>
             </div>
 
-            {/* B2B Insurance Filter */}
-            <div className="w-full md:w-64 relative">
-              <ShieldCheck className="absolute right-5 top-1/2 -translate-y-1/2 text-primary w-6 h-6" />
+            {/* Divider */}
+            <div className="hidden md:block w-[1px] h-8 bg-slate-200/80" />
+
+            {/* 🛡️ Insurance Dropdown */}
+            <div className="w-full md:w-56 relative flex items-center px-4">
+              <ShieldCheck className="text-sky-500 w-5 h-5 ml-2.5" />
               <select
-                className="w-full pl-4 pr-14 py-4 rounded-2xl bg-slate-100/50 hover:bg-slate-100 focus:bg-white focus:ring-2 focus:ring-primary border-transparent transition-all outline-none text-slate-900 appearance-none font-bold text-lg cursor-pointer"
+                className="w-full bg-transparent border-none outline-none py-3 text-slate-800 font-bold text-base cursor-pointer appearance-none"
                 value={selectedInsurance}
                 onChange={(e) => setSelectedInsurance(e.target.value)}
               >
@@ -277,16 +286,17 @@ export default function Home() {
               </select>
             </div>
 
+            {/* 🚀 Dark Blue Submit/Location Button */}
             <button 
               onClick={handleLocationSearch}
-              className={`md:w-auto w-full px-8 py-4 rounded-2xl font-black text-lg transition-all flex items-center justify-center gap-3 ${
+              className={`flex-shrink-0 w-12 h-12 rounded-full transition-all flex items-center justify-center cursor-pointer ${
                 userLoc 
-                ? "bg-gradient-to-r from-emerald-400 to-emerald-500 text-white shadow-lg shadow-emerald-500/30" 
-                : "bg-slate-900 hover:bg-primary hover:text-white text-white shadow-xl shadow-slate-900/20"
+                ? "bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-md shadow-emerald-500/20" 
+                : "bg-[#0f172a] hover:bg-[#1e293b] text-white"
               }`}
+              title="ابحث بالقرب مني"
             >
-              <Navigation className={`w-6 h-6 ${userLoc ? "animate-bounce" : ""}`} />
-              <span className="md:hidden">موقعي الحالي</span>
+              <Navigation className={`w-5 h-5 transform -rotate-45 ${userLoc ? "animate-pulse" : ""}`} />
             </button>
           </div>
 
