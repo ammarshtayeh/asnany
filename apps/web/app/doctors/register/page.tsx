@@ -3,7 +3,7 @@
 import { useState } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { MapPin, CheckCircle, ArrowRight, ShieldCheck, Plus, Sparkles } from "lucide-react";
+import { MapPin, CheckCircle, ArrowRight, ShieldCheck, Plus, Sparkles, XCircle } from "lucide-react";
 
 const LocationPickerMap = dynamic(() => import("@/components/LocationPickerMap"), { ssr: false });
 
@@ -15,6 +15,10 @@ export default function DoctorRegister() {
   const [phone, setPhone] = useState("");
   const [whatsapp, setWhatsapp] = useState("");
   const [bio, setBio] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+  const [clinicPhotos, setClinicPhotos] = useState<string[]>([""]);
+  const [acceptsInsurance, setAcceptsInsurance] = useState(true);
+  const [selectedInsurances, setSelectedInsurances] = useState<string[]>([]);
 
   // Location Coordinates (Default center of Palestine/Ramallah)
   const [lat, setLat] = useState(31.898);
@@ -23,6 +27,8 @@ export default function DoctorRegister() {
 
   const [saving, setSaving] = useState(false);
   const [success, setSuccess] = useState(false);
+
+  const insurancesList = ["التكافل", "ترست", "المشرق", "تمكين", "المجموعة الأهلية"];
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,6 +52,10 @@ export default function DoctorRegister() {
           bio,
           lat: gpsSet ? lat : null,
           lng: gpsSet ? lng : null,
+          image_url: imageUrl,
+          clinic_photos: clinicPhotos.filter(url => !!url.trim()),
+          accepts_insurance: acceptsInsurance,
+          insurance_list: selectedInsurances,
         }),
       });
 
@@ -196,6 +206,105 @@ export default function DoctorRegister() {
                     className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white outline-none font-medium text-sm transition-all text-left"
                   />
                 </div>
+              </div>
+
+              <div className="space-y-1">
+                <label className="block text-sm font-bold text-slate-700">رابط صورتك الشخصية (اختياري)</label>
+                <input
+                  type="url"
+                  value={imageUrl}
+                  onChange={(e) => setImageUrl(e.target.value)}
+                  placeholder="https://example.com/doctor-profile.jpg"
+                  className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white outline-none font-medium text-sm transition-all text-left font-mono"
+                />
+              </div>
+
+              <div className="space-y-2 border border-slate-100 p-4 rounded-2xl bg-slate-50/50">
+                <div className="flex justify-between items-center mb-1">
+                  <label className="block text-sm font-black text-slate-800">صور العيادة والأجهزة (رابط URL - الحد الأقصى 5 صور)</label>
+                  <span className="text-[10px] text-slate-400 font-bold">{clinicPhotos.length} / 5</span>
+                </div>
+                {clinicPhotos.map((photo, index) => (
+                  <div key={index} className="flex gap-2 items-center">
+                    <input
+                      type="url"
+                      value={photo}
+                      onChange={(e) => {
+                        const newPhotos = [...clinicPhotos];
+                        newPhotos[index] = e.target.value;
+                        setClinicPhotos(newPhotos);
+                      }}
+                      placeholder={`رابط صورة العيادة #${index + 1} (https://...)`}
+                      className="flex-1 px-4 py-2.5 rounded-xl border border-slate-200 bg-white focus:bg-white outline-none text-xs transition-all text-left font-mono"
+                    />
+                    {clinicPhotos.length > 1 && (
+                      <button
+                        type="button"
+                        onClick={() => setClinicPhotos(clinicPhotos.filter((_, idx) => idx !== index))}
+                        className="p-2 text-rose-500 hover:bg-rose-50 rounded-lg border border-rose-100 transition-colors"
+                        title="حذف هذه الصورة"
+                      >
+                        <XCircle className="w-4 h-4" />
+                      </button>
+                    )}
+                  </div>
+                ))}
+                {clinicPhotos.length < 5 && (
+                  <button
+                    type="button"
+                    onClick={() => setClinicPhotos([...clinicPhotos, ""])}
+                    className="text-xs font-black text-primary hover:text-primary-dark flex items-center gap-1 mt-1.5"
+                  >
+                    + إضافة صورة عيادة أخرى
+                  </button>
+                )}
+              </div>
+
+              <div className="space-y-3 border border-slate-100 p-4 rounded-2xl bg-slate-50/50">
+                <div className="flex items-center gap-3">
+                  <input
+                    type="checkbox"
+                    id="acceptsInsurance"
+                    checked={acceptsInsurance}
+                    onChange={(e) => setAcceptsInsurance(e.target.checked)}
+                    className="w-5 h-5 text-primary border-slate-300 rounded focus:ring-primary"
+                  />
+                  <label htmlFor="acceptsInsurance" className="text-sm font-bold text-slate-800 select-none">
+                    أقبل شركات التأمين الطبي المعتمدة في فلسطين
+                  </label>
+                </div>
+
+                {acceptsInsurance && (
+                  <div className="pt-2 border-t border-slate-200/60">
+                    <label className="block text-xs font-black text-slate-500 mb-2">حدد شركات التأمين التي تتعاقد معها عيادتك:</label>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                      {insurancesList.map((ins) => {
+                        const isChecked = selectedInsurances.includes(ins);
+                        return (
+                          <label key={ins} className={`flex items-center gap-2 p-2.5 rounded-xl border text-xs font-bold cursor-pointer transition-all ${
+                            isChecked 
+                            ? "bg-sky-50/50 border-sky-200 text-sky-700" 
+                            : "bg-white border-slate-200 text-slate-600 hover:bg-slate-50"
+                          }`}>
+                            <input
+                              type="checkbox"
+                              checked={isChecked}
+                              onChange={() => {
+                                if (isChecked) {
+                                  setSelectedInsurances(selectedInsurances.filter(i => i !== ins));
+                                } else {
+                                  setSelectedInsurances([...selectedInsurances, ins]);
+                                }
+                              }}
+                              className="w-4 h-4 text-sky-500 border-slate-300 rounded focus:ring-sky-400"
+                            />
+                            {ins}
+                          </label>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
               </div>
 
               <div className="space-y-1">

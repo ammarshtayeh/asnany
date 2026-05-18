@@ -4,7 +4,7 @@ import { supabaseAdmin } from "@/lib/supabase";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { id, name, specialty, city, area, phone, whatsapp, bio, accepts_insurance, image_url } = body;
+    const { id, name, specialty, city, area, phone, whatsapp, bio, accepts_insurance, image_url, clinic_photos } = body;
 
     if (!id || !name || !city) {
       return NextResponse.json({ error: "معرف الطبيب والاسم والمدينة مطلوبة" }, { status: 400 });
@@ -22,6 +22,7 @@ export async function POST(request: Request) {
         bio: bio || "",
         accepts_insurance: !!accepts_insurance,
         image_url: image_url || undefined,
+        clinic_photos: Array.isArray(clinic_photos) ? clinic_photos : [],
       })
       .eq("id", id)
       .select()

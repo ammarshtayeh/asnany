@@ -180,8 +180,18 @@ export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
                         <CheckCircle2 className="w-5 h-5" />
                       </div>
                       <div>
-                        <strong className="block text-slate-900 mb-0.5">التأمين الطبي</strong>
-                        <span className="text-slate-500">يقبل شركات التأمين المعتمدة</span>
+                        <strong className="block text-slate-900 mb-1.5">التأمين الطبي المقبول</strong>
+                        {doctor.insurance_list && doctor.insurance_list.length > 0 ? (
+                          <div className="flex flex-wrap gap-1.5">
+                            {doctor.insurance_list.map((ins, i) => (
+                              <span key={i} className="bg-sky-50 text-sky-700 text-xs px-2 py-0.5 rounded-lg border border-sky-100 font-bold">
+                                {ins}
+                              </span>
+                            ))}
+                          </div>
+                        ) : (
+                          <span className="text-slate-500">يقبل شركات التأمين المعتمدة</span>
+                        )}
                       </div>
                     </div>
                   )}

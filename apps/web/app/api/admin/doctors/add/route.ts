@@ -4,7 +4,7 @@ import { supabaseAdmin } from "@/lib/supabase";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, specialty, city, area, phone, whatsapp, bio, accepts_insurance } = body;
+    const { name, specialty, city, area, phone, whatsapp, bio, accepts_insurance, image_url, clinic_photos } = body;
 
     if (!name || !city) {
       return NextResponse.json({ error: "الاسم والمدينة مطلوبان" }, { status: 400 });
@@ -23,8 +23,8 @@ export async function POST(request: Request) {
       verified: true, // Admin created doctors are verified by default
       is_featured: false,
       rating: 5.0,
-      image_url: "https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=800&auto=format&fit=crop", // placeholder
-      clinic_photos: [],
+      image_url: image_url || "https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=800&auto=format&fit=crop", 
+      clinic_photos: Array.isArray(clinic_photos) ? clinic_photos : [],
       working_hours: {
         "السبت": "09:00 ص - 05:00 م",
         "الأحد": "09:00 ص - 05:00 م",

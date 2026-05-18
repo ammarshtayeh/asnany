@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import dynamic from "next/dynamic";
-import { Search, MapPin, Navigation, Star, CheckCircle2, Route, HeartPulse, ShieldCheck, Stethoscope, BriefcaseMedical, ArrowLeft } from "lucide-react";
+import { Search, MapPin, Navigation, Star, CheckCircle2, Route, HeartPulse, ShieldCheck, Stethoscope, BriefcaseMedical, ArrowLeft, Clock } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import AdSlider from "@/components/AdSlider";
@@ -19,101 +19,6 @@ const DoctorMap = dynamic(() => import("@/components/DoctorMap"), {
     </div>
   ),
 });
-
-// Expanded Mock Data
-// Expanded Mock Data with Palestinian Insurance list
-const MOCK_DOCTORS: Doctor[] = [
-  {
-    id: "1",
-    name: "د. أحمد محمود",
-    specialty: ["زراعة الأسنان", "تجميل الأسنان", "جراحة الفكين"],
-    city: "رام الله",
-    area: "الماصيون - شارع المعهد",
-    lat: 31.898,
-    lng: 35.201,
-    rating: 4.9,
-    is_featured: true,
-    accepts_insurance: true,
-    insurance_list: ["التكافل", "ترست", "المشرق"],
-    verified: true,
-    image_url: "https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=400&auto=format&fit=crop",
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: "2",
-    name: "د. سارة عيسى",
-    specialty: ["تقويم الأسنان"],
-    city: "نابلس",
-    area: "رفيديا",
-    lat: 32.221,
-    lng: 35.254,
-    rating: 4.8,
-    is_featured: true,
-    accepts_insurance: false,
-    verified: true,
-    image_url: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=400&auto=format&fit=crop",
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: "3",
-    name: "د. خالد عبد الله",
-    specialty: ["طب أسنان عام", "علاج العصب"],
-    city: "الخليل",
-    area: "عين سارة",
-    lat: 31.532,
-    lng: 35.099,
-    rating: 4.5,
-    is_featured: false,
-    accepts_insurance: true,
-    insurance_list: ["التكافل", "المجموعة الأهلية"],
-    verified: false,
-    image_url: "https://images.unsplash.com/photo-1537368910025-700350fe46c7?q=80&w=400&auto=format&fit=crop",
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: "4",
-    name: "د. ياسمين خليل",
-    specialty: ["أسنان الأطفال"],
-    city: "رام الله",
-    area: "الإرسال",
-    lat: 31.912,
-    lng: 35.205,
-    rating: 4.7,
-    is_featured: false,
-    accepts_insurance: true,
-    insurance_list: ["ترست", "تمكين"],
-    verified: true,
-    image_url: "https://images.unsplash.com/photo-1594824813573-246434de83fb?q=80&w=400&auto=format&fit=crop",
-    created_at: new Date().toISOString(),
-  },
-];
-
-const MOCK_ADS: Advertisement[] = [
-  {
-    id: "ad1",
-    advertiser_name: "مركز رام الله لزراعة الأسنان",
-    advertiser_type: "doctor",
-    ad_type: "banner",
-    image_url: "https://images.unsplash.com/photo-1606811841689-23dfddce3e95?q=80&w=1200&auto=format&fit=crop",
-    link_url: "#",
-    start_date: new Date().toISOString(),
-    end_date: new Date().toISOString(),
-    is_active: true,
-    clicks: 120,
-  },
-  {
-    id: "ad2",
-    advertiser_name: "شركة فلسطين للمعدات الطبية",
-    advertiser_type: "store",
-    ad_type: "banner",
-    image_url: "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?q=80&w=1200&auto=format&fit=crop",
-    link_url: "#",
-    start_date: new Date().toISOString(),
-    end_date: new Date().toISOString(),
-    is_active: true,
-    clicks: 450,
-  },
-];
 
 const QUICK_CATEGORIES = [
   { id: "implants", label: "زراعة الأسنان", icon: ShieldCheck, color: "text-blue-500", bg: "bg-blue-50" },
@@ -137,13 +42,104 @@ const DIAGNOSIS_OPTIONS = [
   { id: "diag4", title: "ألم لثة أو فحص لأسنان طفلك", specialty: "أسنان الأطفال", desc: "عناية متكاملة بأسنان الأطفال اللبنية والوقاية" }
 ];
 
+function isDoctorOpenNow(workingHours: any): boolean {
+  if (!workingHours) return false;
+  
+  try {
+    const now = new Date();
+    const options = { timeZone: "Asia/Hebron", hour12: false };
+    const formatter = new Intl.DateTimeFormat("ar-EG-u-ca-gregory", {
+      ...options,
+      weekday: "long",
+    });
+    const hourFormatter = new Intl.DateTimeFormat("en-US", {
+      ...options,
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+
+    const dayNameAr = formatter.format(now);
+    const timeStr = hourFormatter.format(now);
+
+    let normalizedDay = "";
+    if (dayNameAr.includes("سبت")) normalizedDay = "السبت";
+    else if (dayNameAr.includes("أحد")) normalizedDay = "الأحد";
+    else if (dayNameAr.includes("اثنين")) normalizedDay = "الإثنين";
+    else if (dayNameAr.includes("ثلاثاء")) normalizedDay = "الثلاثاء";
+    else if (dayNameAr.includes("أربعاء")) normalizedDay = "الأربعاء";
+    else if (dayNameAr.includes("خميس")) normalizedDay = "الخميس";
+    else if (dayNameAr.includes("جمعة")) normalizedDay = "الجمعة";
+
+    const dayHours = workingHours[normalizedDay] || workingHours[dayNameAr];
+    if (!dayHours || dayHours.includes("مغلق") || dayHours.includes("Closed")) {
+      return false;
+    }
+
+    const parts = dayHours.split("-").map((p: string) => p.trim());
+    if (parts.length !== 2) return true;
+
+    const parseTime = (str: string): number => {
+      const timeParts = str.split(" ");
+      if (timeParts.length < 2) return 0;
+      const [hStr, mStr] = timeParts[0].split(":");
+      let h = parseInt(hStr);
+      const m = parseInt(mStr);
+      const isPm = timeParts[1].includes("م") || timeParts[1].toLowerCase().includes("pm");
+      if (isPm && h < 12) h += 12;
+      if (!isPm && h === 12) h = 0;
+      return h * 60 + m;
+    };
+
+    const startMinutes = parseTime(parts[0]);
+    const endMinutes = parseTime(parts[1]);
+
+    const [nowH, nowM] = timeStr.split(":").map(Number);
+    const nowMinutes = nowH * 60 + nowM;
+
+    return nowMinutes >= startMinutes && nowMinutes <= endMinutes;
+  } catch (e) {
+    console.error("Error parsing hours:", e);
+    return true; 
+  }
+}
+
 export default function Home() {
+  const [doctors, setDoctors] = useState<Doctor[]>([]);
+  const [ads, setAds] = useState<Advertisement[]>([]);
+  const [loading, setLoading] = useState(true);
+
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const [selectedSpecialty, setSelectedSpecialty] = useState("");
   const [selectedInsurance, setSelectedInsurance] = useState("");
+  const [selectedWorkStatus, setSelectedWorkStatus] = useState<"any" | "open" | "closed">("any");
   const [activeDiagnosis, setActiveDiagnosis] = useState("");
   const [userLoc, setUserLoc] = useState<{ lat: number; lng: number } | null>(null);
+
+  // Fetch real data on load
+  useEffect(() => {
+    async function loadData() {
+      try {
+        const [doctorsRes, adsRes] = await Promise.all([
+          fetch("/api/doctors"),
+          fetch("/api/advertisements")
+        ]);
+        if (doctorsRes.ok) {
+          const doctorsData = await doctorsRes.json();
+          setDoctors(doctorsData);
+        }
+        if (adsRes.ok) {
+          const adsData = await adsRes.json();
+          setAds(adsData);
+        }
+      } catch (err) {
+        console.error("Error loading homepage data:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadData();
+  }, []);
 
   const handleLocationSearch = () => {
     if (navigator.geolocation) {
@@ -157,7 +153,7 @@ export default function Home() {
   };
 
   const filteredDoctors = useMemo(() => {
-    let result = [...MOCK_DOCTORS];
+    let result = [...doctors];
 
     if (searchQuery) {
       result = result.filter((doc) => doc.name.includes(searchQuery));
@@ -174,6 +170,11 @@ export default function Home() {
       result = result.filter((doc) =>
         doc.accepts_insurance && doc.insurance_list?.includes(selectedInsurance)
       );
+    }
+    if (selectedWorkStatus === "open") {
+      result = result.filter((doc) => isDoctorOpenNow(doc.working_hours));
+    } else if (selectedWorkStatus === "closed") {
+      result = result.filter((doc) => !isDoctorOpenNow(doc.working_hours));
     }
     if (activeDiagnosis) {
       const match = DIAGNOSIS_OPTIONS.find(d => d.id === activeDiagnosis);
@@ -202,7 +203,7 @@ export default function Home() {
     }
 
     return result;
-  }, [searchQuery, selectedCity, selectedSpecialty, selectedInsurance, activeDiagnosis, userLoc]);
+  }, [doctors, searchQuery, selectedCity, selectedSpecialty, selectedInsurance, selectedWorkStatus, activeDiagnosis, userLoc]);
 
   return (
     <div className="flex flex-col min-h-screen bg-slate-50 font-sans">
@@ -270,6 +271,20 @@ export default function Home() {
 
             {/* Divider */}
             <div className="hidden md:block w-[1px] h-8 bg-slate-200/80" />
+
+            {/* 🕒 Work Times Dropdown */}
+            <div className="w-full md:w-48 relative flex items-center px-4">
+              <Clock className="text-sky-500 w-5 h-5 ml-2.5" />
+              <select
+                className="w-full bg-transparent border-none outline-none py-3 text-slate-800 font-bold text-base cursor-pointer appearance-none"
+                value={selectedWorkStatus}
+                onChange={(e) => setSelectedWorkStatus(e.target.value as any)}
+              >
+                <option value="any">كل الأوقات</option>
+                <option value="open">مفتوح الآن</option>
+                <option value="closed">مغلق حالياً</option>
+              </select>
+            </div>
 
             {/* 🛡️ Insurance Dropdown */}
             <div className="w-full md:w-56 relative flex items-center px-4">
@@ -376,7 +391,7 @@ export default function Home() {
           </div>
 
           {/* Monetization: Ad Slider */}
-          <AdSlider ads={MOCK_ADS} />
+          <AdSlider ads={ads} />
 
           {/* Results Header */}
           <div className="flex items-center justify-between px-2">
@@ -437,9 +452,19 @@ export default function Home() {
 
                       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-auto pt-4 border-t border-slate-50">
                         <div className="flex flex-col gap-2">
-                          <div className="flex items-center gap-2 text-slate-500 text-sm font-bold">
-                            <MapPin className="w-4 h-4 text-slate-400" />
-                            {doc.city} — {doc.area}
+                          <div className="flex flex-wrap items-center gap-3">
+                            <div className="flex items-center gap-2 text-slate-500 text-sm font-bold">
+                              <MapPin className="w-4 h-4 text-slate-400" />
+                              {doc.city} — {doc.area}
+                            </div>
+                            <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-black border ${
+                              isDoctorOpenNow(doc.working_hours) 
+                              ? "bg-emerald-50 text-emerald-600 border-emerald-100" 
+                              : "bg-slate-100 text-slate-500 border-slate-200"
+                            }`}>
+                              <span className={`w-1.5 h-1.5 rounded-full ${isDoctorOpenNow(doc.working_hours) ? "bg-emerald-500 animate-pulse" : "bg-slate-400"}`} />
+                              {isDoctorOpenNow(doc.working_hours) ? "مفتوح الآن" : "مغلق حالياً"}
+                            </span>
                           </div>
                           {doc.distance !== undefined && (
                             <div className="flex items-center gap-2 text-emerald-600 text-sm font-black bg-emerald-50 px-3 py-1 rounded-lg w-fit border border-emerald-100">

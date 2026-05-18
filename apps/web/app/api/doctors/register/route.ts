@@ -4,7 +4,21 @@ import { supabaseAdmin } from "@/lib/supabase";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, specialty, city, area, phone, whatsapp, bio, lat, lng } = body;
+    const { 
+      name, 
+      specialty, 
+      city, 
+      area, 
+      phone, 
+      whatsapp, 
+      bio, 
+      lat, 
+      lng, 
+      image_url, 
+      clinic_photos, 
+      insurance_list, 
+      accepts_insurance 
+    } = body;
 
     if (!name || !city || !specialty) {
       return NextResponse.json({ error: "الرجاء ملء الحقول المطلوبة (الاسم الكامل، المدينة، التخصص)" }, { status: 400 });
@@ -23,10 +37,11 @@ export async function POST(request: Request) {
       lng: lng ? parseFloat(lng) : null,
       verified: false, // Must be approved by Admin
       is_featured: false,
-      accepts_insurance: true,
+      accepts_insurance: accepts_insurance !== undefined ? !!accepts_insurance : true,
+      insurance_list: Array.isArray(insurance_list) ? insurance_list : [],
       rating: 5.0,
-      image_url: "https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=800&auto=format&fit=crop", // default placeholder
-      clinic_photos: [],
+      image_url: image_url || "https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=800&auto=format&fit=crop", // fallback
+      clinic_photos: Array.isArray(clinic_photos) ? clinic_photos : [],
       working_hours: {
         "السبت": "09:00 ص - 05:00 م",
         "الأحد": "09:00 ص - 05:00 م",
