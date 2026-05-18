@@ -20,7 +20,7 @@ export default async function BeautyPage() {
         { label: "أعلن عن عرض", href: "/advertise" },
       ]}
       listings={listings}
-      emptyLabel="لا توجد مراكز تجميل مفعلة بعد. أضف أول مركز من لوحة التحكم."
+      emptyLabel="سيتم عرض مراكز التجميل المعتمدة قريباً."
     />
   );
 }

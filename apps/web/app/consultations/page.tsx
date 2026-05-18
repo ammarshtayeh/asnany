@@ -20,7 +20,7 @@ export default async function ConsultationsPage() {
         { label: "انضم كطبيب مستشار", href: "/join" },
       ]}
       listings={listings}
-      emptyLabel="لا توجد خدمات استشارة مفعلة بعد. أضف خدمة استشارة من لوحة التحكم."
+      emptyLabel="سيتم عرض خدمات الاستشارة المعتمدة قريباً."
     />
   );
 }

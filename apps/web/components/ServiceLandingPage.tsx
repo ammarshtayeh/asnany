@@ -19,7 +19,7 @@ export default function ServiceLandingPage({
   features,
   actions,
   listings = [],
-  emptyLabel = "سيتم إضافة البيانات من لوحة التحكم قريباً.",
+  emptyLabel = "سيتم إضافة مزودي الخدمة قريباً.",
 }: ServiceLandingPageProps) {
   return (
     <main className="min-h-screen bg-slate-50" dir="rtl">
@@ -60,8 +60,8 @@ export default function ServiceLandingPage({
         <div className="mt-14">
           <div className="flex items-end justify-between gap-4 mb-5">
             <div>
-              <h2 className="text-2xl md:text-3xl font-black text-slate-950">السجلات المعتمدة</h2>
-              <p className="text-slate-500 mt-1 font-medium">كل بطاقة هنا مربوطة بقاعدة البيانات وتظهر فقط بعد تفعيلها من لوحة الإدارة.</p>
+              <h2 className="text-2xl md:text-3xl font-black text-slate-950">مزودو الخدمة المعتمدون</h2>
+              <p className="text-slate-500 mt-1 font-medium">نتائج مختارة ومنظمة لمساعدتك على المقارنة والتواصل بثقة.</p>
             </div>
             <span className="rounded-full bg-slate-200 text-slate-700 px-4 py-1.5 text-sm font-black">
               {listings.length} نتيجة
@@ -71,10 +71,6 @@ export default function ServiceLandingPage({
           {listings.length === 0 ? (
             <div className="rounded-3xl border border-dashed border-slate-300 bg-white p-10 text-center">
               <p className="text-slate-500 font-bold">{emptyLabel}</p>
-              <Link href="/admin/services" className="mt-5 inline-flex items-center gap-2 text-sky-700 font-black hover:underline">
-                إدارة هذا القسم
-                <ArrowLeft className="w-4 h-4" />
-              </Link>
             </div>
           ) : (
             <div className="grid md:grid-cols-2 gap-5">

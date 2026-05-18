@@ -20,7 +20,7 @@ export default async function PartnersPage() {
         { label: "تصفح الموردين", href: "/stores" },
       ]}
       listings={listings}
-      emptyLabel="لا توجد شركات شريكة مفعلة بعد. أضف أول شريك من لوحة التحكم."
+      emptyLabel="سيتم عرض الشركات والمنتجات المعتمدة قريباً."
     />
   );
 }

@@ -16,11 +16,11 @@ export default async function LabsPage() {
         "اشتراكات للمختبرات وحملات تعريفية بالخدمات الجديدة.",
       ]}
       actions={[
-        { label: "أضف مختبرك", href: "/join" },
+        { label: "سجل مختبرك", href: "/join" },
         { label: "اطلب شراكة", href: "/advertise" },
       ]}
       listings={listings}
-      emptyLabel="لا توجد مختبرات مفعلة بعد. أضف أول مختبر من لوحة التحكم."
+      emptyLabel="سيتم عرض المختبرات الطبية المعتمدة قريباً."
     />
   );
 }

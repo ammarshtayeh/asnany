@@ -20,7 +20,7 @@ export default async function MediaPage() {
         { label: "رعاية محتوى", href: "/advertise" },
       ]}
       listings={listings}
-      emptyLabel="لا توجد جهات إعلامية أو رعايات محتوى مفعلة بعد."
+      emptyLabel="سيتم عرض الرعايات والمواد الإعلامية المعتمدة قريباً."
     />
   );
 }
