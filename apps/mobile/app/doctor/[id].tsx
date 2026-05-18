@@ -1,5 +1,5 @@
 import { Stack, useLocalSearchParams } from "expo-router";
-import { Linking, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Linking, Pressable, ScrollView, StyleSheet, Text, View, Platform } from "react-native";
 import { demoDoctors } from "@pal-dental/shared";
 
 export default function DoctorDetailsScreen() {
@@ -13,6 +13,19 @@ export default function DoctorDetailsScreen() {
       </View>
     );
   }
+
+  const handleOpenMap = () => {
+    if (!doctor.lat || !doctor.lng) return;
+    const scheme = Platform.OS === "ios" ? "maps://0,0?q=" : "geo:0,0?q=";
+    const latLng = `${doctor.lat},${doctor.lng}`;
+    const label = doctor.name;
+    const url = Platform.select({
+      ios: `${scheme}${label}&ll=${latLng}`,
+      android: `${scheme}${latLng}(${label})`
+    });
+
+    Linking.openURL(url || `https://www.google.com/maps/search/?api=1&query=${latLng}`);
+  };
 
   return (
     <>
@@ -41,6 +54,15 @@ export default function DoctorDetailsScreen() {
             </Text>
           ))}
         </View>
+
+        {doctor.lat && doctor.lng && (
+          <Pressable
+            style={[styles.button, { backgroundColor: "#1e293b" }]}
+            onPress={handleOpenMap}
+          >
+            <Text style={styles.buttonText}>🗺️ Open Clinic in Device Maps</Text>
+          </Pressable>
+        )}
 
         <Pressable
           style={styles.button}
