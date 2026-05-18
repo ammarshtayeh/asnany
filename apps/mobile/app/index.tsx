@@ -171,21 +171,21 @@ export default function HomeScreen() {
       if (!adsError) setAds(adsData || []);
 
       // 3. Fetch Active Stores
-      const { data: storesData } = await supabase
+      const { data: storesData } = await supabase!
         .from("stores")
         .select("*")
         .eq("is_active", true);
       setStores(storesData || []);
 
       // 4. Fetch Active Offers
-      const { data: offersData } = await supabase
+      const { data: offersData } = await supabase!
         .from("offers")
         .select("*")
         .gte("valid_until", new Date().toISOString());
       setOffers(offersData || []);
 
       // 5. Fetch Active Marketplace Ads
-      const { data: marketplaceData } = await supabase
+      const { data: marketplaceData } = await supabase!
         .from("marketplace_ads")
         .select("*")
         .eq("is_active", true)
@@ -193,7 +193,7 @@ export default function HomeScreen() {
       setMarketplace(marketplaceData || []);
 
       // 6. Fetch Blog Articles
-      const { data: articlesData } = await supabase
+      const { data: articlesData } = await supabase!
         .from("articles")
         .select("*")
         .order("created_at", { ascending: false });
@@ -419,14 +419,16 @@ export default function HomeScreen() {
     <View style={styles.container}>
       {/* Scrollable Body Content */}
       <ScrollView contentContainerStyle={styles.page}>
-        {/* Header Branding */}
+        {/* Premium Corporate Branding Header */}
         <View style={styles.header}>
           <Text style={styles.eyebrow}>أسناني.ps 🇵🇸</Text>
           <Text style={styles.title}>دليلك الفلسطيني الشامل للأسنان</Text>
-          <Text style={styles.subtitle}>العيادات المعتمدة، مستلزمات الأسنان، العروض، وسوق المستعمل في مكان واحد</Text>
+          <Text style={styles.subtitle}>
+            العيادات المعتمدة، مستلزمات طب الأسنان، عروض الخصم الحصرية، وسوق المعدات المستعملة في منصة موحدة فائقة السرعة.
+          </Text>
         </View>
 
-        {/* Dynamic Top Tabs Swiper Row */}
+        {/* Categories / Navigation Tabs Swiper Row */}
         <ScrollView 
           horizontal 
           showsHorizontalScrollIndicator={false} 
@@ -436,21 +438,21 @@ export default function HomeScreen() {
             onPress={() => { setActiveTab("doctors"); setSearchQuery(""); }}
             style={[styles.tabButton, activeTab === "doctors" && styles.tabButtonActive]}
           >
-            <Text style={[styles.tabButtonText, activeTab === "doctors" && styles.tabButtonTextActive]}>👨‍⚕️ الأطباء</Text>
+            <Text style={[styles.tabButtonText, activeTab === "doctors" && styles.tabButtonTextActive]}>👨‍⚕️ الأطباء والعيادات</Text>
           </Pressable>
           
           <Pressable 
             onPress={() => { setActiveTab("stores"); setSearchQuery(""); }}
             style={[styles.tabButton, activeTab === "stores" && styles.tabButtonActive]}
           >
-            <Text style={[styles.tabButtonText, activeTab === "stores" && styles.tabButtonTextActive]}>🏪 المتاجر</Text>
+            <Text style={[styles.tabButtonText, activeTab === "stores" && styles.tabButtonTextActive]}>🏪 مستودعات الأجهزة</Text>
           </Pressable>
 
           <Pressable 
             onPress={() => { setActiveTab("offers"); setSearchQuery(""); }}
             style={[styles.tabButton, activeTab === "offers" && styles.tabButtonActive]}
           >
-            <Text style={[styles.tabButtonText, activeTab === "offers" && styles.tabButtonTextActive]}>🏷️ العروض</Text>
+            <Text style={[styles.tabButtonText, activeTab === "offers" && styles.tabButtonTextActive]}>🏷️ العروض الجارية</Text>
           </Pressable>
 
           <Pressable 
@@ -464,14 +466,14 @@ export default function HomeScreen() {
             onPress={() => { setActiveTab("blog"); setSearchQuery(""); }}
             style={[styles.tabButton, activeTab === "blog" && styles.tabButtonActive]}
           >
-            <Text style={[styles.tabButtonText, activeTab === "blog" && styles.tabButtonTextActive]}>📚 المدونة</Text>
+            <Text style={[styles.tabButtonText, activeTab === "blog" && styles.tabButtonTextActive]}>📚 مدونة الوقاية</Text>
           </Pressable>
 
           <Pressable 
             onPress={() => { setActiveTab("join"); setSearchQuery(""); }}
             style={[styles.tabButton, activeTab === "join" && styles.tabButtonActive]}
           >
-            <Text style={[styles.tabButtonText, activeTab === "join" && styles.tabButtonTextActive]}>📝 انضم كشريك</Text>
+            <Text style={[styles.tabButtonText, activeTab === "join" && styles.tabButtonTextActive]}>📝 سجّل عيادتك</Text>
           </Pressable>
 
           <Pressable 
@@ -485,7 +487,7 @@ export default function HomeScreen() {
         {/* -------------------- 1. TAB: DOCTORS -------------------- */}
         {activeTab === "doctors" && (
           <View style={styles.tabContent}>
-            {/* Active Ads Slider */}
+            {/* Active Ads Premium Slider */}
             {ads.length > 0 && (
               <ScrollView horizontal pagingEnabled showsHorizontalScrollIndicator={false} style={styles.adsContainer}>
                 {ads.map((ad) => (
@@ -500,17 +502,18 @@ export default function HomeScreen() {
               </ScrollView>
             )}
 
-            {/* Filters Box */}
+            {/* Premium Filter Box */}
             <View style={styles.filterBox}>
               <TextInput
-                placeholder="🔎 ابحث عن طبيب بالاسم، المنطقة أو السيرة المهنية..."
+                placeholder="🔎 ابحث عن طبيب، منطقة، أو عيادة..."
                 placeholderTextColor="#94a3b8"
                 value={searchQuery}
                 onChangeText={setSearchQuery}
                 style={styles.searchInput}
                 textAlign="right"
               />
-              <Text style={styles.sectionLabel}>📍 اختر المدينة:</Text>
+              
+              <Text style={styles.sectionLabel}>📍 اختر المدينة الفلسطينية:</Text>
               <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.chipRow}>
                 {CITIES.map((c) => {
                   const isSelected = selectedCity === c;
@@ -521,7 +524,8 @@ export default function HomeScreen() {
                   );
                 })}
               </ScrollView>
-              <Text style={styles.sectionLabel}>🦷 اختر التخصص:</Text>
+
+              <Text style={styles.sectionLabel}>🦷 اختر تخصص طب الأسنان:</Text>
               <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.chipRow}>
                 {SPECIALTIES.map((s) => {
                   const isSelected = selectedSpecialty === s;
@@ -532,21 +536,23 @@ export default function HomeScreen() {
                   );
                 })}
               </ScrollView>
+
               <Pressable onPress={() => setFilterOpenNow(!filterOpenNow)} style={[styles.openFilterRow, filterOpenNow && styles.openFilterRowActive]}>
-                <View style={[styles.dot, { backgroundColor: filterOpenNow ? "#10b981" : "#94a3b8" }]} />
+                <View style={[styles.dot, { backgroundColor: filterOpenNow ? "#10b981" : "#64748b" }]} />
                 <Text style={[styles.openFilterText, filterOpenNow && styles.openFilterTextActive]}>
-                  {filterOpenNow ? "عرض العيادات المفتوحة الآن فقط ✅" : "عرض العيادات المفتوحة الآن"}
+                  {filterOpenNow ? "عرض العيادات المفتوحة حالياً فقط ✅" : "إظهار العيادات المفتوحة الآن فقط"}
                 </Text>
               </Pressable>
             </View>
 
             {/* Doctors Output Stack */}
-            <Text style={styles.resultsCount}>🎯 تم العثور على ({filteredDoctors.length}) طبيب أسنان معتمد</Text>
+            <Text style={styles.resultsCount}>🎯 تم العثور على ({filteredDoctors.length}) طبيب معتمد في فلسطين</Text>
             {loading ? (
-              <ActivityIndicator size="large" color="#0e766e" style={{ marginVertical: 20 }} />
+              <ActivityIndicator size="large" color="#0d9488" style={{ marginVertical: 40 }} />
             ) : filteredDoctors.length === 0 ? (
               <View style={styles.emptyContainer}>
-                <Text style={styles.emptyTitle}>لا توجد نتائج مطابقة</Text>
+                <Text style={styles.emptyTitle}>لا توجد نتائج مطابقة لبحثك</Text>
+                <Text style={styles.emptyDesc}>تأكد من ضبط فلاتر البحث والمدينة لرؤية الأطباء المعتمدين.</Text>
               </View>
             ) : (
               <View style={styles.stack}>
@@ -570,7 +576,7 @@ export default function HomeScreen() {
                           </View>
                         </View>
                         <View style={styles.cardDetails}>
-                          <Text style={styles.detailText}>📍 {doc.city} — {doc.area || "العنوان الرئيسي"}</Text>
+                          <Text style={styles.detailText}>📍 المقر: {doc.city} — {doc.area || "العنوان الرئيسي"}</Text>
                           {doc.accepts_insurance && doc.insurance_list && doc.insurance_list.length > 0 && (
                             <View style={styles.insuranceRow}>
                               <Text style={styles.insuranceTitle}>🛡️ التأمين المقبول:</Text>
@@ -604,14 +610,14 @@ export default function HomeScreen() {
             {/* Filters */}
             <View style={styles.filterBox}>
               <TextInput
-                placeholder="🔎 ابحث عن متجر أدوات ومستلزمات..."
+                placeholder="🔎 ابحث عن متجر أدوات، معدات أو مستلزمات..."
                 placeholderTextColor="#94a3b8"
                 value={searchQuery}
                 onChangeText={setSearchQuery}
                 style={styles.searchInput}
                 textAlign="right"
               />
-              <Text style={styles.sectionLabel}>📍 تصفية حسب المدينة:</Text>
+              <Text style={styles.sectionLabel}>📍 تصفية حسب المدينة الرئيسية:</Text>
               <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.chipRow}>
                 {CITIES.map((c) => {
                   const isSelected = selectedCity === c;
@@ -624,7 +630,7 @@ export default function HomeScreen() {
               </ScrollView>
             </View>
 
-            <Text style={styles.resultsCount}>🎯 تم العثور على ({filteredStores.length}) شركة ومستودع معتمد</Text>
+            <Text style={styles.resultsCount}>🎯 تم العثور على ({filteredStores.length}) شركة ومستودع أجهزة معتمد</Text>
             
             {filteredStores.length === 0 ? (
               <View style={styles.emptyContainer}>
@@ -648,12 +654,12 @@ export default function HomeScreen() {
                     <View style={styles.actionRow}>
                       {store.whatsapp && (
                         <Pressable onPress={() => Linking.openURL(`https://wa.me/${store.whatsapp.replace(/\+/g, "")}`)} style={[styles.actionBtn, { backgroundColor: "#25d366" }]}>
-                          <Text style={styles.actionBtnText}>💬 واتساب</Text>
+                          <Text style={styles.actionBtnText}>💬 تواصل واتساب</Text>
                         </Pressable>
                       )}
                       {store.phone && (
                         <Pressable onPress={() => Linking.openURL(`tel:${store.phone}`)} style={[styles.actionBtn, { backgroundColor: "#0f172a" }]}>
-                          <Text style={styles.actionBtnText}>📞 اتصال</Text>
+                          <Text style={styles.actionBtnText}>📞 اتصال مبيعات</Text>
                         </Pressable>
                       )}
                       {store.website && (
@@ -866,7 +872,7 @@ export default function HomeScreen() {
 
       </ScrollView>
 
-      {/* Persistent Bottom Tab Bar Navigation Mock */}
+      {/* Persistent Bottom Tab Bar Floating Navigation Mock */}
       <View style={styles.bottomNav}>
         <Pressable onPress={() => setActiveTab("doctors")} style={[styles.bottomTabItem, activeTab === "doctors" && styles.bottomTabItemActive]}>
           <Text style={styles.bottomTabIcon}>👨‍⚕️</Text>
@@ -885,7 +891,7 @@ export default function HomeScreen() {
 
         <Pressable onPress={() => setActiveTab("marketplace")} style={[styles.bottomTabItem, activeTab === "marketplace" && styles.bottomTabItemActive]}>
           <Text style={styles.bottomTabIcon}>🛒</Text>
-          <Text style={[styles.bottomTabText, activeTab === "marketplace" && styles.bottomTabTextActive]}>سوقنا</Text>
+          <Text style={[styles.bottomTabText, activeTab === "marketplace" && styles.bottomTabTextActive]}>المستعمل</Text>
         </Pressable>
 
         <Pressable onPress={() => setActiveTab("join")} style={[styles.bottomTabItem, activeTab === "join" && styles.bottomTabItemActive]}>
@@ -900,20 +906,25 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f8fafc"
+    backgroundColor: "#f4f6fa"
   },
   page: {
     padding: 16,
     gap: 16,
-    backgroundColor: "#f8fafc",
-    paddingBottom: 85
+    backgroundColor: "#f4f6fa",
+    paddingBottom: 110
   },
   header: {
     backgroundColor: "#0f172a",
     borderRadius: 24,
     padding: 24,
     gap: 8,
-    alignItems: "flex-end"
+    alignItems: "flex-end",
+    shadowColor: "#0f172a",
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.12,
+    shadowRadius: 16,
+    elevation: 4
   },
   eyebrow: {
     fontSize: 13,
@@ -932,20 +943,25 @@ const styles = StyleSheet.create({
     lineHeight: 18,
     color: "#cbd5e1",
     textAlign: "right",
-    fontWeight: "500"
+    fontWeight: "600"
   },
   tabScrollRow: {
     flexDirection: "row-reverse",
-    gap: 8,
-    paddingVertical: 6
+    gap: 10,
+    paddingVertical: 8
   },
   tabButton: {
     backgroundColor: "#ffffff",
     paddingHorizontal: 16,
-    paddingVertical: 10,
-    borderRadius: 14,
+    paddingVertical: 12,
+    borderRadius: 16,
     borderWidth: 1,
-    borderColor: "#e2e8f0"
+    borderColor: "#e2e8f0",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.03,
+    shadowRadius: 6,
+    elevation: 1
   },
   tabButtonActive: {
     backgroundColor: "#0d9488",
@@ -960,16 +976,16 @@ const styles = StyleSheet.create({
     color: "#ffffff"
   },
   tabContent: {
-    gap: 14
+    gap: 16
   },
   adsContainer: {
-    height: 150,
+    height: 160,
     borderRadius: 24,
     overflow: "hidden"
   },
   adSlide: {
     width: width - 32,
-    height: 150,
+    height: 160,
     position: "relative"
   },
   adImage: {
@@ -981,8 +997,8 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: "rgba(15, 23, 42, 0.65)",
-    padding: 10,
+    backgroundColor: "rgba(15, 23, 42, 0.72)",
+    padding: 12,
     flexDirection: "row-reverse",
     justifyContent: "space-between",
     alignItems: "center"
@@ -997,23 +1013,28 @@ const styles = StyleSheet.create({
     color: "#ffffff",
     fontSize: 10,
     fontWeight: "800",
-    paddingHorizontal: 6,
-    paddingVertical: 3,
-    borderRadius: 6
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 8
   },
   filterBox: {
     backgroundColor: "#ffffff",
     borderRadius: 24,
-    padding: 16,
-    gap: 12,
+    padding: 18,
+    gap: 14,
     borderWidth: 1,
-    borderColor: "#f1f5f9"
+    borderColor: "#e2e8f0",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.03,
+    shadowRadius: 10,
+    elevation: 2
   },
   searchInput: {
     backgroundColor: "#f8fafc",
-    borderRadius: 14,
+    borderRadius: 16,
     paddingHorizontal: 16,
-    paddingVertical: 10,
+    paddingVertical: 12,
     fontSize: 13,
     fontWeight: "700",
     color: "#1e293b",
@@ -1023,18 +1044,18 @@ const styles = StyleSheet.create({
   sectionLabel: {
     fontSize: 12,
     fontWeight: "800",
-    color: "#475569",
+    color: "#334155",
     textAlign: "right"
   },
   chipRow: {
     flexDirection: "row-reverse",
-    gap: 6
+    gap: 8
   },
   chip: {
     backgroundColor: "#f1f5f9",
-    borderRadius: 10,
-    paddingHorizontal: 10,
-    paddingVertical: 6,
+    borderRadius: 12,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
     borderWidth: 1,
     borderColor: "#e2e8f0"
   },
@@ -1047,7 +1068,7 @@ const styles = StyleSheet.create({
     borderColor: "#0d9488"
   },
   chipText: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: "800",
     color: "#475569"
   },
@@ -1058,23 +1079,23 @@ const styles = StyleSheet.create({
     flexDirection: "row-reverse",
     alignItems: "center",
     backgroundColor: "#f8fafc",
-    borderRadius: 14,
-    padding: 10,
+    borderRadius: 16,
+    padding: 12,
     borderWidth: 1,
     borderColor: "#e2e8f0",
-    gap: 8
+    gap: 10
   },
   openFilterRowActive: {
     backgroundColor: "#ecfdf5",
     borderColor: "#a7f3d0"
   },
   dot: {
-    width: 6,
-    height: 6,
-    borderRadius: 3
+    width: 8,
+    height: 8,
+    borderRadius: 4
   },
   openFilterText: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: "800",
     color: "#475569"
   },
@@ -1090,13 +1111,18 @@ const styles = StyleSheet.create({
   emptyContainer: {
     backgroundColor: "#ffffff",
     borderRadius: 24,
-    padding: 24,
+    padding: 30,
     alignItems: "center",
     borderWidth: 1,
-    borderColor: "#f1f5f9"
+    borderColor: "#e2e8f0",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.02,
+    shadowRadius: 8,
+    elevation: 2
   },
   emptyTitle: {
-    fontSize: 14,
+    fontSize: 15,
     fontWeight: "900",
     color: "#475569"
   },
@@ -1104,33 +1130,41 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: "#64748b",
     textAlign: "center",
-    marginTop: 4
+    marginTop: 6,
+    lineHeight: 18
   },
   stack: {
-    gap: 12
+    gap: 14
   },
   card: {
     backgroundColor: "#ffffff",
     borderRadius: 24,
-    padding: 16,
-    gap: 10,
+    padding: 18,
+    gap: 12,
     borderWidth: 1,
-    borderColor: "#f1f5f9"
+    borderColor: "#e2e8f0",
+    shadowColor: "#0f172a",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.02,
+    shadowRadius: 12,
+    elevation: 2
   },
   cardHeader: {
     flexDirection: "row-reverse",
-    gap: 10,
+    gap: 12,
     alignItems: "center"
   },
   avatar: {
-    width: 50,
-    height: 50,
-    borderRadius: 14,
-    backgroundColor: "#f1f5f9"
+    width: 60,
+    height: 60,
+    borderRadius: 18,
+    backgroundColor: "#f1f5f9",
+    borderWidth: 1,
+    borderColor: "#e2e8f0"
   },
   headerInfo: {
     flex: 1,
-    gap: 3
+    gap: 4
   },
   nameRow: {
     flexDirection: "row-reverse",
@@ -1138,18 +1172,18 @@ const styles = StyleSheet.create({
     justifyContent: "space-between"
   },
   cardTitle: {
-    fontSize: 14,
+    fontSize: 15,
     fontWeight: "900",
     color: "#0f172a"
   },
   verifiedBadge: {
-    fontSize: 9,
+    fontSize: 10,
     fontWeight: "900",
     color: "#10b981",
     backgroundColor: "#ecfdf5",
-    paddingHorizontal: 4,
-    paddingVertical: 1,
-    borderRadius: 4
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 6
   },
   specialtyRow: {
     flexDirection: "row-reverse",
@@ -1161,19 +1195,19 @@ const styles = StyleSheet.create({
     fontWeight: "800",
     color: "#0d9488",
     backgroundColor: "#f0fdfa",
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-    borderRadius: 6
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 8
   },
   cardDetails: {
     borderTopWidth: 1,
     borderBottomWidth: 1,
     borderColor: "#f1f5f9",
-    paddingVertical: 8,
-    gap: 6
+    paddingVertical: 10,
+    gap: 8
   },
   detailText: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: "700",
     color: "#475569",
     textAlign: "right"
@@ -1181,7 +1215,7 @@ const styles = StyleSheet.create({
   insuranceRow: {
     flexDirection: "row-reverse",
     flexWrap: "wrap",
-    gap: 3,
+    gap: 4,
     alignItems: "center"
   },
   insuranceTitle: {
@@ -1190,13 +1224,13 @@ const styles = StyleSheet.create({
     color: "#64748b"
   },
   insuranceBadge: {
-    fontSize: 9,
+    fontSize: 10,
     fontWeight: "800",
     color: "#0284c7",
     backgroundColor: "#f0f9ff",
-    paddingHorizontal: 4,
-    paddingVertical: 1,
-    borderRadius: 4
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 6
   },
   cardFooter: {
     flexDirection: "row-reverse",
@@ -1206,10 +1240,10 @@ const styles = StyleSheet.create({
   statusBadge: {
     flexDirection: "row-reverse",
     alignItems: "center",
-    gap: 4,
-    paddingHorizontal: 6,
-    paddingVertical: 3,
-    borderRadius: 6
+    gap: 6,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 8
   },
   statusBadgeOpen: {
     backgroundColor: "#ecfdf5"
@@ -1218,12 +1252,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#f1f5f9"
   },
   pulseDot: {
-    width: 4,
-    height: 4,
-    borderRadius: 2
+    width: 6,
+    height: 6,
+    borderRadius: 3
   },
   statusText: {
-    fontSize: 10,
+    fontSize: 11,
     fontWeight: "900"
   },
   statusTextOpen: {
@@ -1234,14 +1268,14 @@ const styles = StyleSheet.create({
   },
   ratingBadge: {
     backgroundColor: "#fffbeb",
-    borderRadius: 6,
-    paddingHorizontal: 6,
-    paddingVertical: 2,
+    borderRadius: 8,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
     borderWidth: 1,
     borderColor: "#fde68a"
   },
   ratingText: {
-    fontSize: 10,
+    fontSize: 11,
     fontWeight: "800",
     color: "#b45309"
   },
@@ -1250,7 +1284,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: "#475569",
     textAlign: "right",
-    lineHeight: 18
+    lineHeight: 20
   },
   actionRow: {
     flexDirection: "row-reverse",
@@ -1259,10 +1293,15 @@ const styles = StyleSheet.create({
   },
   actionBtn: {
     flex: 1,
-    paddingVertical: 10,
-    borderRadius: 12,
+    paddingVertical: 12,
+    borderRadius: 14,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 1
   },
   actionBtnText: {
     color: "#ffffff",
@@ -1271,64 +1310,69 @@ const styles = StyleSheet.create({
   },
   offerImage: {
     width: "100%",
-    height: 140,
-    borderRadius: 16,
+    height: 150,
+    borderRadius: 18,
     resizeMode: "cover"
   },
   offerPromoRow: {
     flexDirection: "row-reverse",
     justifyContent: "space-between",
     alignItems: "center",
-    marginTop: 4
+    marginTop: 6
   },
   offerTitle: {
-    fontSize: 14,
+    fontSize: 15,
     fontWeight: "900",
     color: "#0f172a",
     textAlign: "right"
   },
   discountBadge: {
     backgroundColor: "#ef4444",
-    borderRadius: 8,
-    paddingHorizontal: 8,
-    paddingVertical: 4
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 6
   },
   discountBadgeText: {
     color: "#ffffff",
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: "900"
   },
   expiryText: {
     fontSize: 11,
     fontWeight: "800",
-    color: "#b45309",
+    color: "#d97706",
     textAlign: "right"
   },
   priceTag: {
-    fontSize: 14,
+    fontSize: 15,
     fontWeight: "900",
     color: "#0d9488"
   },
   button: {
-    paddingVertical: 12,
-    borderRadius: 14,
+    paddingVertical: 14,
+    borderRadius: 16,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.06,
+    shadowRadius: 8,
+    elevation: 2
   },
   buttonText: {
     color: "#ffffff",
-    fontSize: 12,
+    fontSize: 13,
     fontWeight: "900"
   },
   authorText: {
-    fontSize: 10,
+    fontSize: 11,
     fontWeight: "800",
     color: "#94a3b8",
     textAlign: "right"
   },
   readMoreBtn: {
     alignSelf: "flex-end",
-    marginTop: 4
+    marginTop: 6
   },
   readMoreBtnText: {
     fontSize: 12,
@@ -1336,27 +1380,27 @@ const styles = StyleSheet.create({
     color: "#0d9488"
   },
   sectionTitle: {
-    fontSize: 14,
+    fontSize: 15,
     fontWeight: "900",
     color: "#0f172a",
     borderBottomWidth: 1,
     borderColor: "#f1f5f9",
-    paddingBottom: 6,
+    paddingBottom: 8,
     textAlign: "right"
   },
   formToggle: {
     flexDirection: "row-reverse",
     backgroundColor: "#f8fafc",
-    borderRadius: 12,
-    padding: 4,
-    marginVertical: 8,
+    borderRadius: 16,
+    padding: 6,
+    marginVertical: 10,
     borderWidth: 1,
     borderColor: "#e2e8f0"
   },
   formToggleBtn: {
     flex: 1,
-    paddingVertical: 8,
-    borderRadius: 10,
+    paddingVertical: 10,
+    borderRadius: 12,
     alignItems: "center"
   },
   formToggleBtnActive: {
@@ -1376,28 +1420,28 @@ const styles = StyleSheet.create({
     color: "#0f172a"
   },
   inputLabel: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: "900",
     color: "#475569",
     textAlign: "right",
-    marginTop: 6
+    marginTop: 8
   },
   formInput: {
     backgroundColor: "#f8fafc",
-    borderRadius: 12,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
+    borderRadius: 14,
+    paddingHorizontal: 14,
+    paddingVertical: 10,
     borderWidth: 1,
     borderColor: "#e2e8f0",
     fontSize: 12,
     fontWeight: "700",
     color: "#1e293b",
-    marginTop: 4
+    marginTop: 6
   },
   successFormContainer: {
-    padding: 16,
+    padding: 20,
     alignItems: "center",
-    gap: 10
+    gap: 12
   },
   successFormTitle: {
     fontSize: 16,
@@ -1408,21 +1452,21 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: "#475569",
     textAlign: "center",
-    lineHeight: 18,
+    lineHeight: 20,
     fontWeight: "600"
   },
   formContainer: {
-    gap: 8
+    gap: 10
   },
   notificationStatusBox: {
     backgroundColor: "#f8fafc",
-    borderRadius: 16,
-    padding: 16,
-    marginVertical: 10,
+    borderRadius: 20,
+    padding: 18,
+    marginVertical: 12,
     borderWidth: 1,
     borderColor: "#e2e8f0",
     alignItems: "center",
-    gap: 8
+    gap: 10
   },
   statusLabelText: {
     fontSize: 12,
@@ -1430,9 +1474,9 @@ const styles = StyleSheet.create({
     color: "#64748b"
   },
   statusIndicator: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 12
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 14
   },
   statusIndicatorText: {
     fontSize: 12,
@@ -1442,36 +1486,38 @@ const styles = StyleSheet.create({
     fontSize: 11,
     color: "#94a3b8",
     textAlign: "center",
-    lineHeight: 16,
+    lineHeight: 18,
     fontWeight: "600"
   },
   bottomNav: {
     position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-    height: 70,
+    bottom: 20,
+    left: 20,
+    right: 20,
+    height: 75,
     backgroundColor: "#ffffff",
+    borderRadius: 28,
     flexDirection: "row-reverse",
     justifyContent: "space-around",
     alignItems: "center",
-    borderTopWidth: 1,
-    borderTopColor: "#e2e8f0",
-    paddingBottom: Platform.OS === "ios" ? 15 : 5,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: -4 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 10
+    paddingBottom: 0,
+    shadowColor: "#0f172a",
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.1,
+    shadowRadius: 20,
+    elevation: 8,
+    borderWidth: 1,
+    borderColor: "#f1f5f9"
   },
   bottomTabItem: {
     alignItems: "center",
     justifyContent: "center",
-    paddingHorizontal: 10,
-    paddingVertical: 5
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 16
   },
   bottomTabItemActive: {
-    transform: [{ scale: 1.05 }]
+    backgroundColor: "#f0fdfa"
   },
   bottomTabIcon: {
     fontSize: 20
