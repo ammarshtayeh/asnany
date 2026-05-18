@@ -1,8 +1,0 @@
-{
-  "/doctors/[id]/page": "app/doctors/[id]/page.js",
-  "/page": "app/page.js",
-  "/offers/page": "app/offers/page.js",
-  "/blog/page": "app/blog/page.js",
-  "/stores/page": "app/stores/page.js",
-  "/marketplace/page": "app/marketplace/page.js"
-}
