@@ -7,13 +7,30 @@ import { useRouter } from "next/navigation";
 export default function AdminLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Demo login: Setting a cookie manually
-    document.cookie = "admin_session=demo; path=/";
-    router.push("/admin");
+    setError("");
+    setLoading(true);
+    try {
+      const res = await fetch("/api/admin/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || "فشل تسجيل الدخول");
+      }
+      router.push("/admin");
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -27,7 +44,13 @@ export default function AdminLogin() {
           </div>
           
           <h1 className="text-2xl font-black text-slate-900 mb-2">تسجيل دخول الإدارة</h1>
-          <p className="text-slate-500 mb-8">يرجى إدخال بيانات الاعتماد للوصول للوحة التحكم</p>
+          <p className="text-slate-500 mb-6">يرجى إدخال بيانات الاعتماد للوصول للوحة التحكم</p>
+
+          {error && (
+            <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-xl text-sm font-bold mb-6 text-right">
+              ⚠️ {error}
+            </div>
+          )}
 
           <form onSubmit={handleLogin} className="space-y-4">
             <div className="relative">
@@ -38,7 +61,7 @@ export default function AdminLogin() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="البريد الإلكتروني"
-                className="w-full pl-4 pr-12 py-3.5 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-primary focus:border-primary transition-all outline-none"
+                className="w-full pl-4 pr-12 py-3.5 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-primary focus:border-primary transition-all outline-none text-right"
               />
             </div>
             
@@ -50,15 +73,16 @@ export default function AdminLogin() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="كلمة المرور"
-                className="w-full pl-4 pr-12 py-3.5 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-primary focus:border-primary transition-all outline-none"
+                className="w-full pl-4 pr-12 py-3.5 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-primary focus:border-primary transition-all outline-none text-right"
               />
             </div>
 
             <button
               type="submit"
-              className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold text-lg py-4 rounded-xl shadow-lg transition-all mt-4"
+              disabled={loading}
+              className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold text-lg py-4 rounded-xl shadow-lg transition-all mt-4 disabled:opacity-55"
             >
-              دخول
+              {loading ? "جاري الدخول..." : "دخول"}
             </button>
           </form>
         </div>

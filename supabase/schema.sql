@@ -136,3 +136,21 @@ ALTER TABLE articles ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "public read articles" ON articles FOR SELECT USING (true);
 CREATE POLICY "admin all articles" ON articles USING (auth.role() = 'authenticated');
 
+-- Admins Table
+CREATE TABLE admins (
+  id          UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  email       TEXT UNIQUE NOT NULL,
+  password    TEXT NOT NULL,
+  created_at  TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE admins ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "public read admins" ON admins FOR SELECT USING (true);
+CREATE POLICY "admin all admins" ON admins USING (true);
+
+-- Insert default admin account (email: admin@asnany.ps, password: admin_secret_123)
+INSERT INTO admins (email, password)
+VALUES ('admin@asnany.ps', 'admin_secret_123')
+ON CONFLICT (email) DO NOTHING;
+
+
