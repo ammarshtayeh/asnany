@@ -201,7 +201,12 @@ export default function AdminDoctors() {
     setActiveDoctor(null);
   };
 
-  const filteredDoctors = doctors.filter(doc => 
+  const sortedDoctors = [...doctors].sort((a, b) => {
+    if (a.verified === b.verified) return 0;
+    return a.verified ? 1 : -1; // Unverified first
+  });
+
+  const filteredDoctors = sortedDoctors.filter(doc => 
     doc.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     doc.city.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -268,7 +273,14 @@ export default function AdminDoctors() {
                           <img src={doc.image_url} alt={doc.name} className="w-10 h-10 rounded-full object-cover border border-slate-200" />
                         )}
                         <div>
-                          <span>د. {doc.name}</span>
+                          <div className="flex items-center gap-2">
+                            <span>د. {doc.name}</span>
+                            {!doc.verified && (
+                              <span className="bg-rose-50 text-rose-600 text-[10px] font-black px-2 py-0.5 rounded-full border border-rose-100 animate-pulse">
+                                طلب جديد
+                              </span>
+                            )}
+                          </div>
                           <span className="block text-xs text-slate-400 font-medium">{doc.phone || "بدون هاتف"}</span>
                         </div>
                       </td>
@@ -277,6 +289,11 @@ export default function AdminDoctors() {
                           <MapPin className="w-4 h-4 text-slate-400" />
                           {doc.city} {doc.area && ` - ${doc.area}`}
                         </span>
+                        {doc.lat && doc.lng && (
+                          <span className="block text-[10px] text-slate-400 mt-0.5 font-mono">
+                            📍 GPS: {doc.lat.toFixed(4)}, {doc.lng.toFixed(4)}
+                          </span>
+                        )}
                       </td>
                       <td className="px-6 py-4">
                         <span className="bg-slate-100 text-slate-700 px-3 py-1 rounded-full text-xs font-bold">
