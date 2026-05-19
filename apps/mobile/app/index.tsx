@@ -20,13 +20,13 @@ import { Article, Doctor, MarketplaceAd, MedicalService, Offer, Store } from "..
 
 type TabKey = "doctors" | "services" | "offers" | "market" | "media" | "join";
 
-const tabs: Array<{ key: TabKey; label: string; short: string; color: string }> = [
-  { key: "doctors", label: "الأطباء", short: "الأطباء", color: colors.sky },
-  { key: "services", label: "الخدمات", short: "خدمات", color: colors.fuchsia },
-  { key: "offers", label: "العروض", short: "عروض", color: colors.amber },
-  { key: "market", label: "السوق", short: "السوق", color: colors.emerald },
-  { key: "media", label: "المجلة", short: "ميديا", color: colors.violet },
-  { key: "join", label: "انضمام", short: "انضم", color: colors.teal },
+const tabs: Array<{ key: TabKey; label: string; short: string; color: string; icon: string }> = [
+  { key: "doctors", label: "الأطباء 👨‍⚕️", short: "الأطباء", color: colors.sky, icon: "👨‍⚕️" },
+  { key: "services", label: "الخدمات 🏥", short: "خدمات", color: colors.fuchsia, icon: "🏥" },
+  { key: "offers", label: "العروض 🎁", short: "عروض", color: colors.amber, icon: "🎁" },
+  { key: "market", label: "السوق 🛒", short: "السوق", color: colors.emerald, icon: "🛒" },
+  { key: "media", label: "المجلة 📰", short: "ميديا", color: colors.violet, icon: "📰" },
+  { key: "join", label: "انضمام ✨", short: "انضم", color: colors.teal, icon: "✨" },
 ];
 
 const serviceLabels: Record<string, string> = {
@@ -250,13 +250,20 @@ export default function HomeScreen() {
         ) : null}
       </ScrollView>
 
-      <View style={[styles.bottomNav, { paddingBottom: Math.max(insets.bottom, 10) }]}>
+      <View style={[styles.bottomNav, { paddingBottom: Math.max(insets.bottom, 12), paddingTop: 12 }]}>
         {tabs.slice(0, 5).map((tab) => {
           const active = activeTab === tab.key;
           return (
-            <Pressable key={tab.key} onPress={() => setActiveTab(tab.key)} style={styles.bottomItem}>
-              <View style={[styles.bottomDot, { backgroundColor: active ? tab.color : "#e2e8f0" }]} />
-              <Text style={[styles.bottomText, active && { color: tab.color }]}>{tab.short}</Text>
+            <Pressable
+              key={tab.key}
+              onPress={() => setActiveTab(tab.key)}
+              style={[
+                styles.bottomItem,
+                active && { backgroundColor: `${tab.color}15`, borderRadius: 16, paddingHorizontal: 12, paddingVertical: 4 },
+              ]}
+            >
+              <Text style={styles.bottomEmoji}>{tab.icon}</Text>
+              <Text style={[styles.bottomText, { color: active ? tab.color : colors.muted, marginTop: 2 }]}>{tab.short}</Text>
             </Pressable>
           );
         })}
@@ -795,10 +802,9 @@ const styles = StyleSheet.create({
     minWidth: 54,
     gap: 4,
   },
-  bottomDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 99,
+  bottomEmoji: {
+    fontSize: 18,
+    textAlign: "center",
   },
   bottomText: {
     color: colors.muted,

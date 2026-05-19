@@ -116,6 +116,7 @@ export default function Home() {
   const [selectedWorkStatus, setSelectedWorkStatus] = useState<"any" | "open" | "closed">("any");
   const [activeDiagnosis, setActiveDiagnosis] = useState("");
   const [userLoc, setUserLoc] = useState<{ lat: number; lng: number } | null>(null);
+  const [showMap, setShowMap] = useState(false);
 
   // Fetch real data on load
   useEffect(() => {
@@ -351,25 +352,27 @@ export default function Home() {
       <section className="max-w-[1400px] mx-auto w-full px-4 lg:px-8 pb-24 relative z-20 -mt-16 flex flex-col lg:flex-row gap-8">
         
         {/* Left Column: Smart Map */}
-        <div className="w-full lg:w-[45%] order-1 lg:order-2 h-[500px] lg:h-[calc(100vh-140px)] sticky top-6">
-          <div className="h-full w-full relative group">
-            <div className="absolute inset-0 bg-gradient-to-t from-primary/10 to-transparent blur-3xl -z-10 transition-opacity duration-500 opacity-50 group-hover:opacity-100" />
-            <DoctorMap doctors={filteredDoctors} userLocation={userLoc || undefined} />
-            
-            {userLoc && (
-              <div className="absolute top-6 left-6 z-30 bg-slate-900/90 backdrop-blur-md text-white px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3 border border-slate-700">
-                <span className="relative flex h-3 w-3">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
-                </span>
-                <span className="font-bold text-sm tracking-wide">رادار الموقع الذكي مفعل</span>
-              </div>
-            )}
+        {showMap && (
+          <div className="w-full lg:w-[45%] order-1 lg:order-2 h-[500px] lg:h-[calc(100vh-140px)] sticky top-6 animate-in fade-in slide-in-from-left duration-500">
+            <div className="h-full w-full relative group">
+              <div className="absolute inset-0 bg-gradient-to-t from-primary/10 to-transparent blur-3xl -z-10 transition-opacity duration-500 opacity-50 group-hover:opacity-100" />
+              <DoctorMap doctors={filteredDoctors} userLocation={userLoc || undefined} />
+              
+              {userLoc && (
+                <div className="absolute top-6 left-6 z-30 bg-slate-900/90 backdrop-blur-md text-white px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3 border border-slate-700">
+                  <span className="relative flex h-3 w-3">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+                  </span>
+                  <span className="font-bold text-sm tracking-wide">رادار الموقع الذكي مفعل</span>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Right Column: Listing & Ads */}
-        <div className="w-full lg:w-[55%] order-2 lg:order-1 flex flex-col gap-8">
+        <div className={`order-2 lg:order-1 flex flex-col gap-8 transition-all duration-500 ${showMap ? "w-full lg:w-[55%]" : "w-full max-w-5xl mx-auto"}`}>
           
           {/* Quick Categories */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -395,13 +398,41 @@ export default function Home() {
           <AdSlider ads={ads} />
 
           {/* Results Header */}
-          <div className="flex items-center justify-between px-2">
-            <h2 className="text-2xl font-black text-slate-900">
-              {filteredDoctors.length > 0 ? "الأطباء المتاحين" : "لم نجد نتائج"}
-            </h2>
-            <span className="bg-slate-200/50 text-slate-600 font-bold px-4 py-1.5 rounded-full text-sm">
-              {filteredDoctors.length} نتيجة
-            </span>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 px-2" dir="rtl">
+            <div className="flex items-center gap-3">
+              <h2 className="text-2xl font-black text-slate-900">
+                {filteredDoctors.length > 0 ? "الأطباء المتاحين" : "لم نجد نتائج"}
+              </h2>
+              <span className="bg-slate-200/50 text-slate-600 font-black px-4 py-1.5 rounded-full text-xs">
+                {filteredDoctors.length} نتيجة
+              </span>
+            </div>
+
+            {/* Beautiful Map/List Toggle Switch */}
+            <div className="flex items-center bg-white/85 backdrop-blur-md p-1 rounded-2xl border border-slate-200/50 shadow-sm w-fit self-end sm:self-auto">
+              <button
+                onClick={() => setShowMap(false)}
+                className={`flex items-center gap-2 px-5 py-2 rounded-xl text-xs font-black transition-all cursor-pointer ${
+                  !showMap
+                  ? "bg-slate-900 text-white shadow-md shadow-slate-900/10"
+                  : "text-slate-500 hover:text-slate-800"
+                }`}
+              >
+                <BriefcaseMedical className="w-3.5 h-3.5" />
+                <span>عرض القائمة</span>
+              </button>
+              <button
+                onClick={() => setShowMap(true)}
+                className={`flex items-center gap-2 px-5 py-2 rounded-xl text-xs font-black transition-all cursor-pointer ${
+                  showMap
+                  ? "bg-primary text-white shadow-md shadow-primary/10"
+                  : "text-slate-500 hover:text-slate-800"
+                }`}
+              >
+                <MapPin className="w-3.5 h-3.5" />
+                <span>عرض الخريطة</span>
+              </button>
+            </div>
           </div>
 
           {/* Doctors List */}
@@ -536,6 +567,26 @@ export default function Home() {
           <p className="text-slate-400 text-sm font-medium">© {new Date().getFullYear()} Asnani.ps. جميع الحقوق محفوظة.</p>
         </div>
       </footer>
+
+      {/* Floating Map/List Toggle Button (Mobile/Sticky friendly) */}
+      <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 animate-in fade-in slide-in-from-bottom duration-300">
+        <button
+          onClick={() => setShowMap(!showMap)}
+          className="flex items-center gap-2.5 px-6 py-4 rounded-full bg-slate-900/90 hover:bg-[#0f172a] text-white font-black text-sm tracking-wide shadow-[0_20px_50px_rgba(0,0,0,0.3)] hover:shadow-[0_25px_60px_rgba(14,165,233,0.3)] transition-all duration-300 border border-slate-700/50 backdrop-blur-md cursor-pointer group"
+        >
+          {showMap ? (
+            <>
+              <BriefcaseMedical className="w-4 h-4 text-sky-400 group-hover:rotate-12 transition-transform" />
+              <span>عرض القائمة</span>
+            </>
+          ) : (
+            <>
+              <MapPin className="w-4 h-4 text-sky-400 group-hover:animate-bounce" />
+              <span>عرض الخريطة التفاعلية</span>
+            </>
+          )}
+        </button>
+      </div>
     </div>
   );
 }
