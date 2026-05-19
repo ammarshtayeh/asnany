@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Users, Plus, CheckCircle, XCircle, Search, Sparkles, MapPin, Phone, Edit3, Trash2, Star } from "lucide-react";
 import { Doctor } from "@/lib/types";
+import AdminImageUpload from "@/components/AdminImageUpload";
 
 export default function AdminDoctors() {
   const [doctors, setDoctors] = useState<Doctor[]>([]);
@@ -444,16 +445,12 @@ export default function AdminDoctors() {
                 </div>
               </div>
 
-              <div className="space-y-1">
-                <label className="block text-sm font-bold text-slate-700">رابط الصورة الشخصية للطبيب</label>
-                <input
-                  type="url"
-                  value={imageUrl}
-                  onChange={(e) => setImageUrl(e.target.value)}
-                  placeholder="https://example.com/doctor-avatar.jpg"
-                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white outline-none font-medium text-sm transition-all text-left"
-                />
-              </div>
+              <AdminImageUpload
+                label="الصورة الشخصية للطبيب"
+                value={imageUrl}
+                folder="doctors"
+                onChange={setImageUrl}
+              />
 
               <div className="space-y-2 border border-slate-100 p-4 rounded-2xl bg-slate-50/50">
                 <div className="flex justify-between items-center mb-1">
@@ -461,17 +458,16 @@ export default function AdminDoctors() {
                   <span className="text-[10px] text-slate-400 font-bold">{clinicPhotos.length} / 5</span>
                 </div>
                 {clinicPhotos.map((photo, index) => (
-                  <div key={index} className="flex gap-2 items-center">
-                    <input
-                      type="url"
+                  <div key={index} className="grid gap-2 md:grid-cols-[1fr_auto] md:items-end">
+                    <AdminImageUpload
+                      label={`صورة العيادة #${index + 1}`}
                       value={photo}
-                      onChange={(e) => {
+                      folder="clinics"
+                      onChange={(value) => {
                         const newPhotos = [...clinicPhotos];
-                        newPhotos[index] = e.target.value;
+                        newPhotos[index] = value;
                         setClinicPhotos(newPhotos);
                       }}
-                      placeholder={`رابط صورة العيادة #${index + 1} (https://...)`}
-                      className="flex-1 px-4 py-2 rounded-xl border border-slate-200 bg-white focus:bg-white outline-none text-xs transition-all text-left font-mono"
                     />
                     {clinicPhotos.length > 1 && (
                       <button
@@ -620,16 +616,12 @@ export default function AdminDoctors() {
                 </div>
               </div>
 
-              <div className="space-y-1">
-                <label className="block text-sm font-bold text-slate-700">رابط الصورة الشخصية للطبيب</label>
-                <input
-                  type="url"
-                  value={imageUrl}
-                  onChange={(e) => setImageUrl(e.target.value)}
-                  placeholder="https://example.com/doctor-avatar.jpg"
-                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white outline-none font-medium text-sm transition-all text-left"
-                />
-              </div>
+              <AdminImageUpload
+                label="الصورة الشخصية للطبيب"
+                value={imageUrl}
+                folder="doctors"
+                onChange={setImageUrl}
+              />
 
               <div className="space-y-2 border border-slate-100 p-4 rounded-2xl bg-slate-50/50">
                 <div className="flex justify-between items-center mb-1">
@@ -637,17 +629,16 @@ export default function AdminDoctors() {
                   <span className="text-[10px] text-slate-400 font-bold">{clinicPhotos.length} / 5</span>
                 </div>
                 {clinicPhotos.map((photo, index) => (
-                  <div key={index} className="flex gap-2 items-center">
-                    <input
-                      type="url"
+                  <div key={index} className="grid gap-2 md:grid-cols-[1fr_auto] md:items-end">
+                    <AdminImageUpload
+                      label={`صورة العيادة #${index + 1}`}
                       value={photo}
-                      onChange={(e) => {
+                      folder="clinics"
+                      onChange={(value) => {
                         const newPhotos = [...clinicPhotos];
-                        newPhotos[index] = e.target.value;
+                        newPhotos[index] = value;
                         setClinicPhotos(newPhotos);
                       }}
-                      placeholder={`رابط صورة العيادة #${index + 1} (https://...)`}
-                      className="flex-1 px-4 py-2 rounded-xl border border-slate-200 bg-white focus:bg-white outline-none text-xs transition-all text-left font-mono"
                     />
                     {clinicPhotos.length > 1 && (
                       <button

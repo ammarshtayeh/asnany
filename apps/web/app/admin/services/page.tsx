@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { CheckCircle2, Edit3, Eye, EyeOff, Plus, Search, Sparkles, Trash2, X } from "lucide-react";
 import { MedicalService, MedicalServiceType } from "@/lib/types";
+import AdminImageUpload from "@/components/AdminImageUpload";
 
 const serviceTypes: Array<{ value: MedicalServiceType; label: string }> = [
   { value: "beauty", label: "مراكز التجميل" },
@@ -289,7 +290,12 @@ export default function AdminServicesPage() {
               <Field label="الهاتف" value={form.phone} onChange={(value) => setForm({ ...form, phone: value })} />
               <Field label="واتساب" value={form.whatsapp} onChange={(value) => setForm({ ...form, whatsapp: value })} />
               <Field label="الموقع الإلكتروني" value={form.website} onChange={(value) => setForm({ ...form, website: value })} />
-              <Field label="صورة رئيسية" value={form.image_url} onChange={(value) => setForm({ ...form, image_url: value })} />
+              <AdminImageUpload
+                label="صورة رئيسية"
+                value={form.image_url}
+                folder="services"
+                onChange={(value) => setForm({ ...form, image_url: value })}
+              />
               <Field label="الخدمات (افصل بفواصل)" value={form.services} onChange={(value) => setForm({ ...form, services: value })} />
               <Field label="صور إضافية (روابط بفواصل)" value={form.gallery} onChange={(value) => setForm({ ...form, gallery: value })} />
               <Field label="العنوان" value={form.address} onChange={(value) => setForm({ ...form, address: value })} />

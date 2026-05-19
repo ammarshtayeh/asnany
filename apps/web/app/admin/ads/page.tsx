@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Megaphone, Plus, Link as LinkIcon, BarChart2, Eye, Calendar, Trash2, Power } from "lucide-react";
 import { Advertisement } from "@pal-dental/shared";
+import AdminImageUpload from "@/components/AdminImageUpload";
 
 export default function AdminAds() {
   const [ads, setAds] = useState<Advertisement[]>([]);
@@ -256,17 +257,13 @@ export default function AdminAds() {
                 </select>
               </div>
 
-              <div className="space-y-1">
-                <label className="block text-sm font-bold text-slate-700">رابط صورة الإعلان *</label>
-                <input
-                  type="url"
-                  required
-                  value={imageUrl}
-                  onChange={(e) => setImageUrl(e.target.value)}
-                  placeholder="https://example.com/ad-image.jpg"
-                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white outline-none font-medium text-sm transition-all text-left"
-                />
-              </div>
+              <AdminImageUpload
+                label="صورة الإعلان *"
+                value={imageUrl}
+                folder="ads"
+                required
+                onChange={setImageUrl}
+              />
 
               <div className="space-y-1">
                 <label className="block text-sm font-bold text-slate-700">رابط توجيه النقرة (الوجهة)</label>

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Store as StoreIcon, CheckCircle, XCircle, Search, MapPin, Phone, MessageSquare, Plus, Trash2, Globe } from "lucide-react";
 import { Store as B2BStore } from "@pal-dental/shared";
+import AdminImageUpload from "@/components/AdminImageUpload";
 
 export default function AdminStores() {
   const [stores, setStores] = useState<B2BStore[]>([]);
@@ -331,16 +332,12 @@ export default function AdminStores() {
                 </div>
               </div>
 
-              <div className="space-y-1">
-                <label className="block text-sm font-bold text-slate-700">رابط صورة شعار الشركة (Logo)</label>
-                <input
-                  type="url"
-                  value={logoUrl}
-                  onChange={(e) => setLogoUrl(e.target.value)}
-                  placeholder="https://example.com/logo.png"
-                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white outline-none font-medium text-sm transition-all text-left"
-                />
-              </div>
+              <AdminImageUpload
+                label="شعار الشركة"
+                value={logoUrl}
+                folder="stores"
+                onChange={setLogoUrl}
+              />
 
               <div className="space-y-1">
                 <label className="block text-sm font-bold text-slate-700">وصف موجز عن خدمات الشركة</label>

@@ -13,6 +13,7 @@ import {
   Trash2,
   X,
 } from "lucide-react";
+import AdminImageUpload from "@/components/AdminImageUpload";
 
 type Resource = "offers" | "articles" | "marketplace_ads";
 
@@ -420,7 +421,12 @@ function OfferFields({ form, setForm }: { form: Record<string, any>; setForm: (f
       <Field label="نسبة الخصم" name="discount_percentage" form={form} setForm={setForm} type="number" />
       <Field label="السعر قبل الخصم" name="original_price" form={form} setForm={setForm} type="number" />
       <Field label="السعر بعد الخصم" name="discounted_price" form={form} setForm={setForm} type="number" />
-      <Field label="رابط الصورة" name="image_url" form={form} setForm={setForm} />
+      <AdminImageUpload
+        label="صورة العرض"
+        value={form.image_url}
+        folder="offers"
+        onChange={(value) => setForm({ ...form, image_url: value })}
+      />
       <Field label="صالح حتى" name="valid_until" form={form} setForm={setForm} type="date" />
       <TextArea label="الوصف" name="description" form={form} setForm={setForm} />
     </>
@@ -434,7 +440,12 @@ function ArticleFields({ form, setForm }: { form: Record<string, any>; setForm: 
       <Field label="التصنيف" name="category" form={form} setForm={setForm} />
       <Field label="اسم الكاتب/الطبيب" name="doctor_name" form={form} setForm={setForm} required />
       <Field label="معرف الطبيب (اختياري)" name="doctor_id" form={form} setForm={setForm} />
-      <Field label="رابط الصورة" name="image_url" form={form} setForm={setForm} />
+      <AdminImageUpload
+        label="صورة المقال"
+        value={form.image_url}
+        folder="articles"
+        onChange={(value) => setForm({ ...form, image_url: value })}
+      />
       <Field label="تاريخ النشر" name="date" form={form} setForm={setForm} />
       <Field label="مدة القراءة" name="read_time" form={form} setForm={setForm} />
       <TextArea label="ملخص قصير" name="excerpt" form={form} setForm={setForm} />
@@ -464,7 +475,12 @@ function MarketplaceFields({ form, setForm }: { form: Record<string, any>; setFo
       <Field label="رقم التواصل" name="phone" form={form} setForm={setForm} required />
       <Field label="السعر" name="price" form={form} setForm={setForm} />
       <Field label="الراتب" name="salary" form={form} setForm={setForm} />
-      <Field label="رابط الصورة" name="image_url" form={form} setForm={setForm} />
+      <AdminImageUpload
+        label="صورة الإعلان"
+        value={form.image_url}
+        folder="marketplace"
+        onChange={(value) => setForm({ ...form, image_url: value })}
+      />
       <Field label="التاريخ" name="date" form={form} setForm={setForm} />
       <div className="md:col-span-2 flex flex-wrap gap-4">
         <label className="inline-flex items-center gap-2 font-black text-slate-700">

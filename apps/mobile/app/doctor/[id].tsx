@@ -1,768 +1,528 @@
-import React, { useState, useEffect } from "react";
-import { Stack, useLocalSearchParams } from "expo-router";
-import { 
-  Linking, 
-  Pressable, 
-  ScrollView, 
-  StyleSheet, 
-  Text, 
-  View, 
-  Platform, 
-  Image, 
+import React, { useEffect, useState } from "react";
+import {
   ActivityIndicator,
-  Dimensions,
-  TextInput
+  Image,
+  Linking,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
 } from "react-native";
+import { router, useLocalSearchParams } from "expo-router";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { colors } from "../../constants/theme";
 import { supabase } from "../../lib/supabase";
-
-const { width } = Dimensions.get("window");
-
-interface Doctor {
-  id: string;
-  name: string;
-  specialty: string[];
-  city: string;
-  area: string;
-  phone: string;
-  whatsapp: string;
-  bio: string;
-  lat: number;
-  lng: number;
-  image_url: string;
-  clinic_photos: string[];
-  insurance_list: string[];
-  working_hours: any;
-  verified: boolean;
-  is_featured: boolean;
-  rating: number;
-  accepts_insurance: boolean;
-}
-
-interface Review {
-  id: string;
-  doctor_id: string;
-  name: string;
-  rating: number;
-  text: string;
-  is_approved: boolean;
-  created_at: string;
-}
+import { Doctor, Review } from "../../types";
 
 export default function DoctorDetailsScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
+  const insets = useSafeAreaInsets();
   const [doctor, setDoctor] = useState<Doctor | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
   const [activePhoto, setActivePhoto] = useState(0);
-
-  // Review form states
-  const [revName, setRevName] = useState("");
-  const [revRating, setRevRating] = useState(5);
-  const [revText, setRevText] = useState("");
-  const [revSuccess, setRevSuccess] = useState(false);
-  const [revSaving, setRevSaving] = useState(false);
+  const [name, setName] = useState("");
+  const [rating, setRating] = useState(5);
+  const [comment, setComment] = useState("");
+  const [saving, setSaving] = useState(false);
+  const [notice, setNotice] = useState("");
 
   useEffect(() => {
     fetchDoctorDetails();
   }, [id]);
 
-  const fetchDoctorDetails = async () => {
+  async function fetchDoctorDetails() {
     setLoading(true);
     try {
-      if (!supabase || !id) {
-        setLoading(false);
-        return;
-      }
+      if (!supabase || !id) return;
+      const [doctorRes, reviewsRes] = await Promise.all([
+        supabase.from("doctors").select("*").eq("id", id).single(),
+        supabase
+          .from("reviews")
+          .select("*")
+          .eq("doctor_id", id)
+          .eq("is_approved", true)
+          .order("created_at", { ascending: false }),
+      ]);
 
-      // Fetch Doctor Info
-      const { data, error } = await supabase
-        .from("doctors")
-        .select("*")
-        .eq("id", id)
-        .single();
-
-      if (error) throw error;
-      setDoctor(data);
-
-      // Fetch Approved Reviews
-      const { data: reviewsData, error: revError } = await supabase
-        .from("reviews")
-        .select("*")
-        .eq("doctor_id", id)
-        .eq("is_approved", true)
-        .order("created_at", { ascending: false });
-
-      if (!revError) {
-        setReviews(reviewsData || []);
-      }
-
-    } catch (err) {
-      console.error("Error fetching mobile doctor detail & reviews:", err);
+      if (doctorRes.error) throw doctorRes.error;
+      setDoctor(doctorRes.data as Doctor);
+      setReviews((reviewsRes.data as Review[]) || []);
+    } catch (error) {
+      console.error("Doctor details error:", error);
     } finally {
       setLoading(false);
     }
-  };
+  }
 
-  const handleOpenMap = () => {
-    if (!doctor || !doctor.lat || !doctor.lng) return;
-    const latLng = `${doctor.lat},${doctor.lng}`;
-    const label = doctor.name;
-    const url = Platform.select({
-      ios: `maps://0,0?q=${label}&ll=${latLng}`,
-      android: `geo:0,0?q=${latLng}(${label})`
-    });
-
-    Linking.openURL(url || `https://www.google.com/maps/search/?api=1&query=${latLng}`);
-  };
-
-  const handleReviewSubmit = async () => {
-    if (!revName || !revText) {
-      alert("يرجى إدخال اسمك وتفاصيل المراجعة.");
+  async function submitReview() {
+    if (!name || !comment) {
+      setNotice("يرجى تعبئة الاسم والتقييم قبل الإرسال.");
       return;
     }
-
-    setRevSaving(true);
+    setSaving(true);
+    setNotice("");
     try {
-      const { error } = await supabase!
-        .from("reviews")
-        .insert([{
-          doctor_id: id,
-          name: revName,
-          rating: revRating,
-          text: revText,
-          is_approved: false // Admin must approve review before display
-        }]);
-
+      if (!supabase || !doctor) return;
+      const { error } = await supabase.from("reviews").insert([
+        {
+          doctor_id: doctor.id,
+          patient_name: name,
+          rating,
+          comment,
+          is_approved: false,
+        },
+      ]);
       if (error) throw error;
-
-      setRevSuccess(true);
-      setRevName("");
-      setRevText("");
-      setRevRating(5);
-    } catch (err) {
-      console.error("Error submitting doctor review mobile:", err);
-      alert("فشل إرسال التقييم. حاول مرة أخرى.");
+      setName("");
+      setComment("");
+      setRating(5);
+      setNotice("تم إرسال تقييمك بنجاح، وسيظهر بعد مراجعته من الإدارة.");
+    } catch (error) {
+      console.error("Review submit error:", error);
+      setNotice("تعذر إرسال التقييم حالياً.");
     } finally {
-      setRevSaving(false);
+      setSaving(false);
     }
-  };
+  }
+
+  function openMap() {
+    if (!doctor?.lat || !doctor?.lng) return;
+    const latLng = `${doctor.lat},${doctor.lng}`;
+    const label = encodeURIComponent(doctor.name);
+    const url = Platform.select({
+      ios: `maps://0,0?q=${label}&ll=${latLng}`,
+      android: `geo:0,0?q=${latLng}(${label})`,
+      default: `https://www.google.com/maps/search/?api=1&query=${latLng}`,
+    });
+    Linking.openURL(url || `https://www.google.com/maps/search/?api=1&query=${latLng}`);
+  }
 
   if (loading) {
     return (
-      <View style={styles.loaderContainer}>
-        <ActivityIndicator size="large" color="#0d9488" />
-        <Text style={styles.loaderText}>جاري تحميل تفاصيل الطبيب والعيادة والتقييمات...</Text>
+      <View style={styles.center}>
+        <ActivityIndicator size="large" color={colors.sky} />
+        <Text style={styles.centerText}>جار تحميل ملف الطبيب...</Text>
       </View>
     );
   }
 
   if (!doctor) {
     return (
-      <View style={styles.emptyContainer}>
-        <Text style={styles.emptyTitle}>⚠️ الطبيب غير موجود</Text>
-        <Text style={styles.emptyDesc}>عذراً، لم نتمكن من العثور على الطبيب المطلوب أو قد يكون غير مفعل حالياً.</Text>
+      <View style={styles.center}>
+        <Text style={styles.emptyTitle}>الطبيب غير موجود</Text>
+        <Text style={styles.centerText}>تعذر العثور على هذا الملف أو أنه غير مفعل حالياً.</Text>
+        <Pressable onPress={() => router.back()} style={styles.primaryButton}>
+          <Text style={styles.primaryButtonText}>رجوع</Text>
+        </Pressable>
       </View>
     );
   }
 
+  const photos = doctor.clinic_photos?.filter(Boolean) || [];
+
   return (
-    <>
-      <Stack.Screen options={{ title: doctor.name, headerTitleAlign: "center" }} />
-      <ScrollView contentContainerStyle={styles.page}>
-        
-        {/* Doctor Avatar Card */}
-        <View style={styles.avatarCard}>
-          <Image 
-            source={{ uri: doctor.image_url || "https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=250&auto=format&fit=crop&q=80" }} 
-            style={styles.avatar as any} 
-          />
-          <View style={styles.avatarInfo}>
-            <View style={styles.nameRow}>
-              <Text style={styles.title}>{doctor.name}</Text>
-              {doctor.verified && <Text style={styles.verifiedBadge}>✔ موثق</Text>}
-            </View>
-            
-            <View style={styles.specialtyRow}>
-              {doctor.specialty && doctor.specialty.map((spec, i) => (
-                <View key={i} style={styles.specialtyBadge as any}>
-                  <Text style={{ color: "#0d9488", fontSize: 11, fontWeight: "800" }}>{spec}</Text>
-                </View>
+    <ScrollView
+      contentContainerStyle={[styles.page, { paddingTop: Math.max(insets.top + 12, 24), paddingBottom: insets.bottom + 28 }]}
+      showsVerticalScrollIndicator={false}
+    >
+      <Pressable onPress={() => router.back()} style={styles.backButton}>
+        <Text style={styles.backText}>رجوع</Text>
+      </Pressable>
+
+      <View style={styles.hero}>
+        <Image
+          source={{ uri: doctor.image_url || "https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=400&auto=format&fit=crop" }}
+          style={styles.avatar}
+        />
+        <View style={styles.heroInfo}>
+          <Text style={styles.name}>د. {doctor.name}</Text>
+          <Text style={styles.specialty}>{doctor.specialty?.join("، ") || "طب أسنان عام"}</Text>
+          <View style={styles.heroBadges}>
+            <Badge label={doctor.verified ? "طبيب موثق" : "قيد المراجعة"} color={doctor.verified ? colors.emerald : colors.muted} />
+            <Badge label={`تقييم ${doctor.rating || 5}`} color={colors.amber} />
+          </View>
+        </View>
+      </View>
+
+      {photos.length > 0 ? (
+        <Card title="صور العيادة">
+          <Image source={{ uri: photos[activePhoto] }} style={styles.clinicImage} />
+          {photos.length > 1 ? (
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.photoRow}>
+              {photos.map((photo, index) => (
+                <Pressable
+                  key={`${photo}-${index}`}
+                  onPress={() => setActivePhoto(index)}
+                  style={[styles.thumbWrap, activePhoto === index && { borderColor: colors.sky }]}
+                >
+                  <Image source={{ uri: photo }} style={styles.thumb} />
+                </Pressable>
               ))}
-            </View>
+            </ScrollView>
+          ) : null}
+        </Card>
+      ) : null}
 
-            <View style={styles.ratingBadge}>
-              <Text style={styles.ratingText}>⭐ تقييم {doctor.rating || 5.0} من 5</Text>
-            </View>
-          </View>
-        </View>
+      {doctor.bio ? (
+        <Card title="نبذة مهنية">
+          <Text style={styles.paragraph}>{doctor.bio}</Text>
+        </Card>
+      ) : null}
 
-        {/* Dynamic Clinic Photos Gallery */}
-        {doctor.clinic_photos && doctor.clinic_photos.length > 0 && (
-          <View style={styles.card}>
-            <Text style={styles.sectionTitle}>📸 جولة في عيادة الطبيب</Text>
-            <Image 
-              source={{ uri: doctor.clinic_photos[activePhoto] }} 
-              style={styles.clinicMainImage as any} 
+      <Card title="العنوان والتواصل">
+        <Text style={styles.infoText}>{doctor.city}{doctor.area ? ` - ${doctor.area}` : ""}</Text>
+        {doctor.address ? <Text style={styles.infoText}>{doctor.address}</Text> : null}
+        <View style={styles.actions}>
+          {doctor.phone ? <ActionButton label="اتصال" color={colors.ink} onPress={() => Linking.openURL(`tel:${doctor.phone}`)} /> : null}
+          {doctor.whatsapp ? (
+            <ActionButton
+              label="واتساب"
+              color="#25D366"
+              onPress={() => Linking.openURL(`https://wa.me/${doctor.whatsapp.replace(/\+/g, "").replace(/\s/g, "")}`)}
             />
-            {doctor.clinic_photos.length > 1 && (
-              <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.thumbnailRow}>
-                {doctor.clinic_photos.map((photo, index) => (
-                  <Pressable 
-                    key={index} 
-                    onPress={() => setActivePhoto(index)}
-                    style={[styles.thumbnailWrapper, activePhoto === index && styles.thumbnailWrapperActive]}
-                  >
-                    <Image source={{ uri: photo }} style={styles.thumbnailImage as any} />
-                  </Pressable>
-                ))}
-              </ScrollView>
-            )}
-          </View>
-        )}
-
-        {/* Bio */}
-        {doctor.bio && (
-          <View style={styles.card}>
-            <Text style={styles.sectionTitle}>📝 نبذة وسيرة مهنية</Text>
-            <Text style={styles.bioText}>{doctor.bio}</Text>
-          </View>
-        )}
-
-        {/* Location & Title */}
-        <View style={styles.card}>
-          <Text style={styles.sectionTitle}>📍 العنوان والموقع</Text>
-          <Text style={styles.itemText}>المدينة: {doctor.city}</Text>
-          <Text style={styles.itemText}>العنوان بالتفصيل: {doctor.area || "شارع الرئيسي، عمارة السلام"}</Text>
-          
-          {doctor.lat && doctor.lng && (
-            <Pressable
-              style={[styles.button, styles.mapButton]}
-              onPress={handleOpenMap}
-            >
-              <Text style={styles.buttonText}>🗺️ فتح موقع العيادة في الخرائط (GPS)</Text>
-            </Pressable>
-          )}
+          ) : null}
+          {doctor.lat && doctor.lng ? <ActionButton label="الخريطة" color={colors.sky} onPress={openMap} /> : null}
         </View>
+      </Card>
 
-        {/* Insurances accepted */}
-        {doctor.accepts_insurance && (
-          <View style={styles.card}>
-            <Text style={styles.sectionTitle}>🛡️ شركات التأمين المقبولة</Text>
-            {doctor.insurance_list && doctor.insurance_list.length > 0 ? (
-              <View style={styles.insuranceBadgeGrid}>
-                {doctor.insurance_list.map((ins, i) => (
-                  <View key={i} style={styles.insuranceBadgeText as any}>
-                    <Text style={{ color: "#0284c7", fontSize: 12, fontWeight: "800" }}>{ins}</Text>
-                  </View>
-                ))}
-              </View>
-            ) : (
-              <Text style={styles.itemText}>يقبل الطبيب شركات التأمين الطبي المعتمدة في فلسطين.</Text>
-            )}
+      {doctor.accepts_insurance ? (
+        <Card title="التأمين الطبي">
+          <View style={styles.wrapRow}>
+            {(doctor.insurance_list?.length ? doctor.insurance_list : ["يقبل التأمينات المعتمدة"]).map((item) => (
+              <Badge key={item} label={item} color={colors.sky} />
+            ))}
           </View>
-        )}
+        </Card>
+      ) : null}
 
-        {/* Working Hours */}
-        {doctor.working_hours && (
-          <View style={styles.card}>
-            <Text style={styles.sectionTitle}>🕒 أوقات وساعات العمل</Text>
-            {Object.entries(doctor.working_hours).map(([day, slot]) => (
-              <View key={day} style={styles.hoursRow}>
-                <Text style={styles.dayText}>{day}</Text>
-                <Text style={[styles.timeText, slot === "مغلق" && styles.closedText]}>
-                  {slot as string}
-                </Text>
+      {doctor.working_hours ? (
+        <Card title="أوقات الدوام">
+          {Object.entries(doctor.working_hours).map(([day, slot]) => (
+            <View key={day} style={styles.hoursRow}>
+              <Text style={styles.day}>{day}</Text>
+              <Text style={styles.time}>{String(slot)}</Text>
+            </View>
+          ))}
+        </Card>
+      ) : null}
+
+      <Card title={`تقييمات المرضى (${reviews.length})`}>
+        {reviews.length === 0 ? (
+          <Text style={styles.mutedText}>لا توجد تقييمات منشورة بعد.</Text>
+        ) : (
+          <View style={styles.stack}>
+            {reviews.map((review) => (
+              <View key={review.id} style={styles.reviewCard}>
+                <View style={styles.reviewHeader}>
+                  <Text style={styles.reviewName}>{review.patient_name || review.name || "مريض"}</Text>
+                  <Text style={styles.reviewRating}>{review.rating}/5</Text>
+                </View>
+                <Text style={styles.paragraph}>{review.comment || review.text}</Text>
               </View>
             ))}
           </View>
         )}
+      </Card>
 
-        {/* 💬 Patient Reviews & Testimonials Section */}
-        <View style={styles.card}>
-          <Text style={styles.sectionTitle}>💬 تقييمات ومراجعات المرضى ({reviews.length})</Text>
-          {reviews.length === 0 ? (
-            <Text style={[styles.itemText, { color: "#64748b", fontStyle: "italic", textAlign: "center", marginVertical: 10 }]}>
-              لا توجد تقييمات منشورة لهذا الطبيب بعد. كن أول من يقيّم!
-            </Text>
-          ) : (
-            <View style={styles.reviewsList}>
-              {reviews.map((rev) => (
-                <View key={rev.id} style={styles.reviewItem}>
-                  <View style={styles.reviewHeader}>
-                    <View style={styles.reviewUserBadge}>
-                      <Text style={styles.reviewUserInitials}>{rev.name.substring(0, 1)}</Text>
-                    </View>
-                    <View style={styles.reviewUserInfo}>
-                      <Text style={styles.reviewUserName}>{rev.name}</Text>
-                      <Text style={styles.reviewDate}>{new Date(rev.created_at).toLocaleDateString("ar-EG")}</Text>
-                    </View>
-                    <View style={styles.reviewStarsBox}>
-                      <Text style={styles.reviewStarsText}>⭐ {rev.rating}</Text>
-                    </View>
-                  </View>
-                  <Text style={styles.reviewComment}>{rev.text}</Text>
-                </View>
-              ))}
-            </View>
-          )}
-        </View>
-
-        {/* ✍ Interactive Write Review Form */}
-        <View style={styles.card}>
-          <Text style={styles.sectionTitle}>✍ قيّم طبيبك وشارك تجربتك</Text>
-          {revSuccess ? (
-            <View style={styles.successReviewBox}>
-              <Text style={styles.successReviewTitle}>🎉 تم إرسال تقييمك بنجاح!</Text>
-              <Text style={styles.successReviewDesc}>شكراً لك! تم استلام مراجعتك بنجاح وسوف تظهر في ملف الطبيب فور مراجعة واعتماد الإدارة للتأكد من الموثوقية.</Text>
-              <Pressable onPress={() => setRevSuccess(false)} style={[styles.button, { backgroundColor: "#0f172a", marginTop: 8 }]}>
-                <Text style={styles.buttonText}>كتابة تقييم آخر</Text>
-              </Pressable>
-            </View>
-          ) : (
-            <View style={styles.formContainer}>
-              <Text style={styles.inputLabel}>الاسم الكامل *:</Text>
-              <TextInput 
-                value={revName} 
-                onChangeText={setRevName} 
-                placeholder="أدخل اسمك الكريم..." 
-                style={styles.formInput} 
-                textAlign="right" 
-              />
-
-              <Text style={styles.inputLabel}>اختر التقييم (من 1 إلى 5 نجوم) *:</Text>
-              <View style={styles.starSelectorRow}>
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <Pressable 
-                    key={star} 
-                    onPress={() => setRevRating(star)} 
-                    style={[styles.starBtn, revRating >= star && styles.starBtnActive]}
-                  >
-                    <Text style={[styles.starBtnText, revRating >= star && styles.starBtnTextActive]}>⭐</Text>
-                  </Pressable>
-                ))}
-              </View>
-
-              <Text style={styles.inputLabel}>رأيك وتجربتك بالعيادة بالتفصيل *:</Text>
-              <TextInput 
-                value={revText} 
-                onChangeText={setRevText} 
-                multiline 
-                numberOfLines={3} 
-                placeholder="شاركنا رأيك في مستوى الخدمة، التعقيم، المعاملة والأسعار..." 
-                style={[styles.formInput, { height: 80 }]} 
-                textAlign="right" 
-              />
-
-              <Pressable 
-                disabled={revSaving} 
-                onPress={handleReviewSubmit} 
-                style={[styles.button, { backgroundColor: "#0d9488", marginTop: 10 }]}
-              >
-                <Text style={styles.buttonText}>{revSaving ? "جاري الحفظ..." : "💾 إرسال تقييمي للمراجعة"}</Text>
-              </Pressable>
-            </View>
-          )}
-        </View>
-
-        {/* WhatsApp & Booking CTAs */}
-        <View style={styles.bookingRow}>
-          {doctor.whatsapp && (
-            <Pressable
-              style={[styles.button, styles.whatsappButton]}
-              onPress={() => {
-                const cleanWa = doctor.whatsapp.replace(/\+/g, "");
-                Linking.openURL(`https://wa.me/${cleanWa}?text=${encodeURIComponent("مرحباً دكتور، أود الاستفسار وحجز موعد في عيادتكم الموقرة عبر منصة أسناني.")}`);
-              }}
-            >
-              <Text style={styles.buttonText}>💬 حجز فوري عبر واتساب</Text>
+      <Card title="أضف تقييمك">
+        <TextInput value={name} onChangeText={setName} placeholder="اسمك" placeholderTextColor="#94a3b8" style={styles.input} textAlign="right" />
+        <View style={styles.ratingRow}>
+          {[1, 2, 3, 4, 5].map((value) => (
+            <Pressable key={value} onPress={() => setRating(value)} style={[styles.ratingChip, rating >= value && { backgroundColor: "#fef3c7", borderColor: "#f59e0b" }]}>
+              <Text style={[styles.ratingChipText, rating >= value && { color: colors.amber }]}>{value}</Text>
             </Pressable>
-          )}
-
-          {doctor.phone && (
-            <Pressable
-              style={[styles.button, styles.phoneButton]}
-              onPress={() => Linking.openURL(`tel:${doctor.phone}`)}
-            >
-              <Text style={styles.buttonText}>📞 اتصال هاتفي مباشر</Text>
-            </Pressable>
-          )}
+          ))}
         </View>
+        <TextInput
+          value={comment}
+          onChangeText={setComment}
+          placeholder="اكتب تجربتك مع الطبيب"
+          placeholderTextColor="#94a3b8"
+          style={[styles.input, styles.textArea]}
+          textAlign="right"
+          multiline
+        />
+        {notice ? <Text style={styles.notice}>{notice}</Text> : null}
+        <Pressable disabled={saving} onPress={submitReview} style={[styles.primaryButton, saving && { opacity: 0.7 }]}>
+          <Text style={styles.primaryButtonText}>{saving ? "جار الإرسال..." : "إرسال التقييم"}</Text>
+        </Pressable>
+      </Card>
+    </ScrollView>
+  );
+}
 
-      </ScrollView>
-    </>
+function Card({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <View style={styles.card}>
+      <Text style={styles.cardTitle}>{title}</Text>
+      {children}
+    </View>
+  );
+}
+
+function Badge({ label, color }: { label: string; color: string }) {
+  return (
+    <View style={[styles.badge, { borderColor: `${color}33`, backgroundColor: `${color}14` }]}>
+      <Text style={[styles.badgeText, { color }]}>{label}</Text>
+    </View>
+  );
+}
+
+function ActionButton({ label, color, onPress }: { label: string; color: string; onPress: () => void }) {
+  return (
+    <Pressable onPress={onPress} style={[styles.actionButton, { backgroundColor: color }]}>
+      <Text style={styles.actionText}>{label}</Text>
+    </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
   page: {
-    padding: 16,
-    gap: 16,
-    backgroundColor: "#f4f6fa",
-    paddingBottom: 40
+    paddingHorizontal: 16,
+    gap: 14,
+    backgroundColor: colors.soft,
   },
-  loaderContainer: {
+  center: {
     flex: 1,
-    justifyContent: "center",
     alignItems: "center",
-    gap: 12,
-    padding: 40
-  },
-  loaderText: {
-    fontSize: 14,
-    fontWeight: "700",
-    color: "#475569"
-  },
-  emptyContainer: {
-    flex: 1,
     justifyContent: "center",
-    alignItems: "center",
+    padding: 24,
+    backgroundColor: colors.soft,
     gap: 12,
-    padding: 40,
-    backgroundColor: "#f8fafc"
+  },
+  centerText: {
+    color: colors.muted,
+    fontWeight: "800",
+    textAlign: "center",
   },
   emptyTitle: {
+    color: colors.ink,
     fontSize: 18,
     fontWeight: "900",
-    color: "#e11d48"
   },
-  emptyDesc: {
-    fontSize: 14,
-    color: "#64748b",
-    textAlign: "center",
-    lineHeight: 22
+  backButton: {
+    alignSelf: "flex-start",
+    backgroundColor: colors.card,
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: 14,
+    paddingHorizontal: 16,
+    paddingVertical: 10,
   },
-  avatarCard: {
-    backgroundColor: "#0f172a",
-    borderRadius: 24,
-    padding: 20,
+  backText: {
+    color: colors.ink,
+    fontWeight: "900",
+  },
+  hero: {
+    backgroundColor: colors.ink,
+    borderRadius: 28,
+    padding: 18,
     flexDirection: "row-reverse",
-    gap: 16,
     alignItems: "center",
-    shadowColor: "#0f172a",
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.12,
-    shadowRadius: 15,
-    elevation: 4
+    gap: 14,
   },
   avatar: {
-    width: 90,
-    height: 90,
+    width: 88,
+    height: 88,
     borderRadius: 24,
-    backgroundColor: "#f1f5f9",
-    borderWidth: 1,
-    borderColor: "#334155"
+    backgroundColor: "#e2e8f0",
   },
-  avatarInfo: {
+  heroInfo: {
     flex: 1,
-    gap: 6
-  },
-  nameRow: {
-    flexDirection: "row-reverse",
-    justifyContent: "space-between",
-    alignItems: "center"
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: "900",
-    color: "#ffffff"
-  },
-  verifiedBadge: {
-    fontSize: 10,
-    fontWeight: "900",
-    color: "#10b981",
-    backgroundColor: "rgba(16, 185, 129, 0.15)",
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-    borderRadius: 6
-  },
-  specialtyRow: {
-    flexDirection: "row-reverse",
-    flexWrap: "wrap",
-    gap: 6
-  },
-  specialtyBadge: {
-    fontSize: 11,
-    fontWeight: "800",
-    color: "#0d9488",
-    backgroundColor: "rgba(13, 148, 136, 0.15)",
-    paddingHorizontal: 8,
-    paddingVertical: 3,
-    borderRadius: 8
-  },
-  ratingBadge: {
-    backgroundColor: "rgba(245, 158, 11, 0.15)",
-    borderRadius: 8,
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    alignSelf: "flex-end",
-    marginTop: 4
-  },
-  ratingText: {
-    fontSize: 11,
-    fontWeight: "800",
-    color: "#f59e0b"
-  },
-  card: {
-    backgroundColor: "#ffffff",
-    borderRadius: 24,
-    padding: 20,
-    gap: 12,
-    borderWidth: 1,
-    borderColor: "#e2e8f0",
-    shadowColor: "#0f172a",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.02,
-    shadowRadius: 10,
-    elevation: 2
-  },
-  sectionTitle: {
-    fontSize: 15,
-    fontWeight: "900",
-    color: "#0f172a",
-    borderBottomWidth: 1,
-    borderColor: "#f1f5f9",
-    paddingBottom: 8,
-    textAlign: "right"
-  },
-  clinicMainImage: {
-    width: "100%",
-    height: 185,
-    borderRadius: 18,
-    resizeMode: "cover",
-    marginTop: 4
-  },
-  thumbnailRow: {
-    flexDirection: "row-reverse",
     gap: 8,
-    marginTop: 4
   },
-  thumbnailWrapper: {
-    width: 60,
-    height: 50,
-    borderRadius: 10,
-    overflow: "hidden",
-    borderWidth: 2,
-    borderColor: "transparent"
+  name: {
+    color: "#fff",
+    fontSize: 21,
+    fontWeight: "900",
+    textAlign: "right",
   },
-  thumbnailWrapperActive: {
-    borderColor: "#0d9488"
-  },
-  thumbnailImage: {
-    width: "100%",
-    height: "100%",
-    resizeMode: "cover"
-  },
-  itemText: {
+  specialty: {
+    color: "#cbd5e1",
     fontSize: 13,
     fontWeight: "700",
-    color: "#475569",
     textAlign: "right",
-    lineHeight: 20
+    lineHeight: 20,
   },
-  bioText: {
-    fontSize: 13,
-    fontWeight: "600",
-    color: "#475569",
-    textAlign: "right",
-    lineHeight: 22
-  },
-  insuranceBadgeGrid: {
+  heroBadges: {
     flexDirection: "row-reverse",
     flexWrap: "wrap",
-    gap: 8
+    gap: 6,
   },
-  insuranceBadgeText: {
-    fontSize: 12,
+  card: {
+    backgroundColor: colors.card,
+    borderRadius: 24,
+    borderWidth: 1,
+    borderColor: colors.border,
+    padding: 16,
+    gap: 12,
+  },
+  cardTitle: {
+    color: colors.ink,
+    fontSize: 17,
+    fontWeight: "900",
+    textAlign: "right",
+  },
+  paragraph: {
+    color: "#475569",
+    fontSize: 13,
+    fontWeight: "600",
+    lineHeight: 22,
+    textAlign: "right",
+  },
+  clinicImage: {
+    width: "100%",
+    height: 190,
+    borderRadius: 18,
+    backgroundColor: "#e2e8f0",
+  },
+  photoRow: {
+    flexDirection: "row-reverse",
+    gap: 8,
+  },
+  thumbWrap: {
+    width: 64,
+    height: 54,
+    borderRadius: 12,
+    overflow: "hidden",
+    borderWidth: 2,
+    borderColor: "transparent",
+  },
+  thumb: {
+    width: "100%",
+    height: "100%",
+  },
+  infoText: {
+    color: "#475569",
+    fontSize: 13,
     fontWeight: "800",
-    color: "#0284c7",
-    backgroundColor: "#f0f9ff",
+    textAlign: "right",
+  },
+  actions: {
+    flexDirection: "row-reverse",
+    gap: 8,
+  },
+  actionButton: {
+    flex: 1,
+    borderRadius: 16,
+    paddingVertical: 12,
+    alignItems: "center",
+  },
+  actionText: {
+    color: "#fff",
+    fontWeight: "900",
+    fontSize: 13,
+  },
+  wrapRow: {
+    flexDirection: "row-reverse",
+    flexWrap: "wrap",
+    gap: 8,
+  },
+  badge: {
+    borderWidth: 1,
+    borderRadius: 12,
     paddingHorizontal: 10,
     paddingVertical: 6,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: "#e0f2fe"
+    alignSelf: "flex-end",
+  },
+  badgeText: {
+    fontSize: 11,
+    fontWeight: "900",
   },
   hoursRow: {
     flexDirection: "row-reverse",
     justifyContent: "space-between",
-    alignItems: "center",
-    paddingVertical: 4
+    borderBottomWidth: 1,
+    borderBottomColor: "#f1f5f9",
+    paddingVertical: 8,
   },
-  dayText: {
-    fontSize: 13,
+  day: {
+    color: colors.ink,
+    fontWeight: "900",
+  },
+  time: {
+    color: colors.muted,
     fontWeight: "800",
-    color: "#475569"
   },
-  timeText: {
-    fontSize: 12,
-    fontWeight: "700",
-    color: "#1e293b",
+  mutedText: {
+    color: colors.muted,
+    fontWeight: "800",
+    textAlign: "right",
+  },
+  stack: {
+    gap: 10,
+  },
+  reviewCard: {
     backgroundColor: "#f8fafc",
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 6,
+    borderRadius: 18,
+    padding: 12,
     borderWidth: 1,
-    borderColor: "#f1f5f9"
-  },
-  closedText: {
-    color: "#ef4444",
-    backgroundColor: "#fef2f2",
-    borderColor: "#fee2e2"
-  },
-  button: {
-    paddingHorizontal: 16,
-    paddingVertical: 14,
-    borderRadius: 16,
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  buttonText: {
-    color: "#ffffff",
-    fontSize: 13,
-    fontWeight: "900"
-  },
-  mapButton: {
-    backgroundColor: "#334155",
-    marginTop: 8
-  },
-  bookingRow: {
-    gap: 12,
-    marginTop: 8
-  },
-  whatsappButton: {
-    backgroundColor: "#25d366"
-  },
-  phoneButton: {
-    backgroundColor: "#0f172a"
-  },
-  reviewsList: {
-    gap: 12,
-    marginTop: 4
-  },
-  reviewItem: {
-    backgroundColor: "#f8fafc",
-    borderRadius: 16,
-    padding: 14,
-    borderWidth: 1,
-    borderColor: "#e2e8f0",
-    gap: 6
+    borderColor: colors.border,
+    gap: 8,
   },
   reviewHeader: {
     flexDirection: "row-reverse",
-    gap: 10,
-    alignItems: "center"
+    justifyContent: "space-between",
   },
-  reviewUserBadge: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    backgroundColor: "#0d9488",
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  reviewUserInitials: {
-    color: "#ffffff",
-    fontSize: 14,
-    fontWeight: "900"
-  },
-  reviewUserInfo: {
-    flex: 1,
-    gap: 2
-  },
-  reviewUserName: {
-    fontSize: 13,
-    fontWeight: "800",
-    color: "#1e293b",
-    textAlign: "right"
-  },
-  reviewDate: {
-    fontSize: 10,
-    color: "#94a3b8",
-    textAlign: "right"
-  },
-  reviewStarsBox: {
-    backgroundColor: "#fffbeb",
-    borderWidth: 1,
-    borderColor: "#fde68a",
-    paddingHorizontal: 6,
-    paddingVertical: 3,
-    borderRadius: 8
-  },
-  reviewStarsText: {
-    fontSize: 11,
-    fontWeight: "800",
-    color: "#b45309"
-  },
-  reviewComment: {
-    fontSize: 12,
-    fontWeight: "600",
-    color: "#475569",
-    textAlign: "right",
-    lineHeight: 18
-  },
-  successReviewBox: {
-    alignItems: "center",
-    padding: 12,
-    gap: 8
-  },
-  successReviewTitle: {
-    fontSize: 15,
+  reviewName: {
+    color: colors.ink,
     fontWeight: "900",
-    color: "#10b981"
   },
-  successReviewDesc: {
-    fontSize: 11,
-    color: "#475569",
-    textAlign: "center",
-    lineHeight: 16,
-    fontWeight: "600"
-  },
-  formContainer: {
-    gap: 8
-  },
-  inputLabel: {
-    fontSize: 12,
+  reviewRating: {
+    color: colors.amber,
     fontWeight: "900",
-    color: "#475569",
-    textAlign: "right",
-    marginTop: 4
   },
-  formInput: {
+  input: {
     backgroundColor: "#f8fafc",
-    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: 16,
     paddingHorizontal: 14,
-    paddingVertical: 10,
-    borderWidth: 1,
-    borderColor: "#e2e8f0",
-    fontSize: 12,
-    fontWeight: "700",
-    color: "#1e293b"
+    paddingVertical: 12,
+    color: colors.ink,
+    fontWeight: "800",
   },
-  starSelectorRow: {
+  textArea: {
+    minHeight: 96,
+    textAlignVertical: "top",
+  },
+  ratingRow: {
     flexDirection: "row-reverse",
-    gap: 10,
-    justifyContent: "center",
-    paddingVertical: 4
+    gap: 8,
   },
-  starBtn: {
-    width: 40,
-    height: 40,
-    borderRadius: 12,
-    backgroundColor: "#f1f5f9",
-    alignItems: "center",
-    justifyContent: "center",
+  ratingChip: {
+    flex: 1,
+    borderRadius: 14,
     borderWidth: 1,
-    borderColor: "#e2e8f0"
+    borderColor: colors.border,
+    backgroundColor: "#f8fafc",
+    paddingVertical: 10,
+    alignItems: "center",
   },
-  starBtnActive: {
-    backgroundColor: "#fffbeb",
-    borderColor: "#fde68a"
+  ratingChipText: {
+    color: colors.muted,
+    fontWeight: "900",
   },
-  starBtnText: {
-    fontSize: 18,
-    opacity: 0.2
+  notice: {
+    color: colors.teal,
+    fontWeight: "900",
+    textAlign: "right",
+    lineHeight: 20,
   },
-  starBtnTextActive: {
-    opacity: 1
-  }
+  primaryButton: {
+    backgroundColor: colors.teal,
+    borderRadius: 18,
+    paddingVertical: 14,
+    alignItems: "center",
+    paddingHorizontal: 18,
+  },
+  primaryButtonText: {
+    color: "#fff",
+    fontWeight: "900",
+    fontSize: 14,
+  },
 });

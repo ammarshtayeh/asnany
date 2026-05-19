@@ -4,6 +4,7 @@ export interface Doctor {
   specialty: string[];
   city: string;
   area: string;
+  address?: string;
   phone: string;
   whatsapp: string;
   bio: string;
@@ -43,7 +44,11 @@ export interface Offer {
   id: string;
   title: string;
   description: string;
-  discount_pct: number;
+  discount_pct?: number;
+  discount_percentage?: number;
+  doctor_name?: string;
+  original_price?: number;
+  discounted_price?: number;
   valid_until: string;
   image_url: string;
 }
@@ -52,7 +57,11 @@ export interface MarketplaceAd {
   id: string;
   title: string;
   description: string;
-  price: number;
+  type?: "equipment" | "job";
+  category?: string;
+  price?: string | number;
+  salary?: string;
+  publisher?: string;
   city: string;
   phone: string;
   image_url: string;
@@ -63,17 +72,47 @@ export interface MarketplaceAd {
 export interface Article {
   id: string;
   title: string;
+  excerpt?: string;
   content: string;
-  author: string;
+  author?: string;
+  doctor_name?: string;
+  category?: string;
+  image_url?: string;
+  date?: string;
+  read_time?: string;
   created_at: string;
 }
 
 export interface Review {
   id: string;
   doctor_id: string;
-  name: string;
+  name?: string;
+  patient_name?: string;
   rating: number;
-  text: string;
+  text?: string;
+  comment?: string;
   is_approved: boolean;
   created_at: string;
+}
+
+export type MedicalServiceType = "beauty" | "lab" | "consultation" | "partner" | "media" | "booking";
+
+export interface MedicalService {
+  id: string;
+  service_type: MedicalServiceType;
+  name: string;
+  category?: string;
+  city?: string;
+  area?: string;
+  description?: string;
+  services?: string[];
+  price_range?: string;
+  phone?: string;
+  whatsapp?: string;
+  website?: string;
+  image_url?: string;
+  address?: string;
+  rating?: number;
+  is_featured?: boolean;
+  is_active?: boolean;
 }

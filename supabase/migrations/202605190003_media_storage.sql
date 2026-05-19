@@ -1,0 +1,18 @@
+INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+VALUES (
+  'asnany-media',
+  'asnany-media',
+  true,
+  6291456,
+  ARRAY['image/png', 'image/jpeg', 'image/webp', 'image/gif']
+)
+ON CONFLICT (id) DO UPDATE
+SET
+  public = EXCLUDED.public,
+  file_size_limit = EXCLUDED.file_size_limit,
+  allowed_mime_types = EXCLUDED.allowed_mime_types;
+
+DROP POLICY IF EXISTS "public read asnany media" ON storage.objects;
+CREATE POLICY "public read asnany media"
+ON storage.objects FOR SELECT
+USING (bucket_id = 'asnany-media');
