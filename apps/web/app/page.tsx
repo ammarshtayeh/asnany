@@ -554,8 +554,11 @@ export default function Home() {
       {/* Sleek Footer */}
       <footer className="bg-white border-t border-slate-200 py-12 px-4 lg:px-8">
         <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-          <div>
-            <h2 className="text-2xl font-black text-slate-900 tracking-tight">أسناني<span className="text-primary">.</span>ps</h2>
+          <div className="text-right md:text-left">
+            <h2 className="text-2xl font-black text-slate-900 tracking-tight flex items-center justify-center md:justify-start gap-1 select-none">
+              <span>أسناني</span>
+              <span className="text-primary">.ps</span>
+            </h2>
             <p className="text-slate-500 font-medium mt-2">دليلك الأذكى للرعاية السنية في فلسطين.</p>
           </div>
           <div className="flex gap-6 text-sm font-bold text-slate-600">

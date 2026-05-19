@@ -84,19 +84,20 @@ export default function Navbar() {
   if (currentPath.startsWith("/admin")) return null;
 
   return (
-    <nav className="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-xl border-b border-slate-200/80 shadow-sm">
+    <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-xl border-b border-slate-100 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.01),0_10px_30px_-10px_rgba(0,0,0,0.03)]">
       <div className="max-w-[1400px] mx-auto px-4 lg:px-8 h-20 flex items-center gap-4">
-        <Link href="/" className="flex items-center gap-2 group flex-shrink-0">
-          <div className="w-10 h-10 bg-slate-950 rounded-xl flex items-center justify-center shadow-lg shadow-sky-500/20 group-hover:bg-sky-600 transition-colors">
-            <Stethoscope className="w-6 h-6 text-white" />
+        <Link href="/" className="flex items-center gap-3 group flex-shrink-0">
+          <div className="w-10 h-10 bg-gradient-to-tr from-sky-500 to-sky-400 rounded-xl flex items-center justify-center shadow-md shadow-sky-500/20 group-hover:scale-105 transition-transform duration-300">
+            <Stethoscope className="w-5.5 h-5.5 text-white" />
           </div>
-          <span className="text-xl xl:text-2xl font-black tracking-tight text-slate-950 whitespace-nowrap">
-            أسناني<span className="text-sky-600">.</span>ps
-          </span>
+          <div className="flex items-center select-none">
+            <span className="text-2xl font-black tracking-tight text-slate-900">أسناني</span>
+            <span className="text-2xl font-black text-sky-500">.ps</span>
+          </div>
         </Link>
 
         <div className="hidden md:flex flex-1 min-w-0 justify-center">
-          <div className="flex items-center gap-1.5 bg-slate-50/90 p-1.5 rounded-2xl border border-slate-200 max-w-full overflow-x-auto hide-scrollbar">
+          <div className="flex items-center gap-1.5 bg-slate-50/70 p-1.5 rounded-full border border-slate-200/50 max-w-full overflow-x-auto hide-scrollbar">
             {links.map((link) => {
               const isActive =
                 currentPath === link.href ||
@@ -107,10 +108,10 @@ export default function Navbar() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`flex items-center gap-2 px-3 xl:px-4 py-2.5 rounded-xl border text-sm font-black transition-all whitespace-nowrap ${
+                  className={`flex items-center gap-2 px-4 py-2.5 rounded-full border text-sm font-black transition-all whitespace-nowrap ${
                     isActive
                       ? `${link.active} shadow-sm`
-                      : "border-transparent text-slate-600 hover:bg-white hover:text-slate-950 hover:border-slate-200"
+                      : "border-transparent text-slate-500 hover:bg-white hover:text-slate-900 hover:border-slate-200"
                   }`}
                 >
                   <Icon className={`w-4 h-4 ${isActive ? "" : link.color}`} />
@@ -121,17 +122,17 @@ export default function Navbar() {
           </div>
         </div>
 
-        <div className="hidden sm:flex items-center gap-2 flex-shrink-0">
+        <div className="hidden sm:flex items-center gap-3 flex-shrink-0">
           <Link
             href="/admin/login"
-            className="hidden xl:flex items-center gap-2 text-slate-500 hover:text-slate-950 font-black text-sm transition-colors px-3 py-2 rounded-xl hover:bg-slate-100"
+            className="hidden xl:flex items-center gap-2 text-slate-600 hover:text-slate-900 font-bold text-sm transition-all px-4 py-2.5 rounded-full border border-slate-200/60 hover:bg-slate-50 hover:border-slate-300"
           >
-            <UserCircle2 className="w-5 h-5" />
-            دخول الأطباء
+            <UserCircle2 className="w-4.5 h-4.5 text-slate-400" />
+            <span>دخول الأطباء</span>
           </Link>
           <Link
             href="/booking"
-            className="bg-slate-950 hover:bg-sky-600 text-white px-5 py-3 rounded-xl text-sm font-black transition-all shadow-lg shadow-slate-900/10 hover:shadow-sky-500/25"
+            className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-950 hover:from-sky-600 hover:to-sky-500 text-white px-6 py-3 rounded-full text-sm font-black transition-all duration-300 shadow-[0_10px_25px_-5px_rgba(15,23,42,0.12)] hover:shadow-[0_15px_30px_rgba(14,165,233,0.3)] hover:-translate-y-0.5"
           >
             احجز الآن
           </Link>
