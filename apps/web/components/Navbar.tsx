@@ -85,19 +85,19 @@ export default function Navbar() {
 
   return (
     <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-xl border-b border-slate-100 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.01),0_10px_30px_-10px_rgba(0,0,0,0.03)]">
-      <div className="max-w-[1400px] mx-auto px-4 lg:px-8 h-20 flex items-center gap-4">
-        <Link href="/" className="flex items-center gap-3 group flex-shrink-0">
-          <div className="w-10 h-10 bg-gradient-to-tr from-sky-500 to-sky-400 rounded-xl flex items-center justify-center shadow-md shadow-sky-500/20 group-hover:scale-105 transition-transform duration-300">
-            <Stethoscope className="w-5.5 h-5.5 text-white" />
+      <div className="max-w-[1600px] mx-auto px-3 lg:px-6 h-[72px] flex items-center gap-3">
+        <Link href="/" className="flex items-center gap-2.5 group flex-shrink-0">
+          <div className="w-9 h-9 bg-gradient-to-tr from-sky-500 to-sky-400 rounded-xl flex items-center justify-center shadow-md shadow-sky-500/20 group-hover:scale-105 transition-transform duration-300">
+            <Stethoscope className="w-5 h-5 text-white" />
           </div>
           <div className="flex items-center select-none">
-            <span className="text-2xl font-black tracking-tight text-slate-900">أسناني</span>
-            <span className="text-2xl font-black text-sky-500">.ps</span>
+            <span className="text-xl font-black tracking-tight text-slate-900">أسناني</span>
+            <span className="text-xl font-black text-sky-500">.ps</span>
           </div>
         </Link>
 
-        <div className="hidden md:flex flex-1 min-w-0 justify-center">
-          <div className="flex items-center gap-1.5 bg-slate-50/70 p-1.5 rounded-full border border-slate-200/50 max-w-full overflow-x-auto hide-scrollbar">
+        <div className="hidden lg:flex flex-1 min-w-0 justify-center">
+          <div className="flex items-center gap-0.5 bg-slate-50/70 p-1 rounded-full border border-slate-200/50">
             {links.map((link) => {
               const isActive =
                 currentPath === link.href ||
@@ -108,13 +108,13 @@ export default function Navbar() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`flex items-center gap-2 px-4 py-2.5 rounded-full border text-sm font-black transition-all whitespace-nowrap ${
+                  className={`flex items-center gap-1.5 px-3 py-2 rounded-full border text-xs font-black transition-all whitespace-nowrap ${
                     isActive
                       ? `${link.active} shadow-sm`
                       : "border-transparent text-slate-500 hover:bg-white hover:text-slate-900 hover:border-slate-200"
                   }`}
                 >
-                  <Icon className={`w-4 h-4 ${isActive ? "" : link.color}`} />
+                  <Icon className={`w-3.5 h-3.5 ${isActive ? "" : link.color}`} />
                   {link.label}
                 </Link>
               );
@@ -122,17 +122,17 @@ export default function Navbar() {
           </div>
         </div>
 
-        <div className="hidden sm:flex items-center gap-3 flex-shrink-0">
+        <div className="hidden sm:flex items-center gap-2.5 flex-shrink-0">
           <Link
             href="/admin/login"
-            className="hidden xl:flex items-center gap-2 text-slate-600 hover:text-slate-900 font-bold text-sm transition-all px-4 py-2.5 rounded-full border border-slate-200/60 hover:bg-slate-50 hover:border-slate-300"
+            className="hidden xl:flex items-center gap-1.5 text-slate-600 hover:text-slate-900 font-bold text-xs transition-all px-3.5 py-2 rounded-full border border-slate-200/60 hover:bg-slate-50 hover:border-slate-300"
           >
-            <UserCircle2 className="w-4.5 h-4.5 text-slate-400" />
+            <UserCircle2 className="w-4 h-4 text-slate-400" />
             <span>دخول الأطباء</span>
           </Link>
           <Link
             href="/booking"
-            className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-950 hover:from-sky-600 hover:to-sky-500 text-white px-6 py-3 rounded-full text-sm font-black transition-all duration-300 shadow-[0_10px_25px_-5px_rgba(15,23,42,0.12)] hover:shadow-[0_15px_30px_rgba(14,165,233,0.3)] hover:-translate-y-0.5"
+            className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-950 hover:from-sky-600 hover:to-sky-500 text-white px-5 py-2.5 rounded-full text-xs font-black transition-all duration-300 shadow-[0_10px_25px_-5px_rgba(15,23,42,0.12)] hover:shadow-[0_15px_30px_rgba(14,165,233,0.3)] hover:-translate-y-0.5"
           >
             احجز الآن
           </Link>
@@ -141,7 +141,7 @@ export default function Navbar() {
         <button
           type="button"
           onClick={() => setMenuOpen((open) => !open)}
-          className="md:hidden mr-auto inline-flex h-11 w-11 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-900 shadow-sm"
+          className="lg:hidden mr-auto inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-900 shadow-sm"
           aria-label={menuOpen ? "إغلاق القائمة" : "فتح القائمة"}
           aria-expanded={menuOpen}
         >
@@ -150,7 +150,7 @@ export default function Navbar() {
       </div>
 
       {menuOpen ? (
-        <div className="md:hidden border-t border-slate-200 bg-white/95 backdrop-blur-xl shadow-xl" dir="rtl">
+        <div className="lg:hidden border-t border-slate-200 bg-white/95 backdrop-blur-xl shadow-xl" dir="rtl">
           <div className="mx-auto max-w-[1400px] px-4 py-4">
             <div className="grid grid-cols-2 gap-2">
               {links.map((link) => {
