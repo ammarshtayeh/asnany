@@ -136,6 +136,30 @@ ALTER TABLE articles ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "public read articles" ON articles FOR SELECT USING (true);
 CREATE POLICY "admin all articles" ON articles USING (auth.role() = 'authenticated');
 
+-- Marketplace Ads Table
+CREATE TABLE IF NOT EXISTS marketplace_ads (
+  id            UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  title         TEXT NOT NULL,
+  type          TEXT NOT NULL DEFAULT 'equipment',
+  category      TEXT,
+  price         TEXT,
+  salary        TEXT,
+  publisher     TEXT NOT NULL,
+  city          TEXT,
+  date          TEXT,
+  is_featured   BOOLEAN DEFAULT false,
+  is_active     BOOLEAN DEFAULT true,
+  image_url     TEXT,
+  description   TEXT,
+  phone         TEXT NOT NULL,
+  created_at    TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE marketplace_ads ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "public read active marketplace ads" ON marketplace_ads FOR SELECT USING (is_active = true);
+CREATE POLICY "public insert marketplace ads" ON marketplace_ads FOR INSERT WITH CHECK (true);
+CREATE POLICY "admin all marketplace ads" ON marketplace_ads USING (auth.role() = 'authenticated');
+
 -- Unified service listings for beauty centers, medical labs, consultations, partners, media sponsors, and future hubs
 CREATE TABLE IF NOT EXISTS medical_services (
   id              UUID DEFAULT gen_random_uuid() PRIMARY KEY,
@@ -183,4 +207,3 @@ CREATE POLICY "admin all admins" ON admins USING (true);
 INSERT INTO admins (email, password)
 VALUES ('admin@asnany.ps', 'admin_secret_123')
 ON CONFLICT (email) DO NOTHING;
-

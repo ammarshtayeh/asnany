@@ -2,11 +2,12 @@
 
 import { useState } from "react";
 import { usePathname } from "next/navigation";
-import { Users, Calendar as CalendarIcon, Megaphone, Store, Star, LayoutDashboard, LogOut, Link2, Check, Sparkles } from "lucide-react";
+import { Users, Calendar as CalendarIcon, Megaphone, Store, Star, LayoutDashboard, LogOut, Link2, Check, Sparkles, Menu, X, FileText } from "lucide-react";
 import Link from "next/link";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const [copied, setCopied] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
 
   if (pathname === "/admin/login") {
@@ -22,6 +23,52 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   return (
     <div className="min-h-screen bg-slate-50 flex" dir="rtl">
+      <div className="fixed top-0 left-0 right-0 z-40 flex h-16 items-center justify-between border-b border-slate-200 bg-white px-4 md:hidden">
+        <button
+          type="button"
+          onClick={() => setMobileOpen(true)}
+          className="rounded-xl border border-slate-200 bg-white p-2 text-slate-900"
+          aria-label="فتح قائمة الإدارة"
+        >
+          <Menu className="h-5 w-5" />
+        </button>
+        <div className="text-right">
+          <p className="text-sm font-black text-slate-950">لوحة التحكم</p>
+          <p className="text-xs font-bold text-slate-500">إدارة أسناني.ps</p>
+        </div>
+      </div>
+
+      {mobileOpen ? (
+        <div className="fixed inset-0 z-50 md:hidden">
+          <button
+            className="absolute inset-0 bg-slate-950/50"
+            aria-label="إغلاق القائمة"
+            onClick={() => setMobileOpen(false)}
+          />
+          <aside className="absolute right-0 top-0 flex h-full w-72 flex-col bg-slate-950 text-white shadow-2xl">
+            <div className="flex items-center justify-between border-b border-white/10 p-5">
+              <div>
+                <h2 className="text-xl font-black">لوحة التحكم</h2>
+                <p className="text-sm text-slate-400">إدارة المنصة</p>
+              </div>
+              <button onClick={() => setMobileOpen(false)} className="rounded-xl bg-white/10 p-2">
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            <nav className="flex flex-1 flex-col gap-1 overflow-y-auto p-3">
+              <AdminLink href="/admin" icon={LayoutDashboard} label="الرئيسية" onClick={() => setMobileOpen(false)} />
+              <AdminLink href="/admin/doctors" icon={Users} label="الأطباء" onClick={() => setMobileOpen(false)} />
+              <AdminLink href="/admin/appointments" icon={CalendarIcon} label="المواعيد" onClick={() => setMobileOpen(false)} />
+              <AdminLink href="/admin/ads" icon={Megaphone} label="الإعلانات" onClick={() => setMobileOpen(false)} />
+              <AdminLink href="/admin/stores" icon={Store} label="المتاجر" onClick={() => setMobileOpen(false)} />
+              <AdminLink href="/admin/services" icon={Sparkles} label="خدمات المنصة" onClick={() => setMobileOpen(false)} />
+              <AdminLink href="/admin/content" icon={FileText} label="المحتوى والعروض" onClick={() => setMobileOpen(false)} />
+              <AdminLink href="/admin/reviews" icon={Star} label="التقييمات" onClick={() => setMobileOpen(false)} />
+            </nav>
+          </aside>
+        </div>
+      ) : null}
+
       {/* Sidebar Navigation */}
       <aside className="w-64 bg-slate-900 text-white flex-shrink-0 hidden md:flex flex-col">
         <div className="p-6 border-b border-white/10">
@@ -47,6 +94,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           </Link>
           <Link href="/admin/services" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:bg-white/10 hover:text-white transition-colors">
             <Sparkles className="w-5 h-5" /> خدمات المنصة
+          </Link>
+          <Link href="/admin/content" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:bg-white/10 hover:text-white transition-colors">
+            <FileText className="w-5 h-5" /> المحتوى والعروض
           </Link>
           <Link href="/admin/reviews" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:bg-white/10 hover:text-white transition-colors">
             <Star className="w-5 h-5" /> التقييمات
@@ -80,9 +130,32 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 overflow-y-auto">
+      <main className="flex-1 overflow-y-auto pt-16 md:pt-0">
         {children}
       </main>
     </div>
+  );
+}
+
+function AdminLink({
+  href,
+  icon: Icon,
+  label,
+  onClick,
+}: {
+  href: string;
+  icon: any;
+  label: string;
+  onClick: () => void;
+}) {
+  return (
+    <Link
+      href={href}
+      onClick={onClick}
+      className="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-bold text-slate-200 transition-colors hover:bg-white/10 hover:text-white"
+    >
+      <Icon className="h-5 w-5" />
+      {label}
+    </Link>
   );
 }

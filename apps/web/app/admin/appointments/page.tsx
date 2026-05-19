@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Calendar, CheckCircle2, Clock, AlertCircle } from "lucide-react";
+import { Calendar, Clock, AlertCircle, Trash2 } from "lucide-react";
 import { Appointment } from "@pal-dental/shared";
 
 export default function AdminAppointments() {
@@ -9,14 +9,43 @@ export default function AdminAppointments() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/appointments")
+    fetch("/api/admin/appointments")
       .then(res => res.json())
       .then(data => {
-        setAppointments(data || []);
+        setAppointments(data.appointments || []);
         setLoading(false);
       })
       .catch(() => setLoading(false));
   }, []);
+
+  const updateStatus = async (id: string, status: string) => {
+    const res = await fetch("/api/admin/appointments", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id, status }),
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      alert(data.error || "تعذر تحديث الموعد");
+      return;
+    }
+    setAppointments((current) => current.map((item) => (item.id === id ? data.appointment : item)));
+  };
+
+  const deleteAppointment = async (id: string) => {
+    if (!confirm("هل تريد حذف هذا الموعد نهائياً؟")) return;
+    const res = await fetch("/api/admin/appointments", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id }),
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      alert(data.error || "تعذر حذف الموعد");
+      return;
+    }
+    setAppointments((current) => current.filter((item) => item.id !== id));
+  };
 
   return (
     <div className="p-6 md:p-10 font-sans" dir="rtl">
@@ -64,6 +93,7 @@ export default function AdminAppointments() {
                   <th className="px-6 py-4">تاريخ الموعد</th>
                   <th className="px-6 py-4">الوقت المفضل</th>
                   <th className="px-6 py-4">حالة الحجز</th>
+                  <th className="px-6 py-4">إجراءات</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
@@ -85,9 +115,25 @@ export default function AdminAppointments() {
                         </span>
                       </td>
                       <td className="px-6 py-4">
-                        <span className="bg-green-50 text-green-600 border border-green-200 text-xs px-2.5 py-1 rounded-md font-bold">
-                          مؤكد تلقائياً
-                        </span>
+                        <select
+                          value={app.status || "pending"}
+                          onChange={(event) => updateStatus(app.id, event.target.value)}
+                          className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-black text-slate-700 outline-none focus:ring-2 focus:ring-sky-500"
+                        >
+                          <option value="pending">قيد المراجعة</option>
+                          <option value="confirmed">مؤكد</option>
+                          <option value="completed">مكتمل</option>
+                          <option value="cancelled">ملغي</option>
+                        </select>
+                      </td>
+                      <td className="px-6 py-4">
+                        <button
+                          onClick={() => deleteAppointment(app.id)}
+                          className="rounded-lg border border-red-100 p-2 text-red-500 hover:bg-red-50"
+                          title="حذف الموعد"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </button>
                       </td>
                     </tr>
                   );

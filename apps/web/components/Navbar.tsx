@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 import {
   BookOpen,
   CalendarCheck2,
+  Menu,
   Microscope,
   ShoppingBag,
   Sparkles,
@@ -12,6 +14,7 @@ import {
   Store,
   Tags,
   UserCircle2,
+  X,
 } from "lucide-react";
 
 const links = [
@@ -76,6 +79,7 @@ const links = [
 export default function Navbar() {
   const pathname = usePathname();
   const currentPath = pathname || "";
+  const [menuOpen, setMenuOpen] = useState(false);
 
   if (currentPath.startsWith("/admin")) return null;
 
@@ -132,33 +136,67 @@ export default function Navbar() {
             احجز الآن
           </Link>
         </div>
+
+        <button
+          type="button"
+          onClick={() => setMenuOpen((open) => !open)}
+          className="md:hidden mr-auto inline-flex h-11 w-11 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-900 shadow-sm"
+          aria-label={menuOpen ? "إغلاق القائمة" : "فتح القائمة"}
+          aria-expanded={menuOpen}
+        >
+          {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+        </button>
       </div>
 
-      <div className="md:hidden fixed bottom-0 left-0 w-full bg-white/95 backdrop-blur-xl border-t border-slate-200 z-50">
-        <div className="flex gap-2 p-2 overflow-x-auto hide-scrollbar snap-x">
-          {links.map((link) => {
-            const isActive =
-              currentPath === link.href ||
-              (link.href !== "/" && currentPath.startsWith(link.href));
-            const Icon = link.icon;
+      {menuOpen ? (
+        <div className="md:hidden border-t border-slate-200 bg-white/95 backdrop-blur-xl shadow-xl" dir="rtl">
+          <div className="mx-auto max-w-[1400px] px-4 py-4">
+            <div className="grid grid-cols-2 gap-2">
+              {links.map((link) => {
+                const isActive =
+                  currentPath === link.href ||
+                  (link.href !== "/" && currentPath.startsWith(link.href));
+                const Icon = link.icon;
 
-            return (
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setMenuOpen(false)}
+                    className={`flex items-center gap-2 rounded-2xl border p-3 text-sm font-black transition-all ${
+                      isActive
+                        ? link.active
+                        : "border-slate-100 bg-slate-50 text-slate-700 hover:bg-white"
+                    }`}
+                  >
+                    <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-white shadow-sm">
+                      <Icon className={`h-5 w-5 ${isActive ? "" : link.color}`} />
+                    </span>
+                    {link.label}
+                  </Link>
+                );
+              })}
+            </div>
+            <div className="mt-4 grid grid-cols-2 gap-2">
               <Link
-                key={link.href}
-                href={link.href}
-                className={`flex flex-col items-center gap-1 p-2 rounded-xl min-w-[76px] snap-start border ${
-                  isActive
-                    ? link.active
-                    : "border-transparent text-slate-500 hover:bg-slate-50"
-                }`}
+                href="/booking"
+                onClick={() => setMenuOpen(false)}
+                className="flex items-center justify-center rounded-2xl bg-slate-950 px-4 py-3 text-sm font-black text-white shadow-lg shadow-slate-900/10"
               >
-                <Icon className={`w-5 h-5 ${isActive ? "" : link.color}`} />
-                <span className="text-[10px] font-black">{link.label}</span>
+                احجز الآن
               </Link>
-            );
-          })}
+              <Link
+                href="/admin/login"
+                onClick={() => setMenuOpen(false)}
+                className="flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-black text-slate-700"
+              >
+                <UserCircle2 className="h-4 w-4" />
+                دخول الأطباء
+              </Link>
+            </div>
+          </div>
         </div>
-      </div>
+      ) : null}
     </nav>
   );
 }
