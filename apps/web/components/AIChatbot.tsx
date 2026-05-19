@@ -91,18 +91,18 @@ export default function AIChatbot() {
   if (pathname?.startsWith("/admin")) return null;
 
   return (
-    <div className="fixed bottom-6 right-6 z-[999]" dir="rtl">
+    <div className="fixed bottom-4 right-4 z-[999] hidden sm:block md:bottom-6 md:right-6" dir="rtl">
       {/* Floating Toggle Button */}
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="bg-gradient-to-r from-slate-900 to-slate-800 text-white p-4 md:p-5 rounded-full shadow-2xl hover:scale-110 transition-all flex items-center justify-center gap-2 group relative border border-slate-700/50"
+          className="group relative flex items-center justify-center gap-2 rounded-full border border-slate-700/50 bg-gradient-to-r from-slate-900 to-slate-800 p-4 text-white shadow-2xl transition-all hover:scale-105 md:p-5"
         >
           <span className="absolute -top-1 -right-1 flex h-4 w-4">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
             <span className="relative inline-flex rounded-full h-4 w-4 bg-primary text-[9px] font-black text-white items-center justify-center">AI</span>
           </span>
-          <MessageSquare className="w-6 h-6 md:w-7 h-7" />
+          <MessageSquare className="h-6 w-6 md:h-7 md:w-7" />
           <span className="max-w-0 overflow-hidden group-hover:max-w-xs transition-all duration-500 ease-out whitespace-nowrap font-black text-sm">
             طبيبك الذكي
           </span>
@@ -164,11 +164,11 @@ export default function AIChatbot() {
                   {msg.isBookingCTA && (
                     <div className="mt-3 pt-3 border-t border-slate-100 flex justify-end">
                       <Link
-                        href="/#booking-form"
+                        href="/#doctors"
                         onClick={() => {
                           setIsOpen(false);
                           setTimeout(() => {
-                            document.getElementById("booking-form")?.scrollIntoView({ behavior: "smooth" });
+                            document.getElementById("doctors")?.scrollIntoView({ behavior: "smooth" });
                           }, 300);
                         }}
                         className="bg-slate-900 hover:bg-slate-800 text-white font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-1.5 transition-all"

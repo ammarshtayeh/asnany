@@ -1,55 +1,73 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { ImageBackground, StyleSheet, Text, View } from "react-native";
 import { colors } from "../constants/theme";
+
+const HERO_IMAGE_URL =
+  "https://images.unsplash.com/photo-1777331903190-341a3dd0441b?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=80&w=1400";
 
 export default function Header() {
   return (
-    <View style={styles.header}>
-      <View style={styles.brandRow}>
-        <View style={styles.logo}>
-          <Text style={styles.logoText}>أ</Text>
+    <ImageBackground source={{ uri: HERO_IMAGE_URL }} style={styles.header} imageStyle={styles.headerImage}>
+      <View style={styles.overlay} />
+      <View style={styles.content}>
+        <View style={styles.brandRow}>
+          <View style={styles.logo}>
+            <Text style={styles.logoText}>أ</Text>
+          </View>
+          <View>
+            <Text style={styles.brand}>أسناني.ps</Text>
+            <Text style={styles.country}>دليل الأسنان الذكي في فلسطين</Text>
+          </View>
         </View>
-        <View>
-          <Text style={styles.brand}>أسناني.ps</Text>
-          <Text style={styles.country}>فلسطين</Text>
+
+        <Text style={styles.title}>ابتسامتك تبدأ من اختيار الطبيب الصح.</Text>
+        <Text style={styles.subtitle}>
+          أطباء موثقون، حجز ومقارنة سريعة، عروض، مراكز، ومحتوى طبي في تجربة واحدة سهلة على الهاتف.
+        </Text>
+
+        <View style={styles.statsRow}>
+          <View style={styles.stat}>
+            <Text style={styles.statNumber}>حجز</Text>
+            <Text style={styles.statLabel}>سريع</Text>
+          </View>
+          <View style={styles.stat}>
+            <Text style={styles.statNumber}>عروض</Text>
+            <Text style={styles.statLabel}>متجددة</Text>
+          </View>
+          <View style={styles.stat}>
+            <Text style={styles.statNumber}>دليل</Text>
+            <Text style={styles.statLabel}>موثوق</Text>
+          </View>
         </View>
       </View>
-
-      <Text style={styles.title}>منصة طبية ذكية للأسنان والتجميل</Text>
-      <Text style={styles.subtitle}>
-        أطباء موثقون، مراكز تجميل، مختبرات، عروض، أخبار طبية، وسوق للمستلزمات في تجربة واحدة سهلة على الهاتف.
-      </Text>
-
-      <View style={styles.statsRow}>
-        <View style={[styles.stat, { backgroundColor: "#ecfeff" }]}>
-          <Text style={[styles.statNumber, { color: colors.teal }]}>حجز</Text>
-          <Text style={styles.statLabel}>سريع</Text>
-        </View>
-        <View style={[styles.stat, { backgroundColor: "#fef3c7" }]}>
-          <Text style={[styles.statNumber, { color: colors.amber }]}>عروض</Text>
-          <Text style={styles.statLabel}>متجددة</Text>
-        </View>
-        <View style={[styles.stat, { backgroundColor: "#f5f3ff" }]}>
-          <Text style={[styles.statNumber, { color: colors.violet }]}>دليل</Text>
-          <Text style={styles.statLabel}>موثوق</Text>
-        </View>
-      </View>
-    </View>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
   header: {
-    backgroundColor: colors.ink,
     borderRadius: 28,
-    padding: 22,
-    gap: 14,
-    alignItems: "flex-end",
+    minHeight: 310,
+    overflow: "hidden",
     shadowColor: colors.ink,
     shadowOffset: { width: 0, height: 12 },
     shadowOpacity: 0.14,
     shadowRadius: 20,
     elevation: 6,
+  },
+  headerImage: {
+    borderRadius: 28,
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(2, 6, 23, 0.68)",
+  },
+  content: {
+    flex: 1,
+    padding: 22,
+    gap: 14,
+    alignItems: "flex-end",
+    justifyContent: "space-between",
   },
   brandRow: {
     width: "100%",
@@ -106,13 +124,17 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     padding: 10,
     alignItems: "center",
+    backgroundColor: "rgba(255, 255, 255, 0.14)",
+    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.18)",
   },
   statNumber: {
+    color: "#fff",
     fontSize: 13,
     fontWeight: "900",
   },
   statLabel: {
-    color: colors.muted,
+    color: "#cbd5e1",
     fontSize: 10,
     fontWeight: "800",
     marginTop: 2,
