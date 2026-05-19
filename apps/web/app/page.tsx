@@ -318,11 +318,15 @@ export default function Home() {
           </div>
 
           {/* 🦷 INTERACTIVE SELF-DIAGNOSIS ASSISTANT */}
-          <div className="w-full max-w-4xl mt-12 bg-white/40 backdrop-blur-md rounded-3xl p-6 md:p-8 border border-white/50 text-right" dir="rtl">
-            <div className="flex items-center gap-2 mb-6 justify-start">
-              <HeartPulse className="w-6 h-6 text-primary" />
-              <h3 className="text-xl font-black text-slate-900">مساعد التشخيص الفوري للأسنان</h3>
-              <span className="text-xs font-bold text-slate-500 bg-white/80 px-3 py-1 rounded-full border border-slate-100">حدد أعراضك وسنرتب الأطباء المناسبين لك</span>
+          <div className="w-full max-w-4xl mt-12 bg-white/60 backdrop-blur-xl rounded-[2rem] p-6 md:p-8 border border-white/80 text-right shadow-xl shadow-slate-200/40" dir="rtl">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-8 justify-start">
+              <div className="bg-primary/10 p-3.5 rounded-2xl flex-shrink-0">
+                <HeartPulse className="w-7 h-7 text-primary" />
+              </div>
+              <div>
+                <h3 className="text-2xl font-black text-slate-900 mb-1.5">مساعد التشخيص الذكي</h3>
+                <p className="text-sm font-bold text-slate-500">اختر الأعراض التي تعاني منها، وسنوجهك للتخصص المناسب فوراً (انقر للاختيار)</p>
+              </div>
             </div>
             
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -330,16 +334,30 @@ export default function Home() {
                 <button
                   key={diag.id}
                   onClick={() => setActiveDiagnosis(activeDiagnosis === diag.id ? "" : diag.id)}
-                  className={`p-4 rounded-2xl border text-right transition-all duration-300 ${
+                  className={`relative p-5 rounded-2xl border text-right transition-all duration-300 flex flex-col cursor-pointer group overflow-hidden ${
                     activeDiagnosis === diag.id
-                    ? "bg-gradient-to-br from-primary to-blue-500 text-white border-transparent shadow-xl scale-105"
-                    : "bg-white/80 hover:bg-white text-slate-800 border-slate-200/50 hover:shadow-md"
+                    ? "bg-gradient-to-br from-primary to-blue-600 text-white border-transparent shadow-[0_10px_20px_-5px_rgba(14,165,233,0.4)] scale-105 z-10"
+                    : "bg-white/80 hover:bg-white text-slate-800 border-slate-200 hover:border-sky-300 hover:shadow-lg hover:-translate-y-1"
                   }`}
                 >
-                  <h4 className="font-bold text-[15px] mb-2 leading-tight">{diag.title}</h4>
-                  <p className={`text-xs ${activeDiagnosis === diag.id ? "text-blue-100" : "text-slate-400"} leading-relaxed font-medium`}>
+                  {/* Decorative accent for unselected state */}
+                  {activeDiagnosis !== diag.id && (
+                    <div className="absolute top-0 right-0 w-12 h-12 bg-slate-50 rounded-bl-full -z-10 group-hover:bg-sky-50 transition-colors" />
+                  )}
+                  
+                  <h4 className={`font-black text-[15px] mb-2.5 leading-snug ${activeDiagnosis === diag.id ? "text-white" : "group-hover:text-primary transition-colors"}`}>
+                    {diag.title}
+                  </h4>
+                  <p className={`text-xs ${activeDiagnosis === diag.id ? "text-blue-100" : "text-slate-500 group-hover:text-slate-600"} leading-relaxed font-bold mt-auto`}>
                     {diag.desc}
                   </p>
+                  
+                  {/* Active Indicator */}
+                  {activeDiagnosis === diag.id && (
+                    <div className="absolute top-3 left-3 bg-white/20 p-1 rounded-full">
+                      <CheckCircle2 className="w-4 h-4 text-white" />
+                    </div>
+                  )}
                 </button>
               ))}
             </div>
@@ -380,16 +398,28 @@ export default function Home() {
               <button
                 key={cat.id}
                 onClick={() => setSelectedSpecialty(selectedSpecialty === cat.label ? "" : cat.label)}
-                className={`flex flex-col items-center justify-center p-4 rounded-3xl transition-all duration-300 border ${
+                className={`group relative flex flex-col items-center justify-center p-5 rounded-3xl transition-all duration-300 border cursor-pointer overflow-hidden ${
                   selectedSpecialty === cat.label 
-                  ? "bg-white shadow-xl shadow-primary/10 border-primary scale-105" 
-                  : "bg-white/60 shadow-sm border-transparent hover:bg-white hover:shadow-md"
+                  ? "bg-white shadow-xl shadow-primary/15 border-primary scale-[1.03] ring-2 ring-primary/20" 
+                  : "bg-white/70 shadow-sm border-slate-200/60 hover:bg-white hover:shadow-lg hover:-translate-y-1 hover:border-slate-300"
                 }`}
               >
-                <div className={`w-12 h-12 rounded-2xl ${cat.bg} ${cat.color} flex items-center justify-center mb-3`}>
-                  <cat.icon className="w-6 h-6" />
+                <div className={`w-14 h-14 rounded-2xl ${cat.bg} ${cat.color} flex items-center justify-center mb-3 transition-transform duration-300 group-hover:scale-110 ${selectedSpecialty === cat.label ? "scale-110" : ""}`}>
+                  <cat.icon className="w-7 h-7" />
                 </div>
-                <span className="font-bold text-slate-800 text-sm">{cat.label}</span>
+                <span className={`font-black text-sm transition-colors ${selectedSpecialty === cat.label ? "text-primary" : "text-slate-800 group-hover:text-slate-900"}`}>{cat.label}</span>
+                
+                {/* Click indicator */}
+                <span className={`text-[10px] font-bold mt-1.5 transition-all ${selectedSpecialty === cat.label ? "text-primary" : "text-slate-400 group-hover:text-sky-500"}`}>
+                  {selectedSpecialty === cat.label ? "✓ مُفعّل" : "انقر للتصفية"}
+                </span>
+
+                {/* Selected checkmark */}
+                {selectedSpecialty === cat.label && (
+                  <div className="absolute top-2.5 left-2.5 bg-primary text-white w-5 h-5 rounded-full flex items-center justify-center">
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                  </div>
+                )}
               </button>
             ))}
           </div>
@@ -440,7 +470,7 @@ export default function Home() {
             {filteredDoctors.map((doc, index) => (
               <div key={doc.id} className="animate-fade-in-up" style={{ animationDelay: `${index * 50}ms` }}>
                 <Link href={`/doctors/${doc.id}`} className="block group">
-                  <div className="bg-white rounded-3xl p-5 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] border border-slate-100 hover:shadow-[0_20px_40px_-10px_rgba(14,165,233,0.15)] hover:border-primary/20 transition-all duration-300 relative overflow-hidden flex flex-col sm:flex-row gap-6">
+                  <div className="bg-white rounded-3xl p-5 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.04)] border border-slate-200/60 hover:shadow-[0_20px_40px_-10px_rgba(14,165,233,0.15)] hover:border-primary/30 hover:-translate-y-0.5 transition-all duration-300 relative overflow-hidden flex flex-col sm:flex-row gap-6 cursor-pointer">
                     
                     {doc.is_featured && (
                       <div className="absolute top-0 right-0 w-32 h-32 bg-yellow-400/10 blur-2xl rounded-full -translate-y-16 translate-x-16" />
@@ -468,7 +498,7 @@ export default function Home() {
                           {doc.verified && <CheckCircle2 className="w-5 h-5 text-secondary" />}
                         </div>
                         {doc.rating > 0 && (
-                          <div className="flex items-center gap-1 bg-yellow-50 text-yellow-700 px-3 py-1.5 rounded-xl font-bold text-sm">
+                          <div className="flex items-center gap-1 bg-yellow-50 text-yellow-700 px-3 py-1.5 rounded-xl font-bold text-sm border border-yellow-100">
                             <Star className="w-4 h-4 fill-current" /> {doc.rating}
                           </div>
                         )}
@@ -482,7 +512,7 @@ export default function Home() {
                         ))}
                       </div>
 
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-auto pt-4 border-t border-slate-50">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-auto pt-4 border-t border-slate-100">
                         <div className="flex flex-col gap-2">
                           <div className="flex flex-wrap items-center gap-3">
                             <div className="flex items-center gap-2 text-slate-500 text-sm font-bold">
@@ -506,8 +536,8 @@ export default function Home() {
                           )}
                         </div>
                         
-                        <div className="bg-slate-900 group-hover:bg-primary text-white px-8 py-3 rounded-2xl text-sm font-black transition-all text-center shadow-lg group-hover:shadow-primary/30 flex items-center justify-center gap-2">
-                          عرض واحجز <ArrowLeft className="w-4 h-4" />
+                        <div className="bg-gradient-to-r from-slate-900 to-slate-800 group-hover:from-primary group-hover:to-sky-500 text-white px-8 py-3 rounded-2xl text-sm font-black transition-all duration-300 text-center shadow-lg group-hover:shadow-primary/30 flex items-center justify-center gap-2 flex-shrink-0">
+                          عرض واحجز <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-300" />
                         </div>
                       </div>
                     </div>
