@@ -393,7 +393,7 @@ export default function Home() {
         <div className={`order-2 lg:order-1 flex flex-col gap-8 transition-all duration-500 ${showMap ? "w-full lg:w-[55%]" : "w-full max-w-5xl mx-auto"}`}>
           
           {/* Quick Categories */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 overflow-x-auto hide-scrollbar">
             {QUICK_CATEGORIES.map((cat) => (
               <button
                 key={cat.id}

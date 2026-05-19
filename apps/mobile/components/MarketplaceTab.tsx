@@ -41,7 +41,7 @@ export default function MarketplaceTab({
       ) : (
         <View style={styles.stack}>
           {marketplace.map((item) => (
-            <View key={item.id} style={styles.card}>
+            <Pressable key={item.id} onPress={() => console.log('Card pressed', item.id)} style={({ pressed }) => [{ transform: [{ scale: pressed ? 0.96 : 1 }] }, styles.card, pressed && { opacity: 0.95 }]}>
               {item.image_url && <Image source={{ uri: item.image_url }} style={styles.offerImage as any} />}
               <View style={styles.offerPromoRow}>
                 <Text style={styles.offerTitle}>{item.title}</Text>
@@ -54,7 +54,10 @@ export default function MarketplaceTab({
               <Pressable onPress={() => Linking.openURL(`tel:${item.phone}`)} style={[styles.button, { backgroundColor: "#0f172a", marginTop: 8 }]}>
                 <Text style={styles.buttonText}>📞 تواصل مع البائع مباشرة: {item.phone}</Text>
               </Pressable>
-            </View>
+              <Pressable onPress={() => console.log('View details', item.id)} style={[styles.button, { backgroundColor: "#1e293b", marginTop: 8 }]}>
+                <Text style={styles.buttonText}>🔎 عرض التفاصيل</Text>
+              </Pressable>
+            </Pressable>
           ))}
         </View>
       )}
@@ -121,9 +124,10 @@ const styles = StyleSheet.create({
     borderColor: "#e2e8f0",
     shadowColor: "#0f172a",
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.02,
+    shadowOpacity: 0.04,
     shadowRadius: 12,
-    elevation: 2
+    elevation: 4,
+    // Add subtle scale on press handled via Pressable
   },
   offerImage: {
     width: "100%",
