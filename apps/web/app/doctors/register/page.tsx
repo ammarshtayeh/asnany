@@ -3,7 +3,8 @@
 import { useState } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { MapPin, CheckCircle, ArrowRight, ShieldCheck, Plus, Sparkles, XCircle } from "lucide-react";
+import { MapPin, CheckCircle, ArrowRight, ShieldCheck, Plus, Sparkles } from "lucide-react";
+import AdminImageUpload from "@/components/AdminImageUpload";
 
 const LocationPickerMap = dynamic(() => import("@/components/LocationPickerMap"), { ssr: false });
 
@@ -16,7 +17,7 @@ export default function DoctorRegister() {
   const [whatsapp, setWhatsapp] = useState("");
   const [bio, setBio] = useState("");
   const [imageUrl, setImageUrl] = useState("");
-  const [clinicPhotos, setClinicPhotos] = useState<string[]>([""]);
+  const [clinicPhotos, setClinicPhotos] = useState<string[]>([]);
   const [acceptsInsurance, setAcceptsInsurance] = useState(true);
   const [selectedInsurances, setSelectedInsurances] = useState<string[]>([]);
 
@@ -208,56 +209,50 @@ export default function DoctorRegister() {
                 </div>
               </div>
 
-              <div className="space-y-1">
-                <label className="block text-sm font-bold text-slate-700">رابط صورتك الشخصية (اختياري)</label>
-                <input
-                  type="url"
+              <div className="rounded-2xl border border-slate-100 bg-slate-50/50 p-4">
+                <AdminImageUpload
+                  label="صورة الطبيب الشخصية"
                   value={imageUrl}
-                  onChange={(e) => setImageUrl(e.target.value)}
-                  placeholder="https://example.com/doctor-profile.jpg"
-                  className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white outline-none font-medium text-sm transition-all text-left font-mono"
+                  folder="doctor-profiles"
+                  onChange={setImageUrl}
                 />
               </div>
 
               <div className="space-y-2 border border-slate-100 p-4 rounded-2xl bg-slate-50/50">
                 <div className="flex justify-between items-center mb-1">
-                  <label className="block text-sm font-black text-slate-800">صور العيادة والأجهزة (رابط URL - الحد الأقصى 5 صور)</label>
+                  <label className="block text-sm font-black text-slate-800">صور العيادة والأجهزة (رفع مباشر - الحد الأقصى 5 صور)</label>
                   <span className="text-[10px] text-slate-400 font-bold">{clinicPhotos.length} / 5</span>
                 </div>
                 {clinicPhotos.map((photo, index) => (
-                  <div key={index} className="flex gap-2 items-center">
-                    <input
-                      type="url"
+                  <div key={`${photo}-${index}`} className="rounded-2xl border border-slate-100 bg-white p-3">
+                    <AdminImageUpload
+                      label={`صورة العيادة #${index + 1}`}
                       value={photo}
-                      onChange={(e) => {
+                      folder="clinic-photos"
+                      onChange={(url) => {
                         const newPhotos = [...clinicPhotos];
-                        newPhotos[index] = e.target.value;
+                        if (url) {
+                          newPhotos[index] = url;
+                        } else {
+                          newPhotos.splice(index, 1);
+                        }
                         setClinicPhotos(newPhotos);
                       }}
-                      placeholder={`رابط صورة العيادة #${index + 1} (https://...)`}
-                      className="flex-1 px-4 py-2.5 rounded-xl border border-slate-200 bg-white focus:bg-white outline-none text-xs transition-all text-left font-mono"
                     />
-                    {clinicPhotos.length > 1 && (
-                      <button
-                        type="button"
-                        onClick={() => setClinicPhotos(clinicPhotos.filter((_, idx) => idx !== index))}
-                        className="p-2 text-rose-500 hover:bg-rose-50 rounded-lg border border-rose-100 transition-colors"
-                        title="حذف هذه الصورة"
-                      >
-                        <XCircle className="w-4 h-4" />
-                      </button>
-                    )}
                   </div>
                 ))}
                 {clinicPhotos.length < 5 && (
                   <button
                     type="button"
                     onClick={() => setClinicPhotos([...clinicPhotos, ""])}
-                    className="text-xs font-black text-primary hover:text-primary-dark flex items-center gap-1 mt-1.5"
+                    className="mt-2 flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-sky-300 bg-sky-50 px-4 py-3 text-sm font-black text-sky-700 hover:bg-sky-100"
                   >
-                    + إضافة صورة عيادة أخرى
+                    + إضافة/رفع صورة عيادة
                   </button>
                 )}
+                <p className="text-xs font-bold leading-6 text-slate-500">
+                  الصور تُرفع إلى تخزين أسناني الآمن في Supabase، ولا يحتاج الطبيب لإدخال أي روابط.
+                </p>
               </div>
 
               <div className="space-y-3 border border-slate-100 p-4 rounded-2xl bg-slate-50/50">

@@ -1,117 +1,184 @@
 "use client";
 
+import { useMemo, useState } from "react";
 import Link from "next/link";
-import { ArrowRight, Sparkles, MessageSquare, BadgePercent, CheckCircle, Eye, Share2 } from "lucide-react";
+import { ArrowRight, BadgePercent, CheckCircle, Image as ImageIcon, Megaphone, MessageSquare, Send, Sparkles } from "lucide-react";
+import AdminImageUpload from "@/components/AdminImageUpload";
+
+const whatsappNumber = "9720595537190";
 
 export default function AdvertiseWithUs() {
-  const adminWhatsapp = "970599123456";
+  const [advertiserName, setAdvertiserName] = useState("");
+  const [advertiserType, setAdvertiserType] = useState("عيادة أسنان");
+  const [adNature, setAdNature] = useState("بنر على الصفحة الرئيسية");
+  const [city, setCity] = useState("رام الله");
+  const [phone, setPhone] = useState("");
+  const [budget, setBudget] = useState("");
+  const [message, setMessage] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+
+  const whatsappHref = useMemo(() => {
+    const text = [
+      "مرحباً أسناني، أرغب بعمل إعلان.",
+      advertiserName ? `اسم المعلن: ${advertiserName}` : "",
+      `نوع المعلن: ${advertiserType}`,
+      `طبيعة الإعلان: ${adNature}`,
+      `المدينة: ${city}`,
+      phone ? `رقم التواصل: ${phone}` : "",
+      budget ? `الميزانية المتوقعة: ${budget}` : "",
+      message ? `تفاصيل: ${message}` : "",
+      imageUrl ? `صورة/بنر: ${imageUrl}` : "",
+    ].filter(Boolean).join("\n");
+
+    return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`;
+  }, [adNature, advertiserName, advertiserType, budget, city, imageUrl, message, phone]);
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    setSubmitted(true);
+    window.open(whatsappHref, "_blank", "noopener,noreferrer");
+  };
 
   return (
-    <main className="bg-slate-50 min-h-screen relative font-sans" dir="rtl">
-      {/* Premium Header */}
-      <div className="h-[280px] w-full bg-slate-900 relative overflow-hidden flex items-center justify-center text-center">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/80 via-slate-900 to-secondary/80" />
-        <div className="absolute top-8 right-8 z-50">
-          <Link href="/" className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white px-5 py-2.5 rounded-full text-sm font-bold transition-all hover:scale-105 shadow-lg">
-            <ArrowRight className="w-4 h-4" />
-            العودة للرئيسية
-          </Link>
-        </div>
-
-        <div className="relative z-10 px-4">
-          <span className="bg-white/10 border border-white/20 text-white text-xs font-black px-4 py-1.5 rounded-full inline-flex items-center gap-1.5 mb-3">
-            <Sparkles className="w-3.5 h-3.5 text-yellow-400 fill-current animate-pulse" /> النمو التسويقي للعيادات والمراكز
+    <main className="min-h-screen bg-[#f7fafc] pb-24 pt-24" dir="rtl">
+      <section className="mx-auto grid max-w-[1400px] gap-8 px-4 lg:grid-cols-[minmax(0,0.95fr)_minmax(420px,1.05fr)] lg:px-8">
+        <div className="flex flex-col justify-center text-right">
+          <span className="mb-4 inline-flex w-fit items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-4 py-2 text-xs font-black text-amber-700">
+            <Megaphone className="h-4 w-4" />
+            أعلن مع أسناني
           </span>
-          <h1 className="text-3xl md:text-5xl font-black text-white tracking-tight">
-            أعلن معنا وضاعف زوار عيادتك
+          <h1 className="text-4xl font-black leading-tight text-slate-950 md:text-6xl">
+            إعلان واضح، جمهور مهتم، وتواصل مباشر.
           </h1>
-          <p className="text-slate-300 mt-2 text-sm md:text-base font-medium max-w-xl mx-auto">
-            أسناني.ps هو دليلك الأذكى للوصول لأكبر تجمع من الباحثين عن علاجات وصحة الأسنان في فلسطين.
+          <p className="mt-5 max-w-2xl text-base font-semibold leading-8 text-slate-600">
+            اختر طبيعة الإعلان: عيادة، عرض، منتج، وظيفة، أو بنر. املأ الاستمارة الإلكترونية أو تواصل مباشرة على واتساب.
           </p>
+          <div className="mt-7 grid max-w-xl gap-3 sm:grid-cols-3">
+            <Value icon={BadgePercent} title="عروض" />
+            <Value icon={ImageIcon} title="بنرات" />
+            <Value icon={MessageSquare} title="واتساب مباشر" />
+          </div>
         </div>
-      </div>
 
-      <div className="max-w-4xl mx-auto px-4 -mt-16 pb-24 relative z-10">
-        <div className="bg-white rounded-3xl shadow-2xl p-8 md:p-12 border border-slate-100 space-y-12">
-          
-          {/* Stats section */}
-          <div className="grid sm:grid-cols-3 gap-6 text-center">
-            <div className="p-6 rounded-2xl bg-slate-50 space-y-2 border border-slate-100">
-              <Eye className="w-8 h-8 text-primary mx-auto" />
-              <div className="text-2xl font-black text-slate-900">+50,000</div>
-              <div className="text-xs text-slate-400 font-bold">مشاهدة شهرية مستهدفة</div>
-            </div>
-            <div className="p-6 rounded-2xl bg-slate-50 space-y-2 border border-slate-100">
-              <BadgePercent className="w-8 h-8 text-emerald-600 mx-auto" />
-              <div className="text-2xl font-black text-emerald-600">92%</div>
-              <div className="text-xs text-slate-400 font-bold">معدل تحويل وتواصل للمرضى</div>
-            </div>
-            <div className="p-6 rounded-2xl bg-slate-50 space-y-2 border border-slate-100">
-              <Share2 className="w-8 h-8 text-indigo-600 mx-auto" />
-              <div className="text-2xl font-black text-slate-900">+100</div>
-              <div className="text-xs text-slate-400 font-bold">عيادة ومركز أسنان مسجلين</div>
-            </div>
+        <form onSubmit={handleSubmit} className="rounded-2xl border border-slate-200 bg-white p-5 text-right shadow-xl md:p-7">
+          <div className="mb-5">
+            <p className="text-sm font-black text-sky-600">استمارة الإعلان</p>
+            <h2 className="mt-1 text-2xl font-black text-slate-950">احكيلنا شو الإعلان وطبيعته</h2>
           </div>
 
-          {/* Value proposition */}
-          <div className="space-y-6">
-            <h2 className="text-2xl font-black text-slate-900 border-b border-slate-100 pb-3">ماذا تقدم لك الإعلانات معنا؟</h2>
-            <div className="grid md:grid-cols-2 gap-6">
-              <div className="flex gap-3">
-                <CheckCircle className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
-                <div>
-                  <span className="block font-black text-slate-800 text-sm">الباقات المميزة (Featured Listings)</span>
-                  <span className="block text-slate-500 text-xs mt-1 leading-relaxed">ظهور عيادتك في الصفحة الرئيسية ومقدمة نتائج البحث لضمان وصول أكبر عدد من المرضى إليك.</span>
-                </div>
-              </div>
-              <div className="flex gap-3">
-                <CheckCircle className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
-                <div>
-                  <span className="block font-black text-slate-800 text-sm">بنرات إعلانية ذكية (Display Ads)</span>
-                  <span className="block text-slate-500 text-xs mt-1 leading-relaxed">تصميم بنرات إعلانية متحركة ومبهرة لعيادتك ونشرها في الواجهة والمقالات الطبية للجمهور.</span>
-                </div>
-              </div>
-              <div className="flex gap-3">
-                <CheckCircle className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
-                <div>
-                  <span className="block font-black text-slate-800 text-sm">التوجيه الجغرافي بالخرائط (Maps Optimization)</span>
-                  <span className="block text-slate-500 text-xs mt-1 leading-relaxed">ربط عيادتك بنظام ملاحة GPS ذكي ومتطور يوجه المريض من مكانه لعيادتك بخطوة واحدة.</span>
-                </div>
-              </div>
-              <div className="flex gap-3">
-                <CheckCircle className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
-                <div>
-                  <span className="block font-black text-slate-800 text-sm">إحصائيات شهرية حية (Monthly Analytics)</span>
-                  <span className="block text-slate-500 text-xs mt-1 leading-relaxed">تقارير دورية ودقيقة تشرح كم مريضاً نقر على موقعك، رقم هاتفك، ورسائل الواتساب الواردة لك.</span>
-                </div>
-              </div>
+          <div className="grid gap-4">
+            <Field label="اسم المعلن / العيادة / الشركة">
+              <input value={advertiserName} onChange={(e) => setAdvertiserName(e.target.value)} required className="form-field" placeholder="مثال: عيادة د. أحمد" />
+            </Field>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Field label="نوع المعلن">
+                <select value={advertiserType} onChange={(e) => setAdvertiserType(e.target.value)} className="form-field">
+                  <option>عيادة أسنان</option>
+                  <option>طبيب مستقل</option>
+                  <option>مركز تجميل</option>
+                  <option>مختبر أسنان</option>
+                  <option>شركة/مورد</option>
+                  <option>إعلان وظيفة</option>
+                </select>
+              </Field>
+              <Field label="طبيعة الإعلان">
+                <select value={adNature} onChange={(e) => setAdNature(e.target.value)} className="form-field">
+                  <option>بنر على الصفحة الرئيسية</option>
+                  <option>عرض وخصم</option>
+                  <option>إعلان في سوق أسناني</option>
+                  <option>ترويج طبيب/عيادة</option>
+                  <option>إعلان وظيفة</option>
+                  <option>حملة شهرية</option>
+                </select>
+              </Field>
             </div>
+
+            <div className="grid gap-4 sm:grid-cols-3">
+              <Field label="المدينة">
+                <input value={city} onChange={(e) => setCity(e.target.value)} className="form-field" />
+              </Field>
+              <Field label="رقم التواصل">
+                <input value={phone} onChange={(e) => setPhone(e.target.value)} className="form-field text-left" placeholder="059..." />
+              </Field>
+              <Field label="ميزانية تقريبية">
+                <input value={budget} onChange={(e) => setBudget(e.target.value)} className="form-field" placeholder="مثال: 300 شيكل" />
+              </Field>
+            </div>
+
+            <div className="rounded-2xl border border-slate-100 bg-slate-50/70 p-4">
+              <AdminImageUpload label="رفع صورة الإعلان أو البانر" value={imageUrl} folder="advertisements" onChange={setImageUrl} />
+            </div>
+
+            <Field label="تفاصيل الإعلان">
+              <textarea
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                rows={4}
+                className="form-field resize-none"
+                placeholder="اكتب هدف الإعلان، مدة الحملة، الفئة المستهدفة، وأي ملاحظات..."
+              />
+            </Field>
           </div>
 
-          {/* Pricing or Call to Action */}
-          <div className="bg-slate-900 rounded-3xl p-8 text-center text-white space-y-6 relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-r from-primary/30 to-secondary/30" />
-            <div className="relative z-10 space-y-3">
-              <h3 className="text-xl md:text-2xl font-black">جاهز للبدء وإطلاق إعلان عيادتك؟</h3>
-              <p className="text-slate-300 text-xs md:text-sm font-medium max-w-lg mx-auto leading-relaxed">
-                تحدث مع مسؤول التسويق والمبيعات لدينا فوراً على الواتساب، وسيقدم لك باقات أسعار مرنة ومميزة مخصصة لموقع وحجم عيادتك.
-              </p>
-
-              <div className="pt-4 flex justify-center">
-                <a
-                  href={`https://wa.me/${adminWhatsapp}?text=${encodeURIComponent("مرحباً أسناني، أرغب بالاستفسار عن أسعار وباقات الإعلان للعيادات والمراكز لديكم.")}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="bg-emerald-500 hover:bg-emerald-600 text-white font-black px-10 py-4 rounded-2xl shadow-xl shadow-emerald-500/20 transition-all flex items-center gap-2 text-sm hover:scale-[1.02]"
-                >
-                  <MessageSquare className="w-5 h-5 fill-current" /> تواصل معنا واستعلم عن الباقات
-                </a>
-              </div>
+          {submitted ? (
+            <div className="mt-5 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-black text-emerald-700">
+              تم تجهيز الطلب وفتح واتساب لإرساله مباشرة.
             </div>
-          </div>
+          ) : null}
 
+          <div className="mt-6 grid gap-3 sm:grid-cols-2">
+            <button type="submit" className="flex items-center justify-center gap-2 rounded-xl bg-slate-950 px-5 py-4 text-sm font-black text-white hover:bg-sky-600">
+              <Send className="h-4 w-4" />
+              إرسال الاستمارة عبر واتساب
+            </button>
+            <a
+              href={`https://wa.me/${whatsappNumber}`}
+              target="_blank"
+              rel="noreferrer"
+              className="flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 py-4 text-sm font-black text-white hover:bg-emerald-700"
+            >
+              <MessageSquare className="h-4 w-4" />
+              تواصل مباشر: {whatsappNumber}
+            </a>
+          </div>
+        </form>
+      </section>
+
+      <section className="mx-auto mt-8 max-w-[1400px] px-4 lg:px-8">
+        <div className="grid gap-4 md:grid-cols-3">
+          {["بنر الصفحة الرئيسية", "إعلان عرض طبي", "إعلان سوق أو وظيفة"].map((item) => (
+            <div key={item} className="rounded-2xl border border-slate-200 bg-white p-5 text-right shadow-sm">
+              <CheckCircle className="mb-3 h-6 w-6 text-emerald-500" />
+              <h3 className="text-lg font-black text-slate-950">{item}</h3>
+              <p className="mt-2 text-sm font-semibold leading-7 text-slate-500">نجهز الإعلان بصيغة مناسبة للموقع والتطبيق مع توجيه واضح للتواصل.</p>
+            </div>
+          ))}
         </div>
-      </div>
+        <Link href="/" className="mt-6 inline-flex items-center gap-2 text-sm font-black text-slate-600 hover:text-sky-600">
+          <ArrowRight className="h-4 w-4" />
+          العودة للرئيسية
+        </Link>
+      </section>
     </main>
+  );
+}
+
+function Field({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <label className="block">
+      <span className="mb-2 block text-sm font-black text-slate-700">{label}</span>
+      {children}
+    </label>
+  );
+}
+
+function Value({ icon: Icon, title }: { icon: React.ComponentType<{ className?: string }>; title: string }) {
+  return (
+    <div className="rounded-2xl border border-slate-200 bg-white p-4 text-center shadow-sm">
+      <Icon className="mx-auto mb-2 h-6 w-6 text-sky-600" />
+      <p className="text-sm font-black text-slate-800">{title}</p>
+    </div>
   );
 }

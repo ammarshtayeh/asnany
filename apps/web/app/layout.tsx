@@ -14,6 +14,7 @@ export const metadata: Metadata = {
 
 import Navbar from "@/components/Navbar";
 import AIChatbot from "@/components/AIChatbot";
+import SiteFooter from "@/components/SiteFooter";
 
 export default function RootLayout({
   children,
@@ -25,6 +26,7 @@ export default function RootLayout({
       <body className={`${notoSansArabic.variable} font-sans bg-gray-50 text-slate-900 min-h-screen flex flex-col pt-20 md:pt-20`}>
         <Navbar />
         {children}
+        <SiteFooter />
         <AIChatbot />
       </body>
     </html>

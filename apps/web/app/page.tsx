@@ -478,7 +478,6 @@ export default function Home() {
       </main>
 
       <PlatformExpansion />
-      <Footer />
     </div>
   );
 }
@@ -606,27 +605,5 @@ function EmptyResults({ onReset }: { onReset: () => void }) {
         عرض كل الأطباء
       </button>
     </div>
-  );
-}
-
-function Footer() {
-  return (
-    <footer className="border-t border-slate-200 bg-white px-4 py-10 lg:px-8" dir="rtl">
-      <div className="mx-auto flex max-w-[1400px] flex-col items-center justify-between gap-5 text-center md:flex-row md:text-right">
-        <div>
-          <h2 className="text-2xl font-black text-slate-950">
-            أسناني<span className="text-sky-500">.ps</span>
-          </h2>
-          <p className="mt-2 text-sm font-semibold text-slate-500">دليلك الأذكى للرعاية السنية في فلسطين.</p>
-        </div>
-        <div className="flex flex-wrap justify-center gap-5 text-sm font-bold text-slate-600">
-          <Link href="/about" className="hover:text-sky-600">عن المنصة</Link>
-          <Link href="/join" className="hover:text-sky-600">انضم كطبيب</Link>
-          <Link href="/advertise" className="hover:text-sky-600">أعلن معنا</Link>
-          <Link href="/terms" className="hover:text-sky-600">الشروط والأحكام</Link>
-        </div>
-        <p className="text-sm font-semibold text-slate-400">© {new Date().getFullYear()} Asnani.ps</p>
-      </div>
-    </footer>
   );
 }

@@ -30,6 +30,9 @@ type DistanceFilter = 0.5 | 1 | 3 | 5 | 10 | "all";
 
 const MOBILE_HERO_IMAGE_URL =
   "https://images.unsplash.com/photo-1606811971618-4486d14f3f99?auto=format&fit=crop&w=1200&q=80";
+const WEB_BASE_URL = "https://asnani.ps";
+const OWNER_WHATSAPP = "9720595537190";
+const OWNER_EMAIL = "ammar.shtayeh@gmail.com";
 
 const distanceFilters: Array<{ value: DistanceFilter; label: string }> = [
   { value: 0.5, label: "0.5 كم" },
@@ -300,6 +303,10 @@ function openNativeMap(doctor: Doctor) {
   });
 }
 
+function openWhatsApp(message: string) {
+  Linking.openURL(`https://wa.me/${OWNER_WHATSAPP}?text=${encodeURIComponent(message)}`);
+}
+
 function TopBar() {
   return (
     <View style={styles.topBar}>
@@ -414,6 +421,16 @@ function HomeDashboard({
         <StatCard value={market.length} label="إعلان سوق" color={colors.emerald} />
       </View>
 
+      <View style={styles.joinPanel}>
+        <View style={styles.flex}>
+          <Text style={styles.joinTitle}>كن جزءاً من أسناني</Text>
+          <Text style={styles.joinText}>سجل عيادتك أو شركتك لتظهر في الموقع والتطبيق بعد مراجعة الإدارة.</Text>
+        </View>
+        <Pressable onPress={() => Linking.openURL(`${WEB_BASE_URL}/doctors/register`)} style={styles.joinButton}>
+          <Text style={styles.joinButtonText}>استمارة الطبيب</Text>
+        </Pressable>
+      </View>
+
       <SectionHeader title="الخريطة" action="فتح الخريطة" onPress={onOpenMap} />
       <MiniMap doctors={doctors.slice(0, 16)} userLocation={userLocation} compact />
 
@@ -451,6 +468,7 @@ function HomeDashboard({
 
       <SectionHeader title="آخر محتوى" />
       <InfoStrip label="المجلة" value={`${articles.length} مقال وخبر`} color={colors.violet} />
+      <CreatorFooter />
     </View>
   );
 }
@@ -632,11 +650,37 @@ function MoreScreen({
       {market.length ? market.slice(0, 4).map((item) => <MarketCard key={item.id} item={item} />) : <EmptyState title="لا توجد إعلانات سوق" />}
       <SectionHeader title="المجلة" />
       {articles.length ? articles.slice(0, 3).map((article) => <ArticleCard key={article.id} article={article} />) : <EmptyState title="لا يوجد محتوى حالياً" />}
+      <AdvertiseCard />
       <Pressable onPress={() => onOpenServices("partner")} style={styles.secondaryButton}>
         <Text style={styles.secondaryButtonText}>الشركاء والخدمات</Text>
       </Pressable>
-      <ExternalButton label="أعلن معنا" url="https://asnani.ps/advertise" color={colors.amber} />
-      <ExternalButton label="انضم كطبيب أو مورد" url="https://asnani.ps/join" color={colors.teal} />
+      <ExternalButton label="استمارة تسجيل طبيب" url={`${WEB_BASE_URL}/doctors/register`} color={colors.teal} />
+      <CreatorFooter />
+    </View>
+  );
+}
+
+function AdvertiseCard() {
+  return (
+    <View style={styles.advertiseCard}>
+      <View style={styles.advertiseIcon}>
+        <Ionicons name="megaphone-outline" size={24} color={colors.amber} />
+      </View>
+      <Text style={styles.advertiseTitle}>أعلن معنا</Text>
+      <Text style={styles.advertiseText}>
+        اختر طبيعة الإعلان: بنر، عرض طبي، ترويج عيادة، إعلان سوق أو وظيفة. املأ الاستمارة أو تواصل واتساب مباشرة.
+      </Text>
+      <View style={styles.advertiseActions}>
+        <Pressable onPress={() => Linking.openURL(`${WEB_BASE_URL}/advertise`)} style={styles.advertisePrimary}>
+          <Text style={styles.advertisePrimaryText}>استمارة إلكترونية</Text>
+        </Pressable>
+        <Pressable
+          onPress={() => openWhatsApp("مرحباً أسناني، أرغب بالإعلان. أريد تحديد نوع وطبيعة الإعلان.")}
+          style={styles.advertiseWhatsapp}
+        >
+          <Text style={styles.advertiseWhatsappText}>واتساب</Text>
+        </Pressable>
+      </View>
     </View>
   );
 }
@@ -950,6 +994,19 @@ function EmptyState({ title }: { title: string }) {
   );
 }
 
+function CreatorFooter() {
+  return (
+    <View style={styles.creatorFooter}>
+      <Text style={styles.creatorTitle}>أسناني.ps</Text>
+      <Text style={styles.creatorText}>الموقع والتطبيق باسم عمار اشتية</Text>
+      <Text style={styles.creatorContact}>{OWNER_EMAIL}</Text>
+      <Pressable onPress={() => openWhatsApp("مرحباً عمار، تواصل بخصوص منصة أسناني.")}>
+        <Text style={styles.creatorWhatsapp}>واتساب: {OWNER_WHATSAPP}</Text>
+      </Pressable>
+    </View>
+  );
+}
+
 function BottomNav({
   activeTab,
   setActiveTab,
@@ -1160,6 +1217,41 @@ const styles = StyleSheet.create({
     fontSize: 11,
     fontWeight: "800",
     marginTop: 2,
+  },
+  joinPanel: {
+    backgroundColor: colors.card,
+    borderRadius: 24,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: colors.border,
+    flexDirection: "row-reverse",
+    alignItems: "center",
+    gap: 12,
+  },
+  joinTitle: {
+    color: colors.ink,
+    fontSize: 17,
+    fontWeight: "900",
+    textAlign: "right",
+  },
+  joinText: {
+    color: colors.muted,
+    fontSize: 12,
+    fontWeight: "700",
+    lineHeight: 20,
+    marginTop: 4,
+    textAlign: "right",
+  },
+  joinButton: {
+    backgroundColor: colors.ink,
+    borderRadius: 16,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+  },
+  joinButtonText: {
+    color: "#fff",
+    fontSize: 12,
+    fontWeight: "900",
   },
   sectionHeader: {
     flexDirection: "row",
@@ -1613,6 +1705,93 @@ const styles = StyleSheet.create({
   contactText: {
     color: "#fff",
     fontSize: 13,
+    fontWeight: "900",
+  },
+  advertiseCard: {
+    backgroundColor: colors.card,
+    borderRadius: 24,
+    padding: 16,
+    gap: 10,
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
+  advertiseIcon: {
+    width: 46,
+    height: 46,
+    borderRadius: 16,
+    backgroundColor: "#fffbeb",
+    alignItems: "center",
+    justifyContent: "center",
+    alignSelf: "flex-end",
+  },
+  advertiseTitle: {
+    color: colors.ink,
+    fontSize: 20,
+    fontWeight: "900",
+    textAlign: "right",
+  },
+  advertiseText: {
+    color: colors.muted,
+    fontSize: 13,
+    lineHeight: 22,
+    fontWeight: "700",
+    textAlign: "right",
+  },
+  advertiseActions: {
+    flexDirection: "row-reverse",
+    gap: 10,
+    marginTop: 4,
+  },
+  advertisePrimary: {
+    flex: 1,
+    backgroundColor: colors.amber,
+    borderRadius: 15,
+    paddingVertical: 12,
+    alignItems: "center",
+  },
+  advertisePrimaryText: {
+    color: "#fff",
+    fontSize: 12,
+    fontWeight: "900",
+  },
+  advertiseWhatsapp: {
+    flex: 1,
+    backgroundColor: colors.emerald,
+    borderRadius: 15,
+    paddingVertical: 12,
+    alignItems: "center",
+  },
+  advertiseWhatsappText: {
+    color: "#fff",
+    fontSize: 12,
+    fontWeight: "900",
+  },
+  creatorFooter: {
+    backgroundColor: "#0f172a",
+    borderRadius: 24,
+    padding: 18,
+    alignItems: "center",
+    gap: 4,
+  },
+  creatorTitle: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "900",
+  },
+  creatorText: {
+    color: "#cbd5e1",
+    fontSize: 12,
+    fontWeight: "800",
+    textAlign: "center",
+  },
+  creatorContact: {
+    color: "#7dd3fc",
+    fontSize: 12,
+    fontWeight: "900",
+  },
+  creatorWhatsapp: {
+    color: "#34d399",
+    fontSize: 12,
     fontWeight: "900",
   },
   emptyCard: {
