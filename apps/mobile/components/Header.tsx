@@ -20,9 +20,9 @@ export default function Header() {
           </View>
         </View>
 
-        <Text style={styles.title}>ابتسامتك تبدأ من اختيار الطبيب الصح.</Text>
+        <Text style={styles.title}>ابحث، قارن، واحجز رعاية الأسنان من مكان واحد.</Text>
         <Text style={styles.subtitle}>
-          أطباء موثقون، حجز ومقارنة سريعة، عروض، مراكز، ومحتوى طبي في تجربة واحدة سهلة على الهاتف.
+          أطباء موثقون، عروض، متاجر، مختبرات، تجميل، واستشارات في تجربة واحدة مرتبة على الهاتف.
         </Text>
 
         <View style={styles.statsRow}>
@@ -46,8 +46,8 @@ export default function Header() {
 
 const styles = StyleSheet.create({
   header: {
-    borderRadius: 28,
-    minHeight: 310,
+    borderRadius: 24,
+    minHeight: 260,
     overflow: "hidden",
     shadowColor: colors.ink,
     shadowOffset: { width: 0, height: 12 },
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     elevation: 6,
   },
   headerImage: {
-    borderRadius: 28,
+    borderRadius: 24,
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
@@ -64,8 +64,8 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    padding: 22,
-    gap: 14,
+    padding: 20,
+    gap: 12,
     alignItems: "flex-end",
     justifyContent: "space-between",
   },
@@ -102,8 +102,8 @@ const styles = StyleSheet.create({
   },
   title: {
     color: "#fff",
-    fontSize: 24,
-    lineHeight: 32,
+    fontSize: 22,
+    lineHeight: 30,
     fontWeight: "900",
     textAlign: "right",
   },

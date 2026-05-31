@@ -18,14 +18,34 @@ import { colors, cities, specialties } from "../constants/theme";
 import { supabase } from "../lib/supabase";
 import { Article, Doctor, MarketplaceAd, MedicalService, Offer, Store } from "../types";
 
-type TabKey = "doctors" | "services" | "offers" | "market" | "media" | "join";
+type TabKey =
+  | "doctors"
+  | "booking"
+  | "offers"
+  | "market"
+  | "stores"
+  | "beauty"
+  | "labs"
+  | "consultations"
+  | "partners"
+  | "media"
+  | "about"
+  | "advertise"
+  | "join";
 
 const tabs: Array<{ key: TabKey; label: string; short: string; color: string; icon: string }> = [
   { key: "doctors", label: "الأطباء 👨‍⚕️", short: "الأطباء", color: colors.sky, icon: "👨‍⚕️" },
-  { key: "services", label: "الخدمات 🏥", short: "خدمات", color: colors.fuchsia, icon: "🏥" },
+  { key: "booking", label: "الحجز 📅", short: "الحجز", color: colors.teal, icon: "📅" },
   { key: "offers", label: "العروض 🎁", short: "عروض", color: colors.amber, icon: "🎁" },
   { key: "market", label: "السوق 🛒", short: "السوق", color: colors.emerald, icon: "🛒" },
-  { key: "media", label: "المجلة 📰", short: "ميديا", color: colors.violet, icon: "📰" },
+  { key: "stores", label: "الموردون 🏪", short: "الموردون", color: colors.emerald, icon: "🏪" },
+  { key: "beauty", label: "التجميل ✨", short: "تجميل", color: colors.fuchsia, icon: "✨" },
+  { key: "labs", label: "المختبرات 🔬", short: "مختبرات", color: colors.violet, icon: "🔬" },
+  { key: "consultations", label: "استشارات 💬", short: "استشارة", color: colors.sky, icon: "💬" },
+  { key: "partners", label: "الشركاء 🤝", short: "شركاء", color: colors.rose, icon: "🤝" },
+  { key: "media", label: "المجلة 📰", short: "المجلة", color: colors.violet, icon: "📰" },
+  { key: "about", label: "عن المنصة ℹ️", short: "عنّا", color: colors.sky, icon: "ℹ️" },
+  { key: "advertise", label: "أعلن معنا 📣", short: "إعلان", color: colors.amber, icon: "📣" },
   { key: "join", label: "انضمام ✨", short: "انضم", color: colors.teal, icon: "✨" },
 ];
 
@@ -36,6 +56,14 @@ const serviceLabels: Record<string, string> = {
   partner: "الشركات",
   media: "الميديا الطبية",
   booking: "الحجز",
+};
+
+const serviceTabs: Partial<Record<TabKey, MedicalService["service_type"]>> = {
+  booking: "booking",
+  beauty: "beauty",
+  labs: "lab",
+  consultations: "consultation",
+  partners: "partner",
 };
 
 export default function HomeScreen() {
@@ -107,11 +135,13 @@ export default function HomeScreen() {
 
   const filteredServices = useMemo(() => {
     const needle = query.trim().toLowerCase();
+    const requestedType = serviceTabs[activeTab];
     return services.filter((service) => {
       const text = `${service.name} ${service.city || ""} ${service.category || ""} ${service.description || ""}`.toLowerCase();
-      return !needle || text.includes(needle);
+      const typeOk = !requestedType || service.service_type === requestedType;
+      return typeOk && (!needle || text.includes(needle));
     });
-  }, [services, query]);
+  }, [activeTab, services, query]);
 
   const submitRegistration = async () => {
     if (!regName || !regCity) {
@@ -225,10 +255,52 @@ export default function HomeScreen() {
         ) : null}
 
         {!loading && activeTab === "doctors" ? <DoctorsSection doctors={filteredDoctors} /> : null}
-        {!loading && activeTab === "services" ? <ServicesSection services={filteredServices} stores={stores} /> : null}
+        {!loading && activeTab === "booking" ? (
+          <ServiceTypeSection
+            title="الحجز السريع"
+            emptyTitle="لا توجد خدمات حجز مفعلة حاليا"
+            services={filteredServices}
+            color={colors.teal}
+          />
+        ) : null}
         {!loading && activeTab === "offers" ? <OffersSection offers={offers} /> : null}
         {!loading && activeTab === "market" ? <MarketSection market={market} /> : null}
+        {!loading && activeTab === "stores" ? <StoresSection stores={stores} /> : null}
+        {!loading && activeTab === "beauty" ? (
+          <ServiceTypeSection
+            title="مراكز التجميل"
+            emptyTitle="لا توجد مراكز تجميل مفعلة حاليا"
+            services={filteredServices}
+            color={colors.fuchsia}
+          />
+        ) : null}
+        {!loading && activeTab === "labs" ? (
+          <ServiceTypeSection
+            title="المختبرات"
+            emptyTitle="لا توجد مختبرات مفعلة حاليا"
+            services={filteredServices}
+            color={colors.violet}
+          />
+        ) : null}
+        {!loading && activeTab === "consultations" ? (
+          <ServiceTypeSection
+            title="الاستشارات"
+            emptyTitle="لا توجد خدمات استشارة مفعلة حاليا"
+            services={filteredServices}
+            color={colors.sky}
+          />
+        ) : null}
+        {!loading && activeTab === "partners" ? (
+          <ServiceTypeSection
+            title="الشركاء"
+            emptyTitle="لا توجد شركات شريكة مفعلة حاليا"
+            services={filteredServices}
+            color={colors.rose}
+          />
+        ) : null}
         {!loading && activeTab === "media" ? <MediaSection articles={articles} /> : null}
+        {!loading && activeTab === "about" ? <AboutSection /> : null}
+        {!loading && activeTab === "advertise" ? <AdvertiseSection /> : null}
         {activeTab === "join" ? (
           <JoinSection
             regType={regType}
@@ -356,6 +428,95 @@ function ServicesSection({ services, stores }: { services: MedicalService[]; sto
           {item.phone ? <ContactButton phone={item.phone} /> : null}
         </View>
       ))}
+    </View>
+  );
+}
+
+function ServiceTypeSection({
+  title,
+  emptyTitle,
+  services,
+  color,
+}: {
+  title: string;
+  emptyTitle: string;
+  services: MedicalService[];
+  color: string;
+}) {
+  if (!services.length) return <EmptyState title={emptyTitle} />;
+  return (
+    <View style={styles.stack}>
+      <SectionTitle title={`${title} (${services.length})`} color={color} />
+      {services.map((service) => (
+        <View key={service.id} style={styles.card}>
+          {service.image_url ? <Image source={{ uri: service.image_url }} style={styles.heroImage} /> : null}
+          <View style={styles.cardFooter}>
+            <Text style={styles.cardTitle}>{service.name}</Text>
+            <Badge label={service.category || serviceLabels[service.service_type] || "خدمة طبية"} color={color} />
+          </View>
+          {service.description ? <Text style={styles.description}>{service.description}</Text> : null}
+          <Text style={styles.cardMeta}>{service.city || "فلسطين"}{service.area ? ` - ${service.area}` : ""}</Text>
+          {service.price_range ? <Badge label={service.price_range} color={colors.amber} /> : null}
+          {service.phone || service.whatsapp ? <ContactButton phone={service.phone || service.whatsapp || ""} /> : null}
+        </View>
+      ))}
+    </View>
+  );
+}
+
+function StoresSection({ stores }: { stores: Store[] }) {
+  if (!stores.length) return <EmptyState title="لا يوجد موردون أو متاجر مفعلة حاليا" />;
+  return (
+    <View style={styles.stack}>
+      <SectionTitle title={`الموردون والمتاجر (${stores.length})`} color={colors.emerald} />
+      {stores.map((store) => (
+        <View key={store.id} style={styles.card}>
+          <View style={styles.row}>
+            <Image
+              source={{ uri: store.logo_url || "https://images.unsplash.com/photo-1580281658629-9b93f18ae9ae?w=300&auto=format&fit=crop" }}
+              style={styles.avatar}
+            />
+            <View style={styles.flex}>
+              <Text style={styles.cardTitle}>{store.store_name}</Text>
+              <Text style={[styles.cardMeta, { color: colors.emerald }]}>{store.specialization || "مستلزمات طبية"}</Text>
+              <Text style={styles.cardText}>{store.city || "فلسطين"}</Text>
+            </View>
+          </View>
+          {store.description ? <Text style={styles.description}>{store.description}</Text> : null}
+          {store.phone || store.whatsapp ? <ContactButton phone={store.phone || store.whatsapp} /> : null}
+        </View>
+      ))}
+    </View>
+  );
+}
+
+function AdvertiseSection() {
+  return (
+    <View style={styles.card}>
+      <SectionTitle title="أعلن مع أسناني" color={colors.amber} />
+      <Text style={styles.description}>
+        اعرض عيادتك، خدمتك، متجرك، أو عرضك أمام جمهور مهتم بطب الأسنان في فلسطين. هذا القسم يطابق صفحة الإعلان في الموقع
+        ويوجه المستخدم للتواصل السريع.
+      </Text>
+      <ExternalButton label="فتح صفحة الإعلان" url="https://asnani.ps/advertise" color={colors.amber} />
+    </View>
+  );
+}
+
+function AboutSection() {
+  return (
+    <View style={styles.card}>
+      <SectionTitle title="عن أسناني.ps" color={colors.sky} />
+      <Text style={styles.description}>
+        أسناني منصة فلسطينية تجمع الأطباء، العيادات، العروض، المتاجر، المختبرات، مراكز التجميل، والاستشارات في تجربة
+        واحدة واضحة على الهاتف.
+      </Text>
+      <View style={styles.featureGrid}>
+        <Badge label="أطباء موثقون" color={colors.emerald} />
+        <Badge label="حجز وتواصل" color={colors.teal} />
+        <Badge label="عروض وسوق" color={colors.amber} />
+        <Badge label="محتوى طبي" color={colors.violet} />
+      </View>
     </View>
   );
 }
@@ -493,6 +654,14 @@ function ContactButton({ phone }: { phone: string }) {
   return (
     <Pressable onPress={() => Linking.openURL(`tel:${phone}`)} style={styles.contactButton}>
       <Text style={styles.contactText}>اتصال مباشر: {phone}</Text>
+    </Pressable>
+  );
+}
+
+function ExternalButton({ label, url, color }: { label: string; url: string; color: string }) {
+  return (
+    <Pressable onPress={() => Linking.openURL(url)} style={[styles.contactButton, { backgroundColor: color }]}>
+      <Text style={styles.contactText}>{label}</Text>
     </Pressable>
   );
 }
@@ -659,6 +828,11 @@ const styles = StyleSheet.create({
     flexDirection: "row-reverse",
     alignItems: "center",
     justifyContent: "space-between",
+    gap: 8,
+  },
+  featureGrid: {
+    flexDirection: "row-reverse",
+    flexWrap: "wrap",
     gap: 8,
   },
   badge: {
