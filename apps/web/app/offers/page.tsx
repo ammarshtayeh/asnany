@@ -7,6 +7,19 @@ import { ArrowLeft, BadgePercent, CalendarClock, Sparkles, Tag } from "lucide-re
 import { Offer } from "@/lib/types";
 import { getOffers } from "@/lib/data";
 
+const OFFER_IMAGES = [
+  "https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=1200&q=80",
+  "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&w=1200&q=80",
+  "https://images.unsplash.com/photo-1606811841689-23dfddce3e95?auto=format&fit=crop&w=1200&q=80",
+  "https://images.unsplash.com/photo-1609840114035-3c981b782dfe?auto=format&fit=crop&w=1200&q=80",
+  "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=1200&q=80",
+  "https://images.unsplash.com/photo-1606811971618-4486d14f3f99?auto=format&fit=crop&w=1200&q=80",
+];
+
+function getOfferImage(index: number) {
+  return OFFER_IMAGES[index % OFFER_IMAGES.length];
+}
+
 export default function OffersPage() {
   const [offers, setOffers] = useState<Offer[]>([]);
   const [loading, setLoading] = useState(true);
@@ -43,17 +56,13 @@ export default function OffersPage() {
         </div>
 
         <div className="relative min-h-[360px] overflow-hidden rounded-2xl bg-slate-900 shadow-xl">
-          {featuredOffer?.image_url ? (
-            <Image src={featuredOffer.image_url} alt={featuredOffer.title} fill priority className="object-cover opacity-70" />
-          ) : (
-            <Image
-              src="https://images.unsplash.com/photo-1606811971618-4486d14f3f99?auto=format&fit=crop&w=1400&q=80"
-              alt="عيادة أسنان"
-              fill
-              priority
-              className="object-cover opacity-70"
-            />
-          )}
+          <Image
+            src={getOfferImage(0)}
+            alt={featuredOffer?.title || "عروض أسناني"}
+            fill
+            priority
+            className="object-cover opacity-75"
+          />
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/45 to-transparent" />
           <div className="absolute inset-x-0 bottom-0 p-6 text-right text-white md:p-8">
             <span className="mb-3 inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1.5 text-xs font-black backdrop-blur">
@@ -73,14 +82,14 @@ export default function OffersPage() {
           <LoadingGrid />
         ) : offers.length ? (
           <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-            {[featuredOffer, ...restOffers].filter(Boolean).map((offer) => {
+            {[featuredOffer, ...restOffers].filter(Boolean).map((offer, index) => {
               const daysLeft = Math.max(0, Math.ceil((new Date(offer.valid_until).getTime() - Date.now()) / (1000 * 3600 * 24)));
               const discount = offer.discount_percentage ?? 0;
 
               return (
                 <article key={offer.id} className="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:border-amber-200 hover:shadow-lg">
                   <div className="relative h-56 overflow-hidden bg-slate-100">
-                    <Image src={offer.image_url} alt={offer.title} fill className="object-cover transition duration-700 group-hover:scale-105" />
+                    <Image src={getOfferImage(index + 1)} alt={offer.title} fill className="object-cover transition duration-700 group-hover:scale-105" />
                     <div className="absolute right-4 top-4 rounded-xl bg-rose-600 px-4 py-3 text-center text-white shadow-lg">
                       <span className="block text-2xl font-black leading-none">{discount}%</span>
                       <span className="text-[11px] font-black">خصم</span>

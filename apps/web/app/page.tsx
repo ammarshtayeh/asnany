@@ -39,7 +39,7 @@ const DoctorMap = dynamic(() => import("@/components/DoctorMap"), {
 });
 
 const HERO_IMAGE_URL =
-  "https://images.unsplash.com/photo-1606811971618-4486d14f3f99?auto=format&fit=crop&fm=jpg&q=80&w=2200";
+  "https://images.unsplash.com/photo-1777331903190-341a3dd0441b?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=80&w=2200";
 
 const QUICK_CATEGORIES = [
   { id: "implants", label: "زراعة الأسنان", icon: ShieldCheck, color: "text-sky-600", bg: "bg-sky-50" },
