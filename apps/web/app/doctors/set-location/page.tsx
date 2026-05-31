@@ -24,15 +24,9 @@ export default function SetDoctorLocation() {
   useEffect(() => {
     const fetchDoctors = async () => {
       try {
-        const res = await fetch("/api/admin/doctors/list");
-        if (res.ok) {
-          const data = await res.json();
-          setDoctorsList(data.doctors);
-        } else {
-          const resPublic = await fetch("/api/doctors");
-          const dataPublic = await resPublic.json();
-          setDoctorsList(dataPublic);
-        }
+        const res = await fetch("/api/doctors");
+        const data = await res.json();
+        setDoctorsList(Array.isArray(data) ? data : []);
       } catch (err) {
         console.error(err);
       } finally {

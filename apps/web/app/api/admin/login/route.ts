@@ -26,7 +26,7 @@ export async function POST(request: Request) {
     // We set a cookie manually on the response object
     response.cookies.set("admin_session", admin.id, {
       path: "/",
-      httpOnly: false, // Accessible by client side if needed, or httpOnly: true
+      httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       maxAge: 60 * 60 * 24, // 1 day
       sameSite: "lax",

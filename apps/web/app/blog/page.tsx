@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Article } from "@/lib/types";
-import { BookOpen, Calendar, Clock, UserCircle2, ArrowLeft } from "lucide-react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { ArrowLeft, BookOpen, Calendar, Clock, UserCircle2 } from "lucide-react";
+import { Article } from "@/lib/types";
 import { getArticles } from "@/lib/data";
 
 export default function BlogPage() {
@@ -18,82 +18,86 @@ export default function BlogPage() {
     });
   }, []);
 
+  const lead = articles[0];
+  const rest = articles.slice(1);
+
   return (
-    <main className="min-h-screen bg-slate-50 font-sans pb-24">
-      {/* Header */}
-      <div className="bg-slate-900 pt-20 pb-32 px-4 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/connected.png')] opacity-10 pointer-events-none" />
-        <div className="max-w-6xl mx-auto text-center relative z-10">
-          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white mb-6">
-            <BookOpen className="w-4 h-4 text-emerald-400" />
-            <span className="text-sm font-bold">التوعية والصحة السنية</span>
+    <main className="min-h-screen bg-[#f7fafc] pb-24 pt-24" dir="rtl">
+      <section className="mx-auto max-w-[1400px] px-4 lg:px-8">
+        <div className="mb-8 flex flex-col gap-5 text-right md:flex-row md:items-end md:justify-between">
+          <div>
+            <span className="mb-4 inline-flex w-fit items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-4 py-2 text-xs font-black text-emerald-700">
+              <BookOpen className="h-4 w-4" />
+              مجلة أسناني
+            </span>
+            <h1 className="text-4xl font-black leading-tight text-slate-950 md:text-6xl">
+              محتوى طبي واضح، بلا تعقيد.
+            </h1>
+            <p className="mt-4 max-w-2xl text-base font-semibold leading-8 text-slate-600">
+              مقالات قصيرة ومفيدة تساعد المرضى على فهم الخيارات قبل زيارة الطبيب.
+            </p>
           </div>
-          <h1 className="text-4xl md:text-6xl font-black text-white mb-6 tracking-tight">
-            المدونة <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-400">الطبية</span>
-          </h1>
-          <p className="text-slate-300 text-lg md:text-xl font-medium max-w-2xl mx-auto">
-            مقالات ونصائح طبية موثوقة مكتوبة حصرياً من نخبة أطباء منصة أسناني.
-          </p>
+          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+            <p className="text-3xl font-black text-slate-950">{articles.length || 0}</p>
+            <p className="mt-1 text-sm font-bold text-slate-500">مقال وخبر</p>
+          </div>
         </div>
-      </div>
 
-      {/* Articles Grid */}
-      <div className="max-w-6xl mx-auto px-4 -mt-16 relative z-20">
         {loading ? (
-          <div className="flex justify-center items-center py-20">
-            <div className="w-12 h-12 rounded-full border-4 border-primary border-t-transparent animate-spin" />
-          </div>
-        ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {articles.map((article) => (
-            <Link key={article.id} href={`/blog/${article.id}`} className="group block">
-              <div className="bg-white rounded-[2rem] overflow-hidden shadow-2xl shadow-slate-200/40 border border-slate-100 transition-all duration-500 hover:shadow-emerald-500/10 hover:border-emerald-200 hover:-translate-y-2 h-full flex flex-col">
-                {/* Image */}
-                <div className="h-56 relative overflow-hidden bg-slate-100">
-                  <Image src={article.image_url} alt={article.title} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
-                  <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-md text-emerald-700 px-3 py-1.5 rounded-xl text-xs font-bold border border-white">
-                    {article.category}
-                  </div>
-                </div>
-
-                {/* Content */}
-                <div className="p-6 flex flex-col flex-1">
-                  <div className="flex items-center gap-4 text-slate-400 text-xs font-bold mb-4">
-                    <div className="flex items-center gap-1.5">
-                      <Calendar className="w-3.5 h-3.5" /> {article.date}
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      <Clock className="w-3.5 h-3.5" /> {article.read_time}
-                    </div>
-                  </div>
-                  
-                  <h3 className="text-xl font-black text-slate-900 mb-3 line-clamp-2 leading-tight group-hover:text-emerald-600 transition-colors">
-                    {article.title}
-                  </h3>
-                  
-                  <p className="text-slate-500 text-sm font-medium mb-6 line-clamp-3 leading-relaxed flex-1">
-                    {article.excerpt}
-                  </p>
-
-                  <div className="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between">
-                    <div className="flex items-center gap-2 text-slate-700 font-bold text-sm">
-                      <div className="bg-emerald-50 p-1.5 rounded-full text-emerald-600">
-                        <UserCircle2 className="w-4 h-4" />
-                      </div>
-                      {article.doctor_name}
-                    </div>
-                    
-                    <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-emerald-500 group-hover:text-white transition-colors">
-                      <ArrowLeft className="w-4 h-4" />
-                    </div>
-                  </div>
-                </div>
+          <div className="h-[420px] animate-pulse rounded-2xl bg-white" />
+        ) : lead ? (
+          <Link href={`/blog/${lead.id}`} className="group grid overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:border-emerald-200 hover:shadow-lg lg:grid-cols-[1.1fr_0.9fr]">
+            <div className="relative min-h-[320px] overflow-hidden bg-slate-100">
+              <Image src={lead.image_url} alt={lead.title} fill priority className="object-cover transition duration-700 group-hover:scale-105" />
+              <span className="absolute right-5 top-5 rounded-xl bg-white/90 px-3 py-1.5 text-xs font-black text-emerald-700 backdrop-blur">
+                {lead.category || "توعية"}
+              </span>
+            </div>
+            <div className="flex flex-col justify-center p-7 text-right md:p-10">
+              <div className="mb-4 flex flex-wrap gap-3 text-xs font-bold text-slate-400">
+                <span className="inline-flex items-center gap-1.5"><Calendar className="h-4 w-4" /> {lead.date || "اليوم"}</span>
+                <span className="inline-flex items-center gap-1.5"><Clock className="h-4 w-4" /> {lead.read_time || "قراءة سريعة"}</span>
               </div>
-            </Link>
-          ))}
-          </div>
+              <h2 className="text-3xl font-black leading-10 text-slate-950 group-hover:text-emerald-600">{lead.title}</h2>
+              <p className="mt-4 line-clamp-4 text-base font-semibold leading-8 text-slate-500">{lead.excerpt || lead.content}</p>
+              <div className="mt-8 flex items-center justify-between border-t border-slate-100 pt-5">
+                <span className="inline-flex items-center gap-2 text-sm font-black text-slate-700">
+                  <UserCircle2 className="h-5 w-5 text-emerald-600" />
+                  {lead.doctor_name || "أسناني"}
+                </span>
+                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-slate-950 text-white transition group-hover:bg-emerald-600">
+                  <ArrowLeft className="h-5 w-5" />
+                </span>
+              </div>
+            </div>
+          </Link>
+        ) : (
+          <Empty title="لا توجد مقالات حالياً" />
         )}
-      </div>
+      </section>
+
+      <section className="mx-auto mt-8 grid max-w-[1400px] gap-5 px-4 md:grid-cols-2 xl:grid-cols-3 lg:px-8">
+        {rest.map((article) => (
+          <Link key={article.id} href={`/blog/${article.id}`} className="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:border-emerald-200 hover:shadow-lg">
+            <div className="relative h-52 overflow-hidden bg-slate-100">
+              <Image src={article.image_url} alt={article.title} fill className="object-cover transition duration-700 group-hover:scale-105" />
+            </div>
+            <div className="p-5 text-right">
+              <span className="mb-3 inline-flex rounded-lg bg-emerald-50 px-3 py-1 text-xs font-black text-emerald-700">{article.category || "توعية"}</span>
+              <h3 className="line-clamp-2 text-xl font-black leading-8 text-slate-950 group-hover:text-emerald-600">{article.title}</h3>
+              <p className="mt-2 line-clamp-3 text-sm font-semibold leading-7 text-slate-500">{article.excerpt || article.content}</p>
+              <div className="mt-5 flex items-center justify-between border-t border-slate-100 pt-4 text-xs font-bold text-slate-400">
+                <span>{article.read_time || "قراءة سريعة"}</span>
+                <span>{article.doctor_name || "أسناني"}</span>
+              </div>
+            </div>
+          </Link>
+        ))}
+      </section>
     </main>
   );
+}
+
+function Empty({ title }: { title: string }) {
+  return <div className="rounded-2xl border border-slate-200 bg-white p-12 text-center text-xl font-black text-slate-800 shadow-sm">{title}</div>;
 }

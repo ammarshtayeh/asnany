@@ -63,6 +63,19 @@ const DIAGNOSIS_OPTIONS = [
   { id: "diag4", title: "أسنان الأطفال", specialty: "أسنان الأطفال", desc: "خيارات مناسبة لفحص الأطفال والوقاية." },
 ];
 
+const HOME_ACTIONS = [
+  { title: "ابحث عن طبيب", desc: "قارن الأطباء حسب المدينة والتخصص.", href: "#doctors", icon: Search, color: "text-sky-600", bg: "bg-sky-50" },
+  { title: "احجز موعد", desc: "انتقل مباشرة لخدمات الحجز.", href: "/booking", icon: CalendarCheck2, color: "text-teal-600", bg: "bg-teal-50" },
+  { title: "العروض", desc: "شاهد أحدث عروض العيادات.", href: "/offers", icon: Sparkles, color: "text-amber-600", bg: "bg-amber-50" },
+  { title: "انضم للمنصة", desc: "سجل عيادتك أو شركتك.", href: "/join", icon: BriefcaseMedical, color: "text-violet-600", bg: "bg-violet-50" },
+];
+
+const HOW_IT_WORKS = [
+  { title: "حدد موقعك", desc: "رتب النتائج حسب الأقرب لك.", icon: Navigation },
+  { title: "قارن الخيارات", desc: "راجع التخصص، المدينة، التقييم والدوام.", icon: ShieldCheck },
+  { title: "افتح الاتجاهات", desc: "انتقل للعيادة من تطبيق الخرائط.", icon: MapPin },
+];
+
 function isDoctorOpenNow(workingHours: any): boolean {
   if (!workingHours) return false;
 
@@ -239,18 +252,18 @@ export default function Home() {
           sizes="100vw"
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-slate-950/70" />
-        <div className="relative z-10 mx-auto grid min-h-[520px] w-full max-w-[1400px] items-center gap-8 lg:grid-cols-[minmax(0,1fr)_440px]">
+        <div className="absolute inset-0 bg-gradient-to-l from-slate-950/90 via-slate-950/70 to-slate-900/35" />
+        <div className="relative z-10 mx-auto grid min-h-[500px] w-full max-w-[1400px] items-center gap-8 lg:grid-cols-[minmax(0,1fr)_440px]">
           <div className="max-w-3xl text-right text-white" dir="rtl">
             <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-black backdrop-blur">
               <Sparkles className="h-4 w-4 text-amber-300" />
               دليل الأسنان الذكي في فلسطين
             </div>
             <h1 className="text-3xl font-black leading-tight sm:text-5xl lg:text-6xl">
-              اعثر على طبيب الأسنان المناسب، بسرعة ووضوح.
+              رعاية الأسنان في فلسطين، مرتبة حول موقعك.
             </h1>
             <p className="mt-5 max-w-2xl text-base font-semibold leading-8 text-slate-100 sm:text-lg">
-              ابحث حسب المدينة، التخصص، التأمين، أو الدوام. قارن الأطباء والعيادات وتواصل أو احجز من مكان واحد.
+              ابحث، قارن، شاهد الخريطة، ثم تواصل أو احجز من مكان واحد بدون ازدحام أو خطوات ضائعة.
             </p>
             <div className="mt-7 flex flex-wrap gap-2">
               {TRUST_POINTS.map((item) => (
@@ -321,10 +334,42 @@ export default function Home() {
       </section>
 
       <main className="mx-auto w-full max-w-[1400px] px-4 py-8 lg:px-8">
-        <section className="grid gap-3 sm:grid-cols-3" dir="rtl">
+        <section className="-mt-16 grid gap-3 sm:grid-cols-3" dir="rtl">
           <Metric value={loading ? "..." : doctors.length || "24+"} label="عيادة وطبيب" />
           <Metric value={String(CITIES.length)} label="محافظة" />
           <Metric value="موثوق" label="تجربة بحث وحجز" />
+        </section>
+
+        <section className="mt-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm" dir="rtl">
+          <div className="grid gap-4 md:grid-cols-3">
+            {HOW_IT_WORKS.map((step) => (
+              <div key={step.title} className="flex items-start gap-3 text-right">
+                <span className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-sky-50 text-sky-600">
+                  <step.icon className="h-5 w-5" />
+                </span>
+                <span>
+                  <strong className="block text-sm font-black text-slate-950">{step.title}</strong>
+                  <span className="mt-1 block text-sm font-semibold leading-6 text-slate-500">{step.desc}</span>
+                </span>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="mt-6 grid gap-3 md:grid-cols-4" dir="rtl">
+          {HOME_ACTIONS.map((action) => (
+            <Link
+              key={action.title}
+              href={action.href}
+              className="group rounded-2xl border border-slate-200 bg-white p-5 text-right shadow-sm transition hover:-translate-y-0.5 hover:border-sky-200 hover:shadow-md"
+            >
+              <span className={`mb-4 flex h-11 w-11 items-center justify-center rounded-xl ${action.bg} ${action.color}`}>
+                <action.icon className="h-5 w-5" />
+              </span>
+              <h2 className="text-base font-black text-slate-950 group-hover:text-sky-600">{action.title}</h2>
+              <p className="mt-2 text-sm font-semibold leading-6 text-slate-500">{action.desc}</p>
+            </Link>
+          ))}
         </section>
 
         <section className="mt-8 rounded-2xl border border-slate-200 bg-white p-5 text-right shadow-sm" dir="rtl">

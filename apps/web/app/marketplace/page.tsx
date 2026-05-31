@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ShoppingCart, Briefcase, PlusCircle, Star, PhoneCall, AlertCircle, Search, BadgePercent, X, CheckCircle, Image as ImageIcon } from "lucide-react";
+import { ShoppingCart, Briefcase, PlusCircle, Star, PhoneCall, Search, BadgePercent, X, CheckCircle, Megaphone, ShieldCheck } from "lucide-react";
 import Image from "next/image";
 import { MarketplaceAd } from "@/lib/types";
 import { getMarketplaceAds, createMarketplaceAd } from "@/lib/data";
@@ -102,69 +102,80 @@ export default function MarketplacePage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 py-24 px-4 lg:px-8" dir="rtl">
-      <div className="max-w-6xl mx-auto">
+    <div className="min-h-screen bg-[#f7fafc] px-4 py-24 lg:px-8" dir="rtl">
+      <div className="mx-auto max-w-[1400px]">
         
-        {/* Header Hero Banner */}
-        <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-primary rounded-[2.5rem] p-8 md:p-12 text-white shadow-2xl relative overflow-hidden mb-12">
-          <div className="absolute top-0 left-0 w-64 h-full bg-gradient-to-r from-primary/20 to-transparent pointer-events-none" />
-          <div className="absolute -bottom-20 -right-20 w-80 h-80 bg-white/5 rounded-full blur-3xl pointer-events-none" />
-          
-          <div className="relative z-10 max-w-2xl text-right">
-            <span className="bg-white/10 text-yellow-300 font-black px-4 py-1.5 rounded-full text-xs inline-block mb-4 border border-white/10">B2B سوق أطباء الأسنان</span>
-            <h1 className="text-3xl md:text-5xl font-black mb-4 leading-tight">سوق عيادات أسناني ومستلزماتها</h1>
-            <p className="text-slate-200 text-base md:text-lg mb-8 leading-relaxed font-medium">
-              الوجهة الفلسطينية الأولى لبيع وشراء أجهزة العيادات المستعملة والجديدة، وإعلانات الوظائف الطبية الشاغرة بلمسة واحدة.
-            </p>
-            
-            <div className="flex flex-wrap gap-4">
+        <div className="mb-10 grid gap-6 lg:grid-cols-[minmax(0,1fr)_420px]">
+          <div className="relative overflow-hidden rounded-2xl bg-slate-950 p-7 text-white shadow-xl md:p-10">
+            <Image
+              src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1400&q=80"
+              alt="معدات طب الأسنان"
+              fill
+              priority
+              className="object-cover opacity-28"
+            />
+            <div className="absolute inset-0 bg-gradient-to-l from-slate-950 via-slate-950/80 to-slate-900/40" />
+            <div className="relative z-10 max-w-3xl text-right">
+              <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs font-black text-amber-200 backdrop-blur">
+                <Megaphone className="h-4 w-4" />
+                سوق أطباء الأسنان
+              </span>
+              <h1 className="text-4xl font-black leading-tight md:text-6xl">معدات، وظائف، وفرص للعيادات.</h1>
+              <p className="mt-5 max-w-2xl text-base font-semibold leading-8 text-slate-200">
+                مساحة منظمة لبيع وشراء أجهزة العيادات، ونشر فرص العمل الطبية، والتواصل المباشر مع أصحاب الإعلان.
+              </p>
+              <div className="mt-7 flex flex-wrap gap-3">
               <button
                 onClick={() => setShowPublishForm(true)}
-                className="bg-gradient-to-r from-yellow-400 to-amber-500 text-slate-950 hover:from-yellow-500 hover:to-amber-600 px-6 py-3.5 rounded-2xl font-black text-sm transition-all shadow-xl flex items-center gap-2 hover:scale-[1.02]"
+                className="flex items-center gap-2 rounded-xl bg-amber-400 px-5 py-3 text-sm font-black text-slate-950 transition hover:bg-amber-300"
               >
-                <PlusCircle className="w-5 h-5 text-slate-950" /> أعلن عن جهازك أو وظيفتك فوراً
+                <PlusCircle className="h-5 w-5" /> انشر إعلان
               </button>
               <button
                 onClick={() => setShowPricingModal(true)}
-                className="bg-white/10 text-white hover:bg-white/20 px-6 py-3.5 rounded-2xl font-black text-sm transition-all border border-white/20"
+                className="rounded-xl border border-white/20 bg-white/10 px-5 py-3 text-sm font-black text-white transition hover:bg-white/20"
               >
-                باقات التمويل والترويج ⭐️
+                باقات الترويج
               </button>
+              </div>
             </div>
+          </div>
+
+          <div className="grid gap-3">
+            <MarketMetric icon={ShoppingCart} label="معدات وأجهزة" value={ads.filter((ad) => ad.type === "equipment").length} />
+            <MarketMetric icon={Briefcase} label="وظائف شاغرة" value={ads.filter((ad) => ad.type === "job").length} />
+            <MarketMetric icon={ShieldCheck} label="تواصل مباشر" value="واتساب" />
           </div>
         </div>
 
-        {/* Filters and Tabs */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
-          {/* Custom Switch Tabs */}
-          <div className="flex bg-white p-1.5 rounded-2xl border border-slate-200 shadow-sm w-fit self-start">
+        <div className="mb-8 flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm md:flex-row md:items-center md:justify-between">
+          <div className="flex w-full overflow-x-auto rounded-xl bg-slate-100 p-1 md:w-fit">
             <button
               onClick={() => setActiveTab("all")}
-              className={`px-6 py-2.5 rounded-xl font-bold text-sm transition-all ${activeTab === "all" ? "bg-slate-900 text-white shadow-md" : "text-slate-600 hover:text-slate-900"}`}
+              className={`whitespace-nowrap rounded-lg px-5 py-2.5 text-sm font-black transition ${activeTab === "all" ? "bg-slate-950 text-white shadow-sm" : "text-slate-600 hover:text-slate-900"}`}
             >
               عرض الكل
             </button>
             <button
               onClick={() => setActiveTab("equipment")}
-              className={`px-6 py-2.5 rounded-xl font-bold text-sm transition-all flex items-center gap-2 ${activeTab === "equipment" ? "bg-slate-900 text-white shadow-md" : "text-slate-600 hover:text-slate-900"}`}
+              className={`flex items-center gap-2 whitespace-nowrap rounded-lg px-5 py-2.5 text-sm font-black transition ${activeTab === "equipment" ? "bg-slate-950 text-white shadow-sm" : "text-slate-600 hover:text-slate-900"}`}
             >
               <ShoppingCart className="w-4 h-4" /> معدات وأجهزة للبيع
             </button>
             <button
               onClick={() => setActiveTab("job")}
-              className={`px-6 py-2.5 rounded-xl font-bold text-sm transition-all flex items-center gap-2 ${activeTab === "job" ? "bg-slate-900 text-white shadow-md" : "text-slate-600 hover:text-slate-900"}`}
+              className={`flex items-center gap-2 whitespace-nowrap rounded-lg px-5 py-2.5 text-sm font-black transition ${activeTab === "job" ? "bg-slate-950 text-white shadow-sm" : "text-slate-600 hover:text-slate-900"}`}
             >
               <Briefcase className="w-4 h-4" /> وظائف شاغرة
             </button>
           </div>
 
-          {/* Search box */}
-          <div className="w-full md:w-80 relative">
+          <div className="relative w-full md:w-96">
             <Search className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
             <input
               type="text"
               placeholder="ابحث بالاسم أو القسم..."
-              className="w-full pl-4 pr-12 py-3 rounded-2xl bg-white border border-slate-200 focus:ring-2 focus:ring-primary outline-none transition-all font-medium text-sm text-slate-800 text-right"
+              className="w-full rounded-xl border border-slate-200 bg-slate-50 py-3 pl-4 pr-12 text-right text-sm font-bold text-slate-800 outline-none transition focus:border-sky-300 focus:bg-white"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -177,14 +188,14 @@ export default function MarketplacePage() {
             <div className="w-12 h-12 rounded-full border-4 border-primary border-t-transparent animate-spin" />
           </div>
         ) : (
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
             {filteredAds.map((ad) => (
               <div
                 key={ad.id}
-                className={`bg-white rounded-3xl border transition-all duration-300 relative overflow-hidden flex flex-col p-6 shadow-sm ${
+                className={`relative flex flex-col overflow-hidden rounded-2xl border bg-white p-5 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg ${
                   ad.is_featured 
-                    ? "border-yellow-400 ring-2 ring-yellow-400/10 shadow-lg hover:shadow-xl shadow-yellow-100" 
-                    : "border-slate-100 hover:border-primary/20 hover:shadow-md"
+                    ? "border-amber-300 ring-2 ring-amber-100" 
+                    : "border-slate-200 hover:border-sky-200"
                 }`}
               >
                 {/* Featured Badge */}
@@ -525,3 +536,24 @@ export default function MarketplacePage() {
   );
 }
 
+function MarketMetric({
+  icon: Icon,
+  label,
+  value,
+}: {
+  icon: React.ComponentType<{ className?: string }>;
+  label: string;
+  value: string | number;
+}) {
+  return (
+    <div className="flex items-center gap-4 rounded-2xl border border-slate-200 bg-white p-5 text-right shadow-sm">
+      <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-sky-50 text-sky-600">
+        <Icon className="h-6 w-6" />
+      </span>
+      <span>
+        <strong className="block text-2xl font-black text-slate-950">{value}</strong>
+        <span className="text-sm font-bold text-slate-500">{label}</span>
+      </span>
+    </div>
+  );
+}

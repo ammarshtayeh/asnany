@@ -7,7 +7,15 @@
     "orientation": "portrait",
     "userInterfaceStyle": "light",
     "platforms": ["ios", "android", "web"],
-    "plugins": ["expo-router"],
+    "ios": {
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "نستخدم موقعك لترتيب أطباء الأسنان حسب الأقرب لك وعرضهم على الخريطة."
+      }
+    },
+    "android": {
+      "permissions": ["ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION"]
+    },
+    "plugins": ["expo-router", "expo-location"],
     "experiments": {
       "typedRoutes": true
     }

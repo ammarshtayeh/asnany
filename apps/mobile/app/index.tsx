@@ -1,8 +1,11 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   ActivityIndicator,
+  Alert,
+  Animated,
   Image,
   Linking,
+  Platform,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -12,67 +15,66 @@ import {
 } from "react-native";
 import { Link } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import * as Location from "expo-location";
 import * as Notifications from "expo-notifications";
-import Header from "../components/Header";
+import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
+import { Ionicons } from "@expo/vector-icons";
 import { colors, cities, specialties } from "../constants/theme";
 import { supabase } from "../lib/supabase";
 import { Article, Doctor, MarketplaceAd, MedicalService, Offer, Store } from "../types";
 
-type TabKey =
-  | "doctors"
-  | "booking"
-  | "offers"
-  | "market"
-  | "stores"
-  | "beauty"
-  | "labs"
-  | "consultations"
-  | "partners"
-  | "media"
-  | "about"
-  | "advertise"
-  | "join";
+type MainTab = "home" | "doctors" | "map" | "services" | "more";
+type ServiceFilter = "all" | "booking" | "beauty" | "lab" | "consultation" | "partner" | "stores";
+type UserLocation = { lat: number; lng: number };
+type DistanceFilter = 0.5 | 1 | 3 | 5 | 10 | "all";
 
-const tabs: Array<{ key: TabKey; label: string; short: string; color: string; icon: string }> = [
-  { key: "doctors", label: "الأطباء 👨‍⚕️", short: "الأطباء", color: colors.sky, icon: "👨‍⚕️" },
-  { key: "booking", label: "الحجز 📅", short: "الحجز", color: colors.teal, icon: "📅" },
-  { key: "offers", label: "العروض 🎁", short: "عروض", color: colors.amber, icon: "🎁" },
-  { key: "market", label: "السوق 🛒", short: "السوق", color: colors.emerald, icon: "🛒" },
-  { key: "stores", label: "الموردون 🏪", short: "الموردون", color: colors.emerald, icon: "🏪" },
-  { key: "beauty", label: "التجميل ✨", short: "تجميل", color: colors.fuchsia, icon: "✨" },
-  { key: "labs", label: "المختبرات 🔬", short: "مختبرات", color: colors.violet, icon: "🔬" },
-  { key: "consultations", label: "استشارات 💬", short: "استشارة", color: colors.sky, icon: "💬" },
-  { key: "partners", label: "الشركاء 🤝", short: "شركاء", color: colors.rose, icon: "🤝" },
-  { key: "media", label: "المجلة 📰", short: "المجلة", color: colors.violet, icon: "📰" },
-  { key: "about", label: "عن المنصة ℹ️", short: "عنّا", color: colors.sky, icon: "ℹ️" },
-  { key: "advertise", label: "أعلن معنا 📣", short: "إعلان", color: colors.amber, icon: "📣" },
-  { key: "join", label: "انضمام ✨", short: "انضم", color: colors.teal, icon: "✨" },
+const MOBILE_HERO_IMAGE_URL =
+  "https://images.unsplash.com/photo-1606811971618-4486d14f3f99?auto=format&fit=crop&w=1200&q=80";
+
+const distanceFilters: Array<{ value: DistanceFilter; label: string }> = [
+  { value: 0.5, label: "0.5 كم" },
+  { value: 1, label: "1 كم" },
+  { value: 3, label: "3 كم" },
+  { value: 5, label: "5 كم" },
+  { value: 10, label: "10 كم" },
+  { value: "all", label: "الكل" },
 ];
 
-const serviceLabels: Record<string, string> = {
-  beauty: "مراكز التجميل",
-  lab: "المختبرات",
-  consultation: "الاستشارات",
-  partner: "الشركات",
-  media: "الميديا الطبية",
-  booking: "الحجز",
-};
+const mainTabs: Array<{ key: MainTab; label: string; icon: keyof typeof Ionicons.glyphMap }> = [
+  { key: "home", label: "الرئيسية", icon: "home-outline" },
+  { key: "doctors", label: "الأطباء", icon: "medical-outline" },
+  { key: "map", label: "الخريطة", icon: "map-outline" },
+  { key: "services", label: "الخدمات", icon: "sparkles-outline" },
+  { key: "more", label: "المزيد", icon: "grid-outline" },
+];
 
-const serviceTabs: Partial<Record<TabKey, MedicalService["service_type"]>> = {
-  booking: "booking",
-  beauty: "beauty",
-  labs: "lab",
-  consultations: "consultation",
-  partners: "partner",
-};
+const serviceFilters: Array<{ key: ServiceFilter; label: string; color: string }> = [
+  { key: "all", label: "الكل", color: colors.sky },
+  { key: "booking", label: "الحجز", color: colors.teal },
+  { key: "beauty", label: "التجميل", color: colors.fuchsia },
+  { key: "lab", label: "المختبرات", color: colors.violet },
+  { key: "consultation", label: "استشارات", color: colors.sky },
+  { key: "partner", label: "الشركاء", color: colors.rose },
+  { key: "stores", label: "الموردون", color: colors.emerald },
+];
+
+const specialtyCards = [
+  { label: "زراعة الأسنان", color: colors.sky },
+  { label: "تقويم الأسنان", color: colors.emerald },
+  { label: "تجميل الأسنان", color: colors.amber },
+  { label: "أسنان الأطفال", color: colors.violet },
+];
 
 export default function HomeScreen() {
   const insets = useSafeAreaInsets();
-  const [activeTab, setActiveTab] = useState<TabKey>("doctors");
+  const [activeTab, setActiveTab] = useState<MainTab>("home");
+  const [serviceFilter, setServiceFilter] = useState<ServiceFilter>("all");
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState("");
   const [selectedCity, setSelectedCity] = useState("الكل");
   const [selectedSpecialty, setSelectedSpecialty] = useState("الكل");
+  const [userLocation, setUserLocation] = useState<UserLocation | null>(null);
+  const [locating, setLocating] = useState(false);
 
   const [doctors, setDoctors] = useState<Doctor[]>([]);
   const [stores, setStores] = useState<Store[]>([]);
@@ -80,15 +82,6 @@ export default function HomeScreen() {
   const [offers, setOffers] = useState<Offer[]>([]);
   const [market, setMarket] = useState<MarketplaceAd[]>([]);
   const [articles, setArticles] = useState<Article[]>([]);
-
-  const [regType, setRegType] = useState<"doctor" | "store">("doctor");
-  const [regName, setRegName] = useState("");
-  const [regSpecialty, setRegSpecialty] = useState("");
-  const [regCity, setRegCity] = useState("رام الله");
-  const [regPhone, setRegPhone] = useState("");
-  const [regNotes, setRegNotes] = useState("");
-  const [saving, setSaving] = useState(false);
-  const [notice, setNotice] = useState("");
 
   useEffect(() => {
     fetchData();
@@ -122,224 +115,739 @@ export default function HomeScreen() {
     }
   }
 
+  async function locateMe() {
+    setLocating(true);
+    try {
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        Alert.alert("صلاحية الموقع", "فعّل صلاحية الموقع حتى نرتب الأطباء حسب الأقرب لك.");
+        return;
+      }
+      const position = await Location.getCurrentPositionAsync({
+        accuracy: Location.Accuracy.Balanced,
+      });
+      setUserLocation({
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+      });
+      setActiveTab("map");
+    } catch (error) {
+      console.error("Location error:", error);
+      Alert.alert("تعذر تحديد الموقع", "تأكد من تفعيل GPS وخدمات الموقع ثم حاول مرة أخرى.");
+    } finally {
+      setLocating(false);
+    }
+  }
+
   const filteredDoctors = useMemo(() => {
     const needle = query.trim().toLowerCase();
-    return doctors.filter((doctor) => {
-      const text = `${doctor.name} ${doctor.city} ${doctor.area || ""} ${doctor.bio || ""}`.toLowerCase();
+    const result = doctors.filter((doctor) => {
+      const text = `${doctor.name} ${doctor.city} ${doctor.area || ""} ${doctor.bio || ""} ${doctor.specialty?.join(" ") || ""}`.toLowerCase();
       const cityOk = selectedCity === "الكل" || doctor.city === selectedCity;
       const specialtyOk =
         selectedSpecialty === "الكل" || doctor.specialty?.some((item) => item.includes(selectedSpecialty));
       return cityOk && specialtyOk && (!needle || text.includes(needle));
     });
-  }, [doctors, query, selectedCity, selectedSpecialty]);
+
+    if (!userLocation) return result;
+    return [...result].sort((a, b) => distanceToDoctor(a, userLocation) - distanceToDoctor(b, userLocation));
+  }, [doctors, query, selectedCity, selectedSpecialty, userLocation]);
 
   const filteredServices = useMemo(() => {
     const needle = query.trim().toLowerCase();
-    const requestedType = serviceTabs[activeTab];
     return services.filter((service) => {
       const text = `${service.name} ${service.city || ""} ${service.category || ""} ${service.description || ""}`.toLowerCase();
-      const typeOk = !requestedType || service.service_type === requestedType;
+      const typeOk = serviceFilter === "all" || service.service_type === serviceFilter;
       return typeOk && (!needle || text.includes(needle));
     });
-  }, [activeTab, services, query]);
+  }, [query, serviceFilter, services]);
 
-  const submitRegistration = async () => {
-    if (!regName || !regCity) {
-      setNotice("يرجى تعبئة الاسم والمدينة على الأقل.");
-      return;
-    }
-    setSaving(true);
-    setNotice("");
-    try {
-      if (!supabase) throw new Error("Supabase غير مهيأ");
-      if (regType === "doctor") {
-        const { error } = await supabase.from("doctors").insert([
-          {
-            name: regName,
-            specialty: regSpecialty ? [regSpecialty] : ["طب أسنان عام"],
-            city: regCity,
-            phone: regPhone,
-            bio: regNotes,
-            verified: false,
-            clinic_photos: [],
-            insurance_list: [],
-          },
-        ]);
-        if (error) throw error;
-      } else {
-        const { error } = await supabase.from("stores").insert([
-          {
-            store_name: regName,
-            specialization: regSpecialty || "مستلزمات طبية",
-            city: regCity,
-            phone: regPhone,
-            description: regNotes,
-            is_active: false,
-          },
-        ]);
-        if (error) throw error;
-      }
-      setRegName("");
-      setRegSpecialty("");
-      setRegPhone("");
-      setRegNotes("");
-      setNotice("تم إرسال الطلب بنجاح. سيتم مراجعته من لوحة الإدارة.");
-    } catch (error) {
-      console.error(error);
-      setNotice("تعذر إرسال الطلب حالياً. تحقق من الاتصال وحاول مجدداً.");
-    } finally {
-      setSaving(false);
-    }
-  };
-
-  const tabAccent = tabs.find((tab) => tab.key === activeTab)?.color || colors.sky;
+  const featuredDoctors = filteredDoctors.slice(0, 4);
+  const featuredServices = filteredServices.slice(0, 4);
 
   return (
     <View style={styles.container}>
       <ScrollView
         contentContainerStyle={[
           styles.page,
-          { paddingTop: Math.max(insets.top + 12, 24), paddingBottom: insets.bottom + 108 },
+          { paddingTop: Math.max(insets.top + 12, 24), paddingBottom: insets.bottom + 156 },
         ]}
         showsVerticalScrollIndicator={false}
       >
-        <Header />
+        <TopBar />
 
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.tabsRow}>
-          {tabs.map((tab) => {
-            const active = activeTab === tab.key;
+        {loading ? (
+          <View style={styles.loadingCard}>
+            <ActivityIndicator size="large" color={colors.sky} />
+            <Text style={styles.loadingText}>جاري تجهيز تجربة أسناني...</Text>
+          </View>
+        ) : null}
+
+        {!loading && activeTab === "home" ? (
+          <HomeDashboard
+            doctors={doctors}
+            offers={offers}
+            market={market}
+            articles={articles}
+            featuredDoctors={featuredDoctors}
+            onOpenDoctors={() => setActiveTab("doctors")}
+            onOpenMap={() => setActiveTab("map")}
+            onOpenServices={(filter) => {
+              setServiceFilter(filter);
+              setActiveTab("services");
+            }}
+            setSelectedSpecialty={setSelectedSpecialty}
+            userLocation={userLocation}
+            locating={locating}
+            onLocateMe={locateMe}
+          />
+        ) : null}
+
+        {!loading && activeTab === "doctors" ? (
+          <DoctorsScreen
+            doctors={filteredDoctors}
+            query={query}
+            setQuery={setQuery}
+            selectedCity={selectedCity}
+            setSelectedCity={setSelectedCity}
+            selectedSpecialty={selectedSpecialty}
+            setSelectedSpecialty={setSelectedSpecialty}
+            onOpenMap={() => setActiveTab("map")}
+            userLocation={userLocation}
+            locating={locating}
+            onLocateMe={locateMe}
+          />
+        ) : null}
+
+        {!loading && activeTab === "map" ? (
+          <MapScreen
+            doctors={filteredDoctors}
+            userLocation={userLocation}
+            locating={locating}
+            onLocateMe={locateMe}
+            onOpenDoctors={() => setActiveTab("doctors")}
+          />
+        ) : null}
+
+        {!loading && activeTab === "services" ? (
+          <ServicesScreen
+            services={filteredServices}
+            stores={stores}
+            serviceFilter={serviceFilter}
+            setServiceFilter={setServiceFilter}
+            query={query}
+            setQuery={setQuery}
+          />
+        ) : null}
+
+        {!loading && activeTab === "more" ? (
+          <MoreScreen offers={offers} market={market} articles={articles} onOpenServices={setServiceFilterAndOpen(setActiveTab, setServiceFilter)} />
+        ) : null}
+      </ScrollView>
+
+      <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} bottomInset={insets.bottom} />
+    </View>
+  );
+}
+
+function setServiceFilterAndOpen(
+  setActiveTab: (tab: MainTab) => void,
+  setServiceFilter: (filter: ServiceFilter) => void
+) {
+  return (filter: ServiceFilter) => {
+    setServiceFilter(filter);
+    setActiveTab("services");
+  };
+}
+
+function getDistanceKm(from: UserLocation, to: UserLocation) {
+  const radiusKm = 6371;
+  const dLat = ((to.lat - from.lat) * Math.PI) / 180;
+  const dLng = ((to.lng - from.lng) * Math.PI) / 180;
+  const lat1 = (from.lat * Math.PI) / 180;
+  const lat2 = (to.lat * Math.PI) / 180;
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.sin(dLng / 2) * Math.sin(dLng / 2) * Math.cos(lat1) * Math.cos(lat2);
+  return radiusKm * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
+function distanceToDoctor(doctor: Doctor, userLocation: UserLocation) {
+  if (!doctor.lat || !doctor.lng) return Number.POSITIVE_INFINITY;
+  return getDistanceKm(userLocation, { lat: doctor.lat, lng: doctor.lng });
+}
+
+function formatDistance(doctor: Doctor, userLocation: UserLocation | null) {
+  if (!userLocation || !doctor.lat || !doctor.lng) return null;
+  const distance = distanceToDoctor(doctor, userLocation);
+  if (!Number.isFinite(distance)) return null;
+  return distance < 1 ? `${Math.round(distance * 1000)} م` : `${distance.toFixed(1)} كم`;
+}
+
+function openNativeMap(doctor: Doctor) {
+  if (!doctor.lat || !doctor.lng) {
+    Alert.alert("الموقع غير متوفر", "موقع هذه العيادة غير مفعّل حالياً.");
+    return;
+  }
+  const label = encodeURIComponent(doctor.name || "عيادة أسنان");
+  const url =
+    Platform.OS === "ios"
+      ? `http://maps.apple.com/?ll=${doctor.lat},${doctor.lng}&q=${label}`
+      : `geo:${doctor.lat},${doctor.lng}?q=${doctor.lat},${doctor.lng}(${label})`;
+
+  Linking.openURL(url).catch(() => {
+    Linking.openURL(`https://www.google.com/maps/search/?api=1&query=${doctor.lat},${doctor.lng}`);
+  });
+}
+
+function TopBar() {
+  return (
+    <View style={styles.topBar}>
+      <View style={styles.logoMark}>
+        <Text style={styles.logoText}>أ</Text>
+      </View>
+      <View style={styles.brandBlock}>
+        <Text style={styles.brand}>أسناني.ps</Text>
+        <Text style={styles.brandSub}>دليل رعاية الأسنان في فلسطين</Text>
+      </View>
+    </View>
+  );
+}
+
+function HomeDashboard({
+  doctors,
+  offers,
+  market,
+  articles,
+  featuredDoctors,
+  onOpenDoctors,
+  onOpenMap,
+  onOpenServices,
+  setSelectedSpecialty,
+  userLocation,
+  locating,
+  onLocateMe,
+}: {
+  doctors: Doctor[];
+  offers: Offer[];
+  market: MarketplaceAd[];
+  articles: Article[];
+  featuredDoctors: Doctor[];
+  onOpenDoctors: () => void;
+  onOpenMap: () => void;
+  onOpenServices: (filter: ServiceFilter) => void;
+  setSelectedSpecialty: (value: string) => void;
+  userLocation: UserLocation | null;
+  locating: boolean;
+  onLocateMe: () => void;
+}) {
+  const entrance = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.timing(entrance, {
+      toValue: 1,
+      duration: 520,
+      useNativeDriver: true,
+    }).start();
+  }, [entrance]);
+
+  return (
+    <View style={styles.stack}>
+      <Animated.View
+        style={[
+          styles.hero,
+          {
+            opacity: entrance,
+            transform: [
+              {
+                translateY: entrance.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [18, 0],
+                }),
+              },
+            ],
+          },
+        ]}
+      >
+        <Image source={{ uri: MOBILE_HERO_IMAGE_URL }} style={styles.heroImageBg} />
+        <View style={styles.heroOverlay} />
+        <View style={styles.heroCopy}>
+          <Text style={styles.kicker}>دليل أسنان فلسطين</Text>
+          <Text style={styles.heroTitle}>الطبيب المناسب، أقرب وأسهل.</Text>
+          <Text style={styles.heroText}>حدد موقعك، شاهد العيادات على الخريطة، وافتح الاتجاهات بتطبيق الخرائط على جهازك.</Text>
+        </View>
+        <View style={styles.heroActions}>
+          <Pressable onPress={onOpenDoctors} style={styles.primaryButton}>
+            <Text style={styles.primaryButtonText}>ابحث عن طبيب</Text>
+          </Pressable>
+          <Pressable onPress={onLocateMe} disabled={locating} style={styles.secondaryButton}>
+            <Text style={styles.secondaryButtonText}>{locating ? "جاري التحديد..." : userLocation ? "موقعي مفعل" : "حدد موقعي"}</Text>
+          </Pressable>
+        </View>
+      </Animated.View>
+
+      <View style={styles.homeSearchPanel}>
+        <Text style={styles.homeSearchTitle}>شو بدك تعمل اليوم؟</Text>
+        <View style={styles.homeActionGrid}>
+          <Pressable onPress={onOpenDoctors} style={styles.homeAction}>
+            <Ionicons name="medical-outline" size={22} color={colors.sky} />
+            <Text style={styles.homeActionText}>طبيب</Text>
+          </Pressable>
+          <Pressable onPress={onOpenMap} style={styles.homeAction}>
+            <Ionicons name="map-outline" size={22} color={colors.emerald} />
+            <Text style={styles.homeActionText}>خريطة</Text>
+          </Pressable>
+          <Pressable onPress={() => onOpenServices("booking")} style={styles.homeAction}>
+            <Ionicons name="calendar-clear-outline" size={22} color={colors.amber} />
+            <Text style={styles.homeActionText}>حجز</Text>
+          </Pressable>
+          <Pressable onPress={() => onOpenServices("stores")} style={styles.homeAction}>
+            <Ionicons name="storefront-outline" size={22} color={colors.violet} />
+            <Text style={styles.homeActionText}>موردون</Text>
+          </Pressable>
+        </View>
+      </View>
+
+      <View style={styles.statsRow}>
+        <StatCard value={doctors.length} label="طبيب" color={colors.sky} />
+        <StatCard value={offers.length} label="عرض" color={colors.amber} />
+        <StatCard value={market.length} label="إعلان سوق" color={colors.emerald} />
+      </View>
+
+      <SectionHeader title="الخريطة" action="فتح الخريطة" onPress={onOpenMap} />
+      <MiniMap doctors={doctors.slice(0, 16)} userLocation={userLocation} compact />
+
+      <SectionHeader title="تخصصات سريعة" />
+      <View style={styles.categoryGrid}>
+        {specialtyCards.map((item) => (
+          <Pressable
+            key={item.label}
+            onPress={() => {
+              setSelectedSpecialty(item.label);
+              onOpenDoctors();
+            }}
+            style={styles.categoryCard}
+          >
+            <View style={[styles.categoryIcon, { backgroundColor: `${item.color}16` }]}>
+              <Ionicons name="sparkles-outline" size={22} color={item.color} />
+            </View>
+            <Text style={styles.categoryTitle}>{item.label}</Text>
+          </Pressable>
+        ))}
+      </View>
+
+      <SectionHeader title="خدمات الموقع" />
+      <View style={styles.serviceShortcutGrid}>
+        {serviceFilters.slice(1).map((item) => (
+          <Pressable key={item.key} onPress={() => onOpenServices(item.key)} style={styles.shortcut}>
+            <Text style={[styles.shortcutMark, { color: item.color }]}>●</Text>
+            <Text style={styles.shortcutText}>{item.label}</Text>
+          </Pressable>
+        ))}
+      </View>
+
+      <SectionHeader title="أطباء مقترحون" action="الكل" onPress={onOpenDoctors} />
+      {featuredDoctors.length ? featuredDoctors.map((doctor) => <DoctorCard key={doctor.id} doctor={doctor} userLocation={userLocation} />) : <EmptyState title="لا يوجد أطباء حالياً" />}
+
+      <SectionHeader title="آخر محتوى" />
+      <InfoStrip label="المجلة" value={`${articles.length} مقال وخبر`} color={colors.violet} />
+    </View>
+  );
+}
+
+function DoctorsScreen({
+  doctors,
+  query,
+  setQuery,
+  selectedCity,
+  setSelectedCity,
+  selectedSpecialty,
+  setSelectedSpecialty,
+  onOpenMap,
+  userLocation,
+  locating,
+  onLocateMe,
+}: {
+  doctors: Doctor[];
+  query: string;
+  setQuery: (value: string) => void;
+  selectedCity: string;
+  setSelectedCity: (value: string) => void;
+  selectedSpecialty: string;
+  setSelectedSpecialty: (value: string) => void;
+  onOpenMap: () => void;
+  userLocation: UserLocation | null;
+  locating: boolean;
+  onLocateMe: () => void;
+}) {
+  return (
+    <View style={styles.stack}>
+      <ScreenTitle title="الأطباء والعيادات" subtitle={`${doctors.length} نتيجة حسب الفلاتر`} />
+      <SearchPanel query={query} setQuery={setQuery} placeholder="ابحث باسم طبيب، منطقة، أو تخصص" />
+      <ChipRow values={cities} value={selectedCity} onChange={setSelectedCity} color={colors.sky} />
+      <ChipRow values={specialties} value={selectedSpecialty} onChange={setSelectedSpecialty} color={colors.teal} />
+      <View style={styles.doctorActionRow}>
+        <Pressable onPress={onLocateMe} disabled={locating} style={styles.locationButton}>
+          <Text style={styles.locationButtonText}>{locating ? "جاري تحديد موقعك..." : userLocation ? "رتب حسب الأقرب" : "حدد موقعي"}</Text>
+        </Pressable>
+        <Pressable onPress={onOpenMap} style={styles.locationButtonAlt}>
+          <Text style={styles.locationButtonAltText}>الخريطة</Text>
+        </Pressable>
+      </View>
+      <Pressable onPress={onOpenMap} style={styles.mapCallout}>
+        <View>
+          <Text style={styles.mapCalloutTitle}>الخريطة جاهزة</Text>
+          <Text style={styles.mapCalloutText}>{userLocation ? "الأطباء مرتبون حسب الأقرب لموقعك." : "حدد موقعك لترتيب الأطباء حسب المسافة."}</Text>
+        </View>
+        <Text style={styles.mapCalloutAction}>فتح</Text>
+      </Pressable>
+      {doctors.length ? doctors.map((doctor) => <DoctorCard key={doctor.id} doctor={doctor} userLocation={userLocation} />) : <EmptyState title="لا توجد نتائج مطابقة" />}
+    </View>
+  );
+}
+
+function MapScreen({
+  doctors,
+  userLocation,
+  locating,
+  onLocateMe,
+  onOpenDoctors,
+}: {
+  doctors: Doctor[];
+  userLocation: UserLocation | null;
+  locating: boolean;
+  onLocateMe: () => void;
+  onOpenDoctors: () => void;
+}) {
+  const [distanceFilter, setDistanceFilter] = useState<DistanceFilter>(0.5);
+  const doctorsWithLocation = doctors.filter((doctor) => doctor.lat && doctor.lng);
+  const nearbyDoctors = useMemo(() => {
+    if (!userLocation || distanceFilter === "all") return doctorsWithLocation;
+    return doctorsWithLocation.filter((doctor) => distanceToDoctor(doctor, userLocation) <= distanceFilter);
+  }, [distanceFilter, doctorsWithLocation, userLocation]);
+
+  return (
+    <View style={styles.stack}>
+      <ScreenTitle
+        title="خريطة العيادات"
+        subtitle={userLocation ? `${nearbyDoctors.length} عيادة ضمن النطاق المحدد` : "حدد موقعك لتصفية الأقرب من 0.5 كم وما فوق"}
+      />
+      <MiniMap doctors={nearbyDoctors} userLocation={userLocation} />
+      <View style={styles.distancePanel}>
+        <View style={styles.distanceHeader}>
+          <Text style={styles.distanceTitle}>نطاق البحث</Text>
+          <Text style={styles.distanceHint}>{userLocation ? "ابدأ من نصف كيلو ووسّع النطاق" : "فعّل موقعك أولاً"}</Text>
+        </View>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.distanceChips}>
+          {distanceFilters.map((item) => {
+            const active = distanceFilter === item.value;
             return (
               <Pressable
-                key={tab.key}
-                onPress={() => {
-                  setActiveTab(tab.key);
-                  setQuery("");
-                }}
-                style={[styles.topTab, active && { backgroundColor: tab.color, borderColor: tab.color }]}
+                key={String(item.value)}
+                onPress={() => setDistanceFilter(item.value)}
+                style={[styles.distanceChip, active && styles.distanceChipActive]}
               >
-                <Text style={[styles.topTabText, active && styles.topTabTextActive]}>{tab.label}</Text>
+                <Text style={[styles.distanceChipText, active && styles.distanceChipTextActive]}>{item.label}</Text>
               </Pressable>
             );
           })}
         </ScrollView>
-
-        {activeTab !== "join" ? (
-          <View style={styles.searchCard}>
-            <TextInput
-              value={query}
-              onChangeText={setQuery}
-              placeholder="ابحث بالاسم، المدينة، الخدمة..."
-              placeholderTextColor="#94a3b8"
-              style={styles.searchInput}
-              textAlign="right"
-            />
-            {activeTab === "doctors" ? (
-              <>
-                <ChipRow values={cities} value={selectedCity} onChange={setSelectedCity} color={colors.sky} />
-                <ChipRow
-                  values={specialties}
-                  value={selectedSpecialty}
-                  onChange={setSelectedSpecialty}
-                  color={colors.teal}
-                />
-              </>
-            ) : null}
-          </View>
-        ) : null}
-
-        {loading ? (
-          <View style={styles.loadingCard}>
-            <ActivityIndicator size="large" color={tabAccent} />
-            <Text style={styles.loadingText}>جار تحميل بيانات المنصة...</Text>
-          </View>
-        ) : null}
-
-        {!loading && activeTab === "doctors" ? <DoctorsSection doctors={filteredDoctors} /> : null}
-        {!loading && activeTab === "booking" ? (
-          <ServiceTypeSection
-            title="الحجز السريع"
-            emptyTitle="لا توجد خدمات حجز مفعلة حاليا"
-            services={filteredServices}
-            color={colors.teal}
-          />
-        ) : null}
-        {!loading && activeTab === "offers" ? <OffersSection offers={offers} /> : null}
-        {!loading && activeTab === "market" ? <MarketSection market={market} /> : null}
-        {!loading && activeTab === "stores" ? <StoresSection stores={stores} /> : null}
-        {!loading && activeTab === "beauty" ? (
-          <ServiceTypeSection
-            title="مراكز التجميل"
-            emptyTitle="لا توجد مراكز تجميل مفعلة حاليا"
-            services={filteredServices}
-            color={colors.fuchsia}
-          />
-        ) : null}
-        {!loading && activeTab === "labs" ? (
-          <ServiceTypeSection
-            title="المختبرات"
-            emptyTitle="لا توجد مختبرات مفعلة حاليا"
-            services={filteredServices}
-            color={colors.violet}
-          />
-        ) : null}
-        {!loading && activeTab === "consultations" ? (
-          <ServiceTypeSection
-            title="الاستشارات"
-            emptyTitle="لا توجد خدمات استشارة مفعلة حاليا"
-            services={filteredServices}
-            color={colors.sky}
-          />
-        ) : null}
-        {!loading && activeTab === "partners" ? (
-          <ServiceTypeSection
-            title="الشركاء"
-            emptyTitle="لا توجد شركات شريكة مفعلة حاليا"
-            services={filteredServices}
-            color={colors.rose}
-          />
-        ) : null}
-        {!loading && activeTab === "media" ? <MediaSection articles={articles} /> : null}
-        {!loading && activeTab === "about" ? <AboutSection /> : null}
-        {!loading && activeTab === "advertise" ? <AdvertiseSection /> : null}
-        {activeTab === "join" ? (
-          <JoinSection
-            regType={regType}
-            setRegType={setRegType}
-            regName={regName}
-            setRegName={setRegName}
-            regSpecialty={regSpecialty}
-            setRegSpecialty={setRegSpecialty}
-            regCity={regCity}
-            setRegCity={setRegCity}
-            regPhone={regPhone}
-            setRegPhone={setRegPhone}
-            regNotes={regNotes}
-            setRegNotes={setRegNotes}
-            saving={saving}
-            notice={notice}
-            onSubmit={submitRegistration}
-          />
-        ) : null}
-      </ScrollView>
-
-      <View style={[styles.bottomNav, { paddingBottom: Math.max(insets.bottom, 12), paddingTop: 12 }]}>
-        {tabs.slice(0, 5).map((tab) => {
-          const active = activeTab === tab.key;
-          return (
-            <Pressable
-              key={tab.key}
-              onPress={() => setActiveTab(tab.key)}
-              style={[
-                styles.bottomItem,
-                active && { backgroundColor: `${tab.color}15`, borderRadius: 16, paddingHorizontal: 12, paddingVertical: 4 },
-              ]}
-            >
-              <Text style={styles.bottomEmoji}>{tab.icon}</Text>
-              <Text style={[styles.bottomText, { color: active ? tab.color : colors.muted, marginTop: 2 }]}>{tab.short}</Text>
-            </Pressable>
-          );
-        })}
       </View>
+      <View style={styles.heroActions}>
+        <Pressable onPress={onLocateMe} disabled={locating} style={styles.primaryButton}>
+          <Text style={styles.primaryButtonText}>{locating ? "جاري التحديد..." : userLocation ? "تحديث موقعي" : "حدد موقعي"}</Text>
+        </Pressable>
+        <Pressable onPress={onOpenDoctors} style={styles.secondaryButton}>
+          <Text style={styles.secondaryButtonText}>قائمة الأطباء</Text>
+        </Pressable>
+      </View>
+      <View style={styles.stack}>
+        {nearbyDoctors.slice(0, 8).map((doctor) => (
+          <MapDoctorRow key={doctor.id} doctor={doctor} userLocation={userLocation} />
+        ))}
+      </View>
+    </View>
+  );
+}
+
+function ServicesScreen({
+  services,
+  stores,
+  serviceFilter,
+  setServiceFilter,
+  query,
+  setQuery,
+}: {
+  services: MedicalService[];
+  stores: Store[];
+  serviceFilter: ServiceFilter;
+  setServiceFilter: (value: ServiceFilter) => void;
+  query: string;
+  setQuery: (value: string) => void;
+}) {
+  const showingStores = serviceFilter === "stores";
+  return (
+    <View style={styles.stack}>
+      <ScreenTitle title="الخدمات" subtitle="حجز، تجميل، مختبرات، استشارات، شركاء وموردون" />
+      <SearchPanel query={query} setQuery={setQuery} placeholder="ابحث عن خدمة أو شركة" />
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.chipRow}>
+        {serviceFilters.map((item) => (
+          <Pressable
+            key={item.key}
+            onPress={() => setServiceFilter(item.key)}
+            style={[styles.chip, serviceFilter === item.key && { backgroundColor: item.color, borderColor: item.color }]}
+          >
+            <Text style={[styles.chipText, serviceFilter === item.key && styles.chipTextActive]}>{item.label}</Text>
+          </Pressable>
+        ))}
+      </ScrollView>
+      {showingStores ? (
+        stores.length ? stores.map((store) => <StoreCard key={store.id} store={store} />) : <EmptyState title="لا يوجد موردون حالياً" />
+      ) : services.length ? (
+        services.map((service) => <ServiceCard key={service.id} service={service} />)
+      ) : (
+        <EmptyState title="لا توجد خدمات مطابقة" />
+      )}
+    </View>
+  );
+}
+
+function MoreScreen({
+  offers,
+  market,
+  articles,
+  onOpenServices,
+}: {
+  offers: Offer[];
+  market: MarketplaceAd[];
+  articles: Article[];
+  onOpenServices: (filter: ServiceFilter) => void;
+}) {
+  return (
+    <View style={styles.stack}>
+      <ScreenTitle title="المزيد" subtitle="العروض، السوق، المجلة، الإعلان والانضمام" />
+      <SectionHeader title="العروض" />
+      {offers.length ? offers.slice(0, 4).map((offer) => <OfferCard key={offer.id} offer={offer} />) : <EmptyState title="لا توجد عروض نشطة" />}
+      <SectionHeader title="سوق أسناني" />
+      {market.length ? market.slice(0, 4).map((item) => <MarketCard key={item.id} item={item} />) : <EmptyState title="لا توجد إعلانات سوق" />}
+      <SectionHeader title="المجلة" />
+      {articles.length ? articles.slice(0, 3).map((article) => <ArticleCard key={article.id} article={article} />) : <EmptyState title="لا يوجد محتوى حالياً" />}
+      <Pressable onPress={() => onOpenServices("partner")} style={styles.secondaryButton}>
+        <Text style={styles.secondaryButtonText}>الشركاء والخدمات</Text>
+      </Pressable>
+      <ExternalButton label="أعلن معنا" url="https://asnani.ps/advertise" color={colors.amber} />
+      <ExternalButton label="انضم كطبيب أو مورد" url="https://asnani.ps/join" color={colors.teal} />
+    </View>
+  );
+}
+
+function MiniMap({
+  doctors,
+  userLocation,
+  compact = false,
+}: {
+  doctors: Doctor[];
+  userLocation?: UserLocation | null;
+  compact?: boolean;
+}) {
+  const points = doctors.filter((doctor) => doctor.lat && doctor.lng).slice(0, compact ? 10 : 28);
+  const center = userLocation ||
+    (points[0]?.lat && points[0]?.lng ? { lat: points[0].lat, lng: points[0].lng } : { lat: 31.9522, lng: 35.2332 });
+  const latitudeDelta = compact ? 0.72 : 1.4;
+  const longitudeDelta = compact ? 0.54 : 1.0;
+
+  return (
+    <View style={[styles.mapCard, compact && styles.mapCardCompact]}>
+      <MapView
+        provider={Platform.OS === "android" ? PROVIDER_GOOGLE : undefined}
+        style={styles.nativeMap}
+        initialRegion={{
+          latitude: center.lat,
+          longitude: center.lng,
+          latitudeDelta,
+          longitudeDelta,
+        }}
+        showsUserLocation={!!userLocation}
+        showsMyLocationButton={false}
+        toolbarEnabled={false}
+      >
+        {points.map((doctor, index) => (
+          <Marker
+            key={doctor.id}
+            coordinate={{ latitude: doctor.lat, longitude: doctor.lng }}
+            title={doctor.name}
+            description={`${doctor.city || ""}${doctor.area ? ` - ${doctor.area}` : ""}`}
+            onCalloutPress={() => openNativeMap(doctor)}
+          >
+            <View style={[styles.nativeMarker, { backgroundColor: index < 4 ? colors.sky : colors.emerald }]}>
+              <Text style={styles.nativeMarkerText}>{index + 1}</Text>
+            </View>
+          </Marker>
+        ))}
+        {userLocation ? (
+          <Marker coordinate={{ latitude: userLocation.lat, longitude: userLocation.lng }} title="موقعي">
+            <View style={styles.nativeUserMarker}>
+              <View style={styles.nativeUserMarkerCore} />
+            </View>
+          </Marker>
+        ) : null}
+      </MapView>
+      <View style={styles.mapFloatingHeader}>
+        <Text style={styles.mapFloatingTitle}>{points.length ? `${points.length} عيادة على الخريطة` : "الخريطة جاهزة"}</Text>
+        <Text style={styles.mapFloatingText}>{userLocation ? "موقعك ظاهر باللون الأحمر" : "حدد موقعك لعرض الأقرب"}</Text>
+      </View>
+    </View>
+  );
+}
+
+function DoctorCard({ doctor, userLocation }: { doctor: Doctor; userLocation?: UserLocation | null }) {
+  const distance = formatDistance(doctor, userLocation || null);
+  return (
+    <Link href={`/doctor/${doctor.id}`} asChild>
+      <Pressable style={styles.card}>
+        <View style={styles.row}>
+          <Image
+            source={{ uri: doctor.image_url || "https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=300&auto=format&fit=crop" }}
+            style={styles.avatar}
+          />
+          <View style={styles.flex}>
+            <View style={styles.titleRow}>
+              <Text style={styles.cardTitle}>{doctor.name}</Text>
+              {doctor.verified ? <Badge label="موثق" color={colors.emerald} /> : null}
+            </View>
+            <Text style={styles.cardMeta}>{doctor.specialty?.join("، ") || "طب أسنان عام"}</Text>
+            <Text style={styles.cardText}>{doctor.city}{doctor.area ? ` - ${doctor.area}` : ""}</Text>
+          </View>
+        </View>
+        <View style={styles.cardFooter}>
+          <View style={styles.footerBadges}>
+            <Badge label={`تقييم ${doctor.rating || 5}`} color={colors.amber} />
+            {distance ? <Badge label={distance} color={colors.sky} /> : null}
+          </View>
+          {doctor.lat && doctor.lng ? (
+            <Pressable onPress={() => openNativeMap(doctor)} style={styles.mapOpenButton}>
+              <Text style={styles.mapOpenButtonText}>الاتجاهات</Text>
+            </Pressable>
+          ) : (
+            <Text style={styles.linkText}>عرض التفاصيل</Text>
+          )}
+        </View>
+      </Pressable>
+    </Link>
+  );
+}
+
+function MapDoctorRow({ doctor, userLocation }: { doctor: Doctor; userLocation: UserLocation | null }) {
+  const distance = formatDistance(doctor, userLocation);
+  return (
+    <View style={styles.mapRow}>
+      <View style={styles.mapRowPin} />
+      <View style={styles.flex}>
+        <Text style={styles.cardTitle}>{doctor.name}</Text>
+        <Text style={styles.cardMeta}>{doctor.city}{doctor.area ? ` - ${doctor.area}` : ""}{distance ? ` • ${distance}` : ""}</Text>
+      </View>
+      <Pressable onPress={() => openNativeMap(doctor)} style={[styles.contactButton, styles.contactButtonCompact]}>
+        <Text style={styles.contactText}>خرائط</Text>
+      </Pressable>
+    </View>
+  );
+}
+
+function ServiceCard({ service }: { service: MedicalService }) {
+  return (
+    <View style={styles.card}>
+      {service.image_url ? <Image source={{ uri: service.image_url }} style={styles.heroImage} /> : null}
+      <View style={styles.titleRow}>
+        <Text style={styles.cardTitle}>{service.name}</Text>
+        <Badge label={service.category || service.service_type} color={colors.sky} />
+      </View>
+      {service.description ? <Text style={styles.description}>{service.description}</Text> : null}
+      <Text style={styles.cardMeta}>{service.city || "فلسطين"}{service.area ? ` - ${service.area}` : ""}</Text>
+      {service.phone || service.whatsapp ? <ContactButton phone={service.phone || service.whatsapp || ""} /> : null}
+    </View>
+  );
+}
+
+function StoreCard({ store }: { store: Store }) {
+  return (
+    <View style={styles.card}>
+      <View style={styles.row}>
+        <Image
+          source={{ uri: store.logo_url || "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=300&auto=format&fit=crop" }}
+          style={styles.avatar}
+        />
+        <View style={styles.flex}>
+          <Text style={styles.cardTitle}>{store.store_name}</Text>
+          <Text style={styles.cardMeta}>{store.specialization || "مستلزمات طبية"}</Text>
+          <Text style={styles.cardText}>{store.city || "فلسطين"}</Text>
+        </View>
+      </View>
+      {store.description ? <Text style={styles.description}>{store.description}</Text> : null}
+      {store.phone || store.whatsapp ? <ContactButton phone={store.phone || store.whatsapp} /> : null}
+    </View>
+  );
+}
+
+function OfferCard({ offer }: { offer: Offer }) {
+  const discount = offer.discount_percentage ?? offer.discount_pct ?? 0;
+  return (
+    <View style={styles.card}>
+      {offer.image_url ? <Image source={{ uri: offer.image_url }} style={styles.heroImage} /> : null}
+      <View style={styles.titleRow}>
+        <Text style={styles.cardTitle}>{offer.title}</Text>
+        <Badge label={`خصم ${discount}%`} color={colors.rose} />
+      </View>
+      <Text style={styles.description}>{offer.description}</Text>
+      <Text style={styles.cardMeta}>{offer.doctor_name || "عرض طبي"}</Text>
+    </View>
+  );
+}
+
+function MarketCard({ item }: { item: MarketplaceAd }) {
+  return (
+    <View style={styles.card}>
+      {item.image_url ? <Image source={{ uri: item.image_url }} style={styles.heroImage} /> : null}
+      <Text style={styles.cardTitle}>{item.title}</Text>
+      <Text style={styles.description}>{item.description}</Text>
+      <View style={styles.cardFooter}>
+        <Badge label={item.type === "job" ? "وظيفة" : item.price ? String(item.price) : "معدات"} color={colors.emerald} />
+        <Text style={styles.cardMeta}>{item.city || "فلسطين"}</Text>
+      </View>
+      {item.phone ? <ContactButton phone={item.phone} /> : null}
+    </View>
+  );
+}
+
+function ArticleCard({ article }: { article: Article }) {
+  return (
+    <View style={styles.card}>
+      {article.image_url ? <Image source={{ uri: article.image_url }} style={styles.heroImage} /> : null}
+      <Badge label={article.category || "توعية"} color={colors.violet} />
+      <Text style={styles.cardTitle}>{article.title}</Text>
+      <Text style={styles.description} numberOfLines={3}>{article.excerpt || article.content}</Text>
+    </View>
+  );
+}
+
+function SearchPanel({
+  query,
+  setQuery,
+  placeholder,
+}: {
+  query: string;
+  setQuery: (value: string) => void;
+  placeholder: string;
+}) {
+  return (
+    <View style={styles.searchBox}>
+      <TextInput
+        value={query}
+        onChangeText={setQuery}
+        placeholder={placeholder}
+        placeholderTextColor="#94a3b8"
+        style={styles.searchInput}
+        textAlign="right"
+      />
     </View>
   );
 }
@@ -369,291 +877,58 @@ function ChipRow({
   );
 }
 
-function EmptyState({ title }: { title: string }) {
+function SectionHeader({ title, action, onPress }: { title: string; action?: string; onPress?: () => void }) {
   return (
-    <View style={styles.emptyCard}>
-      <Text style={styles.emptyTitle}>{title}</Text>
-      <Text style={styles.emptyText}>يمكنك إضافة البيانات من لوحة الإدارة لتظهر هنا مباشرة.</Text>
-    </View>
-  );
-}
-
-function DoctorsSection({ doctors }: { doctors: Doctor[] }) {
-  if (!doctors.length) return <EmptyState title="لا توجد نتائج مطابقة للأطباء" />;
-  return (
-    <View style={styles.stack}>
-      <SectionTitle title={`الأطباء والعيادات (${doctors.length})`} color={colors.sky} />
-      {doctors.map((doctor) => (
-        <Link key={doctor.id} href={`/doctor/${doctor.id}`} asChild>
-          <Pressable style={styles.card}>
-            <View style={styles.row}>
-              <Image source={{ uri: doctor.image_url || "https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=300&auto=format&fit=crop" }} style={styles.avatar} />
-              <View style={styles.flex}>
-                <Text style={styles.cardTitle}>د. {doctor.name}</Text>
-                <Text style={styles.cardMeta}>{doctor.specialty?.join("، ") || "طب أسنان عام"}</Text>
-                <Text style={styles.cardText}>{doctor.city}{doctor.area ? ` - ${doctor.area}` : ""}</Text>
-              </View>
-            </View>
-            <View style={styles.cardFooter}>
-              <Badge label={doctor.verified ? "موثق" : "قيد المراجعة"} color={doctor.verified ? colors.emerald : colors.muted} />
-              <Text style={styles.rating}>تقييم {doctor.rating || 5}</Text>
-            </View>
-          </Pressable>
-        </Link>
-      ))}
-    </View>
-  );
-}
-
-function ServicesSection({ services, stores }: { services: MedicalService[]; stores: Store[] }) {
-  const combined = [
-    ...services.map((service) => ({ id: service.id, title: service.name, subtitle: serviceLabels[service.service_type] || service.category || "خدمة طبية", description: service.description, city: service.city, phone: service.phone || service.whatsapp, image: service.image_url, color: colors.fuchsia })),
-    ...stores.map((store) => ({ id: store.id, title: store.store_name, subtitle: store.specialization || "مورد طبي", description: store.description, city: store.city, phone: store.phone || store.whatsapp, image: store.logo_url, color: colors.emerald })),
-  ];
-  if (!combined.length) return <EmptyState title="لا توجد خدمات أو شركاء حالياً" />;
-  return (
-    <View style={styles.stack}>
-      <SectionTitle title={`الخدمات الطبية والشركاء (${combined.length})`} color={colors.fuchsia} />
-      {combined.map((item) => (
-        <View key={item.id} style={styles.card}>
-          <View style={styles.row}>
-            <Image source={{ uri: item.image || "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=300&auto=format&fit=crop" }} style={styles.avatar} />
-            <View style={styles.flex}>
-              <Text style={styles.cardTitle}>{item.title}</Text>
-              <Text style={[styles.cardMeta, { color: item.color }]}>{item.subtitle}</Text>
-              <Text style={styles.cardText}>{item.city || "فلسطين"}</Text>
-            </View>
-          </View>
-          {item.description ? <Text style={styles.description}>{item.description}</Text> : null}
-          {item.phone ? <ContactButton phone={item.phone} /> : null}
-        </View>
-      ))}
-    </View>
-  );
-}
-
-function ServiceTypeSection({
-  title,
-  emptyTitle,
-  services,
-  color,
-}: {
-  title: string;
-  emptyTitle: string;
-  services: MedicalService[];
-  color: string;
-}) {
-  if (!services.length) return <EmptyState title={emptyTitle} />;
-  return (
-    <View style={styles.stack}>
-      <SectionTitle title={`${title} (${services.length})`} color={color} />
-      {services.map((service) => (
-        <View key={service.id} style={styles.card}>
-          {service.image_url ? <Image source={{ uri: service.image_url }} style={styles.heroImage} /> : null}
-          <View style={styles.cardFooter}>
-            <Text style={styles.cardTitle}>{service.name}</Text>
-            <Badge label={service.category || serviceLabels[service.service_type] || "خدمة طبية"} color={color} />
-          </View>
-          {service.description ? <Text style={styles.description}>{service.description}</Text> : null}
-          <Text style={styles.cardMeta}>{service.city || "فلسطين"}{service.area ? ` - ${service.area}` : ""}</Text>
-          {service.price_range ? <Badge label={service.price_range} color={colors.amber} /> : null}
-          {service.phone || service.whatsapp ? <ContactButton phone={service.phone || service.whatsapp || ""} /> : null}
-        </View>
-      ))}
-    </View>
-  );
-}
-
-function StoresSection({ stores }: { stores: Store[] }) {
-  if (!stores.length) return <EmptyState title="لا يوجد موردون أو متاجر مفعلة حاليا" />;
-  return (
-    <View style={styles.stack}>
-      <SectionTitle title={`الموردون والمتاجر (${stores.length})`} color={colors.emerald} />
-      {stores.map((store) => (
-        <View key={store.id} style={styles.card}>
-          <View style={styles.row}>
-            <Image
-              source={{ uri: store.logo_url || "https://images.unsplash.com/photo-1580281658629-9b93f18ae9ae?w=300&auto=format&fit=crop" }}
-              style={styles.avatar}
-            />
-            <View style={styles.flex}>
-              <Text style={styles.cardTitle}>{store.store_name}</Text>
-              <Text style={[styles.cardMeta, { color: colors.emerald }]}>{store.specialization || "مستلزمات طبية"}</Text>
-              <Text style={styles.cardText}>{store.city || "فلسطين"}</Text>
-            </View>
-          </View>
-          {store.description ? <Text style={styles.description}>{store.description}</Text> : null}
-          {store.phone || store.whatsapp ? <ContactButton phone={store.phone || store.whatsapp} /> : null}
-        </View>
-      ))}
-    </View>
-  );
-}
-
-function AdvertiseSection() {
-  return (
-    <View style={styles.card}>
-      <SectionTitle title="أعلن مع أسناني" color={colors.amber} />
-      <Text style={styles.description}>
-        اعرض عيادتك، خدمتك، متجرك، أو عرضك أمام جمهور مهتم بطب الأسنان في فلسطين. هذا القسم يطابق صفحة الإعلان في الموقع
-        ويوجه المستخدم للتواصل السريع.
-      </Text>
-      <ExternalButton label="فتح صفحة الإعلان" url="https://asnani.ps/advertise" color={colors.amber} />
-    </View>
-  );
-}
-
-function AboutSection() {
-  return (
-    <View style={styles.card}>
-      <SectionTitle title="عن أسناني.ps" color={colors.sky} />
-      <Text style={styles.description}>
-        أسناني منصة فلسطينية تجمع الأطباء، العيادات، العروض، المتاجر، المختبرات، مراكز التجميل، والاستشارات في تجربة
-        واحدة واضحة على الهاتف.
-      </Text>
-      <View style={styles.featureGrid}>
-        <Badge label="أطباء موثقون" color={colors.emerald} />
-        <Badge label="حجز وتواصل" color={colors.teal} />
-        <Badge label="عروض وسوق" color={colors.amber} />
-        <Badge label="محتوى طبي" color={colors.violet} />
-      </View>
-    </View>
-  );
-}
-
-function OffersSection({ offers }: { offers: Offer[] }) {
-  if (!offers.length) return <EmptyState title="لا توجد عروض نشطة حالياً" />;
-  return (
-    <View style={styles.stack}>
-      <SectionTitle title={`العروض الحالية (${offers.length})`} color={colors.amber} />
-      {offers.map((offer) => {
-        const discount = offer.discount_percentage ?? offer.discount_pct ?? 0;
-        return (
-          <View key={offer.id} style={styles.card}>
-            {offer.image_url ? <Image source={{ uri: offer.image_url }} style={styles.heroImage} /> : null}
-            <View style={styles.cardFooter}>
-              <Text style={styles.cardTitle}>{offer.title}</Text>
-              <Badge label={`خصم ${discount}%`} color={colors.rose} />
-            </View>
-            <Text style={styles.description}>{offer.description}</Text>
-            <Text style={styles.cardMeta}>{offer.doctor_name || "عرض طبي"} - صالح حتى {formatDate(offer.valid_until)}</Text>
-          </View>
-        );
-      })}
-    </View>
-  );
-}
-
-function MarketSection({ market }: { market: MarketplaceAd[] }) {
-  if (!market.length) return <EmptyState title="لا توجد إعلانات سوق حالياً" />;
-  return (
-    <View style={styles.stack}>
-      <SectionTitle title={`سوق أسناني (${market.length})`} color={colors.emerald} />
-      {market.map((item) => (
-        <View key={item.id} style={styles.card}>
-          {item.image_url ? <Image source={{ uri: item.image_url }} style={styles.heroImage} /> : null}
-          <Text style={styles.cardTitle}>{item.title}</Text>
-          <Text style={styles.description}>{item.description}</Text>
-          <View style={styles.cardFooter}>
-            <Badge label={item.type === "job" ? "وظيفة" : item.price ? String(item.price) : "معدات"} color={colors.emerald} />
-            <Text style={styles.cardMeta}>{item.city || "فلسطين"}</Text>
-          </View>
-          {item.phone ? <ContactButton phone={item.phone} /> : null}
-        </View>
-      ))}
-    </View>
-  );
-}
-
-function MediaSection({ articles }: { articles: Article[] }) {
-  if (!articles.length) return <EmptyState title="لا توجد مقالات أو أخبار حالياً" />;
-  return (
-    <View style={styles.stack}>
-      <SectionTitle title={`المجلة الطبية (${articles.length})`} color={colors.violet} />
-      {articles.map((article) => (
-        <View key={article.id} style={styles.card}>
-          {article.image_url ? <Image source={{ uri: article.image_url }} style={styles.heroImage} /> : null}
-          <Badge label={article.category || "توعية"} color={colors.violet} />
-          <Text style={styles.cardTitle}>{article.title}</Text>
-          <Text style={styles.description} numberOfLines={4}>{article.excerpt || article.content}</Text>
-          <Text style={styles.cardMeta}>{article.doctor_name || article.author || "أسناني"} - {article.read_time || "قراءة سريعة"}</Text>
-        </View>
-      ))}
-    </View>
-  );
-}
-
-function JoinSection(props: {
-  regType: "doctor" | "store";
-  setRegType: (value: "doctor" | "store") => void;
-  regName: string;
-  setRegName: (value: string) => void;
-  regSpecialty: string;
-  setRegSpecialty: (value: string) => void;
-  regCity: string;
-  setRegCity: (value: string) => void;
-  regPhone: string;
-  setRegPhone: (value: string) => void;
-  regNotes: string;
-  setRegNotes: (value: string) => void;
-  saving: boolean;
-  notice: string;
-  onSubmit: () => void;
-}) {
-  return (
-    <View style={styles.card}>
-      <SectionTitle title="انضم إلى شبكة أسناني" color={colors.teal} />
-      <Text style={styles.description}>سجل عيادتك أو شركتك ليتم مراجعتها وتفعيلها من لوحة الإدارة.</Text>
-      <View style={styles.segment}>
-        <Pressable onPress={() => props.setRegType("doctor")} style={[styles.segmentBtn, props.regType === "doctor" && styles.segmentActive]}>
-          <Text style={[styles.segmentText, props.regType === "doctor" && styles.segmentTextActive]}>طبيب/عيادة</Text>
+    <View style={styles.sectionHeader}>
+      {action && onPress ? (
+        <Pressable onPress={onPress}>
+          <Text style={styles.sectionAction}>{action}</Text>
         </Pressable>
-        <Pressable onPress={() => props.setRegType("store")} style={[styles.segmentBtn, props.regType === "store" && styles.segmentActive]}>
-          <Text style={[styles.segmentText, props.regType === "store" && styles.segmentTextActive]}>شركة/متجر</Text>
-        </Pressable>
-      </View>
-      <FormInput placeholder="الاسم" value={props.regName} onChangeText={props.setRegName} />
-      <FormInput placeholder="التخصص أو المجال" value={props.regSpecialty} onChangeText={props.setRegSpecialty} />
-      <FormInput placeholder="المدينة" value={props.regCity} onChangeText={props.setRegCity} />
-      <FormInput placeholder="رقم الهاتف" value={props.regPhone} onChangeText={props.setRegPhone} keyboardType="phone-pad" />
-      <TextInput
-        placeholder="ملاحظات أو وصف مختصر"
-        placeholderTextColor="#94a3b8"
-        value={props.regNotes}
-        onChangeText={props.setRegNotes}
-        style={[styles.input, styles.textArea]}
-        textAlign="right"
-        multiline
-      />
-      {props.notice ? <Text style={styles.notice}>{props.notice}</Text> : null}
-      <Pressable disabled={props.saving} onPress={props.onSubmit} style={[styles.primaryButton, props.saving && { opacity: 0.7 }]}>
-        <Text style={styles.primaryButtonText}>{props.saving ? "جار الإرسال..." : "إرسال الطلب"}</Text>
-      </Pressable>
-    </View>
-  );
-}
-
-function SectionTitle({ title, color }: { title: string; color: string }) {
-  return (
-    <View style={styles.sectionTitleRow}>
-      <View style={[styles.sectionLine, { backgroundColor: color }]} />
+      ) : <View />}
       <Text style={styles.sectionTitle}>{title}</Text>
+    </View>
+  );
+}
+
+function ScreenTitle({ title, subtitle }: { title: string; subtitle: string }) {
+  return (
+    <View style={styles.screenTitleBlock}>
+      <Text style={styles.screenTitle}>{title}</Text>
+      <Text style={styles.screenSubtitle}>{subtitle}</Text>
+    </View>
+  );
+}
+
+function StatCard({ value, label, color }: { value: number; label: string; color: string }) {
+  return (
+    <View style={styles.statCard}>
+      <Text style={[styles.statNumber, { color }]}>{value}</Text>
+      <Text style={styles.statLabel}>{label}</Text>
     </View>
   );
 }
 
 function Badge({ label, color }: { label: string; color: string }) {
   return (
-    <View style={[styles.badge, { backgroundColor: `${color}15`, borderColor: `${color}30` }]}>
+    <View style={[styles.badge, { backgroundColor: `${color}14`, borderColor: `${color}28` }]}>
       <Text style={[styles.badgeText, { color }]}>{label}</Text>
     </View>
   );
 }
 
-function ContactButton({ phone }: { phone: string }) {
+function InfoStrip({ label, value, color }: { label: string; value: string; color: string }) {
   return (
-    <Pressable onPress={() => Linking.openURL(`tel:${phone}`)} style={styles.contactButton}>
-      <Text style={styles.contactText}>اتصال مباشر: {phone}</Text>
+    <View style={styles.infoStrip}>
+      <Badge label={label} color={color} />
+      <Text style={styles.infoStripText}>{value}</Text>
+    </View>
+  );
+}
+
+function ContactButton({ phone, compact = false }: { phone: string; compact?: boolean }) {
+  return (
+    <Pressable onPress={() => Linking.openURL(`tel:${phone}`)} style={[styles.contactButton, compact && styles.contactButtonCompact]}>
+      <Text style={styles.contactText}>{compact ? "اتصال" : `اتصال مباشر: ${phone}`}</Text>
     </Pressable>
   );
 }
@@ -666,17 +941,37 @@ function ExternalButton({ label, url, color }: { label: string; url: string; col
   );
 }
 
-function FormInput(props: any) {
-  return <TextInput {...props} placeholderTextColor="#94a3b8" style={styles.input} textAlign="right" />;
+function EmptyState({ title }: { title: string }) {
+  return (
+    <View style={styles.emptyCard}>
+      <Text style={styles.emptyTitle}>{title}</Text>
+      <Text style={styles.emptyText}>جرّب تغيير الفلاتر أو تحديث البيانات من لوحة الإدارة.</Text>
+    </View>
+  );
 }
 
-function formatDate(value?: string) {
-  if (!value) return "غير محدد";
-  try {
-    return new Date(value).toLocaleDateString("ar");
-  } catch {
-    return value;
-  }
+function BottomNav({
+  activeTab,
+  setActiveTab,
+  bottomInset,
+}: {
+  activeTab: MainTab;
+  setActiveTab: (tab: MainTab) => void;
+  bottomInset: number;
+}) {
+  return (
+    <View style={[styles.bottomNav, { paddingBottom: Math.max(bottomInset, 12) }]}>
+      {mainTabs.map((tab) => {
+        const active = activeTab === tab.key;
+        return (
+          <Pressable key={tab.key} onPress={() => setActiveTab(tab.key)} style={[styles.bottomItem, active && styles.bottomItemActive]}>
+            <Ionicons name={tab.icon} size={20} color={active ? colors.sky : colors.muted} />
+            <Text style={[styles.bottomLabel, active && styles.bottomLabelActive]}>{tab.label}</Text>
+          </Pressable>
+        );
+      })}
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -688,32 +983,221 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     gap: 16,
   },
-  tabsRow: {
+  stack: {
+    gap: 14,
+  },
+  topBar: {
     flexDirection: "row-reverse",
-    gap: 8,
-    paddingVertical: 4,
+    alignItems: "center",
+    gap: 10,
   },
-  topTab: {
-    borderWidth: 1,
-    borderColor: colors.border,
-    backgroundColor: colors.card,
-    borderRadius: 16,
-    paddingHorizontal: 18,
-    paddingVertical: 11,
+  logoMark: {
+    width: 44,
+    height: 44,
+    borderRadius: 14,
+    backgroundColor: colors.sky,
+    alignItems: "center",
+    justifyContent: "center",
   },
-  topTabText: {
-    color: colors.muted,
-    fontWeight: "900",
-    fontSize: 13,
-  },
-  topTabTextActive: {
+  logoText: {
     color: "#fff",
+    fontSize: 20,
+    fontWeight: "900",
   },
-  searchCard: {
+  brandBlock: {
+    flex: 1,
+    alignItems: "flex-end",
+  },
+  brand: {
+    color: colors.ink,
+    fontSize: 22,
+    fontWeight: "900",
+  },
+  brandSub: {
+    color: colors.muted,
+    fontSize: 12,
+    fontWeight: "700",
+    marginTop: 2,
+  },
+  loadingCard: {
     backgroundColor: colors.card,
     borderRadius: 24,
-    padding: 14,
+    padding: 28,
+    alignItems: "center",
+    gap: 12,
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
+  loadingText: {
+    color: colors.muted,
+    fontWeight: "800",
+  },
+  hero: {
+    backgroundColor: colors.ink,
+    borderRadius: 26,
+    padding: 22,
+    gap: 20,
+    overflow: "hidden",
+  },
+  heroImageBg: {
+    ...StyleSheet.absoluteFillObject,
+    width: "100%",
+    height: "100%",
+    opacity: 0.42,
+  },
+  heroOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(2, 6, 23, 0.72)",
+  },
+  heroCopy: {
+    alignItems: "flex-end",
+    gap: 8,
+  },
+  kicker: {
+    color: "#7dd3fc",
+    fontSize: 12,
+    fontWeight: "900",
+  },
+  heroTitle: {
+    color: "#fff",
+    fontSize: 27,
+    lineHeight: 36,
+    fontWeight: "900",
+    textAlign: "right",
+  },
+  heroText: {
+    color: "#cbd5e1",
+    fontSize: 14,
+    lineHeight: 23,
+    fontWeight: "700",
+    textAlign: "right",
+  },
+  heroActions: {
+    flexDirection: "row-reverse",
     gap: 10,
+  },
+  primaryButton: {
+    backgroundColor: colors.sky,
+    borderRadius: 18,
+    paddingVertical: 14,
+    paddingHorizontal: 18,
+    alignItems: "center",
+    flex: 1,
+  },
+  primaryButtonText: {
+    color: "#fff",
+    fontSize: 14,
+    fontWeight: "900",
+  },
+  secondaryButton: {
+    backgroundColor: colors.card,
+    borderRadius: 18,
+    paddingVertical: 14,
+    paddingHorizontal: 18,
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: colors.border,
+    flex: 1,
+  },
+  secondaryButtonText: {
+    color: colors.ink,
+    fontSize: 14,
+    fontWeight: "900",
+  },
+  statsRow: {
+    flexDirection: "row-reverse",
+    gap: 10,
+  },
+  homeSearchPanel: {
+    backgroundColor: colors.card,
+    borderRadius: 24,
+    padding: 16,
+    gap: 14,
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
+  homeSearchTitle: {
+    color: colors.ink,
+    fontSize: 17,
+    fontWeight: "900",
+    textAlign: "right",
+  },
+  homeActionGrid: {
+    flexDirection: "row-reverse",
+    gap: 9,
+  },
+  homeAction: {
+    flex: 1,
+    minHeight: 74,
+    borderRadius: 18,
+    backgroundColor: "#f8fafc",
+    borderWidth: 1,
+    borderColor: colors.border,
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 6,
+  },
+  homeActionText: {
+    color: colors.ink,
+    fontSize: 11,
+    fontWeight: "900",
+  },
+  statCard: {
+    flex: 1,
+    backgroundColor: colors.card,
+    borderRadius: 20,
+    padding: 14,
+    borderWidth: 1,
+    borderColor: colors.border,
+    alignItems: "center",
+  },
+  statNumber: {
+    fontSize: 24,
+    fontWeight: "900",
+  },
+  statLabel: {
+    color: colors.muted,
+    fontSize: 11,
+    fontWeight: "800",
+    marginTop: 2,
+  },
+  sectionHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginTop: 2,
+  },
+  sectionTitle: {
+    color: colors.ink,
+    fontSize: 18,
+    fontWeight: "900",
+    textAlign: "right",
+  },
+  sectionAction: {
+    color: colors.sky,
+    fontSize: 13,
+    fontWeight: "900",
+  },
+  screenTitleBlock: {
+    alignItems: "flex-end",
+    gap: 4,
+  },
+  screenTitle: {
+    color: colors.ink,
+    fontSize: 26,
+    fontWeight: "900",
+    textAlign: "right",
+  },
+  screenSubtitle: {
+    color: colors.muted,
+    fontSize: 13,
+    fontWeight: "700",
+    textAlign: "right",
+  },
+  searchBox: {
+    backgroundColor: colors.card,
+    borderRadius: 20,
+    padding: 10,
     borderWidth: 1,
     borderColor: colors.border,
   },
@@ -730,14 +1214,15 @@ const styles = StyleSheet.create({
   chipRow: {
     flexDirection: "row-reverse",
     gap: 8,
+    paddingVertical: 2,
   },
   chip: {
     backgroundColor: "#f8fafc",
-    borderRadius: 12,
+    borderRadius: 13,
     borderWidth: 1,
     borderColor: colors.border,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
+    paddingHorizontal: 13,
+    paddingVertical: 9,
   },
   chipText: {
     color: colors.muted,
@@ -747,33 +1232,261 @@ const styles = StyleSheet.create({
   chipTextActive: {
     color: "#fff",
   },
-  loadingCard: {
+  categoryGrid: {
+    flexDirection: "row-reverse",
+    flexWrap: "wrap",
+    gap: 10,
+  },
+  categoryCard: {
+    width: "48%",
     backgroundColor: colors.card,
-    borderRadius: 24,
-    padding: 28,
+    borderRadius: 20,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: colors.border,
+    alignItems: "flex-end",
+    gap: 10,
+  },
+  categoryIcon: {
+    width: 42,
+    height: 42,
+    borderRadius: 14,
     alignItems: "center",
+    justifyContent: "center",
+  },
+  categoryTitle: {
+    color: colors.ink,
+    fontSize: 14,
+    fontWeight: "900",
+    textAlign: "right",
+  },
+  serviceShortcutGrid: {
+    flexDirection: "row-reverse",
+    flexWrap: "wrap",
+    gap: 10,
+  },
+  shortcut: {
+    width: "48%",
+    backgroundColor: colors.card,
+    borderRadius: 18,
+    padding: 14,
+    borderWidth: 1,
+    borderColor: colors.border,
+    flexDirection: "row-reverse",
+    alignItems: "center",
+    gap: 8,
+  },
+  shortcutMark: {
+    fontSize: 16,
+  },
+  shortcutText: {
+    color: colors.ink,
+    fontSize: 13,
+    fontWeight: "900",
+  },
+  mapCard: {
+    height: 420,
+    backgroundColor: "#dbeafe",
+    borderRadius: 26,
+    overflow: "hidden",
+    borderWidth: 1,
+    borderColor: "#bae6fd",
+    position: "relative",
+  },
+  mapCardCompact: {
+    height: 245,
+  },
+  nativeMap: {
+    ...StyleSheet.absoluteFillObject,
+  },
+  mapFloatingHeader: {
+    position: "absolute",
+    top: 12,
+    right: 16,
+    left: 16,
+    borderRadius: 18,
+    backgroundColor: "rgba(255, 255, 255, 0.94)",
+    borderWidth: 1,
+    borderColor: "rgba(226, 232, 240, 0.9)",
+    paddingHorizontal: 14,
+    paddingVertical: 11,
+    alignItems: "flex-end",
+  },
+  distancePanel: {
+    backgroundColor: colors.card,
+    borderRadius: 22,
+    padding: 14,
     gap: 12,
     borderWidth: 1,
     borderColor: colors.border,
   },
-  loadingText: {
-    color: colors.muted,
-    fontWeight: "800",
+  distanceHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
-  stack: {
+  distanceTitle: {
+    color: colors.ink,
+    fontSize: 15,
+    fontWeight: "900",
+  },
+  distanceHint: {
+    color: colors.muted,
+    fontSize: 11,
+    fontWeight: "800",
+    textAlign: "right",
+    flex: 1,
+  },
+  distanceChips: {
+    flexDirection: "row-reverse",
+    gap: 8,
+  },
+  distanceChip: {
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: colors.border,
+    backgroundColor: "#f8fafc",
+    paddingHorizontal: 13,
+    paddingVertical: 9,
+  },
+  distanceChipActive: {
+    backgroundColor: colors.sky,
+    borderColor: colors.sky,
+  },
+  distanceChipText: {
+    color: colors.muted,
+    fontSize: 12,
+    fontWeight: "900",
+  },
+  distanceChipTextActive: {
+    color: "#fff",
+  },
+  mapFloatingTitle: {
+    color: colors.ink,
+    fontSize: 13,
+    fontWeight: "900",
+    textAlign: "right",
+  },
+  mapFloatingText: {
+    color: colors.muted,
+    fontSize: 11,
+    fontWeight: "800",
+    marginTop: 2,
+    textAlign: "right",
+  },
+  nativeMarker: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 3,
+    borderColor: "#fff",
+  },
+  nativeMarkerText: {
+    color: "#fff",
+    fontSize: 11,
+    fontWeight: "900",
+  },
+  nativeUserMarker: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(225, 29, 72, 0.18)",
+    borderWidth: 2,
+    borderColor: "#fff",
+  },
+  nativeUserMarkerCore: {
+    width: 14,
+    height: 14,
+    borderRadius: 7,
+    backgroundColor: colors.rose,
+  },
+  mapCallout: {
+    backgroundColor: colors.ink,
+    borderRadius: 20,
+    padding: 16,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  mapCalloutTitle: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "900",
+    textAlign: "right",
+  },
+  mapCalloutText: {
+    color: "#cbd5e1",
+    fontSize: 12,
+    fontWeight: "700",
+    marginTop: 4,
+    textAlign: "right",
+  },
+  mapCalloutAction: {
+    color: "#7dd3fc",
+    fontSize: 14,
+    fontWeight: "900",
+  },
+  mapRow: {
+    backgroundColor: colors.card,
+    borderRadius: 18,
+    padding: 14,
+    borderWidth: 1,
+    borderColor: colors.border,
+    flexDirection: "row-reverse",
+    alignItems: "center",
     gap: 12,
+  },
+  mapRowPin: {
+    width: 14,
+    height: 14,
+    borderRadius: 7,
+    backgroundColor: colors.sky,
+  },
+  doctorActionRow: {
+    flexDirection: "row-reverse",
+    gap: 10,
+  },
+  locationButton: {
+    flex: 1.3,
+    backgroundColor: colors.sky,
+    borderRadius: 17,
+    paddingVertical: 13,
+    alignItems: "center",
+  },
+  locationButtonText: {
+    color: "#fff",
+    fontSize: 13,
+    fontWeight: "900",
+  },
+  locationButtonAlt: {
+    flex: 0.7,
+    backgroundColor: colors.card,
+    borderRadius: 17,
+    paddingVertical: 13,
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
+  locationButtonAltText: {
+    color: colors.ink,
+    fontSize: 13,
+    fontWeight: "900",
   },
   card: {
     backgroundColor: colors.card,
-    borderRadius: 24,
-    padding: 16,
+    borderRadius: 22,
+    padding: 15,
     gap: 12,
     borderWidth: 1,
     borderColor: colors.border,
     shadowColor: colors.ink,
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.04,
-    shadowRadius: 12,
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.05,
+    shadowRadius: 14,
     elevation: 2,
   },
   row: {
@@ -792,9 +1505,15 @@ const styles = StyleSheet.create({
   },
   heroImage: {
     width: "100%",
-    height: 150,
+    height: 152,
     borderRadius: 18,
     backgroundColor: "#e2e8f0",
+  },
+  titleRow: {
+    flexDirection: "row-reverse",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: 8,
   },
   cardTitle: {
     color: colors.ink,
@@ -802,6 +1521,7 @@ const styles = StyleSheet.create({
     fontWeight: "900",
     textAlign: "right",
     lineHeight: 23,
+    flexShrink: 1,
   },
   cardMeta: {
     color: colors.muted,
@@ -830,10 +1550,23 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     gap: 8,
   },
-  featureGrid: {
+  footerBadges: {
     flexDirection: "row-reverse",
+    alignItems: "center",
+    gap: 6,
     flexWrap: "wrap",
-    gap: 8,
+    flex: 1,
+  },
+  mapOpenButton: {
+    backgroundColor: colors.ink,
+    borderRadius: 13,
+    paddingHorizontal: 13,
+    paddingVertical: 9,
+  },
+  mapOpenButtonText: {
+    color: "#fff",
+    fontSize: 12,
+    fontWeight: "900",
   },
   badge: {
     borderWidth: 1,
@@ -846,43 +1579,46 @@ const styles = StyleSheet.create({
     fontSize: 11,
     fontWeight: "900",
   },
-  rating: {
-    color: colors.amber,
+  linkText: {
+    color: colors.sky,
     fontSize: 12,
+    fontWeight: "900",
+  },
+  infoStrip: {
+    backgroundColor: colors.card,
+    borderRadius: 18,
+    padding: 14,
+    borderWidth: 1,
+    borderColor: colors.border,
+    flexDirection: "row-reverse",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  infoStripText: {
+    color: colors.ink,
+    fontSize: 13,
     fontWeight: "900",
   },
   contactButton: {
     backgroundColor: colors.ink,
     borderRadius: 16,
     paddingVertical: 12,
+    paddingHorizontal: 14,
     alignItems: "center",
+  },
+  contactButtonCompact: {
+    paddingVertical: 9,
+    paddingHorizontal: 12,
   },
   contactText: {
     color: "#fff",
     fontSize: 13,
     fontWeight: "900",
   },
-  sectionTitleRow: {
-    flexDirection: "row-reverse",
-    alignItems: "center",
-    gap: 8,
-    marginTop: 2,
-  },
-  sectionLine: {
-    width: 5,
-    height: 24,
-    borderRadius: 99,
-  },
-  sectionTitle: {
-    color: colors.ink,
-    fontSize: 18,
-    fontWeight: "900",
-    textAlign: "right",
-  },
   emptyCard: {
     backgroundColor: colors.card,
-    borderRadius: 24,
-    padding: 26,
+    borderRadius: 22,
+    padding: 24,
     alignItems: "center",
     borderWidth: 1,
     borderColor: colors.border,
@@ -900,65 +1636,12 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 6,
   },
-  segment: {
-    flexDirection: "row-reverse",
-    borderRadius: 16,
-    padding: 5,
-    backgroundColor: "#f1f5f9",
-  },
-  segmentBtn: {
-    flex: 1,
-    borderRadius: 12,
-    paddingVertical: 10,
-    alignItems: "center",
-  },
-  segmentActive: {
-    backgroundColor: colors.card,
-  },
-  segmentText: {
-    color: colors.muted,
-    fontWeight: "900",
-  },
-  segmentTextActive: {
-    color: colors.ink,
-  },
-  input: {
-    backgroundColor: "#f8fafc",
-    borderWidth: 1,
-    borderColor: colors.border,
-    borderRadius: 16,
-    paddingHorizontal: 14,
-    paddingVertical: 12,
-    color: colors.ink,
-    fontWeight: "800",
-  },
-  textArea: {
-    minHeight: 96,
-    textAlignVertical: "top",
-  },
-  notice: {
-    color: colors.teal,
-    fontWeight: "900",
-    textAlign: "right",
-    lineHeight: 20,
-  },
-  primaryButton: {
-    backgroundColor: colors.teal,
-    borderRadius: 18,
-    paddingVertical: 14,
-    alignItems: "center",
-  },
-  primaryButtonText: {
-    color: "#fff",
-    fontSize: 14,
-    fontWeight: "900",
-  },
   bottomNav: {
     position: "absolute",
-    left: 14,
-    right: 14,
-    bottom: 12,
-    backgroundColor: "rgba(255,255,255,0.96)",
+    left: 12,
+    right: 12,
+    bottom: 10,
+    backgroundColor: "rgba(255,255,255,0.98)",
     borderRadius: 26,
     borderWidth: 1,
     borderColor: colors.border,
@@ -973,16 +1656,20 @@ const styles = StyleSheet.create({
   },
   bottomItem: {
     alignItems: "center",
-    minWidth: 54,
-    gap: 4,
+    minWidth: 58,
+    paddingVertical: 5,
+    borderRadius: 16,
+    gap: 2,
   },
-  bottomEmoji: {
-    fontSize: 18,
-    textAlign: "center",
+  bottomItemActive: {
+    backgroundColor: "#e0f2fe",
   },
-  bottomText: {
+  bottomLabel: {
     color: colors.muted,
-    fontSize: 11,
+    fontSize: 10,
     fontWeight: "900",
+  },
+  bottomLabelActive: {
+    color: colors.sky,
   },
 });
