@@ -1,0 +1,46 @@
+export type Doctor = {
+  id: string;
+  name: string;
+  specialty?: string[] | null;
+  city?: string | null;
+  area?: string | null;
+  address?: string | null;
+  phone?: string | null;
+  whatsapp?: string | null;
+  bio?: string | null;
+  image_url?: string | null;
+  is_featured?: boolean | null;
+  is_available?: boolean | null;
+  availability_note?: string | null;
+  working_hours?: Record<string, string> | null;
+};
+
+export type AppointmentRecord = {
+  id: string;
+  doctor_id: string;
+  patient_name?: string | null;
+  patient_full_name?: string | null;
+  patient_phone?: string | null;
+  patient_identity?: string | null;
+  patient_address?: string | null;
+  date?: string | null;
+  time?: string | null;
+  notes?: string | null;
+  status?: string | null;
+  created_at?: string | null;
+  doctor?: Doctor | null;
+};
+
+export type DoctorAccount = {
+  id: string;
+  doctor_id: string;
+  email: string;
+  is_active: boolean;
+  doctors?: Pick<Doctor, "name" | "city" | "phone"> | null;
+};
+
+export type ApiResponse<T> = {
+  success?: boolean;
+  error?: string;
+  message?: string;
+} & T;
