@@ -6,8 +6,11 @@ import { useState } from "react";
 import {
   BookOpen,
   CalendarCheck2,
+  Home,
   Menu,
   Microscope,
+  MoreHorizontal,
+  Search,
   ShoppingBag,
   Sparkles,
   Stethoscope,
@@ -76,6 +79,14 @@ const links = [
   },
 ];
 
+const mobilePrimaryLinks = [
+  { href: "/", label: "الرئيسية", icon: Home },
+  { href: "/#doctors", label: "بحث", icon: Search },
+  { href: "/booking", label: "حجز", icon: CalendarCheck2 },
+  { href: "/offers", label: "عروض", icon: Tags },
+  { href: "/marketplace", label: "المزيد", icon: MoreHorizontal },
+];
+
 export default function Navbar() {
   const pathname = usePathname();
   const currentPath = pathname || "";
@@ -84,6 +95,7 @@ export default function Navbar() {
   if (currentPath.startsWith("/admin")) return null;
 
   return (
+    <>
     <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-xl border-b border-slate-100 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.01),0_10px_30px_-10px_rgba(0,0,0,0.03)]">
       <div className="max-w-[1600px] mx-auto px-3 lg:px-6 h-[72px] flex items-center gap-3">
         <Link href="/" className="flex items-center gap-2.5 group flex-shrink-0">
@@ -199,5 +211,29 @@ export default function Navbar() {
         </div>
       ) : null}
     </nav>
+    <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-slate-200 bg-white/95 px-2 pb-[max(env(safe-area-inset-bottom),0.5rem)] pt-2 shadow-[0_-12px_30px_-18px_rgba(15,23,42,0.35)] backdrop-blur-xl lg:hidden" dir="rtl">
+      <div className="mx-auto grid max-w-md grid-cols-5 gap-1">
+        {mobilePrimaryLinks.map((link) => {
+          const isActive =
+            currentPath === link.href ||
+            (link.href !== "/" && !link.href.includes("#") && currentPath.startsWith(link.href));
+          const Icon = link.icon;
+
+          return (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={`flex min-h-14 flex-col items-center justify-center gap-1 rounded-2xl text-[11px] font-black transition ${
+                isActive ? "bg-sky-50 text-sky-700" : "text-slate-500 active:bg-slate-100"
+              }`}
+            >
+              <Icon className={`h-5 w-5 ${isActive ? "text-sky-600" : "text-slate-500"}`} />
+              {link.label}
+            </Link>
+          );
+        })}
+      </div>
+    </nav>
+    </>
   );
 }

@@ -13,6 +13,7 @@ import {
   Clock,
   HeartPulse,
   MapPin,
+  MessageCircle,
   Navigation,
   PhoneCall,
   Route,
@@ -74,6 +75,12 @@ const HOW_IT_WORKS = [
   { title: "حدد موقعك", desc: "رتب النتائج حسب الأقرب لك.", icon: Navigation },
   { title: "قارن الخيارات", desc: "راجع التخصص، المدينة، التقييم والدوام.", icon: ShieldCheck },
   { title: "افتح الاتجاهات", desc: "انتقل للعيادة من تطبيق الخرائط.", icon: MapPin },
+];
+
+const CARE_PATHS = [
+  { label: "عندي ألم الآن", specialty: "طب أسنان عام", status: "open" as const },
+  { label: "أحتاج تقويم", specialty: "تقويم الأسنان", status: "any" as const },
+  { label: "أبحث عن زراعة", specialty: "زراعة الأسنان", status: "any" as const },
 ];
 
 function isDoctorOpenNow(workingHours: any): boolean {
@@ -243,7 +250,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-slate-50 font-sans">
-      <section className="relative isolate bg-slate-950 px-4 py-6 sm:py-8 lg:px-8">
+      <section className="relative isolate bg-slate-950 px-4 py-5 sm:py-8 lg:px-8">
         <Image
           src={HERO_IMAGE_URL}
           alt="عيادة أسنان حديثة"
@@ -253,17 +260,17 @@ export default function Home() {
           className="object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-l from-slate-950/90 via-slate-950/70 to-slate-900/35" />
-        <div className="relative z-10 mx-auto grid min-h-[500px] w-full max-w-[1400px] items-center gap-8 lg:grid-cols-[minmax(0,1fr)_440px]">
+        <div className="relative z-10 mx-auto grid min-h-[560px] w-full max-w-[1400px] items-center gap-7 py-4 sm:min-h-[520px] lg:grid-cols-[minmax(0,1fr)_460px]">
           <div className="max-w-3xl text-right text-white" dir="rtl">
             <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-black backdrop-blur">
               <Sparkles className="h-4 w-4 text-amber-300" />
               دليل الأسنان الذكي في فلسطين
             </div>
             <h1 className="text-3xl font-black leading-tight sm:text-5xl lg:text-6xl">
-              رعاية الأسنان في فلسطين، مرتبة حول موقعك.
+              طبيب الأسنان المناسب، بدون حيرة.
             </h1>
             <p className="mt-5 max-w-2xl text-base font-semibold leading-8 text-slate-100 sm:text-lg">
-              ابحث، قارن، شاهد الخريطة، ثم تواصل أو احجز من مكان واحد بدون ازدحام أو خطوات ضائعة.
+              ابدأ من حالتك أو موقعك، وشاهد الأطباء الأقرب مع الدوام والتقييم وطرق التواصل في مكان واحد.
             </p>
             <div className="mt-7 flex flex-wrap gap-2">
               {TRUST_POINTS.map((item) => (
@@ -278,6 +285,23 @@ export default function Home() {
           <div className="rounded-2xl border border-white/20 bg-white p-4 text-right shadow-2xl sm:p-5" dir="rtl">
             <p className="text-xs font-black text-sky-600">ابدأ البحث</p>
             <h2 className="mt-1 text-2xl font-black text-slate-950">من تبحث عنه اليوم؟</h2>
+            <div className="mt-4 grid gap-2 sm:grid-cols-3">
+              {CARE_PATHS.map((path) => (
+                <button
+                  key={path.label}
+                  type="button"
+                  onClick={() => {
+                    setSelectedSpecialty(path.specialty);
+                    setSelectedWorkStatus(path.status);
+                    setActiveDiagnosis("");
+                    document.getElementById("doctors")?.scrollIntoView({ behavior: "smooth", block: "start" });
+                  }}
+                  className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-3 text-xs font-black text-slate-700 transition hover:border-sky-200 hover:bg-sky-50 hover:text-sky-700"
+                >
+                  {path.label}
+                </button>
+              ))}
+            </div>
             <div className="mt-4 space-y-3">
               <label className="flex min-h-12 items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 focus-within:border-sky-300 focus-within:bg-white">
                 <Search className="h-5 w-5 text-sky-500" />
@@ -328,6 +352,20 @@ export default function Home() {
                 <Navigation className={`h-5 w-5 -rotate-45 ${userLoc ? "animate-pulse" : ""}`} />
                 {userLoc ? "تم ترتيب النتائج حسب الأقرب" : "رتب النتائج حسب الأقرب لي"}
               </button>
+              {hasActiveFilters ? (
+                <div className="flex flex-wrap items-center gap-2 pt-1">
+                  {selectedCity ? <FilterChip label={selectedCity} onClear={() => setSelectedCity("")} /> : null}
+                  {selectedSpecialty ? <FilterChip label={selectedSpecialty} onClear={() => setSelectedSpecialty("")} /> : null}
+                  {selectedInsurance ? <FilterChip label={selectedInsurance} onClear={() => setSelectedInsurance("")} /> : null}
+                  {selectedWorkStatus !== "any" ? (
+                    <FilterChip label={selectedWorkStatus === "open" ? "مفتوح الآن" : "مغلق حاليا"} onClear={() => setSelectedWorkStatus("any")} />
+                  ) : null}
+                  {activeDiagnosis ? <FilterChip label="حسب الحالة" onClear={() => setActiveDiagnosis("")} /> : null}
+                  <button type="button" onClick={resetFilters} className="text-xs font-black text-slate-500 hover:text-sky-700">
+                    مسح الكل
+                  </button>
+                </div>
+              ) : null}
             </div>
           </div>
         </div>
@@ -491,6 +529,19 @@ function SelectShell({ icon, children }: { icon: ReactNode; children: ReactNode 
   );
 }
 
+function FilterChip({ label, onClear }: { label: string; onClear: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onClear}
+      className="inline-flex items-center gap-2 rounded-full border border-sky-100 bg-sky-50 px-3 py-1.5 text-xs font-black text-sky-700"
+    >
+      {label}
+      <span className="text-sm leading-none text-sky-500">×</span>
+    </button>
+  );
+}
+
 function Metric({ value, label }: { value: string | number; label: string }) {
   return (
     <div className="rounded-2xl border border-slate-200 bg-white p-5 text-right shadow-sm">
@@ -502,9 +553,16 @@ function Metric({ value, label }: { value: string | number; label: string }) {
 
 function DoctorResult({ doctor }: { doctor: Doctor }) {
   const openNow = isDoctorOpenNow(doctor.working_hours);
+  const directionsHref =
+    doctor.lat && doctor.lng
+      ? `https://www.google.com/maps/dir/?api=1&destination=${doctor.lat},${doctor.lng}`
+      : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+          [doctor.city, doctor.area, doctor.address, doctor.name].filter(Boolean).join(" ")
+        )}`;
+  const whatsappHref = doctor.whatsapp ? `https://wa.me/${doctor.whatsapp.replace(/[^\d]/g, "")}` : undefined;
+
   return (
-    <Link href={`/doctors/${doctor.id}`} className="group block">
-      <article className="flex flex-col gap-5 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition hover:border-sky-200 hover:shadow-md sm:flex-row">
+    <article className="group flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition hover:border-sky-200 hover:shadow-md sm:flex-row">
         <div className="relative h-52 w-full overflow-hidden rounded-xl bg-slate-100 sm:h-auto sm:w-44">
           {doctor.image_url ? (
             <Image src={doctor.image_url} alt={doctor.name} fill className="object-cover transition duration-500 group-hover:scale-105" />
@@ -524,7 +582,9 @@ function DoctorResult({ doctor }: { doctor: Doctor }) {
           <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="text-xl font-black text-slate-950 group-hover:text-sky-600">{doctor.name}</h3>
+                <Link href={`/doctors/${doctor.id}`} className="text-xl font-black text-slate-950 hover:text-sky-600">
+                  {doctor.name}
+                </Link>
                 {doctor.verified ? <CheckCircle2 className="h-5 w-5 text-emerald-500" /> : null}
               </div>
               <div className="mt-3 flex flex-wrap gap-2">
@@ -542,7 +602,7 @@ function DoctorResult({ doctor }: { doctor: Doctor }) {
               </span>
             ) : null}
           </div>
-          <div className="mt-auto flex flex-col gap-4 border-t border-slate-100 pt-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="mt-auto flex flex-col gap-4 border-t border-slate-100 pt-4">
             <div className="space-y-2">
               <p className="flex items-center gap-2 text-sm font-bold text-slate-500">
                 <MapPin className="h-4 w-4" />
@@ -563,14 +623,31 @@ function DoctorResult({ doctor }: { doctor: Doctor }) {
                 ) : null}
               </div>
             </div>
-            <span className="inline-flex items-center justify-center gap-2 rounded-xl bg-slate-950 px-5 py-3 text-sm font-black text-white transition group-hover:bg-sky-600">
-              عرض واحجز
-              <ArrowLeft className="h-4 w-4" />
-            </span>
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+              <Link href={`/doctors/${doctor.id}`} className="inline-flex items-center justify-center gap-2 rounded-xl bg-slate-950 px-4 py-3 text-sm font-black text-white transition hover:bg-sky-600">
+                احجز
+                <ArrowLeft className="h-4 w-4" />
+              </Link>
+              {doctor.phone ? (
+                <a href={`tel:${doctor.phone}`} className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-black text-slate-700 hover:border-sky-200 hover:text-sky-700">
+                  <PhoneCall className="h-4 w-4" />
+                  اتصال
+                </a>
+              ) : null}
+              {whatsappHref ? (
+                <a href={whatsappHref} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 rounded-xl border border-emerald-100 bg-emerald-50 px-4 py-3 text-sm font-black text-emerald-700 hover:bg-emerald-100">
+                  <MessageCircle className="h-4 w-4" />
+                  واتساب
+                </a>
+              ) : null}
+              <a href={directionsHref} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 rounded-xl border border-sky-100 bg-sky-50 px-4 py-3 text-sm font-black text-sky-700 hover:bg-sky-100">
+                <Navigation className="h-4 w-4 -rotate-45" />
+                اتجاهات
+              </a>
+            </div>
           </div>
         </div>
       </article>
-    </Link>
   );
 }
 
