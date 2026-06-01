@@ -17,6 +17,7 @@ export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
   const [activePhoto, setActivePhoto] = useState(0);
 
   const [bookingName, setBookingName] = useState("");
+  const [bookingEmail, setBookingEmail] = useState("");
   const [bookingPhone, setBookingPhone] = useState("");
   const [bookingIdentity, setBookingIdentity] = useState("");
   const [bookingAddress, setBookingAddress] = useState("");
@@ -102,8 +103,8 @@ export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
 
   const handleSmartBookingSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!bookingName || !bookingPhone || !bookingIdentity || !bookingAddress || !bookingDate) {
-      alert("يرجى تعبئة الاسم الرباعي، الهاتف، الهوية، العنوان، والتاريخ");
+    if (!bookingName || !bookingEmail || !bookingPhone || !bookingIdentity || !bookingAddress || !bookingDate) {
+      alert("يرجى تعبئة جميع الحقول المطلوبة بما فيها البريد الإلكتروني");
       return;
     }
 
@@ -114,6 +115,7 @@ export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
       body: JSON.stringify({
         doctor_id: doctor.id,
         patient_full_name: bookingName,
+        patient_email: bookingEmail,
         patient_phone: bookingPhone,
         patient_identity: bookingIdentity,
         patient_address: bookingAddress,
@@ -130,6 +132,7 @@ export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
     }
     setShowSuccessModal(true);
     setBookingName("");
+    setBookingEmail("");
     setBookingPhone("");
     setBookingIdentity("");
     setBookingAddress("");
@@ -517,6 +520,7 @@ export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
 
         <form onSubmit={handleSmartBookingSubmit} className="grid gap-3 md:grid-cols-2">
           <BookingInput label="الاسم الرباعي" value={bookingName} onChange={setBookingName} required />
+          <BookingInput label="البريد الإلكتروني" value={bookingEmail} onChange={setBookingEmail} required type="email" />
           <BookingInput label="رقم الهاتف" value={bookingPhone} onChange={setBookingPhone} required inputMode="tel" />
           <BookingInput label="رقم الهوية" value={bookingIdentity} onChange={setBookingIdentity} required />
           <BookingInput label="عنوان السكن" value={bookingAddress} onChange={setBookingAddress} required />

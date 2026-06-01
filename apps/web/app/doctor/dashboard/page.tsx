@@ -157,6 +157,14 @@ export default function DoctorDashboardPage() {
                       <div>
                         <h3 className="text-lg font-black text-slate-950">{item.patient_full_name || item.patient_name}</h3>
                         <p className="mt-1 text-sm font-bold text-slate-500">{item.patient_phone}</p>
+                        {item.patient_email ? (
+                          <a
+                            href={`mailto:${item.patient_email}`}
+                            className="mt-1 inline-flex items-center gap-1.5 text-sm font-bold text-sky-600 hover:underline"
+                          >
+                            {item.patient_email}
+                          </a>
+                        ) : null}
                         <div className="mt-3 grid gap-2 text-sm font-semibold text-slate-600 md:grid-cols-2">
                           <span>الهوية: {item.patient_identity || "غير مدخلة"}</span>
                           <span>العنوان: {item.patient_address || "غير مدخل"}</span>

@@ -39,11 +39,17 @@ export async function POST(request: Request) {
 
 export async function PATCH(request: Request) {
   try {
-    const { id, is_active, password } = await request.json();
+    const body = await request.json();
+    const { id, is_active, password } = body;
     if (!id) return NextResponse.json({ error: "معرف الحساب مطلوب" }, { status: 400 });
 
-    const update: Record<string, any> = { is_active: Boolean(is_active) };
-    if (password) update.password = password;
+    const update: Record<string, any> = {};
+    if (typeof is_active === "boolean") update.is_active = is_active;
+    if (password && password.length >= 6) update.password = password;
+
+    if (Object.keys(update).length === 0) {
+      return NextResponse.json({ error: "لا توجد بيانات للتحديث" }, { status: 400 });
+    }
 
     const { data, error } = await supabaseAdmin
       .from("doctor_accounts")
@@ -59,3 +65,22 @@ export async function PATCH(request: Request) {
     return NextResponse.json({ error: err.message || "تعذر تحديث حساب الطبيب" }, { status: 500 });
   }
 }
+
+export async function DELETE(request: Request) {
+  try {
+    const { id } = await request.json();
+    if (!id) return NextResponse.json({ error: "معرف الحساب مطلوب" }, { status: 400 });
+
+    const { error } = await supabaseAdmin
+      .from("doctor_accounts")
+      .delete()
+      .eq("id", id);
+
+    if (error) throw error;
+    return NextResponse.json({ success: true });
+  } catch (err: any) {
+    console.error("Doctor account delete error:", err);
+    return NextResponse.json({ error: err.message || "تعذر حذف حساب الطبيب" }, { status: 500 });
+  }
+}
+

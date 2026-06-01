@@ -122,6 +122,7 @@ export type AppointmentRecord = {
   doctor_id: string;
   patient_name: string;
   patient_full_name?: string;
+  patient_email?: string;
   patient_phone: string;
   patient_identity?: string;
   patient_address?: string;

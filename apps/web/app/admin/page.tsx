@@ -1,4 +1,4 @@
-import { Users, Calendar, Megaphone, CheckCircle2, Store, Sparkles } from "lucide-react";
+import { Users, Calendar, Megaphone, CheckCircle2, Store, Sparkles, KeyRound, UserCheck } from "lucide-react";
 import Link from "next/link";
 import { getDoctors, getAdvertisements, getStores, getAppointments, getMedicalServices } from "@/lib/data";
 
@@ -34,6 +34,28 @@ export default async function AdminDashboard() {
         <Link href="/admin/services" className="inline-flex items-center justify-center gap-2 bg-white text-slate-950 px-5 py-3 rounded-xl font-black hover:bg-sky-100 transition-colors">
           <Sparkles className="w-5 h-5" />
           إدارة خدمات المنصة ({totalServices})
+        </Link>
+      </div>
+
+      {/* Quick Management Shortcuts */}
+      <div className="mb-8 grid gap-4 sm:grid-cols-2">
+        <Link href="/admin/doctors" className="group flex items-center gap-5 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-sky-200 hover:shadow-md">
+          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-sky-50 text-sky-600 group-hover:bg-sky-600 group-hover:text-white transition-colors">
+            <UserCheck className="h-7 w-7" />
+          </div>
+          <div>
+            <h3 className="text-lg font-black text-slate-950">إدارة الأطباء</h3>
+            <p className="mt-0.5 text-sm font-semibold text-slate-500">إضافة وتعديل وحذف الأطباء — {totalDoctors} طبيب مسجل</p>
+          </div>
+        </Link>
+        <Link href="/admin/doctor-accounts" className="group flex items-center gap-5 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-emerald-200 hover:shadow-md">
+          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+            <KeyRound className="h-7 w-7" />
+          </div>
+          <div>
+            <h3 className="text-lg font-black text-slate-950">حسابات دخول الأطباء</h3>
+            <p className="mt-0.5 text-sm font-semibold text-slate-500">إنشاء وحذف وتعديل كلمات مرور الأطباء</p>
+          </div>
         </Link>
       </div>
 

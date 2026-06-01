@@ -11,6 +11,7 @@ export async function POST(request: Request) {
     const {
       doctor_id,
       patient_full_name,
+      patient_email,
       patient_phone,
       patient_identity,
       patient_address,
@@ -19,8 +20,8 @@ export async function POST(request: Request) {
       notes,
     } = body;
 
-    if (!doctor_id || !patient_full_name || !patient_phone || !patient_identity || !patient_address || !date) {
-      return NextResponse.json({ error: "يرجى تعبئة الاسم الرباعي، الهاتف، الهوية، العنوان، والتاريخ" }, { status: 400 });
+    if (!doctor_id || !patient_full_name || !patient_email || !patient_phone || !patient_identity || !patient_address || !date) {
+      return NextResponse.json({ error: "يرجى تعبئة جميع الحقول المطلوبة بما فيها البريد الإلكتروني" }, { status: 400 });
     }
 
     const { data, error } = await supabaseAdmin
@@ -30,6 +31,7 @@ export async function POST(request: Request) {
           doctor_id,
           patient_name: patient_full_name,
           patient_full_name,
+          patient_email,
           patient_phone,
           patient_identity,
           patient_address,
