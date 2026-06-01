@@ -14,7 +14,7 @@ export default function DiscountCardScreen() {
   useEffect(() => {
     (async () => {
       const { response, data } = await apiFetch<{ doctors?: Doctor[] }>("/api/doctors");
-      setDoctors(response.ok ? data?.doctors || [] : []);
+      setDoctors(response.ok ? (Array.isArray(data) ? data : Array.isArray(data?.doctors) ? data.doctors : []) : []);
       setLoading(false);
     })();
   }, []);

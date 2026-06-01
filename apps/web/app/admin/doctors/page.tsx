@@ -31,11 +31,11 @@ export default function AdminDoctors() {
       const response = await fetch("/api/admin/doctors/list");
       if (response.ok) {
         const data = await response.json();
-        setDoctors(data.doctors);
+        setDoctors(Array.isArray(data?.doctors) ? data.doctors : Array.isArray(data) ? data : []);
       } else {
         const resPublic = await fetch("/api/doctors");
         const dataPublic = await resPublic.json();
-        setDoctors(dataPublic);
+        setDoctors(Array.isArray(dataPublic) ? dataPublic : Array.isArray(dataPublic?.doctors) ? dataPublic.doctors : []);
       }
     } catch (err) {
       console.error(err);
@@ -296,7 +296,7 @@ export default function AdminDoctors() {
                           <MapPin className="w-4 h-4 text-slate-400" />
                           {doc.city} {doc.area && ` - ${doc.area}`}
                         </span>
-                        {doc.lat && doc.lng && (
+                        {doc.lat !== null && doc.lat !== undefined && doc.lng !== null && doc.lng !== undefined && (
                           <span className="block text-[10px] text-slate-400 mt-0.5 font-mono">
                             📍 GPS: {doc.lat.toFixed(4)}, {doc.lng.toFixed(4)}
                           </span>

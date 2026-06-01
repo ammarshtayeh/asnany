@@ -26,7 +26,8 @@ export default function DoctorProfileScreen() {
     (async () => {
       setLoading(true);
       const { data } = await apiFetch<{ doctors?: Doctor[] }>("/api/doctors");
-      const found = data?.doctors?.find((item) => item.id === id) || null;
+      const doctors = Array.isArray(data) ? data : Array.isArray(data?.doctors) ? data.doctors : [];
+      const found = doctors.find((item) => item.id === id) || null;
       setDoctor(found);
       setLoading(false);
     })();

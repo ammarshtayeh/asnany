@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { MapPin, CheckCircle, Search, ArrowRight, Star, ShieldCheck, HeartPulse } from "lucide-react";
 import { Doctor } from "@/lib/types";
+import { doctorMapCoordinates } from "@/lib/map-links";
 
 const LocationPickerMap = dynamic(() => import("@/components/LocationPickerMap"), { ssr: false });
 
@@ -39,14 +40,9 @@ export default function SetDoctorLocation() {
   const handleSelectDoctor = (doc: Doctor) => {
     setSelectedDoctor(doc);
     setSuccess(false);
-    if (doc.lat && doc.lng) {
-      setLat(doc.lat);
-      setLng(doc.lng);
-    } else {
-      // Default coordinates for center of Palestine/Ramallah
-      setLat(31.898);
-      setLng(35.201);
-    }
+    const coords = doctorMapCoordinates(doc);
+    setLat(coords.latitude);
+    setLng(coords.longitude);
   };
 
   const handleSaveLocation = async () => {
@@ -154,7 +150,7 @@ export default function SetDoctorLocation() {
                         <span className="text-xs text-slate-400 font-medium">{doc.specialty.join("، ")} - {doc.city}</span>
                       </div>
                     </div>
-                    {doc.lat && doc.lng ? (
+                    {doc.lat !== null && doc.lat !== undefined && doc.lng !== null && doc.lng !== undefined ? (
                       <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-100">محدد مسبقاً 🗺️</span>
                     ) : (
                       <span className="text-[10px] font-bold text-slate-400 bg-slate-50 px-2.5 py-1 rounded-full">غير محدد الموقع 📍</span>

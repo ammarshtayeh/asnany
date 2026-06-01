@@ -20,7 +20,7 @@ export default function DiscountCardPage() {
     (async () => {
       const res = await fetch("/api/doctors");
       const data = await res.json();
-      setDoctors(data.doctors || []);
+      setDoctors(Array.isArray(data) ? data : Array.isArray(data?.doctors) ? data.doctors : []);
       setLoading(false);
     })();
   }, []);

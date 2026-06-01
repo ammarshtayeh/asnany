@@ -15,7 +15,7 @@ export function doctorMapLabel(doctor: Pick<MapDoctor, "city" | "area" | "addres
 }
 
 export function doctorMapCoordinates(doctor: Pick<MapDoctor, "lat" | "lng" | "city" | "area" | "address">) {
-  if (doctor.lat && doctor.lng) {
+  if (doctor.lat !== null && doctor.lat !== undefined && doctor.lng !== null && doctor.lng !== undefined) {
     return { latitude: doctor.lat, longitude: doctor.lng };
   }
 

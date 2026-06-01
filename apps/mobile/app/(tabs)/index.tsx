@@ -25,7 +25,7 @@ export default function HomeScreen() {
     setLoading(true);
     const { response, data } = await apiFetch<{ doctors?: Doctor[] }>("/api/doctors");
     setOffline(!response.ok);
-    setDoctors(data?.doctors || []);
+    setDoctors(Array.isArray(data) ? data : Array.isArray(data?.doctors) ? data.doctors : []);
     setLoading(false);
   };
 

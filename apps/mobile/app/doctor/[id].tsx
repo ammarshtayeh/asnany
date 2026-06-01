@@ -15,6 +15,7 @@ import { router, useLocalSearchParams } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { colors } from "../../constants/theme";
 import { supabase } from "../../lib/supabase";
+import { doctorMapCoordinates } from "../../lib/map-links";
 import { Doctor, Review } from "../../types";
 
 export default function DoctorDetailsScreen() {
@@ -90,8 +91,9 @@ export default function DoctorDetailsScreen() {
   }
 
   function openMap() {
-    if (!doctor?.lat || !doctor?.lng) return;
-    const latLng = `${doctor.lat},${doctor.lng}`;
+    if (!doctor) return;
+    const coords = doctorMapCoordinates(doctor);
+    const latLng = `${coords.latitude},${coords.longitude}`;
     const label = encodeURIComponent(doctor.name);
     const url = Platform.select({
       ios: `maps://0,0?q=${label}&ll=${latLng}`,
@@ -185,7 +187,7 @@ export default function DoctorDetailsScreen() {
               onPress={() => Linking.openURL(`https://wa.me/${doctor.whatsapp.replace(/\+/g, "").replace(/\s/g, "")}`)}
             />
           ) : null}
-          {doctor.lat && doctor.lng ? <ActionButton label="الخريطة" color={colors.sky} onPress={openMap} /> : null}
+          <ActionButton label="الخريطة" color={colors.sky} onPress={openMap} />
         </View>
       </Card>
 

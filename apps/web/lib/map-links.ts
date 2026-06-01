@@ -15,7 +15,7 @@ export function doctorMapLabel(doctor: Pick<MapDoctor, "city" | "area" | "addres
 }
 
 export function doctorMapCoordinates(doctor: Pick<MapDoctor, "lat" | "lng" | "city" | "area" | "address">) {
-  if (doctor.lat && doctor.lng) {
+  if (doctor.lat !== null && doctor.lat !== undefined && doctor.lng !== null && doctor.lng !== undefined) {
     return { latitude: doctor.lat, longitude: doctor.lng };
   }
 
@@ -24,7 +24,8 @@ export function doctorMapCoordinates(doctor: Pick<MapDoctor, "lat" | "lng" | "ci
 
 export function buildDoctorMapUrl(doctor: Pick<MapDoctor, "name" | "city" | "area" | "address" | "lat" | "lng">) {
   const label = encodeURIComponent(doctorMapLabel(doctor));
-  if (doctor.lat && doctor.lng) {
+  const hasCoords = doctor.lat !== null && doctor.lat !== undefined && doctor.lng !== null && doctor.lng !== undefined;
+  if (hasCoords) {
     return `https://www.google.com/maps/search/?api=1&query=${doctor.lat},${doctor.lng}`;
   }
 
@@ -35,6 +36,15 @@ export function buildAppleMapsUrl(doctor: Pick<MapDoctor, "name" | "city" | "are
   const coords = doctorMapCoordinates(doctor);
   const label = encodeURIComponent(doctorMapLabel(doctor));
   return `https://maps.apple.com/?ll=${coords.latitude},${coords.longitude}&q=${label}`;
+}
+
+export function buildDeviceMapUrl(
+  doctor: Pick<MapDoctor, "name" | "city" | "area" | "address" | "lat" | "lng">,
+  userAgent?: string
+) {
+  const ua = userAgent || "";
+  const isApple = /iPad|iPhone|iPod|Macintosh/i.test(ua);
+  return isApple ? buildAppleMapsUrl(doctor) : buildDoctorMapUrl(doctor);
 }
 
 export function buildBrowserMapUrl(doctorId: string) {

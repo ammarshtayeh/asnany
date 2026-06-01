@@ -21,6 +21,7 @@ import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { Ionicons } from "@expo/vector-icons";
 import { colors, cities, specialties } from "../constants/theme";
 import { supabase } from "../lib/supabase";
+import { doctorMapCoordinates } from "../lib/map-links";
 import { Article, Doctor, MarketplaceAd, MedicalService, Offer, Store } from "../types";
 
 type MainTab = "home" | "doctors" | "map" | "services" | "more";
@@ -276,30 +277,27 @@ function getDistanceKm(from: UserLocation, to: UserLocation) {
 }
 
 function distanceToDoctor(doctor: Doctor, userLocation: UserLocation) {
-  if (!doctor.lat || !doctor.lng) return Number.POSITIVE_INFINITY;
-  return getDistanceKm(userLocation, { lat: doctor.lat, lng: doctor.lng });
+  const coords = doctorMapCoordinates(doctor);
+  return getDistanceKm(userLocation, { lat: coords.latitude, lng: coords.longitude });
 }
 
 function formatDistance(doctor: Doctor, userLocation: UserLocation | null) {
-  if (!userLocation || !doctor.lat || !doctor.lng) return null;
+  if (!userLocation) return null;
   const distance = distanceToDoctor(doctor, userLocation);
   if (!Number.isFinite(distance)) return null;
   return distance < 1 ? `${Math.round(distance * 1000)} م` : `${distance.toFixed(1)} كم`;
 }
 
 function openNativeMap(doctor: Doctor) {
-  if (!doctor.lat || !doctor.lng) {
-    Alert.alert("الموقع غير متوفر", "موقع هذه العيادة غير مفعّل حالياً.");
-    return;
-  }
+  const coords = doctorMapCoordinates(doctor);
   const label = encodeURIComponent(doctor.name || "عيادة أسنان");
   const url =
     Platform.OS === "ios"
-      ? `http://maps.apple.com/?ll=${doctor.lat},${doctor.lng}&q=${label}`
-      : `geo:${doctor.lat},${doctor.lng}?q=${doctor.lat},${doctor.lng}(${label})`;
+      ? `http://maps.apple.com/?ll=${coords.latitude},${coords.longitude}&q=${label}`
+      : `geo:${coords.latitude},${coords.longitude}?q=${coords.latitude},${coords.longitude}(${label})`;
 
   Linking.openURL(url).catch(() => {
-    Linking.openURL(`https://www.google.com/maps/search/?api=1&query=${doctor.lat},${doctor.lng}`);
+    Linking.openURL(`https://www.google.com/maps/search/?api=1&query=${coords.latitude},${coords.longitude}`);
   });
 }
 
@@ -538,7 +536,10 @@ function MapScreen({
   onOpenDoctors: () => void;
 }) {
   const [distanceFilter, setDistanceFilter] = useState<DistanceFilter>(0.5);
-  const doctorsWithLocation = doctors.filter((doctor) => doctor.lat && doctor.lng);
+  const doctorsWithLocation = doctors.filter((doctor) => {
+    const coords = doctorMapCoordinates(doctor);
+    return Number.isFinite(coords.latitude) && Number.isFinite(coords.longitude);
+  });
   const nearbyDoctors = useMemo(() => {
     if (!userLocation || distanceFilter === "all") return doctorsWithLocation;
     return doctorsWithLocation.filter((doctor) => distanceToDoctor(doctor, userLocation) <= distanceFilter);
@@ -694,9 +695,13 @@ function MiniMap({
   userLocation?: UserLocation | null;
   compact?: boolean;
 }) {
-  const points = doctors.filter((doctor) => doctor.lat && doctor.lng).slice(0, compact ? 10 : 28);
-  const center = userLocation ||
-    (points[0]?.lat && points[0]?.lng ? { lat: points[0].lat, lng: points[0].lng } : { lat: 31.9522, lng: 35.2332 });
+  const points = doctors.slice(0, compact ? 10 : 28);
+  const center = userLocation || (() => {
+    const first = points[0];
+    if (!first) return { lat: 31.9522, lng: 35.2332 };
+    const coords = doctorMapCoordinates(first);
+    return { lat: coords.latitude, lng: coords.longitude };
+  })();
   const latitudeDelta = compact ? 0.72 : 1.4;
   const longitudeDelta = compact ? 0.54 : 1.0;
 
@@ -766,15 +771,11 @@ function DoctorCard({ doctor, userLocation }: { doctor: Doctor; userLocation?: U
         <View style={styles.cardFooter}>
           <View style={styles.footerBadges}>
             <Badge label={`تقييم ${doctor.rating || 5}`} color={colors.amber} />
-            {distance ? <Badge label={distance} color={colors.sky} /> : null}
+            {distance !== null ? <Badge label={distance} color={colors.sky} /> : null}
           </View>
-          {doctor.lat && doctor.lng ? (
-            <Pressable onPress={() => openNativeMap(doctor)} style={styles.mapOpenButton}>
-              <Text style={styles.mapOpenButtonText}>الاتجاهات</Text>
-            </Pressable>
-          ) : (
-            <Text style={styles.linkText}>عرض التفاصيل</Text>
-          )}
+          <Pressable onPress={() => openNativeMap(doctor)} style={styles.mapOpenButton}>
+            <Text style={styles.mapOpenButtonText}>الاتجاهات</Text>
+          </Pressable>
         </View>
       </Pressable>
     </Link>
@@ -788,7 +789,7 @@ function MapDoctorRow({ doctor, userLocation }: { doctor: Doctor; userLocation: 
       <View style={styles.mapRowPin} />
       <View style={styles.flex}>
         <Text style={styles.cardTitle}>{doctor.name}</Text>
-        <Text style={styles.cardMeta}>{doctor.city}{doctor.area ? ` - ${doctor.area}` : ""}{distance ? ` • ${distance}` : ""}</Text>
+        <Text style={styles.cardMeta}>{doctor.city}{doctor.area ? ` - ${doctor.area}` : ""}{distance !== null ? ` • ${distance}` : ""}</Text>
       </View>
       <Pressable onPress={() => openNativeMap(doctor)} style={[styles.contactButton, styles.contactButtonCompact]}>
         <Text style={styles.contactText}>خرائط</Text>

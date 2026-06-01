@@ -29,6 +29,7 @@ import AdSlider from "@/components/AdSlider";
 import PlatformExpansion from "@/components/PlatformExpansion";
 import { CITIES } from "@/lib/constants";
 import { getDistance } from "@/lib/distance";
+import { doctorMapCoordinates } from "@/lib/map-links";
 import { Advertisement, Doctor } from "@/lib/types";
 
 const DoctorMap = dynamic(() => import("@/components/DoctorMap"), {
@@ -215,12 +216,15 @@ export default function Home() {
     if (userLoc) {
       result = result.map((doc) => ({
         ...doc,
-        distance: doc.lat && doc.lng ? getDistance(userLoc.lat, userLoc.lng, doc.lat, doc.lng) : undefined,
+        distance: (() => {
+          const coords = doctorMapCoordinates(doc);
+          return getDistance(userLoc.lat, userLoc.lng, coords.latitude, coords.longitude);
+        })(),
       }));
       result.sort((a, b) => {
-        if (a.distance === undefined) return 1;
-        if (b.distance === undefined) return -1;
-        return a.distance - b.distance;
+        const distanceA = a.distance ?? Number.POSITIVE_INFINITY;
+        const distanceB = b.distance ?? Number.POSITIVE_INFINITY;
+        return distanceA - distanceB;
       });
     } else {
       result.sort((a, b) => {

@@ -82,7 +82,7 @@ export default function DoctorMap({
       <MapContainer center={defaultCenter} zoom={9} className="h-full w-full" scrollWheelZoom={false}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-          url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         
         <MapFitter doctors={doctors} userLocation={userLocation} />

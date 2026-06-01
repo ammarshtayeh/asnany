@@ -1,13 +1,15 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { MapPin, Navigation, Route, ArrowLeft } from "lucide-react";
 
 import { Doctor } from "@/lib/types";
-import DoctorMap from "@/components/DoctorMap";
-import { buildAppleMapsUrl, buildDoctorMapUrl, doctorMapLabel } from "@/lib/map-links";
+import { buildDeviceMapUrl, doctorMapLabel } from "@/lib/map-links";
+
+const DoctorMap = dynamic(() => import("@/components/DoctorMap"), { ssr: false });
 
 export default function DoctorMapPage() {
   const params = useParams<{ id: string }>() as { id?: string } | null;
@@ -21,7 +23,8 @@ export default function DoctorMapPage() {
       const res = await fetch("/api/doctors");
       const data = await res.json();
       if (cancelled) return;
-      setDoctor((data.doctors || []).find((item: Doctor) => item.id === doctorId) || null);
+      const doctors = Array.isArray(data) ? data : Array.isArray(data?.doctors) ? data.doctors : [];
+      setDoctor(doctors.find((item: Doctor) => item.id === doctorId) || null);
     })();
 
     return () => {
@@ -29,18 +32,7 @@ export default function DoctorMapPage() {
     };
   }, [doctorId]);
 
-  const deviceMapHref = useMemo(() => {
-    if (!doctor) return "";
-    if (typeof window === "undefined") return buildDoctorMapUrl(doctor);
-    const ua = window.navigator.userAgent;
-    const isApple = /iPad|iPhone|iPod|Macintosh/i.test(ua);
-    return isApple ? buildAppleMapsUrl(doctor) : buildDoctorMapUrl(doctor);
-  }, [doctor]);
-
-  const openDeviceMap = () => {
-    if (!deviceMapHref) return;
-    window.open(deviceMapHref, "_blank", "noopener,noreferrer");
-  };
+  const deviceMapHref = doctor ? buildDeviceMapUrl(doctor, typeof window !== "undefined" ? window.navigator.userAgent : "") : "";
 
   return (
     <main className="min-h-screen bg-slate-50 px-4 py-8" dir="rtl">
@@ -66,15 +58,18 @@ export default function DoctorMapPage() {
               </div>
 
               <div className="flex flex-wrap gap-2">
-                <button
-                  type="button"
-                  onClick={openDeviceMap}
-                  disabled={!doctor}
-                  className="inline-flex min-h-11 items-center gap-2 rounded-full bg-slate-950 px-4 text-sm font-black text-white disabled:opacity-50"
+                <a
+                  href={deviceMapHref || undefined}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-disabled={!doctor}
+                  className={`inline-flex min-h-11 items-center gap-2 rounded-full bg-slate-950 px-4 text-sm font-black text-white ${
+                    doctor ? "" : "pointer-events-none opacity-50"
+                  }`}
                 >
                   <Navigation className="h-4 w-4" />
                   افتح في خرائط الجهاز
-                </button>
+                </a>
               </div>
             </div>
 
