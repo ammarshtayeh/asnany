@@ -1,75 +1,90 @@
-import { useState } from "react";
-import { Alert, ScrollView, Text, TextInput, View } from "react-native";
+import { useMemo, useState } from "react";
+import { ActivityIndicator, Alert, KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { router } from "expo-router";
-import { apiFetch } from "../../lib/api";
-import { AppCard } from "../../components/AppCard";
-import { AppButton } from "../../components/Buttons";
-import { AppSubtitle, AppTitle } from "../../components/AppText";
+
+import { getMobileApiBaseUrl } from "../../lib/api-base";
+import { adminSession } from "../../lib/session";
+
+const API_BASE = getMobileApiBaseUrl();
 
 export default function AdminLoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const submit = async () => {
+  const canSubmit = useMemo(() => email.trim().length > 0 && password.trim().length > 0 && !loading, [email, password, loading]);
+
+  const signIn = async () => {
+    if (!canSubmit) return;
     setLoading(true);
-    const { response, data } = await apiFetch("/api/admin/login", {
-      method: "POST",
-      body: JSON.stringify({ email, password }),
-    });
-    setLoading(false);
-    if (!response.ok) return Alert.alert("فشل الدخول", data?.error || "تحقق من البيانات");
-    router.replace("/admin/doctor-accounts");
+    try {
+      const response = await fetch(`${API_BASE}/api/admin/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email.trim(), password }),
+      });
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(data?.error || "تعذر تسجيل الدخول");
+      }
+
+      await adminSession.write({
+        token: data?.token ?? data?.accessToken ?? undefined,
+        admin: data?.admin ?? data?.user ?? data?.profile ?? data,
+        raw: data,
+      });
+
+      router.replace("/admin/doctor-accounts");
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "تعذر تسجيل الدخول";
+      Alert.alert("دخول الأدمن", message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: "#f8fafc" }} contentContainerStyle={{ padding: 16, paddingTop: 48, paddingBottom: 120 }}>
-      <AppCard>
-        <AppTitle>دخول الأدمن</AppTitle>
-        <AppSubtitle>للإدارة فقط. هنا يتم إنشاء حسابات الأطباء ومتابعة المنظومة.</AppSubtitle>
-        <Field label="البريد" value={email} onChangeText={setEmail} keyboardType="email-address" />
-        <Field label="كلمة المرور" value={password} onChangeText={setPassword} secureTextEntry />
-        <AppButton label={loading ? "جارٍ الدخول..." : "دخول"} onPress={submit} style={{ marginTop: 12 }} />
-      </AppCard>
-    </ScrollView>
-  );
-}
+    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} className="flex-1 bg-slate-950">
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps="handled">
+        <View className="flex-1 px-5 py-10">
+          <View className="mb-6 rounded-3xl border border-white/10 bg-white/5 p-6">
+            <Text className="text-3xl font-black text-white">دخول الأدمن</Text>
+            <Text className="mt-2 text-sm font-medium leading-6 text-slate-300">
+              من هنا يتم إنشاء حسابات الأطباء ومراجعة الحالات والربط مع النظام.
+            </Text>
+          </View>
 
-function Field({
-  label,
-  value,
-  onChangeText,
-  keyboardType,
-  secureTextEntry,
-}: {
-  label: string;
-  value: string;
-  onChangeText: (value: string) => void;
-  keyboardType?: "default" | "email-address";
-  secureTextEntry?: boolean;
-}) {
-  return (
-    <View style={{ marginTop: 12 }}>
-      <Text style={{ textAlign: "right", fontWeight: "900", color: "#64748b", marginBottom: 6, fontSize: 12 }}>{label}</Text>
-      <TextInput
-        value={value}
-        onChangeText={onChangeText}
-        keyboardType={keyboardType}
-        secureTextEntry={secureTextEntry}
-        placeholderTextColor="#94a3b8"
-        style={{
-          minHeight: 48,
-          borderRadius: 16,
-          borderWidth: 1,
-          borderColor: "#e2e8f0",
-          backgroundColor: "#f8fafc",
-          paddingHorizontal: 14,
-          paddingVertical: 12,
-          textAlign: "right",
-          fontWeight: "700",
-          color: "#0f172a",
-        }}
-      />
-    </View>
+          <View className="rounded-3xl bg-white p-5">
+            <Text className="mb-2 text-xs font-black uppercase tracking-[0.2em] text-slate-500">البريد الإلكتروني</Text>
+            <TextInput
+              value={email}
+              onChangeText={setEmail}
+              autoCapitalize="none"
+              keyboardType="email-address"
+              placeholder="admin@asnany.ps"
+              className="mb-4 min-h-14 rounded-2xl border border-slate-200 bg-slate-50 px-4 text-base font-medium text-slate-950"
+            />
+
+            <Text className="mb-2 text-xs font-black uppercase tracking-[0.2em] text-slate-500">كلمة المرور</Text>
+            <TextInput
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry
+              placeholder="••••••••"
+              className="mb-5 min-h-14 rounded-2xl border border-slate-200 bg-slate-50 px-4 text-base font-medium text-slate-950"
+            />
+
+            <Pressable
+              onPress={signIn}
+              disabled={!canSubmit}
+              className={`min-h-14 items-center justify-center rounded-2xl ${canSubmit ? "bg-slate-950" : "bg-slate-300"}`}
+            >
+              {loading ? <ActivityIndicator color="#fff" /> : <Text className="text-base font-black text-white">دخول</Text>}
+            </Pressable>
+          </View>
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }

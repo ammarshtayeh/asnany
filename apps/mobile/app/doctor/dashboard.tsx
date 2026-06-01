@@ -1,188 +1,284 @@
 import { useEffect, useMemo, useState } from "react";
-import { Alert, ScrollView, Switch, Text, TextInput, View } from "react-native";
+import { Alert, ActivityIndicator, Pressable, ScrollView, Switch, Text, TextInput, View } from "react-native";
 import { router } from "expo-router";
-import { apiFetch } from "../../lib/api";
-import { AppointmentRecord, Doctor } from "../../lib/types";
-import { AppCard } from "../../components/AppCard";
-import { AppButton } from "../../components/Buttons";
-import { AppSubtitle, AppTitle } from "../../components/AppText";
 
-const DAYS = ["السبت", "الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة"];
+import { getMobileApiBaseUrl } from "../../lib/api-base";
+import { doctorSession } from "../../lib/session";
+
+type Appointment = {
+  id: string;
+  patient_full_name?: string;
+  patient_phone?: string;
+  patient_identity?: string;
+  patient_address?: string;
+  date?: string;
+  time?: string;
+  status?: string;
+  notes?: string;
+};
+
+type DoctorProfile = {
+  id?: string;
+  name?: string;
+  email?: string;
+  city?: string;
+  area?: string;
+  phone?: string;
+  whatsapp?: string;
+  is_available?: boolean;
+  accepts_discount_card?: boolean;
+  discount_value?: string;
+  discount_note?: string;
+  working_hours?: Record<string, string>;
+};
+
+const API_BASE = getMobileApiBaseUrl();
 
 export default function DoctorDashboardScreen() {
-  const [doctor, setDoctor] = useState<Doctor | null>(null);
-  const [appointments, setAppointments] = useState<AppointmentRecord[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [ready, setReady] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [form, setForm] = useState({
-    phone: "",
-    whatsapp: "",
-    city: "",
-    area: "",
-    address: "",
-    bio: "",
-    is_available: true,
-    availability_note: "",
-    working_hours: {} as Record<string, string>,
-  });
+  const [appointments, setAppointments] = useState<Appointment[]>([]);
+  const [profile, setProfile] = useState<DoctorProfile>({});
+  const [token, setToken] = useState<string | undefined>(undefined);
+  const [hoursText, setHoursText] = useState("");
 
-  const load = async () => {
-    setLoading(true);
-    const { response, data } = await apiFetch<{ doctor?: Doctor; appointments?: AppointmentRecord[] }>("/api/doctor/me");
-    if (!response.ok) {
-      Alert.alert("تنبيه", data?.error || "يجب تسجيل الدخول كطبيب");
+  useEffect(() => {
+    void bootstrap();
+  }, []);
+
+  const bootstrap = async () => {
+    const session = await doctorSession.read();
+    if (!session?.token && !session?.doctor) {
       router.replace("/doctor/login");
       return;
     }
-    setDoctor(data?.doctor || null);
-    setAppointments(data?.appointments || []);
-    setForm({
-      phone: data?.doctor?.phone || "",
-      whatsapp: data?.doctor?.whatsapp || "",
-      city: data?.doctor?.city || "",
-      area: data?.doctor?.area || "",
-      address: data?.doctor?.address || "",
-      bio: data?.doctor?.bio || "",
-      is_available: data?.doctor?.is_available !== false,
-      availability_note: data?.doctor?.availability_note || "",
-      working_hours: data?.doctor?.working_hours || {},
-    });
-    setLoading(false);
+    setToken(session?.token);
+    await refresh(session?.token);
+    setReady(true);
   };
 
-  useEffect(() => {
-    load();
-  }, []);
-
-  const stats = useMemo(
-    () => ({
-      pending: appointments.filter((item) => item.status === "pending").length,
-      confirmed: appointments.filter((item) => item.status === "confirmed").length,
-      today: appointments.filter((item) => item.date === new Date().toISOString().slice(0, 10)).length,
-    }),
-    [appointments],
+  const requestHeaders = useMemo(
+    () =>
+      token
+        ? {
+            Authorization: `Bearer ${token}`,
+          }
+        : undefined,
+    [token]
   );
 
-  const saveProfile = async () => {
+  const refresh = async (authToken?: string) => {
+    setLoading(true);
+    try {
+      const headers = authToken ? { Authorization: `Bearer ${authToken}` } : requestHeaders;
+      const [profileResponse, appointmentsResponse] = await Promise.all([
+        fetch(`${API_BASE}/api/doctor/me`, { headers }),
+        fetch(`${API_BASE}/api/doctor/appointments`, { headers }),
+      ]);
+
+      const profileData = await profileResponse.json().catch(() => ({}));
+      const appointmentsData = await appointmentsResponse.json().catch(() => ({}));
+
+      if (!profileResponse.ok) {
+        throw new Error(profileData?.error || "تعذر جلب ملف الطبيب");
+      }
+
+      if (!appointmentsResponse.ok) {
+        throw new Error(appointmentsData?.error || "تعذر جلب الحجوزات");
+      }
+
+      const nextProfile: DoctorProfile = profileData?.doctor || profileData?.profile || profileData || {};
+      setProfile(nextProfile);
+      setHoursText(formatHours(nextProfile.working_hours));
+      setAppointments(Array.isArray(appointmentsData?.appointments) ? appointmentsData.appointments : appointmentsData || []);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "تعذر تحميل لوحة الطبيب";
+      Alert.alert("لوحة الطبيب", message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const updateProfile = async () => {
     setSaving(true);
-    const { response, data } = await apiFetch("/api/doctor/profile", { method: "PATCH", body: JSON.stringify(form) });
-    setSaving(false);
-    if (!response.ok) return Alert.alert("تعذر الحفظ", data?.error || "حاول مرة ثانية");
-    setDoctor(data?.doctor || null);
-    Alert.alert("تم الحفظ", "تم تحديث بيانات العيادة.");
+    try {
+      const response = await fetch(`${API_BASE}/api/doctor/profile`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(requestHeaders || {}),
+        },
+        body: JSON.stringify({
+          city: profile.city ?? "",
+          area: profile.area ?? "",
+          phone: profile.phone ?? "",
+          whatsapp: profile.whatsapp ?? "",
+          is_available: Boolean(profile.is_available),
+          accepts_discount_card: Boolean(profile.accepts_discount_card),
+          discount_value: profile.discount_value ?? "",
+          discount_note: profile.discount_note ?? "",
+          working_hours: parseHours(hoursText),
+        }),
+      });
+
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(data?.error || "تعذر حفظ الملف");
+      }
+
+      Alert.alert("تم", "تم حفظ بيانات الطبيب بنجاح");
+      await refresh(token);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "تعذر حفظ الملف";
+      Alert.alert("لوحة الطبيب", message);
+    } finally {
+      setSaving(false);
+    }
   };
 
-  const updateAppointment = async (id: string, status: string) => {
-    const { response, data } = await apiFetch("/api/doctor/appointments", {
-      method: "PATCH",
-      body: JSON.stringify({ id, status }),
-    });
-    if (!response.ok) return Alert.alert("تعذر التحديث", data?.error || "حاول مرة ثانية");
-    setAppointments((current) => current.map((item) => (item.id === id ? data.appointment : item)));
+  const updateAppointmentStatus = async (appointmentId: string, status: string) => {
+    try {
+      const response = await fetch(`${API_BASE}/api/doctor/appointments`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          ...(requestHeaders || {}),
+        },
+        body: JSON.stringify({
+          appointment_id: appointmentId,
+          status,
+        }),
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(data?.error || "تعذر تحديث الحجز");
+      }
+      await refresh(token);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "تعذر تحديث الحجز";
+      Alert.alert("الحجوزات", message);
+    }
   };
 
-  if (loading) {
+  const signOut = async () => {
+    await doctorSession.clear();
+    router.replace("/doctor/login");
+  };
+
+  if (!ready) {
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "#f8fafc" }}>
-        <AppSubtitle>جارٍ تحميل لوحة الطبيب...</AppSubtitle>
+      <View className="flex-1 items-center justify-center bg-slate-950">
+        <ActivityIndicator color="#fff" />
       </View>
     );
   }
 
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: "#f8fafc" }} contentContainerStyle={{ padding: 16, paddingBottom: 120 }}>
-      <AppCard>
-        <AppTitle>لوحة الطبيب</AppTitle>
-        <AppSubtitle>أهلًا د. {doctor?.name || ""} - نفس لوحة الويب، لكن مصممة للموبايل.</AppSubtitle>
-        <View style={{ flexDirection: "row", gap: 8, marginTop: 12, flexWrap: "wrap", justifyContent: "flex-end" }}>
-          <Stat label="قيد المراجعة" value={stats.pending} />
-          <Stat label="مؤكدة" value={stats.confirmed} />
-          <Stat label="اليوم" value={stats.today} />
+    <ScrollView className="flex-1 bg-slate-950" contentContainerStyle={{ padding: 20, paddingBottom: 48 }}>
+      <View className="mb-5 rounded-3xl border border-white/10 bg-white/5 p-6">
+        <Text className="text-3xl font-black text-white">لوحة الطبيب</Text>
+        <Text className="mt-2 text-sm font-medium leading-6 text-slate-300">
+          هنا الطبيب يدير الحضور، الخصم، والبيانات الأساسية، ويشوف الحجوزات التي وصلت له من الموقع والتطبيق.
+        </Text>
+        <View className="mt-4 flex-row gap-3">
+          <Pressable onPress={() => refresh(token)} className="rounded-2xl bg-white/10 px-4 py-3">
+            <Text className="text-sm font-black text-white">تحديث</Text>
+          </Pressable>
+          <Pressable onPress={signOut} className="rounded-2xl bg-rose-500 px-4 py-3">
+            <Text className="text-sm font-black text-white">تسجيل خروج</Text>
+          </Pressable>
         </View>
-        <AppButton label="تحديث الصفحة" variant="secondary" onPress={load} style={{ marginTop: 12 }} />
-      </AppCard>
+      </View>
 
-      <AppCard>
-        <AppTitle style={{ fontSize: 20 }}>الحجوزات</AppTitle>
-        <View style={{ gap: 12, marginTop: 12 }}>
-          {appointments.length === 0 ? (
-            <AppSubtitle>لا توجد حجوزات بعد.</AppSubtitle>
-          ) : (
-            appointments.map((item) => (
-              <View key={item.id} style={{ borderRadius: 18, borderWidth: 1, borderColor: "#e2e8f0", backgroundColor: "white", padding: 14 }}>
-                <Text style={{ textAlign: "right", fontWeight: "900", color: "#020617" }}>{item.patient_full_name || item.patient_name}</Text>
-                <Text style={{ textAlign: "right", color: "#64748b", marginTop: 4, fontWeight: "700" }}>{item.patient_phone}</Text>
-                <Text style={{ textAlign: "right", color: "#475569", marginTop: 4, fontWeight: "700" }}>
-                  الهوية: {item.patient_identity || "غير مدخلة"} | العنوان: {item.patient_address || "غير مدخل"}
-                </Text>
-                <Text style={{ textAlign: "right", color: "#475569", marginTop: 4, fontWeight: "700" }}>
-                  التاريخ: {item.date} | الوقت: {item.time}
-                </Text>
-                {item.notes ? <Text style={{ textAlign: "right", marginTop: 6, color: "#334155", fontWeight: "700" }}>{item.notes}</Text> : null}
-                <View style={{ marginTop: 10 }}>
-                  <Text style={{ textAlign: "right", color: "#64748b", fontWeight: "900", marginBottom: 6 }}>الحالة</Text>
-                  <View style={{ flexDirection: "row", gap: 8, flexWrap: "wrap", justifyContent: "flex-end" }}>
-                    {["pending", "confirmed", "completed", "cancelled"].map((status) => (
-                      <AppButton
-                        key={status}
-                        label={status}
-                        variant={item.status === status ? "primary" : "secondary"}
-                        onPress={() => updateAppointment(item.id, status)}
-                      />
-                    ))}
-                  </View>
-                </View>
-              </View>
-            ))
-          )}
-        </View>
-      </AppCard>
+      <View className="mb-5 rounded-3xl bg-white p-5">
+        <Text className="mb-4 text-lg font-black text-slate-950">بيانات العيادة</Text>
 
-      <AppCard>
-        <AppTitle style={{ fontSize: 20 }}>حالة العيادة</AppTitle>
-        <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginTop: 12 }}>
-          <Switch value={form.is_available} onValueChange={(value) => setForm((current) => ({ ...current, is_available: value }))} />
-          <Text style={{ textAlign: "right", fontWeight: "900", color: "#020617" }}>موجود ومتاح في العيادة</Text>
-        </View>
-        <Field label="ملاحظة الحالة" value={form.availability_note} onChangeText={(value) => setForm((current) => ({ ...current, availability_note: value }))} multiline />
-      </AppCard>
+        <Field label="المدينة" value={profile.city ?? ""} onChangeText={(value) => setProfile((current) => ({ ...current, city: value }))} />
+        <Field label="المنطقة" value={profile.area ?? ""} onChangeText={(value) => setProfile((current) => ({ ...current, area: value }))} />
+        <Field label="الهاتف" value={profile.phone ?? ""} onChangeText={(value) => setProfile((current) => ({ ...current, phone: value }))} keyboardType="phone-pad" />
+        <Field label="واتساب" value={profile.whatsapp ?? ""} onChangeText={(value) => setProfile((current) => ({ ...current, whatsapp: value }))} keyboardType="phone-pad" />
+        <Field label="قيمة الخصم" value={profile.discount_value ?? ""} onChangeText={(value) => setProfile((current) => ({ ...current, discount_value: value }))} />
+        <Field label="ملاحظة الخصم" value={profile.discount_note ?? ""} onChangeText={(value) => setProfile((current) => ({ ...current, discount_note: value }))} />
 
-      <AppCard>
-        <AppTitle style={{ fontSize: 20 }}>بيانات التواصل</AppTitle>
-        <Field label="هاتف العيادة" value={form.phone} onChangeText={(value) => setForm((current) => ({ ...current, phone: value }))} keyboardType="phone-pad" />
-        <Field label="واتساب" value={form.whatsapp} onChangeText={(value) => setForm((current) => ({ ...current, whatsapp: value }))} keyboardType="phone-pad" />
-        <Field label="المدينة" value={form.city} onChangeText={(value) => setForm((current) => ({ ...current, city: value }))} />
-        <Field label="المنطقة" value={form.area} onChangeText={(value) => setForm((current) => ({ ...current, area: value }))} />
-        <Field label="العنوان التفصيلي" value={form.address} onChangeText={(value) => setForm((current) => ({ ...current, address: value }))} multiline />
-        <Field label="نبذة" value={form.bio} onChangeText={(value) => setForm((current) => ({ ...current, bio: value }))} multiline />
-        <AppTitle style={{ fontSize: 20, marginTop: 16 }}>الدوام الأسبوعي</AppTitle>
-        {DAYS.map((day) => (
-          <Field
-            key={day}
-            label={day}
-            value={form.working_hours[day] || ""}
-            onChangeText={(value) =>
-              setForm((current) => ({
-                ...current,
-                working_hours: { ...current.working_hours, [day]: value },
-              }))
-            }
-            placeholder="09:00 ص - 05:00 م"
+        <View className="mt-2 flex-row items-center justify-between rounded-2xl bg-slate-50 px-4 py-4">
+          <View>
+            <Text className="text-sm font-black text-slate-950">موجود في العيادة الآن</Text>
+            <Text className="mt-1 text-xs font-medium text-slate-500">تظهر هذه الحالة في الموقع والتطبيق.</Text>
+          </View>
+          <Switch
+            value={Boolean(profile.is_available)}
+            onValueChange={(value) => setProfile((current) => ({ ...current, is_available: value }))}
           />
-        ))}
-        <AppButton label={saving ? "جارٍ الحفظ..." : "حفظ بيانات العيادة"} onPress={saveProfile} style={{ marginTop: 12 }} />
-        <AppButton label="خروج" variant="secondary" onPress={() => router.replace("/doctor/login")} style={{ marginTop: 10 }} />
-      </AppCard>
-    </ScrollView>
-  );
-}
+        </View>
 
-function Stat({ label, value }: { label: string; value: number }) {
-  return (
-    <View style={{ backgroundColor: "#eff6ff", borderRadius: 16, paddingHorizontal: 12, paddingVertical: 10, minWidth: 96 }}>
-      <Text style={{ textAlign: "right", color: "#2563eb", fontWeight: "900", fontSize: 22 }}>{value}</Text>
-      <Text style={{ textAlign: "right", color: "#475569", fontWeight: "800", fontSize: 12 }}>{label}</Text>
-    </View>
+        <View className="mt-2 flex-row items-center justify-between rounded-2xl bg-slate-50 px-4 py-4">
+          <View>
+            <Text className="text-sm font-black text-slate-950">يقبل بطاقة الخصم</Text>
+            <Text className="mt-1 text-xs font-medium text-slate-500">تظهر البطاقة للمستخدمين المشتركين.</Text>
+          </View>
+          <Switch
+            value={Boolean(profile.accepts_discount_card)}
+            onValueChange={(value) => setProfile((current) => ({ ...current, accepts_discount_card: value }))}
+          />
+        </View>
+
+        <Text className="mt-4 mb-2 text-xs font-black uppercase tracking-[0.2em] text-slate-500">الدوام الأسبوعي</Text>
+        <TextInput
+          multiline
+          value={hoursText}
+          onChangeText={setHoursText}
+          placeholder='{"السبت":"9:00 - 13:00","الأحد":"مغلق"}'
+          className="min-h-28 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm font-medium text-slate-950"
+        />
+
+        <Pressable
+          onPress={updateProfile}
+          disabled={saving}
+          className={`mt-4 min-h-14 items-center justify-center rounded-2xl ${saving ? "bg-slate-300" : "bg-sky-600"}`}
+        >
+          {saving ? <ActivityIndicator color="#fff" /> : <Text className="text-base font-black text-white">حفظ البيانات</Text>}
+        </Pressable>
+      </View>
+
+      <View className="rounded-3xl bg-white p-5">
+        <Text className="mb-4 text-lg font-black text-slate-950">الحجوزات الواردة</Text>
+
+        {loading ? (
+          <ActivityIndicator color="#0284c7" />
+        ) : appointments.length === 0 ? (
+          <Text className="text-sm font-medium leading-6 text-slate-500">لا توجد حجوزات حالياً.</Text>
+        ) : (
+          appointments.map((appointment) => (
+            <View key={appointment.id} className="mb-3 rounded-2xl border border-slate-200 bg-slate-50 p-4">
+              <Text className="text-base font-black text-slate-950">{appointment.patient_full_name ?? "مريض"}</Text>
+              <Text className="mt-1 text-sm font-medium text-slate-600">
+                {appointment.patient_phone ?? ""} {appointment.patient_identity ? `- ${appointment.patient_identity}` : ""}
+              </Text>
+              <Text className="mt-1 text-sm font-medium text-slate-600">
+                {appointment.date ?? ""} {appointment.time ? `- ${appointment.time}` : ""}
+              </Text>
+              <Text className="mt-1 text-xs font-medium text-slate-500">{appointment.patient_address ?? ""}</Text>
+              {appointment.notes ? <Text className="mt-2 text-sm font-medium text-slate-700">{appointment.notes}</Text> : null}
+              <View className="mt-3 flex-row gap-2">
+                <Pressable
+                  onPress={() => updateAppointmentStatus(appointment.id, "confirmed")}
+                  className="rounded-2xl bg-emerald-600 px-4 py-2"
+                >
+                  <Text className="text-sm font-black text-white">تأكيد</Text>
+                </Pressable>
+                <Pressable
+                  onPress={() => updateAppointmentStatus(appointment.id, "cancelled")}
+                  className="rounded-2xl bg-rose-500 px-4 py-2"
+                >
+                  <Text className="text-sm font-black text-white">إلغاء</Text>
+                </Pressable>
+              </View>
+            </View>
+          ))
+        )}
+      </View>
+    </ScrollView>
   );
 }
 
@@ -190,40 +286,42 @@ function Field({
   label,
   value,
   onChangeText,
-  keyboardType,
-  multiline,
-  placeholder,
+  keyboardType = "default",
 }: {
   label: string;
   value: string;
   onChangeText: (value: string) => void;
-  keyboardType?: "default" | "phone-pad";
-  multiline?: boolean;
-  placeholder?: string;
+  keyboardType?: "default" | "phone-pad" | "email-address" | "numeric";
 }) {
   return (
-    <View style={{ marginTop: 12 }}>
-      <Text style={{ textAlign: "right", fontWeight: "900", color: "#64748b", marginBottom: 6, fontSize: 12 }}>{label}</Text>
+    <View className="mb-3">
+      <Text className="mb-2 text-xs font-black uppercase tracking-[0.2em] text-slate-500">{label}</Text>
       <TextInput
         value={value}
         onChangeText={onChangeText}
         keyboardType={keyboardType}
-        placeholder={placeholder}
-        placeholderTextColor="#94a3b8"
-        multiline={multiline}
-        style={{
-          minHeight: multiline ? 88 : 48,
-          borderRadius: 16,
-          borderWidth: 1,
-          borderColor: "#e2e8f0",
-          backgroundColor: "#f8fafc",
-          paddingHorizontal: 14,
-          paddingVertical: 12,
-          textAlign: "right",
-          fontWeight: "700",
-          color: "#0f172a",
-        }}
+        className="min-h-14 rounded-2xl border border-slate-200 bg-slate-50 px-4 text-base font-medium text-slate-950"
       />
     </View>
   );
 }
+
+function formatHours(hours?: Record<string, string>) {
+  if (!hours) {
+    return "";
+  }
+  try {
+    return JSON.stringify(hours, null, 2);
+  } catch {
+    return "";
+  }
+}
+
+function parseHours(value: string) {
+  try {
+    return JSON.parse(value);
+  } catch {
+    return {};
+  }
+}
+

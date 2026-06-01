@@ -12,6 +12,9 @@ export type Doctor = {
   working_hours?: Record<string, string>;
   is_available?: boolean;
   availability_note?: string;
+  accepts_discount_card?: boolean;
+  discount_value?: string;
+  discount_note?: string;
   accepts_insurance: boolean;
   insurance_list?: string[];
   image_url?: string;

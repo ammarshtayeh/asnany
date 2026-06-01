@@ -6,6 +6,7 @@ import { Doctor } from "../../lib/types";
 import { AppCard } from "../../components/AppCard";
 import { AppButton } from "../../components/Buttons";
 import { AppSubtitle, AppTitle } from "../../components/AppText";
+import { ClinicMap } from "../../components/ClinicMap";
 
 export default function DoctorProfileScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -52,7 +53,6 @@ export default function DoctorProfileScreen() {
     router.push("/booking");
   };
 
-  const dial = () => doctor?.phone && Linking.openURL(`tel:${doctor.phone}`);
   const whatsapp = () => doctor?.whatsapp && Linking.openURL(`https://wa.me/${doctor.whatsapp.replace(/[^0-9]/g, "")}`);
 
   if (loading) {
@@ -84,13 +84,19 @@ export default function DoctorProfileScreen() {
               <Text style={{ color: "#2563eb", fontWeight: "900" }}>{item}</Text>
             </View>
           ))}
+          {doctor.accepts_discount_card ? (
+            <View style={{ backgroundColor: "#dcfce7", borderRadius: 999, paddingHorizontal: 10, paddingVertical: 6 }}>
+              <Text style={{ color: "#166534", fontWeight: "900" }}>خصم البطاقة</Text>
+            </View>
+          ) : null}
         </View>
         <View style={{ flexDirection: "row", gap: 8, flexWrap: "wrap", justifyContent: "flex-end", marginTop: 14 }}>
-          <AppButton label="اتصال" variant="secondary" onPress={dial} />
           <AppButton label="واتساب" variant="secondary" onPress={whatsapp} />
           <AppButton label="حجز" onPress={() => router.push(`/booking?doctorId=${doctor.id}`)} />
         </View>
       </AppCard>
+
+      <ClinicMap doctor={doctor} />
 
       <AppCard>
         <AppTitle style={{ fontSize: 20 }}>احجز مباشرة</AppTitle>

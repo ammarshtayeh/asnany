@@ -6,6 +6,7 @@ import { AppSubtitle, AppTitle } from "../../components/AppText";
 
 const routes = [
   { label: "احجز الآن", path: "/booking" },
+  { label: "بطاقة الخصم", path: "/discount-card" },
   { label: "دخول الطبيب", path: "/doctor/login" },
   { label: "دخول الأدمن", path: "/admin/login" },
   { label: "تسجيل طبيب", path: "/doctors/register" },

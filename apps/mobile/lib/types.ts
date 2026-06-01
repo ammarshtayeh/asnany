@@ -12,6 +12,9 @@ export type Doctor = {
   is_featured?: boolean | null;
   is_available?: boolean | null;
   availability_note?: string | null;
+  accepts_discount_card?: boolean | null;
+  discount_note?: string | null;
+  discount_value?: string | null;
   working_hours?: Record<string, string> | null;
 };
 

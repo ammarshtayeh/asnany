@@ -7,13 +7,11 @@ export function DoctorCard({
   doctor,
   onPress,
   onBook,
-  onCall,
   onWhatsApp,
 }: {
   doctor: Doctor;
   onPress?: () => void;
   onBook?: () => void;
-  onCall?: () => void;
   onWhatsApp?: () => void;
 }) {
   return (
@@ -45,8 +43,8 @@ export function DoctorCard({
         </View>
 
         <View style={{ flexDirection: "row", gap: 8, marginTop: 14, justifyContent: "flex-end", flexWrap: "wrap" }}>
+          <AppButton label="تفاصيل" variant="secondary" onPress={onPress} style={{ minWidth: 88 }} />
           <AppButton label="احجز" onPress={onBook} style={{ minWidth: 88 }} />
-          <AppButton label="اتصال" variant="secondary" onPress={onCall} style={{ minWidth: 88 }} />
           <AppButton label="واتساب" variant="secondary" onPress={onWhatsApp} style={{ minWidth: 88 }} />
         </View>
       </AppCard>

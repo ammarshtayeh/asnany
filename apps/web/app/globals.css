@@ -112,3 +112,17 @@
 .leaflet-popup-content {
   margin: 12px !important;
 }
+section:has(> img[alt="عيادة أسنان حديثة"]) {
+  border-radius: 2rem;
+  overflow: hidden;
+}
+
+@media (min-width: 640px) {
+  section:has(> img[alt="عيادة أسنان حديثة"]) {
+    border-radius: 2.5rem;
+  }
+}
+
+img[alt="عيادة أسنان حديثة"] {
+  object-position: center 18% !important;
+}

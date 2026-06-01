@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { ActivityIndicator, Alert, Linking, ScrollView, Text, TextInput, View } from "react-native";
+import { ActivityIndicator, ScrollView, Text, TextInput, View } from "react-native";
 import { router } from "expo-router";
 import { Feather } from "@expo/vector-icons";
 import { apiFetch } from "../../lib/api";
@@ -43,12 +43,6 @@ export default function HomeScreen() {
     );
   }, [doctors, query]);
 
-  const openMaps = (doctor: Doctor) => {
-    const address = encodeURIComponent([doctor.city, doctor.area, doctor.address].filter(Boolean).join(" "));
-    Linking.openURL(`https://www.google.com/maps/search/?api=1&query=${address}`);
-  };
-
-  const dial = (phone?: string | null) => phone && Linking.openURL(`tel:${phone}`);
   const whatsapp = (phone?: string | null) => phone && Linking.openURL(`https://wa.me/${phone.replace(/[^0-9]/g, "")}`);
 
   return (
@@ -89,6 +83,7 @@ export default function HomeScreen() {
           <AppSubtitle>كل شيء أساسي تحت إبهامك، مثل الموقع تماماً.</AppSubtitle>
           <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 10, justifyContent: "flex-end", marginTop: 12 }}>
             <AppButton label="احجز الآن" onPress={() => router.push("/booking")} style={{ minWidth: 108 }} />
+            <AppButton label="بطاقة الخصم" variant="secondary" onPress={() => router.push("/discount-card")} style={{ minWidth: 108 }} />
             <AppButton label="دخول الطبيب" variant="secondary" onPress={() => router.push("/doctor/login")} style={{ minWidth: 108 }} />
             <AppButton label="دخول الأدمن" variant="secondary" onPress={() => router.push("/admin/login")} style={{ minWidth: 108 }} />
           </View>
@@ -119,7 +114,6 @@ export default function HomeScreen() {
               doctor={doctor}
               onPress={() => router.push(`/doctors/${doctor.id}`)}
               onBook={() => router.push(`/booking?doctorId=${doctor.id}`)}
-              onCall={() => dial(doctor.phone)}
               onWhatsApp={() => whatsapp(doctor.whatsapp || doctor.phone)}
             />
           ))
@@ -138,3 +132,4 @@ export default function HomeScreen() {
     </ScrollView>
   );
 }
+import { Linking } from "react-native";

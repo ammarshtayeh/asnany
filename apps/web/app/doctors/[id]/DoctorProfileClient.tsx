@@ -3,9 +3,10 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import dynamic from "next/dynamic";
+import Link from "next/link";
 import { Doctor } from "@/lib/types";
 import { getDistance } from "@/lib/distance";
-import { Star, MapPin, Phone, CheckCircle2, Clock, Calendar, Navigation, Route, Award, HeartPulse, Sparkles, Map, Heart } from "lucide-react";
+import { Star, MapPin, CheckCircle2, Clock, Calendar, Navigation, Route, Award, HeartPulse, Sparkles, Map, Heart } from "lucide-react";
 
 const DoctorMap = dynamic(() => import("@/components/DoctorMap"), { ssr: false });
 
@@ -74,21 +75,13 @@ export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
     }
   }, [doctor]);
 
+  const doctorMapHref = `/doctors/${doctor.id}/map`;
+
   const toggleSaved = () => {
     const saved = JSON.parse(localStorage.getItem("asnany_saved_doctors") || "[]") as string[];
     const next = saved.includes(doctor.id) ? saved.filter((id) => id !== doctor.id) : [...saved, doctor.id];
     localStorage.setItem("asnany_saved_doctors", JSON.stringify(next));
     setIsSaved(next.includes(doctor.id));
-  };
-
-  const handleOpenNavigation = () => {
-    if (!doctor.lat || !doctor.lng) return;
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
-    if (isIOS) {
-      window.open(`maps://maps.apple.com/?q=${doctor.name}&ll=${doctor.lat},${doctor.lng}`, "_blank");
-    } else {
-      window.open(`https://www.google.com/maps/search/?api=1&query=${doctor.lat},${doctor.lng}`, "_blank");
-    }
   };
 
   const handleBookingSubmit = (e: React.FormEvent) => {
@@ -184,6 +177,11 @@ export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
                           <CheckCircle2 className="w-6 h-6" />
                         </div>
                       )}
+                      {doctor.accepts_discount_card ? (
+                        <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-black text-emerald-700">
+                          بطاقة الخصم
+                        </span>
+                      ) : null}
                     </div>
                     
                     <div className="flex flex-wrap gap-2 mb-6">
@@ -235,15 +233,13 @@ export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
                     <div>
                       <strong className="block text-slate-900 mb-0.5">{doctor.city}</strong>
                       <span className="text-slate-500 leading-relaxed block">{doctor.area}</span>
-                      {doctor.lat && doctor.lng && (
-                        <button
-                          onClick={handleOpenNavigation}
-                          className="mt-2 text-primary hover:text-slate-900 text-xs font-bold flex items-center gap-1.5 bg-white border border-slate-200 px-3 py-1.5 rounded-lg shadow-sm hover:shadow transition-all"
-                        >
-                          <Navigation className="w-3.5 h-3.5" />
-                          فتح في تطبيق الخرائط (GPS)
-                        </button>
-                      )}
+                      <Link
+                        href={doctorMapHref}
+                        className="mt-2 text-primary hover:text-slate-900 text-xs font-bold inline-flex items-center gap-1.5 bg-white border border-slate-200 px-3 py-1.5 rounded-lg shadow-sm hover:shadow transition-all"
+                      >
+                        <Navigation className="w-3.5 h-3.5" />
+                        عرض الخريطة داخل الموقع
+                      </Link>
                     </div>
                   </div>
                   {doctor.accepts_insurance && (
@@ -310,19 +306,13 @@ export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
           <div className="bg-white rounded-3xl shadow-xl shadow-slate-200/30 border border-slate-100 p-3 relative h-[450px] overflow-hidden group">
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-20 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             <DoctorMap doctors={[doctor]} userLocation={userLoc || undefined} />
-             {doctor.lat && doctor.lng ? (
-               <button
-                 onClick={handleOpenNavigation}
-                 className="absolute bottom-6 right-6 z-30 bg-slate-900 hover:bg-primary text-white hover:scale-105 transition-all px-5 py-3 rounded-2xl shadow-xl font-bold text-sm flex items-center gap-2 cursor-pointer border-0"
-               >
-                 <Navigation className="w-4 h-4 text-white animate-pulse" />
-                 توجيه وفتح في تطبيق الخرائط
-               </button>
-             ) : (
-               <div className="absolute bottom-6 right-6 z-30 bg-white/90 backdrop-blur-md px-4 py-2 rounded-xl shadow-lg border border-white font-bold text-sm text-slate-800 flex items-center gap-2">
-                 <Navigation className="w-4 h-4 text-primary" /> عرض ذكي للموقع
-               </div>
-             )}
+            <Link
+              href={doctorMapHref}
+              className="absolute bottom-6 right-6 z-30 bg-slate-900 hover:bg-primary text-white hover:scale-105 transition-all px-5 py-3 rounded-2xl shadow-xl font-bold text-sm flex items-center gap-2 cursor-pointer border-0"
+            >
+              <Navigation className="w-4 h-4 text-white animate-pulse" />
+              عرض الخريطة داخل الموقع
+            </Link>
           </div>
 
           {/* Clinic Photos Gallery */}
@@ -453,11 +443,6 @@ export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
                 <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.101.824z"/></svg>
                 تواصل للحجز المباشر
               </a>
-            ) : doctor.phone ? (
-              <a href={`tel:${doctor.phone}`} className="w-full mb-4 bg-gradient-to-r from-primary to-blue-500 hover:from-primary-dark hover:to-blue-600 text-white font-black py-4 rounded-2xl shadow-lg shadow-primary/30 transition-all flex justify-center items-center gap-3 hover:scale-[1.02]">
-                <Phone className="w-6 h-6" />
-                اتصل للحجز المباشر
-              </a>
             ) : null}
             
             <div className="flex gap-3">
@@ -468,12 +453,10 @@ export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
                 </a>
               )}
               
-              {doctor.phone && (
-                <a href={`tel:${doctor.phone}`} className="flex-1 bg-slate-100 hover:bg-slate-800 text-slate-700 hover:text-white font-bold py-3.5 rounded-2xl transition-all flex justify-center items-center gap-2 border border-slate-200">
-                  <Phone className="w-5 h-5" />
-                  اتصال
-                </a>
-              )}
+              <Link href={doctorMapHref} className="flex-1 bg-slate-100 hover:bg-slate-800 text-slate-700 hover:text-white font-bold py-3.5 rounded-2xl transition-all flex justify-center items-center gap-2 border border-slate-200">
+                <MapPin className="w-5 h-5" />
+                الخريطة
+              </Link>
             </div>
 
             <div className="my-6 border-t border-slate-100" />
@@ -576,16 +559,13 @@ export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
                 محادثة واتساب الفورية
               </a>
             )}
-            
-            {doctor.phone && (
-              <a 
-                href={`tel:${doctor.phone}`} 
-                className="w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-white px-8 py-4 rounded-2xl font-black transition-all flex items-center justify-center gap-3 shadow-lg hover:scale-105"
-              >
-                <Phone className="w-6 h-6" />
-                اتصال هاتفي مباشر
-              </a>
-            )}
+            <a
+              href="#booking"
+              className="w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-white px-8 py-4 rounded-2xl font-black transition-all flex items-center justify-center gap-3 shadow-lg hover:scale-105"
+            >
+              <Calendar className="w-6 h-6" />
+              نموذج الحجز داخل الموقع
+            </a>
           </div>
         </div>
       </div>

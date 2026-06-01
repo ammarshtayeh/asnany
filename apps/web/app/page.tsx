@@ -69,6 +69,7 @@ const DIAGNOSIS_OPTIONS = [
 const HOME_ACTIONS = [
   { title: "ابحث عن طبيب", desc: "قارن الأطباء حسب المدينة والتخصص.", href: "#doctors", icon: Search, color: "text-sky-600", bg: "bg-sky-50" },
   { title: "احجز موعد", desc: "انتقل مباشرة لخدمات الحجز.", href: "/booking", icon: CalendarCheck2, color: "text-teal-600", bg: "bg-teal-50" },
+  { title: "بطاقة الخصم", desc: "اعرض العيادات المشاركة وخصوماتها.", href: "/discount-card", icon: BadgeCheck, color: "text-emerald-600", bg: "bg-emerald-50" },
   { title: "العروض", desc: "شاهد أحدث عروض العيادات.", href: "/offers", icon: Sparkles, color: "text-amber-600", bg: "bg-amber-50" },
   { title: "انضم للمنصة", desc: "سجل عيادتك أو شركتك.", href: "/join", icon: BriefcaseMedical, color: "text-violet-600", bg: "bg-violet-50" },
 ];
@@ -621,12 +622,6 @@ function DoctorResult({
   onToggleCompare: () => void;
 }) {
   const openNow = isDoctorOpenNow(doctor.working_hours);
-  const directionsHref =
-    doctor.lat && doctor.lng
-      ? `https://www.google.com/maps/dir/?api=1&destination=${doctor.lat},${doctor.lng}`
-      : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-          [doctor.city, doctor.area, doctor.address, doctor.name].filter(Boolean).join(" ")
-        )}`;
   const whatsappHref = doctor.whatsapp ? `https://wa.me/${doctor.whatsapp.replace(/[^\d]/g, "")}` : undefined;
 
   return (
@@ -654,6 +649,11 @@ function DoctorResult({
                   {doctor.name}
                 </Link>
                 {doctor.verified ? <CheckCircle2 className="h-5 w-5 text-emerald-500" /> : null}
+                {doctor.accepts_discount_card ? (
+                  <span className="inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-1 text-[11px] font-black text-emerald-700">
+                    بطاقة الخصم
+                  </span>
+                ) : null}
               </div>
               <div className="mt-3 flex flex-wrap gap-2">
                 {(Array.isArray(doctor.specialty) ? doctor.specialty : []).map((specialty) => (
@@ -696,22 +696,16 @@ function DoctorResult({
                 احجز
                 <ArrowLeft className="h-4 w-4" />
               </Link>
-              {doctor.phone ? (
-                <a href={`tel:${doctor.phone}`} className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-black text-slate-700 hover:border-sky-200 hover:text-sky-700">
-                  <PhoneCall className="h-4 w-4" />
-                  اتصال
-                </a>
-              ) : null}
               {whatsappHref ? (
                 <a href={whatsappHref} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 rounded-xl border border-emerald-100 bg-emerald-50 px-4 py-3 text-sm font-black text-emerald-700 hover:bg-emerald-100">
                   <MessageCircle className="h-4 w-4" />
                   واتساب
                 </a>
               ) : null}
-              <a href={directionsHref} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 rounded-xl border border-sky-100 bg-sky-50 px-4 py-3 text-sm font-black text-sky-700 hover:bg-sky-100">
-                <Navigation className="h-4 w-4 -rotate-45" />
-                اتجاهات
-              </a>
+              <Link href={`/doctors/${doctor.id}/map`} className="inline-flex items-center justify-center gap-2 rounded-xl border border-sky-100 bg-sky-50 px-4 py-3 text-sm font-black text-sky-700 hover:bg-sky-100">
+                <MapPin className="h-4 w-4" />
+                الخريطة
+              </Link>
               <button
                 type="button"
                 onClick={onToggleCompare}

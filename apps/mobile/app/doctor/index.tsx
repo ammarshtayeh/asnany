@@ -1,10 +1,6 @@
-import { useEffect } from "react";
-import { router } from "expo-router";
+import { Redirect } from "expo-router";
 
-export default function DoctorIndexScreen() {
-  useEffect(() => {
-    router.replace("/doctor/login");
-  }, []);
-
-  return null;
+export default function DoctorIndex() {
+  return <Redirect href="/doctor/login" />;
 }
+

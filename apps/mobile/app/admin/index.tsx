@@ -1,10 +1,5 @@
-import { useEffect } from "react";
-import { router } from "expo-router";
+import { Redirect } from "expo-router";
 
-export default function AdminIndexScreen() {
-  useEffect(() => {
-    router.replace("/admin/login");
-  }, []);
-
-  return null;
+export default function AdminIndex() {
+  return <Redirect href="/admin/login" />;
 }
