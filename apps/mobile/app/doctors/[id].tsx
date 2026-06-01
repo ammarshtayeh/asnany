@@ -102,7 +102,7 @@ export default function DoctorProfileScreen() {
       <ClinicMap doctor={doctor} />
 
       <View style={{ marginTop: 12, flexDirection: "row", gap: 8 }}>
-        <Link href={`/doctors/${doctor.id}/map`} asChild>
+        <Link href={`/doctor/${doctor.id}/map`} asChild>
           <Pressable style={{ flex: 1, minHeight: 48, borderRadius: 16, backgroundColor: "#0f172a", alignItems: "center", justifyContent: "center" }}>
             <Text style={{ color: "#fff", fontWeight: "900" }}>الخريطة داخل التطبيق</Text>
           </Pressable>

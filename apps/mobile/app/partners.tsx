@@ -1,5 +1,24 @@
-import { StaticPage } from "../components/StaticPage";
+import { ServicePage } from "../components/ServicePage";
 
 export default function PartnersScreen() {
-  return <StaticPage title="الشركاء" subtitle="صفحة الجهات والشركاء ضمن المنظومة." points={["شبكة دعم", "تعاون طبي", "قنوات تواصل"]} />;
+  return (
+    <ServicePage
+      emoji="🤝"
+      badge="الشركات والمنتجات الطبية"
+      title="مساحة للشركات الداعمة والمنتجات الطبية"
+      description="قسم للشركات الطبية وشركات الأدوية والتجميل والأجهزة والمنتجات، مع فرص إعلان ورعاية وحملات تسويق موجهة."
+      accentColor="#10b981"
+      features={[
+        "ملفات للشركات والمنتجات والعروض الخاصة.",
+        "إعلانات بانر وفيديو ومقالات ممولة وحملات دعائية.",
+        "ربط الشركات بالأطباء والعيادات والمختبرات والجمهور.",
+        "تهيئة مستقبلية لمتجر إلكتروني لمنتجات الأسنان والعناية.",
+      ]}
+      actions={[
+        { label: "أعلن معنا", href: "/advertise" },
+        { label: "تصفح الموردين", href: "/stores" },
+      ]}
+      emptyLabel="سيتم عرض الشركات والمنتجات المعتمدة قريباً."
+    />
+  );
 }

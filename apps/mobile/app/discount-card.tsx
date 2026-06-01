@@ -62,7 +62,7 @@ export default function DiscountCardScreen() {
                 <Text style={{ textAlign: "right", color: "#2563eb", marginTop: 6, fontWeight: "900" }}>
                   {doctor.discount_value || "خصم خاص"} {doctor.discount_note ? `• ${doctor.discount_note}` : ""}
                 </Text>
-                <AppButton label="عرض الطبيب" variant="secondary" onPress={() => router.push(`/doctors/${doctor.id}`)} style={{ marginTop: 10 }} />
+                <AppButton label="عرض الطبيب" variant="secondary" onPress={() => router.push(`/doctor/${doctor.id}`)} style={{ marginTop: 10 }} />
               </View>
             ))}
           </View>

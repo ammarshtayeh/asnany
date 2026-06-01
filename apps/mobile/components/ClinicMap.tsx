@@ -69,18 +69,27 @@ export function ClinicMap({ doctor }: { doctor: Doctor }) {
             <Marker coordinate={{ latitude: userLoc.lat, longitude: userLoc.lng }} title="موقعي الحالي">
               <View style={{ alignItems: "center", justifyContent: "center" }}>
                 <View style={{
+                  position: "absolute",
+                  width: 44,
+                  height: 44,
+                  borderRadius: 22,
+                  backgroundColor: "rgba(2, 132, 199, 0.2)",
+                  borderWidth: 1.5,
+                  borderColor: "rgba(2, 132, 199, 0.4)",
+                }} />
+                <View style={{
                   backgroundColor: "#fff",
                   padding: 6,
                   borderRadius: 14,
-                  borderWidth: 1.5,
+                  borderWidth: 2,
                   borderColor: colors.sky,
                   shadowColor: "#000",
-                  shadowOffset: { width: 0, height: 2 },
-                  shadowOpacity: 0.25,
-                  shadowRadius: 3.5,
-                  elevation: 5,
+                  shadowOffset: { width: 0, height: 3 },
+                  shadowOpacity: 0.3,
+                  shadowRadius: 4,
+                  elevation: 6,
                 }}>
-                  <Ionicons name="location" size={22} color={colors.sky} />
+                  <Ionicons name="location-sharp" size={20} color={colors.sky} />
                 </View>
               </View>
             </Marker>

@@ -1,5 +1,5 @@
 import React from "react";
-import { Linking, Pressable, ScrollView, Text, View } from "react-native";
+import { Pressable, ScrollView, Text, View } from "react-native";
 import { router } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -157,10 +157,10 @@ export default function MoreScreen() {
             دليل فلسطين لطب الأسنان
           </Text>
           <Pressable
-            onPress={() => Linking.openURL("https://asnany.ps")}
+            onPress={() => router.push("/" as any)}
             style={{ backgroundColor: "#10b981", borderRadius: 12, paddingHorizontal: 18, paddingVertical: 10, marginTop: 4 }}
           >
-            <Text style={{ color: "#fff", fontWeight: "900", fontSize: 13 }}>🌐 زيارة الموقع</Text>
+            <Text style={{ color: "#fff", fontWeight: "900", fontSize: 13 }}>🏠 الرئيسية</Text>
           </Pressable>
         </View>
       </View>

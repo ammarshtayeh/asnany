@@ -90,7 +90,26 @@ export default function HomeScreen() {
   useEffect(() => {
     fetchData();
     Notifications.getPermissionsAsync().catch(() => null);
+    checkLocationPermissionAndFetch();
   }, []);
+
+  async function checkLocationPermissionAndFetch() {
+    try {
+      const { status } = await Location.getForegroundPermissionsAsync();
+      if (status === "granted") {
+        const position = await Location.getCurrentPositionAsync({
+          accuracy: Location.Accuracy.Balanced,
+        });
+        setUserLocation({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        });
+      }
+    } catch (e) {
+      console.log("Auto-location error:", e);
+    }
+  }
+
 
   async function fetchData() {
     setLoading(true);
@@ -736,18 +755,27 @@ function MiniMap({
           <Marker coordinate={{ latitude: userLocation.lat, longitude: userLocation.lng }} title="موقعي">
             <View style={{ alignItems: "center", justifyContent: "center" }}>
               <View style={{
+                position: "absolute",
+                width: 44,
+                height: 44,
+                borderRadius: 22,
+                backgroundColor: "rgba(225, 29, 72, 0.2)",
+                borderWidth: 1.5,
+                borderColor: "rgba(225, 29, 72, 0.4)",
+              }} />
+              <View style={{
                 backgroundColor: "#fff",
                 padding: 6,
                 borderRadius: 14,
-                borderWidth: 1.5,
+                borderWidth: 2,
                 borderColor: colors.rose,
                 shadowColor: "#000",
-                shadowOffset: { width: 0, height: 2 },
-                shadowOpacity: 0.25,
-                shadowRadius: 3.5,
-                elevation: 5,
+                shadowOffset: { width: 0, height: 3 },
+                shadowOpacity: 0.3,
+                shadowRadius: 4,
+                elevation: 6,
               }}>
-                <Ionicons name="location" size={22} color={colors.rose} />
+                <Ionicons name="location-sharp" size={20} color={colors.rose} />
               </View>
             </View>
           </Marker>
