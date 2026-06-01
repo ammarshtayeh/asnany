@@ -630,7 +630,10 @@ function DoctorResult({
 
   return (
     <article className="group flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition hover:border-sky-200 hover:shadow-md sm:flex-row">
-        <div className="relative h-52 w-full overflow-hidden rounded-xl bg-slate-100 sm:h-auto sm:w-44">
+      
+      {/* Right Column: Image and Actions */}
+      <div className="flex w-full flex-col gap-3 sm:w-56">
+        <div className="relative h-52 w-full shrink-0 overflow-hidden rounded-xl bg-slate-100">
           {doctor.image_url ? (
             <Image src={doctor.image_url} alt={doctor.name} fill className="object-cover transition duration-500 group-hover:scale-105" />
           ) : (
@@ -645,85 +648,93 @@ function DoctorResult({
             </span>
           ) : null}
         </div>
-        <div className="flex flex-1 flex-col">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-            <div>
-              <div className="flex items-center gap-2">
-                <Link href={`/doctors/${doctor.id}`} className="text-xl font-black text-slate-950 hover:text-sky-600">
-                  {doctor.name}
-                </Link>
-                {doctor.verified ? <CheckCircle2 className="h-5 w-5 text-emerald-500" /> : null}
-                {doctor.accepts_discount_card ? (
-                  <span className="inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-1 text-[11px] font-black text-emerald-700">
-                    بطاقة الخصم
-                  </span>
-                ) : null}
-              </div>
-              <div className="mt-3 flex flex-wrap gap-2">
-                {(Array.isArray(doctor.specialty) ? doctor.specialty : []).map((specialty) => (
-                  <span key={specialty} className="rounded-lg bg-slate-100 px-3 py-1 text-xs font-bold text-slate-600">
-                    {specialty}
-                  </span>
-                ))}
-              </div>
-            </div>
-            {(doctor.rating || 0) > 0 ? (
-              <span className="inline-flex w-fit items-center gap-1 rounded-lg bg-amber-50 px-3 py-1.5 text-sm font-black text-amber-700">
-                <Star className="h-4 w-4 fill-current" />
-                {doctor.rating}
-              </span>
+
+        {/* Action Buttons directly under the image */}
+        <div className="flex flex-col gap-2">
+          <Link href={`/doctors/${doctor.id}`} className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-slate-950 px-4 py-3 text-sm font-black text-white transition hover:bg-sky-600">
+            احجز
+            <ArrowLeft className="h-4 w-4" />
+          </Link>
+          <div className="grid grid-cols-2 gap-2">
+            {whatsappHref ? (
+              <a href={whatsappHref} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 rounded-xl border border-emerald-100 bg-emerald-50 px-2 py-3 text-xs font-black text-emerald-700 hover:bg-emerald-100">
+                <MessageCircle className="h-4 w-4" />
+                واتساب
+              </a>
             ) : null}
+            <Link href={`/doctors/${doctor.id}/map`} className={`inline-flex items-center justify-center gap-2 rounded-xl border border-sky-100 bg-sky-50 px-2 py-3 text-xs font-black text-sky-700 hover:bg-sky-100 ${!whatsappHref ? "col-span-2" : ""}`}>
+              <MapPin className="h-4 w-4" />
+              الخريطة
+            </Link>
           </div>
-          <div className="mt-auto flex flex-col gap-4 border-t border-slate-100 pt-4">
-            <div className="space-y-2">
-              <p className="flex items-center gap-2 text-sm font-bold text-slate-500">
-                <MapPin className="h-4 w-4" />
-                {doctor.city}{doctor.area ? ` - ${doctor.area}` : ""}
-              </p>
-              <div className="flex flex-wrap gap-2">
-                <span className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-black ${
-                  openNow ? "border-emerald-100 bg-emerald-50 text-emerald-600" : "border-slate-200 bg-slate-100 text-slate-500"
-                }`}>
-                  <span className={`h-1.5 w-1.5 rounded-full ${openNow ? "bg-emerald-500" : "bg-slate-400"}`} />
-                  {openNow ? "مفتوح الآن" : "مغلق حاليا"}
+          <button
+            type="button"
+            onClick={onToggleCompare}
+            className={`inline-flex w-full items-center justify-center gap-2 rounded-xl border px-4 py-3 text-xs font-black ${
+              compareSelected ? "border-sky-200 bg-sky-600 text-white" : "border-slate-200 bg-white text-slate-700 hover:border-sky-200"
+            }`}
+          >
+            <GitCompareArrows className="h-4 w-4" />
+            {compareSelected ? "ضمن المقارنة" : "قارن مع طبيب آخر"}
+          </button>
+        </div>
+      </div>
+
+      {/* Left Column: Info */}
+      <div className="flex flex-1 flex-col">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+          <div>
+            <div className="flex items-center gap-2">
+              <Link href={`/doctors/${doctor.id}`} className="text-xl font-black text-slate-950 hover:text-sky-600">
+                {doctor.name}
+              </Link>
+              {doctor.verified ? <CheckCircle2 className="h-5 w-5 text-emerald-500" /> : null}
+              {doctor.accepts_discount_card ? (
+                <span className="inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-1 text-[11px] font-black text-emerald-700">
+                  بطاقة الخصم
                 </span>
-                {doctor.distance !== undefined ? (
-                  <span className="inline-flex items-center gap-1 rounded-full bg-sky-50 px-3 py-1 text-xs font-black text-sky-700">
-                    <Route className="h-3.5 w-3.5" />
-                    {doctor.distance.toFixed(1)} كم
-                  </span>
-                ) : null}
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-              <Link href={`/doctors/${doctor.id}`} className="inline-flex items-center justify-center gap-2 rounded-xl bg-slate-950 px-4 py-3 text-sm font-black text-white transition hover:bg-sky-600">
-                احجز
-                <ArrowLeft className="h-4 w-4" />
-              </Link>
-              {whatsappHref ? (
-                <a href={whatsappHref} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 rounded-xl border border-emerald-100 bg-emerald-50 px-4 py-3 text-sm font-black text-emerald-700 hover:bg-emerald-100">
-                  <MessageCircle className="h-4 w-4" />
-                  واتساب
-                </a>
               ) : null}
-              <Link href={`/doctors/${doctor.id}/map`} className="inline-flex items-center justify-center gap-2 rounded-xl border border-sky-100 bg-sky-50 px-4 py-3 text-sm font-black text-sky-700 hover:bg-sky-100">
-                <MapPin className="h-4 w-4" />
-                الخريطة
-              </Link>
-              <button
-                type="button"
-                onClick={onToggleCompare}
-                className={`inline-flex items-center justify-center gap-2 rounded-xl border px-4 py-3 text-sm font-black sm:col-span-4 ${
-                  compareSelected ? "border-sky-200 bg-sky-600 text-white" : "border-slate-200 bg-white text-slate-700 hover:border-sky-200"
-                }`}
-              >
-                <GitCompareArrows className="h-4 w-4" />
-                {compareSelected ? "ضمن المقارنة" : "قارن مع طبيب آخر"}
-              </button>
+            </div>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {(Array.isArray(doctor.specialty) ? doctor.specialty : []).map((specialty) => (
+                <span key={specialty} className="rounded-lg bg-slate-100 px-3 py-1 text-xs font-bold text-slate-600">
+                  {specialty}
+                </span>
+              ))}
+            </div>
+          </div>
+          {(doctor.rating || 0) > 0 ? (
+            <span className="inline-flex w-fit items-center gap-1 rounded-lg bg-amber-50 px-3 py-1.5 text-sm font-black text-amber-700">
+              <Star className="h-4 w-4 fill-current" />
+              {doctor.rating}
+            </span>
+          ) : null}
+        </div>
+        
+        <div className="mt-4 flex flex-col gap-4 border-t border-slate-100 pt-4 sm:mt-auto">
+          <div className="space-y-2">
+            <p className="flex items-center gap-2 text-sm font-bold text-slate-500">
+              <MapPin className="h-4 w-4" />
+              {doctor.city}{doctor.area ? ` - ${doctor.area}` : ""}
+            </p>
+            <div className="flex flex-wrap gap-2">
+              <span className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-black ${
+                openNow ? "border-emerald-100 bg-emerald-50 text-emerald-600" : "border-slate-200 bg-slate-100 text-slate-500"
+              }`}>
+                <span className={`h-1.5 w-1.5 rounded-full ${openNow ? "bg-emerald-500" : "bg-slate-400"}`} />
+                {openNow ? "مفتوح الآن" : "مغلق حاليا"}
+              </span>
+              {doctor.distance !== undefined ? (
+                <span className="inline-flex items-center gap-1 rounded-full bg-sky-50 px-3 py-1 text-xs font-black text-sky-700">
+                  <Route className="h-3.5 w-3.5" />
+                  {doctor.distance.toFixed(1)} كم
+                </span>
+              ) : null}
             </div>
           </div>
         </div>
-      </article>
+      </div>
+    </article>
   );
 }
 
