@@ -124,5 +124,5 @@ section:has(> img[alt="عيادة أسنان حديثة"]) {
 }
 
 img[alt="عيادة أسنان حديثة"] {
-  object-position: center 18% !important;
+  object-position: center 0% !important;
 }
