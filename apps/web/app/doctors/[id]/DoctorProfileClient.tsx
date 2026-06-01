@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { Doctor } from "@/lib/types";
 import { getDistance } from "@/lib/distance";
+import { buildAppleMapsUrl, buildDoctorMapUrl } from "@/lib/map-links";
 import { Star, MapPin, CheckCircle2, Clock, Calendar, Navigation, Route, Award, HeartPulse, Sparkles, Map, Heart } from "lucide-react";
 
 const DoctorMap = dynamic(() => import("@/components/DoctorMap"), { ssr: false });
@@ -76,6 +77,12 @@ export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
   }, [doctor]);
 
   const doctorMapHref = `/doctors/${doctor.id}/map`;
+  const openDeviceMap = () => {
+    if (typeof window === "undefined") return;
+    const ua = window.navigator.userAgent;
+    const isApple = /iPad|iPhone|iPod|Macintosh/i.test(ua);
+    window.open(isApple ? buildAppleMapsUrl(doctor) : buildDoctorMapUrl(doctor), "_blank", "noopener,noreferrer");
+  };
 
   const toggleSaved = () => {
     const saved = JSON.parse(localStorage.getItem("asnany_saved_doctors") || "[]") as string[];
@@ -238,8 +245,16 @@ export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
                         className="mt-2 text-primary hover:text-slate-900 text-xs font-bold inline-flex items-center gap-1.5 bg-white border border-slate-200 px-3 py-1.5 rounded-lg shadow-sm hover:shadow transition-all"
                       >
                         <Navigation className="w-3.5 h-3.5" />
-                        عرض الخريطة داخل الموقع
+                        الخريطة داخل الموقع
                       </Link>
+                      <button
+                        type="button"
+                        onClick={openDeviceMap}
+                        className="mt-2 ml-2 text-slate-700 hover:text-slate-950 text-xs font-bold inline-flex items-center gap-1.5 bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-lg shadow-sm hover:shadow transition-all"
+                      >
+                        <MapPin className="w-3.5 h-3.5" />
+                        افتح في خرائط الجهاز
+                      </button>
                     </div>
                   </div>
                   {doctor.accepts_insurance && (
@@ -306,13 +321,23 @@ export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
           <div className="bg-white rounded-3xl shadow-xl shadow-slate-200/30 border border-slate-100 p-3 relative h-[450px] overflow-hidden group">
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-20 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             <DoctorMap doctors={[doctor]} userLocation={userLoc || undefined} />
-            <Link
-              href={doctorMapHref}
-              className="absolute bottom-6 right-6 z-30 bg-slate-900 hover:bg-primary text-white hover:scale-105 transition-all px-5 py-3 rounded-2xl shadow-xl font-bold text-sm flex items-center gap-2 cursor-pointer border-0"
-            >
-              <Navigation className="w-4 h-4 text-white animate-pulse" />
-              عرض الخريطة داخل الموقع
-            </Link>
+            <div className="absolute bottom-6 right-6 z-30 flex gap-2">
+              <Link
+                href={doctorMapHref}
+                className="bg-slate-900 hover:bg-primary text-white hover:scale-105 transition-all px-5 py-3 rounded-2xl shadow-xl font-bold text-sm flex items-center gap-2 cursor-pointer border-0"
+              >
+                <Navigation className="w-4 h-4 text-white animate-pulse" />
+                الخريطة داخل الموقع
+              </Link>
+              <button
+                type="button"
+                onClick={openDeviceMap}
+                className="bg-white/95 hover:bg-white text-slate-900 hover:scale-105 transition-all px-5 py-3 rounded-2xl shadow-xl font-bold text-sm flex items-center gap-2 cursor-pointer border-0"
+              >
+                <MapPin className="w-4 h-4" />
+                خرائط الجهاز
+              </button>
+            </div>
           </div>
 
           {/* Clinic Photos Gallery */}

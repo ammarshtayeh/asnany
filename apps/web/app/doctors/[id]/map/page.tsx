@@ -3,29 +3,11 @@
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
+import { MapPin, Navigation, Route, ArrowLeft } from "lucide-react";
 
-type Doctor = {
-  id: string;
-  name: string;
-  city?: string | null;
-  area?: string | null;
-  address?: string | null;
-  availability_note?: string | null;
-  whatsapp?: string | null;
-};
-
-const CITY_COORDS: Record<string, { x: number; y: number }> = {
-  القدس: { x: 0.56, y: 0.36 },
-  "رام الله": { x: 0.54, y: 0.32 },
-  البيرة: { x: 0.55, y: 0.33 },
-  نابلس: { x: 0.58, y: 0.22 },
-  الخليل: { x: 0.55, y: 0.55 },
-  "بيت لحم": { x: 0.54, y: 0.42 },
-  جنين: { x: 0.59, y: 0.12 },
-  طولكرم: { x: 0.57, y: 0.17 },
-  قلقيلية: { x: 0.56, y: 0.19 },
-  غزة: { x: 0.25, y: 0.78 },
-};
+import { Doctor } from "@/lib/types";
+import DoctorMap from "@/components/DoctorMap";
+import { buildAppleMapsUrl, buildDoctorMapUrl, doctorMapLabel } from "@/lib/map-links";
 
 export default function DoctorMapPage() {
   const params = useParams<{ id: string }>() as { id?: string } | null;
@@ -33,60 +15,104 @@ export default function DoctorMapPage() {
   const [doctor, setDoctor] = useState<Doctor | null>(null);
 
   useEffect(() => {
+    let cancelled = false;
+
     (async () => {
       const res = await fetch("/api/doctors");
       const data = await res.json();
+      if (cancelled) return;
       setDoctor((data.doctors || []).find((item: Doctor) => item.id === doctorId) || null);
     })();
+
+    return () => {
+      cancelled = true;
+    };
   }, [doctorId]);
 
-  const marker = useMemo(() => {
-    const city = doctor?.city || "";
-    return CITY_COORDS[city] || { x: 0.5, y: 0.46 };
+  const deviceMapHref = useMemo(() => {
+    if (!doctor) return "";
+    if (typeof window === "undefined") return buildDoctorMapUrl(doctor);
+    const ua = window.navigator.userAgent;
+    const isApple = /iPad|iPhone|iPod|Macintosh/i.test(ua);
+    return isApple ? buildAppleMapsUrl(doctor) : buildDoctorMapUrl(doctor);
   }, [doctor]);
+
+  const openDeviceMap = () => {
+    if (!deviceMapHref) return;
+    window.open(deviceMapHref, "_blank", "noopener,noreferrer");
+  };
 
   return (
     <main className="min-h-screen bg-slate-50 px-4 py-8" dir="rtl">
-      <div className="mx-auto max-w-4xl space-y-5">
+      <div className="mx-auto max-w-5xl space-y-5">
         <section className="rounded-3xl bg-white p-5 shadow-sm">
           <p className="text-sm font-black text-sky-600">خريطة العيادة</p>
-          <h1 className="mt-2 text-3xl font-black text-slate-950">{doctor?.name || "جاري التحميل..."}</h1>
+          <h1 className="mt-2 text-3xl font-black text-slate-950">
+            {doctor?.name || "جاري التحميل..."}
+          </h1>
           <p className="mt-2 text-sm font-semibold text-slate-500">
-            {doctor?.city || "غير محدد"} {doctor?.area ? `- ${doctor.area}` : ""}
+            {doctor ? doctorMapLabel(doctor) : "غير محدد"}
           </p>
         </section>
 
-        <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-          <div className="relative h-[360px] overflow-hidden rounded-3xl bg-sky-100">
-            <div className="absolute inset-0">
-              <div className="absolute left-[10%] top-[20%] h-0.5 w-[80%] bg-sky-300/80" />
-              <div className="absolute left-[16%] top-[44%] h-0.5 w-[68%] bg-sky-300/80" />
-              <div className="absolute left-[22%] top-[66%] h-0.5 w-[56%] bg-sky-300/80" />
-              <div className="absolute left-[23%] top-[10%] h-[82%] w-0.5 bg-sky-300/80" />
-              <div className="absolute left-[55%] top-[8%] h-[84%] w-0.5 bg-sky-300/80" />
+        <section className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-4 shadow-sm">
+          <div className="rounded-[1.6rem] border border-sky-100 bg-sky-50 p-4">
+            <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <p className="text-xs font-black uppercase tracking-[0.2em] text-sky-600">الموقع على الخريطة</p>
+                <p className="mt-1 text-sm font-bold text-slate-600">
+                  {doctor ? doctorMapLabel(doctor) : "جاري التحميل..."}
+                </p>
+              </div>
+
+              <div className="flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  onClick={openDeviceMap}
+                  disabled={!doctor}
+                  className="inline-flex min-h-11 items-center gap-2 rounded-full bg-slate-950 px-4 text-sm font-black text-white disabled:opacity-50"
+                >
+                  <Navigation className="h-4 w-4" />
+                  افتح في خرائط الجهاز
+                </button>
+              </div>
             </div>
-            <div className="absolute" style={{ left: `${marker.x * 100}%`, top: `${marker.y * 100}%`, transform: "translate(-50%, -100%)" }}>
-              <div className="h-5 w-5 rounded-full border-4 border-white bg-slate-950 shadow-xl" />
-              <div className="mx-auto h-6 w-0.5 bg-slate-950" />
+
+            <div className="h-[420px] overflow-hidden rounded-[1.75rem] bg-white">
+              {doctor ? <DoctorMap doctors={[doctor]} /> : null}
             </div>
-          </div>
-          <div className="mt-4 grid gap-3 md:grid-cols-2">
-            <div className="rounded-2xl bg-slate-50 p-4">
-              <p className="text-xs font-black text-slate-500">العنوان</p>
-              <p className="mt-1 text-sm font-bold text-slate-700">{doctor?.address || doctor?.availability_note || "غير متاح"}</p>
+
+            <div className="mt-4 grid gap-3 md:grid-cols-2">
+              <div className="rounded-2xl bg-white p-4">
+                <p className="text-xs font-black text-slate-500">العنوان</p>
+                <p className="mt-1 text-sm font-bold text-slate-700">
+                  {doctor?.address || doctor?.availability_note || "غير متاح"}
+                </p>
+              </div>
+              <div className="rounded-2xl bg-white p-4">
+                <p className="text-xs font-black text-slate-500">التواصل</p>
+                <p className="mt-1 text-sm font-bold text-slate-700">
+                  {doctor?.whatsapp || "واتساب غير متاح"}
+                </p>
+              </div>
             </div>
-            <div className="rounded-2xl bg-slate-50 p-4">
-              <p className="text-xs font-black text-slate-500">التواصل</p>
-              <p className="mt-1 text-sm font-bold text-slate-700">{doctor?.whatsapp || "واتساب غير متاح"}</p>
+
+            <div className="mt-4 flex flex-wrap gap-3">
+              <Link
+                href={`/doctors/${doctorId}`}
+                className="inline-flex min-h-11 items-center gap-2 rounded-full bg-slate-900 px-4 text-sm font-black text-white"
+              >
+                <ArrowLeft className="h-4 w-4" />
+                العودة للملف
+              </Link>
+              <Link
+                href="/booking"
+                className="inline-flex min-h-11 items-center gap-2 rounded-full bg-white px-4 text-sm font-black text-slate-900 ring-1 ring-slate-200"
+              >
+                <Route className="h-4 w-4" />
+                احجز الآن
+              </Link>
             </div>
-          </div>
-          <div className="mt-4 flex gap-3">
-            <Link href={`/doctors/${doctorId}`} className="rounded-full bg-slate-900 px-4 py-2 text-sm font-black text-white">
-              العودة للملف
-            </Link>
-            <Link href="/booking" className="rounded-full bg-sky-600 px-4 py-2 text-sm font-black text-white">
-              احجز الآن
-            </Link>
           </div>
         </section>
       </div>

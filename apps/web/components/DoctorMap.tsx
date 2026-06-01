@@ -3,6 +3,7 @@
 import { MapContainer, TileLayer, Marker, Popup, Polyline, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { Doctor } from "@/lib/types";
+import { doctorMapCoordinates } from "@/lib/map-links";
 import L from "leaflet";
 import Link from "next/link";
 import { Star } from "lucide-react";
@@ -37,8 +38,9 @@ function MapFitter({ doctors, userLocation }: { doctors: Doctor[], userLocation?
     
     const bounds = L.latLngBounds([]);
     
-    doctors.forEach(doc => {
-      if (doc.lat && doc.lng) bounds.extend([doc.lat, doc.lng]);
+  doctors.forEach(doc => {
+      const coords = doctorMapCoordinates(doc);
+      if (coords) bounds.extend([coords.latitude, coords.longitude]);
     });
     
     if (userLocation) {
@@ -97,11 +99,10 @@ export default function DoctorMap({
         )}
 
         {/* Doctor Markers */}
-        {doctors.map(
-          (doc) =>
-            doc.lat &&
-            doc.lng && (
-              <Marker key={doc.id} position={[doc.lat, doc.lng]} icon={doctorIcon}>
+        {doctors.map((doc) => {
+          const coords = doctorMapCoordinates(doc);
+          return (
+              <Marker key={doc.id} position={[coords.latitude, coords.longitude]} icon={doctorIcon}>
                 <Popup className="rounded-xl overflow-hidden">
                   <div className="flex flex-col gap-2 p-1 text-right font-sans" dir="rtl">
                     <h3 className="font-bold text-slate-900 text-[15px]">{doc.name}</h3>
@@ -121,15 +122,15 @@ export default function DoctorMap({
                   </div>
                 </Popup>
               </Marker>
-            )
-        )}
+          );
+        })}
 
         {/* Draw Line if there's 1 doctor and 1 user location */}
-        {userLocation && doctors.length === 1 && doctors[0].lat && doctors[0].lng && (
+        {userLocation && doctors.length === 1 && (
           <Polyline 
             positions={[
               [userLocation.lat, userLocation.lng],
-              [doctors[0].lat, doctors[0].lng]
+              [doctorMapCoordinates(doctors[0]).latitude, doctorMapCoordinates(doctors[0]).longitude]
             ]} 
             pathOptions={{ color: '#0EA5E9', weight: 3, dashArray: '10, 10', opacity: 0.7 }}
           />
