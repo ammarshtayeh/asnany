@@ -28,7 +28,11 @@ CREATE TABLE appointments (
   id             UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   doctor_id      UUID REFERENCES doctors(id) ON DELETE CASCADE,
   patient_name   TEXT NOT NULL,
+  patient_full_name TEXT,
+  patient_email  TEXT,
   patient_phone  TEXT NOT NULL,
+  patient_identity TEXT,
+  patient_address TEXT,
   date           DATE NOT NULL,
   time           TIME,
   status         TEXT DEFAULT 'pending',   -- pending/confirmed/cancelled/completed
