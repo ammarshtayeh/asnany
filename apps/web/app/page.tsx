@@ -266,14 +266,14 @@ export default function Home() {
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-slate-50 font-sans">
-      <section className="relative isolate bg-slate-950 px-4 py-5 sm:py-8 lg:px-8">
+    <section className="relative isolate mb-10 overflow-hidden rounded-[2rem] bg-slate-950 px-4 py-5 sm:mb-14 sm:rounded-[2.5rem] sm:py-8 lg:px-8">
         <Image
           src={HERO_IMAGE_URL}
           alt="عيادة أسنان حديثة"
           fill
           priority
           sizes="100vw"
-          className="object-cover"
+        className="object-cover object-[center_14%]"
         />
         <div className="absolute inset-0 bg-gradient-to-l from-slate-950/90 via-slate-950/70 to-slate-900/35" />
         <div className="relative z-10 mx-auto grid min-h-[560px] w-full max-w-[1400px] items-center gap-7 py-4 sm:min-h-[520px] lg:grid-cols-[minmax(0,1fr)_460px]">
