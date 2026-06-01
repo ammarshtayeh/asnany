@@ -1,16 +1,36 @@
 import { Linking, Pressable, Text, View } from "react-native";
 import MapView, { Marker } from "react-native-maps";
+import { useEffect, useState, useRef } from "react";
+import * as Location from "expo-location";
+import { Ionicons } from "@expo/vector-icons";
 import { Doctor } from "../lib/types";
 import { buildNativeMapsUrl, doctorMapLabel, doctorMapCoordinates } from "../lib/map-links";
+import { colors } from "../constants/theme";
 
 export function ClinicMap({ doctor }: { doctor: Doctor }) {
+  const mapRef = useRef<MapView>(null);
+  const [userLoc, setUserLoc] = useState<{ lat: number; lng: number } | null>(null);
   const coordinates = doctorMapCoordinates(doctor);
+  
+  useEffect(() => {
+    (async () => {
+      try {
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== 'granted') return;
+        let location = await Location.getCurrentPositionAsync({});
+        setUserLoc({ lat: location.coords.latitude, lng: location.coords.longitude });
+      } catch (error) {
+        console.log("Could not get location", error);
+      }
+    })();
+  }, []);
+
   const region = coordinates
     ? {
         latitude: coordinates.latitude,
         longitude: coordinates.longitude,
-        latitudeDelta: 0.45,
-        longitudeDelta: 0.45,
+        latitudeDelta: 0.05,
+        longitudeDelta: 0.05,
       }
     : {
         latitude: 31.9,
@@ -32,6 +52,7 @@ export function ClinicMap({ doctor }: { doctor: Doctor }) {
 
       <View style={{ marginTop: 12, height: 220, borderRadius: 22, overflow: "hidden", borderWidth: 1, borderColor: "#bfdbfe" }}>
         <MapView
+          ref={mapRef}
           style={{ flex: 1 }}
           initialRegion={region}
           scrollEnabled={false}
@@ -42,6 +63,27 @@ export function ClinicMap({ doctor }: { doctor: Doctor }) {
         >
           {coordinates ? (
             <Marker coordinate={{ latitude: coordinates.latitude, longitude: coordinates.longitude }} title={doctor.name} description={doctor.address || doctor.availability_note || doctor.city || ""} />
+          ) : null}
+          
+          {userLoc ? (
+            <Marker coordinate={{ latitude: userLoc.lat, longitude: userLoc.lng }} title="موقعي الحالي">
+              <View style={{ alignItems: "center", justifyContent: "center" }}>
+                <View style={{
+                  backgroundColor: "#fff",
+                  padding: 6,
+                  borderRadius: 14,
+                  borderWidth: 1.5,
+                  borderColor: colors.sky,
+                  shadowColor: "#000",
+                  shadowOffset: { width: 0, height: 2 },
+                  shadowOpacity: 0.25,
+                  shadowRadius: 3.5,
+                  elevation: 5,
+                }}>
+                  <Ionicons name="location" size={22} color={colors.sky} />
+                </View>
+              </View>
+            </Marker>
           ) : null}
         </MapView>
       </View>

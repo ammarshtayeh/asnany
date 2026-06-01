@@ -446,30 +446,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Metrics Row (placed below the search results) */}
-        <section className="mt-12 grid gap-3 sm:grid-cols-3" dir="rtl">
-          <Metric value={loading ? "..." : doctors.length || "24+"} label="عيادة وطبيب" />
-          <Metric value={String(CITIES.length)} label="محافظة" />
-          <Metric value="موثوق" label="تجربة بحث وحجز" />
-        </section>
-
-        <section className="mt-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm" dir="rtl">
-          <div className="grid gap-4 md:grid-cols-3">
-            {HOW_IT_WORKS.map((step) => (
-              <div key={step.title} className="flex items-start gap-3 text-right">
-                <span className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-sky-50 text-sky-600">
-                  <step.icon className="h-5 w-5" />
-                </span>
-                <span>
-                  <strong className="block text-sm font-black text-slate-950">{step.title}</strong>
-                  <span className="mt-1 block text-sm font-semibold leading-6 text-slate-500">{step.desc}</span>
-                </span>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section className="mt-6 grid gap-3 md:grid-cols-4" dir="rtl">
+        <section className="mt-8 grid gap-3 md:grid-cols-4" dir="rtl">
           {HOME_ACTIONS.map((action) => (
             <Link
               key={action.title}
@@ -541,6 +518,31 @@ export default function Home() {
             </button>
           ))}
         </section>
+
+        {/* Metrics Row (placed below the fast actions) */}
+        <section className="mt-12 grid gap-3 sm:grid-cols-3" dir="rtl">
+          <Metric value={loading ? "..." : doctors.length || "24+"} label="عيادة وطبيب" />
+          <Metric value={String(CITIES.length)} label="محافظة" />
+          <Metric value="موثوق" label="تجربة بحث وحجز" />
+        </section>
+
+        <section className="mt-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm" dir="rtl">
+          <div className="grid gap-4 md:grid-cols-3">
+            {HOW_IT_WORKS.map((step) => (
+              <div key={step.title} className="flex items-start gap-3 text-right">
+                <span className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-sky-50 text-sky-600">
+                  <step.icon className="h-5 w-5" />
+                </span>
+                <span>
+                  <strong className="block text-sm font-black text-slate-950">{step.title}</strong>
+                  <span className="mt-1 block text-sm font-semibold leading-6 text-slate-500">{step.desc}</span>
+                </span>
+              </div>
+            ))}
+          </div>
+        </section>
+
+
 
         <section className="mt-8">
           <AdSlider ads={ads} />

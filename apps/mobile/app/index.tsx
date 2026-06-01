@@ -716,7 +716,6 @@ function MiniMap({
           latitudeDelta,
           longitudeDelta,
         }}
-        showsUserLocation={!!userLocation}
         showsMyLocationButton={false}
         toolbarEnabled={false}
       >
@@ -735,8 +734,21 @@ function MiniMap({
         ))}
         {userLocation ? (
           <Marker coordinate={{ latitude: userLocation.lat, longitude: userLocation.lng }} title="موقعي">
-            <View style={styles.nativeUserMarker}>
-              <View style={styles.nativeUserMarkerCore} />
+            <View style={{ alignItems: "center", justifyContent: "center" }}>
+              <View style={{
+                backgroundColor: "#fff",
+                padding: 6,
+                borderRadius: 14,
+                borderWidth: 1.5,
+                borderColor: colors.rose,
+                shadowColor: "#000",
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.25,
+                shadowRadius: 3.5,
+                elevation: 5,
+              }}>
+                <Ionicons name="location" size={22} color={colors.rose} />
+              </View>
             </View>
           </Marker>
         ) : null}
