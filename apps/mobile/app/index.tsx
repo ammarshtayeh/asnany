@@ -413,6 +413,9 @@ function HomeDashboard({
         </View>
       </View>
 
+      <SectionHeader title="أطباء مقترحون" action="الكل" onPress={onOpenDoctors} />
+      {featuredDoctors.length ? featuredDoctors.map((doctor) => <DoctorCard key={doctor.id} doctor={doctor} userLocation={userLocation} />) : <EmptyState title="لا يوجد أطباء حالياً" />}
+
       <View style={styles.statsRow}>
         <StatCard value={doctors.length} label="طبيب" color={colors.sky} />
         <StatCard value={offers.length} label="عرض" color={colors.amber} />
@@ -460,9 +463,6 @@ function HomeDashboard({
           </Pressable>
         ))}
       </View>
-
-      <SectionHeader title="أطباء مقترحون" action="الكل" onPress={onOpenDoctors} />
-      {featuredDoctors.length ? featuredDoctors.map((doctor) => <DoctorCard key={doctor.id} doctor={doctor} userLocation={userLocation} />) : <EmptyState title="لا يوجد أطباء حالياً" />}
 
       <SectionHeader title="آخر محتوى" />
       <InfoStrip label="المجلة" value={`${articles.length} مقال وخبر`} color={colors.violet} />
