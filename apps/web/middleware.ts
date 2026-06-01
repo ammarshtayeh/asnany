@@ -27,10 +27,29 @@ export function middleware(request: NextRequest) {
       return NextResponse.redirect(loginUrl);
     }
   }
+
+  if (pathname.startsWith('/doctor') || pathname.startsWith('/api/doctor')) {
+    const isDoctorApi = pathname.startsWith('/api/doctor');
+
+    if (pathname === '/doctor/login' || pathname === '/api/doctor/login') {
+      return NextResponse.next();
+    }
+
+    const hasDoctorCookie = request.cookies.has('doctor_session');
+
+    if (!hasDoctorCookie) {
+      if (isDoctorApi) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      }
+
+      const loginUrl = new URL('/doctor/login', request.url);
+      return NextResponse.redirect(loginUrl);
+    }
+  }
   
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/admin/:path*', '/api/admin/:path*'],
+  matcher: ['/admin/:path*', '/api/admin/:path*', '/doctor/:path*', '/api/doctor/:path*'],
 };

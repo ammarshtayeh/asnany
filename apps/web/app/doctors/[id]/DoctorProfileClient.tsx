@@ -5,7 +5,7 @@ import Image from "next/image";
 import dynamic from "next/dynamic";
 import { Doctor } from "@/lib/types";
 import { getDistance } from "@/lib/distance";
-import { Star, MapPin, Phone, CheckCircle2, Clock, Calendar, Navigation, Route, Award, HeartPulse, Sparkles, Map } from "lucide-react";
+import { Star, MapPin, Phone, CheckCircle2, Clock, Calendar, Navigation, Route, Award, HeartPulse, Sparkles, Map, Heart } from "lucide-react";
 
 const DoctorMap = dynamic(() => import("@/components/DoctorMap"), { ssr: false });
 
@@ -16,11 +16,14 @@ export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
 
   const [bookingName, setBookingName] = useState("");
   const [bookingPhone, setBookingPhone] = useState("");
+  const [bookingIdentity, setBookingIdentity] = useState("");
+  const [bookingAddress, setBookingAddress] = useState("");
   const [bookingDate, setBookingDate] = useState("");
   const [bookingPeriod, setBookingPeriod] = useState("");
   const [bookingNotes, setBookingNotes] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
 
   // Reviews States
   const [reviewRating, setReviewRating] = useState(5);
@@ -51,6 +54,9 @@ export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
   };
 
   useEffect(() => {
+    const saved = JSON.parse(localStorage.getItem("asnany_saved_doctors") || "[]") as string[];
+    setIsSaved(saved.includes(doctor.id));
+
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (pos) => {
@@ -67,6 +73,13 @@ export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
       );
     }
   }, [doctor]);
+
+  const toggleSaved = () => {
+    const saved = JSON.parse(localStorage.getItem("asnany_saved_doctors") || "[]") as string[];
+    const next = saved.includes(doctor.id) ? saved.filter((id) => id !== doctor.id) : [...saved, doctor.id];
+    localStorage.setItem("asnany_saved_doctors", JSON.stringify(next));
+    setIsSaved(next.includes(doctor.id));
+  };
 
   const handleOpenNavigation = () => {
     if (!doctor.lat || !doctor.lng) return;
@@ -91,6 +104,44 @@ export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
       setIsSubmitting(false);
       setShowSuccessModal(true);
     }, 1500);
+  };
+
+  const handleSmartBookingSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!bookingName || !bookingPhone || !bookingIdentity || !bookingAddress || !bookingDate) {
+      alert("يرجى تعبئة الاسم الرباعي، الهاتف، الهوية، العنوان، والتاريخ");
+      return;
+    }
+
+    setIsSubmitting(true);
+    const res = await fetch("/api/appointments", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        doctor_id: doctor.id,
+        patient_full_name: bookingName,
+        patient_phone: bookingPhone,
+        patient_identity: bookingIdentity,
+        patient_address: bookingAddress,
+        date: bookingDate,
+        time: bookingPeriod,
+        notes: bookingNotes,
+      }),
+    });
+    const data = await res.json();
+    setIsSubmitting(false);
+    if (!res.ok) {
+      alert(data.error || "تعذر إرسال الحجز");
+      return;
+    }
+    setShowSuccessModal(true);
+    setBookingName("");
+    setBookingPhone("");
+    setBookingIdentity("");
+    setBookingAddress("");
+    setBookingDate("");
+    setBookingPeriod("");
+    setBookingNotes("");
   };
 
   return (
@@ -141,6 +192,27 @@ export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
                           {spec}
                         </span>
                       ))}
+                    </div>
+                    <div className="mb-4 flex flex-wrap gap-2">
+                      <button
+                        type="button"
+                        onClick={toggleSaved}
+                        className={`inline-flex min-h-11 items-center gap-2 rounded-xl px-4 text-sm font-black transition ${
+                          isSaved ? "bg-rose-50 text-rose-700" : "bg-white text-slate-700 border border-slate-200"
+                        }`}
+                      >
+                        <Heart className={`h-4 w-4 ${isSaved ? "fill-current" : ""}`} />
+                        {isSaved ? "محفوظ في قائمتي" : "احفظ الطبيب"}
+                      </button>
+                      {doctor.is_available !== false ? (
+                        <span className="inline-flex min-h-11 items-center rounded-xl bg-emerald-50 px-4 text-sm font-black text-emerald-700">
+                          موجود في العيادة الآن
+                        </span>
+                      ) : (
+                        <span className="inline-flex min-h-11 items-center rounded-xl bg-slate-100 px-4 text-sm font-black text-slate-500">
+                          غير متاح حالياً
+                        </span>
+                      )}
                     </div>
                   </div>
                   
@@ -427,6 +499,63 @@ export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
         </div>
       </div>
 
+      <div className="mt-12 rounded-[2rem] border border-slate-200 bg-white p-6 shadow-xl shadow-slate-200/40" id="booking">
+        <div className="mb-6 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+          <div>
+            <span className="text-sm font-black text-sky-600">حجز موعد</span>
+            <h2 className="mt-1 text-3xl font-black text-slate-950">أرسل طلب حجز للطبيب</h2>
+            <p className="mt-2 text-sm font-bold text-slate-500">
+              سيتم عرض بياناتك للطبيب داخل لوحة الطبيب لتأكيد الموعد أو تعديله.
+            </p>
+          </div>
+          <Calendar className="h-10 w-10 text-sky-500" />
+        </div>
+
+        <form onSubmit={handleSmartBookingSubmit} className="grid gap-3 md:grid-cols-2">
+          <BookingInput label="الاسم الرباعي" value={bookingName} onChange={setBookingName} required />
+          <BookingInput label="رقم الهاتف" value={bookingPhone} onChange={setBookingPhone} required inputMode="tel" />
+          <BookingInput label="رقم الهوية" value={bookingIdentity} onChange={setBookingIdentity} required />
+          <BookingInput label="عنوان السكن" value={bookingAddress} onChange={setBookingAddress} required />
+          <BookingInput label="تاريخ الموعد" value={bookingDate} onChange={setBookingDate} required type="date" />
+          <BookingInput label="الوقت المفضل" value={bookingPeriod} onChange={setBookingPeriod} type="time" />
+          <label className="md:col-span-2">
+            <span className="mb-1 block text-xs font-black text-slate-500">ملاحظات للحالة</span>
+            <textarea
+              value={bookingNotes}
+              onChange={(event) => setBookingNotes(event.target.value)}
+              className="min-h-28 w-full rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm font-bold outline-none focus:border-sky-300"
+              placeholder="مثال: ألم شديد، حشوة، مراجعة تقويم..."
+            />
+          </label>
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="md:col-span-2 min-h-14 rounded-2xl bg-slate-950 px-6 text-sm font-black text-white hover:bg-sky-600 disabled:opacity-60"
+          >
+            {isSubmitting ? "جاري إرسال الحجز..." : "إرسال طلب الحجز"}
+          </button>
+        </form>
+      </div>
+
+      {showSuccessModal ? (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/60 p-4">
+          <div className="max-w-md rounded-3xl bg-white p-7 text-center shadow-2xl">
+            <CheckCircle2 className="mx-auto mb-4 h-14 w-14 text-emerald-500" />
+            <h3 className="text-2xl font-black text-slate-950">تم إرسال الحجز</h3>
+            <p className="mt-2 text-sm font-bold leading-7 text-slate-500">
+              سيظهر الطلب للطبيب داخل لوحة العيادة، وسيتم التواصل معك لتأكيد الموعد.
+            </p>
+            <button
+              type="button"
+              onClick={() => setShowSuccessModal(false)}
+              className="mt-5 min-h-12 rounded-2xl bg-slate-950 px-6 text-sm font-black text-white"
+            >
+              تمام
+            </button>
+          </div>
+        </div>
+      ) : null}
+
       {/* Modern Contact Banner replacing booking form */}
       <div className="mt-12 bg-white rounded-[2.5rem] shadow-2xl shadow-slate-200/50 border border-slate-100 p-8 md:p-12 relative overflow-hidden text-center">
         <div className="absolute top-0 right-0 w-32 h-full bg-gradient-to-l from-primary/5 to-transparent pointer-events-none" />
@@ -461,5 +590,35 @@ export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
         </div>
       </div>
     </div>
+  );
+}
+
+function BookingInput({
+  label,
+  value,
+  onChange,
+  required,
+  type = "text",
+  inputMode,
+}: {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  required?: boolean;
+  type?: string;
+  inputMode?: React.HTMLAttributes<HTMLInputElement>["inputMode"];
+}) {
+  return (
+    <label>
+      <span className="mb-1 block text-xs font-black text-slate-500">{label}</span>
+      <input
+        type={type}
+        required={required}
+        value={value}
+        inputMode={inputMode}
+        onChange={(event) => onChange(event.target.value)}
+        className="min-h-12 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 text-sm font-bold outline-none focus:border-sky-300"
+      />
+    </label>
   );
 }

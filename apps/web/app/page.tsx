@@ -11,6 +11,7 @@ import {
   CalendarCheck2,
   CheckCircle2,
   Clock,
+  GitCompareArrows,
   HeartPulse,
   MapPin,
   MessageCircle,
@@ -22,6 +23,7 @@ import {
   Sparkles,
   Star,
   Stethoscope,
+  X,
 } from "lucide-react";
 import AdSlider from "@/components/AdSlider";
 import PlatformExpansion from "@/components/PlatformExpansion";
@@ -149,6 +151,7 @@ export default function Home() {
   const [activeDiagnosis, setActiveDiagnosis] = useState("");
   const [userLoc, setUserLoc] = useState<{ lat: number; lng: number } | null>(null);
   const [showMap, setShowMap] = useState(false);
+  const [compareIds, setCompareIds] = useState<string[]>([]);
 
   useEffect(() => {
     async function loadData() {
@@ -247,6 +250,18 @@ export default function Home() {
       () => alert("تعذر الوصول إلى الموقع. يرجى تفعيل صلاحيات الموقع والمحاولة مجددا.")
     );
   };
+
+  const toggleCompare = (doctorId: string) => {
+    setCompareIds((current) => {
+      if (current.includes(doctorId)) return current.filter((id) => id !== doctorId);
+      if (current.length >= 2) return [current[1], doctorId];
+      return [...current, doctorId];
+    });
+  };
+
+  const comparedDoctors = compareIds
+    .map((id) => doctors.find((doctor) => doctor.id === id))
+    .filter(Boolean) as Doctor[];
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-slate-50 font-sans">
@@ -499,7 +514,17 @@ export default function Home() {
             </div>
 
             {loading ? <LoadingList /> : null}
-            {!loading && filteredDoctors.map((doctor) => <DoctorResult key={doctor.id} doctor={doctor} />)}
+            {!loading && comparedDoctors.length > 0 ? (
+              <CompareTray doctors={comparedDoctors} onClear={() => setCompareIds([])} />
+            ) : null}
+            {!loading && filteredDoctors.map((doctor) => (
+              <DoctorResult
+                key={doctor.id}
+                doctor={doctor}
+                compareSelected={compareIds.includes(doctor.id)}
+                onToggleCompare={() => toggleCompare(doctor.id)}
+              />
+            ))}
             {!loading && !filteredDoctors.length ? <EmptyResults onReset={resetFilters} /> : null}
 
             <div className="rounded-2xl bg-slate-950 p-7 text-center text-white">
@@ -551,7 +576,50 @@ function Metric({ value, label }: { value: string | number; label: string }) {
   );
 }
 
-function DoctorResult({ doctor }: { doctor: Doctor }) {
+function CompareTray({ doctors, onClear }: { doctors: Doctor[]; onClear: () => void }) {
+  return (
+    <div className="rounded-2xl border border-sky-100 bg-sky-50 p-4">
+      <div className="mb-3 flex items-center justify-between gap-3">
+        <h3 className="flex items-center gap-2 text-lg font-black text-slate-950">
+          <GitCompareArrows className="h-5 w-5 text-sky-600" />
+          مقارنة الأطباء
+        </h3>
+        <button type="button" onClick={onClear} className="rounded-xl bg-white p-2 text-slate-500 hover:text-slate-900">
+          <X className="h-4 w-4" />
+        </button>
+      </div>
+      <div className="grid gap-3 md:grid-cols-2">
+        {doctors.map((doctor) => (
+          <div key={doctor.id} className="rounded-2xl bg-white p-4 shadow-sm">
+            <h4 className="text-base font-black text-slate-950">{doctor.name}</h4>
+            <p className="mt-1 text-sm font-bold text-slate-500">{doctor.city}{doctor.area ? ` - ${doctor.area}` : ""}</p>
+            <div className="mt-3 grid gap-2 text-xs font-black text-slate-600">
+              <span>التخصص: {(doctor.specialty || []).join("، ") || "غير محدد"}</span>
+              <span>التقييم: {doctor.rating || 0}</span>
+              <span>التأمين: {doctor.accepts_insurance ? "يقبل التأمين" : "لا يقبل التأمين"}</span>
+              <span>الحالة: {doctor.is_available === false ? "غير متاح الآن" : "متاح الآن"}</span>
+            </div>
+          </div>
+        ))}
+        {doctors.length === 1 ? (
+          <div className="flex min-h-40 items-center justify-center rounded-2xl border border-dashed border-sky-200 bg-white/60 p-4 text-center text-sm font-black text-sky-700">
+            اختر طبيباً ثانياً لإكمال المقارنة.
+          </div>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
+function DoctorResult({
+  doctor,
+  compareSelected,
+  onToggleCompare,
+}: {
+  doctor: Doctor;
+  compareSelected: boolean;
+  onToggleCompare: () => void;
+}) {
   const openNow = isDoctorOpenNow(doctor.working_hours);
   const directionsHref =
     doctor.lat && doctor.lng
@@ -644,6 +712,16 @@ function DoctorResult({ doctor }: { doctor: Doctor }) {
                 <Navigation className="h-4 w-4 -rotate-45" />
                 اتجاهات
               </a>
+              <button
+                type="button"
+                onClick={onToggleCompare}
+                className={`inline-flex items-center justify-center gap-2 rounded-xl border px-4 py-3 text-sm font-black sm:col-span-4 ${
+                  compareSelected ? "border-sky-200 bg-sky-600 text-white" : "border-slate-200 bg-white text-slate-700 hover:border-sky-200"
+                }`}
+              >
+                <GitCompareArrows className="h-4 w-4" />
+                {compareSelected ? "ضمن المقارنة" : "قارن مع طبيب آخر"}
+              </button>
             </div>
           </div>
         </div>
@@ -676,8 +754,15 @@ function EmptyResults({ onReset }: { onReset: () => void }) {
       </div>
       <h3 className="text-2xl font-black text-slate-900">لا توجد نتائج مطابقة</h3>
       <p className="mx-auto mt-2 max-w-md text-sm font-semibold leading-7 text-slate-500">
-        جرّب إزالة بعض الفلاتر أو البحث باسم مدينة أو تخصص أوسع.
+        جرّب مدينة قريبة مثل رام الله أو نابلس، أو وسّع التخصص إلى طب أسنان عام.
       </p>
+      <div className="mt-4 flex flex-wrap justify-center gap-2">
+        {["رام الله", "نابلس", "الخليل", "طب أسنان عام", "تقويم الأسنان"].map((item) => (
+          <span key={item} className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-600">
+            {item}
+          </span>
+        ))}
+      </div>
       <button type="button" onClick={onReset} className="mt-5 rounded-xl bg-slate-950 px-5 py-3 text-sm font-black text-white hover:bg-sky-600">
         عرض كل الأطباء
       </button>

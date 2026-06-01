@@ -136,11 +136,11 @@ export default function Navbar() {
 
         <div className="hidden sm:flex items-center gap-2.5 flex-shrink-0">
           <Link
-            href="/admin/login"
+            href="/doctor/login"
             className="hidden xl:flex items-center gap-1.5 text-slate-600 hover:text-slate-900 font-bold text-xs transition-all px-3.5 py-2 rounded-full border border-slate-200/60 hover:bg-slate-50 hover:border-slate-300"
           >
             <UserCircle2 className="w-4 h-4 text-slate-400" />
-            <span>دخول الأطباء</span>
+            <span>دخول الطبيب</span>
           </Link>
           <Link
             href="/booking"
@@ -199,12 +199,12 @@ export default function Navbar() {
                 احجز الآن
               </Link>
               <Link
-                href="/admin/login"
+                href="/doctor/login"
                 onClick={() => setMenuOpen(false)}
                 className="flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-black text-slate-700"
               >
                 <UserCircle2 className="h-4 w-4" />
-                دخول الأطباء
+                دخول الطبيب
               </Link>
             </div>
           </div>

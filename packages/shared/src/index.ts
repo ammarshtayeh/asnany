@@ -20,6 +20,8 @@ export type Doctor = {
   lng: number;
   working_hours?: WorkingHours;
   workingHours?: WorkingHours;
+  is_available?: boolean;
+  availability_note?: string;
   accepts_insurance?: boolean;
   acceptsInsurance?: boolean;
   insurance_list?: string[];
@@ -38,12 +40,15 @@ export type Appointment = {
   doctor_id?: string;
   doctorId?: string;
   patient_name?: string;
+  patient_full_name?: string;
   patientName: string;
   patient_phone?: string;
   patientPhone: string;
+  patient_identity?: string;
+  patient_address?: string;
   date: string;
   time: string;
-  status: "pending" | "confirmed" | "cancelled";
+  status: "pending" | "confirmed" | "cancelled" | "completed";
   notes?: string;
   created_at?: string;
 };

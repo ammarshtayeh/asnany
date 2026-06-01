@@ -10,6 +10,8 @@ export type Doctor = {
   lat?: number;
   lng?: number;
   working_hours?: Record<string, string>;
+  is_available?: boolean;
+  availability_note?: string;
   accepts_insurance: boolean;
   insurance_list?: string[];
   image_url?: string;
@@ -100,6 +102,30 @@ export type Review = {
   rating: number;
   comment?: string;
   is_approved: boolean;
+  created_at: string;
+};
+
+export type DoctorAccount = {
+  id: string;
+  doctor_id: string;
+  email: string;
+  is_active: boolean;
+  created_at: string;
+  doctors?: Doctor;
+};
+
+export type AppointmentRecord = {
+  id: string;
+  doctor_id: string;
+  patient_name: string;
+  patient_full_name?: string;
+  patient_phone: string;
+  patient_identity?: string;
+  patient_address?: string;
+  date: string;
+  time?: string;
+  status: "pending" | "confirmed" | "cancelled" | "completed";
+  notes?: string;
   created_at: string;
 };
 
