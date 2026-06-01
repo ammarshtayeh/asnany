@@ -1,12 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
-import { ActivityIndicator, Alert, Linking, ScrollView, Text, TextInput, View } from "react-native";
-import { useLocalSearchParams, router } from "expo-router";
+import { ActivityIndicator, Alert, Linking, Pressable, ScrollView, Text, TextInput, View } from "react-native";
+import { Link, useLocalSearchParams, router } from "expo-router";
 import { apiFetch } from "../../lib/api";
 import { Doctor } from "../../lib/types";
 import { AppCard } from "../../components/AppCard";
 import { AppButton } from "../../components/Buttons";
 import { AppSubtitle, AppTitle } from "../../components/AppText";
 import { ClinicMap } from "../../components/ClinicMap";
+import { buildNativeMapsUrl } from "../../lib/map-links";
 
 export default function DoctorProfileScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -54,6 +55,7 @@ export default function DoctorProfileScreen() {
   };
 
   const whatsapp = () => doctor?.whatsapp && Linking.openURL(`https://wa.me/${doctor.whatsapp.replace(/[^0-9]/g, "")}`);
+  const openDeviceMap = () => doctor && Linking.openURL(buildNativeMapsUrl(doctor));
 
   if (loading) {
     return (
@@ -97,6 +99,17 @@ export default function DoctorProfileScreen() {
       </AppCard>
 
       <ClinicMap doctor={doctor} />
+
+      <View style={{ marginTop: 12, flexDirection: "row", gap: 8 }}>
+        <Link href={`/doctors/${doctor.id}/map`} asChild>
+          <Pressable style={{ flex: 1, minHeight: 48, borderRadius: 16, backgroundColor: "#0f172a", alignItems: "center", justifyContent: "center" }}>
+            <Text style={{ color: "#fff", fontWeight: "900" }}>الخريطة داخل التطبيق</Text>
+          </Pressable>
+        </Link>
+        <Pressable onPress={openDeviceMap} style={{ flex: 1, minHeight: 48, borderRadius: 16, backgroundColor: "#0ea5e9", alignItems: "center", justifyContent: "center" }}>
+          <Text style={{ color: "#fff", fontWeight: "900" }}>فتح في خرائط الجهاز</Text>
+        </Pressable>
+      </View>
 
       <AppCard>
         <AppTitle style={{ fontSize: 20 }}>احجز مباشرة</AppTitle>
