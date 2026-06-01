@@ -14,6 +14,7 @@ const routes = [
   { label: "المجلة", path: "/blog" },
   { label: "العروض", path: "/offers" },
   { label: "المتجر", path: "/stores" },
+  { label: "الخصوصية", path: "/privacy" },
 ];
 
 export default function MoreScreen() {

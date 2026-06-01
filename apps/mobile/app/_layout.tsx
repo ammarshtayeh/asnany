@@ -25,6 +25,7 @@ export default function RootLayout() {
         <Stack.Screen name="offers" />
         <Stack.Screen name="partners" />
         <Stack.Screen name="stores" />
+        <Stack.Screen name="privacy" />
         <Stack.Screen name="terms" />
         <Stack.Screen name="doctors/register" />
         <Stack.Screen name="doctors/set-location" />

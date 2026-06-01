@@ -41,7 +41,9 @@ export default function SiteFooter() {
           <Link href="/doctors/register" className="hover:text-sky-600">انضم كطبيب</Link>
           <Link href="/advertise" className="hover:text-sky-600">أعلن معنا</Link>
           <Link href="/marketplace" className="hover:text-sky-600">سوق أسناني</Link>
+          <Link href="/privacy" className="hover:text-sky-600">سياسة الخصوصية</Link>
           <Link href="/blog" className="hover:text-sky-600">المجلة</Link>
+          <Link href="/terms" className="hover:text-sky-600">الشروط</Link>
         </div>
       </div>
     </footer>

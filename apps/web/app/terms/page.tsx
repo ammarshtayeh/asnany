@@ -40,6 +40,9 @@ export default function TermsAndConditions() {
           <p className="text-slate-600 text-sm font-medium leading-relaxed">
             مرحباً بكم في <strong>أسناني.ps</strong>. يمثل دخولك وتصفحك للموقع أو التطبيق موافقة تامة وغير مشروطة على الالتزام بكافة البنود والشروط الواردة في هذه الاتفاقية. إذا كنت لا توافق على أي بند منها، يرجى التوقف عن استخدام الخدمات.
           </p>
+          <p className="text-slate-500 text-sm font-medium leading-relaxed">
+            ويمكنك أيضًا مراجعة <Link href="/privacy" className="text-sky-600 font-bold hover:underline">سياسة الخصوصية</Link> لمعرفة كيف نتعامل مع بياناتك داخل الموقع والتطبيق.
+          </p>
 
           <div className="space-y-6 pt-4">
             
