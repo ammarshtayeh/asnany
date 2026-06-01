@@ -392,7 +392,62 @@ export default function Home() {
       </section>
 
       <main className="mx-auto w-full max-w-[1400px] px-4 py-8 lg:px-8">
-        <section className="-mt-16 grid gap-3 sm:grid-cols-3" dir="rtl">
+        {/* Doctors Section (#doctors) placed above metrics row */}
+        <section id="doctors" className="-mt-16 flex flex-col gap-6 lg:flex-row relative z-20" dir="rtl">
+          {showMap ? (
+            <div className="h-[460px] w-full lg:sticky lg:top-24 lg:h-[calc(100vh-140px)] lg:w-[42%]">
+              <DoctorMap doctors={filteredDoctors} userLocation={userLoc || undefined} />
+            </div>
+          ) : null}
+
+          <div className={`flex flex-col gap-5 ${showMap ? "lg:w-[58%]" : "w-full"}`}>
+            <div className="flex flex-col gap-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <h2 className="text-2xl font-black text-slate-950">
+                  {loading ? "جاري تحميل الأطباء" : filteredDoctors.length ? "الأطباء المتاحون" : "لم نجد نتائج مطابقة"}
+                </h2>
+                <p className="mt-1 text-sm font-bold text-slate-500">
+                  {loading ? "لحظات ونرتب القائمة." : `${filteredDoctors.length} نتيجة حسب اختياراتك`}
+                </p>
+              </div>
+              <div className="flex w-fit items-center rounded-xl border border-slate-200 bg-slate-50 p-1">
+                <button type="button" onClick={() => setShowMap(false)} className={`rounded-lg px-4 py-2 text-xs font-black ${!showMap ? "bg-slate-950 text-white" : "text-slate-500"}`}>
+                  القائمة
+                </button>
+                <button type="button" onClick={() => setShowMap(true)} className={`rounded-lg px-4 py-2 text-xs font-black ${showMap ? "bg-sky-600 text-white" : "text-slate-500"}`}>
+                  الخريطة
+                </button>
+              </div>
+            </div>
+
+            {loading ? <LoadingList /> : null}
+            {!loading && comparedDoctors.length > 0 ? (
+              <CompareTray doctors={comparedDoctors} onClear={() => setCompareIds([])} />
+            ) : null}
+            {!loading && filteredDoctors.map((doctor) => (
+              <DoctorResult
+                key={doctor.id}
+                doctor={doctor}
+                compareSelected={compareIds.includes(doctor.id)}
+                onToggleCompare={() => toggleCompare(doctor.id)}
+              />
+            ))}
+            {!loading && !filteredDoctors.length ? <EmptyResults onReset={resetFilters} /> : null}
+
+            <div className="rounded-2xl bg-slate-950 p-7 text-center text-white">
+              <h3 className="text-2xl font-black">هل أنت طبيب أسنان؟</h3>
+              <p className="mx-auto mt-3 max-w-2xl text-sm font-semibold leading-7 text-slate-300">
+                انضم إلى شبكة أسناني، اعرض خدماتك، واستقبل طلبات المرضى من مكان واحد.
+              </p>
+              <Link href="/join" className="mt-6 inline-flex items-center justify-center rounded-xl bg-white px-6 py-3 text-sm font-black text-slate-950 hover:bg-sky-50">
+                سجل عيادتك الآن
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* Metrics Row (placed below the search results) */}
+        <section className="mt-12 grid gap-3 sm:grid-cols-3" dir="rtl">
           <Metric value={loading ? "..." : doctors.length || "24+"} label="عيادة وطبيب" />
           <Metric value={String(CITIES.length)} label="محافظة" />
           <Metric value="موثوق" label="تجربة بحث وحجز" />
@@ -490,59 +545,6 @@ export default function Home() {
         <section className="mt-8">
           <AdSlider ads={ads} />
         </section>
-
-        <section id="doctors" className="mt-8 flex flex-col gap-6 lg:flex-row" dir="rtl">
-          {showMap ? (
-            <div className="h-[460px] w-full lg:sticky lg:top-24 lg:h-[calc(100vh-140px)] lg:w-[42%]">
-              <DoctorMap doctors={filteredDoctors} userLocation={userLoc || undefined} />
-            </div>
-          ) : null}
-
-          <div className={`flex flex-col gap-5 ${showMap ? "lg:w-[58%]" : "w-full"}`}>
-            <div className="flex flex-col gap-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <h2 className="text-2xl font-black text-slate-950">
-                  {loading ? "جاري تحميل الأطباء" : filteredDoctors.length ? "الأطباء المتاحون" : "لم نجد نتائج مطابقة"}
-                </h2>
-                <p className="mt-1 text-sm font-bold text-slate-500">
-                  {loading ? "لحظات ونرتب القائمة." : `${filteredDoctors.length} نتيجة حسب اختياراتك`}
-                </p>
-              </div>
-              <div className="flex w-fit items-center rounded-xl border border-slate-200 bg-slate-50 p-1">
-                <button type="button" onClick={() => setShowMap(false)} className={`rounded-lg px-4 py-2 text-xs font-black ${!showMap ? "bg-slate-950 text-white" : "text-slate-500"}`}>
-                  القائمة
-                </button>
-                <button type="button" onClick={() => setShowMap(true)} className={`rounded-lg px-4 py-2 text-xs font-black ${showMap ? "bg-sky-600 text-white" : "text-slate-500"}`}>
-                  الخريطة
-                </button>
-              </div>
-            </div>
-
-            {loading ? <LoadingList /> : null}
-            {!loading && comparedDoctors.length > 0 ? (
-              <CompareTray doctors={comparedDoctors} onClear={() => setCompareIds([])} />
-            ) : null}
-            {!loading && filteredDoctors.map((doctor) => (
-              <DoctorResult
-                key={doctor.id}
-                doctor={doctor}
-                compareSelected={compareIds.includes(doctor.id)}
-                onToggleCompare={() => toggleCompare(doctor.id)}
-              />
-            ))}
-            {!loading && !filteredDoctors.length ? <EmptyResults onReset={resetFilters} /> : null}
-
-            <div className="rounded-2xl bg-slate-950 p-7 text-center text-white">
-              <h3 className="text-2xl font-black">هل أنت طبيب أسنان؟</h3>
-              <p className="mx-auto mt-3 max-w-2xl text-sm font-semibold leading-7 text-slate-300">
-                انضم إلى شبكة أسناني، اعرض خدماتك، واستقبل طلبات المرضى من مكان واحد.
-              </p>
-              <Link href="/join" className="mt-6 inline-flex items-center justify-center rounded-xl bg-white px-6 py-3 text-sm font-black text-slate-950 hover:bg-sky-50">
-                سجل عيادتك الآن
-              </Link>
-            </div>
-          </div>
-        </section>
       </main>
 
       <PlatformExpansion />
@@ -629,58 +631,34 @@ function DoctorResult({
   const whatsappHref = doctor.whatsapp ? `https://wa.me/${doctor.whatsapp.replace(/[^\d]/g, "")}` : undefined;
 
   return (
-    <article className="group flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition hover:border-sky-200 hover:shadow-md sm:flex-row">
+    <article className="relative group flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition hover:border-sky-200 hover:shadow-md sm:flex-row" dir="rtl">
       
-      {/* Right Column: Image and Actions */}
-      <div className="flex w-full flex-col gap-3 sm:w-56">
-        <div className="relative h-52 w-full shrink-0 overflow-hidden rounded-xl bg-slate-100">
-          {doctor.image_url ? (
-            <Image src={doctor.image_url} alt={doctor.name} fill className="object-cover transition duration-500 group-hover:scale-105" />
-          ) : (
-            <div className="flex h-full w-full items-center justify-center text-sky-200">
-              <HeartPulse className="h-12 w-12" />
-            </div>
-          )}
-          {doctor.is_featured ? (
-            <span className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-lg bg-amber-500 px-3 py-1 text-[11px] font-black text-white">
-              <Star className="h-3 w-3 fill-current" />
-              مميز
-            </span>
-          ) : null}
-        </div>
+      {/* Top Left Absolute Rating Badge */}
+      {(doctor.rating || 0) > 0 ? (
+        <span className="absolute left-4 top-4 inline-flex items-center gap-1 rounded-xl bg-white px-2.5 py-1 text-xs font-black text-amber-500 shadow-sm z-10 border border-slate-100">
+          {doctor.rating}
+          <Star className="h-3.5 w-3.5 fill-current" />
+        </span>
+      ) : null}
 
-        {/* Action Buttons directly under the image */}
-        <div className="flex flex-col gap-2">
-          <Link href={`/doctors/${doctor.id}`} className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-slate-950 px-4 py-3 text-sm font-black text-white transition hover:bg-sky-600">
-            احجز
-            <ArrowLeft className="h-4 w-4" />
-          </Link>
-          <div className="grid grid-cols-2 gap-2">
-            {whatsappHref ? (
-              <a href={whatsappHref} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 rounded-xl border border-emerald-100 bg-emerald-50 px-2 py-3 text-xs font-black text-emerald-700 hover:bg-emerald-100">
-                <MessageCircle className="h-4 w-4" />
-                واتساب
-              </a>
-            ) : null}
-            <Link href={`/doctors/${doctor.id}/map`} className={`inline-flex items-center justify-center gap-2 rounded-xl border border-sky-100 bg-sky-50 px-2 py-3 text-xs font-black text-sky-700 hover:bg-sky-100 ${!whatsappHref ? "col-span-2" : ""}`}>
-              <MapPin className="h-4 w-4" />
-              الخريطة
-            </Link>
+      {/* Image Column */}
+      <div className="relative h-52 w-full overflow-hidden rounded-xl bg-slate-100 sm:h-auto sm:w-44">
+        {doctor.image_url ? (
+          <Image src={doctor.image_url} alt={doctor.name} fill className="object-cover transition duration-500 group-hover:scale-105" />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center text-sky-200">
+            <HeartPulse className="h-12 w-12" />
           </div>
-          <button
-            type="button"
-            onClick={onToggleCompare}
-            className={`inline-flex w-full items-center justify-center gap-2 rounded-xl border px-4 py-3 text-xs font-black ${
-              compareSelected ? "border-sky-200 bg-sky-600 text-white" : "border-slate-200 bg-white text-slate-700 hover:border-sky-200"
-            }`}
-          >
-            <GitCompareArrows className="h-4 w-4" />
-            {compareSelected ? "ضمن المقارنة" : "قارن مع طبيب آخر"}
-          </button>
-        </div>
+        )}
+        {doctor.is_featured ? (
+          <span className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-lg bg-amber-500 px-3 py-1 text-[11px] font-black text-white">
+            <Star className="h-3 w-3 fill-current" />
+            مميز
+          </span>
+        ) : null}
       </div>
 
-      {/* Left Column: Info */}
+      {/* Info Column */}
       <div className="flex flex-1 flex-col">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
           <div>
@@ -703,15 +681,9 @@ function DoctorResult({
               ))}
             </div>
           </div>
-          {(doctor.rating || 0) > 0 ? (
-            <span className="inline-flex w-fit items-center gap-1 rounded-lg bg-amber-50 px-3 py-1.5 text-sm font-black text-amber-700">
-              <Star className="h-4 w-4 fill-current" />
-              {doctor.rating}
-            </span>
-          ) : null}
         </div>
-        
-        <div className="mt-4 flex flex-col gap-4 border-t border-slate-100 pt-4 sm:mt-auto">
+
+        <div className="mt-auto flex flex-col gap-4 border-t border-slate-100 pt-4">
           <div className="space-y-2">
             <p className="flex items-center gap-2 text-sm font-bold text-slate-500">
               <MapPin className="h-4 w-4" />
@@ -731,6 +703,34 @@ function DoctorResult({
                 </span>
               ) : null}
             </div>
+          </div>
+
+          {/* Action Buttons arranged horizontally */}
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+            <Link href={`/doctors/${doctor.id}`} className="inline-flex items-center justify-center gap-2 rounded-xl bg-slate-950 px-4 py-3 text-sm font-black text-white transition hover:bg-sky-600">
+              احجز
+              <ArrowLeft className="h-4 w-4" />
+            </Link>
+            {whatsappHref ? (
+              <a href={whatsappHref} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 rounded-xl border border-emerald-100 bg-emerald-50 px-4 py-3 text-sm font-black text-emerald-700 hover:bg-emerald-100">
+                <MessageCircle className="h-4 w-4" />
+                واتساب
+              </a>
+            ) : null}
+            <Link href={`/doctors/${doctor.id}/map`} className="inline-flex items-center justify-center gap-2 rounded-xl border border-sky-100 bg-sky-50 px-4 py-3 text-sm font-black text-sky-700 hover:bg-sky-100">
+              <MapPin className="h-4 w-4" />
+              الخريطة
+            </Link>
+            <button
+              type="button"
+              onClick={onToggleCompare}
+              className={`inline-flex items-center justify-center gap-2 rounded-xl border px-4 py-3 text-sm font-black sm:col-span-4 ${
+                compareSelected ? "border-sky-200 bg-sky-600 text-white" : "border-slate-200 bg-white text-slate-700 hover:border-sky-200"
+              }`}
+            >
+              <GitCompareArrows className="h-4 w-4" />
+              {compareSelected ? "ضمن المقارنة" : "قارن مع طبيب آخر"}
+            </button>
           </div>
         </div>
       </div>
