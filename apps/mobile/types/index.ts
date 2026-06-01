@@ -47,6 +47,7 @@ export interface Offer {
   discount_pct?: number;
   discount_percentage?: number;
   doctor_name?: string;
+  doctor_id?: string;
   original_price?: number;
   discounted_price?: number;
   valid_until: string;
@@ -75,6 +76,7 @@ export interface Article {
   excerpt?: string;
   content: string;
   author?: string;
+  doctor_id?: string;
   doctor_name?: string;
   category?: string;
   image_url?: string;
