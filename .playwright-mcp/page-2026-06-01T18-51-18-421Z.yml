@@ -1,0 +1,79 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - link "أسناني .ps" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - img [ref=e6]
+        - generic [ref=e10]:
+          - generic [ref=e11]: أسناني
+          - generic [ref=e12]: .ps
+      - generic [ref=e14]:
+        - link "الرئيسية" [ref=e15] [cursor=pointer]:
+          - /url: /
+          - img [ref=e16]
+          - text: الرئيسية
+        - link "العروض" [ref=e20] [cursor=pointer]:
+          - /url: /offers
+          - img [ref=e21]
+          - text: العروض
+        - link "السوق" [ref=e25] [cursor=pointer]:
+          - /url: /marketplace
+          - img [ref=e26]
+          - text: السوق
+        - link "التجميل" [ref=e30] [cursor=pointer]:
+          - /url: /beauty
+          - img [ref=e31]
+          - text: التجميل
+        - link "المختبرات" [ref=e34] [cursor=pointer]:
+          - /url: /labs
+          - img [ref=e35]
+          - text: المختبرات
+        - link "الحجز" [ref=e39] [cursor=pointer]:
+          - /url: /booking
+          - img [ref=e40]
+          - text: الحجز
+        - link "المجلة" [ref=e43] [cursor=pointer]:
+          - /url: /blog
+          - img [ref=e44]
+          - text: المجلة
+        - link "الموردون" [ref=e46] [cursor=pointer]:
+          - /url: /stores
+          - img [ref=e47]
+          - text: الموردون
+      - generic [ref=e50]:
+        - link "دخول الطبيب" [ref=e51] [cursor=pointer]:
+          - /url: /doctor/login
+          - img [ref=e52]
+          - generic [ref=e56]: دخول الطبيب
+        - link "احجز الآن" [ref=e57] [cursor=pointer]:
+          - /url: /booking
+  - main [ref=e58]
+  - contentinfo [ref=e64]:
+    - generic [ref=e65]:
+      - generic [ref=e66]:
+        - generic [ref=e67]:
+          - img [ref=e69]
+          - heading "أسناني.ps" [level=2] [ref=e73]
+        - paragraph [ref=e74]: منصة أسناني باسم عمار اشتية، لتسهيل الوصول لأطباء الأسنان والخدمات الطبية في فلسطين.
+        - generic [ref=e75]:
+          - link "ammar.shtayeh@gmail.com" [ref=e76] [cursor=pointer]:
+            - /url: mailto:ammar.shtayeh@gmail.com
+            - img [ref=e77]
+            - text: ammar.shtayeh@gmail.com
+          - link "9720595537190" [ref=e80] [cursor=pointer]:
+            - /url: https://wa.me/9720595537190
+            - img [ref=e81]
+            - text: "9720595537190"
+      - generic [ref=e83]:
+        - link "انضم كطبيب" [ref=e84] [cursor=pointer]:
+          - /url: /doctors/register
+        - link "أعلن معنا" [ref=e85] [cursor=pointer]:
+          - /url: /advertise
+        - link "سوق أسناني" [ref=e86] [cursor=pointer]:
+          - /url: /marketplace
+        - link "المجلة" [ref=e87] [cursor=pointer]:
+          - /url: /blog
+  - button "AI طبيبك الذكي" [ref=e89] [cursor=pointer]:
+    - generic [ref=e92]: AI
+    - img [ref=e93]
+    - generic: طبيبك الذكي

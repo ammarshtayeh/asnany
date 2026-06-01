@@ -27,8 +27,9 @@ export function buildNativeMapsUrl(doctor: Pick<MapDoctor, "name" | "city" | "ar
   const label = encodeURIComponent(doctorMapLabel(doctor));
 
   if (Platform.OS === "ios") {
-    return `https://maps.apple.com/?ll=${coords.latitude},${coords.longitude}&q=${label}`;
+    // Use 'daddr' for destination pin on Apple Maps directions
+    return `https://maps.apple.com/?daddr=${coords.latitude},${coords.longitude}&q=${label}`;
   }
-
-  return `https://www.google.com/maps/search/?api=1&query=${coords.latitude},${coords.longitude}`;
+  // Use directions endpoint for Google Maps to ensure exact pin placement
+  return `https://www.google.com/maps/dir/?api=1&destination=${coords.latitude},${coords.longitude}`;
 }

@@ -1,0 +1,364 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - link "أسناني .ps" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - img [ref=e6]
+        - generic [ref=e10]:
+          - generic [ref=e11]: أسناني
+          - generic [ref=e12]: .ps
+      - link "احجز الآن" [ref=e14] [cursor=pointer]:
+        - /url: /booking
+      - button "فتح القائمة" [ref=e15] [cursor=pointer]:
+        - img [ref=e16]
+  - navigation [ref=e17]:
+    - generic [ref=e18]:
+      - link "الرئيسية" [ref=e19] [cursor=pointer]:
+        - /url: /
+        - img [ref=e20]
+        - text: الرئيسية
+      - link "بحث" [ref=e23] [cursor=pointer]:
+        - /url: /#doctors
+        - img [ref=e24]
+        - text: بحث
+      - link "حجز" [ref=e27] [cursor=pointer]:
+        - /url: /booking
+        - img [ref=e28]
+        - text: حجز
+      - link "عروض" [ref=e31] [cursor=pointer]:
+        - /url: /offers
+        - img [ref=e32]
+        - text: عروض
+      - link "المزيد" [ref=e36] [cursor=pointer]:
+        - /url: /marketplace
+        - img [ref=e37]
+        - text: المزيد
+  - generic [ref=e41]:
+    - generic [ref=e42]:
+      - img "عيادة أسنان حديثة" [ref=e43]
+      - generic [ref=e45]:
+        - generic [ref=e46]:
+          - generic [ref=e47]:
+            - img [ref=e48]
+            - text: دليل الأسنان الذكي في فلسطين
+          - heading "طبيب الأسنان المناسب، بدون حيرة." [level=1] [ref=e51]
+          - paragraph [ref=e52]: ابدأ من حالتك أو موقعك، وشاهد الأطباء الأقرب مع الدوام والتقييم وطرق التواصل في مكان واحد.
+          - generic [ref=e53]:
+            - generic [ref=e54]:
+              - img [ref=e55]
+              - text: أطباء موثقون
+            - generic [ref=e58]:
+              - img [ref=e59]
+              - text: حجز ومقارنة
+            - generic [ref=e62]:
+              - img [ref=e63]
+              - text: تواصل مباشر
+        - generic [ref=e67]:
+          - paragraph [ref=e68]: ابدأ البحث
+          - heading "من تبحث عنه اليوم؟" [level=2] [ref=e69]
+          - generic [ref=e70]:
+            - button "عندي ألم الآن" [ref=e71] [cursor=pointer]
+            - button "أحتاج تقويم" [ref=e72] [cursor=pointer]
+            - button "أبحث عن زراعة" [ref=e73] [cursor=pointer]
+          - generic [ref=e74]:
+            - generic [ref=e75]:
+              - img [ref=e76]
+              - textbox [ref=e79]:
+                - /placeholder: اسم الطبيب، المنطقة، أو التخصص
+            - generic [ref=e80]:
+              - generic [ref=e81]:
+                - img [ref=e82]
+                - combobox [ref=e85] [cursor=pointer]:
+                  - option "كل المحافظات" [selected]
+                  - option "رام الله"
+                  - option "نابلس"
+                  - option "الخليل"
+                  - option "بيت لحم"
+                  - option "جنين"
+                  - option "طولكرم"
+                  - option "قلقيلية"
+                  - option "أريحا"
+                  - option "القدس"
+                  - option "سلفيت"
+                  - option "طوباس"
+                  - option "الضفة الغربية - أخرى"
+              - generic [ref=e86]:
+                - img [ref=e87]
+                - combobox [ref=e91] [cursor=pointer]:
+                  - option "كل التخصصات" [selected]
+                  - option "زراعة الأسنان"
+                  - option "تقويم الأسنان"
+                  - option "تجميل الأسنان"
+                  - option "طب أسنان عام"
+                  - option "أسنان الأطفال"
+            - generic [ref=e92]:
+              - generic [ref=e93]:
+                - img [ref=e94]
+                - combobox [ref=e97] [cursor=pointer]:
+                  - option "كل الأوقات" [selected]
+                  - option "مفتوح الآن"
+                  - option "مغلق حاليا"
+              - generic [ref=e98]:
+                - img [ref=e99]
+                - combobox [ref=e102] [cursor=pointer]:
+                  - option "كل التأمينات" [selected]
+                  - option "التكافل"
+                  - option "ترست"
+                  - option "المشرق"
+                  - option "تمكين"
+                  - option "المجموعة الأهلية"
+            - button "رتب النتائج حسب الأقرب لي" [ref=e103] [cursor=pointer]:
+              - img [ref=e104]
+              - text: رتب النتائج حسب الأقرب لي
+    - main [ref=e106]:
+      - generic [ref=e107]:
+        - generic [ref=e108]:
+          - paragraph [ref=e109]: ...
+          - paragraph [ref=e110]: عيادة وطبيب
+        - generic [ref=e111]:
+          - paragraph [ref=e112]: "12"
+          - paragraph [ref=e113]: محافظة
+        - generic [ref=e114]:
+          - paragraph [ref=e115]: موثوق
+          - paragraph [ref=e116]: تجربة بحث وحجز
+      - generic [ref=e118]:
+        - generic [ref=e119]:
+          - img [ref=e121]
+          - generic [ref=e123]:
+            - strong [ref=e124]: حدد موقعك
+            - generic [ref=e125]: رتب النتائج حسب الأقرب لك.
+        - generic [ref=e126]:
+          - img [ref=e128]
+          - generic [ref=e131]:
+            - strong [ref=e132]: قارن الخيارات
+            - generic [ref=e133]: راجع التخصص، المدينة، التقييم والدوام.
+        - generic [ref=e134]:
+          - img [ref=e136]
+          - generic [ref=e139]:
+            - strong [ref=e140]: افتح الاتجاهات
+            - generic [ref=e141]: انتقل للعيادة من تطبيق الخرائط.
+      - generic [ref=e142]:
+        - link "ابحث عن طبيب قارن الأطباء حسب المدينة والتخصص." [ref=e143] [cursor=pointer]:
+          - /url: "#doctors"
+          - img [ref=e145]
+          - heading "ابحث عن طبيب" [level=2] [ref=e148]
+          - paragraph [ref=e149]: قارن الأطباء حسب المدينة والتخصص.
+        - link "احجز موعد انتقل مباشرة لخدمات الحجز." [ref=e150] [cursor=pointer]:
+          - /url: /booking
+          - img [ref=e152]
+          - heading "احجز موعد" [level=2] [ref=e155]
+          - paragraph [ref=e156]: انتقل مباشرة لخدمات الحجز.
+        - link "العروض شاهد أحدث عروض العيادات." [ref=e157] [cursor=pointer]:
+          - /url: /offers
+          - img [ref=e159]
+          - heading "العروض" [level=2] [ref=e162]
+          - paragraph [ref=e163]: شاهد أحدث عروض العيادات.
+        - link "انضم للمنصة سجل عيادتك أو شركتك." [ref=e164] [cursor=pointer]:
+          - /url: /join
+          - img [ref=e166]
+          - heading "انضم للمنصة" [level=2] [ref=e169]
+          - paragraph [ref=e170]: سجل عيادتك أو شركتك.
+      - generic [ref=e171]:
+        - generic [ref=e173]:
+          - paragraph [ref=e174]: اختيار سريع
+          - heading "اختر حسب الحالة أو التخصص" [level=2] [ref=e175]
+        - generic [ref=e176]:
+          - button "طب أسنان عام ألم شديد أو نابض غالبا يحتاج فحص عصب أو علاج طارئ." [ref=e177] [cursor=pointer]:
+            - generic [ref=e179]: طب أسنان عام
+            - heading "ألم شديد أو نابض" [level=3] [ref=e180]
+            - paragraph [ref=e181]: غالبا يحتاج فحص عصب أو علاج طارئ.
+          - button "تقويم الأسنان اعوجاج أو فراغات ابدأ بمقارنة أطباء التقويم القريبين." [ref=e182] [cursor=pointer]:
+            - generic [ref=e184]: تقويم الأسنان
+            - heading "اعوجاج أو فراغات" [level=3] [ref=e185]
+            - paragraph [ref=e186]: ابدأ بمقارنة أطباء التقويم القريبين.
+          - button "زراعة الأسنان سن مفقود اعثر على عيادات زراعة الأسنان الموثقة." [ref=e187] [cursor=pointer]:
+            - generic [ref=e189]: زراعة الأسنان
+            - heading "سن مفقود" [level=3] [ref=e190]
+            - paragraph [ref=e191]: اعثر على عيادات زراعة الأسنان الموثقة.
+          - button "أسنان الأطفال أسنان الأطفال خيارات مناسبة لفحص الأطفال والوقاية." [ref=e192] [cursor=pointer]:
+            - generic [ref=e194]: أسنان الأطفال
+            - heading "أسنان الأطفال" [level=3] [ref=e195]
+            - paragraph [ref=e196]: خيارات مناسبة لفحص الأطفال والوقاية.
+      - generic [ref=e197]:
+        - button "زراعة الأسنان" [ref=e198] [cursor=pointer]:
+          - img [ref=e200]
+          - text: زراعة الأسنان
+        - button "تقويم الأسنان" [ref=e203] [cursor=pointer]:
+          - img [ref=e205]
+          - text: تقويم الأسنان
+        - button "تجميل الأسنان" [ref=e209] [cursor=pointer]:
+          - img [ref=e211]
+          - text: تجميل الأسنان
+        - button "طب أسنان عام" [ref=e214] [cursor=pointer]:
+          - img [ref=e216]
+          - text: طب أسنان عام
+      - generic [ref=e220]:
+        - generic [ref=e221]:
+          - generic [ref=e222]:
+            - heading "جاري تحميل الأطباء" [level=2] [ref=e223]
+            - paragraph [ref=e224]: لحظات ونرتب القائمة.
+          - generic [ref=e225]:
+            - button "القائمة" [ref=e226] [cursor=pointer]
+            - button "الخريطة" [ref=e227] [cursor=pointer]
+        - generic [ref=e247]:
+          - heading "هل أنت طبيب أسنان؟" [level=3] [ref=e248]
+          - paragraph [ref=e249]: انضم إلى شبكة أسناني، اعرض خدماتك، واستقبل طلبات المرضى من مكان واحد.
+          - link "سجل عيادتك الآن" [ref=e250] [cursor=pointer]:
+            - /url: /join
+    - generic [ref=e252]:
+      - generic [ref=e253]:
+        - generic [ref=e254]:
+          - generic [ref=e255]:
+            - img [ref=e256]
+            - text: مرجع طبي رقمي لفلسطين
+          - heading "تجربة واحدة تجمع الرعاية، المعرفة، والحجز في مكان موثوق." [level=2] [ref=e259]
+          - paragraph [ref=e260]: "أسناني منصة موجهة للمواطن والقطاع الطبي: تساعد الزائر على الوصول لمقدم الخدمة المناسب، وتمنح الأطباء والمراكز والشركات حضورًا رقميًا واضحًا واحترافيًا."
+        - generic [ref=e261]:
+          - link "الدليل الطبي الذكي بحث منظم عن الأطباء والعيادات والمراكز حسب المدينة والتخصص والتقييم والخدمات المتاحة." [ref=e262] [cursor=pointer]:
+            - /url: "#smart-directory"
+            - img [ref=e264]
+            - heading "الدليل الطبي الذكي" [level=3] [ref=e268]
+            - paragraph [ref=e269]: بحث منظم عن الأطباء والعيادات والمراكز حسب المدينة والتخصص والتقييم والخدمات المتاحة.
+          - link "الحجز والاستشارات تجربة واضحة تبدأ باختيار مقدم الخدمة ثم إرسال الطلب وتأكيد الموعد بأبسط شكل." [ref=e270] [cursor=pointer]:
+            - /url: /booking
+            - img [ref=e272]
+            - heading "الحجز والاستشارات" [level=3] [ref=e275]
+            - paragraph [ref=e276]: تجربة واضحة تبدأ باختيار مقدم الخدمة ثم إرسال الطلب وتأكيد الموعد بأبسط شكل.
+          - link "الميديا الطبية مقالات وأخبار وفيديوهات توعوية تساعد الزائر على اتخاذ قرار صحي أكثر وعيًا." [ref=e277] [cursor=pointer]:
+            - /url: /media
+            - img [ref=e279]
+            - heading "الميديا الطبية" [level=3] [ref=e282]
+            - paragraph [ref=e283]: مقالات وأخبار وفيديوهات توعوية تساعد الزائر على اتخاذ قرار صحي أكثر وعيًا.
+          - link "التسويق الطبي مساحات رعاية وإعلانات وعروض للشركات والعيادات ضمن بيئة طبية موثوقة." [ref=e284] [cursor=pointer]:
+            - /url: /advertise
+            - img [ref=e286]
+            - heading "التسويق الطبي" [level=3] [ref=e289]
+            - paragraph [ref=e290]: مساحات رعاية وإعلانات وعروض للشركات والعيادات ضمن بيئة طبية موثوقة.
+      - generic [ref=e291]:
+        - generic [ref=e292]:
+          - generic [ref=e293]:
+            - heading "أقسام تخدم احتياجك مباشرة" [level=2] [ref=e294]
+            - paragraph [ref=e295]: اختر القسم المناسب وابدأ البحث أو التواصل بخطوات قليلة.
+          - link "انضم كمقدم خدمة" [ref=e296] [cursor=pointer]:
+            - /url: /join
+            - text: انضم كمقدم خدمة
+            - img [ref=e297]
+        - generic [ref=e299]:
+          - link "أطباء وعيادات الأسنان تخصصات، تقييمات، صور، دوام، وحجز" [ref=e300] [cursor=pointer]:
+            - /url: "#doctors"
+            - img [ref=e302]
+            - heading "أطباء وعيادات الأسنان" [level=3] [ref=e306]
+            - paragraph [ref=e307]: تخصصات، تقييمات، صور، دوام، وحجز
+          - link "مراكز التجميل بشرة، ليزر، فيلر، بوتوكس، وعروض" [ref=e308] [cursor=pointer]:
+            - /url: /beauty
+            - img [ref=e310]
+            - heading "مراكز التجميل" [level=3] [ref=e313]
+            - paragraph [ref=e314]: بشرة، ليزر، فيلر، بوتوكس، وعروض
+          - link "المختبرات الطبية تحاليل، فحوصات، أسعار، وخدمات منزلية" [ref=e315] [cursor=pointer]:
+            - /url: /labs
+            - img [ref=e317]
+            - heading "المختبرات الطبية" [level=3] [ref=e321]
+            - paragraph [ref=e322]: تحاليل، فحوصات، أسعار، وخدمات منزلية
+          - link "الشركات والمنتجات أجهزة، مواد طبية، مستحضرات، ورعايات" [ref=e323] [cursor=pointer]:
+            - /url: /partners
+            - img [ref=e325]
+            - heading "الشركات والمنتجات" [level=3] [ref=e329]
+            - paragraph [ref=e330]: أجهزة، مواد طبية، مستحضرات، ورعايات
+      - generic [ref=e331]:
+        - generic [ref=e332]:
+          - img [ref=e334]
+          - heading "القيمة للزائر" [level=3] [ref=e336]
+          - list [ref=e337]:
+            - listitem [ref=e338]: الوصول السريع للطبيب أو المركز المناسب
+            - listitem [ref=e340]: معرفة الخدمات والأسعار التقريبية قبل التواصل
+            - listitem [ref=e342]: توفير وقت البحث وتقليل العشوائية في الاختيار
+            - listitem [ref=e344]: محتوى صحي موثوق ومناسب للعائلات
+        - generic [ref=e346]:
+          - img [ref=e347]
+          - heading "القيمة لمقدمي الخدمات" [level=3] [ref=e349]
+          - list [ref=e350]:
+            - listitem [ref=e351]: ظهور احترافي للعيادات والمراكز والشركات
+            - listitem [ref=e353]: قنوات واضحة لاستقبال الحجوزات والاستفسارات
+            - listitem [ref=e355]: إبراز العروض والخدمات الجديدة بطريقة منظمة
+            - listitem [ref=e357]: بناء ثقة رقمية أقوى مع المرضى والجمهور
+      - generic [ref=e359]:
+        - generic [ref=e360]:
+          - generic [ref=e361]:
+            - img [ref=e362]
+            - heading "توعية صحية مفهومة" [level=3] [ref=e365]
+          - generic [ref=e366]:
+            - generic [ref=e367]:
+              - heading "المفيد للأسنان" [level=4] [ref=e368]
+              - paragraph [ref=e369]: أغذية مفيدة، عادات صحية، منتجات موثوقة، وفحوصات دورية.
+            - generic [ref=e370]:
+              - heading "الضار للأسنان" [level=4] [ref=e371]
+              - paragraph [ref=e372]: التدخين، المشروبات الغازية، أخطاء التفريش، والمنتجات غير المناسبة.
+            - generic [ref=e373]:
+              - heading "اختبارات تفاعلية" [level=4] [ref=e374]
+              - paragraph [ref=e375]: أسئلة قصيرة تساعد الزائر على فهم عاداته ومتى يحتاج مراجعة طبيب.
+        - generic [ref=e376]:
+          - generic [ref=e377]:
+            - img [ref=e378]
+            - heading "تطور مستمر" [level=3] [ref=e381]
+          - generic [ref=e382]:
+            - generic [ref=e383]:
+              - img [ref=e384]
+              - generic [ref=e387]: توجيه أولي بالذكاء الاصطناعي
+            - generic [ref=e388]:
+              - img [ref=e389]
+              - generic [ref=e392]: تحليل صور الأسنان مستقبلًا
+            - generic [ref=e393]:
+              - img [ref=e394]
+              - generic [ref=e397]: أكاديمية للأطباء والطلاب
+            - generic [ref=e398]:
+              - img [ref=e399]
+              - generic [ref=e401]: خدمات مختبرية ومنزلية
+      - generic [ref=e402]:
+        - heading "رحلة استخدام بسيطة" [level=2] [ref=e403]
+        - generic [ref=e404]:
+          - generic [ref=e405]:
+            - text: "01"
+            - heading "ابحث بذكاء" [level=3] [ref=e406]
+            - paragraph [ref=e407]: اختار المدينة أو الخدمة وشاهد النتائج المناسبة بسرعة.
+          - generic [ref=e408]:
+            - text: "02"
+            - heading "قارن بثقة" [level=3] [ref=e409]
+            - paragraph [ref=e410]: راجع التخصصات والصور والتقييمات والمعلومات الأساسية.
+          - generic [ref=e411]:
+            - text: "03"
+            - heading "تواصل واحجز" [level=3] [ref=e412]
+            - paragraph [ref=e413]: انتقل مباشرة للحجز أو التواصل مع مقدم الخدمة المناسب.
+          - generic [ref=e414]:
+            - text: "04"
+            - heading "تابع وتعلم" [level=3] [ref=e415]
+            - paragraph [ref=e416]: استفد من المقالات والتنبيهات والعروض الصحية المتجددة.
+  - contentinfo [ref=e417]:
+    - generic [ref=e418]:
+      - generic [ref=e419]:
+        - generic [ref=e420]:
+          - img [ref=e422]
+          - heading "أسناني.ps" [level=2] [ref=e426]
+        - paragraph [ref=e427]: منصة أسناني باسم عمار اشتية، لتسهيل الوصول لأطباء الأسنان والخدمات الطبية في فلسطين.
+        - generic [ref=e428]:
+          - link "ammar.shtayeh@gmail.com" [ref=e429] [cursor=pointer]:
+            - /url: mailto:ammar.shtayeh@gmail.com
+            - img [ref=e430]
+            - text: ammar.shtayeh@gmail.com
+          - link "9720595537190" [ref=e433] [cursor=pointer]:
+            - /url: https://wa.me/9720595537190
+            - img [ref=e434]
+            - text: "9720595537190"
+      - generic [ref=e436]:
+        - link "انضم كطبيب" [ref=e437] [cursor=pointer]:
+          - /url: /doctors/register
+        - link "أعلن معنا" [ref=e438] [cursor=pointer]:
+          - /url: /advertise
+        - link "سوق أسناني" [ref=e439] [cursor=pointer]:
+          - /url: /marketplace
+        - link "المجلة" [ref=e440] [cursor=pointer]:
+          - /url: /blog
+  - button "AI طبيبك الذكي" [ref=e442] [cursor=pointer]:
+    - generic [ref=e445]: AI
+    - img [ref=e446]
+    - generic: طبيبك الذكي
+  - alert [ref=e448]

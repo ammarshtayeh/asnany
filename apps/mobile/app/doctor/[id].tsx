@@ -96,11 +96,11 @@ export default function DoctorDetailsScreen() {
     const latLng = `${coords.latitude},${coords.longitude}`;
     const label = encodeURIComponent(doctor.name);
     const url = Platform.select({
-      ios: `maps://0,0?q=${label}&ll=${latLng}`,
+      ios: `maps://0,0?q=${label}&daddr=${latLng}`,
       android: `geo:0,0?q=${latLng}(${label})`,
-      default: `https://www.google.com/maps/search/?api=1&query=${latLng}`,
+      default: `https://www.google.com/maps/dir/?api=1&destination=${latLng}`,
     });
-    Linking.openURL(url || `https://www.google.com/maps/search/?api=1&query=${latLng}`);
+    Linking.openURL(url || `https://www.google.com/maps/dir/?api=1&destination=${latLng}`);
   }
 
   if (loading) {

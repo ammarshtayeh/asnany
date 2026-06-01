@@ -1,10 +1,10 @@
 import "./globals.css";
 import type { Metadata, Viewport } from "next";
-import { Noto_Sans_Arabic } from "next/font/google";
+import { Cairo } from "next/font/google";
 
-const notoSansArabic = Noto_Sans_Arabic({
+const cairoFont = Cairo({
   subsets: ["arabic"],
-  variable: "--font-noto-sans-arabic",
+  variable: "--font-cairo",
 });
 
 export const metadata: Metadata = {
@@ -30,7 +30,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ar" dir="rtl">
-      <body className={`${notoSansArabic.variable} font-sans bg-gray-50 text-slate-900 min-h-screen flex flex-col pt-20 pb-24 lg:pb-0 md:pt-20`}>
+      <body className={`${cairoFont.variable} font-sans bg-gray-50 text-slate-900 min-h-screen flex flex-col pt-20 pb-24 lg:pb-0 md:pt-20`}>
         <Navbar />
         <ConnectivityBanner />
         {children}

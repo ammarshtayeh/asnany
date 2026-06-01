@@ -293,11 +293,11 @@ function openNativeMap(doctor: Doctor) {
   const label = encodeURIComponent(doctor.name || "عيادة أسنان");
   const url =
     Platform.OS === "ios"
-      ? `http://maps.apple.com/?ll=${coords.latitude},${coords.longitude}&q=${label}`
-      : `geo:${coords.latitude},${coords.longitude}?q=${coords.latitude},${coords.longitude}(${label})`;
+      ? `http://maps.apple.com/?daddr=${coords.latitude},${coords.longitude}&q=${label}`
+      : `https://www.google.com/maps/dir/?api=1&destination=${coords.latitude},${coords.longitude}`;
 
   Linking.openURL(url).catch(() => {
-    Linking.openURL(`https://www.google.com/maps/search/?api=1&query=${coords.latitude},${coords.longitude}`);
+    Linking.openURL(`https://www.google.com/maps/dir/?api=1&destination=${coords.latitude},${coords.longitude}`);
   });
 }
 

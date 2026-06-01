@@ -44,7 +44,7 @@ module.exports = {
         },
       },
       fontFamily: {
-        sans: ['var(--font-noto-sans-arabic)'],
+        sans: ['var(--font-cairo)'],
       },
     },
   },

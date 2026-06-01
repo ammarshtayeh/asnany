@@ -26,16 +26,19 @@ export function buildDoctorMapUrl(doctor: Pick<MapDoctor, "name" | "city" | "are
   const label = encodeURIComponent(doctorMapLabel(doctor));
   const hasCoords = doctor.lat !== null && doctor.lat !== undefined && doctor.lng !== null && doctor.lng !== undefined;
   if (hasCoords) {
-    return `https://www.google.com/maps/search/?api=1&query=${doctor.lat},${doctor.lng}`;
+    // Use directions API with exact destination coordinates for precise pinning
+    return `https://www.google.com/maps/dir/?api=1&destination=${doctor.lat},${doctor.lng}`;
   }
 
-  return `https://www.google.com/maps/search/?api=1&query=${label}`;
+  // Fallback to searching the text label if no coords are present
+  return `https://www.google.com/maps/dir/?api=1&destination=${label}`;
 }
 
 export function buildAppleMapsUrl(doctor: Pick<MapDoctor, "name" | "city" | "area" | "address" | "lat" | "lng">) {
   const coords = doctorMapCoordinates(doctor);
   const label = encodeURIComponent(doctorMapLabel(doctor));
-  return `https://maps.apple.com/?ll=${coords.latitude},${coords.longitude}&q=${label}`;
+  // Use 'daddr' for directions destination in Apple Maps
+  return `https://maps.apple.com/?daddr=${coords.latitude},${coords.longitude}&q=${label}`;
 }
 
 export function buildDeviceMapUrl(

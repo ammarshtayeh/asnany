@@ -203,38 +203,27 @@ export default function PlatformExpansion() {
           </div>
         </div>
 
-        <div className="grid lg:grid-cols-[1fr_1fr] gap-8">
-          <div className="rounded-3xl border border-slate-200 bg-white p-7 md:p-10">
-            <div className="flex items-center gap-3 mb-6">
-              <Video className="w-7 h-7 text-indigo-600" />
-              <h3 className="text-2xl font-black text-slate-950">توعية صحية مفهومة</h3>
+        {/* Future Banner */}
+        <div className="rounded-3xl border border-slate-200 bg-gradient-to-r from-slate-50 to-white p-6 md:p-8 flex flex-col md:flex-row items-center gap-6 justify-between shadow-sm">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 bg-amber-50 rounded-2xl flex items-center justify-center flex-shrink-0">
+              <Bot className="w-6 h-6 text-amber-600" />
             </div>
-            <div className="grid sm:grid-cols-3 gap-4">
-              {educationItems.map((item) => (
-                <div key={item.title} className={`rounded-2xl border p-4 ${item.tone}`}>
-                  <h4 className="font-black mb-2">{item.title}</h4>
-                  <p className="text-sm leading-6 font-semibold">{item.text}</p>
-                </div>
-              ))}
+            <div>
+              <h3 className="text-xl font-black text-slate-950">تطوير مستمر للمنصة</h3>
+              <p className="text-sm text-slate-500 font-medium mt-1">نعمل دائماً على إضافة ميزات جديدة تعتمد على الذكاء الاصطناعي لتسهيل تجربتك.</p>
             </div>
           </div>
-
-          <div className="rounded-3xl border border-slate-200 bg-white p-7 md:p-10">
-            <div className="flex items-center gap-3 mb-6">
-              <Bot className="w-7 h-7 text-amber-600" />
-              <h3 className="text-2xl font-black text-slate-950">تطور مستمر</h3>
-            </div>
-            <div className="grid sm:grid-cols-2 gap-3">
-              {futureItems.map((item) => {
-                const TypedIcon = item.icon;
-                return (
-                  <div key={item.title} className="rounded-2xl bg-slate-50 border border-slate-200 p-4 flex gap-3 items-center">
-                    <TypedIcon className="w-5 h-5 text-slate-700 flex-shrink-0" />
-                    <span className="font-black text-slate-800 text-sm">{item.title}</span>
-                  </div>
-                );
-              })}
-            </div>
+          <div className="flex flex-wrap justify-center md:justify-end gap-3 w-full md:w-auto">
+            {futureItems.map((item) => {
+              const TypedIcon = item.icon;
+              return (
+                <div key={item.title} className="rounded-xl bg-white border border-slate-200 px-4 py-2.5 flex gap-2 items-center shadow-sm">
+                  <TypedIcon className="w-4 h-4 text-slate-400" />
+                  <span className="font-bold text-slate-700 text-xs">{item.title}</span>
+                </div>
+              );
+            })}
           </div>
         </div>
 

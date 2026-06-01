@@ -1,0 +1,138 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - link "أسناني .ps" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - img [ref=e6]
+        - generic [ref=e10]:
+          - generic [ref=e11]: أسناني
+          - generic [ref=e12]: .ps
+      - generic [ref=e14]:
+        - link "الرئيسية" [ref=e15] [cursor=pointer]:
+          - /url: /
+          - img [ref=e16]
+          - text: الرئيسية
+        - link "العروض" [ref=e20] [cursor=pointer]:
+          - /url: /offers
+          - img [ref=e21]
+          - text: العروض
+        - link "السوق" [ref=e25] [cursor=pointer]:
+          - /url: /marketplace
+          - img [ref=e26]
+          - text: السوق
+        - link "التجميل" [ref=e30] [cursor=pointer]:
+          - /url: /beauty
+          - img [ref=e31]
+          - text: التجميل
+        - link "المختبرات" [ref=e34] [cursor=pointer]:
+          - /url: /labs
+          - img [ref=e35]
+          - text: المختبرات
+        - link "الحجز" [ref=e39] [cursor=pointer]:
+          - /url: /booking
+          - img [ref=e40]
+          - text: الحجز
+        - link "المجلة" [ref=e43] [cursor=pointer]:
+          - /url: /blog
+          - img [ref=e44]
+          - text: المجلة
+        - link "الموردون" [ref=e46] [cursor=pointer]:
+          - /url: /stores
+          - img [ref=e47]
+          - text: الموردون
+      - generic [ref=e50]:
+        - link "دخول الطبيب" [ref=e51] [cursor=pointer]:
+          - /url: /doctor/login
+          - img [ref=e52]
+          - generic [ref=e56]: دخول الطبيب
+        - link "احجز الآن" [ref=e57] [cursor=pointer]:
+          - /url: /booking
+  - main [ref=e58]:
+    - generic [ref=e59]:
+      - link "العودة للرئيسية" [ref=e62] [cursor=pointer]:
+        - /url: /
+        - img [ref=e63]
+        - text: العودة للرئيسية
+      - generic [ref=e65]:
+        - generic [ref=e66]:
+          - img [ref=e67]
+          - text: سياسة الخصوصية وحماية البيانات
+        - heading "Privacy Policy" [level=1] [ref=e70]
+        - paragraph [ref=e71]: نحافظ على بياناتك الطبية والشخصية ضمن تجربة واضحة وآمنة داخل الموقع والتطبيق.
+    - generic [ref=e73]:
+      - generic [ref=e74]:
+        - img [ref=e75]
+        - heading "سياسة الخصوصية" [level=2] [ref=e78]
+      - paragraph [ref=e79]:
+        - text: منصة
+        - strong [ref=e80]: أسناني.ps
+        - text: هي فكرة ومشروع
+        - strong [ref=e81]: عمار اشتية
+        - text: ، وجميع الحقوق محفوظة له. تم إعداد هذه المنصة لتسهيل الوصول إلى أطباء الأسنان والخدمات الطبية في فلسطين عبر الموقع والتطبيق، مع الالتزام بحماية بيانات المستخدمين واحترام خصوصيتهم.
+      - generic [ref=e82]:
+        - generic [ref=e83]:
+          - generic [ref=e84]:
+            - img [ref=e85]
+            - text: البيانات التي نجمعها
+          - paragraph [ref=e88]: الاسم، رقم الهاتف، رقم الهوية، العنوان، بيانات الحجز، والمعلومات التي يضيفها الطبيب أو الأدمن لإتمام الخدمة وتحسين التجربة.
+        - generic [ref=e89]:
+          - generic [ref=e90]:
+            - img [ref=e91]
+            - text: كيف نستخدمها
+          - paragraph [ref=e95]: تُستخدم البيانات لإرسال طلبات الحجز، إدارة جدول الطبيب، تحسين نتائج البحث، وتسهيل التواصل المباشر داخل المنصة.
+        - generic [ref=e96]:
+          - generic [ref=e97]:
+            - img [ref=e98]
+            - text: حفظ البيانات
+          - paragraph [ref=e102]: تُحفظ البيانات داخل قاعدة البيانات الخاصة بالمنصة وفق الصلاحيات المخصصة لكل من المريض والطبيب والأدمن.
+        - generic [ref=e103]:
+          - generic [ref=e104]:
+            - img [ref=e105]
+            - text: مشاركة البيانات
+          - paragraph [ref=e107]: لا نبيع بيانات المستخدمين لأطراف خارجية. تُعرض بيانات الطبيب للمستخدمين ضمن نطاق الخدمة فقط، وتبقى المعلومات الحساسة ضمن الاستخدام التشغيلي للمنصة.
+      - generic [ref=e108]:
+        - heading "ملاحظات مهمة" [level=3] [ref=e109]
+        - list [ref=e110]:
+          - listitem [ref=e111]: • قد نحدّث السياسة عند إضافة خدمات جديدة أو تحسينات تشغيلية.
+          - listitem [ref=e112]: • استخدامك للموقع أو التطبيق يعني موافقتك على هذه السياسة.
+          - listitem [ref=e113]: • أي بيانات علاجية أو مواعيد تظهر للطبيب بهدف إدارة الحجز فقط.
+      - generic [ref=e114]:
+        - generic [ref=e115]:
+          - img [ref=e116]
+          - text: "آخر تحديث: يونيو 2026"
+        - generic [ref=e119]:
+          - img [ref=e120]
+          - text: أسناني.ps - مشروع عمار اشتية
+  - contentinfo [ref=e122]:
+    - generic [ref=e123]:
+      - generic [ref=e124]:
+        - generic [ref=e125]:
+          - img [ref=e127]
+          - heading "أسناني.ps" [level=2] [ref=e131]
+        - paragraph [ref=e132]: منصة أسناني باسم عمار اشتية، لتسهيل الوصول لأطباء الأسنان والخدمات الطبية في فلسطين.
+        - generic [ref=e133]:
+          - link "ammar.shtayeh@gmail.com" [ref=e134] [cursor=pointer]:
+            - /url: mailto:ammar.shtayeh@gmail.com
+            - img [ref=e135]
+            - text: ammar.shtayeh@gmail.com
+          - link "9720595537190" [ref=e138] [cursor=pointer]:
+            - /url: https://wa.me/9720595537190
+            - img [ref=e139]
+            - text: "9720595537190"
+      - generic [ref=e141]:
+        - link "انضم كطبيب" [ref=e142] [cursor=pointer]:
+          - /url: /doctors/register
+        - link "أعلن معنا" [ref=e143] [cursor=pointer]:
+          - /url: /advertise
+        - link "سوق أسناني" [ref=e144] [cursor=pointer]:
+          - /url: /marketplace
+        - link "سياسة الخصوصية" [ref=e145] [cursor=pointer]:
+          - /url: /privacy
+        - link "المجلة" [ref=e146] [cursor=pointer]:
+          - /url: /blog
+        - link "الشروط" [ref=e147] [cursor=pointer]:
+          - /url: /terms
+  - button "AI طبيبك الذكي" [ref=e149] [cursor=pointer]:
+    - generic [ref=e152]: AI
+    - img [ref=e153]
+    - generic: طبيبك الذكي
