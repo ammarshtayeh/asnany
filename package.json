@@ -8,6 +8,8 @@
   "scripts": {
     "dev:web": "npm --workspace @pal-dental/web run dev",
     "dev:mobile": "npm --workspace @pal-dental/mobile run start",
+    "dev:mobile:offline": "npm --workspace @pal-dental/mobile run start:offline",
+    "dev:mobile:lan": "npm --workspace @pal-dental/mobile run start:lan",
     "lint:web": "npm --workspace @pal-dental/web run lint",
     "typecheck:web": "npm --workspace @pal-dental/web run typecheck",
     "supabase:link": "npx supabase link",

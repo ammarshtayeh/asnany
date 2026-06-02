@@ -5,6 +5,8 @@
   "main": "expo-router/entry",
   "scripts": {
     "start": "expo start",
+    "start:offline": "expo start --offline -c",
+    "start:lan": "expo start --lan -c",
     "android": "expo start --android",
     "ios": "expo start --ios"
   },
