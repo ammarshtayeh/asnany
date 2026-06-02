@@ -9,7 +9,7 @@
     "platforms": ["ios", "android", "web"],
     "ios": {
       "infoPlist": {
-        "NSLocationWhenInUseUsageDescription": "نستخدم موقعك لترتيب أطباء الأسنان حسب الأقرب لك وعرضهم على الخريطة."
+        "NSLocationWhenInUseUsageDescription": "We use your location to sort nearby dental clinics and show them on the map."
       }
     },
     "android": {
@@ -17,7 +17,7 @@
     },
     "plugins": ["expo-router", "expo-location"],
     "experiments": {
-      "typedRoutes": true
+      "typedRoutes": false
     }
   }
 }
