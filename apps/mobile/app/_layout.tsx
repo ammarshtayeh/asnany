@@ -16,13 +16,11 @@ export default function RootLayout() {
         <Stack.Screen name="about" />
         <Stack.Screen name="advertise" />
         <Stack.Screen name="beauty" />
-        <Stack.Screen name="blog" />
+        <Stack.Screen name="blog/index" />
         <Stack.Screen name="consultations" />
         <Stack.Screen name="join" />
         <Stack.Screen name="labs" />
-        <Stack.Screen name="marketplace" />
         <Stack.Screen name="media" />
-        <Stack.Screen name="offers" />
         <Stack.Screen name="partners" />
         <Stack.Screen name="stores" />
         <Stack.Screen name="privacy" />
