@@ -183,6 +183,17 @@ export default function DoctorDashboardScreen() {
     };
   }, [appointments]);
 
+  const nextAppointments = useMemo(() => {
+    return [...appointments]
+      .filter((item) => item.status !== "cancelled")
+      .sort((left, right) => {
+        const leftStamp = `${left.date}T${left.time || "23:59"}`;
+        const rightStamp = `${right.date}T${right.time || "23:59"}`;
+        return leftStamp.localeCompare(rightStamp);
+      })
+      .slice(0, 3);
+  }, [appointments]);
+
   if (!ready) {
     return (
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: "#020617" }}>
@@ -219,6 +230,49 @@ export default function DoctorDashboardScreen() {
         <SummaryCard label="مؤكدة" value={stats.confirmed} />
         <SummaryCard label="اليوم" value={stats.today} />
         <SummaryCard label="الإجمالي" value={stats.total} />
+      </View>
+
+      <View style={{ marginBottom: 20, borderRadius: 24, backgroundColor: "#fff", padding: 20 }}>
+        <View style={{ flexDirection: "row-reverse", alignItems: "center", justifyContent: "space-between" }}>
+          <View style={{ alignItems: "flex-end" }}>
+            <Text style={{ fontSize: 18, fontWeight: "900", color: "#0f172a", textAlign: "right" }}>أقرب الحجوزات</Text>
+            <Text style={{ marginTop: 4, fontSize: 12, fontWeight: "500", color: "#64748b", textAlign: "right" }}>
+              لمحة سريعة تساعد الطبيب يعرف مين جاي بعد شوي.
+            </Text>
+          </View>
+          <View style={{ borderRadius: 999, backgroundColor: profile.is_available ? "#ecfdf5" : "#fef2f2", paddingHorizontal: 12, paddingVertical: 8 }}>
+            <Text style={{ fontSize: 12, fontWeight: "900", color: profile.is_available ? "#047857" : "#e11d48" }}>
+              {profile.is_available ? "العيادة متاحة الآن" : "العيادة مغلقة الآن"}
+            </Text>
+          </View>
+        </View>
+
+        <View style={{ marginTop: 16, gap: 10 }}>
+          {nextAppointments.length === 0 ? (
+            <View style={{ borderRadius: 16, borderWidth: 1, borderColor: "#e2e8f0", borderStyle: "dashed", padding: 16 }}>
+              <Text style={{ fontSize: 14, fontWeight: "500", color: "#64748b", textAlign: "right" }}>
+                لا توجد حجوزات قادمة حالياً. أول حجز جديد سيظهر هنا مباشرة.
+              </Text>
+            </View>
+          ) : (
+            nextAppointments.map((appointment) => (
+              <View key={appointment.id} style={{ borderRadius: 16, backgroundColor: "#f8fafc", padding: 16 }}>
+                <View style={{ flexDirection: "row-reverse", alignItems: "center", justifyContent: "space-between" }}>
+                  <Text style={{ borderRadius: 999, backgroundColor: "#fff", paddingHorizontal: 12, paddingVertical: 6, fontSize: 12, fontWeight: "900", color: "#475569" }}>
+                    {appointment.date ?? ""}
+                  </Text>
+                  <Text style={{ fontSize: 12, fontWeight: "700", color: "#94a3b8" }}>{appointment.time || "بدون وقت"}</Text>
+                </View>
+                <Text style={{ marginTop: 10, fontSize: 16, fontWeight: "900", color: "#0f172a", textAlign: "right" }}>
+                  {appointment.patient_full_name ?? appointment.patient_phone ?? "مريض"}
+                </Text>
+                <Text style={{ marginTop: 4, fontSize: 13, fontWeight: "500", color: "#475569", textAlign: "right" }}>
+                  {appointment.patient_phone ?? ""}
+                </Text>
+              </View>
+            ))
+          )}
+        </View>
       </View>
 
       <View style={{ marginBottom: 20, borderRadius: 24, backgroundColor: "#fff", padding: 20 }}>
