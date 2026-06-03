@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ShoppingCart, Briefcase, PlusCircle, Star, PhoneCall, Search, BadgePercent, X, CheckCircle, Megaphone, ShieldCheck } from "lucide-react";
+import Link from "next/link";
+import { ShoppingCart, Briefcase, PlusCircle, Star, PhoneCall, Search, BadgePercent, X, CheckCircle, Megaphone, ShieldCheck, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { MarketplaceAd } from "@/lib/types";
 import { getMarketplaceAds, createMarketplaceAd } from "@/lib/data";
@@ -104,7 +105,16 @@ export default function MarketplacePage() {
   return (
     <div className="min-h-screen bg-[#f7fafc] px-4 py-24 lg:px-8" dir="rtl">
       <div className="mx-auto max-w-[1400px]">
-        
+        {/* Back button */}
+        <div className="mb-6">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 px-5 py-2.5 rounded-full text-sm font-bold transition-all hover:scale-105"
+          >
+            <ArrowRight className="w-4 h-4" />
+            الرئيسية
+          </Link>
+        </div>
         <div className="mb-10 grid gap-6 lg:grid-cols-[minmax(0,1fr)_420px]">
           <div className="relative overflow-hidden rounded-2xl bg-slate-950 p-7 text-white shadow-xl md:p-10">
             <Image

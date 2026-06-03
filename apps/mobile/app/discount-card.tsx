@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
-import { ActivityIndicator, ScrollView, Text, View } from "react-native";
+import { ActivityIndicator, ScrollView, Text, View, Pressable } from "react-native";
 import { router } from "expo-router";
-import { apiFetch } from "../lib/api";
+import { Feather } from "@expo/vector-icons";
+import { supabase } from "../lib/supabase";
 import { Doctor } from "../lib/types";
 import { AppButton } from "../components/Buttons";
 import { AppCard } from "../components/AppCard";
@@ -13,9 +14,19 @@ export default function DiscountCardScreen() {
 
   useEffect(() => {
     (async () => {
-      const { response, data } = await apiFetch<{ doctors?: Doctor[] }>("/api/doctors");
-      setDoctors(response.ok ? (Array.isArray(data) ? data : Array.isArray(data?.doctors) ? data.doctors : []) : []);
-      setLoading(false);
+      try {
+        if (!supabase) return;
+        const { data, error } = await supabase
+          .from("doctors")
+          .select("*")
+          .eq("verified", true);
+        if (error) throw error;
+        setDoctors(data || []);
+      } catch (err) {
+        console.error("Error loading discount card doctors:", err);
+      } finally {
+        setLoading(false);
+      }
     })();
   }, []);
 
@@ -26,6 +37,17 @@ export default function DiscountCardScreen() {
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: "#f8fafc" }} contentContainerStyle={{ padding: 16, paddingBottom: 120 }}>
+      {/* Top Header with Back Button */}
+      <View style={{ flexDirection: "row-reverse", alignItems: "center", justifyContent: "space-between", marginBottom: 16, backgroundColor: "white", padding: 16, borderRadius: 24, borderWidth: 1, borderColor: "#e2e8f0" }}>
+        <View style={{ alignItems: "flex-end" }}>
+          <Text style={{ fontSize: 12, fontWeight: "900", color: "#64748b" }}>رعاية أسناني المشتركة</Text>
+          <Text style={{ fontSize: 18, fontWeight: "900", color: "#0f172a", marginTop: 4 }}>بطاقة الخصومات الحصرية</Text>
+        </View>
+        <Pressable onPress={() => router.back()} style={{ height: 40, width: 40, borderRadius: 20, backgroundColor: "#f1f5f9", alignItems: "center", justifyContent: "center" }}>
+          <Feather name="arrow-right" size={20} color="#0f172a" />
+        </Pressable>
+      </View>
+
       <AppCard>
         <AppTitle>بطاقة الخصم</AppTitle>
         <AppSubtitle>بطاقة عضوية تمنحك خصومات في العيادات المشتركة مباشرة من التطبيق.</AppSubtitle>
@@ -62,7 +84,7 @@ export default function DiscountCardScreen() {
                 <Text style={{ textAlign: "right", color: "#2563eb", marginTop: 6, fontWeight: "900" }}>
                   {doctor.discount_value || "خصم خاص"} {doctor.discount_note ? `• ${doctor.discount_note}` : ""}
                 </Text>
-                <AppButton label="عرض الطبيب" variant="secondary" onPress={() => router.push(`/doctor/${doctor.id}`)} style={{ marginTop: 10 }} />
+                <AppButton label="عرض الطبيب" variant="secondary" onPress={() => router.push(`/doctors/${doctor.id}`)} style={{ marginTop: 10 }} />
               </View>
             ))}
           </View>

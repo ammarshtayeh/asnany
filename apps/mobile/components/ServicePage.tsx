@@ -91,7 +91,7 @@ export function ServicePage({
         </View>
 
         <Pressable onPress={() => router.push("/")} style={{ backgroundColor: "transparent", borderRadius: 16, paddingVertical: 12, alignItems: "center" }}>
-          <Text style={{ color: "#94a3b8", fontWeight: "700", fontSize: 13 }}>← العودة للرئيسية</Text>
+          <Text style={{ color: "#94a3b8", fontWeight: "700", fontSize: 13 }}>العودة للرئيسية →</Text>
         </Pressable>
       </View>
     </ScrollView>

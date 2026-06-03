@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import { MapPin, Navigation, Route, ArrowLeft } from "lucide-react";
+import { MapPin, Navigation, Route, ArrowRight } from "lucide-react";
 
 import { Doctor } from "@/lib/types";
 import { buildDeviceMapUrl, doctorMapLabel, doctorMapCoordinates } from "@/lib/map-links";
@@ -153,7 +153,7 @@ export default function DoctorMapPage() {
                 href={`/doctors/${doctorId}`}
                 className="inline-flex min-h-11 items-center gap-2 rounded-full bg-slate-900 px-4 text-sm font-black text-white"
               >
-                <ArrowLeft className="h-4 w-4" />
+                <ArrowRight className="h-4 w-4" />
                 العودة للملف
               </Link>
               <Link

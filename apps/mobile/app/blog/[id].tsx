@@ -129,7 +129,7 @@ export default function ArticleDetailScreen() {
               </View>
             </View>
             <Pressable
-              onPress={() => router.push(`/doctor/${article.doctor_id}` as any)}
+              onPress={() => router.push(`/doctors/${article.doctor_id}` as any)}
               style={{ backgroundColor: "#0f172a", borderRadius: 16, paddingVertical: 14, alignItems: "center" }}
             >
               <Text style={{ color: "#fff", fontWeight: "900", fontSize: 13 }}>احجز موعداً مع {article.doctor_name}</Text>

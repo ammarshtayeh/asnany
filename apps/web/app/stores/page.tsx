@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { Store } from "@pal-dental/shared";
-import { Package, Globe, Phone, Building2, Search, ArrowLeft, Plus, X, CheckCircle, Sparkles } from "lucide-react";
+import { Package, Globe, Phone, Building2, Search, ArrowRight, Plus, X, CheckCircle, Sparkles } from "lucide-react";
 import Image from "next/image";
 import { getStores, createStore } from "@/lib/data";
 
@@ -99,6 +100,16 @@ export default function StoresPage() {
         <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-indigo-600 rounded-full blur-[120px] opacity-20" />
 
         <div className="max-w-6xl mx-auto text-center relative z-10">
+          {/* Back button */}
+          <div className="flex justify-start mb-6" dir="rtl">
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white px-5 py-2.5 rounded-full text-sm font-bold transition-all hover:scale-105"
+            >
+              <ArrowRight className="w-4 h-4" />
+              الرئيسية
+            </Link>
+          </div>
           <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white mb-6">
             <Package className="w-4 h-4 text-blue-400" />
             <span className="text-sm font-bold">لأطباء الأسنان والعيادات (B2B)</span>

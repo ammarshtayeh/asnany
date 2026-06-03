@@ -92,48 +92,48 @@ export default function DoctorNotificationsScreen() {
 
   if (loading) {
     return (
-      <View className="flex-1 items-center justify-center bg-slate-950">
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: "#020617" }}>
         <ActivityIndicator color="#fff" />
       </View>
     );
   }
 
   return (
-    <ScrollView className="flex-1 bg-slate-950" contentContainerStyle={{ padding: 20, paddingBottom: 40 }}>
-      <View className="mb-5 rounded-3xl border border-white/10 bg-white/5 p-6">
-        <View className="flex-row items-center justify-between">
-          <Pressable onPress={() => router.push("/doctor/dashboard")} className="rounded-2xl bg-white/10 px-4 py-3">
+    <ScrollView style={{ flex: 1, backgroundColor: "#020617" }} contentContainerStyle={{ padding: 20, paddingBottom: 40 }}>
+      <View style={{ marginBottom: 20, borderRadius: 24, borderWidth: 1, borderColor: "rgba(255,255,255,0.1)", backgroundColor: "rgba(255,255,255,0.05)", padding: 24 }}>
+        <View style={{ flexDirection: "row-reverse", alignItems: "center", justifyContent: "space-between" }}>
+          <Pressable onPress={() => router.push("/doctor/dashboard")} style={{ borderRadius: 16, backgroundColor: "rgba(255,255,255,0.1)", paddingHorizontal: 16, paddingVertical: 12 }}>
             <Feather name="arrow-right" size={18} color="#fff" />
           </Pressable>
-          <View className="items-end">
-            <Text className="text-sm font-black text-sky-300">لوحة الطبيب</Text>
-            <Text className="mt-1 text-3xl font-black text-white">الإشعارات</Text>
+          <View style={{ alignItems: "flex-end" }}>
+            <Text style={{ fontSize: 14, fontWeight: "900", color: "#7dd3fc", textAlign: "right" }}>لوحة الطبيب</Text>
+            <Text style={{ marginTop: 4, fontSize: 30, fontWeight: "900", color: "#fff", textAlign: "right" }}>الإشعارات</Text>
           </View>
         </View>
-        <Text className="mt-3 text-sm font-medium leading-6 text-slate-300">
+        <Text style={{ marginTop: 12, fontSize: 14, fontWeight: "500", lineHeight: 24, color: "#cbd5e1", textAlign: "right" }}>
           أي حجز جديد أو تحديث حالة يوصل هنا مباشرة، وبنفس الوقت يوصل Push للجهاز.
         </Text>
-        <View className="mt-4 flex-row items-center justify-between">
-          <View className="rounded-2xl bg-sky-500 px-4 py-3">
-            <Text className="text-sm font-black text-white">{unreadCount} غير مقروء</Text>
+        <View style={{ marginTop: 16, flexDirection: "row-reverse", alignItems: "center", justifyContent: "space-between" }}>
+          <View style={{ borderRadius: 16, backgroundColor: "#0ea5e9", paddingHorizontal: 16, paddingVertical: 12 }}>
+            <Text style={{ fontSize: 14, fontWeight: "900", color: "#fff" }}>{unreadCount} غير مقروء</Text>
           </View>
-          <Pressable onPress={refresh} className="rounded-2xl bg-white/10 px-4 py-3">
-            <Text className="text-sm font-black text-white">{refreshing ? "جارٍ التحديث..." : "تحديث"}</Text>
+          <Pressable onPress={refresh} style={{ borderRadius: 16, backgroundColor: "rgba(255,255,255,0.1)", paddingHorizontal: 16, paddingVertical: 12 }}>
+            <Text style={{ fontSize: 14, fontWeight: "900", color: "#fff" }}>{refreshing ? "جارٍ التحديث..." : "تحديث"}</Text>
           </Pressable>
         </View>
       </View>
 
-      <View className="rounded-3xl bg-white p-4">
+      <View style={{ borderRadius: 24, backgroundColor: "#fff", padding: 16 }}>
         {notifications.length === 0 ? (
-          <View className="items-center py-12">
+          <View style={{ alignItems: "center", paddingVertical: 48 }}>
             <Feather name="bell" size={36} color="#cbd5e1" />
-            <Text className="mt-4 text-lg font-black text-slate-950">لا توجد إشعارات بعد</Text>
-            <Text className="mt-2 text-center text-sm font-medium leading-6 text-slate-500">
+            <Text style={{ marginTop: 16, fontSize: 18, fontWeight: "900", color: "#0f172a" }}>لا توجد إشعارات بعد</Text>
+            <Text style={{ marginTop: 8, textAlign: "center", fontSize: 14, fontWeight: "500", lineHeight: 24, color: "#64748b" }}>
               ستظهر هنا إشعارات الحجوزات وتغييرات المواعيد أول ما تبدأ الحركة على الحساب.
             </Text>
           </View>
         ) : (
-          <View className="gap-3">
+          <View style={{ gap: 12 }}>
             {notifications.map((item) => (
               <Pressable
                 key={item.id}
@@ -145,19 +145,25 @@ export default function DoctorNotificationsScreen() {
                     });
                   }
                 }}
-                className={`rounded-2xl border p-4 ${item.read_at ? "border-slate-200 bg-white" : "border-sky-200 bg-sky-50"}`}
+                style={{
+                  borderRadius: 16,
+                  borderWidth: 1,
+                  borderColor: item.read_at ? "#e2e8f0" : "#bae6fd",
+                  backgroundColor: item.read_at ? "#white" : "#f0f9ff",
+                  padding: 16
+                }}
               >
-                <View className="flex-row items-start justify-between gap-3">
-                  <View className="flex-1 gap-2">
-                    <View className="flex-row items-center gap-2">
-                      {!item.read_at ? <View className="h-2.5 w-2.5 rounded-full bg-sky-500" /> : null}
-                      <Text className="text-base font-black text-slate-950">{item.title}</Text>
+                <View style={{ flexDirection: "row-reverse", alignItems: "flex-start", justifyContent: "space-between", gap: 12 }}>
+                  <View style={{ flex: 1, gap: 8, alignItems: "flex-end" }}>
+                    <View style={{ flexDirection: "row-reverse", alignItems: "center", gap: 8 }}>
+                      {!item.read_at ? <View style={{ height: 10, width: 10, borderRadius: 5, backgroundColor: "#0ea5e9" }} /> : null}
+                      <Text style={{ fontSize: 16, fontWeight: "900", color: "#0f172a", textAlign: "right" }}>{item.title}</Text>
                     </View>
-                    <Text className="text-sm font-medium leading-6 text-slate-600">{item.body}</Text>
-                    <Text className="text-xs font-bold text-slate-400">{formatDate(item.created_at)}</Text>
+                    <Text style={{ fontSize: 14, fontWeight: "500", lineHeight: 24, color: "#475569", textAlign: "right" }}>{item.body}</Text>
+                    <Text style={{ fontSize: 12, fontWeight: "700", color: "#94a3b8" }}>{formatDate(item.created_at)}</Text>
                   </View>
-                  <View className={`rounded-2xl px-3 py-2 ${item.read_at ? "bg-emerald-50" : "bg-slate-950"}`}>
-                    <Text className={`text-xs font-black ${item.read_at ? "text-emerald-700" : "text-white"}`}>
+                  <View style={{ borderRadius: 16, backgroundColor: item.read_at ? "#ecfdf5" : "#0f172a", paddingHorizontal: 12, paddingVertical: 8 }}>
+                    <Text style={{ fontSize: 12, fontWeight: "900", color: item.read_at ? "#047857" : "#white" }}>
                       {item.read_at ? "مقروء" : "لم يُقرأ"}
                     </Text>
                   </View>

@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { ActivityIndicator, Pressable, ScrollView, Text, View, Linking } from "react-native";
-import { Link, useLocalSearchParams } from "expo-router";
+import { Link, useLocalSearchParams, router } from "expo-router";
+import { Feather } from "@expo/vector-icons";
 
-import { apiFetch } from "../../../lib/api";
 import { Doctor } from "../../../lib/types";
 import { ClinicMap } from "../../../components/ClinicMap";
 import { buildNativeMapsUrl, doctorMapLabel } from "../../../lib/map-links";
+import { supabase } from "../../../lib/supabase";
 
 export default function DoctorMapScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -13,13 +14,25 @@ export default function DoctorMapScreen() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!id) return;
     (async () => {
       setLoading(true);
-      const { data } = await apiFetch<{ doctors?: Doctor[] }>("/api/doctors");
-      const doctors = Array.isArray(data) ? data : Array.isArray(data?.doctors) ? data.doctors : [];
-      const found = doctors.find((item) => item.id === id) || null;
-      setDoctor(found);
-      setLoading(false);
+      try {
+        if (supabase) {
+          const { data, error } = await supabase
+            .from("doctors")
+            .select("*")
+            .eq("id", id)
+            .single();
+          if (error) throw error;
+          setDoctor(data || null);
+        }
+      } catch (error) {
+        console.error("Fetch map doctor error:", error);
+        setDoctor(null);
+      } finally {
+        setLoading(false);
+      }
     })();
   }, [id]);
 
@@ -30,7 +43,7 @@ export default function DoctorMapScreen() {
 
   if (loading) {
     return (
-      <View className="flex-1 items-center justify-center bg-slate-50">
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: "#f8fafc" }}>
         <ActivityIndicator color="#0f172a" />
       </View>
     );
@@ -38,37 +51,43 @@ export default function DoctorMapScreen() {
 
   if (!doctor) {
     return (
-      <View className="flex-1 items-center justify-center bg-slate-50 px-6">
-        <Text className="text-center text-lg font-black text-slate-950">لم يتم العثور على الطبيب</Text>
-        <Link href="/" asChild>
-          <Pressable className="mt-4 min-h-12 items-center justify-center rounded-2xl bg-slate-950 px-6">
-            <Text className="text-sm font-black text-white">العودة للرئيسية</Text>
-          </Pressable>
-        </Link>
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: "#f8fafc", paddingHorizontal: 24 }}>
+        <Text style={{ textAlign: "center", fontSize: 18, fontWeight: "900", color: "#020617" }}>لم يتم العثور على الطبيب</Text>
+        <Pressable onPress={() => router.push("/")} style={{ marginTop: 16, minHeight: 48, alignItems: "center", justifyContent: "center", borderRadius: 16, backgroundColor: "#0f172a", paddingHorizontal: 24 }}>
+          <Text style={{ fontSize: 14, fontWeight: "900", color: "#fff" }}>العودة للرئيسية</Text>
+        </Pressable>
       </View>
     );
   }
 
   return (
-    <ScrollView className="flex-1 bg-slate-50" contentContainerStyle={{ padding: 16, paddingBottom: 120 }}>
-      <View className="rounded-3xl bg-white p-5">
-        <Text className="text-sm font-black text-sky-600">خريطة العيادة</Text>
-        <Text className="mt-2 text-3xl font-black text-slate-950">{doctor.name}</Text>
-        <Text className="mt-2 text-sm font-semibold text-slate-500">{doctorMapLabel(doctor)}</Text>
+    <ScrollView style={{ flex: 1, backgroundColor: "#f8fafc" }} contentContainerStyle={{ padding: 16, paddingBottom: 120 }}>
+      {/* Top Header with Back Button */}
+      <View style={{ flexDirection: "row-reverse", alignItems: "center", justifyContent: "space-between", marginBottom: 16, backgroundColor: "white", padding: 16, borderRadius: 24, borderWidth: 1, borderColor: "#e2e8f0" }}>
+        <View style={{ alignItems: "flex-end", flex: 1, marginLeft: 12 }}>
+          <Text style={{ fontSize: 12, fontWeight: "900", color: "#64748b" }}>خريطة العيادة</Text>
+          <Text style={{ fontSize: 18, fontWeight: "900", color: "#0f172a", marginTop: 4, textAlign: "right" }}>{doctor.name}</Text>
+        </View>
+        <Pressable onPress={() => router.back()} style={{ height: 40, width: 40, borderRadius: 20, backgroundColor: "#f1f5f9", alignItems: "center", justifyContent: "center" }}>
+          <Feather name="arrow-right" size={20} color="#0f172a" />
+        </Pressable>
       </View>
 
-      <View className="mt-4">
+      <View style={{ borderRadius: 24, backgroundColor: "white", padding: 20, borderWidth: 1, borderColor: "#e2e8f0" }}>
+        <Text style={{ fontSize: 12, fontWeight: "900", color: "#64748b", textAlign: "right" }}>العنوان بالتفصيل</Text>
+        <Text style={{ marginTop: 6, fontSize: 15, fontWeight: "700", color: "#1e293b", textAlign: "right" }}>{doctorMapLabel(doctor)}</Text>
+      </View>
+
+      <View style={{ marginTop: 16 }}>
         <ClinicMap doctor={doctor} />
       </View>
 
-      <View className="mt-4 flex-row gap-3">
-        <Link href={`/doctors/${doctor.id}`} asChild>
-          <Pressable className="flex-1 min-h-12 items-center justify-center rounded-2xl bg-slate-900 px-4">
-            <Text className="text-sm font-black text-white">العودة للملف</Text>
-          </Pressable>
-        </Link>
-        <Pressable onPress={openDeviceMap} className="flex-1 min-h-12 items-center justify-center rounded-2xl bg-sky-600 px-4">
-          <Text className="text-sm font-black text-white">فتح في خرائط الجهاز</Text>
+      <View style={{ marginTop: 16, flexDirection: "row", gap: 12 }}>
+        <Pressable onPress={() => router.back()} style={{ flex: 1, minHeight: 48, alignItems: "center", justifyContent: "center", borderRadius: 16, backgroundColor: "#0f172a", paddingHorizontal: 16 }}>
+          <Text style={{ fontSize: 14, fontWeight: "900", color: "#fff" }}>العودة للملف</Text>
+        </Pressable>
+        <Pressable onPress={openDeviceMap} style={{ flex: 1, minHeight: 48, alignItems: "center", justifyContent: "center", borderRadius: 16, backgroundColor: "#0ea5e9", paddingHorizontal: 16 }}>
+          <Text style={{ fontSize: 14, fontWeight: "900", color: "#fff" }}>فتح في خرائط الجهاز</Text>
         </Pressable>
       </View>
     </ScrollView>

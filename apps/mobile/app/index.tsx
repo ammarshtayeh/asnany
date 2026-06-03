@@ -13,7 +13,7 @@ import {
   TextInput,
   View,
 } from "react-native";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Location from "expo-location";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
@@ -688,7 +688,15 @@ function MoreScreen({
       <Pressable onPress={() => onOpenServices("partner")} style={styles.secondaryButton}>
         <Text style={styles.secondaryButtonText}>الشركاء والخدمات</Text>
       </Pressable>
-      <ExternalButton label="استمارة تسجيل طبيب" url={`${WEB_BASE_URL}/doctors/register`} color={colors.teal} />
+      <ExternalButton label="استمارة تسجيل طبيب (ويب)" url={`${WEB_BASE_URL}/doctors/register`} color={colors.teal} />
+      
+      <SectionHeader title="الحسابات وبوابات الدخول" />
+      <View style={{ gap: 8, marginBottom: 12 }}>
+        <NavigationButton label="🔐 تسجيل دخول الطبيب" path="/doctor/login" color={colors.sky} />
+        <NavigationButton label="⚙️ تسجيل دخول الإدارة" path="/admin/login" color="#0f172a" />
+        <NavigationButton label="📋 تسجيل عيادة جديدة" path="/doctors/register" color={colors.teal} />
+      </View>
+      
       <CreatorFooter />
     </View>
   );
@@ -752,20 +760,26 @@ function MiniMap({
         showsMyLocationButton={false}
         toolbarEnabled={false}
       >
-        {points.map((doctor, index) => (
-          <Marker
-            key={doctor.id}
-            coordinate={{ latitude: doctor.lat, longitude: doctor.lng }}
-            title={doctor.name}
-            description={`${doctor.city || ""}${doctor.area ? ` - ${doctor.area}` : ""}`}
-            onCalloutPress={() => openNativeMap(doctor)}
-          >
-            <View style={[styles.nativeMarker, { backgroundColor: index < 4 ? colors.sky : colors.emerald }]}>
-              <Text style={styles.nativeMarkerText}>{index + 1}</Text>
-            </View>
-          </Marker>
-        ))}
-        {userLocation ? (
+        {points.map((doctor, index) => {
+          const coords = doctorMapCoordinates(doctor);
+          if (!coords || !Number.isFinite(coords.latitude) || !Number.isFinite(coords.longitude)) {
+            return null;
+          }
+          return (
+            <Marker
+              key={doctor.id}
+              coordinate={{ latitude: coords.latitude, longitude: coords.longitude }}
+              title={doctor.name}
+              description={`${doctor.city || ""}${doctor.area ? ` - ${doctor.area}` : ""}`}
+              onCalloutPress={() => openNativeMap(doctor)}
+            >
+              <View style={[styles.nativeMarker, { backgroundColor: index < 4 ? colors.sky : colors.emerald }]}>
+                <Text style={styles.nativeMarkerText}>{index + 1}</Text>
+              </View>
+            </Marker>
+          );
+        })}
+        {userLocation && Number.isFinite(userLocation.lat) && Number.isFinite(userLocation.lng) ? (
           <Marker coordinate={{ latitude: userLocation.lat, longitude: userLocation.lng }} title="موقعي">
             <View style={{ alignItems: "center", justifyContent: "center" }}>
               <View style={{
@@ -1035,6 +1049,14 @@ function ContactButton({ phone, compact = false }: { phone: string; compact?: bo
 function ExternalButton({ label, url, color }: { label: string; url: string; color: string }) {
   return (
     <Pressable onPress={() => Linking.openURL(url)} style={[styles.contactButton, { backgroundColor: color }]}>
+      <Text style={styles.contactText}>{label}</Text>
+    </Pressable>
+  );
+}
+
+function NavigationButton({ label, path, color }: { label: string; path: string; color: string }) {
+  return (
+    <Pressable onPress={() => router.push(path as any)} style={[styles.contactButton, { backgroundColor: color }]}>
       <Text style={styles.contactText}>{label}</Text>
     </Pressable>
   );

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { ActivityIndicator, Alert, Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { router } from "expo-router";
+import { Feather } from "@expo/vector-icons";
 
 import { getMobileApiBaseUrl } from "../../lib/api-base";
 import { adminSession } from "../../lib/session";
@@ -132,29 +133,37 @@ export default function DoctorAccountsScreen() {
 
   if (!sessionReady) {
     return (
-      <View className="flex-1 items-center justify-center bg-slate-950">
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: "#020617" }}>
         <ActivityIndicator color="#fff" />
       </View>
     );
   }
 
   return (
-    <ScrollView className="flex-1 bg-slate-950" contentContainerStyle={{ padding: 20, paddingBottom: 48 }}>
-      <View className="mb-5 rounded-3xl border border-white/10 bg-white/5 p-6">
-        <Text className="text-3xl font-black text-white">حسابات الأطباء</Text>
-        <Text className="mt-2 text-sm font-medium leading-6 text-slate-300">
+    <ScrollView style={{ flex: 1, backgroundColor: "#020617" }} contentContainerStyle={{ padding: 20, paddingBottom: 48 }}>
+      <View style={{ marginBottom: 20, borderRadius: 24, borderWidth: 1, borderColor: "rgba(255,255,255,0.1)", backgroundColor: "rgba(255,255,255,0.05)", padding: 24 }}>
+        <View style={{ flexDirection: "row-reverse", alignItems: "center", justifyContent: "space-between" }}>
+          <View style={{ alignItems: "flex-end" }}>
+            <Text style={{ fontSize: 30, fontWeight: "900", color: "#fff", textAlign: "right" }}>حسابات الأطباء</Text>
+            <Text style={{ marginTop: 4, fontSize: 13, fontWeight: "500", color: "#cbd5e1", textAlign: "right" }}>لوحة تحكم الأدمن</Text>
+          </View>
+          <Pressable onPress={() => router.back()} style={{ height: 40, width: 40, borderRadius: 20, backgroundColor: "rgba(255,255,255,0.1)", alignItems: "center", justifyContent: "center" }}>
+            <Feather name="arrow-right" size={20} color="#fff" />
+          </Pressable>
+        </View>
+        <Text style={{ marginTop: 12, fontSize: 14, fontWeight: "500", lineHeight: 24, color: "#cbd5e1", textAlign: "right" }}>
           من هنا ينشئ الأدمن حسابات الأطباء ويحدد الخصم والبيانات الأساسية قبل دخول الطبيب للنظام.
         </Text>
         <Pressable
           onPress={() => router.push("/admin/login")}
-          className="mt-4 self-start rounded-2xl border border-white/10 bg-white/10 px-4 py-3"
+          style={{ marginTop: 16, alignSelf: "flex-end", borderRadius: 16, borderWidth: 1, borderColor: "rgba(255,255,255,0.1)", backgroundColor: "rgba(255,255,255,0.1)", paddingHorizontal: 16, paddingVertical: 12 }}
         >
-          <Text className="text-sm font-black text-white">تبديل الحساب</Text>
+          <Text style={{ fontSize: 14, fontWeight: "900", color: "#fff" }}>تبديل الحساب</Text>
         </Pressable>
       </View>
 
-      <View className="mb-5 rounded-3xl bg-white p-5">
-        <Text className="mb-4 text-lg font-black text-slate-950">إنشاء حساب طبيب</Text>
+      <View style={{ marginBottom: 20, borderRadius: 24, backgroundColor: "#fff", padding: 20 }}>
+        <Text style={{ marginBottom: 16, fontSize: 18, fontWeight: "900", color: "#0f172a", textAlign: "right" }}>إنشاء حساب طبيب</Text>
 
         <Input label="الاسم الكامل" value={form.fullName} onChangeText={(value) => updateField("fullName", value)} />
         <Input label="البريد الإلكتروني" value={form.email} onChangeText={(value) => updateField("email", value)} keyboardType="email-address" autoCapitalize="none" />
@@ -170,31 +179,31 @@ export default function DoctorAccountsScreen() {
         <Pressable
           onPress={createDoctor}
           disabled={!canSubmit || saving}
-          className={`mt-3 min-h-14 items-center justify-center rounded-2xl ${canSubmit && !saving ? "bg-sky-600" : "bg-slate-300"}`}
+          style={{ marginTop: 12, minHeight: 56, alignItems: "center", justifyContent: "center", borderRadius: 16, backgroundColor: canSubmit && !saving ? "#0284c7" : "#cbd5e1" }}
         >
-          {saving ? <ActivityIndicator color="#fff" /> : <Text className="text-base font-black text-white">إنشاء الحساب</Text>}
+          {saving ? <ActivityIndicator color="#fff" /> : <Text style={{ fontSize: 16, fontWeight: "900", color: "#fff" }}>إنشاء الحساب</Text>}
         </Pressable>
       </View>
 
-      <View className="rounded-3xl bg-white p-5">
-        <View className="mb-4 flex-row items-center justify-between">
-          <Text className="text-lg font-black text-slate-950">الأطباء المسجلون</Text>
-          <Pressable onPress={() => refreshDoctors()} className="rounded-2xl bg-slate-100 px-4 py-2">
-            <Text className="text-sm font-black text-slate-700">تحديث</Text>
+      <View style={{ borderRadius: 24, backgroundColor: "#fff", padding: 20 }}>
+        <View style={{ marginBottom: 16, flexDirection: "row-reverse", alignItems: "center", justifyContent: "space-between" }}>
+          <Text style={{ fontSize: 18, fontWeight: "900", color: "#0f172a" }}>الأطباء المسجلون</Text>
+          <Pressable onPress={() => refreshDoctors()} style={{ borderRadius: 16, backgroundColor: "#f1f5f9", paddingHorizontal: 16, paddingVertical: 8 }}>
+            <Text style={{ fontSize: 14, fontWeight: "900", color: "#334155" }}>تحديث</Text>
           </Pressable>
         </View>
 
         {loading ? (
           <ActivityIndicator color="#0284c7" />
         ) : doctors.length === 0 ? (
-          <Text className="text-sm font-medium leading-6 text-slate-500">لا توجد حسابات أطباء بعد.</Text>
+          <Text style={{ fontSize: 14, fontWeight: "500", lineHeight: 24, color: "#64748b", textAlign: "right" }}>لا توجد حسابات أطباء بعد.</Text>
         ) : (
           doctors.map((doctor, index) => (
-            <View key={doctor.id ?? index} className="mb-3 rounded-2xl border border-slate-200 bg-slate-50 p-4">
-              <Text className="text-base font-black text-slate-950">{doctor.name ?? doctor.full_name ?? doctor.fullName ?? "طبيب"}</Text>
-              <Text className="mt-1 text-sm font-medium text-slate-600">{doctor.email ?? "بريد غير متوفر"}</Text>
-              <Text className="mt-1 text-sm font-medium text-slate-600">
-                {doctor.specialty ?? doctor.specialty_name ?? "التخصص غير محدد"} - {doctor.city ?? "المدينة غير محددة"}
+            <View key={doctor.id ?? index} style={{ marginBottom: 12, borderRadius: 16, borderWidth: 1, borderColor: "#e2e8f0", backgroundColor: "#f8fafc", padding: 16 }}>
+              <Text style={{ fontSize: 16, fontWeight: "900", color: "#0f172a", textAlign: "right" }}>{doctor.name ?? doctor.full_name ?? doctor.fullName ?? "طبيب"}</Text>
+              <Text style={{ marginTop: 4, fontSize: 14, fontWeight: "500", color: "#475569", textAlign: "right" }}>{doctor.email ?? "بريد غير متوفر"}</Text>
+              <Text style={{ marginTop: 4, fontSize: 14, fontWeight: "500", color: "#475569", textAlign: "right" }}>
+                {doctor.specialty ?? doctor.specialty_name ?? "التخصص غير محدد"} - {doctor.city ?? "المدينة غير حددة"}
               </Text>
             </View>
           ))
@@ -222,8 +231,8 @@ function Input({
   autoCapitalize?: "none" | "sentences" | "words" | "characters";
 }) {
   return (
-    <View className="mb-3">
-      <Text className="mb-2 text-xs font-black uppercase tracking-[0.2em] text-slate-500">{label}</Text>
+    <View style={{ marginBottom: 12 }}>
+      <Text style={{ marginBottom: 8, fontSize: 12, fontWeight: "900", color: "#64748b", textAlign: "right" }}>{label}</Text>
       <TextInput
         value={value}
         onChangeText={onChangeText}
@@ -231,7 +240,7 @@ function Input({
         secureTextEntry={secureTextEntry}
         keyboardType={keyboardType}
         autoCapitalize={autoCapitalize}
-        className="min-h-14 rounded-2xl border border-slate-200 bg-slate-50 px-4 text-base font-medium text-slate-950"
+        style={{ minHeight: 56, borderRadius: 16, borderWidth: 1, borderColor: "#e2e8f0", backgroundColor: "#f8fafc", paddingHorizontal: 16, fontSize: 16, fontWeight: "500", color: "#0f172a", textAlign: "right" }}
       />
     </View>
   );

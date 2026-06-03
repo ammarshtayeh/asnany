@@ -175,37 +175,37 @@ export default function DoctorDashboardScreen() {
 
   if (!ready) {
     return (
-      <View className="flex-1 items-center justify-center bg-slate-950">
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: "#020617" }}>
         <ActivityIndicator color="#fff" />
       </View>
     );
   }
 
   return (
-    <ScrollView className="flex-1 bg-slate-950" contentContainerStyle={{ padding: 20, paddingBottom: 48 }}>
-      <View className="mb-5 rounded-3xl border border-white/10 bg-white/5 p-6">
-        <Text className="text-3xl font-black text-white">لوحة الطبيب</Text>
-        <Text className="mt-2 text-sm font-medium leading-6 text-slate-300">
+    <ScrollView style={{ flex: 1, backgroundColor: "#020617" }} contentContainerStyle={{ padding: 20, paddingBottom: 48 }}>
+      <View style={{ marginBottom: 20, borderRadius: 24, borderWidth: 1, borderColor: "rgba(255,255,255,0.1)", backgroundColor: "rgba(255,255,255,0.05)", padding: 24 }}>
+        <Text style={{ fontSize: 30, fontWeight: "900", color: "#fff", textAlign: "right" }}>لوحة الطبيب</Text>
+        <Text style={{ marginTop: 8, fontSize: 14, fontWeight: "500", lineHeight: 24, color: "#cbd5e1", textAlign: "right" }}>
           هنا الطبيب يدير الحضور، الخصم، والبيانات الأساسية، ويشوف الحجوزات التي وصلت له من الموقع والتطبيق.
         </Text>
-        <View className="mt-4 flex-row gap-3">
-          <Pressable onPress={() => router.push("/doctor/notifications")} className="rounded-2xl bg-sky-500 px-4 py-3">
-            <View className="flex-row items-center gap-2">
+        <View style={{ marginTop: 16, flexDirection: "row-reverse", gap: 12 }}>
+          <Pressable onPress={() => router.push("/doctor/notifications")} style={{ borderRadius: 16, backgroundColor: "#0ea5e9", paddingHorizontal: 16, paddingVertical: 12 }}>
+            <View style={{ flexDirection: "row-reverse", alignItems: "center", gap: 8 }}>
               <Feather name="bell" size={16} color="#fff" />
-              <Text className="text-sm font-black text-white">الإشعارات</Text>
+              <Text style={{ fontSize: 14, fontWeight: "900", color: "#fff" }}>الإشعارات</Text>
             </View>
           </Pressable>
-          <Pressable onPress={() => refresh(token)} className="rounded-2xl bg-white/10 px-4 py-3">
-            <Text className="text-sm font-black text-white">تحديث</Text>
+          <Pressable onPress={() => refresh(token)} style={{ borderRadius: 16, backgroundColor: "rgba(255,255,255,0.1)", paddingHorizontal: 16, paddingVertical: 12 }}>
+            <Text style={{ fontSize: 14, fontWeight: "900", color: "#fff" }}>تحديث</Text>
           </Pressable>
-          <Pressable onPress={signOut} className="rounded-2xl bg-rose-500 px-4 py-3">
-            <Text className="text-sm font-black text-white">تسجيل خروج</Text>
+          <Pressable onPress={signOut} style={{ borderRadius: 16, backgroundColor: "#f43f5e", paddingHorizontal: 16, paddingVertical: 12 }}>
+            <Text style={{ fontSize: 14, fontWeight: "900", color: "#fff" }}>تسجيل خروج</Text>
           </Pressable>
         </View>
       </View>
 
-      <View className="mb-5 rounded-3xl bg-white p-5">
-        <Text className="mb-4 text-lg font-black text-slate-950">بيانات العيادة</Text>
+      <View style={{ marginBottom: 20, borderRadius: 24, backgroundColor: "#fff", padding: 20 }}>
+        <Text style={{ marginBottom: 16, fontSize: 18, fontWeight: "900", color: "#0f172a", textAlign: "right" }}>بيانات العيادة</Text>
 
         <Field label="المدينة" value={profile.city ?? ""} onChangeText={(value) => setProfile((current) => ({ ...current, city: value }))} />
         <Field label="المنطقة" value={profile.area ?? ""} onChangeText={(value) => setProfile((current) => ({ ...current, area: value }))} />
@@ -214,10 +214,10 @@ export default function DoctorDashboardScreen() {
         <Field label="قيمة الخصم" value={profile.discount_value ?? ""} onChangeText={(value) => setProfile((current) => ({ ...current, discount_value: value }))} />
         <Field label="ملاحظة الخصم" value={profile.discount_note ?? ""} onChangeText={(value) => setProfile((current) => ({ ...current, discount_note: value }))} />
 
-        <View className="mt-2 flex-row items-center justify-between rounded-2xl bg-slate-50 px-4 py-4">
-          <View>
-            <Text className="text-sm font-black text-slate-950">موجود في العيادة الآن</Text>
-            <Text className="mt-1 text-xs font-medium text-slate-500">تظهر هذه الحالة في الموقع والتطبيق.</Text>
+        <View style={{ marginTop: 8, flexDirection: "row-reverse", alignItems: "center", justifyContent: "space-between", borderRadius: 16, backgroundColor: "#f8fafc", paddingHorizontal: 16, paddingVertical: 16 }}>
+          <View style={{ alignItems: "flex-end" }}>
+            <Text style={{ fontSize: 14, fontWeight: "900", color: "#0f172a", textAlign: "right" }}>موجود في العيادة الآن</Text>
+            <Text style={{ marginTop: 4, fontSize: 12, fontWeight: "500", color: "#64748b", textAlign: "right" }}>تظهر هذه الحالة في الموقع والتطبيق.</Text>
           </View>
           <Switch
             value={Boolean(profile.is_available)}
@@ -225,10 +225,10 @@ export default function DoctorDashboardScreen() {
           />
         </View>
 
-        <View className="mt-2 flex-row items-center justify-between rounded-2xl bg-slate-50 px-4 py-4">
-          <View>
-            <Text className="text-sm font-black text-slate-950">يقبل بطاقة الخصم</Text>
-            <Text className="mt-1 text-xs font-medium text-slate-500">تظهر البطاقة للمستخدمين المشتركين.</Text>
+        <View style={{ marginTop: 12, flexDirection: "row-reverse", alignItems: "center", justifyContent: "space-between", borderRadius: 16, backgroundColor: "#f8fafc", paddingHorizontal: 16, paddingVertical: 16 }}>
+          <View style={{ alignItems: "flex-end" }}>
+            <Text style={{ fontSize: 14, fontWeight: "900", color: "#0f172a", textAlign: "right" }}>يقبل بطاقة الخصم</Text>
+            <Text style={{ marginTop: 4, fontSize: 12, fontWeight: "500", color: "#64748b", textAlign: "right" }}>تظهر البطاقة للمستخدمين المشتركين.</Text>
           </View>
           <Switch
             value={Boolean(profile.accepts_discount_card)}
@@ -236,55 +236,55 @@ export default function DoctorDashboardScreen() {
           />
         </View>
 
-        <Text className="mt-4 mb-2 text-xs font-black uppercase tracking-[0.2em] text-slate-500">الدوام الأسبوعي</Text>
+        <Text style={{ marginTop: 16, marginBottom: 8, fontSize: 12, fontWeight: "900", color: "#64748b", textAlign: "right" }}>الدوام الأسبوعي</Text>
         <TextInput
           multiline
           value={hoursText}
           onChangeText={setHoursText}
           placeholder='{"السبت":"9:00 - 13:00","الأحد":"مغلق"}'
-          className="min-h-28 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm font-medium text-slate-950"
+          style={{ minHeight: 112, borderRadius: 16, borderWidth: 1, borderColor: "#e2e8f0", backgroundColor: "#f8fafc", padding: 16, fontSize: 14, fontWeight: "500", color: "#0f172a", textAlign: "right" }}
         />
 
         <Pressable
           onPress={updateProfile}
           disabled={saving}
-          className={`mt-4 min-h-14 items-center justify-center rounded-2xl ${saving ? "bg-slate-300" : "bg-sky-600"}`}
+          style={{ marginTop: 16, minHeight: 56, alignItems: "center", justifyContent: "center", borderRadius: 16, backgroundColor: saving ? "#cbd5e1" : "#0284c7" }}
         >
-          {saving ? <ActivityIndicator color="#fff" /> : <Text className="text-base font-black text-white">حفظ البيانات</Text>}
+          {saving ? <ActivityIndicator color="#fff" /> : <Text style={{ fontSize: 16, fontWeight: "900", color: "#white" }}>حفظ البيانات</Text>}
         </Pressable>
       </View>
 
-      <View className="rounded-3xl bg-white p-5">
-        <Text className="mb-4 text-lg font-black text-slate-950">الحجوزات الواردة</Text>
+      <View style={{ borderRadius: 24, backgroundColor: "#fff", padding: 20 }}>
+        <Text style={{ marginBottom: 16, fontSize: 18, fontWeight: "900", color: "#0f172a", textAlign: "right" }}>الحجوزات الواردة</Text>
 
         {loading ? (
           <ActivityIndicator color="#0284c7" />
         ) : appointments.length === 0 ? (
-          <Text className="text-sm font-medium leading-6 text-slate-500">لا توجد حجوزات حالياً.</Text>
+          <Text style={{ fontSize: 14, fontWeight: "500", lineHeight: 24, color: "#64748b", textAlign: "right" }}>لا توجد حجوزات حالياً.</Text>
         ) : (
           appointments.map((appointment) => (
-            <View key={appointment.id} className="mb-3 rounded-2xl border border-slate-200 bg-slate-50 p-4">
-              <Text className="text-base font-black text-slate-950">{appointment.patient_full_name ?? "مريض"}</Text>
-              <Text className="mt-1 text-sm font-medium text-slate-600">
+            <View key={appointment.id} style={{ marginBottom: 12, borderRadius: 16, borderWidth: 1, borderColor: "#e2e8f0", backgroundColor: "#f8fafc", padding: 16 }}>
+              <Text style={{ fontSize: 16, fontWeight: "900", color: "#0f172a", textAlign: "right" }}>{appointment.patient_full_name ?? "مريض"}</Text>
+              <Text style={{ marginTop: 4, fontSize: 14, fontWeight: "500", color: "#475569", textAlign: "right" }}>
                 {appointment.patient_phone ?? ""} {appointment.patient_identity ? `- ${appointment.patient_identity}` : ""}
               </Text>
-              <Text className="mt-1 text-sm font-medium text-slate-600">
+              <Text style={{ marginTop: 4, fontSize: 14, fontWeight: "500", color: "#475569", textAlign: "right" }}>
                 {appointment.date ?? ""} {appointment.time ? `- ${appointment.time}` : ""}
               </Text>
-              <Text className="mt-1 text-xs font-medium text-slate-500">{appointment.patient_address ?? ""}</Text>
-              {appointment.notes ? <Text className="mt-2 text-sm font-medium text-slate-700">{appointment.notes}</Text> : null}
-              <View className="mt-3 flex-row gap-2">
+              <Text style={{ marginTop: 4, fontSize: 12, fontWeight: "500", color: "#64748b", textAlign: "right" }}>{appointment.patient_address ?? ""}</Text>
+              {appointment.notes ? <Text style={{ marginTop: 8, fontSize: 14, fontWeight: "500", color: "#334155", textAlign: "right" }}>{appointment.notes}</Text> : null}
+              <View style={{ marginTop: 12, flexDirection: "row-reverse", gap: 8 }}>
                 <Pressable
                   onPress={() => updateAppointmentStatus(appointment.id, "confirmed")}
-                  className="rounded-2xl bg-emerald-600 px-4 py-2"
+                  style={{ borderRadius: 16, backgroundColor: "#059669", paddingHorizontal: 16, paddingVertical: 8 }}
                 >
-                  <Text className="text-sm font-black text-white">تأكيد</Text>
+                  <Text style={{ fontSize: 14, fontWeight: "900", color: "#fff" }}>تأكيد</Text>
                 </Pressable>
                 <Pressable
                   onPress={() => updateAppointmentStatus(appointment.id, "cancelled")}
-                  className="rounded-2xl bg-rose-500 px-4 py-2"
+                  style={{ borderRadius: 16, backgroundColor: "#f43f5e", paddingHorizontal: 16, paddingVertical: 8 }}
                 >
-                  <Text className="text-sm font-black text-white">إلغاء</Text>
+                  <Text style={{ fontSize: 14, fontWeight: "900", color: "#fff" }}>إلغاء</Text>
                 </Pressable>
               </View>
             </View>
@@ -307,13 +307,13 @@ function Field({
   keyboardType?: "default" | "phone-pad" | "email-address" | "numeric";
 }) {
   return (
-    <View className="mb-3">
-      <Text className="mb-2 text-xs font-black uppercase tracking-[0.2em] text-slate-500">{label}</Text>
+    <View style={{ marginBottom: 12 }}>
+      <Text style={{ marginBottom: 8, fontSize: 12, fontWeight: "900", color: "#64748b", textAlign: "right" }}>{label}</Text>
       <TextInput
         value={value}
         onChangeText={onChangeText}
         keyboardType={keyboardType}
-        className="min-h-14 rounded-2xl border border-slate-200 bg-slate-50 px-4 text-base font-medium text-slate-950"
+        style={{ minHeight: 56, borderRadius: 16, borderWidth: 1, borderColor: "#e2e8f0", backgroundColor: "#f8fafc", paddingHorizontal: 16, fontSize: 16, fontWeight: "500", color: "#0f172a", textAlign: "right" }}
       />
     </View>
   );

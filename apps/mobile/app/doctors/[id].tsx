@@ -1,6 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { ActivityIndicator, Alert, Linking, Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { Link, useLocalSearchParams, router } from "expo-router";
+import { Feather } from "@expo/vector-icons";
 import { apiFetch } from "../../lib/api";
 import { Doctor } from "../../lib/types";
 import { AppCard } from "../../components/AppCard";
@@ -9,6 +10,7 @@ import { AppSubtitle, AppTitle } from "../../components/AppText";
 import { ClinicMap } from "../../components/ClinicMap";
 import { buildNativeMapsUrl } from "../../lib/map-links";
 import { registerPushSubscription } from "../../lib/notifications";
+import { supabase } from "../../lib/supabase";
 
 export default function DoctorProfileScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -24,13 +26,25 @@ export default function DoctorProfileScreen() {
   const [booking, setBooking] = useState(false);
 
   useEffect(() => {
+    if (!id) return;
     (async () => {
       setLoading(true);
-      const { data } = await apiFetch<{ doctors?: Doctor[] }>("/api/doctors");
-      const doctors = Array.isArray(data) ? data : Array.isArray(data?.doctors) ? data.doctors : [];
-      const found = doctors.find((item) => item.id === id) || null;
-      setDoctor(found);
-      setLoading(false);
+      try {
+        if (supabase) {
+          const { data, error } = await supabase
+            .from("doctors")
+            .select("*")
+            .eq("id", id)
+            .single();
+          if (error) throw error;
+          setDoctor(data || null);
+        }
+      } catch (error) {
+        console.error("Fetch doctor details error:", error);
+        setDoctor(null);
+      } finally {
+        setLoading(false);
+      }
     })();
   }, [id]);
 
@@ -82,6 +96,17 @@ export default function DoctorProfileScreen() {
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: "#f8fafc" }} contentContainerStyle={{ padding: 16, paddingBottom: 120 }}>
+      {/* Top Header with Back Button */}
+      <View style={{ flexDirection: "row-reverse", alignItems: "center", justifyContent: "space-between", marginBottom: 16, backgroundColor: "white", padding: 16, borderRadius: 24, borderWidth: 1, borderColor: "#e2e8f0" }}>
+        <View style={{ alignItems: "flex-end" }}>
+          <Text style={{ fontSize: 12, fontWeight: "900", color: "#64748b" }}>الملف الشخصي للأخصائي</Text>
+          <Text style={{ fontSize: 18, fontWeight: "900", color: "#0f172a", marginTop: 4 }}>{doctor.name}</Text>
+        </View>
+        <Pressable onPress={() => router.back()} style={{ height: 40, width: 40, borderRadius: 20, backgroundColor: "#f1f5f9", alignItems: "center", justifyContent: "center" }}>
+          <Feather name="arrow-right" size={20} color="#0f172a" />
+        </Pressable>
+      </View>
+
       <AppCard>
         <AppTitle>{doctor.name}</AppTitle>
         <AppSubtitle>{doctor.city || "غير محدد"} {doctor.area ? `• ${doctor.area}` : ""}</AppSubtitle>
@@ -100,14 +125,14 @@ export default function DoctorProfileScreen() {
         </View>
         <View style={{ flexDirection: "row", gap: 8, flexWrap: "wrap", justifyContent: "flex-end", marginTop: 14 }}>
           <AppButton label="واتساب" variant="secondary" onPress={whatsapp} />
-          <AppButton label="حجز" onPress={() => router.push(`/booking?doctorId=${doctor.id}`)} />
+          <AppButton label="حجز موعد" onPress={() => router.push(`/booking?doctorId=${doctor.id}`)} />
         </View>
       </AppCard>
 
       <ClinicMap doctor={doctor} />
 
       <View style={{ marginTop: 12, flexDirection: "row", gap: 8 }}>
-        <Link href={`/doctor/${doctor.id}/map`} asChild>
+        <Link href={`/doctors/${doctor.id}/map`} asChild>
           <Pressable style={{ flex: 1, minHeight: 48, borderRadius: 16, backgroundColor: "#0f172a", alignItems: "center", justifyContent: "center" }}>
             <Text style={{ color: "#fff", fontWeight: "900" }}>الخريطة داخل التطبيق</Text>
           </Pressable>

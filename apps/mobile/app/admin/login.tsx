@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { ActivityIndicator, Alert, KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { router } from "expo-router";
+import { Feather } from "@expo/vector-icons";
 
 import { getMobileApiBaseUrl } from "../../lib/api-base";
 import { adminSession } from "../../lib/session";
@@ -45,42 +46,45 @@ export default function AdminLoginScreen() {
   };
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} className="flex-1 bg-slate-950">
+    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={{ flex: 1, backgroundColor: "#020617" }}>
       <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps="handled">
-        <View className="flex-1 px-5 py-10">
-          <View className="mb-6 rounded-3xl border border-white/10 bg-white/5 p-6">
-            <Text className="text-3xl font-black text-white">دخول الأدمن</Text>
-            <Text className="mt-2 text-sm font-medium leading-6 text-slate-300">
-              من هنا يتم إنشاء حسابات الأطباء ومراجعة الحالات والربط مع النظام.
-            </Text>
+        <View style={{ flex: 1, paddingHorizontal: 20, paddingVertical: 40 }}>
+          <View style={{ flexDirection: "row-reverse", alignItems: "center", justifyContent: "space-between", marginBottom: 24, borderRadius: 24, borderWidth: 1, borderColor: "rgba(255,255,255,0.1)", backgroundColor: "rgba(255,255,255,0.05)", padding: 24 }}>
+            <View style={{ alignItems: "flex-end" }}>
+              <Text style={{ fontSize: 30, fontWeight: "900", color: "#fff", textAlign: "right" }}>دخول الأدمن</Text>
+              <Text style={{ marginTop: 8, fontSize: 13, fontWeight: "500", lineHeight: 20, color: "#cbd5e1", textAlign: "right" }}>إدارة الأطباء وتوثيق الحسابات</Text>
+            </View>
+            <Pressable onPress={() => router.back()} style={{ height: 40, width: 40, borderRadius: 20, backgroundColor: "rgba(255,255,255,0.1)", alignItems: "center", justifyContent: "center" }}>
+              <Feather name="arrow-right" size={20} color="#fff" />
+            </Pressable>
           </View>
 
-          <View className="rounded-3xl bg-white p-5">
-            <Text className="mb-2 text-xs font-black uppercase tracking-[0.2em] text-slate-500">البريد الإلكتروني</Text>
+          <View style={{ borderRadius: 24, backgroundColor: "#fff", padding: 20 }}>
+            <Text style={{ marginBottom: 8, fontSize: 12, fontWeight: "900", color: "#64748b", textAlign: "right" }}>البريد الإلكتروني</Text>
             <TextInput
               value={email}
               onChangeText={setEmail}
               autoCapitalize="none"
               keyboardType="email-address"
               placeholder="admin@asnany.ps"
-              className="mb-4 min-h-14 rounded-2xl border border-slate-200 bg-slate-50 px-4 text-base font-medium text-slate-950"
+              style={{ marginBottom: 16, minHeight: 56, borderRadius: 16, borderWidth: 1, borderColor: "#e2e8f0", backgroundColor: "#f8fafc", paddingHorizontal: 16, fontSize: 16, fontWeight: "500", color: "#0f172a", textAlign: "right" }}
             />
 
-            <Text className="mb-2 text-xs font-black uppercase tracking-[0.2em] text-slate-500">كلمة المرور</Text>
+            <Text style={{ marginBottom: 8, fontSize: 12, fontWeight: "900", color: "#64748b", textAlign: "right" }}>كلمة المرور</Text>
             <TextInput
               value={password}
               onChangeText={setPassword}
               secureTextEntry
               placeholder="••••••••"
-              className="mb-5 min-h-14 rounded-2xl border border-slate-200 bg-slate-50 px-4 text-base font-medium text-slate-950"
+              style={{ marginBottom: 20, minHeight: 56, borderRadius: 16, borderWidth: 1, borderColor: "#e2e8f0", backgroundColor: "#f8fafc", paddingHorizontal: 16, fontSize: 16, fontWeight: "500", color: "#0f172a", textAlign: "right" }}
             />
 
             <Pressable
               onPress={signIn}
               disabled={!canSubmit}
-              className={`min-h-14 items-center justify-center rounded-2xl ${canSubmit ? "bg-slate-950" : "bg-slate-300"}`}
+              style={{ minHeight: 56, alignItems: "center", justifyContent: "center", borderRadius: 16, backgroundColor: canSubmit ? "#0f172a" : "#cbd5e1" }}
             >
-              {loading ? <ActivityIndicator color="#fff" /> : <Text className="text-base font-black text-white">دخول</Text>}
+              {loading ? <ActivityIndicator color="#fff" /> : <Text style={{ fontSize: 16, fontWeight: "900", color: "#fff" }}>دخول</Text>}
             </Pressable>
           </View>
         </View>

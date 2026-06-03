@@ -42,6 +42,16 @@ export default function AdvertiseWithUs() {
 
   return (
     <main className="min-h-screen bg-[#f7fafc] pb-24 pt-24" dir="rtl">
+      {/* Back button */}
+      <div className="mx-auto max-w-[1400px] px-4 lg:px-8 mb-6">
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 px-5 py-2.5 rounded-full text-sm font-bold transition-all hover:scale-105"
+        >
+          <ArrowRight className="w-4 h-4" />
+          الرئيسية
+        </Link>
+      </div>
       <section className="mx-auto grid max-w-[1400px] gap-8 px-4 lg:grid-cols-[minmax(0,0.95fr)_minmax(420px,1.05fr)] lg:px-8">
         <div className="flex flex-col justify-center text-right">
           <span className="mb-4 inline-flex w-fit items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-4 py-2 text-xs font-black text-amber-700">

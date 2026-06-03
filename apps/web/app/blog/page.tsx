@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, BookOpen, Calendar, Clock, UserCircle2 } from "lucide-react";
+import { ArrowRight, ArrowLeft, BookOpen, Calendar, Clock, UserCircle2 } from "lucide-react";
 import { Article } from "@/lib/types";
 import { getArticles } from "@/lib/data";
 
@@ -26,6 +26,14 @@ export default function BlogPage() {
       <section className="mx-auto max-w-[1400px] px-4 lg:px-8">
         <div className="mb-8 flex flex-col gap-5 text-right md:flex-row md:items-end md:justify-between">
           <div>
+            {/* Back button */}
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2 bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 px-4 py-2 rounded-full text-xs font-bold transition-all hover:scale-105 mb-5"
+            >
+              <ArrowRight className="w-3.5 h-3.5" />
+              الرئيسية
+            </Link>
             <span className="mb-4 inline-flex w-fit items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-4 py-2 text-xs font-black text-emerald-700">
               <BookOpen className="h-4 w-4" />
               مجلة أسناني

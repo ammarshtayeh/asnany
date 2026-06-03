@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
-import { Alert, ScrollView, Text, TextInput, View } from "react-native";
+import { Alert, ScrollView, Text, TextInput, View, Pressable } from "react-native";
 import { useLocalSearchParams, router } from "expo-router";
+import { Feather } from "@expo/vector-icons";
 import { apiFetch } from "../lib/api";
 import { AppCard } from "../components/AppCard";
 import { AppButton } from "../components/Buttons";
@@ -55,6 +56,17 @@ export default function BookingScreen() {
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: "#f8fafc" }} contentContainerStyle={{ padding: 16, paddingBottom: 120 }}>
+      {/* Top Header with Back Button */}
+      <View style={{ flexDirection: "row-reverse", alignItems: "center", justifyContent: "space-between", marginBottom: 16, backgroundColor: "white", padding: 16, borderRadius: 24, borderWidth: 1, borderColor: "#e2e8f0" }}>
+        <View style={{ alignItems: "flex-end" }}>
+          <Text style={{ fontSize: 12, fontWeight: "900", color: "#64748b" }}>عيادات أسناني</Text>
+          <Text style={{ fontSize: 18, fontWeight: "900", color: "#0f172a", marginTop: 4 }}>حجز موعد جديد</Text>
+        </View>
+        <Pressable onPress={() => router.back()} style={{ height: 40, width: 40, borderRadius: 20, backgroundColor: "#f1f5f9", alignItems: "center", justifyContent: "center" }}>
+          <Feather name="arrow-right" size={20} color="#0f172a" />
+        </Pressable>
+      </View>
+
       <AppCard>
         <AppTitle>حجز موعد</AppTitle>
         <AppSubtitle>الاسم الرباعي، البريد الإلكتروني، الهوية، والعنوان تظهر للطبيب مباشرة لتأكيد حجزك.</AppSubtitle>
