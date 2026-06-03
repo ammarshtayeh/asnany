@@ -16,7 +16,6 @@ import {
 import { Link } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Location from "expo-location";
-import * as Notifications from "expo-notifications";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { Ionicons } from "@expo/vector-icons";
 import { colors, cities, specialties } from "../constants/theme";
@@ -89,7 +88,6 @@ export default function HomeScreen() {
 
   useEffect(() => {
     fetchData();
-    Notifications.getPermissionsAsync().catch(() => null);
     checkLocationPermissionAndFetch();
   }, []);
 
