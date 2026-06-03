@@ -173,6 +173,16 @@ export default function DoctorDashboardScreen() {
     router.replace("/doctor/login");
   };
 
+  const stats = useMemo(() => {
+    const today = new Date().toISOString().slice(0, 10);
+    return {
+      pending: appointments.filter((item) => item.status === "pending").length,
+      confirmed: appointments.filter((item) => item.status === "confirmed").length,
+      today: appointments.filter((item) => item.date === today).length,
+      total: appointments.length,
+    };
+  }, [appointments]);
+
   if (!ready) {
     return (
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: "#020617" }}>
@@ -204,8 +214,24 @@ export default function DoctorDashboardScreen() {
         </View>
       </View>
 
+      <View style={{ marginBottom: 20, flexDirection: "row-reverse", flexWrap: "wrap", gap: 10 }}>
+        <SummaryCard label="قيد المراجعة" value={stats.pending} />
+        <SummaryCard label="مؤكدة" value={stats.confirmed} />
+        <SummaryCard label="اليوم" value={stats.today} />
+        <SummaryCard label="الإجمالي" value={stats.total} />
+      </View>
+
       <View style={{ marginBottom: 20, borderRadius: 24, backgroundColor: "#fff", padding: 20 }}>
         <Text style={{ marginBottom: 16, fontSize: 18, fontWeight: "900", color: "#0f172a", textAlign: "right" }}>بيانات العيادة</Text>
+
+        <View style={{ marginBottom: 14, borderRadius: 16, backgroundColor: profile.is_available ? "#ecfdf5" : "#fef2f2", padding: 14 }}>
+          <Text style={{ fontSize: 14, fontWeight: "900", color: "#0f172a", textAlign: "right" }}>
+            {profile.is_available ? "العيادة متاحة حالياً" : "العيادة مغلقة الآن"}
+          </Text>
+          <Text style={{ marginTop: 4, fontSize: 12, fontWeight: "500", color: "#64748b", textAlign: "right" }}>
+            {profile.is_available ? "ستظهر للمرضى على أنها مفتوحة ويمكن الحجز منها." : "سيظهر ذلك للمرضى حتى تعيد تفعيلها."}
+          </Text>
+        </View>
 
         <Field label="المدينة" value={profile.city ?? ""} onChangeText={(value) => setProfile((current) => ({ ...current, city: value }))} />
         <Field label="المنطقة" value={profile.area ?? ""} onChangeText={(value) => setProfile((current) => ({ ...current, area: value }))} />
@@ -250,7 +276,7 @@ export default function DoctorDashboardScreen() {
           disabled={saving}
           style={{ marginTop: 16, minHeight: 56, alignItems: "center", justifyContent: "center", borderRadius: 16, backgroundColor: saving ? "#cbd5e1" : "#0284c7" }}
         >
-          {saving ? <ActivityIndicator color="#fff" /> : <Text style={{ fontSize: 16, fontWeight: "900", color: "#white" }}>حفظ البيانات</Text>}
+          {saving ? <ActivityIndicator color="#fff" /> : <Text style={{ fontSize: 16, fontWeight: "900", color: "#fff" }}>حفظ البيانات</Text>}
         </Pressable>
       </View>
 
@@ -292,6 +318,15 @@ export default function DoctorDashboardScreen() {
         )}
       </View>
     </ScrollView>
+  );
+}
+
+function SummaryCard({ label, value }: { label: string; value: number }) {
+  return (
+    <View style={{ minWidth: 120, flex: 1, borderRadius: 18, backgroundColor: "rgba(255,255,255,0.08)", borderWidth: 1, borderColor: "rgba(255,255,255,0.08)", padding: 14 }}>
+      <Text style={{ fontSize: 12, fontWeight: "900", color: "#cbd5e1", textAlign: "right" }}>{label}</Text>
+      <Text style={{ marginTop: 6, fontSize: 24, fontWeight: "900", color: "#fff", textAlign: "right" }}>{value}</Text>
+    </View>
   );
 }
 
