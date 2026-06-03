@@ -480,11 +480,17 @@ export default function DoctorRegister() {
               )}
 
               {/* Submit */}
-              <div className="flex justify-end gap-3 border-t border-slate-100 pt-6 mt-6">
+              <div className="flex flex-col sm:flex-row justify-end gap-3 border-t border-slate-100 pt-6 mt-6">
+                <Link
+                  href="/join"
+                  className="w-full sm:w-auto bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-8 py-4 rounded-2xl text-center transition-all text-sm flex justify-center items-center gap-2"
+                >
+                  إلغاء والرجوع
+                </Link>
                 <button
                   type="submit"
                   disabled={saving}
-                  className="w-full bg-slate-900 hover:bg-slate-800 text-white font-black px-10 py-4 rounded-2xl shadow-xl transition-all disabled:opacity-50 text-sm flex justify-center items-center gap-2 hover:scale-[1.02]"
+                  className="flex-1 bg-slate-900 hover:bg-slate-800 text-white font-black px-10 py-4 rounded-2xl shadow-xl transition-all disabled:opacity-50 text-sm flex justify-center items-center gap-2 hover:scale-[1.02]"
                 >
                   {saving ? "جاري إرسال البيانات..." : "💾 إرسال طلب تسجيل العيادة"}
                 </button>

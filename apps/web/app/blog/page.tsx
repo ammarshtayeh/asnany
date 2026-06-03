@@ -102,6 +102,16 @@ export default function BlogPage() {
           </Link>
         ))}
       </section>
+
+      <div className="mt-12 flex justify-center">
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white px-8 py-4 rounded-2xl text-sm font-black shadow-xl transition-all hover:scale-[1.02]"
+        >
+          <ArrowRight className="w-4 h-4" />
+          العودة للرئيسية
+        </Link>
+      </div>
     </main>
   );
 }

@@ -93,6 +93,22 @@ export default function ArticlePage() {
             {article.content.split('\n\n').map((paragraph, idx) => (
               <p key={idx} className="mb-6">{paragraph}</p>
             ))}
+            
+            <div className="mt-12 pt-8 border-t border-slate-100 flex flex-wrap gap-4">
+              <Link 
+                href="/blog"
+                className="inline-flex items-center gap-2 bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 px-6 py-3 rounded-2xl text-sm font-black transition-all hover:scale-[1.02]"
+              >
+                <ChevronRight className="w-4 h-4" />
+                العودة للمجلة
+              </Link>
+              <Link 
+                href="/"
+                className="inline-flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white px-6 py-3 rounded-2xl text-sm font-black transition-all hover:scale-[1.02]"
+              >
+                الرئيسية
+              </Link>
+            </div>
           </div>
         </div>
 

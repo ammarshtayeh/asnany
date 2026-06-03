@@ -7,7 +7,7 @@ import Link from "next/link";
 import { Doctor } from "@/lib/types";
 import { getDistance } from "@/lib/distance";
 import { buildDeviceMapUrl, doctorMapCoordinates } from "@/lib/map-links";
-import { Star, MapPin, CheckCircle2, Clock, Calendar, Navigation, Route, Award, HeartPulse, Sparkles, Map, Heart } from "lucide-react";
+import { Star, MapPin, CheckCircle2, Clock, Calendar, Navigation, Route, Award, HeartPulse, Sparkles, Map, Heart, ArrowRight } from "lucide-react";
 
 const DoctorMap = dynamic(() => import("@/components/DoctorMap"), { ssr: false });
 
@@ -593,6 +593,17 @@ export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
             </a>
           </div>
         </div>
+      </div>
+      
+      {/* Bottom Back Button */}
+      <div className="mt-12 flex justify-center pb-12">
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white px-8 py-4 rounded-2xl text-sm font-black shadow-xl transition-all hover:scale-[1.02]"
+        >
+          <ArrowRight className="w-4 h-4" />
+          العودة للرئيسية
+        </Link>
       </div>
     </div>
   );
