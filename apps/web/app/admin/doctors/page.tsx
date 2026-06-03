@@ -46,6 +46,12 @@ export default function AdminDoctors() {
 
   useEffect(() => {
     fetchDoctors();
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("add") === "true") {
+        setShowAddModal(true);
+      }
+    }
   }, []);
 
   const handleToggleVerify = async (id: string, currentStatus: boolean) => {

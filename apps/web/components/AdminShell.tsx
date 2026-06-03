@@ -2,24 +2,16 @@
 
 import { useState } from "react";
 import { usePathname } from "next/navigation";
-import { Users, Calendar as CalendarIcon, Megaphone, Store, Star, LayoutDashboard, LogOut, Link2, Check, Sparkles, Menu, X, FileText, KeyRound } from "lucide-react";
+import { Users, Calendar as CalendarIcon, Megaphone, Store, Star, LayoutDashboard, LogOut, Sparkles, Menu, X, FileText, KeyRound, Plus } from "lucide-react";
 import Link from "next/link";
 
 export default function AdminShell({ children }: { children: React.ReactNode }) {
-  const [copied, setCopied] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
 
   if (pathname === "/admin/login") {
     return <>{children}</>;
   }
-
-  const handleCopyLink = () => {
-    const registrationUrl = `${window.location.origin}/doctors/register`;
-    navigator.clipboard.writeText(registrationUrl);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
 
   return (
     <div className="min-h-screen bg-slate-50 flex" dir="rtl">
@@ -58,6 +50,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
             <nav className="flex flex-1 flex-col gap-1 overflow-y-auto p-3">
               <AdminLink href="/admin" icon={LayoutDashboard} label="الرئيسية" onClick={() => setMobileOpen(false)} />
               <AdminLink href="/admin/doctors" icon={Users} label="الأطباء" onClick={() => setMobileOpen(false)} />
+              <AdminLink href="/admin/doctors?add=true" icon={Plus} label="تسجيل عيادة جديدة" onClick={() => setMobileOpen(false)} />
               <AdminLink href="/admin/doctor-accounts" icon={KeyRound} label="حسابات الأطباء" onClick={() => setMobileOpen(false)} />
               <AdminLink href="/admin/appointments" icon={CalendarIcon} label="المواعيد" onClick={() => setMobileOpen(false)} />
               <AdminLink href="/admin/ads" icon={Megaphone} label="الإعلانات" onClick={() => setMobileOpen(false)} />
@@ -83,6 +76,9 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
           <Link href="/admin/doctors" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:bg-white/10 hover:text-white transition-colors">
             <Users className="w-5 h-5" /> الأطباء
           </Link>
+          <Link href="/admin/doctors?add=true" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:bg-white/10 hover:text-white transition-colors">
+            <Plus className="w-5 h-5" /> تسجيل عيادة جديدة
+          </Link>
           <Link href="/admin/doctor-accounts" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:bg-white/10 hover:text-white transition-colors">
             <KeyRound className="w-5 h-5" /> حسابات الأطباء
           </Link>
@@ -105,22 +101,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
             <Star className="w-5 h-5" /> التقييمات
           </Link>
 
-          <div className="px-3 mt-4">
-            <button
-              onClick={handleCopyLink}
-              className={`w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-bold text-xs transition-all shadow-md border-0 cursor-pointer ${copied ? "bg-emerald-500 hover:bg-emerald-600 text-white shadow-emerald-500/10" : "bg-primary hover:bg-primary-dark text-white shadow-primary/10"}`}
-            >
-              {copied ? (
-                <>
-                  <Check className="w-4 h-4" /> تم نسخ الرابط!
-                </>
-              ) : (
-                <>
-                  <Link2 className="w-4 h-4" /> نسخ رابط تسجيل الأطباء
-                </>
-              )}
-            </button>
-          </div>
+
         </nav>
 
         <div className="p-4 border-t border-white/10">

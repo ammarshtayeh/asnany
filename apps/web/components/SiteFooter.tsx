@@ -38,7 +38,7 @@ export default function SiteFooter() {
           </div>
         </div>
         <div className="flex flex-wrap gap-5 text-sm font-black text-slate-600">
-          <Link href="/doctors/register" className="hover:text-sky-600">انضم كطبيب</Link>
+          <Link href="/join" className="hover:text-sky-600">انضم كطبيب</Link>
           <Link href="/advertise" className="hover:text-sky-600">أعلن معنا</Link>
           <Link href="/marketplace" className="hover:text-sky-600">سوق أسناني</Link>
           <Link href="/privacy" className="hover:text-sky-600">سياسة الخصوصية</Link>

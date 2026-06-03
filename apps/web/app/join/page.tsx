@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, MessageSquare, FileText, Sparkles, CheckCircle2, ShieldAlert } from "lucide-react";
+import { ArrowRight, MessageSquare, Sparkles, CheckCircle2, ShieldAlert, Info } from "lucide-react";
 
 export default function JoinAsDoctor() {
   const adminWhatsapp = "970599123456"; // Standard Palestine Admin Contact
@@ -26,90 +26,68 @@ export default function JoinAsDoctor() {
             انضم كطبيب شريك في منصة أسناني
           </h1>
           <p className="text-slate-300 mt-2 text-sm md:text-base font-medium max-w-xl mx-auto">
-            انضم لأكبر شبكة لأطباء الأسنان في فلسطين واجعل عيادتك تظهر لآلاف المرضى شهرياً. اختر طريقة الانضمام الأنسب لك:
+            انضم لأكبر شبكة لأطباء الأسنان في فلسطين واجعل عيادتك تظهر لآلاف المرضى شهرياً.
           </p>
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto px-4 -mt-16 pb-24 relative z-10">
-        <div className="grid md:grid-cols-2 gap-8">
-          
-          {/* Card 1: Register Online Form */}
-          <div className="bg-white rounded-3xl shadow-2xl p-8 border border-slate-100 hover:border-primary/20 transition-all flex flex-col justify-between hover:scale-[1.01] duration-300">
-            <div className="space-y-4">
-              <div className="w-14 h-14 bg-primary/10 text-primary rounded-2xl flex items-center justify-center">
-                <FileText className="w-8 h-8" />
-              </div>
-              <h2 className="text-2xl font-black text-slate-900">📝 نموذج التسجيل الإلكتروني السريع</h2>
-              <p className="text-slate-500 text-sm font-medium leading-relaxed">
-                هل تفضل تسجيل عيادتك بنفسك فوراً؟ املأ استمارة التسجيل الإلكترونية مع تحديد موقع الـ GPS الخاص بعيادتك بدقة على الخريطة لحفظها فوراً وإرسالها للإدارة للاعتماد.
-              </p>
-              <ul className="space-y-2.5 pt-2 text-slate-600 text-sm font-bold">
-                <li className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0" /> تحديد دقيق للموقع الجغرافي بالـ GPS
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0" /> كتابة النبذة وساعات العمل بنفسك
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0" /> تفعيل أسرع من قبل لوحة التحكم
-                </li>
-              </ul>
-            </div>
+      <div className="max-w-2xl mx-auto px-4 -mt-16 pb-24 relative z-10">
 
-            <div className="pt-8">
-              <Link
-                href="/doctors/register"
-                className="w-full bg-slate-900 hover:bg-slate-800 text-white font-black py-4 rounded-2xl shadow-xl transition-all flex justify-center items-center gap-2 hover:scale-[1.02]"
-              >
-                تعبئة استمارة التسجيل الإلكترونية
-              </Link>
+        {/* Info Box */}
+        <div className="bg-sky-50 border border-sky-200 rounded-2xl p-5 mb-8 flex gap-3 text-sky-800 text-sm font-bold shadow-sm">
+          <Info className="w-5 h-5 flex-shrink-0 text-sky-500 mt-0.5" />
+          <div>
+            <span className="block text-sky-900 font-black mb-1">كيف يتم التسجيل؟</span>
+            <span>
+              يتم تسجيل العيادات والأطباء الجدد من خلال فريق أسناني.ps مباشرةً. تواصل معنا عبر الواتساب وسنتولى إعداد ملفك الكامل وتفعيل حسابك في أسرع وقت.
+            </span>
+          </div>
+        </div>
+
+        {/* WhatsApp Card */}
+        <div className="bg-white rounded-3xl shadow-2xl p-8 border border-slate-100 hover:border-emerald-500/20 transition-all flex flex-col justify-between hover:scale-[1.01] duration-300">
+          <div className="space-y-4">
+            <div className="w-14 h-14 bg-emerald-50 text-emerald-500 rounded-2xl flex items-center justify-center border border-emerald-100">
+              <MessageSquare className="w-8 h-8" />
             </div>
+            <h2 className="text-2xl font-black text-slate-900">💬 تواصل مباشر عبر واتساب</h2>
+            <p className="text-slate-500 text-sm font-medium leading-relaxed">
+              تحدث مباشرة مع مسؤول البوابة والإدارة عبر الواتساب، وسنقوم بإنشاء وتفعيل حساب عيادتك وإحداثياتها الجغرافية فوراً بدون أي تعقيد.
+            </p>
+            <ul className="space-y-2.5 pt-2 text-slate-600 text-sm font-bold">
+              <li className="flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0" /> محادثة فورية مباشرة مع الدعم الفني
+              </li>
+              <li className="flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0" /> مساعدتك في تجهيز الصور والملفات
+              </li>
+              <li className="flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0" /> تحديد دقيق للموقع الجغرافي بالـ GPS
+              </li>
+              <li className="flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0" /> إجابة أي استفسارات تخص التسويق
+              </li>
+            </ul>
           </div>
 
-          {/* Card 2: Contact WhatsApp Directly */}
-          <div className="bg-white rounded-3xl shadow-2xl p-8 border border-slate-100 hover:border-emerald-500/20 transition-all flex flex-col justify-between hover:scale-[1.01] duration-300">
-            <div className="space-y-4">
-              <div className="w-14 h-14 bg-emerald-50 text-emerald-500 rounded-2xl flex items-center justify-center border border-emerald-100">
-                <MessageSquare className="w-8 h-8" />
-              </div>
-              <h2 className="text-2xl font-black text-slate-900">💬 تواصل مباشر عبر واتساب</h2>
-              <p className="text-slate-500 text-sm font-medium leading-relaxed">
-                هل تريد منا القيام بكل شيء بالنيابة عنك؟ تحدث مباشرة مع مسؤول البوابة والإدارة عبر الواتساب، وسنقوم بإنشاء وتفعيل حساب عيادتك وإحداثياتها الجغرافية فوراً.
-              </p>
-              <ul className="space-y-2.5 pt-2 text-slate-600 text-sm font-bold">
-                <li className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0" /> محادثة فورية مباشرة مع الدعم الفني
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0" /> مساعدتك في تجهيز الصور والملفات
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0" /> إجابة أي استفسارات تخص التسويق
-                </li>
-              </ul>
-            </div>
-
-            <div className="pt-8">
-              <a
-                href={`https://wa.me/${adminWhatsapp}?text=${encodeURIComponent("مرحباً أสนاني، أنا طبيب أسنان وأرغب في الانضمام وإعلان عيادتي على منصتكم الموقرة.")}`}
-                target="_blank"
-                rel="noreferrer"
-                className="w-full bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white font-black py-4 rounded-2xl shadow-xl transition-all flex justify-center items-center gap-2 hover:scale-[1.02]"
-              >
-                <MessageSquare className="w-5 h-5 fill-current" /> تواصل وتحدث مع الإدارة بالواتساب
-              </a>
-            </div>
+          <div className="pt-8">
+            <a
+              href={`https://wa.me/${adminWhatsapp}?text=${encodeURIComponent("مرحباً أسناني، أنا طبيب أسنان وأرغب في الانضمام وإعلان عيادتي على منصتكم الموقرة.")}`}
+              target="_blank"
+              rel="noreferrer"
+              className="w-full bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white font-black py-4 rounded-2xl shadow-xl transition-all flex justify-center items-center gap-2 hover:scale-[1.02]"
+            >
+              <MessageSquare className="w-5 h-5 fill-current" /> تواصل مع الإدارة عبر الواتساب الآن
+            </a>
           </div>
-
         </div>
 
         {/* Note block */}
-        <div className="bg-amber-50 border border-amber-100 rounded-2xl p-5 mt-10 flex gap-3 text-amber-800 text-sm font-bold">
+        <div className="bg-amber-50 border border-amber-100 rounded-2xl p-5 mt-8 flex gap-3 text-amber-800 text-sm font-bold">
           <ShieldAlert className="w-5 h-5 flex-shrink-0 text-amber-600 mt-0.5" />
           <div>
             <span className="block text-amber-900">ملاحظة هامة للأطباء:</span>
-            <span>بمجرد تقديم طلبك (سواء بالنموذج الإلكتروني أو بالواتساب)، نقوم بمراجعة رخصة مزاولة المهنة والمستندات قبل تفعيل عيادتك على البوابة العامة للحفاظ على موثوقية المنصة أمام الجمهور.</span>
+            <span>بمجرد استلام طلبك، نقوم بمراجعة رخصة مزاولة المهنة والمستندات قبل تفعيل عيادتك على البوابة العامة للحفاظ على موثوقية المنصة أمام الجمهور.</span>
           </div>
         </div>
       </div>
