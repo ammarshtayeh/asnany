@@ -2,16 +2,24 @@
 
 import { useState } from "react";
 import { usePathname } from "next/navigation";
-import { Users, Calendar as CalendarIcon, Megaphone, Store, Star, LayoutDashboard, LogOut, Sparkles, Menu, X, FileText, KeyRound, Plus } from "lucide-react";
+import { Users, Calendar as CalendarIcon, Megaphone, Store, Star, LayoutDashboard, LogOut, Sparkles, Menu, X, FileText, KeyRound, Plus, Link2, Check } from "lucide-react";
 import Link from "next/link";
 
 export default function AdminShell({ children }: { children: React.ReactNode }) {
+  const [copied, setCopied] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
 
   if (pathname === "/admin/login") {
     return <>{children}</>;
   }
+
+  const handleCopyLink = () => {
+    const registrationUrl = `${window.location.origin}/doctors/register`;
+    navigator.clipboard.writeText(registrationUrl);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   return (
     <div className="min-h-screen bg-slate-50 flex" dir="rtl">
@@ -58,6 +66,24 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
               <AdminLink href="/admin/services" icon={Sparkles} label="خدمات المنصة" onClick={() => setMobileOpen(false)} />
               <AdminLink href="/admin/content" icon={FileText} label="المحتوى والعروض" onClick={() => setMobileOpen(false)} />
               <AdminLink href="/admin/reviews" icon={Star} label="التقييمات" onClick={() => setMobileOpen(false)} />
+              
+              <div className="px-3 mt-4">
+                <button
+                  type="button"
+                  onClick={handleCopyLink}
+                  className={`w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-bold text-xs transition-all shadow-md border-0 cursor-pointer ${copied ? "bg-emerald-500 hover:bg-emerald-600 text-white shadow-emerald-500/10" : "bg-primary hover:bg-primary-dark text-white shadow-primary/10"}`}
+                >
+                  {copied ? (
+                    <>
+                      <Check className="w-4 h-4" /> تم نسخ الرابط!
+                    </>
+                  ) : (
+                    <>
+                      <Link2 className="w-4 h-4" /> استمارة طبيب (نسخ الرابط)
+                    </>
+                  )}
+                </button>
+              </div>
             </nav>
           </aside>
         </div>
@@ -101,7 +127,23 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
             <Star className="w-5 h-5" /> التقييمات
           </Link>
 
-
+          <div className="px-3 mt-4">
+            <button
+              type="button"
+              onClick={handleCopyLink}
+              className={`w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-bold text-xs transition-all shadow-md border-0 cursor-pointer ${copied ? "bg-emerald-500 hover:bg-emerald-600 text-white shadow-emerald-500/10" : "bg-primary hover:bg-primary-dark text-white shadow-primary/10"}`}
+            >
+              {copied ? (
+                <>
+                  <Check className="w-4 h-4" /> تم نسخ الرابط!
+                </>
+              ) : (
+                <>
+                  <Link2 className="w-4 h-4" /> استمارة طبيب (نسخ الرابط)
+                </>
+              )}
+            </button>
+          </div>
         </nav>
 
         <div className="p-4 border-t border-white/10">
