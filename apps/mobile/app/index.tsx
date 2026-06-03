@@ -82,7 +82,7 @@ export default function HomeScreen() {
   const insets = useSafeAreaInsets();
   const [activeTab, setActiveTab] = useState<MainTab>("home");
   const [serviceFilter, setServiceFilter] = useState<ServiceFilter>("all");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [query, setQuery] = useState("");
   const [selectedCity, setSelectedCity] = useState("الكل");
   const [selectedSpecialty, setSelectedSpecialty] = useState("الكل");
@@ -207,14 +207,7 @@ export default function HomeScreen() {
       >
         <TopBar />
 
-        {loading ? (
-          <View style={styles.loadingCard}>
-            <ActivityIndicator size="large" color={colors.sky} />
-            <Text style={styles.loadingText}>جاري تجهيز تجربة أسناني...</Text>
-          </View>
-        ) : null}
-
-        {!loading && activeTab === "home" ? (
+        {activeTab === "home" ? (
           <HomeDashboard
             doctors={doctors}
             offers={offers}
@@ -234,7 +227,7 @@ export default function HomeScreen() {
           />
         ) : null}
 
-        {!loading && activeTab === "doctors" ? (
+        {activeTab === "doctors" ? (
           <DoctorsScreen
             doctors={filteredDoctors}
             query={query}
@@ -250,7 +243,7 @@ export default function HomeScreen() {
           />
         ) : null}
 
-        {!loading && activeTab === "map" ? (
+        {activeTab === "map" ? (
           <MapScreen
             doctors={filteredDoctors}
             userLocation={userLocation}
@@ -260,7 +253,7 @@ export default function HomeScreen() {
           />
         ) : null}
 
-        {!loading && activeTab === "services" ? (
+        {activeTab === "services" ? (
           <ServicesScreen
             services={filteredServices}
             stores={stores}
@@ -271,7 +264,7 @@ export default function HomeScreen() {
           />
         ) : null}
 
-        {!loading && activeTab === "more" ? (
+        {activeTab === "more" ? (
           <MoreScreen offers={offers} market={market} articles={articles} onOpenServices={setServiceFilterAndOpen(setActiveTab, setServiceFilter)} />
         ) : null}
       </ScrollView>
