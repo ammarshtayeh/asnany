@@ -18,6 +18,9 @@ export async function POST(request: Request) {
     const date = body.date;
     const time = body.time;
     const notes = body.notes;
+    const appointmentKey = time
+      ? `${doctorId}:${date}:${time}`
+      : `${doctorId}:${date}`;
 
     if (!doctorId || !patientFullName || !patientPhone || !patientIdentity || !patientAddress || !date) {
       return NextResponse.json(
@@ -31,6 +34,7 @@ export async function POST(request: Request) {
       .insert([
         {
           doctor_id: doctorId,
+          appointment_key: appointmentKey,
           patient_name: patientFullName,
           patient_full_name: patientFullName,
           patient_email: patientEmail,
@@ -51,6 +55,12 @@ export async function POST(request: Request) {
     return NextResponse.json({ success: true, appointment: data });
   } catch (err: any) {
     console.error("Create appointment error:", err);
+    if (err?.code === "23505") {
+      return NextResponse.json(
+        { error: "هذا الموعد محجوز للتو. اختر وقتاً آخر من فضلك." },
+        { status: 409 }
+      );
+    }
     return NextResponse.json({ error: err.message || "تعذر إنشاء الحجز" }, { status: 500 });
   }
 }
