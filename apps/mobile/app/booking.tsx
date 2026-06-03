@@ -49,7 +49,13 @@ export default function BookingScreen() {
       }),
     });
     setLoading(false);
-    if (!response.ok) return Alert.alert("تعذر الحجز", data?.error || "حاول مرة ثانية");
+    if (!response.ok) {
+      const message =
+        response.status === 409
+          ? data?.error || "هذا الموعد محجوز للتو. اختر وقتاً آخر من فضلك."
+          : data?.error || "حاول مرة ثانية";
+      return Alert.alert("تعذر الحجز", message);
+    }
     Alert.alert("تم الحجز بنجاح", "تم تسجيل حجزك وسيظهر للطبيب في لوحة التحكم الخاصة به.");
     router.back();
   };
