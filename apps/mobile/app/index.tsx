@@ -27,6 +27,16 @@ type MainTab = "home" | "doctors" | "map" | "services" | "more";
 type ServiceFilter = "all" | "booking" | "beauty" | "lab" | "consultation" | "partner" | "stores";
 type UserLocation = { lat: number; lng: number };
 type DistanceFilter = 0.5 | 1 | 3 | 5 | 10 | "all";
+type QueryResult<T> = { data: T[] | null };
+
+function withTimeout<T>(promise: Promise<T>, ms = 8000) {
+  return Promise.race([
+    promise,
+    new Promise<T>((_, reject) => {
+      setTimeout(() => reject(new Error("timeout")), ms);
+    }),
+  ]);
+}
 
 const MOBILE_HERO_IMAGE_URL =
   "https://images.unsplash.com/photo-1606811971618-4486d14f3f99?auto=format&fit=crop&w=1200&q=80";
@@ -114,21 +124,21 @@ export default function HomeScreen() {
     try {
       if (!supabase) return;
       const today = new Date().toISOString();
-      const [doctorsRes, storesRes, servicesRes, offersRes, marketRes, articlesRes] = await Promise.all([
-        supabase.from("doctors").select("*").eq("verified", true).order("is_featured", { ascending: false }),
-        supabase.from("stores").select("*").eq("is_active", true),
-        supabase.from("medical_services").select("*").eq("is_active", true).order("is_featured", { ascending: false }),
-        supabase.from("offers").select("*").gte("valid_until", today),
-        supabase.from("marketplace_ads").select("*").eq("is_active", true).order("is_featured", { ascending: false }),
-        supabase.from("articles").select("*").order("created_at", { ascending: false }),
+      const [doctorsRes, storesRes, servicesRes, offersRes, marketRes, articlesRes] = await Promise.allSettled([
+        withTimeout(Promise.resolve(supabase.from("doctors").select("*").eq("verified", true).order("is_featured", { ascending: false }))),
+        withTimeout(Promise.resolve(supabase.from("stores").select("*").eq("is_active", true))),
+        withTimeout(Promise.resolve(supabase.from("medical_services").select("*").eq("is_active", true).order("is_featured", { ascending: false }))),
+        withTimeout(Promise.resolve(supabase.from("offers").select("*").gte("valid_until", today))),
+        withTimeout(Promise.resolve(supabase.from("marketplace_ads").select("*").eq("is_active", true).order("is_featured", { ascending: false }))),
+        withTimeout(Promise.resolve(supabase.from("articles").select("*").order("created_at", { ascending: false }))),
       ]);
 
-      setDoctors((doctorsRes.data as Doctor[]) || []);
-      setStores((storesRes.data as Store[]) || []);
-      setServices((servicesRes.data as MedicalService[]) || []);
-      setOffers((offersRes.data as Offer[]) || []);
-      setMarket((marketRes.data as MarketplaceAd[]) || []);
-      setArticles((articlesRes.data as Article[]) || []);
+      setDoctors(extractRows<Doctor>(doctorsRes));
+      setStores(extractRows<Store>(storesRes));
+      setServices(extractRows<MedicalService>(servicesRes));
+      setOffers(extractRows<Offer>(offersRes));
+      setMarket(extractRows<MarketplaceAd>(marketRes));
+      setArticles(extractRows<Article>(articlesRes));
     } catch (error) {
       console.error("Mobile data error:", error);
     } finally {
@@ -296,6 +306,19 @@ function getDistanceKm(from: UserLocation, to: UserLocation) {
 function distanceToDoctor(doctor: Doctor, userLocation: UserLocation) {
   const coords = doctorMapCoordinates(doctor);
   return getDistanceKm(userLocation, { lat: coords.latitude, lng: coords.longitude });
+}
+
+function extractRows<T>(result: PromiseSettledResult<unknown>): T[] {
+  if (result.status !== "fulfilled") {
+    return [];
+  }
+
+  const value = result.value as { data?: T[] | null; error?: unknown } | null;
+  if (!value || value.error) {
+    return [];
+  }
+
+  return Array.isArray(value.data) ? value.data : [];
 }
 
 function formatDistance(doctor: Doctor, userLocation: UserLocation | null) {
