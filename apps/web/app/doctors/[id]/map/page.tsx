@@ -157,7 +157,7 @@ export default function DoctorMapPage() {
                 العودة للملف
               </Link>
               <Link
-                href="/booking"
+                href={`/booking?doctorId=${doctorId}`}
                 className="inline-flex min-h-11 items-center gap-2 rounded-full bg-white px-4 text-sm font-black text-slate-900 ring-1 ring-slate-200"
               >
                 <Route className="h-4 w-4" />

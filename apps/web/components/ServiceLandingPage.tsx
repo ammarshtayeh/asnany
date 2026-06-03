@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 import Link from "next/link";
 import { ArrowRight, CheckCircle2, Globe, MapPin, MessageCircle, Phone, Star } from "lucide-react";
 import { MedicalService } from "@/lib/types";
@@ -10,6 +11,7 @@ type ServiceLandingPageProps = {
   actions: Array<{ label: string; href: string }>;
   listings?: MedicalService[];
   emptyLabel?: string;
+  topSlot?: ReactNode;
 };
 
 export default function ServiceLandingPage({
@@ -20,12 +22,12 @@ export default function ServiceLandingPage({
   actions,
   listings = [],
   emptyLabel = "سيتم إضافة مزودي الخدمة قريباً.",
+  topSlot,
 }: ServiceLandingPageProps) {
   return (
     <main className="min-h-screen bg-slate-50" dir="rtl">
       <section className="bg-slate-950 text-white pt-20 pb-28 px-4 relative">
         <div className="max-w-5xl mx-auto">
-          {/* Back button */}
           <div className="mb-6">
             <Link
               href="/"
@@ -58,6 +60,8 @@ export default function ServiceLandingPage({
       </section>
 
       <section className="max-w-5xl mx-auto px-4 -mt-14 pb-24">
+        {topSlot ? <div className="mb-6">{topSlot}</div> : null}
+
         <div className="grid md:grid-cols-2 gap-4">
           {features.map((feature) => (
             <div key={feature} className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm flex gap-3">
@@ -118,11 +122,31 @@ export default function ServiceLandingPage({
                     ) : null}
 
                     <div className="mt-5 pt-4 border-t border-slate-100 flex flex-wrap gap-3 text-sm font-bold text-slate-600">
-                      {item.city ? <span className="inline-flex items-center gap-1"><MapPin className="w-4 h-4" />{item.city}</span> : null}
+                      {item.city ? (
+                        <span className="inline-flex items-center gap-1">
+                          <MapPin className="w-4 h-4" />
+                          {item.city}
+                        </span>
+                      ) : null}
                       {item.price_range ? <span>{item.price_range}</span> : null}
-                      {item.phone ? <a href={`tel:${item.phone}`} className="inline-flex items-center gap-1 hover:text-sky-700"><Phone className="w-4 h-4" />اتصال</a> : null}
-                      {item.whatsapp ? <a href={`https://wa.me/${item.whatsapp.replace(/\D/g, "")}`} className="inline-flex items-center gap-1 hover:text-emerald-700"><MessageCircle className="w-4 h-4" />واتساب</a> : null}
-                      {item.website ? <a href={item.website} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 hover:text-sky-700"><Globe className="w-4 h-4" />موقع</a> : null}
+                      {item.phone ? (
+                        <a href={`tel:${item.phone}`} className="inline-flex items-center gap-1 hover:text-sky-700">
+                          <Phone className="w-4 h-4" />
+                          اتصال
+                        </a>
+                      ) : null}
+                      {item.whatsapp ? (
+                        <a href={`https://wa.me/${item.whatsapp.replace(/\D/g, "")}`} className="inline-flex items-center gap-1 hover:text-emerald-700">
+                          <MessageCircle className="w-4 h-4" />
+                          واتساب
+                        </a>
+                      ) : null}
+                      {item.website ? (
+                        <a href={item.website} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 hover:text-sky-700">
+                          <Globe className="w-4 h-4" />
+                          موقع
+                        </a>
+                      ) : null}
                     </div>
                   </div>
                 </article>
