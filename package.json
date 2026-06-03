@@ -9,6 +9,7 @@
     "dev:web": "npm --workspace @pal-dental/web run dev",
     "dev:mobile": "npm --workspace @pal-dental/mobile run start",
     "dev:mobile:go": "npm --workspace @pal-dental/mobile run start:go",
+    "dev:mobile:go:8083": "npm --workspace @pal-dental/mobile run start:go:8083",
     "dev:mobile:offline": "npm --workspace @pal-dental/mobile run start:offline",
     "dev:mobile:lan": "npm --workspace @pal-dental/mobile run start:lan",
     "dev:mobile:dev-client": "npm --workspace @pal-dental/mobile run start:dev-client",
