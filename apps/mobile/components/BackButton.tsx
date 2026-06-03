@@ -11,9 +11,9 @@ export function BackButton({ fallbackHref = "/", label = "رجوع", style }: Ba
   return (
     <Pressable
       onPress={() => {
-        try {
+        if (router.canGoBack()) {
           router.back();
-        } catch {
+        } else {
           router.push(fallbackHref as any);
         }
       }}

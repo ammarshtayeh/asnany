@@ -89,7 +89,17 @@ export default function DoctorProfileScreen() {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "#f8fafc", padding: 24 }}>
         <Text style={{ fontWeight: "900", color: "#020617", fontSize: 20, textAlign: "right" }}>لم يتم العثور على الطبيب</Text>
-        <AppButton label="العودة للرئيسية" onPress={() => router.push("/")} style={{ marginTop: 12 }} />
+        <AppButton
+          label="الرجوع"
+          onPress={() => {
+            if (router.canGoBack()) {
+              router.back();
+            } else {
+              router.push("/");
+            }
+          }}
+          style={{ marginTop: 12 }}
+        />
       </View>
     );
   }

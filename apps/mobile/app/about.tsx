@@ -12,11 +12,16 @@ export default function AboutScreen() {
       contentContainerStyle={{ paddingBottom: insets.bottom + 40 }}
       showsVerticalScrollIndicator={false}
     >
-      {/* Hero Header */}
       <View style={{ backgroundColor: "#0f172a", minHeight: 220, justifyContent: "flex-end", padding: 24, paddingTop: insets.top + 16 }}>
         <View style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "#0ea5e9", opacity: 0.18 }} />
         <Pressable
-          onPress={() => router.back()}
+          onPress={() => {
+            if (router.canGoBack()) {
+              router.back();
+            } else {
+              router.push("/");
+            }
+          }}
           style={{ position: "absolute", top: insets.top + 12, right: 20, backgroundColor: "rgba(255,255,255,0.12)", paddingHorizontal: 16, paddingVertical: 8, borderRadius: 100, borderWidth: 1, borderColor: "rgba(255,255,255,0.2)" }}
         >
           <Text style={{ color: "#fff", fontWeight: "800", fontSize: 13 }}>رجوع</Text>
@@ -31,7 +36,6 @@ export default function AboutScreen() {
       </View>
 
       <View style={{ padding: 20, gap: 16 }}>
-        {/* Mission card */}
         <View style={{ backgroundColor: "#fff", borderRadius: 24, padding: 20, shadowColor: "#000", shadowOpacity: 0.06, shadowRadius: 12, elevation: 3 }}>
           <Text style={{ fontSize: 20, fontWeight: "900", color: "#0f172a", textAlign: "right", marginBottom: 10 }}>رؤيتنا ورسالتنا الجوهرية</Text>
           <Text style={{ color: "#64748b", fontSize: 14, fontWeight: "500", lineHeight: 24, textAlign: "right" }}>
@@ -39,64 +43,26 @@ export default function AboutScreen() {
           </Text>
         </View>
 
-        {/* Pillars */}
-        <View style={{ gap: 12 }}>
-          <PillarCard
-            emoji="🛡️"
-            bgColor="#eff6ff"
-            accentColor="#2563eb"
-            title="دقة وموثوقية"
-            desc="جميع بيانات العيادات والأطباء يتم التحقق منها ومراجعتها بدقة من قبل الإدارة قبل تفعيلها."
-          />
-          <PillarCard
-            emoji="💚"
-            bgColor="#f0fdf4"
-            accentColor="#16a34a"
-            title="سهولة تامة للمريض"
-            desc="واجهة مستخدم ذكية تدعم الجيل الأحدث من الخرائط والتوجيه الجغرافي للوصول الفوري للعيادة."
-          />
-          <PillarCard
-            emoji="🏆"
-            bgColor="#eef2ff"
-            accentColor="#4f46e5"
-            title="إعلام ذكي وحيوي"
-            desc="مجلة طبية سنية متكاملة وسوق عروض وحجوزات مميزة وموثوقة لرفع الوعي الصحي السني."
-          />
-        </View>
-
-        {/* Coverage */}
         <View style={{ backgroundColor: "#fff", borderRadius: 24, padding: 20, shadowColor: "#000", shadowOpacity: 0.06, shadowRadius: 12, elevation: 3 }}>
-          <View style={{ flexDirection: "row-reverse", alignItems: "center", gap: 10, marginBottom: 12 }}>
-            <Text style={{ fontSize: 22 }}>👥</Text>
-            <Text style={{ fontSize: 16, fontWeight: "900", color: "#0f172a", flex: 1, textAlign: "right" }}>نهدف لخدمة وتطوير قطاع الأسنان الفلسطيني</Text>
-          </View>
+          <Text style={{ fontSize: 16, fontWeight: "900", color: "#0f172a", textAlign: "right", marginBottom: 12 }}>نهدف لخدمة وتطوير قطاع الأسنان الفلسطيني</Text>
           <Text style={{ color: "#64748b", fontSize: 13, fontWeight: "500", lineHeight: 22, textAlign: "right" }}>
-            تضم المنصة أطباء أسنان من مختلف التخصصات: جراحة الفم والأسنان، زراعة وتقويم الأسنان، طب أسنان الأطفال، وتجميل الأسنان. نحن نغطي كافة المحافظات الفلسطينية لضمان حصول كل مواطن على حقه في رعاية طبية مميزة.
+            تضم المنصة أطباء أسنان من مختلف التخصصات في كافة المحافظات الفلسطينية. نحن نغطي كافة المحافظات الفلسطينية لضمان حصول كل مواطن على حقه في رعاية طبية مميزة.
           </Text>
         </View>
 
-        {/* Back button */}
         <Pressable
-          onPress={() => router.push("/")}
+          onPress={() => {
+            if (router.canGoBack()) {
+              router.back();
+            } else {
+              router.push("/");
+            }
+          }}
           style={{ backgroundColor: "#0f172a", borderRadius: 18, paddingVertical: 16, alignItems: "center", marginTop: 4 }}
         >
-          <Text style={{ color: "#fff", fontWeight: "900", fontSize: 15 }}>العودة للرئيسية</Text>
+          <Text style={{ color: "#fff", fontWeight: "900", fontSize: 15 }}>الرجوع</Text>
         </Pressable>
       </View>
     </ScrollView>
-  );
-}
-
-function PillarCard({ emoji, bgColor, accentColor, title, desc }: { emoji: string; bgColor: string; accentColor: string; title: string; desc: string }) {
-  return (
-    <View style={{ backgroundColor: "#fff", borderRadius: 20, padding: 18, flexDirection: "row-reverse", gap: 14, alignItems: "flex-start", shadowColor: "#000", shadowOpacity: 0.04, shadowRadius: 8, elevation: 2 }}>
-      <View style={{ width: 44, height: 44, borderRadius: 14, backgroundColor: bgColor, alignItems: "center", justifyContent: "center" }}>
-        <Text style={{ fontSize: 20 }}>{emoji}</Text>
-      </View>
-      <View style={{ flex: 1 }}>
-        <Text style={{ fontSize: 15, fontWeight: "900", color: "#0f172a", textAlign: "right", marginBottom: 4 }}>{title}</Text>
-        <Text style={{ fontSize: 12, color: "#64748b", fontWeight: "500", lineHeight: 20, textAlign: "right" }}>{desc}</Text>
-      </View>
-    </View>
   );
 }

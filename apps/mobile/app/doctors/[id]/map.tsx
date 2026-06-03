@@ -53,8 +53,17 @@ export default function DoctorMapScreen() {
     return (
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: "#f8fafc", paddingHorizontal: 24 }}>
         <Text style={{ textAlign: "center", fontSize: 18, fontWeight: "900", color: "#020617" }}>لم يتم العثور على الطبيب</Text>
-        <Pressable onPress={() => router.push("/")} style={{ marginTop: 16, minHeight: 48, alignItems: "center", justifyContent: "center", borderRadius: 16, backgroundColor: "#0f172a", paddingHorizontal: 24 }}>
-          <Text style={{ fontSize: 14, fontWeight: "900", color: "#fff" }}>العودة للرئيسية</Text>
+        <Pressable
+          onPress={() => {
+            if (router.canGoBack()) {
+              router.back();
+            } else {
+              router.push("/");
+            }
+          }}
+          style={{ marginTop: 16, minHeight: 48, alignItems: "center", justifyContent: "center", borderRadius: 16, backgroundColor: "#0f172a", paddingHorizontal: 24 }}
+        >
+          <Text style={{ fontSize: 14, fontWeight: "900", color: "#fff" }}>الرجوع</Text>
         </Pressable>
       </View>
     );
