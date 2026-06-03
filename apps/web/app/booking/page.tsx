@@ -10,6 +10,7 @@ function normalizeDoctorId(value?: string | string[]) {
 }
 
 function BookingDoctorCard({ doctor }: { doctor: SharedDoctor }) {
+  const workingHours = doctor.working_hours || {};
   return (
     <div className="overflow-hidden rounded-[2rem] border border-sky-100 bg-white shadow-xl shadow-sky-100/40">
       <div className="bg-gradient-to-l from-sky-600 to-slate-900 px-6 py-5 text-white">
@@ -27,6 +28,11 @@ function BookingDoctorCard({ doctor }: { doctor: SharedDoctor }) {
           </p>
 
           <div className="flex flex-wrap gap-2 text-xs font-bold text-slate-600">
+            {doctor.is_available !== false ? (
+              <span className="rounded-full bg-emerald-50 px-3 py-1.5 text-emerald-700">متاح حالياً</span>
+            ) : (
+              <span className="rounded-full bg-rose-50 px-3 py-1.5 text-rose-700">غير متاح الآن</span>
+            )}
             {doctor.verified ? (
               <span className="rounded-full bg-emerald-50 px-3 py-1.5 text-emerald-700">موثق</span>
             ) : null}
@@ -54,6 +60,26 @@ function BookingDoctorCard({ doctor }: { doctor: SharedDoctor }) {
               الذهاب لنموذج الحجز
             </Link>
           </div>
+
+          {doctor.availability_note ? (
+            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+              <p className="text-xs font-black uppercase tracking-wide text-slate-400">تنبيه الدوام</p>
+              <p className="mt-2 text-sm font-semibold leading-7 text-slate-600">{doctor.availability_note}</p>
+            </div>
+          ) : null}
+
+          {Object.keys(workingHours).length ? (
+            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+              <p className="text-xs font-black uppercase tracking-wide text-slate-400">الدوام الأسبوعي</p>
+              <div className="mt-3 grid gap-2 text-sm font-bold text-slate-600 sm:grid-cols-2">
+                {Object.entries(workingHours).slice(0, 4).map(([day, value]) => (
+                  <span key={day} className="rounded-xl bg-white px-3 py-2">
+                    {day}: {typeof value === "string" ? value : JSON.stringify(value)}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ) : null}
         </div>
 
         <div className="rounded-[1.5rem] border border-slate-200 bg-slate-50 p-4">
