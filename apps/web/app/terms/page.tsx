@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Sparkles, Scale, ShieldAlert, HeartHandshake } from "lucide-react";
+import { Sparkles, Scale, ShieldAlert, HeartHandshake } from "lucide-react";
+import BackButton from "@/components/BackButton";
 
 export default function TermsAndConditions() {
   return (
@@ -10,10 +11,7 @@ export default function TermsAndConditions() {
       <div className="h-[280px] w-full bg-slate-900 relative overflow-hidden flex items-center justify-center text-center">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/80 via-slate-900 to-secondary/80" />
         <div className="absolute top-8 right-8 z-50">
-          <Link href="/" className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white px-5 py-2.5 rounded-full text-sm font-bold transition-all hover:scale-105 shadow-lg">
-            <ArrowRight className="w-4 h-4" />
-            العودة للرئيسية
-          </Link>
+          <BackButton />
         </div>
 
         <div className="relative z-10 px-4">

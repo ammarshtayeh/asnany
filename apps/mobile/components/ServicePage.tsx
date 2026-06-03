@@ -32,11 +32,16 @@ export function ServicePage({
       contentContainerStyle={{ paddingBottom: insets.bottom + 40 }}
       showsVerticalScrollIndicator={false}
     >
-      {/* Hero Header */}
       <View style={{ backgroundColor: "#0f172a", minHeight: 210, justifyContent: "flex-end", padding: 24, paddingTop: insets.top + 16 }}>
         <View style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: accentColor, opacity: 0.15 }} />
         <Pressable
-          onPress={() => router.back()}
+          onPress={() => {
+            if (router.canGoBack()) {
+              router.back();
+            } else {
+              router.push("/");
+            }
+          }}
           style={{ position: "absolute", top: insets.top + 12, right: 20, backgroundColor: "rgba(255,255,255,0.12)", paddingHorizontal: 16, paddingVertical: 8, borderRadius: 100, borderWidth: 1, borderColor: "rgba(255,255,255,0.2)" }}
         >
           <Text style={{ color: "#fff", fontWeight: "800", fontSize: 13 }}>رجوع</Text>
@@ -49,7 +54,6 @@ export function ServicePage({
       </View>
 
       <View style={{ padding: 20, gap: 16 }}>
-        {/* Description card */}
         <View style={{ backgroundColor: "#fff", borderRadius: 24, padding: 20, shadowColor: "#000", shadowOpacity: 0.06, shadowRadius: 12, elevation: 3 }}>
           <Text style={{ fontSize: 16, fontWeight: "900", color: "#0f172a", textAlign: "right", marginBottom: 14 }}>ما يميز هذه الخدمة</Text>
           <View style={{ gap: 10 }}>
@@ -64,13 +68,11 @@ export function ServicePage({
           </View>
         </View>
 
-        {/* Empty state */}
         <View style={{ backgroundColor: "#fff", borderRadius: 20, padding: 28, alignItems: "center", borderWidth: 1.5, borderColor: "#f1f5f9", borderStyle: "dashed" }}>
           <Text style={{ fontSize: 36, marginBottom: 10 }}>{emoji}</Text>
           <Text style={{ fontSize: 14, fontWeight: "700", color: "#94a3b8", textAlign: "center" }}>{emptyLabel}</Text>
         </View>
 
-        {/* Action buttons */}
         <View style={{ gap: 10 }}>
           {actions.map((action, i) => (
             <Pressable
@@ -89,10 +91,6 @@ export function ServicePage({
             </Pressable>
           ))}
         </View>
-
-        <Pressable onPress={() => router.push("/")} style={{ backgroundColor: "transparent", borderRadius: 16, paddingVertical: 12, alignItems: "center" }}>
-          <Text style={{ color: "#94a3b8", fontWeight: "700", fontSize: 13 }}>العودة للرئيسية →</Text>
-        </Pressable>
       </View>
     </ScrollView>
   );

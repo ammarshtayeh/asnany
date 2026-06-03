@@ -25,7 +25,17 @@ export function StaticPage({
             </View>
           ))}
         </View>
-        <AppButton label="العودة للرئيسية" onPress={() => router.push("/")} style={{ marginTop: 12 }} />
+        <AppButton
+          label="الرجوع"
+          onPress={() => {
+            if (router.canGoBack()) {
+              router.back();
+            } else {
+              router.push("/");
+            }
+          }}
+          style={{ marginTop: 12 }}
+        />
       </AppCard>
     </ScrollView>
   );
