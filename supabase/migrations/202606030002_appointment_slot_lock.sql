@@ -5,7 +5,7 @@ UPDATE appointments
 SET appointment_key = COALESCE(
   appointment_key,
   CASE
-    WHEN time IS NOT NULL AND time <> '' THEN CONCAT(doctor_id::text, ':', date::text, ':', time)
+    WHEN NULLIF(time::text, '') IS NOT NULL THEN CONCAT(doctor_id::text, ':', date::text, ':', NULLIF(time::text, ''))
     ELSE CONCAT(doctor_id::text, ':', date::text)
   END
 )
