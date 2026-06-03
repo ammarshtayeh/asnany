@@ -1,9 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import { Alert, ActivityIndicator, Pressable, ScrollView, Switch, Text, TextInput, View } from "react-native";
 import { router } from "expo-router";
+import { Feather } from "@expo/vector-icons";
 
 import { getMobileApiBaseUrl } from "../../lib/api-base";
 import { doctorSession } from "../../lib/session";
+import { registerPushSubscription } from "../../lib/notifications";
 
 type Appointment = {
   id: string;
@@ -54,6 +56,11 @@ export default function DoctorDashboardScreen() {
       return;
     }
     setToken(session?.token);
+    void registerPushSubscription({
+      role: "doctor",
+      doctorId: (session?.doctor as any)?.id || (session?.raw as any)?.account?.doctor_id || session?.token,
+      authToken: session?.token,
+    }).catch(() => null);
     await refresh(session?.token);
     setReady(true);
   };
@@ -182,6 +189,12 @@ export default function DoctorDashboardScreen() {
           هنا الطبيب يدير الحضور، الخصم، والبيانات الأساسية، ويشوف الحجوزات التي وصلت له من الموقع والتطبيق.
         </Text>
         <View className="mt-4 flex-row gap-3">
+          <Pressable onPress={() => router.push("/doctor/notifications")} className="rounded-2xl bg-sky-500 px-4 py-3">
+            <View className="flex-row items-center gap-2">
+              <Feather name="bell" size={16} color="#fff" />
+              <Text className="text-sm font-black text-white">الإشعارات</Text>
+            </View>
+          </Pressable>
           <Pressable onPress={() => refresh(token)} className="rounded-2xl bg-white/10 px-4 py-3">
             <Text className="text-sm font-black text-white">تحديث</Text>
           </Pressable>
@@ -324,4 +337,3 @@ function parseHours(value: string) {
     return {};
   }
 }
-

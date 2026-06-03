@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { isSupabaseConfigured, supabaseAdmin } from "@/lib/supabase";
+import { notifyPatientAboutAppointmentStatus } from "@/lib/notifications";
 
 export async function GET() {
   try {
@@ -39,6 +40,7 @@ export async function PATCH(request: Request) {
       .single();
 
     if (error) throw error;
+    await notifyPatientAboutAppointmentStatus(data);
     return NextResponse.json({ success: true, appointment: data });
   } catch (err: any) {
     console.error("Admin appointments update error:", err);

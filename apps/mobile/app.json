@@ -15,7 +15,7 @@
     "android": {
       "permissions": ["ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION"]
     },
-    "plugins": ["expo-router", "expo-location"],
+    "plugins": ["expo-router", "expo-location", "expo-notifications"],
     "experiments": {
       "typedRoutes": false
     }

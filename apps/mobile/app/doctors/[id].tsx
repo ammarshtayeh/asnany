@@ -8,6 +8,7 @@ import { AppButton } from "../../components/Buttons";
 import { AppSubtitle, AppTitle } from "../../components/AppText";
 import { ClinicMap } from "../../components/ClinicMap";
 import { buildNativeMapsUrl } from "../../lib/map-links";
+import { registerPushSubscription } from "../../lib/notifications";
 
 export default function DoctorProfileScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -51,6 +52,10 @@ export default function DoctorProfileScreen() {
     });
     setBooking(false);
     if (!response.ok) return Alert.alert("تعذر الحجز", data?.error || "حاول لاحقاً");
+    void registerPushSubscription({
+      role: "patient",
+      patientPhone: phone,
+    }).catch(() => null);
     Alert.alert("تم الحجز", "تم إرسال طلبك للطبيب.");
     router.push("/booking");
   };

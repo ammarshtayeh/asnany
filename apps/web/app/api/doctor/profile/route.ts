@@ -4,7 +4,7 @@ import { getDoctorSession } from "@/lib/doctor-session";
 
 export async function PATCH(request: Request) {
   try {
-    const session = await getDoctorSession();
+    const session = await getDoctorSession(request);
     if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     const body = await request.json();

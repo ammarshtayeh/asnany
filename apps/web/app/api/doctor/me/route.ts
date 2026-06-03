@@ -2,9 +2,9 @@ import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase";
 import { getDoctorSession } from "@/lib/doctor-session";
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    const session = await getDoctorSession();
+    const session = await getDoctorSession(request);
     if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     const { data: appointments, error } = await supabaseAdmin

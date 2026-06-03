@@ -1,9 +1,11 @@
 import { cookies } from "next/headers";
 import { supabaseAdmin } from "@/lib/supabase";
 
-export async function getDoctorSession() {
+export async function getDoctorSession(request?: Request) {
   const cookieStore = await cookies();
-  const accountId = cookieStore.get("doctor_session")?.value;
+  const cookieAccountId = cookieStore.get("doctor_session")?.value;
+  const bearerAccountId = request?.headers.get("authorization")?.match(/^Bearer\s+(.+)$/i)?.[1];
+  const accountId = bearerAccountId || cookieAccountId;
   if (!accountId) return null;
 
   const { data, error } = await supabaseAdmin

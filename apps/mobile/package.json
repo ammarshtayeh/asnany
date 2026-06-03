@@ -5,8 +5,10 @@
   "main": "expo-router/entry",
   "scripts": {
     "start": "expo start",
+    "start:go": "expo start --go -c",
     "start:offline": "expo start --offline -c",
     "start:lan": "expo start --lan -c",
+    "start:dev-client": "expo start --dev-client -c",
     "android": "expo start --android",
     "ios": "expo start --ios"
   },
@@ -17,6 +19,9 @@
     "@react-native-async-storage/async-storage": "^2.2.0",
     "@supabase/supabase-js": "^2.49.8",
     "expo": "~54.0.35",
+    "expo-constants": "~18.0.13",
+    "expo-dev-client": "~6.0.21",
+    "expo-linking": "~8.0.12",
     "expo-location": "~19.0.8",
     "expo-notifications": "~0.32.17",
     "expo-router": "~6.0.24",
@@ -26,7 +31,7 @@
     "react-native": "0.81.5",
     "react-native-maps": "1.20.1",
     "react-native-safe-area-context": "~5.6.0",
-    "react-native-screens": "~4.16.0",
+    "react-native-screens": "4.16.0",
     "react-native-web": "~0.21.0"
   }
 }

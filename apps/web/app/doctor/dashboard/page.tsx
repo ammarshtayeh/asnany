@@ -1,7 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { CalendarCheck2, Clock, LogOut, Save, UserRoundCheck } from "lucide-react";
+import { Bell, CalendarCheck2, Clock, LogOut, Save, UserRoundCheck } from "lucide-react";
 import { AppointmentRecord, Doctor } from "@/lib/types";
 
 const DAYS = ["السبت", "الأحد", "الإثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة"];
@@ -120,12 +121,18 @@ export default function DoctorDashboardPage() {
                 {doctor?.city} {doctor?.area ? `- ${doctor.area}` : ""}
               </p>
             </div>
-            <form action="/api/doctor/logout" method="POST">
-              <button className="inline-flex items-center gap-2 rounded-2xl border border-white/15 px-5 py-3 text-sm font-black text-white hover:bg-white/10">
-                <LogOut className="h-4 w-4" />
-                خروج
-              </button>
-            </form>
+            <div className="flex flex-wrap gap-3">
+              <Link href="/doctor/notifications" className="inline-flex items-center gap-2 rounded-2xl border border-white/15 px-5 py-3 text-sm font-black text-white hover:bg-white/10">
+                <Bell className="h-4 w-4" />
+                الإشعارات
+              </Link>
+              <form action="/api/doctor/logout" method="POST">
+                <button className="inline-flex items-center gap-2 rounded-2xl border border-white/15 px-5 py-3 text-sm font-black text-white hover:bg-white/10">
+                  <LogOut className="h-4 w-4" />
+                  خروج
+                </button>
+              </form>
+            </div>
           </div>
         </header>
 
