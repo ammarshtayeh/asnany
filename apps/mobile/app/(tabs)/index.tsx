@@ -216,7 +216,7 @@ export default function HomeScreen() {
             <Text style={{ color: "#6ee7b7", fontWeight: "900", fontSize: 11 }}>✅ دليل صحة وجمال الوجه والأسنان في فلسطين</Text>
           </View>
           <Text style={{ fontSize: 26, fontWeight: "900", color: "#fff", textAlign: "right", lineHeight: 34 }}>
-            رعاية ملامحك وصحتها،{"\n"}بدون أي حيرة
+            كل ما تحتاجه لصحتك وجمالك..{"\n"}في متناول يدك
           </Text>
           <Text style={{ fontSize: 13, color: "#94a3b8", fontWeight: "600", textAlign: "right", marginTop: 6 }}>
             أطباء موثقون · حجز مباشر · عروض حصرية

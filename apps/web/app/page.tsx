@@ -291,7 +291,7 @@ export default function Home() {
               دليل صحة وجمال الوجه والأسنان في فلسطين
             </div>
             <h1 className="text-3xl font-black leading-tight sm:text-5xl lg:text-6xl">
-              رعاية ملامحك وصحتها، بدون حيرة.
+              كل ما تحتاجه لصحتك وجمالك.. في متناول يدك
             </h1>
             <p className="mt-5 max-w-2xl text-base font-semibold leading-8 text-slate-100 sm:text-lg">
               دليلك الطبي الشامل لأطباء الأسنان، العيون، الجلدية، التجميل، والأنف والأذن والحنجرة الأقرب إليك في فلسطين.
