@@ -44,8 +44,7 @@ const DoctorMap = dynamic(() => import("@/components/DoctorMap"), {
   ),
 });
 
-const HERO_IMAGE_URL =
-  "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?q=80&w=2000&auto=format&fit=crop";
+const HERO_IMAGE_URL = "/hero-clinic.png";
 
 const QUICK_CATEGORIES = [
   { id: "dental", label: "أسنان", icon: Stethoscope, color: "text-sky-600", bg: "bg-sky-50" },
@@ -281,9 +280,10 @@ export default function Home() {
           fill
           priority
           sizes="100vw"
-        className="object-cover object-center"
+        className="object-cover object-center opacity-60"
         />
-        <div className="absolute inset-0 bg-gradient-to-l from-slate-950/95 via-slate-950/75 to-slate-900/40" />
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/60 via-slate-950/75 to-slate-950/95" />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/70 to-transparent" />
         <div className="relative z-10 mx-auto grid min-h-[580px] w-full max-w-[1400px] items-center gap-10 py-4 lg:grid-cols-[minmax(0,1fr)_480px]">
           <div className="max-w-3xl text-right text-white" dir="rtl">
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-amber-500/20 bg-amber-500/10 px-4.5 py-2.5 text-xs font-black backdrop-blur-md shadow-[0_0_15px_rgba(217,119,6,0.1)]">

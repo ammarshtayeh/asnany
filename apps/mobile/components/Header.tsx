@@ -3,7 +3,7 @@ import { ImageBackground, StyleSheet, Text, View } from "react-native";
 import { colors } from "../constants/theme";
 
 const HERO_IMAGE_URL =
-  "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?auto=format&fit=crop&q=80&w=1400";
+  "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&q=80&w=1400";
 
 export default function Header() {
   return (

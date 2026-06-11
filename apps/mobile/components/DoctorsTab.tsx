@@ -63,7 +63,7 @@ export default function DoctorsTab({
           {ads.map((ad) => (
             <View key={ad.id} style={styles.adSlide}>
               <Image 
-                source={{ uri: ad.image_url || "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=600&auto=format&fit=crop&q=80" }} 
+                source={{ uri: ad.image_url || "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?w=600&auto=format&fit=crop&q=80" }} 
                 style={styles.adImage as any} 
               />
               <View style={styles.adOverlay}>

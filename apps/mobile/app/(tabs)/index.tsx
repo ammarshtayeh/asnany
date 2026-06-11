@@ -15,7 +15,7 @@ import { supabase } from "../../lib/supabase";
 import { Doctor, Offer } from "../../types";
 
 const HERO_IMAGE =
-  "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?auto=format&fit=crop&w=800&q=80";
+  "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=800&q=80";
 
 const QUICK_CATEGORIES = [
   { label: "أسنان", emoji: "🦷", query: "أسنان", color: "#0ea5e9", bg: "#f0f9ff" },
@@ -338,7 +338,7 @@ export default function HomeScreen() {
                     style={{ width: 220, backgroundColor: "#fff", borderRadius: 18, overflow: "hidden", borderWidth: 1, borderColor: "#f1f5f9", shadowColor: "#000", shadowOpacity: 0.04, shadowRadius: 8, elevation: 1 }}
                   >
                     <View style={{ height: 120, position: "relative" }}>
-                      <Image source={{ uri: "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?auto=format&fit=crop&w=400&q=80" }} style={{ width: "100%", height: "100%" }} resizeMode="cover" />
+                      <Image source={{ uri: "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&w=400&q=80" }} style={{ width: "100%", height: "100%" }} resizeMode="cover" />
                       {discount > 0 && (
                         <View style={{ position: "absolute", top: 10, right: 10, backgroundColor: "#dc2626", borderRadius: 8, paddingHorizontal: 8, paddingVertical: 4 }}>
                           <Text style={{ color: "#fff", fontWeight: "900", fontSize: 13 }}>{discount}% خصم</Text>

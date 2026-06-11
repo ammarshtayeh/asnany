@@ -39,7 +39,7 @@ function withTimeout<T>(promise: Promise<T>, ms = 8000) {
 }
 
 const MOBILE_HERO_IMAGE_URL =
-  "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?auto=format&fit=crop&w=1200&q=80";
+  "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1200&q=80";
 const WEB_BASE_URL = "https://malamih.ps";
 const OWNER_WHATSAPP = "9720595537190";
 const OWNER_EMAIL = "ammar.shtayeh@gmail.com";
