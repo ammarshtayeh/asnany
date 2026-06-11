@@ -3,7 +3,7 @@ import { ImageBackground, StyleSheet, Text, View } from "react-native";
 import { colors } from "../constants/theme";
 
 const HERO_IMAGE_URL =
-  "https://images.unsplash.com/photo-1777331903190-341a3dd0441b?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=80&w=1400";
+  "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?auto=format&fit=crop&q=80&w=1400";
 
 export default function Header() {
   return (
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     width: 42,
     height: 42,
     borderRadius: 14,
-    backgroundColor: colors.sky,
+    backgroundColor: colors.amber,
     alignItems: "center",
     justifyContent: "center",
   },

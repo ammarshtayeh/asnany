@@ -8,7 +8,7 @@ import { Offer } from "@/lib/types";
 import { getOffers } from "@/lib/data";
 
 const OFFER_IMAGES = [
-  "https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=1200&q=80",
+  "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?auto=format&fit=crop&w=1200&q=80",
   "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&w=1200&q=80",
   "https://images.unsplash.com/photo-1606811841689-23dfddce3e95?auto=format&fit=crop&w=1200&q=80",
   "https://images.unsplash.com/photo-1609840114035-3c981b782dfe?auto=format&fit=crop&w=1200&q=80",
@@ -53,7 +53,7 @@ export default function OffersPage() {
             عروض مختارة بعناية
           </span>
           <h1 className="text-4xl font-black leading-tight text-slate-950 md:text-6xl">
-            وفّر على علاج الأسنان بدون ما تتنازل عن الجودة.
+            أفضل عروض العناية والجمال بدون مساومة على الجودة.
           </h1>
           <p className="mt-5 max-w-2xl text-base font-semibold leading-8 text-slate-600">
             عروض محدثة من أطباء وعيادات ضمن شبكة ملامح. قارن السعر، مدة العرض، والطبيب قبل الحجز.

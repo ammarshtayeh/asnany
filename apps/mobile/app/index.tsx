@@ -39,7 +39,7 @@ function withTimeout<T>(promise: Promise<T>, ms = 8000) {
 }
 
 const MOBILE_HERO_IMAGE_URL =
-  "https://images.unsplash.com/photo-1606811971618-4486d14f3f99?auto=format&fit=crop&w=1200&q=80";
+  "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?auto=format&fit=crop&w=1200&q=80";
 const WEB_BASE_URL = "https://malamih.ps";
 const OWNER_WHATSAPP = "9720595537190";
 const OWNER_EMAIL = "ammar.shtayeh@gmail.com";
@@ -1129,7 +1129,7 @@ const styles = StyleSheet.create({
     width: 44,
     height: 44,
     borderRadius: 14,
-    backgroundColor: colors.sky,
+    backgroundColor: colors.amber,
     alignItems: "center",
     justifyContent: "center",
   },

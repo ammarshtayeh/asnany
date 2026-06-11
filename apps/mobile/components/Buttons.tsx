@@ -9,10 +9,10 @@ type ButtonProps = {
 };
 
 const palette = {
-  primary: { backgroundColor: "#0f172a", color: "#fff" },
-  secondary: { backgroundColor: "#e2e8f0", color: "#0f172a" },
-  ghost: { backgroundColor: "transparent", color: "#0f172a" },
-  success: { backgroundColor: "#dcfce7", color: "#166534" },
+  primary: { backgroundColor: "#0a0f1d", color: "#fff" },
+  secondary: { backgroundColor: "#f1f5f9", color: "#0a0f1d" },
+  ghost: { backgroundColor: "transparent", color: "#0a0f1d" },
+  success: { backgroundColor: "#dcfce7", color: "#15803d" },
   danger: { backgroundColor: "#fee2e2", color: "#b91c1c" },
 } as const;
 
@@ -25,8 +25,8 @@ export function AppButton({ label, onPress, variant = "primary", style, disabled
       style={({ pressed }) => [
         {
           minHeight: 48,
-          paddingHorizontal: 16,
-          borderRadius: 18,
+          paddingHorizontal: 18,
+          borderRadius: 20,
           alignItems: "center",
           justifyContent: "center",
           backgroundColor: colors.backgroundColor,

@@ -30,7 +30,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ar" dir="rtl">
-      <body className={`${cairoFont.variable} font-sans bg-gray-50 text-slate-900 min-h-screen flex flex-col pt-20 pb-24 lg:pb-0 md:pt-20`}>
+      <body className={`${cairoFont.variable} font-sans mesh-bg bg-grid-pattern text-slate-900 min-h-screen flex flex-col pt-20 pb-24 lg:pb-0 md:pt-20`}>
         <Navbar />
         <ConnectivityBanner />
         {children}

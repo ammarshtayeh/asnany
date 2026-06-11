@@ -15,7 +15,7 @@ import { supabase } from "../../lib/supabase";
 import { Doctor, Offer } from "../../types";
 
 const HERO_IMAGE =
-  "https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=800&q=80";
+  "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?auto=format&fit=crop&w=800&q=80";
 
 const QUICK_CATEGORIES = [
   { label: "أسنان", emoji: "🦷", query: "أسنان", color: "#0ea5e9", bg: "#f0f9ff" },
@@ -201,7 +201,12 @@ export default function HomeScreen() {
 
         {/* Header */}
         <View style={{ position: "absolute", top: insets.top + 12, left: 0, right: 0, paddingHorizontal: 20, flexDirection: "row-reverse", justifyContent: "space-between", alignItems: "center" }}>
-          <Text style={{ fontSize: 20, fontWeight: "900", color: "#fff" }}>✨ ملامح .ps</Text>
+          <View style={{ flexDirection: "row-reverse", alignItems: "center", gap: 8 }}>
+            <View style={{ width: 28, height: 28, borderRadius: 8, backgroundColor: "#d4af37", alignItems: "center", justifyContent: "center" }}>
+              <Text style={{ color: "#fff", fontWeight: "900", fontSize: 13 }}>م</Text>
+            </View>
+            <Text style={{ fontSize: 20, fontWeight: "900", color: "#fff" }}>ملامح.ps</Text>
+          </View>
           <Pressable
             onPress={() => router.push("/discount-card" as any)}
             style={{ backgroundColor: "rgba(255,255,255,0.15)", borderWidth: 1, borderColor: "rgba(255,255,255,0.2)", borderRadius: 100, paddingHorizontal: 14, paddingVertical: 7 }}
@@ -212,33 +217,34 @@ export default function HomeScreen() {
 
         {/* Hero Text */}
         <View style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: 20 }}>
-          <View style={{ backgroundColor: "rgba(16,185,129,0.2)", borderWidth: 1, borderColor: "rgba(16,185,129,0.4)", borderRadius: 100, paddingHorizontal: 12, paddingVertical: 5, alignSelf: "flex-end", marginBottom: 10 }}>
-            <Text style={{ color: "#6ee7b7", fontWeight: "900", fontSize: 11 }}>✅ دليل صحة وجمال الوجه والأسنان في فلسطين</Text>
+          <View style={{ backgroundColor: "rgba(212,175,55,0.15)", borderWidth: 1, borderColor: "rgba(212,175,55,0.35)", borderRadius: 100, paddingHorizontal: 12, paddingVertical: 5, alignSelf: "flex-end", marginBottom: 10 }}>
+            <Text style={{ color: "#fef08a", fontWeight: "900", fontSize: 11 }}>✨ دليل صحة وجمال الوجه والأسنان في فلسطين</Text>
           </View>
           <Text style={{ fontSize: 26, fontWeight: "900", color: "#fff", textAlign: "right", lineHeight: 34 }}>
             كل ما تحتاجه لصحتك وجمالك..{"\n"}في متناول يدك
           </Text>
-          <Text style={{ fontSize: 13, color: "#94a3b8", fontWeight: "600", textAlign: "right", marginTop: 6 }}>
+          <Text style={{ fontSize: 13, color: "#cbd5e1", fontWeight: "600", textAlign: "right", marginTop: 6 }}>
             أطباء موثقون · حجز مباشر · عروض حصرية
           </Text>
         </View>
       </View>
 
       {/* ===== SEARCH ===== */}
-      <View style={{ marginHorizontal: 16, marginTop: -20, zIndex: 10 }}>
+      <View style={{ marginHorizontal: 16, marginTop: -24, zIndex: 10 }}>
         <View style={{
           backgroundColor: "#fff",
-          borderRadius: 20,
+          borderRadius: 22,
           borderWidth: 1,
-          borderColor: "#e2e8f0",
+          borderColor: "#f1f5f9",
           flexDirection: "row-reverse",
           alignItems: "center",
-          paddingHorizontal: 16,
+          paddingHorizontal: 18,
           paddingVertical: 4,
-          shadowColor: "#000",
+          shadowColor: "#0a0f1d",
           shadowOpacity: 0.08,
-          shadowRadius: 16,
-          elevation: 4,
+          shadowOffset: { width: 0, height: 10 },
+          shadowRadius: 20,
+          elevation: 5,
         }}>
           <Text style={{ color: "#94a3b8", fontSize: 16, marginLeft: 8 }}>🔍</Text>
           <TextInput
@@ -332,7 +338,7 @@ export default function HomeScreen() {
                     style={{ width: 220, backgroundColor: "#fff", borderRadius: 18, overflow: "hidden", borderWidth: 1, borderColor: "#f1f5f9", shadowColor: "#000", shadowOpacity: 0.04, shadowRadius: 8, elevation: 1 }}
                   >
                     <View style={{ height: 120, position: "relative" }}>
-                      <Image source={{ uri: "https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=400&q=80" }} style={{ width: "100%", height: "100%" }} resizeMode="cover" />
+                      <Image source={{ uri: "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?auto=format&fit=crop&w=400&q=80" }} style={{ width: "100%", height: "100%" }} resizeMode="cover" />
                       {discount > 0 && (
                         <View style={{ position: "absolute", top: 10, right: 10, backgroundColor: "#dc2626", borderRadius: 8, paddingHorizontal: 8, paddingVertical: 4 }}>
                           <Text style={{ color: "#fff", fontWeight: "900", fontSize: 13 }}>{discount}% خصم</Text>

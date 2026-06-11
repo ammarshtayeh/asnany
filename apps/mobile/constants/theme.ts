@@ -1,14 +1,14 @@
 export const colors = {
-  ink: "#0f172a",
-  muted: "#64748b",
-  soft: "#f6f8fb",
+  ink: "#0a0f1d",       // Premium deep midnight navy-black
+  muted: "#64748b",     // Muted slate
+  soft: "#f8fafc",      // Ultra light slate/blue bg
   card: "#ffffff",
-  border: "#e2e8f0",
-  sky: "#0284c7",
-  teal: "#0d9488",
-  emerald: "#059669",
-  amber: "#d97706",
-  rose: "#e11d48",
+  border: "#f1f5f9",    // Softer border
+  sky: "#0284c7",       // Vibrant sky blue
+  teal: "#0b7a75",      // Medical trust teal
+  emerald: "#0d9488",   // Premium emerald-teal
+  amber: "#d4af37",     // True luxury Gold/Amber
+  rose: "#db2777",      // Warm luxury rose
   violet: "#7c3aed",
   fuchsia: "#c026d3",
 };

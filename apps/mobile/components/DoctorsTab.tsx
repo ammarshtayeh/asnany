@@ -63,7 +63,7 @@ export default function DoctorsTab({
           {ads.map((ad) => (
             <View key={ad.id} style={styles.adSlide}>
               <Image 
-                source={{ uri: ad.image_url || "https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=600&auto=format&fit=crop&q=80" }} 
+                source={{ uri: ad.image_url || "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=600&auto=format&fit=crop&q=80" }} 
                 style={styles.adImage as any} 
               />
               <View style={styles.adOverlay}>
@@ -228,15 +228,15 @@ const styles = StyleSheet.create({
   },
   filterBox: {
     backgroundColor: "#ffffff",
-    borderRadius: 24,
+    borderRadius: 28,
     padding: 18,
     gap: 14,
     borderWidth: 1,
-    borderColor: "#e2e8f0",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.03,
-    shadowRadius: 10,
+    borderColor: "#f1f5f9",
+    shadowColor: "#0a0f1d",
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.04,
+    shadowRadius: 16,
     elevation: 2
   },
   searchInput: {
@@ -347,15 +347,15 @@ const styles = StyleSheet.create({
   },
   card: {
     backgroundColor: "#ffffff",
-    borderRadius: 24,
+    borderRadius: 28,
     padding: 18,
     gap: 12,
     borderWidth: 1,
-    borderColor: "#e2e8f0",
+    borderColor: "#f1f5f9",
     shadowColor: "#0f172a",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.02,
-    shadowRadius: 12,
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.04,
+    shadowRadius: 16,
     elevation: 2
   },
   cardHeader: {
@@ -366,10 +366,10 @@ const styles = StyleSheet.create({
   avatar: {
     width: 60,
     height: 60,
-    borderRadius: 18,
+    borderRadius: 20,
     backgroundColor: "#f1f5f9",
     borderWidth: 1,
-    borderColor: "#e2e8f0"
+    borderColor: "#f1f5f9"
   },
   headerInfo: {
     flex: 1,

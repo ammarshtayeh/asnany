@@ -45,7 +45,7 @@ const DoctorMap = dynamic(() => import("@/components/DoctorMap"), {
 });
 
 const HERO_IMAGE_URL =
-  "https://images.unsplash.com/photo-1629909613654-28e377c37b09?q=80&w=2000&auto=format&fit=crop";
+  "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?q=80&w=2000&auto=format&fit=crop";
 
 const QUICK_CATEGORIES = [
   { id: "dental", label: "أسنان", icon: Stethoscope, color: "text-sky-600", bg: "bg-sky-50" },
@@ -273,42 +273,42 @@ export default function Home() {
     .filter(Boolean) as Doctor[];
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-slate-50 font-sans">
-    <section className="relative isolate mb-10 overflow-hidden rounded-[2rem] bg-slate-950 px-4 py-5 sm:mb-14 sm:rounded-[2.5rem] sm:py-8 lg:px-8">
+    <div className="min-h-screen overflow-x-hidden font-sans">
+      <section className="relative isolate mb-10 overflow-hidden rounded-[2.5rem] bg-slate-950 px-4 py-8 sm:mb-14 sm:rounded-[3rem] sm:py-12 lg:px-8 shadow-2xl border border-slate-900/50">
         <Image
           src={HERO_IMAGE_URL}
-          alt="عيادة أسنان حديثة"
+          alt="عيادة تجميل وجلدية ملامح الحديثة"
           fill
           priority
           sizes="100vw"
-        className="object-cover object-[center_14%]"
+        className="object-cover object-center"
         />
-        <div className="absolute inset-0 bg-gradient-to-l from-slate-950/90 via-slate-950/70 to-slate-900/35" />
-        <div className="relative z-10 mx-auto grid min-h-[560px] w-full max-w-[1400px] items-center gap-7 py-4 sm:min-h-[520px] lg:grid-cols-[minmax(0,1fr)_460px]">
+        <div className="absolute inset-0 bg-gradient-to-l from-slate-950/95 via-slate-950/75 to-slate-900/40" />
+        <div className="relative z-10 mx-auto grid min-h-[580px] w-full max-w-[1400px] items-center gap-10 py-4 lg:grid-cols-[minmax(0,1fr)_480px]">
           <div className="max-w-3xl text-right text-white" dir="rtl">
-            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-black backdrop-blur">
-              <Sparkles className="h-4 w-4 text-amber-300" />
-              دليل صحة وجمال الوجه والأسنان في فلسطين
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-amber-500/20 bg-amber-500/10 px-4.5 py-2.5 text-xs font-black backdrop-blur-md shadow-[0_0_15px_rgba(217,119,6,0.1)]">
+              <Sparkles className="h-4 w-4 text-amber-400" />
+              <span className="text-amber-100">دليل صحة وجمال الوجه والأسنان في فلسطين</span>
             </div>
-            <h1 className="text-3xl font-black leading-tight sm:text-5xl lg:text-6xl">
-              كل ما تحتاجه لصحتك وجمالك.. في متناول يدك
+            <h1 className="text-4xl font-black leading-[1.15] sm:text-5xl lg:text-6xl tracking-tight">
+              كل ما تحتاجه لصحتك وجمالك.. <span className="text-gradient-gold block sm:inline text-amber-400">في متناول يدك</span>
             </h1>
-            <p className="mt-5 max-w-2xl text-base font-semibold leading-8 text-slate-100 sm:text-lg">
-              دليلك الطبي الشامل لأطباء الأسنان، العيون، الجلدية، التجميل، والأنف والأذن والحنجرة الأقرب إليك في فلسطين.
+            <p className="mt-6 max-w-2xl text-base font-semibold leading-8 text-slate-200 sm:text-lg">
+              دليلك الطبي والتجميلي الشامل لأطباء الأسنان، العيون، الجلدية، التجميل، والأنف والأذن والحنجرة الأقرب إليك في فلسطين.
             </p>
-            <div className="mt-7 flex flex-wrap gap-2">
+            <div className="mt-8 flex flex-wrap gap-2.5">
               {TRUST_POINTS.map((item) => (
-                <span key={item.label} className="inline-flex items-center gap-2 rounded-full bg-white/12 px-4 py-2 text-xs font-black text-white">
-                  <item.icon className="h-4 w-4 text-sky-300" />
+                <span key={item.label} className="inline-flex items-center gap-2 rounded-full bg-white/8 px-4 py-2 text-xs font-black text-slate-100 backdrop-blur-sm border border-white/5">
+                  <item.icon className="h-4 w-4 text-amber-400" />
                   {item.label}
                 </span>
               ))}
             </div>
           </div>
 
-          <div className="rounded-2xl border border-white/20 bg-white p-4 text-right shadow-2xl sm:p-5" dir="rtl">
-            <p className="text-xs font-black text-sky-600">ابدأ البحث</p>
-            <h2 className="mt-1 text-2xl font-black text-slate-950">من تبحث عنه اليوم؟</h2>
+          <div className="glass rounded-[2rem] border border-white/30 p-5 text-right shadow-[0_20px_50px_rgba(15,23,42,0.18)] sm:p-6 backdrop-blur-xl" dir="rtl">
+            <p className="text-xs font-black text-amber-600 tracking-wider">ابدأ البحث الآن</p>
+            <h2 className="mt-1 text-2xl font-black text-slate-900">من تبحث عنه اليوم؟</h2>
             <div className="mt-4 grid gap-2 sm:grid-cols-3">
               {CARE_PATHS.map((path) => (
                 <button
@@ -320,15 +320,15 @@ export default function Home() {
                     setActiveDiagnosis("");
                     document.getElementById("doctors")?.scrollIntoView({ behavior: "smooth", block: "start" });
                   }}
-                  className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-3 text-xs font-black text-slate-700 transition hover:border-sky-200 hover:bg-sky-50 hover:text-sky-700"
+                  className="rounded-xl border border-slate-200/60 bg-slate-50/50 px-3 py-3 text-xs font-black text-slate-700 transition-all hover:border-amber-300 hover:bg-white hover:text-amber-700"
                 >
                   {path.label}
                 </button>
               ))}
             </div>
             <div className="mt-4 space-y-3">
-              <label className="flex min-h-12 items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 focus-within:border-sky-300 focus-within:bg-white">
-                <Search className="h-5 w-5 text-sky-500" />
+              <label className="flex min-h-12 items-center gap-3 rounded-2xl border border-slate-200/80 bg-slate-50/40 px-4 focus-within:border-amber-400 focus-within:bg-white transition-all shadow-[inset_0_1px_2px_rgba(0,0,0,0.01)]">
+                <Search className="h-5 w-5 text-amber-500" />
                 <input
                   value={searchQuery}
                   onChange={(event) => setSearchQuery(event.target.value)}
@@ -337,13 +337,13 @@ export default function Home() {
                 />
               </label>
               <div className="grid gap-3 sm:grid-cols-2">
-                <SelectShell icon={<MapPin className="h-5 w-5 text-sky-500" />}>
+                <SelectShell icon={<MapPin className="h-5 w-5 text-amber-500" />}>
                   <select value={selectedCity} onChange={(event) => setSelectedCity(event.target.value)} className="w-full cursor-pointer appearance-none bg-transparent py-3 text-sm font-black text-slate-800 outline-none">
                     <option value="">كل المحافظات</option>
                     {CITIES.map((city) => <option key={city} value={city}>{city}</option>)}
                   </select>
                 </SelectShell>
-                <SelectShell icon={<Stethoscope className="h-5 w-5 text-sky-500" />}>
+                <SelectShell icon={<Stethoscope className="h-5 w-5 text-amber-500" />}>
                   <select value={selectedSpecialty} onChange={(event) => setSelectedSpecialty(event.target.value)} className="w-full cursor-pointer appearance-none bg-transparent py-3 text-sm font-black text-slate-800 outline-none">
                     <option value="">كل التخصصات</option>
                     {QUICK_CATEGORIES.map((category) => <option key={category.id} value={category.label}>{category.label}</option>)}
@@ -352,14 +352,14 @@ export default function Home() {
                 </SelectShell>
               </div>
               <div className="grid gap-3 sm:grid-cols-2">
-                <SelectShell icon={<Clock className="h-5 w-5 text-sky-500" />}>
+                <SelectShell icon={<Clock className="h-5 w-5 text-amber-500" />}>
                   <select value={selectedWorkStatus} onChange={(event) => setSelectedWorkStatus(event.target.value as any)} className="w-full cursor-pointer appearance-none bg-transparent py-3 text-sm font-black text-slate-800 outline-none">
                     <option value="any">كل الأوقات</option>
                     <option value="open">مفتوح الآن</option>
                     <option value="closed">مغلق حاليا</option>
                   </select>
                 </SelectShell>
-                <SelectShell icon={<ShieldCheck className="h-5 w-5 text-sky-500" />}>
+                <SelectShell icon={<ShieldCheck className="h-5 w-5 text-amber-500" />}>
                   <select value={selectedInsurance} onChange={(event) => setSelectedInsurance(event.target.value)} className="w-full cursor-pointer appearance-none bg-transparent py-3 text-sm font-black text-slate-800 outline-none">
                     <option value="">كل التأمينات</option>
                     {PALESTINIAN_INSURANCES.map((insurance) => <option key={insurance} value={insurance}>{insurance}</option>)}
@@ -369,8 +369,10 @@ export default function Home() {
               <button
                 type="button"
                 onClick={handleLocationSearch}
-                className={`flex w-full items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-black text-white transition ${
-                  userLoc ? "bg-emerald-600" : "bg-slate-950 hover:bg-sky-600"
+                className={`flex w-full items-center justify-center gap-2 rounded-2xl px-5 py-3.5 text-sm font-black text-white transition-all duration-300 ${
+                  userLoc 
+                    ? "bg-emerald-600 shadow-[0_8px_20px_rgba(16,185,129,0.25)]" 
+                    : "bg-slate-950 hover:bg-amber-600 hover:shadow-[0_8px_20px_rgba(217,119,6,0.25)] hover:-translate-y-0.5"
                 }`}
               >
                 <Navigation className={`h-5 w-5 -rotate-45 ${userLoc ? "animate-pulse" : ""}`} />
@@ -385,7 +387,7 @@ export default function Home() {
                     <FilterChip label={selectedWorkStatus === "open" ? "مفتوح الآن" : "مغلق حاليا"} onClear={() => setSelectedWorkStatus("any")} />
                   ) : null}
                   {activeDiagnosis ? <FilterChip label="حسب الحالة" onClear={() => setActiveDiagnosis("")} /> : null}
-                  <button type="button" onClick={resetFilters} className="text-xs font-black text-slate-500 hover:text-sky-700">
+                  <button type="button" onClick={resetFilters} className="text-xs font-black text-slate-500 hover:text-amber-700">
                     مسح الكل
                   </button>
                 </div>
@@ -394,6 +396,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+
 
       <main className="mx-auto w-full max-w-[1400px] px-4 py-8 lg:px-8">
         {/* Floating Quick Categories by Specialty */}
@@ -406,13 +409,13 @@ export default function Home() {
                 setSelectedSpecialty(selectedSpecialty === category.label ? "" : category.label);
                 document.getElementById("doctors")?.scrollIntoView({ behavior: "smooth", block: "start" });
               }}
-              className={`min-h-24 rounded-2xl border p-4 text-center transition-all duration-300 shadow-lg ${
+              className={`min-h-26 rounded-3xl border p-4 text-center transition-all duration-500 shadow-md ${
                 selectedSpecialty === category.label 
-                  ? "border-sky-500 bg-white scale-105 ring-2 ring-sky-100" 
-                  : "border-slate-200/80 bg-white/95 backdrop-blur-md hover:border-sky-300 hover:bg-white hover:-translate-y-1"
+                  ? "border-amber-500/85 bg-white scale-105 ring-4 ring-amber-100 shadow-[0_12px_24px_rgba(217,119,6,0.12)]" 
+                  : "border-slate-200/60 bg-white/80 backdrop-blur-md hover:border-amber-300/80 hover:bg-white hover:-translate-y-1.5 hover:shadow-xl"
               }`}
             >
-              <span className={`mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-xl ${category.bg} ${category.color}`}>
+              <span className={`mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-2xl ${category.bg} ${category.color} shadow-sm border border-slate-100`}>
                 <category.icon className="h-6 w-6" />
               </span>
               <span className="text-sm font-black text-slate-900">{category.label}</span>
@@ -645,7 +648,7 @@ function DoctorResult({
   const whatsappHref = doctor.whatsapp ? `https://wa.me/${doctor.whatsapp.replace(/[^\d]/g, "")}` : undefined;
 
   return (
-    <article className="relative group flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition hover:border-sky-200 hover:shadow-md sm:flex-row" dir="rtl">
+    <article className="relative group flex flex-col gap-5 rounded-3xl border border-slate-200/70 bg-white p-5 shadow-[0_4px_20px_-4px_rgba(15,23,42,0.02)] transition-all duration-300 hover:border-amber-300/80 hover:shadow-[0_12px_30px_-8px_rgba(15,23,42,0.06)] hover:-translate-y-0.5 sm:flex-row" dir="rtl">
       
       {/* Top Left Absolute Rating Badge */}
       {(doctor.rating || 0) > 0 ? (
@@ -656,16 +659,16 @@ function DoctorResult({
       ) : null}
 
       {/* Image Column */}
-      <div className="relative h-52 w-full overflow-hidden rounded-xl bg-slate-100 sm:h-auto sm:w-44">
+      <div className="relative h-52 w-full overflow-hidden rounded-2xl bg-slate-100 sm:h-auto sm:w-44">
         {doctor.image_url ? (
           <Image src={doctor.image_url} alt={doctor.name} fill className="object-cover transition duration-500 group-hover:scale-105" />
         ) : (
-          <div className="flex h-full w-full items-center justify-center text-sky-200">
+          <div className="flex h-full w-full items-center justify-center text-amber-200">
             <HeartPulse className="h-12 w-12" />
           </div>
         )}
         {doctor.is_featured ? (
-          <span className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-lg bg-amber-500 px-3 py-1 text-[11px] font-black text-white">
+          <span className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-lg bg-amber-500 px-3 py-1 text-[11px] font-black text-white shadow-sm">
             <Star className="h-3 w-3 fill-current" />
             مميز
           </span>
@@ -677,19 +680,19 @@ function DoctorResult({
         <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
           <div>
             <div className="flex items-center gap-2">
-              <Link href={`/doctors/${doctor.id}`} className="text-xl font-black text-slate-950 hover:text-sky-600">
+              <Link href={`/doctors/${doctor.id}`} className="text-xl font-black text-slate-950 hover:text-amber-600 transition-colors">
                 {doctor.name}
               </Link>
-              {doctor.verified ? <CheckCircle2 className="h-5 w-5 text-emerald-500" /> : null}
+              {doctor.verified ? <CheckCircle2 className="h-5 w-5 text-emerald-500 fill-emerald-50/50" /> : null}
               {doctor.accepts_discount_card ? (
-                <span className="inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-1 text-[11px] font-black text-emerald-700">
+                <span className="inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-1 text-[11px] font-black text-emerald-700 border border-emerald-100">
                   بطاقة الخصم
                 </span>
               ) : null}
             </div>
             <div className="mt-3 flex flex-wrap gap-2">
               {(Array.isArray(doctor.specialty) ? doctor.specialty : []).map((specialty) => (
-                <span key={specialty} className="rounded-lg bg-slate-100 px-3 py-1 text-xs font-bold text-slate-600">
+                <span key={specialty} className="rounded-lg bg-slate-100 px-3 py-1 text-xs font-bold text-slate-600 border border-slate-200/20">
                   {specialty}
                 </span>
               ))}
@@ -700,18 +703,18 @@ function DoctorResult({
         <div className="mt-auto flex flex-col gap-4 border-t border-slate-100 pt-4">
           <div className="space-y-2">
             <p className="flex items-center gap-2 text-sm font-bold text-slate-500">
-              <MapPin className="h-4 w-4" />
+              <MapPin className="h-4 w-4 text-slate-400" />
               {doctor.city}{doctor.area ? ` - ${doctor.area}` : ""}
             </p>
             <div className="flex flex-wrap gap-2">
               <span className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-black ${
                 openNow ? "border-emerald-100 bg-emerald-50 text-emerald-600" : "border-slate-200 bg-slate-100 text-slate-500"
               }`}>
-                <span className={`h-1.5 w-1.5 rounded-full ${openNow ? "bg-emerald-500" : "bg-slate-400"}`} />
+                <span className={`h-1.5 w-1.5 rounded-full ${openNow ? "bg-emerald-500 animate-pulse" : "bg-slate-400"}`} />
                 {openNow ? "مفتوح الآن" : "مغلق حاليا"}
               </span>
               {doctor.distance !== undefined ? (
-                <span className="inline-flex items-center gap-1 rounded-full bg-sky-50 px-3 py-1 text-xs font-black text-sky-700">
+                <span className="inline-flex items-center gap-1 rounded-full bg-sky-50 px-3 py-1 text-xs font-black text-sky-700 border border-sky-100">
                   <Route className="h-3.5 w-3.5" />
                   {doctor.distance.toFixed(1)} كم
                 </span>
@@ -721,25 +724,27 @@ function DoctorResult({
 
           {/* Action Buttons arranged horizontally */}
           <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-            <Link href={`/doctors/${doctor.id}`} className="inline-flex items-center justify-center gap-2 rounded-xl bg-slate-950 px-4 py-3 text-sm font-black text-white transition hover:bg-sky-600">
+            <Link href={`/doctors/${doctor.id}`} className="inline-flex items-center justify-center gap-2 rounded-xl bg-slate-950 px-4 py-3 text-sm font-black text-white transition-all hover:bg-amber-600 hover:shadow-lg hover:shadow-amber-600/10">
               احجز
               <ArrowLeft className="h-4 w-4" />
             </Link>
             {whatsappHref ? (
-              <a href={whatsappHref} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 rounded-xl border border-emerald-100 bg-emerald-50 px-4 py-3 text-sm font-black text-emerald-700 hover:bg-emerald-100">
+              <a href={whatsappHref} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-black text-emerald-700 hover:bg-emerald-100 transition-all">
                 <MessageCircle className="h-4 w-4" />
                 واتساب
               </a>
             ) : null}
-            <Link href={`/doctors/${doctor.id}/map`} className="inline-flex items-center justify-center gap-2 rounded-xl border border-sky-100 bg-sky-50 px-4 py-3 text-sm font-black text-sky-700 hover:bg-sky-100">
+            <Link href={`/doctors/${doctor.id}/map`} className="inline-flex items-center justify-center gap-2 rounded-xl border border-sky-200 bg-sky-50 px-4 py-3 text-sm font-black text-sky-700 hover:bg-sky-100 transition-all">
               <MapPin className="h-4 w-4" />
               الخريطة
             </Link>
             <button
               type="button"
               onClick={onToggleCompare}
-              className={`inline-flex items-center justify-center gap-2 rounded-xl border px-4 py-3 text-sm font-black sm:col-span-4 ${
-                compareSelected ? "border-sky-200 bg-sky-600 text-white" : "border-slate-200 bg-white text-slate-700 hover:border-sky-200"
+              className={`inline-flex items-center justify-center gap-2 rounded-xl border px-4 py-3 text-sm font-black transition-all sm:col-span-4 ${
+                compareSelected 
+                  ? "border-amber-300 bg-amber-500 text-white shadow-md shadow-amber-500/10" 
+                  : "border-slate-200 bg-white text-slate-700 hover:border-amber-300 hover:bg-amber-50/50"
               }`}
             >
               <GitCompareArrows className="h-4 w-4" />
