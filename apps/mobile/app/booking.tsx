@@ -134,7 +134,7 @@ export default function BookingScreen() {
     <ScrollView style={{ flex: 1, backgroundColor: "#f8fafc" }} contentContainerStyle={{ padding: 16, paddingBottom: 120 }}>
       <View style={{ flexDirection: "row-reverse", alignItems: "center", justifyContent: "space-between", marginBottom: 16, backgroundColor: "white", padding: 16, borderRadius: 24, borderWidth: 1, borderColor: "#e2e8f0" }}>
         <View style={{ alignItems: "flex-end" }}>
-          <Text style={{ fontSize: 12, fontWeight: "900", color: "#64748b" }}>عيادات أسناني</Text>
+          <Text style={{ fontSize: 12, fontWeight: "900", color: "#64748b" }}>عيادات ملامح</Text>
           <Text style={{ fontSize: 18, fontWeight: "900", color: "#0f172a", marginTop: 4 }}>حجز موعد جديد</Text>
         </View>
         <Pressable onPress={() => router.back()} style={{ height: 40, width: 40, borderRadius: 20, backgroundColor: "#f1f5f9", alignItems: "center", justifyContent: "center" }}>

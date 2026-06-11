@@ -20,7 +20,7 @@ export default function AdvertiseWithUs() {
 
   const whatsappHref = useMemo(() => {
     const text = [
-      "مرحباً أسناني، أرغب بعمل إعلان.",
+      "مرحباً ملامح، أرغب بعمل إعلان.",
       advertiserName ? `اسم المعلن: ${advertiserName}` : "",
       `نوع المعلن: ${advertiserType}`,
       `طبيعة الإعلان: ${adNature}`,
@@ -56,7 +56,7 @@ export default function AdvertiseWithUs() {
         <div className="flex flex-col justify-center text-right">
           <span className="mb-4 inline-flex w-fit items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-4 py-2 text-xs font-black text-amber-700">
             <Megaphone className="h-4 w-4" />
-            أعلن مع أسناني
+            أعلن مع ملامح
           </span>
           <h1 className="text-4xl font-black leading-tight text-slate-950 md:text-6xl">
             إعلان واضح، جمهور مهتم، وتواصل مباشر.
@@ -86,6 +86,7 @@ export default function AdvertiseWithUs() {
               <Field label="نوع المعلن">
                 <select value={advertiserType} onChange={(e) => setAdvertiserType(e.target.value)} className="form-field">
                   <option>عيادة أسنان</option>
+                  <option>عيادة تخصصية (عيون/أنف وأذن وحنجرة/جلدية...)</option>
                   <option>طبيب مستقل</option>
                   <option>مركز تجميل</option>
                   <option>مختبر أسنان</option>
@@ -97,7 +98,7 @@ export default function AdvertiseWithUs() {
                 <select value={adNature} onChange={(e) => setAdNature(e.target.value)} className="form-field">
                   <option>بنر على الصفحة الرئيسية</option>
                   <option>عرض وخصم</option>
-                  <option>إعلان في سوق أسناني</option>
+                  <option>إعلان في سوق ملامح</option>
                   <option>ترويج طبيب/عيادة</option>
                   <option>إعلان وظيفة</option>
                   <option>حملة شهرية</option>

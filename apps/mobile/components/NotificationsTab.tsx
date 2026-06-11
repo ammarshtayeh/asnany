@@ -15,7 +15,7 @@ export default function NotificationsTab({
   return (
     <View style={styles.tabContent}>
       <View style={styles.card}>
-        <Text style={styles.sectionTitle}>🔔 مركز تنبيهات أسناني.ps</Text>
+        <Text style={styles.sectionTitle}>🔔 مركز تنبيهات ملامح.ps</Text>
         <Text style={styles.bioText}>قم بتفعيل التنبيهات على هاتفك لتصلك إشعارات حية حول العروض والخصومات وحجوزات عيادتك فوراً.</Text>
 
         <View style={styles.notificationStatusBox}>

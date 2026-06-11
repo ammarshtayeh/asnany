@@ -24,16 +24,16 @@ const links = [
   {
     href: "/",
     label: "الرئيسية",
-    icon: Stethoscope,
-    color: "text-sky-600",
-    active: "bg-sky-50 text-sky-700 border-sky-100",
+    icon: Sparkles,
+    color: "text-amber-600",
+    active: "bg-amber-50 text-amber-700 border-amber-100",
   },
   {
     href: "/offers",
     label: "العروض",
     icon: Tags,
-    color: "text-amber-600",
-    active: "bg-amber-50 text-amber-700 border-amber-100",
+    color: "text-rose-600",
+    active: "bg-rose-50 text-rose-700 border-rose-100",
   },
   {
     href: "/marketplace",
@@ -99,12 +99,12 @@ export default function Navbar() {
     <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-xl border-b border-slate-100 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.01),0_10px_30px_-10px_rgba(0,0,0,0.03)]">
       <div className="max-w-[1600px] mx-auto px-3 lg:px-6 h-[72px] flex items-center gap-3">
         <Link href="/" className="flex items-center gap-2.5 group flex-shrink-0">
-          <div className="w-9 h-9 bg-gradient-to-tr from-sky-500 to-sky-400 rounded-xl flex items-center justify-center shadow-md shadow-sky-500/20 group-hover:scale-105 transition-transform duration-300">
-            <Stethoscope className="w-5 h-5 text-white" />
+          <div className="w-9 h-9 bg-gradient-to-tr from-slate-900 to-slate-700 rounded-xl flex items-center justify-center shadow-md shadow-slate-950/20 group-hover:scale-105 transition-transform duration-300">
+            <Sparkles className="w-5 h-5 text-amber-300" />
           </div>
           <div className="flex items-center select-none">
-            <span className="text-xl font-black tracking-tight text-slate-900">أسناني</span>
-            <span className="text-xl font-black text-sky-500">.ps</span>
+            <span className="text-xl font-black tracking-tight text-slate-900">ملامح</span>
+            <span className="text-xl font-black text-amber-500">.ps</span>
           </div>
         </Link>
 

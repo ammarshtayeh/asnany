@@ -295,7 +295,7 @@ export default function MarketplacePage() {
                   <CheckCircle className="w-10 h-10" />
                 </div>
                 <h3 className="text-2xl font-black text-slate-900 mb-2">تم نشر إعلانك بنجاح!</h3>
-                <p className="text-slate-500 font-medium">تمت إضافة إعلانك إلى سوق أسناني بنجاح وهو يظهر الآن للجميع.</p>
+                <p className="text-slate-500 font-medium">تمت إضافة إعلانك إلى سوق ملامح بنجاح وهو يظهر الآن للجميع.</p>
               </div>
             ) : (
               <form onSubmit={handleFormSubmit} className="space-y-4">
@@ -304,7 +304,7 @@ export default function MarketplacePage() {
                     <PlusCircle className="w-6 h-6" />
                   </div>
                   <div>
-                    <h3 className="text-2xl font-black text-slate-950">انشر إعلانك في سوق أسناني</h3>
+                    <h3 className="text-2xl font-black text-slate-950">انشر إعلانك في سوق ملامح</h3>
                     <p className="text-slate-500 text-sm font-medium">أعلن عن أجهزتك الطبية أو ابحث عن كفاءات لعيادتك.</p>
                   </div>
                 </div>
@@ -527,12 +527,12 @@ export default function MarketplacePage() {
             <div className="bg-[#25D366]/5 border border-[#25D366]/20 p-5 rounded-2xl text-right mb-6" dir="rtl">
               <span className="text-[10px] font-black text-[#25D366] bg-[#25D366]/10 px-2.5 py-0.5 rounded-full inline-block mb-2">تواصل مباشر ومؤتمت</span>
               <p className="text-sm font-bold text-slate-700 leading-relaxed">
-                اضغط على زر التواصل بالأسفل لإرسال تفاصيل إعلانك (الصور، الوصف، المدينة) لفريق خدمة عملاء أسناني لنقوم بتفعيله لك خلال ساعة واحدة!
+                اضغط على زر التواصل بالأسفل لإرسال تفاصيل إعلانك (الصور، الوصف، المدينة) لفريق خدمة عملاء ملامح لنقوم بتفعيله لك خلال ساعة واحدة!
               </p>
             </div>
 
             <a
-              href="https://wa.me/970599000000?text=أهلاً أسناني، أرغب في إضافة إعلان جديد على سوق أسناني الطبي"
+              href="https://wa.me/970599000000?text=أهلاً ملامح، أرغب في إضافة إعلان جديد على سوق ملامح الطبي"
               target="_blank"
               rel="noreferrer"
               className="w-full bg-slate-900 hover:bg-primary text-white py-4 rounded-2xl font-black text-base transition-all text-center block shadow-lg"

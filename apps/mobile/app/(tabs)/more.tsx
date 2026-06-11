@@ -9,7 +9,7 @@ const SECTIONS = [
     color: "#10b981",
     bgColor: "#ecfdf5",
     items: [
-      { emoji: "🦷", label: "احجز طبيب", desc: "احجز موعد مع طبيب أسنان", path: "/booking" },
+      { emoji: "🦷", label: "احجز طبيب", desc: "احجز موعد مع الطبيب المناسب", path: "/booking" },
       { emoji: "💳", label: "بطاقة الخصم", desc: "خصومات حصرية لحاملي البطاقة", path: "/discount-card" },
       { emoji: "💆", label: "مراكز التجميل", desc: "تجميل الأسنان والابتسامة", path: "/beauty" },
       { emoji: "🔬", label: "المختبرات", desc: "مختبرات طبية معتمدة", path: "/labs" },
@@ -28,7 +28,7 @@ const SECTIONS = [
     ],
   },
   {
-    title: "انضم لأسناني",
+    title: "انضم لملامح",
     color: "#7c3aed",
     bgColor: "#f5f3ff",
     items: [
@@ -48,11 +48,11 @@ const SECTIONS = [
     ],
   },
   {
-    title: "عن أسناني",
+    title: "عن ملامح",
     color: "#64748b",
     bgColor: "#f8fafc",
     items: [
-      { emoji: "ℹ️", label: "من نحن", desc: "قصة ورسالة أسناني", path: "/about" },
+      { emoji: "ℹ️", label: "من نحن", desc: "قصة ورسالة ملامح", path: "/about" },
       { emoji: "🔒", label: "سياسة الخصوصية", desc: "كيف نحمي بياناتك", path: "/privacy" },
       { emoji: "📄", label: "شروط الاستخدام", desc: "القواعد والأحكام", path: "/terms" },
     ],
@@ -71,7 +71,7 @@ export default function MoreScreen() {
       {/* Header */}
       <View style={{ backgroundColor: "#0f172a", padding: 24, paddingTop: insets.top + 16 }}>
         <Text style={{ fontSize: 22, fontWeight: "900", color: "#fff", textAlign: "right" }}>
-          🦷 كل خدمات أسناني
+          ✨ كل خدمات ملامح
         </Text>
         <Text style={{ fontSize: 13, color: "#94a3b8", fontWeight: "600", marginTop: 4, textAlign: "right" }}>
           دليل طبي متكامل في مكان واحد
@@ -152,9 +152,9 @@ export default function MoreScreen() {
             marginTop: 4,
           }}
         >
-          <Text style={{ fontSize: 20, fontWeight: "900", color: "#fff" }}>أسناني .ps</Text>
+          <Text style={{ fontSize: 20, fontWeight: "900", color: "#fff" }}>ملامح .ps</Text>
           <Text style={{ fontSize: 12, color: "#64748b", fontWeight: "600", textAlign: "center" }}>
-            دليل فلسطين لطب الأسنان
+            دليل فلسطين لصحة وجمال الوجه
           </Text>
           <Pressable
             onPress={() => router.push("/" as any)}

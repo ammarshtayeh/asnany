@@ -34,7 +34,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
         </button>
         <div className="text-right">
           <p className="text-sm font-black text-slate-950">لوحة التحكم</p>
-          <p className="text-xs font-bold text-slate-500">إدارة أسناني.ps</p>
+          <p className="text-xs font-bold text-slate-500">إدارة ملامح.ps</p>
         </div>
       </div>
 
@@ -92,7 +92,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
       <aside className="w-64 bg-slate-900 text-white flex-shrink-0 hidden md:flex flex-col">
         <div className="p-6 border-b border-white/10">
           <h2 className="text-2xl font-black text-white">لوحة التحكم</h2>
-          <p className="text-slate-400 text-sm mt-1">إدارة دليل أسناني</p>
+          <p className="text-slate-400 text-sm mt-1">إدارة دليل ملامح</p>
         </div>
 
         <nav className="flex-1 py-4 flex flex-col gap-1 px-3">

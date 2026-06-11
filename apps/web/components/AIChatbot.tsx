@@ -19,7 +19,7 @@ export default function AIChatbot() {
   const [messages, setMessages] = useState<Message[]>([
     {
       sender: "bot",
-      text: "مرحباً بك! أنا مساعد أسناني الذكي 🦷🤖. كيف يمكنني مساعدتك اليوم؟\n\nيمكنك إخباري بموقع الألم أو الاستفسار عن العلاجات والتقويم، وسأقوم بتوجيهك لأفضل أطباء الأسنان في فلسطين!"
+      text: "مرحباً بك! أنا مساعد ملامح الذكي ✨🤖. كيف يمكنني مساعدتك اليوم؟\n\nيمكنك الاستفسار عن أطباء الأسنان، العيون، الجلدية، وأنف وأذن وحنجرة، وسأوجهك لأفضل الأطباء في فلسطين!"
     }
   ]);
   const [isTyping, setIsTyping] = useState(false);
@@ -71,7 +71,7 @@ export default function AIChatbot() {
         botResponse = "العناية بأسنان الأطفال منذ الصغر ضرورية جداً لحماية الأسنان اللبنية وضمان نمو الأسنان الدائمة بشكل سليم.\n\nلدينا أطباء أسنان مختصون بلطف شديد في التعامل مع الأطفال وجعل الزيارة ممتعة وخالية من الخوف.";
         isBookingCTA = true;
       } else if (cleanText.includes("مرحبا") || cleanText.includes("سلام") || cleanText.includes("هلا")) {
-        botResponse = "أهلاً وسهلاً بك! أنا مساعدك السني الذكي 🦷. يمكنك الاستفسار عن أي مشكلة في أسنانك وسأقترح عليك التخصص المناسب وأرشدك لأقرب الأطباء في فلسطين.";
+        botResponse = "أهلاً وسهلاً بك! أنا مساعدك الطبي الذكي 🦷. يمكنك الاستفسار عن أي مشكلة صحية وسأقترح عليك التخصص المناسب وأرشدك لأقرب الأطباء في فلسطين.";
       } else {
         botResponse = "شكراً لاستفسارك! كمساعد طبيب أسنان ذكي، أنصحك دائماً بالفحص المباشر في العيادة للحصول على تشخيص دقيق 100%.\n\nيمكنك استخدام محرك البحث الذكي في منصتنا لتحديد مدينتك وحجز موعد مع الطبيب الأقرب إليك بسهولة فائقة!";
       }
@@ -120,7 +120,7 @@ export default function AIChatbot() {
                 <Sparkles className="w-6 h-6 text-yellow-400 fill-current animate-pulse" />
               </div>
               <div>
-                <h4 className="font-black text-base flex items-center gap-1.5">أسناني AI <span className="text-[10px] bg-primary px-2 py-0.5 rounded-full text-white font-bold animate-pulse">مساعد مجاني</span></h4>
+                <h4 className="font-black text-base flex items-center gap-1.5">ملامح AI <span className="text-[10px] bg-primary px-2 py-0.5 rounded-full text-white font-bold animate-pulse">مساعد مجاني</span></h4>
                 <p className="text-xs text-slate-300 font-medium">مساعد التشخيص وتوجيه الحجز الفوري</p>
               </div>
             </div>

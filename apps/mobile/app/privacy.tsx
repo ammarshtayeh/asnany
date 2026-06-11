@@ -38,7 +38,7 @@ export default function PrivacyScreen() {
             <Text style={{ fontSize: 18, fontWeight: "900", color: "#0f172a", flex: 1, textAlign: "right" }}>سياسة الخصوصية</Text>
           </View>
           <Text style={{ color: "#64748b", fontSize: 13, fontWeight: "500", lineHeight: 22, textAlign: "right" }}>
-            منصة <Text style={{ fontWeight: "900", color: "#0f172a" }}>أسناني.ps</Text> هي فكرة ومشروع <Text style={{ fontWeight: "900", color: "#0f172a" }}>عمار اشتية</Text>، وجميع الحقوق محفوظة له. تم إعداد هذه المنصة لتسهيل الوصول إلى أطباء الأسنان والخدمات الطبية في فلسطين مع الالتزام بحماية بيانات المستخدمين واحترام خصوصيتهم.
+            منصة <Text style={{ fontWeight: "900", color: "#0f172a" }}>ملامح.ps</Text> هي فكرة ومشروع <Text style={{ fontWeight: "900", color: "#0f172a" }}>عمار اشتية</Text>، وجميع الحقوق محفوظة له. تم إعداد هذه المنصة لتسهيل الوصول إلى أطباء وصحة وجمال الوجه (الأسنان، الجلدية، العيون، التجميل، الأنف والأذن والحنجرة) والخدمات الطبية في فلسطين مع الالتزام بحماية بيانات المستخدمين واحترام خصوصيتهم.
           </Text>
         </View>
 
@@ -90,7 +90,7 @@ export default function PrivacyScreen() {
         {/* Footer info */}
         <View style={{ flexDirection: "row-reverse", justifyContent: "space-between", paddingHorizontal: 4 }}>
           <Text style={{ fontSize: 11, color: "#94a3b8", fontWeight: "600" }}>🛡️ آخر تحديث: يونيو 2026</Text>
-          <Text style={{ fontSize: 11, color: "#94a3b8", fontWeight: "600" }}>🤝 أسناني.ps - مشروع عمار اشتية</Text>
+          <Text style={{ fontSize: 11, color: "#94a3b8", fontWeight: "600" }}>🤝 ملامح.ps - مشروع عمار اشتية</Text>
         </View>
 
         <Pressable onPress={() => router.push("/")} style={{ backgroundColor: "#f1f5f9", borderRadius: 16, paddingVertical: 14, alignItems: "center" }}>

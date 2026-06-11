@@ -99,10 +99,10 @@ export default function OffersScreen() {
           </Text>
         </View>
         <Text style={{ fontSize: 24, fontWeight: "900", color: "#fff", textAlign: "right" }}>
-          وفّر على علاج الأسنان{"\n"}بدون ما تتنازل عن الجودة
+          وفّر على خدمات الصحة والجمال{"\n"}بدون ما تتنازل عن الجودة
         </Text>
         <Text style={{ color: "#94a3b8", fontSize: 12, fontWeight: "600", marginTop: 6, textAlign: "right" }}>
-          عروض محدثة من أطباء وعيادات ضمن شبكة أسناني.
+          عروض محدثة من أطباء وعيادات ضمن شبكة ملامح.
         </Text>
 
         {/* Stats Row */}

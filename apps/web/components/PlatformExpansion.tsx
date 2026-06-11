@@ -16,7 +16,6 @@ import {
   Sparkles,
   Stethoscope,
   Store,
-  Video,
 } from "lucide-react";
 
 const platformPillars = [
@@ -56,7 +55,7 @@ const platformPillars = [
 
 const serviceHubs = [
   {
-    title: "أطباء وعيادات الأسنان",
+    title: "أطباء الوجه والأسنان",
     icon: Stethoscope,
     href: "#doctors",
     meta: "تخصصات، تقييمات، صور، دوام، وحجز",
@@ -86,17 +85,17 @@ const serviceHubs = [
 ];
 
 const patientValue = [
-  "الوصول السريع للطبيب أو المركز المناسب",
+  "الوصول السريع للطبيب أو المركز المناسب للوجه والأسنان والعيون والجلدية والتجميل",
   "معرفة الخدمات والأسعار التقريبية قبل التواصل",
   "توفير وقت البحث وتقليل العشوائية في الاختيار",
   "محتوى صحي موثوق ومناسب للعائلات",
 ];
 
 const providerValue = [
-  "ظهور احترافي للعيادات والمراكز والشركات",
-  "قنوات واضحة لاستقبال الحجوزات والاستفسارات",
-  "إبراز العروض والخدمات الجديدة بطريقة منظمة",
-  "بناء ثقة رقمية أقوى مع المرضى والجمهور",
+  "ظهور احترافي للعيادات والمراكز والشركات الطبية والتجميلية في فلسطين",
+  "قنوات واضحة لاستقبال الحجوزات والاستفسارات الطبية والتجميلية",
+  "إبراز العروض والخدمات الجديدة بطريقة منظمة للمراجعين",
+  "بناء ثقة رقمية أقوى مع المرضى والجمهور المهتم بصحة وجمال الوجه",
 ];
 
 const experienceSteps = [
@@ -107,14 +106,14 @@ const experienceSteps = [
 ];
 
 const educationItems = [
-  { title: "المفيد للأسنان", text: "أغذية مفيدة، عادات صحية، منتجات موثوقة، وفحوصات دورية.", tone: "bg-emerald-50 text-emerald-700 border-emerald-100" },
-  { title: "الضار للأسنان", text: "التدخين، المشروبات الغازية، أخطاء التفريش، والمنتجات غير المناسبة.", tone: "bg-rose-50 text-rose-700 border-rose-100" },
+  { title: "نصائح صحية للوجه والأسنان", text: "عادات صحية، تغذية سليمة، منتجات موثوقة، وفحوصات دورية للوجه والأسنان.", tone: "bg-emerald-50 text-emerald-700 border-emerald-100" },
+  { title: "الممارسات الضارة", text: "التدخين، السلوكيات الخاطئة للبشرة والأسنان، والمنتجات غير المعتمدة.", tone: "bg-rose-50 text-rose-700 border-rose-100" },
   { title: "اختبارات تفاعلية", text: "أسئلة قصيرة تساعد الزائر على فهم عاداته ومتى يحتاج مراجعة طبيب.", tone: "bg-sky-50 text-sky-700 border-sky-100" },
 ];
 
 const futureItems = [
   { title: "توجيه أولي بالذكاء الاصطناعي", icon: Bot },
-  { title: "تحليل صور الأسنان مستقبلًا", icon: Camera },
+  { title: "تحليل صور البشرة والوجه والأسنان", icon: Camera },
   { title: "أكاديمية للأطباء والطلاب", icon: GraduationCap },
   { title: "خدمات مختبرية ومنزلية", icon: Beaker },
 ];
@@ -126,14 +125,14 @@ export default function PlatformExpansion() {
         <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-10 items-end">
           <div>
             <span className="inline-flex items-center gap-2 rounded-full bg-slate-50 text-slate-700 border border-slate-200 px-4 py-2 text-sm font-black">
-              <ShieldCheck className="w-4 h-4 text-sky-600" />
+              <ShieldCheck className="w-4 h-4 text-amber-600" />
               مرجع طبي رقمي لفلسطين
             </span>
             <h2 className="mt-5 text-3xl md:text-5xl font-black text-slate-950 leading-tight">
               تجربة واحدة تجمع الرعاية، المعرفة، والحجز في مكان موثوق.
             </h2>
             <p className="mt-5 text-slate-600 text-lg leading-8 font-medium">
-              أسناني منصة موجهة للمواطن والقطاع الطبي: تساعد الزائر على الوصول لمقدم الخدمة المناسب، وتمنح الأطباء والمراكز والشركات حضورًا رقميًا واضحًا واحترافيًا.
+              ملامح منصة موجهة للمواطن والقطاع الطبي: تساعد الزائر على الوصول لمقدم الخدمة المناسب، وتمنح الأطباء والمراكز والشركات حضورًا رقميًا واضحًا واحترافيًا.
             </p>
           </div>
 

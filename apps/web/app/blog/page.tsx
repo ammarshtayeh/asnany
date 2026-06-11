@@ -36,7 +36,7 @@ export default function BlogPage() {
             </Link>
             <span className="mb-4 inline-flex w-fit items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-4 py-2 text-xs font-black text-emerald-700">
               <BookOpen className="h-4 w-4" />
-              مجلة أسناني
+              مجلة ملامح
             </span>
             <h1 className="text-4xl font-black leading-tight text-slate-950 md:text-6xl">
               محتوى طبي واضح، بلا تعقيد.
@@ -71,7 +71,7 @@ export default function BlogPage() {
               <div className="mt-8 flex items-center justify-between border-t border-slate-100 pt-5">
                 <span className="inline-flex items-center gap-2 text-sm font-black text-slate-700">
                   <UserCircle2 className="h-5 w-5 text-emerald-600" />
-                  {lead.doctor_name || "أسناني"}
+                  {lead.doctor_name || "ملامح"}
                 </span>
                 <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-slate-950 text-white transition group-hover:bg-emerald-600">
                   <ArrowLeft className="h-5 w-5" />
@@ -96,7 +96,7 @@ export default function BlogPage() {
               <p className="mt-2 line-clamp-3 text-sm font-semibold leading-7 text-slate-500">{article.excerpt || article.content}</p>
               <div className="mt-5 flex items-center justify-between border-t border-slate-100 pt-4 text-xs font-bold text-slate-400">
                 <span>{article.read_time || "قراءة سريعة"}</span>
-                <span>{article.doctor_name || "أسناني"}</span>
+                <span>{article.doctor_name || "ملامح"}</span>
               </div>
             </div>
           </Link>

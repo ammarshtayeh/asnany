@@ -42,7 +42,7 @@ const sections: Array<{
   },
   {
     value: "marketplace_ads",
-    label: "سوق أسناني",
+    label: "سوق ملامح",
     hint: "معدات، وظائف، وإعلانات الموردين",
     icon: BriefcaseBusiness,
     color: "bg-emerald-50 text-emerald-700 border-emerald-100",
@@ -191,7 +191,7 @@ export default function AdminContentPage() {
         <div>
           <p className="mb-2 text-sm font-black text-sky-600">مركز المحتوى</p>
           <h1 className="text-2xl md:text-3xl font-black text-slate-950">
-            إدارة العروض، الأخبار، وسوق أسناني
+            إدارة العروض، الأخبار، وسوق ملامح
           </h1>
           <p className="mt-2 max-w-2xl text-sm md:text-base font-medium leading-relaxed text-slate-500">
             من هذه الصفحة تستطيع إضافة وتعديل وحذف المحتوى الذي يظهر للزوار في الصفحات العامة بدون لمس الكود.

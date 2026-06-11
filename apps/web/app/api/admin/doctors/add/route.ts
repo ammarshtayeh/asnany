@@ -4,7 +4,7 @@ import { supabaseAdmin } from "@/lib/supabase";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, specialty, city, area, phone, whatsapp, bio, accepts_insurance, image_url, clinic_photos } = body;
+    const { name, category, specialty, city, area, phone, whatsapp, bio, accepts_insurance, image_url, clinic_photos } = body;
 
     if (!name || !city) {
       return NextResponse.json({ error: "الاسم والمدينة مطلوبان" }, { status: 400 });
@@ -13,6 +13,7 @@ export async function POST(request: Request) {
     // Prepare doctor structure matching database schema
     const newDoctor = {
       name,
+      category: category || "أسنان",
       specialty: Array.isArray(specialty) ? specialty : [specialty],
       city,
       area: area || "",

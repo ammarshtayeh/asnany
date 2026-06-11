@@ -5,8 +5,8 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const WHATSAPP_NUMBER = "9720595537190";
 
-const AD_TYPES = ["عيادة أسنان", "طبيب مستقل", "مركز تجميل", "مختبر أسنان", "شركة/مورد", "إعلان وظيفة"];
-const AD_NATURES = ["بنر على الصفحة الرئيسية", "عرض وخصم", "إعلان في سوق أسناني", "ترويج طبيب/عيادة", "إعلان وظيفة", "حملة شهرية"];
+const AD_TYPES = ["عيادة أسنان", "طبيب عيون", "طبيب جلدية", "مركز تجميل", "أنف وأذن وحنجرة", "مختبر طبي", "شركة/مورد", "إعلان وظيفة"];
+const AD_NATURES = ["بنر على الصفحة الرئيسية", "عرض وخصم", "إعلان في سوق ملامح", "ترويج طبيب/عيادة", "إعلان وظيفة", "حملة شهرية"];
 
 export default function AdvertiseScreen() {
   const insets = useSafeAreaInsets();
@@ -21,7 +21,7 @@ export default function AdvertiseScreen() {
 
   const whatsappMsg = useMemo(() => {
     const lines = [
-      "مرحباً أسناني، أرغب بعمل إعلان.",
+      "مرحباً ملامح، أرغب بعمل إعلان.",
       advertiserName ? `اسم المعلن: ${advertiserName}` : "",
       `نوع المعلن: ${advertiserType}`,
       `طبيعة الإعلان: ${adNature}`,
@@ -54,7 +54,7 @@ export default function AdvertiseScreen() {
           <Text style={{ color: "#fff", fontWeight: "800", fontSize: 13 }}>رجوع</Text>
         </Pressable>
         <View style={{ backgroundColor: "rgba(245,158,11,0.25)", borderWidth: 1, borderColor: "rgba(245,158,11,0.4)", paddingHorizontal: 14, paddingVertical: 6, borderRadius: 100, alignSelf: "flex-start", marginBottom: 12 }}>
-          <Text style={{ color: "#fde68a", fontWeight: "900", fontSize: 12 }}>📣 أعلن مع أسناني</Text>
+          <Text style={{ color: "#fde68a", fontWeight: "900", fontSize: 12 }}>📣 أعلن مع ملامح</Text>
         </View>
         <Text style={{ fontSize: 24, fontWeight: "900", color: "#fff", textAlign: "right" }}>إعلان واضح، جمهور مهتم، وتواصل مباشر</Text>
         <Text style={{ color: "#94a3b8", fontSize: 12, fontWeight: "600", marginTop: 6, textAlign: "right" }}>

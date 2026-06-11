@@ -12,15 +12,15 @@ export default function Header() {
       <View style={styles.content}>
         <View style={styles.brandRow}>
           <View style={styles.logo}>
-            <Text style={styles.logoText}>أ</Text>
+            <Text style={styles.logoText}>م</Text>
           </View>
           <View>
-            <Text style={styles.brand}>أسناني.ps</Text>
-            <Text style={styles.country}>دليل الأسنان الذكي في فلسطين</Text>
+            <Text style={styles.brand}>ملامح.ps</Text>
+            <Text style={styles.country}>دليل صحة وجمال الوجه في فلسطين</Text>
           </View>
         </View>
 
-        <Text style={styles.title}>ابحث، قارن، واحجز رعاية الأسنان من مكان واحد.</Text>
+        <Text style={styles.title}>ابحث، قارن، واحجز رعايتك الطبية من مكان واحد.</Text>
         <Text style={styles.subtitle}>
           أطباء موثقون، عروض، متاجر، مختبرات، تجميل، واستشارات في تجربة واحدة مرتبة على الهاتف.
         </Text>

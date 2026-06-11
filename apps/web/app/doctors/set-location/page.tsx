@@ -99,7 +99,7 @@ export default function SetDoctorLocation() {
             <MapPin className="w-8 h-8 text-primary animate-bounce" /> بوابة تحديد موقع العيادة للأطباء
           </h1>
           <p className="text-slate-300 mt-2 text-sm md:text-base font-medium max-w-xl mx-auto">
-            خطوات بسيطة لتثبيت موقع عيادتك على خرائط أسناني.ps وتسهيل إرشاد المريض إليك بخدمات الـ GPS المتقدمة.
+            خطوات بسيطة لتثبيت موقع عيادتك على خرائط ملامح.ps وتسهيل إرشاد المريض إليك بخدمات الـ GPS المتقدمة.
           </p>
         </div>
       </div>

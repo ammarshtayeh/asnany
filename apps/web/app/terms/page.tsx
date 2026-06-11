@@ -22,7 +22,7 @@ export default function TermsAndConditions() {
             الشروط والأحكام وسياسة الاستخدام
           </h1>
           <p className="text-slate-300 mt-2 text-sm md:text-base font-medium max-w-xl mx-auto">
-            يرجى قراءة شروط وأحكام استخدام بوابة أسناني.ps لضمان تجربة آمنة ومميزة لجميع الأعضاء والزوار.
+            يرجى قراءة شروط وأحكام استخدام بوابة ملامح.ps لضمان تجربة آمنة ومميزة لجميع الأعضاء والزوار.
           </p>
         </div>
       </div>
@@ -36,7 +36,7 @@ export default function TermsAndConditions() {
           </div>
 
           <p className="text-slate-600 text-sm font-medium leading-relaxed">
-            مرحباً بكم في <strong>أسناني.ps</strong>. يمثل دخولك وتصفحك للموقع أو التطبيق موافقة تامة وغير مشروطة على الالتزام بكافة البنود والشروط الواردة في هذه الاتفاقية. إذا كنت لا توافق على أي بند منها، يرجى التوقف عن استخدام الخدمات.
+            مرحباً بكم في <strong>ملامح.ps</strong>. يمثل دخولك وتصفحك للموقع أو التطبيق موافقة تامة وغير مشروطة على الالتزام بكافة البنود والشروط الواردة في هذه الاتفاقية. إذا كنت لا توافق على أي بند منها، يرجى التوقف عن استخدام الخدمات.
           </p>
           <p className="text-slate-500 text-sm font-medium leading-relaxed">
             ويمكنك أيضًا مراجعة <Link href="/privacy" className="text-sky-600 font-bold hover:underline">سياسة الخصوصية</Link> لمعرفة كيف نتعامل مع بياناتك داخل الموقع والتطبيق.
@@ -50,7 +50,7 @@ export default function TermsAndConditions() {
                 <span className="w-2 h-2 rounded-full bg-primary" /> 1. طبيعة الخدمات ومسؤوليتنا
               </h3>
               <p className="text-slate-500 text-xs md:text-sm font-medium leading-relaxed pr-4">
-                تعتبر منصة أسناني.ps بمثابة دليل جغرافي وإعلامي يسهل ربط المرضى بالعيادات والأطباء. نحن لا نقدم أي استشارات طبية ولا نتحمل أي مسؤولية قانونية أو مدنية ناتجة عن العلاجات الطبية أو القرارات المهنية المتخذة داخل العيادات المسجلة بالمنصة.
+                تعتبر منصة ملامح.ps بمثابة دليل جغرافي وإعلامي يسهل ربط المرضى بالعيادات والأطباء. نحن لا نقدم أي استشارات طبية ولا نتحمل أي مسؤولية قانونية أو مدنية ناتجة عن العلاجات الطبية أو القرارات المهنية المتخذة داخل العيادات المسجلة بالمنصة.
               </p>
             </div>
 
@@ -88,7 +88,7 @@ export default function TermsAndConditions() {
 
           <div className="border-t border-slate-100 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-semibold text-slate-400">
             <span className="flex items-center gap-1.5"><ShieldAlert className="w-4 h-4 text-slate-300" /> آخر تحديث للاتفاقية: مايو 2026</span>
-            <span className="flex items-center gap-1.5"><HeartHandshake className="w-4 h-4 text-slate-300" /> أسناني.ps - معاً لابتسامة فلسطينية صحية وآمنة</span>
+            <span className="flex items-center gap-1.5"><HeartHandshake className="w-4 h-4 text-slate-300" /> ملامح.ps - معاً لصحة وجمال فلسطين</span>
           </div>
 
         </div>

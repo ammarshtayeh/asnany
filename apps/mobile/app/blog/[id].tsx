@@ -95,7 +95,7 @@ export default function ArticleDetailScreen() {
 
       {/* Info Bar */}
       <View style={{ flexDirection: "row-reverse", justifyContent: "space-between", alignItems: "center", backgroundColor: "#f8fafc", paddingHorizontal: 20, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: "#f1f5f9" }}>
-        <Text style={{ fontSize: 12, color: "#64748b", fontWeight: "800" }}>✍️ كاتب المقال: {article.doctor_name || "أسناني"}</Text>
+        <Text style={{ fontSize: 12, color: "#64748b", fontWeight: "800" }}>✍️ كاتب المقال: {article.doctor_name || "إدارة ملامح"}</Text>
         <View style={{ flexDirection: "row-reverse", gap: 12 }}>
           <Text style={{ fontSize: 11, color: "#94a3b8", fontWeight: "700" }}>⏱️ {article.read_time || "قراءة سريعة"}</Text>
           {article.date && <Text style={{ fontSize: 11, color: "#94a3b8", fontWeight: "700" }}>📅 {article.date}</Text>}

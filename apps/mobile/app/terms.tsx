@@ -7,7 +7,7 @@ const CLAUSES = [
   {
     num: "1",
     title: "طبيعة الخدمات ومسؤوليتنا",
-    body: "تعتبر منصة أسناني.ps بمثابة دليل جغرافي وإعلامي يسهل ربط المرضى بالعيادات والأطباء. نحن لا نقدم أي استشارات طبية ولا نتحمل أي مسؤولية قانونية ناتجة عن العلاجات الطبية أو القرارات المهنية المتخذة داخل العيادات المسجلة.",
+    body: "تعتبر منصة ملامح.ps بمثابة دليل جغرافي وإعلامي يسهل ربط المرضى بالعيادات والأطباء. نحن لا نقدم أي استشارات طبية ولا نتحمل أي مسؤولية قانونية ناتجة عن العلاجات الطبية أو القرارات المهنية المتخذة داخل العيادات المسجلة.",
   },
   {
     num: "2",
@@ -49,7 +49,7 @@ export default function TermsScreen() {
         </View>
         <Text style={{ fontSize: 24, fontWeight: "900", color: "#fff", textAlign: "right" }}>الشروط والأحكام وسياسة الاستخدام</Text>
         <Text style={{ color: "#94a3b8", fontSize: 12, fontWeight: "600", marginTop: 6, textAlign: "right" }}>
-          يرجى قراءة شروط وأحكام استخدام بوابة أسناني.ps
+          يرجى قراءة شروط وأحكام استخدام بوابة ملامح.ps
         </Text>
       </View>
 
@@ -61,7 +61,7 @@ export default function TermsScreen() {
             <Text style={{ fontSize: 18, fontWeight: "900", color: "#0f172a", flex: 1, textAlign: "right" }}>مقدمة وبنود الاستخدام العام</Text>
           </View>
           <Text style={{ color: "#64748b", fontSize: 13, fontWeight: "500", lineHeight: 22, textAlign: "right", marginBottom: 10 }}>
-            مرحباً بكم في <Text style={{ fontWeight: "900", color: "#0f172a" }}>أسناني.ps</Text>. يمثل دخولك وتصفحك للموقع أو التطبيق موافقة تامة على الالتزام بكافة البنود والشروط الواردة في هذه الاتفاقية.
+            مرحباً بكم في <Text style={{ fontWeight: "900", color: "#0f172a" }}>ملامح.ps</Text>. يمثل دخولك وتصفحك للموقع أو التطبيق موافقة تامة على الالتزام بكافة البنود والشروط الواردة في هذه الاتفاقية.
           </Text>
           <Pressable onPress={() => router.push("/privacy" as any)}>
             <Text style={{ color: "#0ea5e9", fontWeight: "900", fontSize: 13, textAlign: "right" }}>← راجع أيضاً سياسة الخصوصية</Text>
@@ -86,7 +86,7 @@ export default function TermsScreen() {
         {/* Footer */}
         <View style={{ flexDirection: "row-reverse", justifyContent: "space-between", paddingHorizontal: 4 }}>
           <Text style={{ fontSize: 11, color: "#94a3b8", fontWeight: "600" }}>⚠️ آخر تحديث: مايو 2026</Text>
-          <Text style={{ fontSize: 11, color: "#94a3b8", fontWeight: "600" }}>🤝 أسناني.ps - معاً لابتسامة صحية</Text>
+          <Text style={{ fontSize: 11, color: "#94a3b8", fontWeight: "600" }}>🤝 ملامح.ps - دليل صحة وجمال الوجه في فلسطين</Text>
         </View>
 
         <Pressable onPress={() => router.push("/")} style={{ backgroundColor: "#f1f5f9", borderRadius: 16, paddingVertical: 14, alignItems: "center" }}>

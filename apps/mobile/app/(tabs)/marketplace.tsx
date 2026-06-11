@@ -299,7 +299,7 @@ export default function MarketplaceScreen() {
             </View>
 
             <Pressable
-              onPress={() => Linking.openURL("https://wa.me/970599000000?text=أهلاً أسناني، أرغب في إضافة إعلان جديد على سوق أسناني الطبي")}
+              onPress={() => Linking.openURL("https://wa.me/970599000000?text=أهلاً ملامح، أرغب في إضافة إعلان جديد على سوق ملامح الطبي")}
               style={{ backgroundColor: "#25d366", borderRadius: 16, paddingVertical: 14, alignItems: "center" }}
             >
               <Text style={{ color: "#fff", fontWeight: "900", fontSize: 13 }}>تواصل معنا لتفعيل إعلانك 💬</Text>

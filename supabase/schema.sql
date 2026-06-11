@@ -4,6 +4,7 @@ CREATE TABLE doctors (
   id              UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   name            TEXT NOT NULL,
   specialty       TEXT[] NOT NULL,           -- ['تقويم', 'زراعة', 'أطفال']
+  category        TEXT NOT NULL DEFAULT 'أسنان' CHECK (category IN ('أسنان', 'عيون', 'أنف وأذن وحنجرة', 'جلدية', 'تجميل')),
   city            TEXT NOT NULL,             -- 'رام الله'
   area            TEXT,                      -- 'البيرة'
   address         TEXT,

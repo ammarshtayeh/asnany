@@ -15,13 +15,14 @@ import { supabase } from "../../lib/supabase";
 import { Doctor, Offer } from "../../types";
 
 const HERO_IMAGE =
-  "https://images.unsplash.com/photo-1777331903190-341a3dd0441b?auto=format&fit=crop&w=800&q=80";
+  "https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=800&q=80";
 
 const QUICK_CATEGORIES = [
-  { label: "زراعة الأسنان", emoji: "🦷", query: "زراعة", color: "#0ea5e9", bg: "#f0f9ff" },
-  { label: "تقويم الأسنان", emoji: "😁", query: "تقويم", color: "#10b981", bg: "#ecfdf5" },
-  { label: "تجميل الأسنان", emoji: "✨", query: "تجميل", color: "#f59e0b", bg: "#fffbeb" },
-  { label: "طب الأطفال", emoji: "🧒", query: "أطفال", color: "#8b5cf6", bg: "#f5f3ff" },
+  { label: "أسنان", emoji: "🦷", query: "أسنان", color: "#0ea5e9", bg: "#f0f9ff" },
+  { label: "جلدية", emoji: "🧴", query: "جلدية", color: "#ec4899", bg: "#fdf2f8" },
+  { label: "تجميل", emoji: "✨", query: "تجميل", color: "#a855f7", bg: "#faf5ff" },
+  { label: "عيون", emoji: "👁️", query: "عيون", color: "#10b981", bg: "#ecfdf5" },
+  { label: "أنف وأذن", emoji: "👂", query: "أنف وأذن وحنجرة", color: "#f59e0b", bg: "#fffbeb" },
 ];
 
 const HOME_ACTIONS = [
@@ -32,10 +33,10 @@ const HOME_ACTIONS = [
 ];
 
 const DIAGNOSIS_OPTIONS = [
-  { id: "pain", title: "ألم شديد أو نابض", specialty: "طب أسنان عام", emoji: "🦷" },
-  { id: "align", title: "اعوجاج أو فراغات", specialty: "تقويم الأسنان", emoji: "😬" },
-  { id: "missing", title: "سن مفقود", specialty: "زراعة الأسنان", emoji: "❌" },
-  { id: "kids", title: "أسنان الأطفال", specialty: "أسنان الأطفال", emoji: "🧒" },
+  { id: "pain", title: "ألم شديد بالأسنان", specialty: "طب أسنان عام", emoji: "🦷" },
+  { id: "align", title: "تشوش أو ضعف نظر", specialty: "طب وجراحة العيون", emoji: "👁️" },
+  { id: "missing", title: "مشاكل بشرة وتساقط شعر", specialty: "جلدية وتجميل", emoji: "🧴" },
+  { id: "kids", title: "تجميل أو حقن فيلر وبوتوكس", specialty: "جراحة التجميل والترميم", emoji: "✨" },
 ];
 
 function DoctorCard({
@@ -179,7 +180,7 @@ export default function HomeScreen() {
     const q = query.trim().toLowerCase();
     if (!q) return doctors;
     return doctors.filter((d) =>
-      [d.name, d.city, d.area, d.bio, ...(d.specialty || [])].some((v) =>
+      [d.name, d.city, d.area, d.bio, d.category, ...(d.specialty || [])].some((v) =>
         String(v || "").toLowerCase().includes(q)
       )
     );
@@ -200,7 +201,7 @@ export default function HomeScreen() {
 
         {/* Header */}
         <View style={{ position: "absolute", top: insets.top + 12, left: 0, right: 0, paddingHorizontal: 20, flexDirection: "row-reverse", justifyContent: "space-between", alignItems: "center" }}>
-          <Text style={{ fontSize: 20, fontWeight: "900", color: "#fff" }}>🦷 أسناني .ps</Text>
+          <Text style={{ fontSize: 20, fontWeight: "900", color: "#fff" }}>✨ ملامح .ps</Text>
           <Pressable
             onPress={() => router.push("/discount-card" as any)}
             style={{ backgroundColor: "rgba(255,255,255,0.15)", borderWidth: 1, borderColor: "rgba(255,255,255,0.2)", borderRadius: 100, paddingHorizontal: 14, paddingVertical: 7 }}
@@ -212,10 +213,10 @@ export default function HomeScreen() {
         {/* Hero Text */}
         <View style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: 20 }}>
           <View style={{ backgroundColor: "rgba(16,185,129,0.2)", borderWidth: 1, borderColor: "rgba(16,185,129,0.4)", borderRadius: 100, paddingHorizontal: 12, paddingVertical: 5, alignSelf: "flex-end", marginBottom: 10 }}>
-            <Text style={{ color: "#6ee7b7", fontWeight: "900", fontSize: 11 }}>✅ دليل فلسطين لطب الأسنان</Text>
+            <Text style={{ color: "#6ee7b7", fontWeight: "900", fontSize: 11 }}>✅ دليل صحة وجمال الوجه والأسنان في فلسطين</Text>
           </View>
           <Text style={{ fontSize: 26, fontWeight: "900", color: "#fff", textAlign: "right", lineHeight: 34 }}>
-            ابحث، قارن، واحجز{"\n"}طبيب الأسنان المناسب
+            رعاية ملامحك وصحتها،{"\n"}بدون أي حيرة
           </Text>
           <Text style={{ fontSize: 13, color: "#94a3b8", fontWeight: "600", textAlign: "right", marginTop: 6 }}>
             أطباء موثقون · حجز مباشر · عروض حصرية
@@ -435,7 +436,7 @@ export default function HomeScreen() {
         {/* ===== TRUST FOOTER ===== */}
         <View style={{ backgroundColor: "#0f172a", borderRadius: 24, padding: 24, gap: 16 }}>
           <Text style={{ fontSize: 18, fontWeight: "900", color: "#fff", textAlign: "right" }}>
-            لماذا أسناني؟
+            لماذا ملامح؟
           </Text>
           {[
             { emoji: "✅", title: "أطباء موثقون", desc: "كل طبيب مراجع ومتحقق منه قبل نشر ملفه." },

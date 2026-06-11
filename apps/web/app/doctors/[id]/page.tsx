@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   const resolvedParams = await params;
   const doctor = await getDoctor(resolvedParams.id);
   return {
-    title: `د. ${doctor.name} — ${doctor.city} | أسناني`,
+    title: `د. ${doctor.name} — ${doctor.city} | ملامح`,
     description: `احجز موعد مع د. ${doctor.name}، طبيب ${doctor.specialty.join('، ')} في ${doctor.city}`,
     openGraph: { images: doctor.image_url ? [doctor.image_url] : [] }
   };

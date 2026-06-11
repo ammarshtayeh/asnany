@@ -40,7 +40,7 @@ export default function DiscountCardScreen() {
       {/* Top Header with Back Button */}
       <View style={{ flexDirection: "row-reverse", alignItems: "center", justifyContent: "space-between", marginBottom: 16, backgroundColor: "white", padding: 16, borderRadius: 24, borderWidth: 1, borderColor: "#e2e8f0" }}>
         <View style={{ alignItems: "flex-end" }}>
-          <Text style={{ fontSize: 12, fontWeight: "900", color: "#64748b" }}>رعاية أسناني المشتركة</Text>
+          <Text style={{ fontSize: 12, fontWeight: "900", color: "#64748b" }}>رعاية ملامح المشتركة</Text>
           <Text style={{ fontSize: 18, fontWeight: "900", color: "#0f172a", marginTop: 4 }}>بطاقة الخصومات الحصرية</Text>
         </View>
         <Pressable onPress={() => router.back()} style={{ height: 40, width: 40, borderRadius: 20, backgroundColor: "#f1f5f9", alignItems: "center", justifyContent: "center" }}>
@@ -53,8 +53,8 @@ export default function DiscountCardScreen() {
         <AppSubtitle>بطاقة عضوية تمنحك خصومات في العيادات المشتركة مباشرة من التطبيق.</AppSubtitle>
 
         <View style={{ marginTop: 14, borderRadius: 26, backgroundColor: "#0f172a", padding: 18 }}>
-          <Text style={{ textAlign: "right", color: "#cbd5e1", fontSize: 12, fontWeight: "800" }}>Asnany Discount Card</Text>
-          <Text style={{ textAlign: "right", color: "white", fontSize: 24, fontWeight: "900", marginTop: 10 }}>ASN-DC-2026-001</Text>
+          <Text style={{ textAlign: "right", color: "#cbd5e1", fontSize: 12, fontWeight: "800" }}>Malamih Discount Card</Text>
+          <Text style={{ textAlign: "right", color: "white", fontSize: 24, fontWeight: "900", marginTop: 10 }}>MLM-DC-2026-001</Text>
           <Text style={{ textAlign: "right", color: "#93c5fd", marginTop: 6, fontWeight: "700" }}>تفعيل الخصومات في الأطباء المشتركين</Text>
         </View>
 

@@ -8,13 +8,13 @@ const cairoFont = Cairo({
 });
 
 export const metadata: Metadata = {
-  title: "أسناني | دليل أطباء الأسنان في فلسطين",
-  description: "ابحث عن أفضل أطباء الأسنان في فلسطين، تصفح التخصصات، واحجز موعدك بسهولة.",
+  title: "ملامح | دليل صحة وجمال الوجه والأسنان في فلسطين",
+  description: "ابحث عن أفضل أطباء الأسنان، العيون، الجلدية، التجميل، والأنف والأذن والحنجرة في فلسطين، واحجز موعدك بسهولة.",
   manifest: "/manifest.json",
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0284c7",
+  themeColor: "#0f172a",
 };
 
 import Navbar from "@/components/Navbar";

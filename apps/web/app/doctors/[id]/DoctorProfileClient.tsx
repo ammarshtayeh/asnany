@@ -57,7 +57,7 @@ export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
   };
 
   useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem("asnany_saved_doctors") || "[]") as string[];
+    const saved = JSON.parse(localStorage.getItem("malamih_saved_doctors") || "[]") as string[];
     setIsSaved(saved.includes(doctor.id));
 
     if (navigator.geolocation) {
@@ -80,9 +80,9 @@ export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
   const deviceMapHref = buildDeviceMapUrl(doctor, typeof window === "undefined" ? "" : window.navigator.userAgent);
 
   const toggleSaved = () => {
-    const saved = JSON.parse(localStorage.getItem("asnany_saved_doctors") || "[]") as string[];
+    const saved = JSON.parse(localStorage.getItem("malamih_saved_doctors") || "[]") as string[];
     const next = saved.includes(doctor.id) ? saved.filter((id) => id !== doctor.id) : [...saved, doctor.id];
-    localStorage.setItem("asnany_saved_doctors", JSON.stringify(next));
+    localStorage.setItem("malamih_saved_doctors", JSON.stringify(next));
     setIsSaved(next.includes(doctor.id));
   };
 
@@ -153,7 +153,7 @@ export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
             <div className="flex flex-col sm:flex-row gap-8 items-start">
               
               {/* Doctor Avatar */}
-              <div className="relative w-36 h-36 md:w-48 md:h-48 rounded-[2rem] p-2 bg-gradient-to-br from-primary via-blue-400 to-secondary shadow-xl shadow-primary/20 flex-shrink-0 group">
+              <div className="relative w-36 h-36 md:w-48 md:h-48 rounded-[2rem] p-2 bg-gradient-to-br from-slate-900 via-slate-700 to-amber-500 shadow-xl shadow-slate-950/20 group-hover:scale-105 transition-transform duration-500">
                 <div className="w-full h-full bg-white rounded-[1.6rem] overflow-hidden relative">
                   {doctor.image_url ? (
                     <Image src={doctor.image_url} alt={doctor.name} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
@@ -265,7 +265,7 @@ export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
                         {doctor.insurance_list && doctor.insurance_list.length > 0 ? (
                           <div className="flex flex-wrap gap-1.5">
                             {doctor.insurance_list.map((ins, i) => (
-                              <span key={i} className="bg-sky-50 text-sky-700 text-xs px-2 py-0.5 rounded-lg border border-sky-100 font-bold">
+                              <span key={i} className="bg-amber-50 text-amber-700 text-xs px-2 py-0.5 rounded-lg border border-amber-100 font-bold">
                                 {ins}
                               </span>
                             ))}
@@ -509,13 +509,13 @@ export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
       <div className="mt-12 rounded-[2rem] border border-slate-200 bg-white p-6 shadow-xl shadow-slate-200/40" id="booking">
         <div className="mb-6 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
           <div>
-            <span className="text-sm font-black text-sky-600">حجز موعد</span>
+            <span className="text-sm font-black text-amber-600">حجز موعد</span>
             <h2 className="mt-1 text-3xl font-black text-slate-950">أرسل طلب حجز للطبيب</h2>
             <p className="mt-2 text-sm font-bold text-slate-500">
               سيتم عرض بياناتك للطبيب داخل لوحة الطبيب لتأكيد الموعد أو تعديله.
             </p>
           </div>
-          <Calendar className="h-10 w-10 text-sky-500" />
+          <Calendar className="h-10 w-10 text-amber-500" />
         </div>
 
         <form onSubmit={handleSmartBookingSubmit} className="grid gap-3 md:grid-cols-2">
@@ -527,19 +527,19 @@ export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
           <BookingInput label="تاريخ الموعد" value={bookingDate} onChange={setBookingDate} required type="date" />
           <BookingInput label="الوقت المفضل" value={bookingPeriod} onChange={setBookingPeriod} type="time" />
           <label className="md:col-span-2">
-            <span className="mb-1 block text-xs font-black text-slate-500">ملاحظات للحالة</span>
-            <textarea
-              value={bookingNotes}
-              onChange={(event) => setBookingNotes(event.target.value)}
-              className="min-h-28 w-full rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm font-bold outline-none focus:border-sky-300"
-              placeholder="مثال: ألم شديد، حشوة، مراجعة تقويم..."
-            />
-          </label>
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="md:col-span-2 min-h-14 rounded-2xl bg-slate-950 px-6 text-sm font-black text-white hover:bg-sky-600 disabled:opacity-60"
-          >
+              <span className="mb-1 block text-xs font-black text-slate-500">ملاحظات للحالة</span>
+              <textarea
+                value={bookingNotes}
+                onChange={(event) => setBookingNotes(event.target.value)}
+                className="min-h-28 w-full rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm font-bold outline-none focus:border-amber-300"
+                placeholder="مثال: ألم شديد، حشوة، مراجعة تقويم..."
+              />
+            </label>
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="md:col-span-2 min-h-14 rounded-2xl bg-slate-950 px-6 text-sm font-black text-white hover:bg-amber-600 disabled:opacity-60"
+            >
             {isSubmitting ? "جاري إرسال الحجز..." : "إرسال طلب الحجز"}
           </button>
         </form>
@@ -633,7 +633,7 @@ function BookingInput({
         value={value}
         inputMode={inputMode}
         onChange={(event) => onChange(event.target.value)}
-        className="min-h-12 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 text-sm font-bold outline-none focus:border-sky-300"
+        className="min-h-12 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 text-sm font-bold outline-none focus:border-amber-300"
       />
     </label>
   );

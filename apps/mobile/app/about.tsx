@@ -27,11 +27,11 @@ export default function AboutScreen() {
           <Text style={{ color: "#fff", fontWeight: "800", fontSize: 13 }}>رجوع</Text>
         </Pressable>
         <View style={{ backgroundColor: "rgba(255,255,255,0.12)", borderWidth: 1, borderColor: "rgba(255,255,255,0.2)", paddingHorizontal: 14, paddingVertical: 6, borderRadius: 100, alignSelf: "flex-start", marginBottom: 12 }}>
-          <Text style={{ color: "#fde68a", fontWeight: "900", fontSize: 12 }}>✨ قصة ورؤية أسناني</Text>
+          <Text style={{ color: "#fde68a", fontWeight: "900", fontSize: 12 }}>✨ قصة ورؤية ملامح</Text>
         </View>
-        <Text style={{ fontSize: 26, fontWeight: "900", color: "#fff", textAlign: "right" }}>عن منصة أسناني.ps</Text>
+        <Text style={{ fontSize: 26, fontWeight: "900", color: "#fff", textAlign: "right" }}>عن منصة ملامح.ps</Text>
         <Text style={{ color: "#94a3b8", fontSize: 13, fontWeight: "600", marginTop: 6, textAlign: "right" }}>
-          أول دليل رقمي تفاعلي متكامل للرعاية السنية في فلسطين
+          أول دليل رقمي تفاعلي متكامل لصحة وجمال الوجه والأسنان في فلسطين
         </Text>
       </View>
 
@@ -39,14 +39,14 @@ export default function AboutScreen() {
         <View style={{ backgroundColor: "#fff", borderRadius: 24, padding: 20, shadowColor: "#000", shadowOpacity: 0.06, shadowRadius: 12, elevation: 3 }}>
           <Text style={{ fontSize: 20, fontWeight: "900", color: "#0f172a", textAlign: "right", marginBottom: 10 }}>رؤيتنا ورسالتنا الجوهرية</Text>
           <Text style={{ color: "#64748b", fontSize: 14, fontWeight: "500", lineHeight: 24, textAlign: "right" }}>
-            تأسست منصة <Text style={{ fontWeight: "900", color: "#0f172a" }}>أسناني.ps</Text> لسد الفجوة الرقمية بين المرضى ونخبة أطباء الأسنان في فلسطين. نحن نؤمن بأن الوصول لخدمات رعاية سنية فائقة الجودة يجب أن يكون سهلاً وسريعاً ومبنياً على الثقة والمصداقية والتقييمات الحقيقية.
+            تأسست منصة <Text style={{ fontWeight: "900", color: "#0f172a" }}>ملامح.ps</Text> لسد الفجوة الرقمية بين المراجعين ونخبة أخصائيي صحة وجمال الوجه والأسنان في فلسطين. نحن نؤمن بأن الوصول لخدمات رعاية طبية وتجميلية فائقة الجودة يجب أن يكون سهلاً وسريعاً ومبنياً على الثقة والمصداقية والتقييمات الحقيقية.
           </Text>
         </View>
 
         <View style={{ backgroundColor: "#fff", borderRadius: 24, padding: 20, shadowColor: "#000", shadowOpacity: 0.06, shadowRadius: 12, elevation: 3 }}>
-          <Text style={{ fontSize: 16, fontWeight: "900", color: "#0f172a", textAlign: "right", marginBottom: 12 }}>نهدف لخدمة وتطوير قطاع الأسنان الفلسطيني</Text>
+          <Text style={{ fontSize: 16, fontWeight: "900", color: "#0f172a", textAlign: "right", marginBottom: 12 }}>نهدف لخدمة وتطوير قطاع صحة وجمال الوجه والأسنان في فلسطين</Text>
           <Text style={{ color: "#64748b", fontSize: 13, fontWeight: "500", lineHeight: 22, textAlign: "right" }}>
-            تضم المنصة أطباء أسنان من مختلف التخصصات في كافة المحافظات الفلسطينية. نحن نغطي كافة المحافظات الفلسطينية لضمان حصول كل مواطن على حقه في رعاية طبية مميزة.
+            تضم المنصة أطباء وأخصائيين من مختلف التخصصات في كافة المحافظات الفلسطينية لضمان حصول كل مواطن على حقه في رعاية طبية وتجميلية مميزة للوجه والعيون والجلد والأسنان.
           </Text>
         </View>
 

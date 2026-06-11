@@ -51,15 +51,15 @@ export default function DiscountCardPage() {
             </Link>
           </div>
 
-          <span className="inline-flex items-center gap-2 rounded-full bg-sky-500/20 border border-sky-400/30 px-4 py-2 text-sm font-black text-sky-300 mb-6">
+          <span className="inline-flex items-center gap-2 rounded-full bg-amber-500/20 border border-amber-400/30 px-4 py-2 text-sm font-black text-amber-300 mb-6">
             <CreditCard className="w-4 h-4" />
-            بطاقة خصومات أسناني
+            بطاقة خصومات ملامح
           </span>
 
           <h1 className="text-4xl md:text-6xl font-black leading-tight mb-5">
             بطاقة عضوية حصرية
             <br />
-            <span className="text-sky-400">لخصومات طبية موثوقة</span>
+            <span className="text-amber-400">لخصومات طبية وتجميلية موثوقة</span>
           </h1>
           <p className="max-w-2xl text-slate-300 text-lg leading-8 font-medium mb-10">
             اعرض البطاقة في أي عيادة مشاركة واستفد من خصومات خاصة مباشرة. كل شيء واضح ومترابط داخل المنصة.
@@ -68,14 +68,14 @@ export default function DiscountCardPage() {
           {/* Virtual Card */}
           <div className="w-full max-w-sm bg-gradient-to-br from-slate-800 to-slate-900 border border-white/10 rounded-3xl p-6 shadow-2xl">
             <div className="flex items-center justify-between mb-8">
-              <span className="text-xs font-black text-slate-400 tracking-widest uppercase">Asnany</span>
-              <CreditCard className="w-7 h-7 text-sky-400" />
+              <span className="text-xs font-black text-slate-400 tracking-widest uppercase">Malamih</span>
+              <CreditCard className="w-7 h-7 text-amber-400" />
             </div>
-            <p className="text-2xl font-black text-white tracking-widest mb-1">ASN-DC-2026</p>
+            <p className="text-2xl font-black text-white tracking-widest mb-1">MLM-DC-2026</p>
             <p className="text-xs text-slate-400 font-bold mb-6">بطاقة الخصم الحصرية • Discount Card</p>
             <div className="flex items-center justify-between">
-              <span className="text-xs text-slate-500 font-bold">منصة أسناني.ps</span>
-              <span className="flex items-center gap-1 bg-sky-500/20 text-sky-300 text-xs font-black px-3 py-1 rounded-full border border-sky-500/30">
+              <span className="text-xs text-slate-500 font-bold">منصة ملامح.ps</span>
+              <span className="flex items-center gap-1 bg-amber-500/20 text-amber-300 text-xs font-black px-3 py-1 rounded-full border border-amber-500/30">
                 <Sparkles className="w-3 h-3" /> فعّال
               </span>
             </div>
@@ -169,14 +169,14 @@ export default function DiscountCardPage() {
                       {doctor.area ? ` • ${doctor.area}` : ""}
                     </p>
                   )}
-                  <p className="mt-3 text-sm font-bold text-sky-700 bg-sky-50 rounded-xl px-3 py-2 inline-block">
+                  <p className="mt-3 text-sm font-bold text-amber-700 bg-amber-50 rounded-xl px-3 py-2 inline-block">
                     🎁 {doctor.discount_value || "خصم خاص"}
                     {doctor.discount_note ? ` — ${doctor.discount_note}` : ""}
                   </p>
                   <div className="mt-3">
                     <Link
                       href={`/doctors/${doctor.id}`}
-                      className="text-xs font-black text-slate-700 hover:text-sky-600 underline underline-offset-2 transition-colors"
+                      className="text-xs font-black text-slate-700 hover:text-amber-600 underline underline-offset-2 transition-colors"
                     >
                       عرض ملف الطبيب ←
                     </Link>

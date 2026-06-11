@@ -65,7 +65,7 @@ export default function BlogListScreen() {
           <Text style={{ color: "#fff", fontWeight: "800", fontSize: 13 }}>رجوع</Text>
         </Pressable>
         <View style={{ backgroundColor: "rgba(255,255,255,0.12)", borderWidth: 1, borderColor: "rgba(255,255,255,0.2)", paddingHorizontal: 14, paddingVertical: 6, borderRadius: 100, alignSelf: "flex-start", marginBottom: 12 }}>
-          <Text style={{ color: "#a7f3d0", fontWeight: "900", fontSize: 12 }}>📖 مجلة أسناني</Text>
+          <Text style={{ color: "#a7f3d0", fontWeight: "900", fontSize: 12 }}>📖 مجلة ملامح</Text>
         </View>
         <Text style={{ fontSize: 24, fontWeight: "900", color: "#fff", textAlign: "right" }}>محتوى طبي واضح، بلا تعقيد</Text>
         <Text style={{ color: "#94a3b8", fontSize: 12, fontWeight: "600", marginTop: 6, textAlign: "right" }}>
@@ -156,7 +156,7 @@ export default function BlogListScreen() {
                   <Text style={{ fontSize: 18, fontWeight: "900", color: "#0f172a", textAlign: "right", marginBottom: 8, lineHeight: 24 }}>{lead.title}</Text>
                   <Text style={{ fontSize: 13, color: "#64748b", fontWeight: "600", textAlign: "right", lineHeight: 20 }} numberOfLines={3}>{lead.excerpt || lead.content}</Text>
                   <View style={{ borderTopWidth: 1, borderTopColor: "#f1f5f9", marginTop: 14, paddingTop: 12, flexDirection: "row-reverse", justifyContent: "space-between", alignItems: "center" }}>
-                    <Text style={{ color: "#10b981", fontWeight: "900", fontSize: 12 }}>✍️ {lead.doctor_name || "إدارة أسناني"}</Text>
+                    <Text style={{ color: "#10b981", fontWeight: "900", fontSize: 12 }}>✍️ {lead.doctor_name || "إدارة ملامح"}</Text>
                     <Text style={{ color: "#475569", fontWeight: "800", fontSize: 12 }}>اقرأ المزيد ←</Text>
                   </View>
                 </View>
@@ -186,7 +186,7 @@ export default function BlogListScreen() {
                     <Text style={{ fontSize: 14, fontWeight: "900", color: "#0f172a", textAlign: "right", lineHeight: 18 }} numberOfLines={2}>{article.title}</Text>
                   </View>
                   <View style={{ flexDirection: "row-reverse", justifyContent: "space-between", alignItems: "center" }}>
-                    <Text style={{ color: "#64748b", fontWeight: "800", fontSize: 11 }}>✍️ {article.doctor_name || "أسناني"}</Text>
+                    <Text style={{ color: "#64748b", fontWeight: "800", fontSize: 11 }}>✍️ {article.doctor_name || "ملامح"}</Text>
                     <Text style={{ color: "#10b981", fontWeight: "800", fontSize: 11 }}>تفاصيل ←</Text>
                   </View>
                 </View>

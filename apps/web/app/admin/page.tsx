@@ -27,7 +27,7 @@ export default async function AdminDashboard() {
 
       <div className="mb-10 bg-gradient-to-l from-slate-950 to-sky-950 rounded-3xl p-6 md:p-8 text-white flex flex-col md:flex-row md:items-center md:justify-between gap-5">
         <div>
-          <p className="text-sky-200 font-black text-sm mb-2">منصة أسناني المتكاملة</p>
+          <p className="text-sky-200 font-black text-sm mb-2">منصة ملامح المتكاملة</p>
           <h2 className="text-2xl font-black">إدارة الأقسام الجديدة مربوطة الآن بقاعدة البيانات</h2>
           <p className="text-slate-300 mt-2 font-medium">مراكز التجميل، المختبرات، الاستشارات، الحجز، الميديا، والشركات من مكان واحد.</p>
         </div>

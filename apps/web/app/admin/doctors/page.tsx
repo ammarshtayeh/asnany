@@ -22,6 +22,7 @@ export default function AdminDoctors() {
   const [whatsapp, setWhatsapp] = useState("");
   const [bio, setBio] = useState("");
   const [acceptsInsurance, setAcceptsInsurance] = useState(true);
+  const [category, setCategory] = useState("أسنان");
   const [imageUrl, setImageUrl] = useState("");
   const [clinicPhotos, setClinicPhotos] = useState<string[]>([""]);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -108,6 +109,7 @@ export default function AdminDoctors() {
   const handleOpenEdit = (doc: Doctor) => {
     setActiveDoctor(doc);
     setName(doc.name);
+    setCategory(doc.category || "أسنان");
     setSpecialty(doc.specialty?.[0] || "");
     setCity(doc.city);
     setArea(doc.area || "");
@@ -134,6 +136,7 @@ export default function AdminDoctors() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name,
+          category,
           specialty,
           city,
           area,
@@ -173,6 +176,7 @@ export default function AdminDoctors() {
         body: JSON.stringify({
           id: activeDoctor.id,
           name,
+          category,
           specialty,
           city,
           area,
@@ -202,6 +206,7 @@ export default function AdminDoctors() {
 
   const resetForm = () => {
     setName("");
+    setCategory("أسنان");
     setSpecialty("");
     setCity("رام الله");
     setArea("");
@@ -232,7 +237,7 @@ export default function AdminDoctors() {
           <h1 className="text-3xl font-black text-slate-900 flex items-center gap-3">
             <Users className="w-8 h-8 text-primary" /> إدارة الأطباء والعيادات
           </h1>
-          <p className="text-slate-500 mt-1">إضافة وتعديل وحذف أطباء الأسنان، وإدارة تفعيلهم وتفضيلهم حياً على البوابة</p>
+          <p className="text-slate-500 mt-1">إضافة وتعديل وحذف أطباء وصناع الجمال والوجه والأسنان، وإدارة تفعيلهم وتفضيلهم حياً على البوابة</p>
         </div>
 
         <button 
@@ -270,7 +275,8 @@ export default function AdminDoctors() {
                 <tr>
                   <th className="px-6 py-4">الاسم والعيادة</th>
                   <th className="px-6 py-4">المدينة والمنطقة</th>
-                  <th className="px-6 py-4">التخصص</th>
+                  <th className="px-6 py-4">القسم الرئيسي</th>
+                  <th className="px-6 py-4">التخصص الفرعي</th>
                   <th className="px-6 py-4">التمييز (VIP)</th>
                   <th className="px-6 py-4">التوثيق بالمنصة</th>
                   <th className="px-6 py-4 text-left pl-10">إجراءات إدارية</th>
@@ -307,6 +313,9 @@ export default function AdminDoctors() {
                             📍 GPS: {doc.lat.toFixed(4)}, {doc.lng.toFixed(4)}
                           </span>
                         )}
+                      </td>
+                      <td className="px-6 py-4 font-semibold text-slate-700">
+                        {doc.category || "أسنان"}
                       </td>
                       <td className="px-6 py-4">
                         <span className="bg-slate-100 text-slate-700 px-3 py-1 rounded-full text-xs font-bold">
@@ -372,7 +381,7 @@ export default function AdminDoctors() {
             <h2 className="text-2xl font-black text-slate-900 mb-6">إضافة طبيب جديد للدليل</h2>
 
             <form onSubmit={handleAddDoctor} className="space-y-4">
-              <div className="grid md:grid-cols-2 gap-4">
+              <div className="grid md:grid-cols-3 gap-4">
                 <div className="space-y-1">
                   <label className="block text-sm font-bold text-slate-700">الاسم الكامل *</label>
                   <input
@@ -385,13 +394,27 @@ export default function AdminDoctors() {
                   />
                 </div>
                 <div className="space-y-1">
-                  <label className="block text-sm font-bold text-slate-700">التخصص الرئيسي *</label>
+                  <label className="block text-sm font-bold text-slate-700">القسم الرئيسي *</label>
+                  <select
+                    value={category}
+                    onChange={(e) => setCategory(e.target.value)}
+                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white outline-none font-medium text-sm transition-all text-right"
+                  >
+                    <option value="أسنان">أسنان</option>
+                    <option value="عيون">عيون</option>
+                    <option value="جلدية">جلدية</option>
+                    <option value="تجميل">تجميل</option>
+                    <option value="أنف وأذن وحنجرة">أنف وأذن وحنجرة</option>
+                  </select>
+                </div>
+                <div className="space-y-1">
+                  <label className="block text-sm font-bold text-slate-700">التخصص الفرعي *</label>
                   <input
                     type="text"
                     required
                     value={specialty}
                     onChange={(e) => setSpecialty(e.target.value)}
-                    placeholder="مثال: زراعة وتجميل الأسنان"
+                    placeholder="مثال: ليزك، زراعة، فيلر وبوتوكس"
                     className="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white outline-none font-medium text-sm transition-all text-right"
                   />
                 </div>
@@ -548,7 +571,7 @@ export default function AdminDoctors() {
             <h2 className="text-2xl font-black text-slate-900 mb-6">تعديل بيانات الطبيب: د. {activeDoctor.name}</h2>
 
             <form onSubmit={handleEditDoctor} className="space-y-4">
-              <div className="grid md:grid-cols-2 gap-4">
+              <div className="grid md:grid-cols-3 gap-4">
                 <div className="space-y-1">
                   <label className="block text-sm font-bold text-slate-700">الاسم الكامل *</label>
                   <input
@@ -560,7 +583,21 @@ export default function AdminDoctors() {
                   />
                 </div>
                 <div className="space-y-1">
-                  <label className="block text-sm font-bold text-slate-700">التخصص الرئيسي *</label>
+                  <label className="block text-sm font-bold text-slate-700">القسم الرئيسي *</label>
+                  <select
+                    value={category}
+                    onChange={(e) => setCategory(e.target.value)}
+                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white outline-none font-medium text-sm transition-all text-right"
+                  >
+                    <option value="أسنان">أسنان</option>
+                    <option value="عيون">عيون</option>
+                    <option value="جلدية">جلدية</option>
+                    <option value="تجميل">تجميل</option>
+                    <option value="أنف وأذن وحنجرة">أنف وأذن وحنجرة</option>
+                  </select>
+                </div>
+                <div className="space-y-1">
+                  <label className="block text-sm font-bold text-slate-700">التخصص الفرعي *</label>
                   <input
                     type="text"
                     required

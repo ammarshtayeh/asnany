@@ -37,7 +37,7 @@ export default function PrivacyPolicyPage() {
           </div>
 
           <p className="text-slate-600 text-sm font-medium leading-relaxed">
-            منصة <strong>أسناني.ps</strong> هي فكرة ومشروع <strong>عمار اشتية</strong>، وجميع الحقوق محفوظة له. تم إعداد هذه المنصة لتسهيل الوصول إلى أطباء الأسنان والخدمات الطبية في فلسطين عبر الموقع والتطبيق، مع الالتزام بحماية بيانات المستخدمين واحترام خصوصيتهم.
+            منصة <strong>ملامح.ps</strong> هي فكرة ومشروع <strong>عمار اشتية</strong>، وجميع الحقوق محفوظة له. تم إعداد هذه المنصة لتسهيل الوصول إلى أطباء الأسنان والعيون والجلدية والتجميل في فلسطين، مع الالتزام بحماية بيانات المستخدمين واحترام خصوصيتهم.
           </p>
 
           <div className="grid md:grid-cols-2 gap-4">
@@ -96,7 +96,7 @@ export default function PrivacyPolicyPage() {
               <ShieldCheck className="w-4 h-4 text-slate-300" /> آخر تحديث: يونيو 2026
             </span>
             <span className="flex items-center gap-1.5">
-              <HeartHandshake className="w-4 h-4 text-slate-300" /> أسناني.ps - مشروع عمار اشتية
+              <HeartHandshake className="w-4 h-4 text-slate-300" /> ملامح.ps - مشروع عمار اشتية
             </span>
           </div>
         </div>

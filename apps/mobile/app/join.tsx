@@ -9,7 +9,7 @@ export default function JoinScreen() {
   const insets = useSafeAreaInsets();
 
   const openWhatsapp = () => {
-    const msg = encodeURIComponent("مرحباً أسناني، أنا طبيب أسنان وأرغب في الانضمام وإعلان عيادتي على منصتكم الموقرة.");
+    const msg = encodeURIComponent("مرحباً ملامح، أنا طبيب وأرغب في الانضمام وإعلان عيادتي على منصتكم الموقرة.");
     Linking.openURL(`https://wa.me/${ADMIN_WHATSAPP}?text=${msg}`);
   };
 
@@ -31,7 +31,7 @@ export default function JoinScreen() {
         <View style={{ backgroundColor: "rgba(255,255,255,0.12)", borderWidth: 1, borderColor: "rgba(255,255,255,0.2)", paddingHorizontal: 14, paddingVertical: 6, borderRadius: 100, alignSelf: "flex-start", marginBottom: 12 }}>
           <Text style={{ color: "#fde68a", fontWeight: "900", fontSize: 12 }}>✨ بوابة الأطباء الشركاء</Text>
         </View>
-        <Text style={{ fontSize: 26, fontWeight: "900", color: "#fff", textAlign: "right" }}>انضم كطبيب شريك في منصة أسناني</Text>
+        <Text style={{ fontSize: 26, fontWeight: "900", color: "#fff", textAlign: "right" }}>انضم كطبيب شريك في منصة ملامح</Text>
         <Text style={{ color: "#94a3b8", fontSize: 13, fontWeight: "600", marginTop: 6, textAlign: "right" }}>
           اجعل عيادتك تظهر لآلاف المرضى شهرياً في فلسطين
         </Text>

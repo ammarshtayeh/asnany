@@ -53,13 +53,13 @@ export default function JoinTab({
   return (
     <View style={styles.tabContent}>
       <View style={styles.card}>
-        <Text style={styles.sectionTitle}>📝 انضم كشريك في أسناني.ps</Text>
+        <Text style={styles.sectionTitle}>📝 انضم كشريك في ملامح.ps</Text>
         <Text style={styles.bioText}>املأ الاستمارة أدناه لتسجيل عيادتك الطبية أو متجر المستلزمات الخاص بك مباشرة في البوابة الحية بانتظار توثيق وتفعيل الإدارة.</Text>
         
         {regSuccess ? (
           <View style={styles.successFormContainer}>
             <Text style={styles.successFormTitle}>🎉 تم استلام طلبك بنجاح!</Text>
-            <Text style={styles.successFormDesc}>شكراً لانضمامك إلى شبكة أسناني.ps. سيقوم مسؤول البوابة بمراجعة مستنداتك وتفعيل عيادتك/متجرك للجمهور فوراً.</Text>
+            <Text style={styles.successFormDesc}>شكراً لانضمامك إلى شبكة ملامح.ps. سيقوم مسؤول البوابة بمراجعة مستنداتك وتفعيل عيادتك/متجرك للجمهور فوراً.</Text>
             <Pressable onPress={() => setRegSuccess(false)} style={[styles.button, { backgroundColor: "#0f172a" }]}>
               <Text style={styles.buttonText}>تسجيل حساب آخر</Text>
             </Pressable>

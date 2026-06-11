@@ -56,7 +56,7 @@ export default function OffersPage() {
             وفّر على علاج الأسنان بدون ما تتنازل عن الجودة.
           </h1>
           <p className="mt-5 max-w-2xl text-base font-semibold leading-8 text-slate-600">
-            عروض محدثة من أطباء وعيادات ضمن شبكة أسناني. قارن السعر، مدة العرض، والطبيب قبل الحجز.
+            عروض محدثة من أطباء وعيادات ضمن شبكة ملامح. قارن السعر، مدة العرض، والطبيب قبل الحجز.
           </p>
           <div className="mt-7 grid max-w-xl grid-cols-3 gap-3">
             <Metric value={offers.length || 0} label="عرض نشط" />
@@ -68,7 +68,7 @@ export default function OffersPage() {
         <div className="relative min-h-[360px] overflow-hidden rounded-2xl bg-slate-900 shadow-xl">
           <Image
             src={getOfferImage(0)}
-            alt={featuredOffer?.title || "عروض أسناني"}
+            alt={featuredOffer?.title || "عروض ملامح"}
             fill
             priority
             className="object-cover opacity-75"
@@ -79,7 +79,7 @@ export default function OffersPage() {
               <Sparkles className="h-4 w-4 text-amber-300" />
               العرض الأبرز
             </span>
-            <h2 className="text-2xl font-black leading-9 md:text-3xl">{featuredOffer?.title || "عروض أسناني الخاصة"}</h2>
+            <h2 className="text-2xl font-black leading-9 md:text-3xl">{featuredOffer?.title || "عروض ملامح الخاصة"}</h2>
             <p className="mt-2 line-clamp-2 text-sm font-semibold leading-7 text-slate-200">
               {featuredOffer?.description || "تابع أحدث الخصومات والعروض من العيادات المعتمدة."}
             </p>

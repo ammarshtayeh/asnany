@@ -11,6 +11,8 @@ import {
   CalendarCheck2,
   CheckCircle2,
   Clock,
+  Ear,
+  Eye,
   GitCompareArrows,
   HeartPulse,
   MapPin,
@@ -43,13 +45,14 @@ const DoctorMap = dynamic(() => import("@/components/DoctorMap"), {
 });
 
 const HERO_IMAGE_URL =
-  "https://images.unsplash.com/photo-1777331903190-341a3dd0441b?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=80&w=2200";
+  "https://images.unsplash.com/photo-1629909613654-28e377c37b09?q=80&w=2000&auto=format&fit=crop";
 
 const QUICK_CATEGORIES = [
-  { id: "implants", label: "زراعة الأسنان", icon: ShieldCheck, color: "text-sky-600", bg: "bg-sky-50" },
-  { id: "orthodontics", label: "تقويم الأسنان", icon: Stethoscope, color: "text-emerald-600", bg: "bg-emerald-50" },
-  { id: "cosmetic", label: "تجميل الأسنان", icon: Sparkles, color: "text-amber-600", bg: "bg-amber-50" },
-  { id: "general", label: "طب أسنان عام", icon: BriefcaseMedical, color: "text-violet-600", bg: "bg-violet-50" },
+  { id: "dental", label: "أسنان", icon: Stethoscope, color: "text-sky-600", bg: "bg-sky-50" },
+  { id: "derma", label: "جلدية", icon: ShieldCheck, color: "text-rose-600", bg: "bg-rose-50" },
+  { id: "beauty", label: "تجميل", icon: Sparkles, color: "text-fuchsia-600", bg: "bg-fuchsia-50" },
+  { id: "eyes", label: "عيون", icon: Eye, color: "text-emerald-600", bg: "bg-emerald-50" },
+  { id: "ent", label: "أنف وأذن وحنجرة", icon: Ear, color: "text-amber-600", bg: "bg-amber-50" },
 ];
 
 const TRUST_POINTS = [
@@ -61,10 +64,10 @@ const TRUST_POINTS = [
 const PALESTINIAN_INSURANCES = ["التكافل", "ترست", "المشرق", "تمكين", "المجموعة الأهلية"];
 
 const DIAGNOSIS_OPTIONS = [
-  { id: "diag1", title: "ألم شديد أو نابض", specialty: "طب أسنان عام", desc: "غالبا يحتاج فحص عصب أو علاج طارئ." },
-  { id: "diag2", title: "اعوجاج أو فراغات", specialty: "تقويم الأسنان", desc: "ابدأ بمقارنة أطباء التقويم القريبين." },
-  { id: "diag3", title: "سن مفقود", specialty: "زراعة الأسنان", desc: "اعثر على عيادات زراعة الأسنان الموثقة." },
-  { id: "diag4", title: "أسنان الأطفال", specialty: "أسنان الأطفال", desc: "خيارات مناسبة لفحص الأطفال والوقاية." },
+  { id: "diag1", title: "ألم شديد بالأسنان", specialty: "طب أسنان عام", desc: "غالبا يحتاج فحص عصب أو علاج طارئ." },
+  { id: "diag2", title: "تشوش بالرؤية / ضعف نظر", specialty: "طب وجراحة العيون", desc: "فحص نظر دوري أو عمليات تصحيح بالليزك." },
+  { id: "diag3", title: "تساقط شعر أو مشاكل بشرة", specialty: "جلدية وتجميل", desc: "استشارات ليزر وبشرة مع أخصائيين معتمدين." },
+  { id: "diag4", title: "تجميل الوجه أو حقن إبر", specialty: "جراحة التجميل والترميم", desc: "علاجات تجميلية وحقن فيلر وبوتكس." },
 ];
 
 const HOME_ACTIONS = [
@@ -82,9 +85,9 @@ const HOW_IT_WORKS = [
 ];
 
 const CARE_PATHS = [
-  { label: "عندي ألم الآن", specialty: "طب أسنان عام", status: "open" as const },
-  { label: "أحتاج تقويم", specialty: "تقويم الأسنان", status: "any" as const },
-  { label: "أبحث عن زراعة", specialty: "زراعة الأسنان", status: "any" as const },
+  { label: "عيادات الأسنان", specialty: "طب أسنان عام", status: "any" as const },
+  { label: "ليزر وجلدية", specialty: "جلدية وتجميل", status: "any" as const },
+  { label: "فحص العيون والليزك", specialty: "طب وجراحة العيون", status: "any" as const },
 ];
 
 function isDoctorOpenNow(workingHours: any): boolean {
@@ -196,7 +199,8 @@ export default function Home() {
     if (selectedCity) result = result.filter((doc) => doc.city === selectedCity);
     if (selectedSpecialty) {
       result = result.filter((doc) =>
-        Array.isArray(doc.specialty) && doc.specialty.some((specialty) => specialty === selectedSpecialty)
+        (Array.isArray(doc.specialty) && doc.specialty.some((specialty) => specialty === selectedSpecialty)) ||
+        doc.category === selectedSpecialty
       );
     }
     if (selectedInsurance) {
@@ -284,13 +288,13 @@ export default function Home() {
           <div className="max-w-3xl text-right text-white" dir="rtl">
             <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-black backdrop-blur">
               <Sparkles className="h-4 w-4 text-amber-300" />
-              دليل الأسنان الذكي في فلسطين
+              دليل صحة وجمال الوجه والأسنان في فلسطين
             </div>
             <h1 className="text-3xl font-black leading-tight sm:text-5xl lg:text-6xl">
-              طبيب الأسنان المناسب، بدون حيرة.
+              رعاية ملامحك وصحتها، بدون حيرة.
             </h1>
             <p className="mt-5 max-w-2xl text-base font-semibold leading-8 text-slate-100 sm:text-lg">
-              ابدأ من حالتك أو موقعك، وشاهد الأطباء الأقرب مع الدوام والتقييم وطرق التواصل في مكان واحد.
+              دليلك الطبي الشامل لأطباء الأسنان، العيون، الجلدية، التجميل، والأنف والأذن والحنجرة الأقرب إليك في فلسطين.
             </p>
             <div className="mt-7 flex flex-wrap gap-2">
               {TRUST_POINTS.map((item) => (
@@ -435,11 +439,11 @@ export default function Home() {
             {!loading && !filteredDoctors.length ? <EmptyResults onReset={resetFilters} /> : null}
 
             <div className="rounded-2xl bg-slate-950 p-7 text-center text-white">
-              <h3 className="text-2xl font-black">هل أنت طبيب أسنان؟</h3>
+              <h3 className="text-2xl font-black">هل أنت طبيب أو أخصائي رعاية؟</h3>
               <p className="mx-auto mt-3 max-w-2xl text-sm font-semibold leading-7 text-slate-300">
-                انضم إلى شبكة أسناني، اعرض خدماتك، واستقبل طلبات المرضى من مكان واحد.
+                انضم إلى شبكة ملامح، اعرض خدماتك الطبية والتجميلية، واستقبل طلبات المراجعين من مكان واحد.
               </p>
-              <Link href="/join" className="mt-6 inline-flex items-center justify-center rounded-xl bg-white px-6 py-3 text-sm font-black text-slate-950 hover:bg-sky-50">
+              <Link href="/join" className="mt-6 inline-flex items-center justify-center rounded-xl bg-white px-6 py-3 text-sm font-black text-slate-950 hover:bg-amber-50">
                 سجل عيادتك الآن
               </Link>
             </div>
@@ -765,10 +769,10 @@ function EmptyResults({ onReset }: { onReset: () => void }) {
       </div>
       <h3 className="text-2xl font-black text-slate-900">لا توجد نتائج مطابقة</h3>
       <p className="mx-auto mt-2 max-w-md text-sm font-semibold leading-7 text-slate-500">
-        جرّب مدينة قريبة مثل رام الله أو نابلس، أو وسّع التخصص إلى طب أسنان عام.
+        جرّب مدينة قريبة مثل رام الله أو نابلس، أو اختر قسماً طبياً آخر لتوسيع البحث.
       </p>
       <div className="mt-4 flex flex-wrap justify-center gap-2">
-        {["رام الله", "نابلس", "الخليل", "طب أسنان عام", "تقويم الأسنان"].map((item) => (
+        {["رام الله", "نابلس", "الخليل", "أسنان", "عيون", "جلدية"].map((item) => (
           <span key={item} className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-600">
             {item}
           </span>

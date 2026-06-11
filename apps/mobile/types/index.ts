@@ -1,6 +1,7 @@
 export interface Doctor {
   id: string;
   name: string;
+  category?: 'أسنان' | 'عيون' | 'أنف وأذن وحنجرة' | 'جلدية' | 'تجميل';
   specialty: string[];
   city: string;
   area: string;

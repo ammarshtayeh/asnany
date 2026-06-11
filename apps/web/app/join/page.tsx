@@ -23,10 +23,10 @@ export default function JoinAsDoctor() {
             <Sparkles className="w-3.5 h-3.5 text-yellow-400 fill-current animate-pulse" /> بوابة الأطباء الشركاء
           </span>
           <h1 className="text-3xl md:text-5xl font-black text-white tracking-tight">
-            انضم كطبيب شريك في منصة أسناني
+            انضم كطبيب أو أخصائي شريك في منصة ملامح
           </h1>
           <p className="text-slate-300 mt-2 text-sm md:text-base font-medium max-w-xl mx-auto">
-            انضم لأكبر شبكة لأطباء الأسنان في فلسطين واجعل عيادتك تظهر لآلاف المرضى شهرياً. اختر طريقة الانضمام المناسبة:
+            انضم لأكبر شبكة لأطباء وصناع الجمال والوجه والأسنان في فلسطين واجعل عيادتك تظهر لآلاف المراجعين شهرياً. اختر طريقة الانضمام المناسبة:
           </p>
         </div>
       </div>
@@ -92,7 +92,7 @@ export default function JoinAsDoctor() {
 
             <div className="pt-8">
               <a
-                href={`https://wa.me/${adminWhatsapp}?text=${encodeURIComponent("مرحباً أسناني، أنا طبيب أسنان وأرغب في الانضمام وإعلان عيادتي على منصتكم.")}`}
+                href={`https://wa.me/${adminWhatsapp}?text=${encodeURIComponent("مرحباً ملامح، أنا طبيب/أخصائي وأرغب في الانضمام وإعلان عيادتي على منصتكم.")}`}
                 target="_blank"
                 rel="noreferrer"
                 className="w-full bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white font-black py-4 rounded-2xl shadow-xl transition-all flex justify-center items-center gap-2 hover:scale-[1.02]"

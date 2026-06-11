@@ -1,15 +1,15 @@
 {
   "expo": {
-    "name": "Palestine Dental Directory",
-    "slug": "palestine-dental-directory",
-    "scheme": "palestinedentaldirectory",
+    "name": "ملامح",
+    "slug": "malamih",
+    "scheme": "malamih",
     "version": "1.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
     "platforms": ["ios", "android", "web"],
     "ios": {
       "infoPlist": {
-        "NSLocationWhenInUseUsageDescription": "We use your location to sort nearby dental clinics and show them on the map."
+        "NSLocationWhenInUseUsageDescription": "We use your location to sort nearby medical and cosmetic clinics and show them on the map."
       }
     },
     "android": {

@@ -15,13 +15,13 @@ export default function AboutUs() {
 
         <div className="relative z-10 px-4">
           <span className="bg-white/10 border border-white/20 text-white text-xs font-black px-4 py-1.5 rounded-full inline-flex items-center gap-1.5 mb-3">
-            <Sparkles className="w-3.5 h-3.5 text-yellow-400 fill-current animate-pulse" /> قصة ورؤية أسناني
+            <Sparkles className="w-3.5 h-3.5 text-yellow-400 fill-current animate-pulse" /> قصة ورؤية ملامح
           </span>
           <h1 className="text-3xl md:text-5xl font-black text-white tracking-tight">
-            عن منصة أسناني.ps
+            عن منصة ملامح.ps
           </h1>
           <p className="text-slate-300 mt-2 text-sm md:text-base font-medium max-w-xl mx-auto">
-            أول دليل رقمي تفاعلي متكامل للرعاية السنية وصحة الفم والأسنان في دولة فلسطين.
+            أول دليل صحي تجميلي متكامل لصحة وجمال الوجه في دولة فلسطين.
           </p>
         </div>
       </div>
@@ -33,7 +33,7 @@ export default function AboutUs() {
           <div className="space-y-4 text-center max-w-2xl mx-auto">
             <h2 className="text-2xl md:text-3xl font-black text-slate-900">رؤيتنا ورسالتنا الجوهرية</h2>
             <p className="text-slate-500 text-sm md:text-base font-medium leading-relaxed">
-              تأسست منصة <strong>أسناني.ps</strong> لسد الفجوة الرقمية بين المرضى ونخبة أطباء الأسنان في فلسطين. نحن نؤمن بأن الوصول لخدمات رعاية سنية فائقة الجودة يجب أن يكون سهلاً وسريعاً ومبنياً على الثقة والمصداقية والتقييمات الحقيقية.
+              تأسست منصة <strong>ملامح.ps</strong> لتكون المرجع الأول والوحيد لصحة وجمال الوجه في فلسطين. نحن نؤمن بأن الوصول لخدمات فائقة الجودة يجب أن يكون سهلاً وسريعاً ومبنياً على الثقة والمصداقية والتقييمات الحقيقية.
             </p>
           </div>
 
@@ -74,10 +74,10 @@ export default function AboutUs() {
           <div className="border-t border-slate-100 pt-8 space-y-6">
             <div className="flex items-center gap-3">
               <Users className="w-7 h-7 text-primary" />
-              <h3 className="text-xl font-black text-slate-800">نهدف لخدمة وتطوير قطاع الأسنان الفلسطيني</h3>
+              <h3 className="text-xl font-black text-slate-800">نهدف لخدمة وتطوير قطاع الصحة والتجميل الفلسطيني</h3>
             </div>
             <p className="text-slate-500 text-sm font-medium leading-relaxed">
-              تضم المنصة أطباء أسنان من مختلف التخصصات: جراحة الفم والأسنان، زراعة وتقويم الأسنان، طب أسنان الأطفال، وتجميل الأسنان (هوليوود سمايل). نحن نغطي كافة المحافظات الفلسطينية (رام الله، نابلس، الخليل، جنين، بيت لحم، غزة، طولكرم، قلقيلية، أريحا) لضمان حصول كل مواطن على حقه في رعاية طبية مميزة وبكل سهولة.
+              تضم منصة ملامح أطباء متخصصين من شتى التخصصات: طب وجراحة الأسنان، طب وجراحة العيون، الجلدية والتجميل، وأنف وأذن وحنجرة. نحن نغطي كافة المحافظات الفلسطينية (رام الله، نابلس، الخليل، جنين، بيت لحم، غزة، طولكرم، قلقيلية، أريحا) لضمان حصول كل مواطن على حقه في رعاية طبية مميزة وبكل سهولة.
             </p>
           </div>
 

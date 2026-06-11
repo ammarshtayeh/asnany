@@ -6,6 +6,7 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { 
       name, 
+      category,
       specialty, 
       city, 
       area, 
@@ -27,6 +28,7 @@ export async function POST(request: Request) {
     // Insert new doctor request into database as unverified (verified = false)
     const newDoctor = {
       name,
+      category: category || "أسنان",
       specialty: Array.isArray(specialty) ? specialty : [specialty],
       city,
       area: area || "",

@@ -13,6 +13,7 @@ const LocationPickerMap = dynamic(() => import("@/components/LocationPickerMap")
 
 export default function DoctorRegister() {
   const [name, setName] = useState("");
+  const [category, setCategory] = useState("أسنان");
   const [specialty, setSpecialty] = useState("");
   const [city, setCity] = useState("رام الله");
   const [area, setArea] = useState("");
@@ -101,6 +102,7 @@ export default function DoctorRegister() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name,
+          category,
           specialty,
           city,
           area,
@@ -147,7 +149,7 @@ export default function DoctorRegister() {
 
         <div className="relative z-10 px-4">
           <span className="bg-white/10 border border-white/20 text-white text-xs font-black px-4 py-1.5 rounded-full inline-flex items-center gap-1.5 mb-3">
-            <Sparkles className="w-3.5 h-3.5 text-yellow-400 fill-current animate-pulse" /> بوابة الانضمام إلى أسناني.ps
+            <Sparkles className="w-3.5 h-3.5 text-yellow-400 fill-current animate-pulse" /> بوابة الانضمام إلى ملامح.ps
           </span>
           <h1 className="text-3xl md:text-5xl font-black text-white tracking-tight">
             استمارة تسجيل العيادة
@@ -169,7 +171,7 @@ export default function DoctorRegister() {
               <div className="space-y-2">
                 <h2 className="text-2xl font-black text-slate-900">تم استلام طلب التسجيل بنجاح!</h2>
                 <p className="text-slate-500 font-medium text-sm max-w-md mx-auto leading-relaxed">
-                  شكراً د. <strong>{name}</strong> — تم حفظ بيانات عيادتك وإرسالها للإدارة. سيتم مراجعة الطلب وتفعيل حسابك على دليل أسناني.ps فور الموافقة.
+                  شكراً د. <strong>{name}</strong> — تم حفظ بيانات عيادتك وإرسالها للإدارة. سيتم مراجعة الطلب وتفعيل حسابك على دليل ملامح.ps فور الموافقة.
                 </p>
               </div>
               <div className="pt-6 border-t border-slate-100 flex justify-center gap-4">
@@ -189,9 +191,9 @@ export default function DoctorRegister() {
                 <Plus className="w-6 h-6 text-primary" /> تفاصيل الطبيب والعيادة
               </h2>
 
-              <div className="grid md:grid-cols-2 gap-4">
+              <div className="grid md:grid-cols-3 gap-4">
                 <div className="space-y-1">
-                  <label className="block text-sm font-bold text-slate-700">الاسم الكامل للطبيب *</label>
+                  <label className="block text-sm font-bold text-slate-700">الاسم الكامل *</label>
                   <input
                     type="text"
                     required
@@ -202,13 +204,27 @@ export default function DoctorRegister() {
                   />
                 </div>
                 <div className="space-y-1">
-                  <label className="block text-sm font-bold text-slate-700">التخصص الرئيسي *</label>
+                  <label className="block text-sm font-bold text-slate-700">القسم الطبي الرئيسي *</label>
+                  <select
+                    value={category}
+                    onChange={(e) => setCategory(e.target.value)}
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white outline-none font-medium text-sm transition-all text-right focus:border-primary/40"
+                  >
+                    <option value="أسنان">أسنان</option>
+                    <option value="عيون">عيون</option>
+                    <option value="جلدية">جلدية</option>
+                    <option value="تجميل">تجميل</option>
+                    <option value="أنف وأذن وحنجرة">أنف وأذن وحنجرة</option>
+                  </select>
+                </div>
+                <div className="space-y-1">
+                  <label className="block text-sm font-bold text-slate-700">التخصص الفرعي *</label>
                   <input
                     type="text"
                     required
                     value={specialty}
                     onChange={(e) => setSpecialty(e.target.value)}
-                    placeholder="مثال: زراعة وتقويم الأسنان"
+                    placeholder="مثال: ليزك، زراعة، فيلر وبوتوكس"
                     className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white outline-none font-medium text-sm transition-all text-right focus:border-primary/40 focus:ring-2 focus:ring-primary/10"
                   />
                 </div>

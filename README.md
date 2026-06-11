@@ -1,6 +1,6 @@
-# Palestine Dental Directory
+# Palestine Face Health & Beauty Directory (Malamih - ملامح)
 
-Monorepo starter for the platform described in `SRS_Palestine_Dental_Directory.docx`.
+Monorepo starter for the platform, rebranded from Dental Directory to cover Face Health & Beauty (Dentistry, Dermatology, Aesthetics, Ophthalmology, and ENT in Palestine).
 
 ## Stack
 

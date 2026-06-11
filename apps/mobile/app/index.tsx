@@ -40,7 +40,7 @@ function withTimeout<T>(promise: Promise<T>, ms = 8000) {
 
 const MOBILE_HERO_IMAGE_URL =
   "https://images.unsplash.com/photo-1606811971618-4486d14f3f99?auto=format&fit=crop&w=1200&q=80";
-const WEB_BASE_URL = "https://asnani.ps";
+const WEB_BASE_URL = "https://malamih.ps";
 const OWNER_WHATSAPP = "9720595537190";
 const OWNER_EMAIL = "ammar.shtayeh@gmail.com";
 
@@ -342,11 +342,11 @@ function TopBar() {
   return (
     <View style={styles.topBar}>
       <View style={styles.logoMark}>
-        <Text style={styles.logoText}>أ</Text>
+        <Text style={styles.logoText}>م</Text>
       </View>
       <View style={styles.brandBlock}>
-        <Text style={styles.brand}>أسناني.ps</Text>
-        <Text style={styles.brandSub}>دليل رعاية الأسنان في فلسطين</Text>
+        <Text style={styles.brand}>ملامح.ps</Text>
+        <Text style={styles.brandSub}>دليل صحة وجمال الوجه في فلسطين</Text>
       </View>
     </View>
   );
@@ -410,7 +410,7 @@ function HomeDashboard({
         <Image source={{ uri: MOBILE_HERO_IMAGE_URL }} style={styles.heroImageBg} />
         <View style={styles.heroOverlay} />
         <View style={styles.heroCopy}>
-          <Text style={styles.kicker}>دليل أسنان فلسطين</Text>
+          <Text style={styles.kicker}>دليل صحة وجمال فلسطين</Text>
           <Text style={styles.heroTitle}>الطبيب المناسب، أقرب وأسهل.</Text>
           <Text style={styles.heroText}>حدد موقعك، شاهد العيادات على الخريطة، وافتح الاتجاهات بتطبيق الخرائط على جهازك.</Text>
         </View>
@@ -457,7 +457,7 @@ function HomeDashboard({
 
       <View style={styles.joinPanel}>
         <View style={styles.flex}>
-          <Text style={styles.joinTitle}>كن جزءاً من أسناني</Text>
+          <Text style={styles.joinTitle}>كن جزءاً من ملامح</Text>
           <Text style={styles.joinText}>سجل عيادتك أو شركتك لتظهر في الموقع والتطبيق بعد مراجعة الإدارة.</Text>
         </View>
         <Pressable onPress={() => Linking.openURL(`${WEB_BASE_URL}/doctors/register`)} style={styles.joinButton}>
@@ -680,7 +680,7 @@ function MoreScreen({
       <ScreenTitle title="المزيد" subtitle="العروض، السوق، المجلة، الإعلان والانضمام" />
       <SectionHeader title="العروض" />
       {offers.length ? offers.slice(0, 4).map((offer) => <OfferCard key={offer.id} offer={offer} />) : <EmptyState title="لا توجد عروض نشطة" />}
-      <SectionHeader title="سوق أسناني" />
+      <SectionHeader title="سوق ملامح" />
       {market.length ? market.slice(0, 4).map((item) => <MarketCard key={item.id} item={item} />) : <EmptyState title="لا توجد إعلانات سوق" />}
       <SectionHeader title="المجلة" />
       {articles.length ? articles.slice(0, 3).map((article) => <ArticleCard key={article.id} article={article} />) : <EmptyState title="لا يوجد محتوى حالياً" />}
@@ -717,7 +717,7 @@ function AdvertiseCard() {
           <Text style={styles.advertisePrimaryText}>استمارة إلكترونية</Text>
         </Pressable>
         <Pressable
-          onPress={() => openWhatsApp("مرحباً أسناني، أرغب بالإعلان. أريد تحديد نوع وطبيعة الإعلان.")}
+          onPress={() => openWhatsApp("مرحباً ملامح، أرغب بالإعلان. أريد تحديد نوع وطبيعة الإعلان.")}
           style={styles.advertiseWhatsapp}
         >
           <Text style={styles.advertiseWhatsappText}>واتساب</Text>
@@ -1074,10 +1074,10 @@ function EmptyState({ title }: { title: string }) {
 function CreatorFooter() {
   return (
     <View style={styles.creatorFooter}>
-      <Text style={styles.creatorTitle}>أسناني.ps</Text>
+      <Text style={styles.creatorTitle}>ملامح.ps</Text>
       <Text style={styles.creatorText}>الموقع والتطبيق باسم عمار اشتية</Text>
       <Text style={styles.creatorContact}>{OWNER_EMAIL}</Text>
-      <Pressable onPress={() => openWhatsApp("مرحباً عمار، تواصل بخصوص منصة أسناني.")}>
+      <Pressable onPress={() => openWhatsApp("مرحباً عمار، تواصل بخصوص منصة ملامح.")}>
         <Text style={styles.creatorWhatsapp}>واتساب: {OWNER_WHATSAPP}</Text>
       </Pressable>
     </View>
