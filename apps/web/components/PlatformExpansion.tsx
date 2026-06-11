@@ -111,12 +111,6 @@ const educationItems = [
   { title: "اختبارات تفاعلية", text: "أسئلة قصيرة تساعد الزائر على فهم عاداته ومتى يحتاج مراجعة طبيب.", tone: "bg-sky-50 text-sky-700 border-sky-100" },
 ];
 
-const futureItems = [
-  { title: "توجيه أولي بالذكاء الاصطناعي", icon: Bot },
-  { title: "تحليل صور البشرة والوجه والأسنان", icon: Camera },
-  { title: "أكاديمية للأطباء والطلاب", icon: GraduationCap },
-  { title: "خدمات مختبرية ومنزلية", icon: Beaker },
-];
 
 export default function PlatformExpansion() {
   return (
@@ -202,29 +196,6 @@ export default function PlatformExpansion() {
           </div>
         </div>
 
-        {/* Future Banner */}
-        <div className="rounded-3xl border border-slate-200 bg-gradient-to-r from-slate-50 to-white p-6 md:p-8 flex flex-col md:flex-row items-center gap-6 justify-between shadow-sm">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-amber-50 rounded-2xl flex items-center justify-center flex-shrink-0">
-              <Bot className="w-6 h-6 text-amber-600" />
-            </div>
-            <div>
-              <h3 className="text-xl font-black text-slate-950">تطوير مستمر للمنصة</h3>
-              <p className="text-sm text-slate-500 font-medium mt-1">نعمل دائماً على إضافة ميزات جديدة تعتمد على الذكاء الاصطناعي لتسهيل تجربتك.</p>
-            </div>
-          </div>
-          <div className="flex flex-wrap justify-center md:justify-end gap-3 w-full md:w-auto">
-            {futureItems.map((item) => {
-              const TypedIcon = item.icon;
-              return (
-                <div key={item.title} className="rounded-xl bg-white border border-slate-200 px-4 py-2.5 flex gap-2 items-center shadow-sm">
-                  <TypedIcon className="w-4 h-4 text-slate-400" />
-                  <span className="font-bold text-slate-700 text-xs">{item.title}</span>
-                </div>
-              );
-            })}
-          </div>
-        </div>
 
         <div className="space-y-6">
           <h2 className="text-3xl font-black text-slate-950">رحلة استخدام بسيطة</h2>

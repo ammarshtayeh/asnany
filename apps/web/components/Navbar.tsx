@@ -84,7 +84,7 @@ const mobilePrimaryLinks = [
   { href: "/#doctors", label: "بحث", icon: Search },
   { href: "/booking", label: "حجز", icon: CalendarCheck2 },
   { href: "/offers", label: "عروض", icon: Tags },
-  { href: "/marketplace", label: "المزيد", icon: MoreHorizontal },
+  { href: "/marketplace", label: "السوق", icon: Store },
 ];
 
 export default function Navbar() {

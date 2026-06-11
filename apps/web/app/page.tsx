@@ -396,8 +396,32 @@ export default function Home() {
       </section>
 
       <main className="mx-auto w-full max-w-[1400px] px-4 py-8 lg:px-8">
-        {/* Doctors Section (#doctors) placed above metrics row */}
-        <section id="doctors" className="-mt-16 flex flex-col gap-6 lg:flex-row relative z-20" dir="rtl">
+        {/* Floating Quick Categories by Specialty */}
+        <section className="-mt-20 sm:-mt-24 mb-12 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 relative z-20" dir="rtl">
+          {QUICK_CATEGORIES.map((category) => (
+            <button
+              key={category.id}
+              type="button"
+              onClick={() => {
+                setSelectedSpecialty(selectedSpecialty === category.label ? "" : category.label);
+                document.getElementById("doctors")?.scrollIntoView({ behavior: "smooth", block: "start" });
+              }}
+              className={`min-h-24 rounded-2xl border p-4 text-center transition-all duration-300 shadow-lg ${
+                selectedSpecialty === category.label 
+                  ? "border-sky-500 bg-white scale-105 ring-2 ring-sky-100" 
+                  : "border-slate-200/80 bg-white/95 backdrop-blur-md hover:border-sky-300 hover:bg-white hover:-translate-y-1"
+              }`}
+            >
+              <span className={`mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-xl ${category.bg} ${category.color}`}>
+                <category.icon className="h-6 w-6" />
+              </span>
+              <span className="text-sm font-black text-slate-900">{category.label}</span>
+            </button>
+          ))}
+        </section>
+
+        {/* Doctors Section (#doctors) */}
+        <section id="doctors" className="flex flex-col gap-6 lg:flex-row relative z-20" dir="rtl">
           {showMap ? (
             <div className="h-[460px] w-full lg:sticky lg:top-24 lg:h-[calc(100vh-140px)] lg:w-[42%]">
               <DoctorMap doctors={filteredDoctors} userLocation={userLoc || undefined} />
@@ -450,7 +474,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="mt-8 grid gap-3 md:grid-cols-4" dir="rtl">
+        <section className="mt-12 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4" dir="rtl">
           {HOME_ACTIONS.map((action) => (
             <Link
               key={action.title}
@@ -505,23 +529,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4" dir="rtl">
-          {QUICK_CATEGORIES.map((category) => (
-            <button
-              key={category.id}
-              type="button"
-              onClick={() => setSelectedSpecialty(selectedSpecialty === category.label ? "" : category.label)}
-              className={`min-h-28 rounded-2xl border p-4 text-center transition ${
-                selectedSpecialty === category.label ? "border-sky-400 bg-white shadow-md" : "border-slate-200 bg-white hover:border-sky-200"
-              }`}
-            >
-              <span className={`mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-xl ${category.bg} ${category.color}`}>
-                <category.icon className="h-6 w-6" />
-              </span>
-              <span className="text-sm font-black text-slate-900">{category.label}</span>
-            </button>
-          ))}
-        </section>
+
 
         {/* Metrics Row (placed below the fast actions) */}
         <section className="mt-12 grid gap-3 sm:grid-cols-3" dir="rtl">
