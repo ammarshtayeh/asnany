@@ -48,21 +48,12 @@ export default function OffersPage() {
       </div>
       <section className="mx-auto grid max-w-[1400px] gap-8 px-4 lg:grid-cols-[minmax(0,0.95fr)_minmax(420px,1.05fr)] lg:px-8">
         <div className="flex flex-col justify-center text-right">
-          <span className="mb-4 inline-flex w-fit items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-4 py-2 text-xs font-black text-amber-700">
-            <BadgePercent className="h-4 w-4" />
-            عروض مختارة بعناية
-          </span>
           <h1 className="text-4xl font-black leading-tight text-slate-950 md:text-6xl">
             أفضل عروض العناية والجمال بدون مساومة على الجودة.
           </h1>
           <p className="mt-5 max-w-2xl text-base font-semibold leading-8 text-slate-600">
             عروض محدثة من أطباء وعيادات ضمن شبكة ملامح. قارن السعر، مدة العرض، والطبيب قبل الحجز.
           </p>
-          <div className="mt-7 grid max-w-xl grid-cols-3 gap-3">
-            <Metric value={offers.length || 0} label="عرض نشط" />
-            <Metric value="موثق" label="مصدر العرض" />
-            <Metric value="سريع" label="تواصل وحجز" />
-          </div>
         </div>
 
         <div className="relative min-h-[360px] overflow-hidden rounded-2xl bg-slate-900 shadow-xl">

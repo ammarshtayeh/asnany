@@ -44,11 +44,7 @@ export default function ServiceLandingPage({
             </Link>
           </div>
 
-          {/* Service Badge */}
-          <div className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/20 bg-amber-500/10 px-4 py-2 text-xs font-black text-amber-300 backdrop-blur-md shadow-[0_0_15px_rgba(217,119,6,0.1)]">
-            <Sparkles className="h-3.5 w-3.5 text-amber-400" />
-            <span>{badge}</span>
-          </div>
+
 
           {/* Heading */}
           <h1 className="mt-6 text-3xl sm:text-5xl md:text-6xl font-black leading-tight tracking-tight">
