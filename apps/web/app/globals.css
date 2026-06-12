@@ -13,24 +13,24 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 199 89% 43%; /* #0284c7 */
+    --primary: 162 85% 20%; /* Premium Emerald Green #0c5e47 */
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 160 84% 37%; /* #059669 */
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 47 70% 50%; /* Luminous Gold #d4af37 */
+    --secondary-foreground: 222.2 84% 4.9%;
 
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 199 89% 95%;
-    --accent-foreground: 199 89% 20%;
+    --accent: 162 85% 95%;
+    --accent-foreground: 162 85% 15%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 199 89% 43%;
+    --ring: 162 85% 20%;
 
     --radius: 1.25rem;
   }

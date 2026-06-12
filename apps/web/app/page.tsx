@@ -47,11 +47,11 @@ const DoctorMap = dynamic(() => import("@/components/DoctorMap"), {
 const HERO_IMAGE_URL = "/hero-clinic.png";
 
 const QUICK_CATEGORIES = [
-  { id: "dental", label: "أسنان", icon: Stethoscope, color: "text-sky-600", bg: "bg-sky-50" },
-  { id: "derma", label: "جلدية", icon: ShieldCheck, color: "text-rose-600", bg: "bg-rose-50" },
-  { id: "beauty", label: "تجميل", icon: Sparkles, color: "text-fuchsia-600", bg: "bg-fuchsia-50" },
-  { id: "eyes", label: "عيون", icon: Eye, color: "text-emerald-600", bg: "bg-emerald-50" },
-  { id: "ent", label: "أنف وأذن وحنجرة", icon: Ear, color: "text-amber-600", bg: "bg-amber-50" },
+  { id: "dental", label: "أسنان", icon: Stethoscope, color: "text-emerald-600", bg: "bg-emerald-50" },
+  { id: "derma", label: "جلدية", icon: ShieldCheck, color: "text-amber-600", bg: "bg-amber-50" },
+  { id: "beauty", label: "تجميل", icon: Sparkles, color: "text-violet-600", bg: "bg-violet-50" },
+  { id: "eyes", label: "عيون", icon: Eye, color: "text-teal-600", bg: "bg-teal-50" },
+  { id: "ent", label: "أنف وأذن وحنجرة", icon: Ear, color: "text-orange-600", bg: "bg-orange-50" },
 ];
 
 const TRUST_POINTS = [
@@ -303,6 +303,22 @@ export default function Home() {
                   {item.label}
                 </span>
               ))}
+            </div>
+
+            {/* Quick Premium Medical Stats */}
+            <div className="mt-8 grid grid-cols-3 gap-4 border-t border-white/10 pt-8 max-w-xl text-right">
+              <div>
+                <p className="text-2xl sm:text-3xl font-black text-amber-400">+300</p>
+                <p className="text-[10px] sm:text-xs font-bold text-slate-300 mt-1">عيادة ومزود خدمة موثق</p>
+              </div>
+              <div>
+                <p className="text-2xl sm:text-3xl font-black text-amber-400">+15,000</p>
+                <p className="text-[10px] sm:text-xs font-bold text-slate-300 mt-1">حجز وموعد ناجح</p>
+              </div>
+              <div>
+                <p className="text-2xl sm:text-3xl font-black text-amber-400">12</p>
+                <p className="text-[10px] sm:text-xs font-bold text-slate-300 mt-1">محافظة فلسطينية مغطاة</p>
+              </div>
             </div>
           </div>
 
