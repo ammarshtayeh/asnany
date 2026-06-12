@@ -1,0 +1,128 @@
+- generic [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - link "أسناني .ps" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - img [ref=e6]
+        - generic [ref=e10]:
+          - generic [ref=e11]: أسناني
+          - generic [ref=e12]: .ps
+      - generic [ref=e14]:
+        - link "الرئيسية" [ref=e15] [cursor=pointer]:
+          - /url: /
+          - img [ref=e16]
+          - text: الرئيسية
+        - link "العروض" [ref=e20] [cursor=pointer]:
+          - /url: /offers
+          - img [ref=e21]
+          - text: العروض
+        - link "السوق" [ref=e25] [cursor=pointer]:
+          - /url: /marketplace
+          - img [ref=e26]
+          - text: السوق
+        - link "التجميل" [ref=e30] [cursor=pointer]:
+          - /url: /beauty
+          - img [ref=e31]
+          - text: التجميل
+        - link "المختبرات" [ref=e34] [cursor=pointer]:
+          - /url: /labs
+          - img [ref=e35]
+          - text: المختبرات
+        - link "الحجز" [ref=e39] [cursor=pointer]:
+          - /url: /booking
+          - img [ref=e40]
+          - text: الحجز
+        - link "المجلة" [ref=e43] [cursor=pointer]:
+          - /url: /blog
+          - img [ref=e44]
+          - text: المجلة
+        - link "الموردون" [ref=e46] [cursor=pointer]:
+          - /url: /stores
+          - img [ref=e47]
+          - text: الموردون
+      - generic [ref=e50]:
+        - link "دخول الطبيب" [ref=e51] [cursor=pointer]:
+          - /url: /doctor/login
+          - img [ref=e52]
+          - generic [ref=e56]: دخول الطبيب
+        - link "احجز الآن" [active] [ref=e57] [cursor=pointer]:
+          - /url: /booking
+  - main [ref=e516]:
+    - generic [ref=e518]:
+      - link "الرئيسية" [ref=e520] [cursor=pointer]:
+        - /url: /
+        - img [ref=e521]
+        - text: الرئيسية
+      - generic [ref=e523]: الحجز الإلكتروني
+      - heading "نظام حجز ذكي للمرضى والأطباء" [level=1] [ref=e524]
+      - paragraph [ref=e525]: "ابدأ رحلتك من هنا: اختر الطبيب أو الخدمة المناسبة، وواصل مباشرة مع الملف المختار أو مع قائمة الحجز المتاحة حسب التخصص والمدينة."
+      - generic [ref=e526]:
+        - link "ابحث عن طبيب" [ref=e527] [cursor=pointer]:
+          - /url: /doctors/search
+          - text: ابحث عن طبيب
+          - img [ref=e528]
+        - link "سجل عيادتك" [ref=e530] [cursor=pointer]:
+          - /url: /join
+          - text: سجل عيادتك
+          - img [ref=e531]
+    - generic [ref=e533]:
+      - generic [ref=e534]:
+        - generic [ref=e535]:
+          - img [ref=e536]
+          - paragraph [ref=e539]: اختيار الطبيب أو الخدمة أو المدينة مع مسار واضح للحجز.
+        - generic [ref=e540]:
+          - img [ref=e541]
+          - paragraph [ref=e544]: الانتقال مباشرة إلى ملف الطبيب إذا فتحت الصفحة من زر احجز الآن.
+        - generic [ref=e545]:
+          - img [ref=e546]
+          - paragraph [ref=e549]: مقارنة الخدمات المتاحة ومزوديها في مكان واحد.
+        - generic [ref=e550]:
+          - img [ref=e551]
+          - paragraph [ref=e554]: تواصل سريع مع الطبيب أو مقدم الخدمة بعد اختيارك.
+      - generic [ref=e555]:
+        - generic [ref=e556]:
+          - generic [ref=e557]:
+            - heading "مزودو الخدمة المعتمدون" [level=2] [ref=e558]
+            - paragraph [ref=e559]: نتائج مختارة ومنظمة لمساعدتك على المقارنة والتواصل بثقة.
+          - generic [ref=e560]: 0 نتيجة
+        - paragraph [ref=e562]: سيتم عرض خدمات الحجز المتاحة قريباً.
+      - link "العودة للرئيسية" [ref=e564] [cursor=pointer]:
+        - /url: /
+        - img [ref=e565]
+        - text: العودة للرئيسية
+  - contentinfo [ref=e427]:
+    - generic [ref=e428]:
+      - generic [ref=e429]:
+        - generic [ref=e430]:
+          - img [ref=e432]
+          - heading "أسناني.ps" [level=2] [ref=e436]
+        - paragraph [ref=e437]: منصة أسناني باسم عمار اشتية، لتسهيل الوصول لأطباء الأسنان والخدمات الطبية في فلسطين.
+        - generic [ref=e438]:
+          - link "ammar.shtayeh@gmail.com" [ref=e439] [cursor=pointer]:
+            - /url: mailto:ammar.shtayeh@gmail.com
+            - img [ref=e440]
+            - text: ammar.shtayeh@gmail.com
+          - link "9720595537190" [ref=e443] [cursor=pointer]:
+            - /url: https://wa.me/9720595537190
+            - img [ref=e444]
+            - text: "9720595537190"
+      - generic [ref=e446]:
+        - link "انضم كطبيب" [ref=e447] [cursor=pointer]:
+          - /url: /join
+        - link "أعلن معنا" [ref=e448] [cursor=pointer]:
+          - /url: /advertise
+        - link "سوق أسناني" [ref=e449] [cursor=pointer]:
+          - /url: /marketplace
+        - link "سياسة الخصوصية" [ref=e450] [cursor=pointer]:
+          - /url: /privacy
+        - link "المجلة" [ref=e451] [cursor=pointer]:
+          - /url: /blog
+        - link "الشروط" [ref=e452] [cursor=pointer]:
+          - /url: /terms
+  - button "AI طبيبك الذكي" [ref=e454] [cursor=pointer]:
+    - generic [ref=e457]: AI
+    - img [ref=e458]
+    - generic: طبيبك الذكي
+  - button "Open Next.js Dev Tools" [ref=e511] [cursor=pointer]:
+    - img [ref=e512]
+  - alert [ref=e515]

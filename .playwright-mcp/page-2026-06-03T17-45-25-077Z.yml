@@ -1,0 +1,294 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - link "أسناني .ps" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - img [ref=e6]
+        - generic [ref=e10]:
+          - generic [ref=e11]: أسناني
+          - generic [ref=e12]: .ps
+      - generic [ref=e14]:
+        - link "الرئيسية" [ref=e15] [cursor=pointer]:
+          - /url: /
+          - img [ref=e16]
+          - text: الرئيسية
+        - link "العروض" [ref=e20] [cursor=pointer]:
+          - /url: /offers
+          - img [ref=e21]
+          - text: العروض
+        - link "السوق" [ref=e25] [cursor=pointer]:
+          - /url: /marketplace
+          - img [ref=e26]
+          - text: السوق
+        - link "التجميل" [ref=e30] [cursor=pointer]:
+          - /url: /beauty
+          - img [ref=e31]
+          - text: التجميل
+        - link "المختبرات" [ref=e34] [cursor=pointer]:
+          - /url: /labs
+          - img [ref=e35]
+          - text: المختبرات
+        - link "الحجز" [ref=e39] [cursor=pointer]:
+          - /url: /booking
+          - img [ref=e40]
+          - text: الحجز
+        - link "المجلة" [ref=e43] [cursor=pointer]:
+          - /url: /blog
+          - img [ref=e44]
+          - text: المجلة
+        - link "الموردون" [ref=e46] [cursor=pointer]:
+          - /url: /stores
+          - img [ref=e47]
+          - text: الموردون
+      - generic [ref=e50]:
+        - link "دخول الطبيب" [ref=e51] [cursor=pointer]:
+          - /url: /doctor/login
+          - img [ref=e52]
+          - generic [ref=e56]: دخول الطبيب
+        - link "احجز الآن" [ref=e57] [cursor=pointer]:
+          - /url: /booking
+  - main [ref=e58]:
+    - link "العودة للرئيسية" [ref=e65] [cursor=pointer]:
+      - /url: /
+      - img [ref=e66]
+      - text: العودة للرئيسية
+    - generic [ref=e68]:
+      - generic [ref=e69]:
+        - generic [ref=e70]:
+          - generic [ref=e72]:
+            - img "د. أحمد نصر" [ref=e75]
+            - generic [ref=e76]:
+              - generic [ref=e77]:
+                - generic [ref=e78]:
+                  - generic [ref=e79]:
+                    - heading "د. أحمد نصر" [level=1] [ref=e80]
+                    - generic "موثق" [ref=e81]:
+                      - img [ref=e82]
+                  - generic [ref=e85]:
+                    - generic [ref=e86]: طب أسنان عام
+                    - generic [ref=e87]: زراعة الأسنان
+                  - generic [ref=e88]:
+                    - button "احفظ الطبيب" [ref=e89] [cursor=pointer]:
+                      - img [ref=e90]
+                      - text: احفظ الطبيب
+                    - generic [ref=e92]: موجود في العيادة الآن
+                - generic [ref=e93]:
+                  - generic [ref=e94]:
+                    - img [ref=e95]
+                    - text: "5"
+                  - generic [ref=e97]: تقييم عام
+              - generic [ref=e98]:
+                - generic [ref=e99]:
+                  - img [ref=e101]
+                  - generic [ref=e104]:
+                    - strong [ref=e105]: رام الله
+                    - generic [ref=e106]: البيرة
+                    - link "الخريطة داخل الموقع" [ref=e107] [cursor=pointer]:
+                      - /url: /doctors/3940fa5f-01b2-4119-b06b-076e9dbab532/map
+                      - img [ref=e108]
+                      - text: الخريطة داخل الموقع
+                    - link "افتح في خرائط الجهاز" [ref=e110] [cursor=pointer]:
+                      - /url: https://www.google.com/maps/dir/?api=1&destination=%D8%B1%D8%A7%D9%85%20%D8%A7%D9%84%D9%84%D9%87%20%E2%80%A2%20%D8%A7%D9%84%D8%A8%D9%8A%D8%B1%D8%A9
+                      - img [ref=e111]
+                      - text: افتح في خرائط الجهاز
+                - generic [ref=e114]:
+                  - img [ref=e116]
+                  - generic [ref=e119]:
+                    - strong [ref=e120]: التأمين الطبي المقبول
+                    - text: يقبل شركات التأمين المعتمدة
+          - generic [ref=e121]:
+            - generic [ref=e122]:
+              - heading "نبذة عن الطبيب" [level=2] [ref=e124]:
+                - img [ref=e125]
+                - text: نبذة عن الطبيب
+              - paragraph [ref=e128]: طبيب أسنان تجريبي لبوابة الطبيب
+            - generic [ref=e129]:
+              - img [ref=e131]
+              - heading "المسافة إليك" [level=2] [ref=e133]
+              - generic [ref=e135]: جاري التحديد...
+          - generic [ref=e137]:
+            - link "الخريطة داخل الموقع" [ref=e138] [cursor=pointer]:
+              - /url: /doctors/3940fa5f-01b2-4119-b06b-076e9dbab532/map
+              - img [ref=e139]
+              - text: الخريطة داخل الموقع
+            - link "خرائط الجهاز" [ref=e141] [cursor=pointer]:
+              - /url: https://www.google.com/maps/dir/?api=1&destination=%D8%B1%D8%A7%D9%85%20%D8%A7%D9%84%D9%84%D9%87%20%E2%80%A2%20%D8%A7%D9%84%D8%A8%D9%8A%D8%B1%D8%A9
+              - img [ref=e142]
+              - text: خرائط الجهاز
+          - generic [ref=e145]:
+            - generic [ref=e146]:
+              - heading "التقييمات والمراجعات" [level=2] [ref=e147]:
+                - img [ref=e148]
+                - text: التقييمات والمراجعات
+              - generic [ref=e150]: (2 تقييم)
+            - generic [ref=e151]:
+              - generic [ref=e152]:
+                - generic [ref=e153]:
+                  - generic [ref=e154]:
+                    - heading "سامر أبو فؤاد" [level=4] [ref=e155]
+                    - text: 12 مايو 2026
+                  - generic [ref=e156]:
+                    - img [ref=e157]
+                    - img [ref=e159]
+                    - img [ref=e161]
+                    - img [ref=e163]
+                    - img [ref=e165]
+                - paragraph [ref=e167]: دكتور ممتاز ومحترف جداً، العيادة مجهزة بأحدث التقنيات والمعاملة رائعة.
+              - generic [ref=e168]:
+                - generic [ref=e169]:
+                  - generic [ref=e170]:
+                    - heading "نهى المصري" [level=4] [ref=e171]
+                    - text: 3 مايو 2026
+                  - generic [ref=e172]:
+                    - img [ref=e173]
+                    - img [ref=e175]
+                    - img [ref=e177]
+                    - img [ref=e179]
+                    - img [ref=e181]
+                - paragraph [ref=e183]: الخدمة ممتازة ودقة في المواعيد، أنصح به بشدة لعلاج عصب الأسنان.
+            - generic [ref=e184]:
+              - heading "أضف تجربتك مع الطبيب" [level=3] [ref=e185]
+              - generic [ref=e186]:
+                - generic [ref=e187]:
+                  - generic [ref=e188]: "تقييمك بالنجوم:"
+                  - generic [ref=e189]:
+                    - button [ref=e190] [cursor=pointer]:
+                      - img [ref=e191]
+                    - button [ref=e193] [cursor=pointer]:
+                      - img [ref=e194]
+                    - button [ref=e196] [cursor=pointer]:
+                      - img [ref=e197]
+                    - button [ref=e199] [cursor=pointer]:
+                      - img [ref=e200]
+                    - button [ref=e202] [cursor=pointer]:
+                      - img [ref=e203]
+                - generic [ref=e205]:
+                  - textbox "اسمك الكامل" [ref=e206]
+                  - generic [ref=e207]: سيتم نشر التقييم فوراً بعد التحقق من الزيارة.
+                - textbox "اكتب تفاصيل تجربتك هنا بكل أمانة..." [ref=e208]
+                - button "نشر التقييم الآن" [ref=e209] [cursor=pointer]
+        - generic [ref=e211]:
+          - heading "تواصل وحجز مباشر" [level=3] [ref=e212]
+          - link "تواصل للحجز المباشر" [ref=e213] [cursor=pointer]:
+            - /url: https://wa.me/0599000111
+            - img [ref=e214]
+            - text: تواصل للحجز المباشر
+          - generic [ref=e216]:
+            - link "واتساب" [ref=e217] [cursor=pointer]:
+              - /url: https://wa.me/0599000111
+              - img [ref=e218]
+              - text: واتساب
+            - link "الخريطة" [ref=e220] [cursor=pointer]:
+              - /url: /doctors/3940fa5f-01b2-4119-b06b-076e9dbab532/map
+              - img [ref=e221]
+              - text: الخريطة
+          - generic [ref=e225]:
+            - heading "الدوام الرسمي" [level=3] [ref=e226]:
+              - img [ref=e227]
+              - text: الدوام الرسمي
+            - generic [ref=e230]:
+              - generic [ref=e231]:
+                - generic [ref=e232]: الأحد
+                - generic [ref=e233]: 09:00 ص - 05:00 م
+              - generic [ref=e234]:
+                - generic [ref=e235]: السبت
+                - generic [ref=e236]: 09:00 ص - 05:00 م
+              - generic [ref=e237]:
+                - generic [ref=e238]: الجمعة
+                - generic [ref=e239]: مغلق
+              - generic [ref=e240]:
+                - generic [ref=e241]: الخميس
+                - generic [ref=e242]: 09:00 ص - 02:00 م
+              - generic [ref=e243]:
+                - generic [ref=e244]: الإثنين
+                - generic [ref=e245]: 09:00 ص - 05:00 م
+              - generic [ref=e246]:
+                - generic [ref=e247]: الأربعاء
+                - generic [ref=e248]: 09:00 ص - 05:00 م
+              - generic [ref=e249]:
+                - generic [ref=e250]: الثلاثاء
+                - generic [ref=e251]: 09:00 ص - 05:00 م
+      - generic [ref=e252]:
+        - generic [ref=e253]:
+          - generic [ref=e254]:
+            - text: حجز موعد
+            - heading "أرسل طلب حجز للطبيب" [level=2] [ref=e255]
+            - paragraph [ref=e256]: سيتم عرض بياناتك للطبيب داخل لوحة الطبيب لتأكيد الموعد أو تعديله.
+          - img [ref=e257]
+        - generic [ref=e259]:
+          - generic [ref=e260]:
+            - generic [ref=e261]: الاسم الرباعي
+            - textbox "الاسم الرباعي" [ref=e262]
+          - generic [ref=e263]:
+            - generic [ref=e264]: البريد الإلكتروني
+            - textbox "البريد الإلكتروني" [ref=e265]
+          - generic [ref=e266]:
+            - generic [ref=e267]: رقم الهاتف
+            - textbox "رقم الهاتف" [ref=e268]
+          - generic [ref=e269]:
+            - generic [ref=e270]: رقم الهوية
+            - textbox "رقم الهوية" [ref=e271]
+          - generic [ref=e272]:
+            - generic [ref=e273]: عنوان السكن
+            - textbox "عنوان السكن" [ref=e274]
+          - generic [ref=e275]:
+            - generic [ref=e276]: تاريخ الموعد
+            - textbox "تاريخ الموعد" [ref=e277]
+          - generic [ref=e278]:
+            - generic [ref=e279]: الوقت المفضل
+            - textbox "الوقت المفضل" [ref=e280]
+          - generic [ref=e281]:
+            - generic [ref=e282]: ملاحظات للحالة
+            - textbox "ملاحظات للحالة" [ref=e283]:
+              - /placeholder: "مثال: ألم شديد، حشوة، مراجعة تقويم..."
+          - button "إرسال طلب الحجز" [ref=e284] [cursor=pointer]
+      - generic [ref=e286]:
+        - generic [ref=e287]: قنوات التواصل المباشرة
+        - heading "احجز موعدك مباشرة مع د. أحمد نصر" [level=2] [ref=e288]
+        - paragraph [ref=e289]: تم تفعيل قنوات التواصل والاتصال المباشر لتسريع عملية الحجز وتأكيد المواعيد فورياً.
+        - generic [ref=e290]:
+          - link "محادثة واتساب الفورية" [ref=e291] [cursor=pointer]:
+            - /url: https://wa.me/0599000111
+            - img [ref=e292]
+            - text: محادثة واتساب الفورية
+          - link "نموذج الحجز داخل الموقع" [ref=e294] [cursor=pointer]:
+            - /url: "#booking"
+            - img [ref=e295]
+            - text: نموذج الحجز داخل الموقع
+      - link "العودة للرئيسية" [ref=e298] [cursor=pointer]:
+        - /url: /
+        - img [ref=e299]
+        - text: العودة للرئيسية
+  - contentinfo [ref=e301]:
+    - generic [ref=e302]:
+      - generic [ref=e303]:
+        - generic [ref=e304]:
+          - img [ref=e306]
+          - heading "أسناني.ps" [level=2] [ref=e310]
+        - paragraph [ref=e311]: منصة أسناني باسم عمار اشتية، لتسهيل الوصول لأطباء الأسنان والخدمات الطبية في فلسطين.
+        - generic [ref=e312]:
+          - link "ammar.shtayeh@gmail.com" [ref=e313] [cursor=pointer]:
+            - /url: mailto:ammar.shtayeh@gmail.com
+            - img [ref=e314]
+            - text: ammar.shtayeh@gmail.com
+          - link "9720595537190" [ref=e317] [cursor=pointer]:
+            - /url: https://wa.me/9720595537190
+            - img [ref=e318]
+            - text: "9720595537190"
+      - generic [ref=e320]:
+        - link "انضم كطبيب" [ref=e321] [cursor=pointer]:
+          - /url: /join
+        - link "أعلن معنا" [ref=e322] [cursor=pointer]:
+          - /url: /advertise
+        - link "سوق أسناني" [ref=e323] [cursor=pointer]:
+          - /url: /marketplace
+        - link "سياسة الخصوصية" [ref=e324] [cursor=pointer]:
+          - /url: /privacy
+        - link "المجلة" [ref=e325] [cursor=pointer]:
+          - /url: /blog
+        - link "الشروط" [ref=e326] [cursor=pointer]:
+          - /url: /terms
+  - button "AI طبيبك الذكي" [ref=e328] [cursor=pointer]:
+    - generic [ref=e331]: AI
+    - img [ref=e332]
+    - generic: طبيبك الذكي
