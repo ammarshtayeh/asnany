@@ -1,16 +1,192 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { MessageSquare, X, Send, Sparkles, AlertCircle, Calendar } from "lucide-react";
+import { X, Send, AlertCircle, Calendar, Sparkles, FlaskConical, Microscope, Eye, Ear, HeartPulse, ShoppingBag, Tags, BookOpen, Bot } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 interface Message {
   sender: "bot" | "user";
   text: string;
-  isOfferCTA?: boolean;
-  isBookingCTA?: boolean;
+  ctaLink?: string;
+  ctaLabel?: string;
+  ctaIcon?: "offer" | "booking" | "beauty" | "labs" | "marketplace" | "blog";
 }
+
+const QUICK_CHIPS = [
+  { label: "🦷 ألم أسنان", q: "عندي ألم شديد في أسناني" },
+  { label: "👁️ مشاكل العيون", q: "عندي مشكلة في نظري وعيوني" },
+  { label: "🧴 مشاكل البشرة", q: "عندي مشكلة في البشرة والجلد" },
+  { label: "✨ تجميل وفيلر", q: "أريد الاستفسار عن خدمات التجميل والفيلر" },
+  { label: "👂 أنف وأذن وحنجرة", q: "عندي مشكلة في الأذن أو الأنف أو الحنجرة" },
+  { label: "🔬 فحوصات مختبر", q: "أريد إجراء تحاليل وفحوصات مخبرية" },
+  { label: "💊 احجز موعد", q: "أريد حجز موعد مع طبيب" },
+  { label: "🏷️ عروض وخصومات", q: "ما هي العروض والخصومات المتاحة؟" },
+];
+
+function getBotResponse(text: string): Omit<Message, "sender"> {
+  const t = text;
+
+  // ===== أسنان =====
+  if (/ألم|وجع|عصب|بوجعني|موجوع|ضرس/.test(t)) {
+    return {
+      text: "شفاك الله وعافاك! 😔\n\nألم الأسنان الحاد عادةً ما يكون مؤشراً على التهاب عصب السن أو تسوس عميق.\n\n🔹 إذا كان الألم نابضاً ليلاً → احتمال علاج جذور\n🔹 إذا كان الألم عند العض → قد يكون كسر أو حشوة مكسورة\n🔹 إذا كان مع تورم → يحتاج فحص فوري\n\nأنصحك بحجز موعد عاجل مع طبيب أسنان.",
+      ctaLink: "/#doctors",
+      ctaLabel: "ابحث عن طبيب أسنان",
+      ctaIcon: "booking",
+    };
+  }
+
+  if (/تقويم|اعوجاج|فراغ بين|إطباق|الفك/.test(t)) {
+    return {
+      text: "تقويم الأسنان هو الحل لتنسيق الأسنان وإصلاح مشاكل الإطباق. 😁\n\n🔹 تقويم معدني — الأكثر فاعلية\n🔹 تقويم شفاف (Invisalign) — أقل ظهوراً\n🔹 مدة العلاج من 12 إلى 24 شهراً\n\nأنصحك بزيارة أخصائي تقويم لعمل صور أشعة وتحديد الخطة.",
+      ctaLink: "/#doctors",
+      ctaLabel: "ابحث عن أخصائي تقويم",
+      ctaIcon: "booking",
+    };
+  }
+
+  if (/تبييض|ابتسامة|فينير|زيركون|ليمينيت/.test(t)) {
+    return {
+      text: "للحصول على ابتسامة ناصعة وجذابة! ✨\n\n🔹 تبييض ليزر — نتيجة فورية في جلسة واحدة\n🔹 تبييض منزلي — بتراكيب طبية آمنة\n🔹 فينير/زيركون — لإخفاء التشقق أو اللون الدائم\n\nتوجد عروض حصرية على التجميل الآن!",
+      ctaLink: "/offers",
+      ctaLabel: "تصفح عروض التجميل",
+      ctaIcon: "offer",
+    };
+  }
+
+  if (/زراعة|مفقود|زرع|بدوني سن/.test(t)) {
+    return {
+      text: "زراعة الأسنان هي الحل الأمثل والأكثر ثباتاً لتعويض السن المفقود! 🦷\n\n🔹 جذر تيتانيوم يندمج مع العظم\n🔹 تاج خزفي طبيعي المظهر\n🔹 يدوم مدى الحياة مع العناية الصحيحة\n\nيحتاج تقييم سماكة عظم الفك قبل البدء.",
+      ctaLink: "/#doctors",
+      ctaLabel: "ابحث عن أخصائي زراعة",
+      ctaIcon: "booking",
+    };
+  }
+
+  if (/أسنان الأطفال|ابني|بنتي|طفل|بيبي/.test(t)) {
+    return {
+      text: "العناية بأسنان الأطفال منذ الصغر أساسية جداً! 🧸\n\n🔹 أول زيارة عند ظهور أول سن أو قبل عمر السنة\n🔹 حماية الأسنان اللبنية من التسوس المبكر\n🔹 أطباء الأطفال مدربون على التعامل بلطف\n\nلدينا أطباء متخصصون بأسنان الأطفال.",
+      ctaLink: "/#doctors",
+      ctaLabel: "ابحث عن طبيب أطفال",
+      ctaIcon: "booking",
+    };
+  }
+
+  // ===== عيون =====
+  if (/عيون|نظر|ليزك|ليزر عيون|ضعف بصر|تشوش|حول|ماء أبيض|ماء أزرق|قطارة|عدسة/.test(t)) {
+    return {
+      text: "رعاية صحة العين من أهم الأولويات! 👁️\n\n🔹 ضعف النظر → فحص نظر وصرف نظارة أو عدسات\n🔹 الليزك → تصحيح دائم لضعف النظر بالليزر\n🔹 الماء الأبيض (الكتاراكت) → عملية يومية آمنة\n🔹 الجلوكوما (الماء الأزرق) → يحتاج متابعة منتظمة\n🔹 التهاب الملتحمة → يعالج بالقطرات المناسبة\n\nراجع أخصائي العيون لفحص دقيق.",
+      ctaLink: "/#doctors",
+      ctaLabel: "ابحث عن طبيب عيون",
+      ctaIcon: "booking",
+    };
+  }
+
+  // ===== جلدية وبشرة =====
+  if (/بشرة|جلد|حب الشباب|حبوب|أكنيه|تساقط شعر|فراغات شعر|صدفية|إكزيما|تصبغات|دوالي|وصمة|مسام/.test(t)) {
+    return {
+      text: "مشاكل البشرة والجلد لها حلول فعّالة! 🧴\n\n🔹 حب الشباب → بروتوكولات ليزر + كريمات علاجية\n🔹 تساقط الشعر → حقن البلازما + مكملات\n🔹 التصبغات → ليزر كربون أو بيلينج كيميائي\n🔹 الصدفية والإكزيما → علاج متخصص ومستمر\n\nعروض مميزة على خدمات الجلدية متوفرة.",
+      ctaLink: "/beauty",
+      ctaLabel: "تصفح مراكز الجلدية",
+      ctaIcon: "beauty",
+    };
+  }
+
+  // ===== تجميل =====
+  if (/تجميل|فيلر|بوتوكس|شد وجه|تخسيس|بطن|أنف|تجميل أنف|حقن|ريستيلان|مزوثيرابي/.test(t)) {
+    return {
+      text: "خدمات التجميل الحديثة تطورت كثيراً! ✨\n\n🔹 فيلر الشفاه والوجه — نتيجة فورية طبيعية\n🔹 البوتوكس — لإزالة التجاعيد والخطوط\n🔹 شفط الدهون والتخسيس الموضعي\n🔹 تجميل الأنف بدون جراحة (فيلر)\n🔹 مزوثيرابي لتجديد شباب البشرة\n\nراجع مراكز التجميل المعتمدة لدينا.",
+      ctaLink: "/beauty",
+      ctaLabel: "تصفح مراكز التجميل",
+      ctaIcon: "beauty",
+    };
+  }
+
+  // ===== أنف وأذن وحنجرة =====
+  if (/أذن|أنف|حنجرة|لوزتين|لوز|سمع|طنين|حساسية أنف|جيوب أنفية|بحة|صوت|شخير|انزلاق حاجز/.test(t)) {
+    return {
+      text: "تخصص الأنف والأذن والحنجرة يعالج طيفاً واسعاً! 👂\n\n🔹 التهاب اللوزتين — علاج أو استئصال إذا تكرر\n🔹 الجيوب الأنفية — بخاخات أو تدخل بسيط\n🔹 انزلاق الحاجز — عملية لتحسين التنفس\n🔹 ضعف السمع والطنين — فحص سمع متخصص\n🔹 الشخير — حلول متعددة منها الليزر\n\nابحث عن أخصائي أنف وأذن وحنجرة.",
+      ctaLink: "/#doctors",
+      ctaLabel: "ابحث عن أخصائي أنف وأذن",
+      ctaIcon: "booking",
+    };
+  }
+
+  // ===== مختبرات =====
+  if (/تحاليل|فحوصات|مختبر|دم|سكر|ضغط|كوليسترول|غدة درقية|فيتامين|هرمونات|بول|صورة دم/.test(t)) {
+    return {
+      text: "الفحوصات المخبرية أساس التشخيص الدقيق! 🔬\n\n🔹 صورة دم كاملة (CBC)\n🔹 سكر صيامي وتراكمي\n🔹 وظائف كبد وكلى\n🔹 هرمونات الغدة الدرقية\n🔹 فيتامينات D, B12, حديد\n🔹 فحص البول والزرع\n\nيمكنك الحجز في مختبراتنا المعتمدة.",
+      ctaLink: "/labs",
+      ctaLabel: "تصفح المختبرات",
+      ctaIcon: "labs",
+    };
+  }
+
+  // ===== سوق وأدوات =====
+  if (/سوق|أدوات|منتجات|أجهزة طبية|كرسي|معدات|مستلزمات/.test(t)) {
+    return {
+      text: "سوق ملامح متخصص في المستلزمات والأجهزة الطبية! 🛒\n\n🔹 أجهزة وكراسي طب أسنان\n🔹 مستلزمات عيادات وعمليات\n🔹 أدوات تجميل ومعدات ليزر\n🔹 منتجات العناية والصحة\n\nتصفح السوق للاطلاع على المنتجات والأسعار.",
+      ctaLink: "/marketplace",
+      ctaLabel: "تصفح سوق ملامح",
+      ctaIcon: "marketplace",
+    };
+  }
+
+  // ===== عروض =====
+  if (/عروض|خصومات|تخفيضات|أوفر|عرض/.test(t)) {
+    return {
+      text: "عروض ملامح تُحدَّث باستمرار! 🏷️\n\n🔹 خصومات على تبييض الأسنان والتجميل\n🔹 باقات العلاج الشاملة بأسعار مخفضة\n🔹 عروض موسمية حصرية للأعضاء\n🔹 بطاقة خصم ملامح تمنحك خصماً دائماً\n\nلا تفوّت العروض الحالية!",
+      ctaLink: "/offers",
+      ctaLabel: "تصفح جميع العروض",
+      ctaIcon: "offer",
+    };
+  }
+
+  // ===== مجلة =====
+  if (/مجلة|مقالات|مقال|معلومات|نصائح|صحة/.test(t)) {
+    return {
+      text: "مجلة ملامح الطبية تنشر محتوى موثوقاً ومفيداً! 📖\n\n🔹 مقالات صحية مراجعة من أطباء متخصصين\n🔹 نصائح الوقاية والعناية اليومية\n🔹 ترتيبات المستشفيات والعيادات\n🔹 أخبار الطب والجمال في فلسطين\n\nتصفح المجلة للاطلاع على أحدث المواضيع.",
+      ctaLink: "/blog",
+      ctaLabel: "اقرأ مجلة ملامح",
+      ctaIcon: "blog",
+    };
+  }
+
+  // ===== حجز موعد =====
+  if (/احجز|حجز|موعد|متاح|متى/.test(t)) {
+    return {
+      text: "حجز موعدك مع الطبيب سهل وسريع! 📅\n\n1️⃣ ابحث عن الطبيب حسب التخصص والمدينة\n2️⃣ افتح ملف الطبيب واطلع على المواعيد المتاحة\n3️⃣ تواصل مباشرة عبر الهاتف أو الواتساب\n4️⃣ أو استخدم نموذج الحجز الإلكتروني\n\nجميع الأطباء موثقون ومعتمدون.",
+      ctaLink: "/booking",
+      ctaLabel: "نظام الحجز الإلكتروني",
+      ctaIcon: "booking",
+    };
+  }
+
+  // ===== ترحيب =====
+  if (/مرحبا|سلام|هلا|هلو|مساء|صباح/.test(t)) {
+    return {
+      text: "أهلاً وسهلاً بك! أنا الحكيم اللبيب 🧠🩺\n\nمساعدك الطبي الذكي في منصة ملامح.ps\n\nيمكنني مساعدتك في:\n🦷 أسنان وتقويم\n👁️ عيون وليزك\n🧴 جلدية وبشرة\n✨ تجميل وفيلر\n👂 أنف وأذن وحنجرة\n🔬 مختبرات وفحوصات\n🏷️ عروض وخصومات\n\nما الذي تحتاجه اليوم؟",
+    };
+  }
+
+  // ===== افتراضي =====
+  return {
+    text: "شكراً لاستفسارك! 🩺\n\nكمساعد طبي ذكي، أنصح دائماً بالفحص المباشر في العيادة للتشخيص الدقيق.\n\nيمكنني مساعدتك في:\n🦷 أسنان • 👁️ عيون • 🧴 جلدية\n✨ تجميل • 👂 أنف وأذن • 🔬 مختبرات\n\nجرّب اختر أحد الأزرار السريعة أدناه أو اكتب سؤالك بالتفصيل.",
+    ctaLink: "/#doctors",
+    ctaLabel: "تصفح جميع الأطباء",
+    ctaIcon: "booking",
+  };
+}
+
+const CTA_STYLES = {
+  offer: "bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950",
+  booking: "bg-slate-950 text-white",
+  beauty: "bg-gradient-to-r from-fuchsia-500 to-violet-500 text-white",
+  labs: "bg-gradient-to-r from-indigo-500 to-sky-500 text-white",
+  marketplace: "bg-gradient-to-r from-emerald-500 to-teal-500 text-white",
+  blog: "bg-gradient-to-r from-violet-500 to-purple-600 text-white",
+};
 
 export default function AIChatbot() {
   const pathname = usePathname();
@@ -19,163 +195,149 @@ export default function AIChatbot() {
   const [messages, setMessages] = useState<Message[]>([
     {
       sender: "bot",
-      text: "مرحباً بك! أنا الحكيم اللبيب ✨🤖، مساعدك الذكي في منصة ملامح. كيف يمكنني مساعدتك اليوم؟\n\nيمكنك الاستفسار عن أطباء الأسنان، العيون، الجلدية، وأنف وأذن وحنجرة، وسأوجهك لأفضل الأطباء في فلسطين!"
-    }
+      text: "أهلاً! أنا الحكيم اللبيب 🧠🩺\n\nمساعدك الطبي الذكي في منصة ملامح.ps\n\nيمكنني مساعدتك في:\n🦷 أسنان • 👁️ عيون • 🧴 جلدية\n✨ تجميل • 👂 أنف وأذن • 🔬 مختبرات\n🏷️ عروض • 📅 حجز موعد\n\nما الذي تحتاجه اليوم؟",
+    },
   ]);
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
   useEffect(() => {
-    scrollToBottom();
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isTyping]);
 
-  const handleQuickOption = (text: string) => {
-    handleSendMessage(text);
-  };
-
-  const handleSendMessage = (textToSend: string) => {
+  const sendMessage = (textToSend: string) => {
     if (!textToSend.trim()) return;
-
-    // Add user message
-    const userMsg: Message = { sender: "user", text: textToSend };
-    setMessages((prev) => [...prev, userMsg]);
+    setMessages((prev) => [...prev, { sender: "user", text: textToSend }]);
     setInput("");
     setIsTyping(true);
-
-    // Simulate AI thinking and response
     setTimeout(() => {
       setIsTyping(false);
-      let botResponse = "";
-      let isOfferCTA = false;
-      let isBookingCTA = false;
-
-      const cleanText = textToSend.toLowerCase();
-
-      if (cleanText.includes("ألم") || cleanText.includes("وجع") || cleanText.includes("عصب") || cleanText.includes("بوجعني") || cleanText.includes("موجوع")) {
-        botResponse = "شفاك الله وعافاك! 😔 ألم الأسنان الحاد أو النابض (خصوصاً عند النوم أو شرب البارد والساخن) عادة ما يكون مؤشراً على التهاب عصب السن.\n\nأنصحك بحجز موعد فوري مع أخصائي 'علاج عصب' أو 'حشو جذور' لتفادي تفاقم الالتهاب.";
-        isBookingCTA = true;
-      } else if (cleanText.includes("تقويم") || cleanText.includes("اعوجاج") || cleanText.includes("فراغ") || cleanText.includes("الفك")) {
-        botResponse = "تقويم الأسنان هو الحل المثالي لتنسيق اصطفاف الأسنان ومعالجة مشاكل الإطباق والفكين.\n\nننصحك بحجز موعد استشارة مع 'أخصائي تقويم أسنان' لعمل فحص سريري وأخذ صور الأشعة اللازمة لتحديد الخطة المناسبة (سواء تقويم معدني أو شفاف).";
-        isBookingCTA = true;
-      } else if (cleanText.includes("تبييض") || cleanText.includes("تجميل") || cleanText.includes("ابتسامة") || cleanText.includes("فينير") || cleanText.includes("زيركون")) {
-        botResponse = "للحصول على ابتسامة ناصعة وجذابة، تتوفر لدينا تقنيات رائعة مثل التبييض المنزلي، أو تبييض الليزر في العيادة، أو الفينير (عدسات الأسنان).\n\nبشرى سارة! تتوفر حالياً عروض وخصومات حصرية تصل لـ 30% على خدمات التبييض والتجميل في صفحة العروض لدينا.";
-        isOfferCTA = true;
-      } else if (cleanText.includes("زراعة") || cleanText.includes("مفقود") || cleanText.includes("زرع")) {
-        botResponse = "زراعة الأسنان هي الحل الأكثر متانة وأماناً لتعويض الأسنان المفقودة، حيث يتم وضع جذر تيتانيوم صلب يلتحم مع الفك.\n\nننصحك بزيارة أخصائي 'زراعة وجراحة الفكين' لتقييم سماكة عظم الفك وتحديد موعد العملية الميسرة.";
-        isBookingCTA = true;
-      } else if (cleanText.includes("أطفال") || cleanText.includes("ابني") || cleanText.includes("بنتي") || cleanText.includes("طفل")) {
-        botResponse = "العناية بأسنان الأطفال منذ الصغر ضرورية جداً لحماية الأسنان اللبنية وضمان نمو الأسنان الدائمة بشكل سليم.\n\nلدينا أطباء أسنان مختصون بلطف شديد في التعامل مع الأطفال وجعل الزيارة ممتعة وخالية من الخوف.";
-        isBookingCTA = true;
-      } else if (cleanText.includes("مرحبا") || cleanText.includes("سلام") || cleanText.includes("هلا")) {
-        botResponse = "أهلاً وسهلاً بك! أنا الحكيم اللبيب 🧠🩺. يمكنك الاستفسار عن أي مشكلة صحية وسأقترح عليك التخصص المناسب وأرشدك لأقرب الأطباء في فلسطين.";
-      } else {
-        botResponse = "شكراً لاستفسارك! كمساعد طبي ذكي، أنصحك دائماً بالفحص المباشر في العيادة للحصول على تشخيص دقيق 100%.\n\nيمكنك استخدام محرك البحث الذكي في منصتنا لتحديد مدينتك وحجز موعد مع الطبيب الأقرب إليك بسهولة فائقة!";
-      }
-
-      setMessages((prev) => [
-        ...prev,
-        {
-          sender: "bot",
-          text: botResponse,
-          isOfferCTA,
-          isBookingCTA
-        }
-      ]);
-    }, 1200);
+      const response = getBotResponse(textToSend);
+      setMessages((prev) => [...prev, { sender: "bot", ...response }]);
+    }, 1000 + Math.random() * 600);
   };
 
   if (pathname?.startsWith("/admin")) return null;
 
   return (
-    <div className="fixed bottom-4 right-4 z-[999] hidden sm:block md:bottom-6 md:right-6" dir="rtl">
-      {/* Floating Toggle Button */}
+    <div className="fixed bottom-5 left-5 z-[999] hidden sm:block md:bottom-7 md:left-7" dir="rtl">
+
+      {/* ===== Floating Button ===== */}
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="group relative flex items-center justify-center gap-3 rounded-full border border-amber-500/20 bg-slate-950 p-4.5 text-white shadow-[0_10px_30px_rgba(12,94,71,0.2)] transition-all duration-300 hover:scale-105 hover:border-amber-500/40 hover:shadow-[0_15px_40px_rgba(12,94,71,0.35)]"
+          aria-label="افتح الحكيم اللبيب"
+          className="group relative flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-950 text-white shadow-[0_8px_30px_rgba(15,23,42,0.35)] border border-white/10 transition-all duration-300 hover:scale-110 hover:shadow-[0_12px_40px_rgba(15,23,42,0.45)] hover:rounded-[1.2rem]"
         >
-          <span className="absolute -top-1 -right-1 flex h-4.5 w-4.5">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-500 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-4.5 w-4.5 bg-amber-500 text-[8px] font-black text-slate-950 items-center justify-center">ذكاء</span>
+          {/* Ping badge */}
+          <span className="absolute -top-1.5 -right-1.5 flex h-5 w-5">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-60" />
+            <span className="relative inline-flex h-5 w-5 rounded-full bg-amber-400 items-center justify-center">
+              <span className="text-[9px] font-black text-slate-950 leading-none">AI</span>
+            </span>
           </span>
-          <div className="h-6 w-6 flex items-center justify-center text-amber-400">
-            <Sparkles className="h-5 w-5 fill-current animate-pulse" />
-          </div>
-          <span className="max-w-0 overflow-hidden group-hover:max-w-xs transition-all duration-500 ease-out whitespace-nowrap font-black text-sm text-slate-100">
-            الحكيم اللبيب
+
+          {/* Brain icon */}
+          <Bot className="h-6 w-6 text-amber-400" />
+
+          {/* Tooltip on hover */}
+          <span className="pointer-events-none absolute left-full ml-3 whitespace-nowrap rounded-xl bg-slate-950 border border-white/10 px-3 py-1.5 text-xs font-black text-white opacity-0 shadow-xl transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0 translate-x-2">
+            الحكيم اللبيب 🧠
           </span>
         </button>
       )}
 
-      {/* Chat Window */}
+      {/* ===== Chat Window ===== */}
       {isOpen && (
-        <div className="w-[360px] md:w-[400px] h-[560px] bg-white/95 backdrop-blur-xl rounded-[2rem] shadow-[0_20px_50px_rgba(9,13,22,0.15)] border border-slate-200/50 flex flex-col overflow-hidden animate-fade-in">
+        <div
+          className="flex flex-col overflow-hidden rounded-[2rem] border border-slate-200/60 bg-white shadow-[0_24px_60px_rgba(9,13,22,0.18)] backdrop-blur-xl"
+          style={{ width: 380, height: 600 }}
+        >
           {/* Header */}
-          <div className="bg-slate-950 p-5 text-white flex justify-between items-center relative overflow-hidden border-b border-slate-900">
-            <div className="absolute top-0 right-0 w-32 h-full bg-primary/10 blur-xl pointer-events-none" />
-            <div className="flex items-center gap-3 relative z-10">
-              <div className="w-10 h-10 rounded-2xl bg-white/5 flex items-center justify-center border border-white/10">
-                <Sparkles className="w-5 h-5 text-amber-400 fill-current animate-pulse" />
+          <div className="relative flex items-center justify-between overflow-hidden bg-slate-950 px-5 py-4 border-b border-slate-800">
+            {/* glow */}
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-l from-amber-500/10 via-transparent to-transparent" />
+            <div className="relative flex items-center gap-3">
+              {/* avatar */}
+              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-amber-400/20 to-amber-600/10 border border-amber-500/20 shadow-inner">
+                <Bot className="h-5 w-5 text-amber-400" />
               </div>
               <div className="text-right">
-                <h4 className="font-black text-base flex items-center gap-1.5">الحكيم اللبيب <span className="text-[10px] bg-primary/20 border border-primary/30 px-2 py-0.5 rounded-full text-emerald-400 font-black">مساعد مجاني</span></h4>
-                <p className="text-[10px] sm:text-xs text-slate-400 font-semibold mt-0.5">مستشارك للتشخيص الأولي وتوجيه الحجز</p>
+                <h4 className="flex items-center gap-1.5 font-black text-white text-sm">
+                  الحكيم اللبيب
+                  <span className="rounded-full bg-emerald-500/20 border border-emerald-500/30 px-2 py-0.5 text-[9px] font-black text-emerald-400">
+                    مجاني
+                  </span>
+                </h4>
+                <p className="mt-0.5 text-[11px] text-slate-400 font-semibold">
+                  مستشارك الطبي الذكي • ملامح.ps
+                </p>
               </div>
             </div>
             <button
               onClick={() => setIsOpen(false)}
-              className="w-8 h-8 rounded-xl bg-white/5 hover:bg-white/10 text-white flex items-center justify-center border border-white/5 transition-all"
+              className="relative flex h-8 w-8 items-center justify-center rounded-xl bg-white/5 hover:bg-white/15 border border-white/10 text-slate-300 transition-all"
             >
-              <X className="w-4 h-4" />
+              <X className="h-4 w-4" />
             </button>
           </div>
 
-          {/* Messages Area */}
-          <div className="flex-1 p-5 overflow-y-auto space-y-4 bg-slate-50/40">
-            {messages.map((msg, idx) => (
-              <div
-                key={idx}
-                className={`flex flex-col ${msg.sender === "user" ? "items-start" : "items-end"}`}
+          {/* Service Pills */}
+          <div className="flex gap-2 overflow-x-auto hide-scrollbar border-b border-slate-100 bg-slate-50/60 px-4 py-2.5">
+            {[
+              { label: "🦷 أسنان", q: "أسنان وتقويم" },
+              { label: "👁️ عيون", q: "مشاكل العيون والنظر" },
+              { label: "🧴 بشرة", q: "مشاكل البشرة والجلد" },
+              { label: "✨ تجميل", q: "خدمات التجميل والفيلر" },
+              { label: "👂 أنف وأذن", q: "أنف وأذن وحنجرة" },
+              { label: "🔬 مختبر", q: "فحوصات مختبر" },
+            ].map((pill) => (
+              <button
+                key={pill.label}
+                onClick={() => sendMessage(pill.q)}
+                className="whitespace-nowrap rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-black text-slate-600 transition-all hover:border-amber-300 hover:bg-amber-50 hover:text-amber-700 flex-shrink-0"
               >
+                {pill.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Messages */}
+          <div className="flex-1 space-y-4 overflow-y-auto bg-slate-50/30 px-4 py-4">
+            {messages.map((msg, idx) => (
+              <div key={idx} className={`flex flex-col ${msg.sender === "user" ? "items-start" : "items-end"}`}>
+                {msg.sender === "bot" && (
+                  <div className="mb-1.5 flex items-center gap-1.5">
+                    <div className="flex h-5 w-5 items-center justify-center rounded-lg bg-slate-950">
+                      <Bot className="h-3 w-3 text-amber-400" />
+                    </div>
+                    <span className="text-[10px] font-black text-slate-400">الحكيم اللبيب</span>
+                  </div>
+                )}
                 <div
-                  className={`max-w-[85%] p-4 rounded-[1.5rem] text-xs sm:text-sm leading-relaxed font-semibold whitespace-pre-line shadow-sm text-right ${
+                  className={`max-w-[88%] whitespace-pre-line rounded-[1.4rem] px-4 py-3.5 text-xs leading-relaxed font-semibold shadow-sm ${
                     msg.sender === "user"
-                      ? "bg-slate-950 text-white rounded-tl-none border border-slate-900 text-right"
-                      : "bg-white text-slate-800 rounded-tr-none border border-slate-200/60 text-right"
+                      ? "rounded-tl-md bg-slate-950 text-white text-right border border-slate-800"
+                      : "rounded-tr-md bg-white text-slate-800 text-right border border-slate-200/70"
                   }`}
                 >
                   {msg.text}
 
-                  {/* Dynamic CTAs */}
-                  {msg.isOfferCTA && (
+                  {/* CTA Button */}
+                  {msg.ctaLink && msg.ctaLabel && msg.ctaIcon && (
                     <div className="mt-3 pt-3 border-t border-slate-100 flex justify-end">
                       <Link
-                        href="/offers"
+                        href={msg.ctaLink}
                         onClick={() => setIsOpen(false)}
-                        className="bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 font-black px-4 py-2 rounded-xl text-xs flex items-center gap-1.5 transition-all hover:scale-[1.02]"
+                        className={`inline-flex items-center gap-1.5 rounded-xl px-4 py-2 text-xs font-black transition-all hover:scale-[1.02] shadow-sm ${CTA_STYLES[msg.ctaIcon]}`}
                       >
-                        <Sparkles className="w-3.5 h-3.5" /> استعراض عروض التجميل
-                      </Link>
-                    </div>
-                  )}
-
-                  {msg.isBookingCTA && (
-                    <div className="mt-3 pt-3 border-t border-slate-100 flex justify-end">
-                      <Link
-                        href="/#doctors"
-                        onClick={() => {
-                          setIsOpen(false);
-                          setTimeout(() => {
-                            document.getElementById("doctors")?.scrollIntoView({ behavior: "smooth" });
-                          }, 300);
-                        }}
-                        className="bg-slate-950 hover:bg-slate-900 text-white font-black px-4 py-2 rounded-xl text-xs flex items-center gap-1.5 transition-all hover:scale-[1.02]"
-                      >
-                        <Calendar className="w-3.5 h-3.5 text-amber-400" /> البحث وحجز موعد الآن
+                        {msg.ctaIcon === "offer" && <Tags className="h-3.5 w-3.5" />}
+                        {msg.ctaIcon === "booking" && <Calendar className="h-3.5 w-3.5 text-amber-400" />}
+                        {msg.ctaIcon === "beauty" && <Sparkles className="h-3.5 w-3.5" />}
+                        {msg.ctaIcon === "labs" && <FlaskConical className="h-3.5 w-3.5" />}
+                        {msg.ctaIcon === "marketplace" && <ShoppingBag className="h-3.5 w-3.5" />}
+                        {msg.ctaIcon === "blog" && <BookOpen className="h-3.5 w-3.5" />}
+                        {msg.ctaLabel}
                       </Link>
                     </div>
                   )}
@@ -185,75 +347,64 @@ export default function AIChatbot() {
 
             {isTyping && (
               <div className="flex flex-col items-end">
-                <div className="bg-white border border-slate-200/50 p-4 rounded-[1.5rem] rounded-tr-none flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
-                  <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
-                  <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
+                <div className="mb-1.5 flex items-center gap-1.5">
+                  <div className="flex h-5 w-5 items-center justify-center rounded-lg bg-slate-950">
+                    <Bot className="h-3 w-3 text-amber-400" />
+                  </div>
+                  <span className="text-[10px] font-black text-slate-400">يكتب...</span>
+                </div>
+                <div className="rounded-[1.4rem] rounded-tr-md bg-white border border-slate-200/70 px-5 py-4 flex items-center gap-1.5 shadow-sm">
+                  <span className="h-1.5 w-1.5 rounded-full bg-slate-400 animate-bounce" style={{ animationDelay: "0ms" }} />
+                  <span className="h-1.5 w-1.5 rounded-full bg-slate-400 animate-bounce" style={{ animationDelay: "140ms" }} />
+                  <span className="h-1.5 w-1.5 rounded-full bg-slate-400 animate-bounce" style={{ animationDelay: "280ms" }} />
                 </div>
               </div>
             )}
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Quick Option Suggestions */}
-          <div className="px-5 py-3 bg-slate-50 border-t border-slate-200/40 flex gap-2 overflow-x-auto hide-scrollbar whitespace-nowrap">
-            <button
-              onClick={() => handleQuickOption("عندي ألم شديد في السن")}
-              className="bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-black px-3.5 py-1.5 rounded-full transition-all"
-            >
-              وجع عصب 💥
-            </button>
-            <button
-              onClick={() => handleQuickOption("أبحث عن عروض تجميل وتبييض الأسنان")}
-              className="bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-black px-3.5 py-1.5 rounded-full transition-all"
-            >
-              تبييض وتجميل ✨
-            </button>
-            <button
-              onClick={() => handleQuickOption("كيف أختار طبيب لتقويم الأسنان؟")}
-              className="bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-black px-3.5 py-1.5 rounded-full transition-all"
-            >
-              استفسار تقويم 🦷
-            </button>
-            <button
-              onClick={() => handleQuickOption("علاج أسنان الأطفال")}
-              className="bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-black px-3.5 py-1.5 rounded-full transition-all"
-            >
-              أسنان الأطفال 🧸
-            </button>
+          {/* Quick Chips */}
+          <div className="hide-scrollbar flex gap-2 overflow-x-auto border-t border-slate-100 bg-white px-4 py-2.5">
+            {QUICK_CHIPS.map((chip) => (
+              <button
+                key={chip.label}
+                onClick={() => sendMessage(chip.q)}
+                className="flex-shrink-0 whitespace-nowrap rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-[11px] font-black text-slate-600 transition-all hover:border-slate-950 hover:bg-slate-950 hover:text-white"
+              >
+                {chip.label}
+              </button>
+            ))}
           </div>
 
-          {/* Input Panel */}
+          {/* Input */}
           <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              handleSendMessage(input);
-            }}
-            className="p-4 bg-white border-t border-slate-200/60 flex gap-3 items-center"
+            onSubmit={(e) => { e.preventDefault(); sendMessage(input); }}
+            className="flex items-center gap-2.5 border-t border-slate-100 bg-white px-4 py-3"
           >
             <input
               type="text"
-              placeholder="اكتب استفسارك الطبي هنا..."
-              className="flex-1 px-4 py-3 rounded-2xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-primary outline-none transition-all font-semibold text-xs sm:text-sm"
+              placeholder="اكتب سؤالك هنا..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
+              className="flex-1 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-xs font-semibold text-slate-800 outline-none transition-all placeholder:text-slate-400 focus:border-amber-400 focus:bg-white focus:ring-2 focus:ring-amber-100"
             />
             <button
               type="submit"
-              className="w-11 h-11 rounded-2xl bg-slate-950 hover:bg-slate-900 text-white flex items-center justify-center transition-all shadow-md"
+              className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-2xl bg-slate-950 text-white shadow-md transition-all hover:bg-amber-500"
             >
-              <Send className="w-4.5 h-4.5 -rotate-90" />
+              <Send className="h-4 w-4 -rotate-90" />
             </button>
           </form>
 
-          {/* Legal Notice */}
-          <div className="bg-slate-150 px-5 py-2 text-[10px] text-slate-400 font-bold flex items-center gap-1.5 border-t border-slate-200/50">
-            <AlertCircle className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" />
-            <span>إرشاد طبي أولي فقط، ولا يغني عن الفحص السريري المباشر.</span>
+          {/* Disclaimer */}
+          <div className="flex items-center gap-1.5 border-t border-slate-100 bg-slate-50 px-4 py-2">
+            <AlertCircle className="h-3 w-3 flex-shrink-0 text-slate-400" />
+            <span className="text-[10px] font-semibold text-slate-400">
+              إرشاد طبي أولي فقط، لا يغني عن الفحص السريري.
+            </span>
           </div>
         </div>
       )}
     </div>
   );
 }
-
