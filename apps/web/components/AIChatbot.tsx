@@ -192,7 +192,7 @@ export default function AIChatbot() {
         .chips-scroll > * { flex-shrink: 0; }
       `}</style>
 
-      <div className="fixed bottom-5 left-5 z-[999] hidden sm:block md:bottom-7 md:left-7" dir="rtl">
+      <div className="fixed bottom-24 left-5 z-[999] sm:bottom-5 sm:left-5 md:bottom-7 md:left-7" dir="rtl">
 
         {/* ======= FLOATING BUTTON ======= */}
         {!isOpen && (
@@ -223,8 +223,7 @@ export default function AIChatbot() {
         {/* ======= CHAT WINDOW ======= */}
         {isOpen && (
           <div
-            className={`flex flex-col overflow-hidden rounded-[28px] bg-white shadow-[0_32px_80px_rgba(9,13,22,0.22)] border border-slate-200/60 ${isVisible ? "chat-window-enter" : "opacity-0"}`}
-            style={{ width: 400, height: 620 }}
+            className={`fixed bottom-24 left-4 right-4 sm:relative sm:bottom-auto sm:left-auto sm:right-auto flex flex-col overflow-hidden rounded-[28px] bg-white shadow-[0_32px_80px_rgba(9,13,22,0.22)] border border-slate-200/60 w-auto sm:w-[400px] h-[480px] max-h-[70vh] sm:h-[620px] sm:max-h-[620px] ${isVisible ? "chat-window-enter" : "opacity-0"}`}
           >
 
             {/* === HEADER === */}
