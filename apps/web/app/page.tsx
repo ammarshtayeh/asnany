@@ -286,10 +286,6 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/70 to-transparent" />
         <div className="relative z-10 mx-auto grid min-h-[580px] w-full max-w-[1400px] items-center gap-10 py-4 lg:grid-cols-[minmax(0,1fr)_480px]">
           <div className="max-w-3xl text-right text-white" dir="rtl">
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-amber-500/20 bg-amber-500/10 px-4.5 py-2.5 text-xs font-black backdrop-blur-md shadow-[0_0_15px_rgba(217,119,6,0.1)]">
-              <Sparkles className="h-4 w-4 text-amber-400" />
-              <span className="text-amber-100">دليل صحة وجمال الوجه والأسنان في فلسطين</span>
-            </div>
             <h1 className="text-4xl font-black leading-[1.15] sm:text-5xl lg:text-6xl tracking-tight">
               كل ما تحتاجه لصحتك وجمالك.. <span className="text-gradient-gold block sm:inline text-amber-400">في متناول يدك</span>
             </h1>

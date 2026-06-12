@@ -19,7 +19,7 @@ export default function AIChatbot() {
   const [messages, setMessages] = useState<Message[]>([
     {
       sender: "bot",
-      text: "مرحباً بك! أنا مساعد ملامح الذكي ✨🤖. كيف يمكنني مساعدتك اليوم؟\n\nيمكنك الاستفسار عن أطباء الأسنان، العيون، الجلدية، وأنف وأذن وحنجرة، وسأوجهك لأفضل الأطباء في فلسطين!"
+      text: "مرحباً بك! أنا الحكيم اللبيب ✨🤖، مساعدك الذكي في منصة ملامح. كيف يمكنني مساعدتك اليوم؟\n\nيمكنك الاستفسار عن أطباء الأسنان، العيون، الجلدية، وأنف وأذن وحنجرة، وسأوجهك لأفضل الأطباء في فلسطين!"
     }
   ]);
   const [isTyping, setIsTyping] = useState(false);
@@ -46,7 +46,7 @@ export default function AIChatbot() {
     setInput("");
     setIsTyping(true);
 
-    // Simulate AI thinking and response (100% Free Local Intelligent Matching)
+    // Simulate AI thinking and response
     setTimeout(() => {
       setIsTyping(false);
       let botResponse = "";
@@ -71,9 +71,9 @@ export default function AIChatbot() {
         botResponse = "العناية بأسنان الأطفال منذ الصغر ضرورية جداً لحماية الأسنان اللبنية وضمان نمو الأسنان الدائمة بشكل سليم.\n\nلدينا أطباء أسنان مختصون بلطف شديد في التعامل مع الأطفال وجعل الزيارة ممتعة وخالية من الخوف.";
         isBookingCTA = true;
       } else if (cleanText.includes("مرحبا") || cleanText.includes("سلام") || cleanText.includes("هلا")) {
-        botResponse = "أهلاً وسهلاً بك! أنا مساعدك الطبي الذكي 🦷. يمكنك الاستفسار عن أي مشكلة صحية وسأقترح عليك التخصص المناسب وأرشدك لأقرب الأطباء في فلسطين.";
+        botResponse = "أهلاً وسهلاً بك! أنا الحكيم اللبيب 🧠🩺. يمكنك الاستفسار عن أي مشكلة صحية وسأقترح عليك التخصص المناسب وأرشدك لأقرب الأطباء في فلسطين.";
       } else {
-        botResponse = "شكراً لاستفسارك! كمساعد طبيب أسنان ذكي، أنصحك دائماً بالفحص المباشر في العيادة للحصول على تشخيص دقيق 100%.\n\nيمكنك استخدام محرك البحث الذكي في منصتنا لتحديد مدينتك وحجز موعد مع الطبيب الأقرب إليك بسهولة فائقة!";
+        botResponse = "شكراً لاستفسارك! كمساعد طبي ذكي، أنصحك دائماً بالفحص المباشر في العيادة للحصول على تشخيص دقيق 100%.\n\nيمكنك استخدام محرك البحث الذكي في منصتنا لتحديد مدينتك وحجز موعد مع الطبيب الأقرب إليك بسهولة فائقة!";
       }
 
       setMessages((prev) => [
@@ -96,65 +96,67 @@ export default function AIChatbot() {
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="group relative flex items-center justify-center gap-2 rounded-full border border-slate-700/50 bg-gradient-to-r from-slate-900 to-slate-800 p-4 text-white shadow-2xl transition-all hover:scale-105 md:p-5"
+          className="group relative flex items-center justify-center gap-3 rounded-full border border-amber-500/20 bg-slate-950 p-4.5 text-white shadow-[0_10px_30px_rgba(12,94,71,0.2)] transition-all duration-300 hover:scale-105 hover:border-amber-500/40 hover:shadow-[0_15px_40px_rgba(12,94,71,0.35)]"
         >
-          <span className="absolute -top-1 -right-1 flex h-4 w-4">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-4 w-4 bg-primary text-[9px] font-black text-white items-center justify-center">AI</span>
+          <span className="absolute -top-1 -right-1 flex h-4.5 w-4.5">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-500 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-4.5 w-4.5 bg-amber-500 text-[8px] font-black text-slate-950 items-center justify-center">ذكاء</span>
           </span>
-          <MessageSquare className="h-6 w-6 md:h-7 md:w-7" />
-          <span className="max-w-0 overflow-hidden group-hover:max-w-xs transition-all duration-500 ease-out whitespace-nowrap font-black text-sm">
-            طبيبك الذكي
+          <div className="h-6 w-6 flex items-center justify-center text-amber-400">
+            <Sparkles className="h-5 w-5 fill-current animate-pulse" />
+          </div>
+          <span className="max-w-0 overflow-hidden group-hover:max-w-xs transition-all duration-500 ease-out whitespace-nowrap font-black text-sm text-slate-100">
+            الحكيم اللبيب
           </span>
         </button>
       )}
 
       {/* Chat Window */}
       {isOpen && (
-        <div className="w-[360px] md:w-[400px] h-[550px] bg-white/95 backdrop-blur-xl rounded-[2rem] shadow-2xl border border-slate-100 flex flex-col overflow-hidden animate-fade-in">
+        <div className="w-[360px] md:w-[400px] h-[560px] bg-white/95 backdrop-blur-xl rounded-[2rem] shadow-[0_20px_50px_rgba(9,13,22,0.15)] border border-slate-200/50 flex flex-col overflow-hidden animate-fade-in">
           {/* Header */}
-          <div className="bg-slate-900 p-5 text-white flex justify-between items-center relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-32 h-full bg-primary/20 blur-xl pointer-events-none" />
+          <div className="bg-slate-950 p-5 text-white flex justify-between items-center relative overflow-hidden border-b border-slate-900">
+            <div className="absolute top-0 right-0 w-32 h-full bg-primary/10 blur-xl pointer-events-none" />
             <div className="flex items-center gap-3 relative z-10">
-              <div className="w-10 h-10 rounded-2xl bg-white/10 flex items-center justify-center border border-white/20">
-                <Sparkles className="w-6 h-6 text-yellow-400 fill-current animate-pulse" />
+              <div className="w-10 h-10 rounded-2xl bg-white/5 flex items-center justify-center border border-white/10">
+                <Sparkles className="w-5 h-5 text-amber-400 fill-current animate-pulse" />
               </div>
-              <div>
-                <h4 className="font-black text-base flex items-center gap-1.5">ملامح AI <span className="text-[10px] bg-primary px-2 py-0.5 rounded-full text-white font-bold animate-pulse">مساعد مجاني</span></h4>
-                <p className="text-xs text-slate-300 font-medium">مساعد التشخيص وتوجيه الحجز الفوري</p>
+              <div className="text-right">
+                <h4 className="font-black text-base flex items-center gap-1.5">الحكيم اللبيب <span className="text-[10px] bg-primary/20 border border-primary/30 px-2 py-0.5 rounded-full text-emerald-400 font-black">مساعد مجاني</span></h4>
+                <p className="text-[10px] sm:text-xs text-slate-400 font-semibold mt-0.5">مستشارك للتشخيص الأولي وتوجيه الحجز</p>
               </div>
             </div>
             <button
               onClick={() => setIsOpen(false)}
-              className="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-all"
+              className="w-8 h-8 rounded-xl bg-white/5 hover:bg-white/10 text-white flex items-center justify-center border border-white/5 transition-all"
             >
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4" />
             </button>
           </div>
 
           {/* Messages Area */}
-          <div className="flex-1 p-5 overflow-y-auto space-y-4 bg-slate-50/50">
+          <div className="flex-1 p-5 overflow-y-auto space-y-4 bg-slate-50/40">
             {messages.map((msg, idx) => (
               <div
                 key={idx}
                 className={`flex flex-col ${msg.sender === "user" ? "items-start" : "items-end"}`}
               >
                 <div
-                  className={`max-w-[85%] p-4 rounded-[1.5rem] text-sm leading-relaxed font-medium whitespace-pre-line ${
+                  className={`max-w-[85%] p-4 rounded-[1.5rem] text-xs sm:text-sm leading-relaxed font-semibold whitespace-pre-line shadow-sm text-right ${
                     msg.sender === "user"
-                      ? "bg-slate-900 text-white rounded-tl-none shadow-md shadow-slate-900/10 text-right"
-                      : "bg-white text-slate-800 rounded-tr-none border border-slate-100 shadow-sm text-right"
+                      ? "bg-slate-950 text-white rounded-tl-none border border-slate-900 text-right"
+                      : "bg-white text-slate-800 rounded-tr-none border border-slate-200/60 text-right"
                   }`}
                 >
                   {msg.text}
 
-                  {/* Dynamic CTAs based on locally analyzed diagnosis */}
+                  {/* Dynamic CTAs */}
                   {msg.isOfferCTA && (
                     <div className="mt-3 pt-3 border-t border-slate-100 flex justify-end">
                       <Link
                         href="/offers"
                         onClick={() => setIsOpen(false)}
-                        className="bg-primary hover:bg-primary-dark text-white font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-1.5 transition-all"
+                        className="bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 font-black px-4 py-2 rounded-xl text-xs flex items-center gap-1.5 transition-all hover:scale-[1.02]"
                       >
                         <Sparkles className="w-3.5 h-3.5" /> استعراض عروض التجميل
                       </Link>
@@ -171,9 +173,9 @@ export default function AIChatbot() {
                             document.getElementById("doctors")?.scrollIntoView({ behavior: "smooth" });
                           }, 300);
                         }}
-                        className="bg-slate-900 hover:bg-slate-800 text-white font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-1.5 transition-all"
+                        className="bg-slate-950 hover:bg-slate-900 text-white font-black px-4 py-2 rounded-xl text-xs flex items-center gap-1.5 transition-all hover:scale-[1.02]"
                       >
-                        <Calendar className="w-3.5 h-3.5" /> البحث وحجز موعد الآن
+                        <Calendar className="w-3.5 h-3.5 text-amber-400" /> البحث وحجز موعد الآن
                       </Link>
                     </div>
                   )}
@@ -183,10 +185,10 @@ export default function AIChatbot() {
 
             {isTyping && (
               <div className="flex flex-col items-end">
-                <div className="bg-white border border-slate-100 p-4 rounded-[1.5rem] rounded-tr-none flex items-center gap-1">
-                  <span className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
-                  <span className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
-                  <span className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
+                <div className="bg-white border border-slate-200/50 p-4 rounded-[1.5rem] rounded-tr-none flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
+                  <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
+                  <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
                 </div>
               </div>
             )}
@@ -194,28 +196,28 @@ export default function AIChatbot() {
           </div>
 
           {/* Quick Option Suggestions */}
-          <div className="px-5 py-3 bg-slate-50 border-t border-slate-100 flex gap-2 overflow-x-auto hide-scrollbar whitespace-nowrap">
+          <div className="px-5 py-3 bg-slate-50 border-t border-slate-200/40 flex gap-2 overflow-x-auto hide-scrollbar whitespace-nowrap">
             <button
               onClick={() => handleQuickOption("عندي ألم شديد في السن")}
-              className="bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-bold px-3 py-1.5 rounded-full transition-all"
+              className="bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-black px-3.5 py-1.5 rounded-full transition-all"
             >
               وجع عصب 💥
             </button>
             <button
               onClick={() => handleQuickOption("أبحث عن عروض تجميل وتبييض الأسنان")}
-              className="bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-bold px-3 py-1.5 rounded-full transition-all"
+              className="bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-black px-3.5 py-1.5 rounded-full transition-all"
             >
               تبييض وتجميل ✨
             </button>
             <button
               onClick={() => handleQuickOption("كيف أختار طبيب لتقويم الأسنان؟")}
-              className="bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-bold px-3 py-1.5 rounded-full transition-all"
+              className="bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-black px-3.5 py-1.5 rounded-full transition-all"
             >
               استفسار تقويم 🦷
             </button>
             <button
               onClick={() => handleQuickOption("علاج أسنان الأطفال")}
-              className="bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-bold px-3 py-1.5 rounded-full transition-all"
+              className="bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-black px-3.5 py-1.5 rounded-full transition-all"
             >
               أسنان الأطفال 🧸
             </button>
@@ -227,30 +229,31 @@ export default function AIChatbot() {
               e.preventDefault();
               handleSendMessage(input);
             }}
-            className="p-4 bg-white border-t border-slate-100 flex gap-3 items-center"
+            className="p-4 bg-white border-t border-slate-200/60 flex gap-3 items-center"
           >
             <input
               type="text"
               placeholder="اكتب استفسارك الطبي هنا..."
-              className="flex-1 px-4 py-3 rounded-2xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-primary outline-none transition-all font-medium text-sm"
+              className="flex-1 px-4 py-3 rounded-2xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-primary outline-none transition-all font-semibold text-xs sm:text-sm"
               value={input}
               onChange={(e) => setInput(e.target.value)}
             />
             <button
               type="submit"
-              className="w-11 h-11 rounded-2xl bg-slate-900 hover:bg-primary text-white flex items-center justify-center transition-all shadow-md"
+              className="w-11 h-11 rounded-2xl bg-slate-950 hover:bg-slate-900 text-white flex items-center justify-center transition-all shadow-md"
             >
-              <Send className="w-5 h-5 -rotate-90" />
+              <Send className="w-4.5 h-4.5 -rotate-90" />
             </button>
           </form>
 
           {/* Legal Notice */}
-          <div className="bg-slate-100 px-5 py-2 text-[10px] text-slate-400 font-bold flex items-center gap-1.5 border-t border-slate-150">
+          <div className="bg-slate-150 px-5 py-2 text-[10px] text-slate-400 font-bold flex items-center gap-1.5 border-t border-slate-200/50">
             <AlertCircle className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" />
-            <span>تشخيص المساعد هو تشخيص إرشادي فقط ولا يغني عن زيارة طبيب الأسنان المختص.</span>
+            <span>إرشاد طبي أولي فقط، ولا يغني عن الفحص السريري المباشر.</span>
           </div>
         </div>
       )}
     </div>
   );
 }
+
