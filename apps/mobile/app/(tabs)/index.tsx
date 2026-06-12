@@ -13,6 +13,7 @@ import { router } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { supabase } from "../../lib/supabase";
 import { Doctor, Offer } from "../../types";
+import { AIChatbot } from "../../components/AIChatbot";
 
 const HERO_IMAGE =
   "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=800&q=80";
@@ -189,11 +190,12 @@ export default function HomeScreen() {
   const featured = doctors.filter((d) => d.is_featured);
 
   return (
-    <ScrollView
-      style={{ flex: 1, backgroundColor: "#f8fafc" }}
-      contentContainerStyle={{ paddingBottom: 100 }}
-      showsVerticalScrollIndicator={false}
-    >
+    <View style={{ flex: 1 }}>
+      <ScrollView
+        style={{ flex: 1, backgroundColor: "#f8fafc" }}
+        contentContainerStyle={{ paddingBottom: 100 }}
+        showsVerticalScrollIndicator={false}
+      >
       {/* ===== HERO ===== */}
       <View style={{ height: 320, position: "relative" }}>
         <Image source={{ uri: HERO_IMAGE }} style={{ width: "100%", height: "100%" }} resizeMode="cover" />
@@ -460,5 +462,7 @@ export default function HomeScreen() {
         </View>
       </View>
     </ScrollView>
+    <AIChatbot />
+  </View>
   );
 }
