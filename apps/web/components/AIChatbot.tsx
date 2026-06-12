@@ -1,7 +1,10 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { X, Send, AlertCircle, Calendar, Sparkles, FlaskConical, Microscope, Eye, Ear, HeartPulse, ShoppingBag, Tags, BookOpen, Bot } from "lucide-react";
+import {
+  X, Send, AlertCircle, Calendar, Sparkles,
+  FlaskConical, ShoppingBag, Tags, BookOpen, Bot, ChevronRight
+} from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -13,398 +16,408 @@ interface Message {
   ctaIcon?: "offer" | "booking" | "beauty" | "labs" | "marketplace" | "blog";
 }
 
+const SERVICE_PILLS = [
+  { label: "🦷 أسنان",    q: "أسنان وتقويم" },
+  { label: "👁️ عيون",    q: "مشاكل العيون والنظر" },
+  { label: "🧴 بشرة",    q: "مشاكل البشرة والجلد" },
+  { label: "✨ تجميل",   q: "خدمات التجميل والفيلر" },
+  { label: "👂 أنف وأذن", q: "أنف وأذن وحنجرة" },
+  { label: "🔬 مختبر",   q: "فحوصات مختبر" },
+  { label: "🏷️ عروض",   q: "عروض وخصومات متاحة" },
+  { label: "📅 حجز",     q: "أريد حجز موعد مع طبيب" },
+];
+
 const QUICK_CHIPS = [
-  { label: "🦷 ألم أسنان", q: "عندي ألم شديد في أسناني" },
+  { label: "🦷 ألم أسنان",   q: "عندي ألم شديد في أسناني" },
   { label: "👁️ مشاكل العيون", q: "عندي مشكلة في نظري وعيوني" },
   { label: "🧴 مشاكل البشرة", q: "عندي مشكلة في البشرة والجلد" },
   { label: "✨ تجميل وفيلر", q: "أريد الاستفسار عن خدمات التجميل والفيلر" },
-  { label: "👂 أنف وأذن وحنجرة", q: "عندي مشكلة في الأذن أو الأنف أو الحنجرة" },
-  { label: "🔬 فحوصات مختبر", q: "أريد إجراء تحاليل وفحوصات مخبرية" },
-  { label: "💊 احجز موعد", q: "أريد حجز موعد مع طبيب" },
-  { label: "🏷️ عروض وخصومات", q: "ما هي العروض والخصومات المتاحة؟" },
+  { label: "👂 أنف وأذن",   q: "أنف وأذن وحنجرة" },
+  { label: "🔬 فحوصات",     q: "أريد إجراء تحاليل وفحوصات مخبرية" },
+  { label: "🏷️ عروض",      q: "ما هي العروض والخصومات المتاحة؟" },
+  { label: "📅 احجز موعد",  q: "أريد حجز موعد" },
 ];
+
+const CTA_STYLES: Record<string, string> = {
+  offer:       "from-amber-400 to-orange-400 text-slate-950",
+  booking:     "from-slate-800 to-slate-950 text-white",
+  beauty:      "from-fuchsia-500 to-violet-500 text-white",
+  labs:        "from-sky-500 to-indigo-500 text-white",
+  marketplace: "from-emerald-500 to-teal-500 text-white",
+  blog:        "from-violet-500 to-purple-600 text-white",
+};
 
 function getBotResponse(text: string): Omit<Message, "sender"> {
   const t = text;
 
-  // ===== أسنان =====
-  if (/ألم|وجع|عصب|بوجعني|موجوع|ضرس/.test(t)) {
-    return {
-      text: "شفاك الله وعافاك! 😔\n\nألم الأسنان الحاد عادةً ما يكون مؤشراً على التهاب عصب السن أو تسوس عميق.\n\n🔹 إذا كان الألم نابضاً ليلاً → احتمال علاج جذور\n🔹 إذا كان الألم عند العض → قد يكون كسر أو حشوة مكسورة\n🔹 إذا كان مع تورم → يحتاج فحص فوري\n\nأنصحك بحجز موعد عاجل مع طبيب أسنان.",
-      ctaLink: "/#doctors",
-      ctaLabel: "ابحث عن طبيب أسنان",
-      ctaIcon: "booking",
-    };
-  }
+  if (/ألم|وجع|عصب|بوجعني|موجوع|ضرس/.test(t))
+    return { text: "شفاك الله! 😔\n\nألم الأسنان الحاد غالباً مؤشر على:\n🔹 التهاب عصب → حشو جذور\n🔹 تسوس عميق → حشوة فورية\n🔹 تورم → فحص عاجل\n\nأنصحك بحجز موعد عاجل.", ctaLink: "/#doctors", ctaLabel: "ابحث عن طبيب أسنان", ctaIcon: "booking" };
 
-  if (/تقويم|اعوجاج|فراغ بين|إطباق|الفك/.test(t)) {
-    return {
-      text: "تقويم الأسنان هو الحل لتنسيق الأسنان وإصلاح مشاكل الإطباق. 😁\n\n🔹 تقويم معدني — الأكثر فاعلية\n🔹 تقويم شفاف (Invisalign) — أقل ظهوراً\n🔹 مدة العلاج من 12 إلى 24 شهراً\n\nأنصحك بزيارة أخصائي تقويم لعمل صور أشعة وتحديد الخطة.",
-      ctaLink: "/#doctors",
-      ctaLabel: "ابحث عن أخصائي تقويم",
-      ctaIcon: "booking",
-    };
-  }
+  if (/تقويم|اعوجاج|فراغ بين|إطباق|الفك/.test(t))
+    return { text: "تقويم الأسنان يصحح الاصطفاف والإطباق! 😁\n\n🔹 تقويم معدني — الأكثر فاعلية\n🔹 تقويم شفاف — أقل ظهوراً\n🔹 مدة 12–24 شهراً\n\nزُر أخصائي تقويم لخطة مخصصة.", ctaLink: "/#doctors", ctaLabel: "ابحث عن أخصائي تقويم", ctaIcon: "booking" };
 
-  if (/تبييض|ابتسامة|فينير|زيركون|ليمينيت/.test(t)) {
-    return {
-      text: "للحصول على ابتسامة ناصعة وجذابة! ✨\n\n🔹 تبييض ليزر — نتيجة فورية في جلسة واحدة\n🔹 تبييض منزلي — بتراكيب طبية آمنة\n🔹 فينير/زيركون — لإخفاء التشقق أو اللون الدائم\n\nتوجد عروض حصرية على التجميل الآن!",
-      ctaLink: "/offers",
-      ctaLabel: "تصفح عروض التجميل",
-      ctaIcon: "offer",
-    };
-  }
+  if (/تبييض|ابتسامة|فينير|زيركون|ليمينيت/.test(t))
+    return { text: "ابتسامة ناصعة في متناول يدك! ✨\n\n🔹 تبييض ليزر — نتيجة فورية\n🔹 تبييض منزلي — آمن وتدريجي\n🔹 فينير/زيركون — لإخفاء التشقق الدائم\n\nتوجد عروض حصرية الآن!", ctaLink: "/offers", ctaLabel: "تصفح عروض التجميل", ctaIcon: "offer" };
 
-  if (/زراعة|مفقود|زرع|بدوني سن/.test(t)) {
-    return {
-      text: "زراعة الأسنان هي الحل الأمثل والأكثر ثباتاً لتعويض السن المفقود! 🦷\n\n🔹 جذر تيتانيوم يندمج مع العظم\n🔹 تاج خزفي طبيعي المظهر\n🔹 يدوم مدى الحياة مع العناية الصحيحة\n\nيحتاج تقييم سماكة عظم الفك قبل البدء.",
-      ctaLink: "/#doctors",
-      ctaLabel: "ابحث عن أخصائي زراعة",
-      ctaIcon: "booking",
-    };
-  }
+  if (/زراعة|مفقود|زرع|بدوني سن/.test(t))
+    return { text: "زراعة الأسنان الحل الأمثل! 🦷\n\n🔹 جذر تيتانيوم يندمج مع العظم\n🔹 تاج خزفي طبيعي المظهر\n🔹 يدوم مدى الحياة مع العناية\n\nيحتاج تقييم عظم الفك أولاً.", ctaLink: "/#doctors", ctaLabel: "ابحث عن أخصائي زراعة", ctaIcon: "booking" };
 
-  if (/أسنان الأطفال|ابني|بنتي|طفل|بيبي/.test(t)) {
-    return {
-      text: "العناية بأسنان الأطفال منذ الصغر أساسية جداً! 🧸\n\n🔹 أول زيارة عند ظهور أول سن أو قبل عمر السنة\n🔹 حماية الأسنان اللبنية من التسوس المبكر\n🔹 أطباء الأطفال مدربون على التعامل بلطف\n\nلدينا أطباء متخصصون بأسنان الأطفال.",
-      ctaLink: "/#doctors",
-      ctaLabel: "ابحث عن طبيب أطفال",
-      ctaIcon: "booking",
-    };
-  }
+  if (/أسنان الأطفال|ابني|بنتي|طفل|بيبي/.test(t))
+    return { text: "العناية بأسنان الأطفال أساسية! 🧸\n\n🔹 أول زيارة عند ظهور أول سن\n🔹 حماية من التسوس المبكر\n🔹 أطباء مدربون على التعامل مع الأطفال", ctaLink: "/#doctors", ctaLabel: "ابحث عن طبيب أطفال", ctaIcon: "booking" };
 
-  // ===== عيون =====
-  if (/عيون|نظر|ليزك|ليزر عيون|ضعف بصر|تشوش|حول|ماء أبيض|ماء أزرق|قطارة|عدسة/.test(t)) {
-    return {
-      text: "رعاية صحة العين من أهم الأولويات! 👁️\n\n🔹 ضعف النظر → فحص نظر وصرف نظارة أو عدسات\n🔹 الليزك → تصحيح دائم لضعف النظر بالليزر\n🔹 الماء الأبيض (الكتاراكت) → عملية يومية آمنة\n🔹 الجلوكوما (الماء الأزرق) → يحتاج متابعة منتظمة\n🔹 التهاب الملتحمة → يعالج بالقطرات المناسبة\n\nراجع أخصائي العيون لفحص دقيق.",
-      ctaLink: "/#doctors",
-      ctaLabel: "ابحث عن طبيب عيون",
-      ctaIcon: "booking",
-    };
-  }
+  if (/عيون|نظر|ليزك|ليزر عيون|ضعف بصر|تشوش|حول|ماء أبيض|ماء أزرق|قطارة|عدسة/.test(t))
+    return { text: "رعاية العين أولوية قصوى! 👁️\n\n🔹 ضعف النظر → فحص نظر وتصحيح\n🔹 الليزك → تصحيح دائم بالليزر\n🔹 الكتاراكت → عملية يومية آمنة\n🔹 الجلوكوما → متابعة منتظمة\n\nراجع أخصائي عيون الأقرب.", ctaLink: "/#doctors", ctaLabel: "ابحث عن طبيب عيون", ctaIcon: "booking" };
 
-  // ===== جلدية وبشرة =====
-  if (/بشرة|جلد|حب الشباب|حبوب|أكنيه|تساقط شعر|فراغات شعر|صدفية|إكزيما|تصبغات|دوالي|وصمة|مسام/.test(t)) {
-    return {
-      text: "مشاكل البشرة والجلد لها حلول فعّالة! 🧴\n\n🔹 حب الشباب → بروتوكولات ليزر + كريمات علاجية\n🔹 تساقط الشعر → حقن البلازما + مكملات\n🔹 التصبغات → ليزر كربون أو بيلينج كيميائي\n🔹 الصدفية والإكزيما → علاج متخصص ومستمر\n\nعروض مميزة على خدمات الجلدية متوفرة.",
-      ctaLink: "/beauty",
-      ctaLabel: "تصفح مراكز الجلدية",
-      ctaIcon: "beauty",
-    };
-  }
+  if (/بشرة|جلد|حب الشباب|حبوب|أكنيه|تساقط شعر|فراغات شعر|صدفية|إكزيما|تصبغات|مسام/.test(t))
+    return { text: "مشاكل البشرة لها حلول فعّالة! 🧴\n\n🔹 حب الشباب → ليزر + كريمات علاجية\n🔹 تساقط الشعر → حقن البلازما\n🔹 التصبغات → ليزر كربون\n🔹 الصدفية → علاج متخصص مستمر\n\nعروض مميزة على الجلدية!", ctaLink: "/beauty", ctaLabel: "تصفح مراكز الجلدية", ctaIcon: "beauty" };
 
-  // ===== تجميل =====
-  if (/تجميل|فيلر|بوتوكس|شد وجه|تخسيس|بطن|أنف|تجميل أنف|حقن|ريستيلان|مزوثيرابي/.test(t)) {
-    return {
-      text: "خدمات التجميل الحديثة تطورت كثيراً! ✨\n\n🔹 فيلر الشفاه والوجه — نتيجة فورية طبيعية\n🔹 البوتوكس — لإزالة التجاعيد والخطوط\n🔹 شفط الدهون والتخسيس الموضعي\n🔹 تجميل الأنف بدون جراحة (فيلر)\n🔹 مزوثيرابي لتجديد شباب البشرة\n\nراجع مراكز التجميل المعتمدة لدينا.",
-      ctaLink: "/beauty",
-      ctaLabel: "تصفح مراكز التجميل",
-      ctaIcon: "beauty",
-    };
-  }
+  if (/تجميل|فيلر|بوتوكس|شد وجه|تخسيس|تجميل أنف|حقن|ريستيلان|مزوثيرابي/.test(t))
+    return { text: "خدمات التجميل تطورت كثيراً! ✨\n\n🔹 فيلر الشفاه والوجه — فوري وطبيعي\n🔹 البوتوكس — لإزالة التجاعيد\n🔹 شفط الدهون الموضعي\n🔹 تجميل الأنف بلا جراحة\n🔹 مزوثيرابي لتجديد البشرة", ctaLink: "/beauty", ctaLabel: "تصفح مراكز التجميل", ctaIcon: "beauty" };
 
-  // ===== أنف وأذن وحنجرة =====
-  if (/أذن|أنف|حنجرة|لوزتين|لوز|سمع|طنين|حساسية أنف|جيوب أنفية|بحة|صوت|شخير|انزلاق حاجز/.test(t)) {
-    return {
-      text: "تخصص الأنف والأذن والحنجرة يعالج طيفاً واسعاً! 👂\n\n🔹 التهاب اللوزتين — علاج أو استئصال إذا تكرر\n🔹 الجيوب الأنفية — بخاخات أو تدخل بسيط\n🔹 انزلاق الحاجز — عملية لتحسين التنفس\n🔹 ضعف السمع والطنين — فحص سمع متخصص\n🔹 الشخير — حلول متعددة منها الليزر\n\nابحث عن أخصائي أنف وأذن وحنجرة.",
-      ctaLink: "/#doctors",
-      ctaLabel: "ابحث عن أخصائي أنف وأذن",
-      ctaIcon: "booking",
-    };
-  }
+  if (/أذن|أنف|حنجرة|لوزتين|سمع|طنين|حساسية أنف|جيوب أنفية|بحة|شخير|انزلاق حاجز/.test(t))
+    return { text: "أخصائي الأنف والأذن والحنجرة يساعدك! 👂\n\n🔹 التهاب اللوزتين → علاج أو استئصال\n🔹 الجيوب الأنفية → بخاخ أو تدخل بسيط\n🔹 انزلاق الحاجز → عملية لتحسين التنفس\n🔹 ضعف السمع والطنين → فحص متخصص", ctaLink: "/#doctors", ctaLabel: "ابحث عن أخصائي أنف وأذن", ctaIcon: "booking" };
 
-  // ===== مختبرات =====
-  if (/تحاليل|فحوصات|مختبر|دم|سكر|ضغط|كوليسترول|غدة درقية|فيتامين|هرمونات|بول|صورة دم/.test(t)) {
-    return {
-      text: "الفحوصات المخبرية أساس التشخيص الدقيق! 🔬\n\n🔹 صورة دم كاملة (CBC)\n🔹 سكر صيامي وتراكمي\n🔹 وظائف كبد وكلى\n🔹 هرمونات الغدة الدرقية\n🔹 فيتامينات D, B12, حديد\n🔹 فحص البول والزرع\n\nيمكنك الحجز في مختبراتنا المعتمدة.",
-      ctaLink: "/labs",
-      ctaLabel: "تصفح المختبرات",
-      ctaIcon: "labs",
-    };
-  }
+  if (/تحاليل|فحوصات|مختبر|دم|سكر|كوليسترول|غدة درقية|فيتامين|هرمونات|بول/.test(t))
+    return { text: "الفحوصات أساس التشخيص الدقيق! 🔬\n\n🔹 صورة دم كاملة (CBC)\n🔹 سكر صيامي وتراكمي\n🔹 وظائف كبد وكلى\n🔹 هرمونات الغدة الدرقية\n🔹 فيتامينات D, B12, حديد\n\nاحجز في مختبراتنا المعتمدة.", ctaLink: "/labs", ctaLabel: "تصفح المختبرات", ctaIcon: "labs" };
 
-  // ===== سوق وأدوات =====
-  if (/سوق|أدوات|منتجات|أجهزة طبية|كرسي|معدات|مستلزمات/.test(t)) {
-    return {
-      text: "سوق ملامح متخصص في المستلزمات والأجهزة الطبية! 🛒\n\n🔹 أجهزة وكراسي طب أسنان\n🔹 مستلزمات عيادات وعمليات\n🔹 أدوات تجميل ومعدات ليزر\n🔹 منتجات العناية والصحة\n\nتصفح السوق للاطلاع على المنتجات والأسعار.",
-      ctaLink: "/marketplace",
-      ctaLabel: "تصفح سوق ملامح",
-      ctaIcon: "marketplace",
-    };
-  }
+  if (/سوق|أدوات|منتجات|أجهزة طبية|معدات|مستلزمات/.test(t))
+    return { text: "سوق ملامح للمستلزمات الطبية! 🛒\n\n🔹 أجهزة وكراسي طب أسنان\n🔹 مستلزمات عيادات وعمليات\n🔹 أدوات تجميل وليزر\n🔹 منتجات العناية والصحة", ctaLink: "/marketplace", ctaLabel: "تصفح سوق ملامح", ctaIcon: "marketplace" };
 
-  // ===== عروض =====
-  if (/عروض|خصومات|تخفيضات|أوفر|عرض/.test(t)) {
-    return {
-      text: "عروض ملامح تُحدَّث باستمرار! 🏷️\n\n🔹 خصومات على تبييض الأسنان والتجميل\n🔹 باقات العلاج الشاملة بأسعار مخفضة\n🔹 عروض موسمية حصرية للأعضاء\n🔹 بطاقة خصم ملامح تمنحك خصماً دائماً\n\nلا تفوّت العروض الحالية!",
-      ctaLink: "/offers",
-      ctaLabel: "تصفح جميع العروض",
-      ctaIcon: "offer",
-    };
-  }
+  if (/عروض|خصومات|تخفيضات|أوفر/.test(t))
+    return { text: "عروض ملامح تُحدَّث باستمرار! 🏷️\n\n🔹 خصومات تبييض أسنان وتجميل\n🔹 باقات علاج شاملة بأسعار مخفضة\n🔹 عروض موسمية حصرية\n🔹 بطاقة خصم ملامح الدائمة", ctaLink: "/offers", ctaLabel: "تصفح جميع العروض", ctaIcon: "offer" };
 
-  // ===== مجلة =====
-  if (/مجلة|مقالات|مقال|معلومات|نصائح|صحة/.test(t)) {
-    return {
-      text: "مجلة ملامح الطبية تنشر محتوى موثوقاً ومفيداً! 📖\n\n🔹 مقالات صحية مراجعة من أطباء متخصصين\n🔹 نصائح الوقاية والعناية اليومية\n🔹 ترتيبات المستشفيات والعيادات\n🔹 أخبار الطب والجمال في فلسطين\n\nتصفح المجلة للاطلاع على أحدث المواضيع.",
-      ctaLink: "/blog",
-      ctaLabel: "اقرأ مجلة ملامح",
-      ctaIcon: "blog",
-    };
-  }
+  if (/مجلة|مقالات|نصائح|صحة/.test(t))
+    return { text: "مجلة ملامح — محتوى طبي موثوق! 📖\n\n🔹 مقالات مراجعة من أطباء متخصصين\n🔹 نصائح وقاية وعناية يومية\n🔹 أخبار الطب والجمال في فلسطين", ctaLink: "/blog", ctaLabel: "اقرأ مجلة ملامح", ctaIcon: "blog" };
 
-  // ===== حجز موعد =====
-  if (/احجز|حجز|موعد|متاح|متى/.test(t)) {
-    return {
-      text: "حجز موعدك مع الطبيب سهل وسريع! 📅\n\n1️⃣ ابحث عن الطبيب حسب التخصص والمدينة\n2️⃣ افتح ملف الطبيب واطلع على المواعيد المتاحة\n3️⃣ تواصل مباشرة عبر الهاتف أو الواتساب\n4️⃣ أو استخدم نموذج الحجز الإلكتروني\n\nجميع الأطباء موثقون ومعتمدون.",
-      ctaLink: "/booking",
-      ctaLabel: "نظام الحجز الإلكتروني",
-      ctaIcon: "booking",
-    };
-  }
+  if (/احجز|حجز|موعد|متاح|متى/.test(t))
+    return { text: "حجز موعدك سهل وسريع! 📅\n\n1️⃣ ابحث عن الطبيب حسب التخصص والمدينة\n2️⃣ افتح ملف الطبيب واطلع على المواعيد\n3️⃣ تواصل عبر الهاتف أو الواتساب\n4️⃣ أو استخدم نموذج الحجز الإلكتروني\n\nجميع الأطباء موثقون ومعتمدون.", ctaLink: "/booking", ctaLabel: "نظام الحجز الإلكتروني", ctaIcon: "booking" };
 
-  // ===== ترحيب =====
-  if (/مرحبا|سلام|هلا|هلو|مساء|صباح/.test(t)) {
-    return {
-      text: "أهلاً وسهلاً بك! أنا الحكيم اللبيب 🧠🩺\n\nمساعدك الطبي الذكي في منصة ملامح.ps\n\nيمكنني مساعدتك في:\n🦷 أسنان وتقويم\n👁️ عيون وليزك\n🧴 جلدية وبشرة\n✨ تجميل وفيلر\n👂 أنف وأذن وحنجرة\n🔬 مختبرات وفحوصات\n🏷️ عروض وخصومات\n\nما الذي تحتاجه اليوم؟",
-    };
-  }
+  if (/مرحبا|سلام|هلا|هلو|مساء|صباح/.test(t))
+    return { text: "أهلاً وسهلاً! أنا الحكيم اللبيب 🧠🩺\n\nمساعدك الطبي الذكي في منصة ملامح.ps\n\nيمكنني مساعدتك في:\n🦷 أسنان • 👁️ عيون • 🧴 جلدية\n✨ تجميل • 👂 أنف وأذن • 🔬 مختبرات\n🏷️ عروض • 📅 حجز موعد\n\nما الذي تحتاجه اليوم؟" };
 
-  // ===== افتراضي =====
   return {
-    text: "شكراً لاستفسارك! 🩺\n\nكمساعد طبي ذكي، أنصح دائماً بالفحص المباشر في العيادة للتشخيص الدقيق.\n\nيمكنني مساعدتك في:\n🦷 أسنان • 👁️ عيون • 🧴 جلدية\n✨ تجميل • 👂 أنف وأذن • 🔬 مختبرات\n\nجرّب اختر أحد الأزرار السريعة أدناه أو اكتب سؤالك بالتفصيل.",
-    ctaLink: "/#doctors",
-    ctaLabel: "تصفح جميع الأطباء",
-    ctaIcon: "booking",
+    text: "شكراً لاستفسارك! 🩺\n\nيمكنني مساعدتك في:\n🦷 أسنان • 👁️ عيون • 🧴 جلدية\n✨ تجميل • 👂 أنف وأذن • 🔬 مختبرات\n🏷️ عروض • 📅 حجز موعد\n\nاختر من الأزرار السريعة أو اكتب سؤالك.",
+    ctaLink: "/#doctors", ctaLabel: "تصفح جميع الأطباء", ctaIcon: "booking",
   };
 }
-
-const CTA_STYLES = {
-  offer: "bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950",
-  booking: "bg-slate-950 text-white",
-  beauty: "bg-gradient-to-r from-fuchsia-500 to-violet-500 text-white",
-  labs: "bg-gradient-to-r from-indigo-500 to-sky-500 text-white",
-  marketplace: "bg-gradient-to-r from-emerald-500 to-teal-500 text-white",
-  blog: "bg-gradient-to-r from-violet-500 to-purple-600 text-white",
-};
 
 export default function AIChatbot() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState("");
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      sender: "bot",
-      text: "أهلاً! أنا الحكيم اللبيب 🧠🩺\n\nمساعدك الطبي الذكي في منصة ملامح.ps\n\nيمكنني مساعدتك في:\n🦷 أسنان • 👁️ عيون • 🧴 جلدية\n✨ تجميل • 👂 أنف وأذن • 🔬 مختبرات\n🏷️ عروض • 📅 حجز موعد\n\nما الذي تحتاجه اليوم؟",
-    },
-  ]);
+  const [messages, setMessages] = useState<Message[]>([{
+    sender: "bot",
+    text: "أهلاً! أنا الحكيم اللبيب 🧠🩺\n\nمساعدك الطبي الذكي في منصة ملامح.ps\n\nيمكنني مساعدتك في:\n🦷 أسنان • 👁️ عيون • 🧴 جلدية\n✨ تجميل • 👂 أنف وأذن • 🔬 مختبرات\n🏷️ عروض • 📅 حجز موعد\n\nما الذي تحتاجه اليوم؟",
+  }]);
   const [isTyping, setIsTyping] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const pillsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isTyping]);
 
+  // Animate window in
+  useEffect(() => {
+    if (isOpen) {
+      requestAnimationFrame(() => setIsVisible(true));
+    } else {
+      setIsVisible(false);
+    }
+  }, [isOpen]);
+
   const sendMessage = (textToSend: string) => {
     if (!textToSend.trim()) return;
-    setMessages((prev) => [...prev, { sender: "user", text: textToSend }]);
+    setMessages(prev => [...prev, { sender: "user", text: textToSend }]);
     setInput("");
     setIsTyping(true);
     setTimeout(() => {
       setIsTyping(false);
       const response = getBotResponse(textToSend);
-      setMessages((prev) => [...prev, { sender: "bot", ...response }]);
-    }, 1000 + Math.random() * 600);
+      setMessages(prev => [...prev, { sender: "bot", ...response }]);
+    }, 900 + Math.random() * 500);
+  };
+
+  // Scroll pills container via button
+  const scrollPills = (dir: "left" | "right") => {
+    if (pillsRef.current) {
+      pillsRef.current.scrollBy({ left: dir === "left" ? -160 : 160, behavior: "smooth" });
+    }
   };
 
   if (pathname?.startsWith("/admin")) return null;
 
   return (
-    <div className="fixed bottom-5 left-5 z-[999] hidden sm:block md:bottom-7 md:left-7" dir="rtl">
+    <>
+      {/* ============ GLOBAL STYLES ============ */}
+      <style>{`
+        @keyframes chatSlideUp {
+          from { opacity: 0; transform: translateY(20px) scale(0.96); }
+          to   { opacity: 1; transform: translateY(0)  scale(1); }
+        }
+        @keyframes msgIn {
+          from { opacity: 0; transform: translateY(10px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes btnPop {
+          0%   { transform: scale(1); }
+          40%  { transform: scale(1.12); }
+          100% { transform: scale(1); }
+        }
+        .chat-window-enter { animation: chatSlideUp 0.35s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+        .msg-enter         { animation: msgIn 0.28s ease-out forwards; }
+        .btn-pop           { animation: btnPop 0.4s ease; }
+        .pills-scroll {
+          display: flex;
+          gap: 8px;
+          overflow-x: auto;
+          scroll-behavior: smooth;
+          -webkit-overflow-scrolling: touch;
+          scrollbar-width: none;
+          padding: 2px 0;
+        }
+        .pills-scroll::-webkit-scrollbar { display: none; }
+        .pills-scroll > * { flex-shrink: 0; }
+        .chips-scroll {
+          display: flex;
+          gap: 8px;
+          overflow-x: auto;
+          scroll-behavior: smooth;
+          -webkit-overflow-scrolling: touch;
+          scrollbar-width: none;
+          padding: 2px 0;
+        }
+        .chips-scroll::-webkit-scrollbar { display: none; }
+        .chips-scroll > * { flex-shrink: 0; }
+      `}</style>
 
-      {/* ===== Floating Button ===== */}
-      {!isOpen && (
-        <button
-          onClick={() => setIsOpen(true)}
-          aria-label="افتح الحكيم اللبيب"
-          className="group relative flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-950 text-white shadow-[0_8px_30px_rgba(15,23,42,0.35)] border border-white/10 transition-all duration-300 hover:scale-110 hover:shadow-[0_12px_40px_rgba(15,23,42,0.45)] hover:rounded-[1.2rem]"
-        >
-          {/* Ping badge */}
-          <span className="absolute -top-1.5 -right-1.5 flex h-5 w-5">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-60" />
-            <span className="relative inline-flex h-5 w-5 rounded-full bg-amber-400 items-center justify-center">
-              <span className="text-[9px] font-black text-slate-950 leading-none">AI</span>
+      <div className="fixed bottom-5 left-5 z-[999] hidden sm:block md:bottom-7 md:left-7" dir="rtl">
+
+        {/* ======= FLOATING BUTTON ======= */}
+        {!isOpen && (
+          <button
+            onClick={() => setIsOpen(true)}
+            aria-label="افتح الحكيم اللبيب"
+            className="group relative flex h-[56px] w-[56px] items-center justify-center rounded-2xl bg-slate-950 text-white shadow-[0_8px_32px_rgba(15,23,42,0.4)] border border-white/10 transition-all duration-300 hover:scale-110 hover:shadow-[0_12px_40px_rgba(15,23,42,0.5)] hover:border-amber-500/30"
+          >
+            {/* Ping badge */}
+            <span className="absolute -top-1.5 -right-1.5 flex h-[22px] w-[22px] items-center justify-center">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-50" />
+              <span className="relative flex h-[22px] w-[22px] items-center justify-center rounded-full bg-amber-400 shadow-md">
+                <span className="text-[9px] font-black text-slate-950 leading-none select-none">AI</span>
+              </span>
             </span>
-          </span>
 
-          {/* Brain icon */}
-          <Bot className="h-6 w-6 text-amber-400" />
+            {/* Bot icon */}
+            <Bot className="h-6 w-6 text-amber-400 transition-transform group-hover:rotate-6" />
 
-          {/* Tooltip on hover */}
-          <span className="pointer-events-none absolute left-full ml-3 whitespace-nowrap rounded-xl bg-slate-950 border border-white/10 px-3 py-1.5 text-xs font-black text-white opacity-0 shadow-xl transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0 translate-x-2">
-            الحكيم اللبيب 🧠
-          </span>
-        </button>
-      )}
+            {/* Tooltip */}
+            <span className="pointer-events-none absolute left-[calc(100%+12px)] top-1/2 -translate-y-1/2 whitespace-nowrap rounded-xl bg-slate-950 border border-white/10 px-3.5 py-2 text-xs font-black text-white opacity-0 shadow-2xl transition-all duration-300 group-hover:opacity-100 group-hover:-translate-y-1/2 group-hover:translate-x-0 translate-x-2">
+              الحكيم اللبيب 🧠
+              <span className="absolute right-full top-1/2 -translate-y-1/2 border-4 border-transparent border-r-slate-950" />
+            </span>
+          </button>
+        )}
 
-      {/* ===== Chat Window ===== */}
-      {isOpen && (
-        <div
-          className="flex flex-col overflow-hidden rounded-[2rem] border border-slate-200/60 bg-white shadow-[0_24px_60px_rgba(9,13,22,0.18)] backdrop-blur-xl"
-          style={{ width: 380, height: 600 }}
-        >
-          {/* Header */}
-          <div className="relative flex items-center justify-between overflow-hidden bg-slate-950 px-5 py-4 border-b border-slate-800">
-            {/* glow */}
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-l from-amber-500/10 via-transparent to-transparent" />
-            <div className="relative flex items-center gap-3">
-              {/* avatar */}
-              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-amber-400/20 to-amber-600/10 border border-amber-500/20 shadow-inner">
-                <Bot className="h-5 w-5 text-amber-400" />
+        {/* ======= CHAT WINDOW ======= */}
+        {isOpen && (
+          <div
+            className={`flex flex-col overflow-hidden rounded-[28px] bg-white shadow-[0_32px_80px_rgba(9,13,22,0.22)] border border-slate-200/60 ${isVisible ? "chat-window-enter" : "opacity-0"}`}
+            style={{ width: 400, height: 620 }}
+          >
+
+            {/* === HEADER === */}
+            <div className="relative flex items-center justify-between overflow-hidden bg-slate-950 px-5 py-4 select-none">
+              {/* Ambient glow */}
+              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(217,119,6,0.15),transparent_60%)]" />
+              <div className="pointer-events-none absolute bottom-0 left-0 h-px w-full bg-gradient-to-r from-transparent via-amber-500/30 to-transparent" />
+
+              <div className="relative flex items-center gap-3">
+                {/* Avatar */}
+                <div className="relative flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-amber-500/25 to-amber-600/10 border border-amber-500/25 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]">
+                  <Bot className="h-5 w-5 text-amber-400" />
+                  {/* Online dot */}
+                  <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full bg-emerald-500 border-2 border-slate-950 shadow-sm" />
+                </div>
+
+                <div className="text-right">
+                  <h4 className="flex items-center gap-2 font-black text-white text-sm leading-tight">
+                    الحكيم اللبيب
+                    <span className="rounded-full bg-emerald-500/20 border border-emerald-400/30 px-2 py-0.5 text-[10px] font-black text-emerald-400 tracking-wide">
+                      مجاني
+                    </span>
+                  </h4>
+                  <p className="mt-0.5 text-[11px] text-slate-400 font-semibold">
+                    مستشارك الطبي الذكي • ملامح.ps
+                  </p>
+                </div>
               </div>
-              <div className="text-right">
-                <h4 className="flex items-center gap-1.5 font-black text-white text-sm">
-                  الحكيم اللبيب
-                  <span className="rounded-full bg-emerald-500/20 border border-emerald-500/30 px-2 py-0.5 text-[9px] font-black text-emerald-400">
-                    مجاني
-                  </span>
-                </h4>
-                <p className="mt-0.5 text-[11px] text-slate-400 font-semibold">
-                  مستشارك الطبي الذكي • ملامح.ps
-                </p>
-              </div>
-            </div>
-            <button
-              onClick={() => setIsOpen(false)}
-              className="relative flex h-8 w-8 items-center justify-center rounded-xl bg-white/5 hover:bg-white/15 border border-white/10 text-slate-300 transition-all"
-            >
-              <X className="h-4 w-4" />
-            </button>
-          </div>
 
-          {/* Service Pills */}
-          <div className="flex gap-2 overflow-x-auto hide-scrollbar border-b border-slate-100 bg-slate-50/60 px-4 py-2.5">
-            {[
-              { label: "🦷 أسنان", q: "أسنان وتقويم" },
-              { label: "👁️ عيون", q: "مشاكل العيون والنظر" },
-              { label: "🧴 بشرة", q: "مشاكل البشرة والجلد" },
-              { label: "✨ تجميل", q: "خدمات التجميل والفيلر" },
-              { label: "👂 أنف وأذن", q: "أنف وأذن وحنجرة" },
-              { label: "🔬 مختبر", q: "فحوصات مختبر" },
-            ].map((pill) => (
               <button
-                key={pill.label}
-                onClick={() => sendMessage(pill.q)}
-                className="whitespace-nowrap rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-black text-slate-600 transition-all hover:border-amber-300 hover:bg-amber-50 hover:text-amber-700 flex-shrink-0"
+                onClick={() => setIsOpen(false)}
+                className="relative flex h-8 w-8 items-center justify-center rounded-xl bg-white/8 hover:bg-white/15 border border-white/10 text-slate-400 hover:text-white transition-all duration-200"
               >
-                {pill.label}
+                <X className="h-4 w-4" />
               </button>
-            ))}
-          </div>
+            </div>
 
-          {/* Messages */}
-          <div className="flex-1 space-y-4 overflow-y-auto bg-slate-50/30 px-4 py-4">
-            {messages.map((msg, idx) => (
-              <div key={idx} className={`flex flex-col ${msg.sender === "user" ? "items-start" : "items-end"}`}>
-                {msg.sender === "bot" && (
-                  <div className="mb-1.5 flex items-center gap-1.5">
-                    <div className="flex h-5 w-5 items-center justify-center rounded-lg bg-slate-950">
-                      <Bot className="h-3 w-3 text-amber-400" />
-                    </div>
-                    <span className="text-[10px] font-black text-slate-400">الحكيم اللبيب</span>
-                  </div>
-                )}
+            {/* === SERVICE PILLS (with scroll arrows) === */}
+            <div className="relative border-b border-slate-100 bg-slate-50/70 px-3 py-2.5">
+              {/* Left arrow */}
+              <button
+                onClick={() => scrollPills("left")}
+                className="absolute left-0 top-1/2 -translate-y-1/2 z-10 flex h-full w-7 items-center justify-center bg-gradient-to-r from-slate-50 to-transparent"
+                aria-label="scroll right"
+              >
+                <ChevronRight className="h-3.5 w-3.5 text-slate-400 rotate-180" />
+              </button>
+
+              {/* Pills */}
+              <div ref={pillsRef} className="pills-scroll px-5">
+                {SERVICE_PILLS.map((pill) => (
+                  <button
+                    key={pill.label}
+                    onClick={() => sendMessage(pill.q)}
+                    className="rounded-full border border-slate-200 bg-white px-3.5 py-1.5 text-[12px] font-black text-slate-600 transition-all duration-200 hover:border-amber-400 hover:bg-amber-50 hover:text-amber-700 hover:shadow-sm active:scale-95"
+                  >
+                    {pill.label}
+                  </button>
+                ))}
+              </div>
+
+              {/* Right arrow */}
+              <button
+                onClick={() => scrollPills("right")}
+                className="absolute right-0 top-1/2 -translate-y-1/2 z-10 flex h-full w-7 items-center justify-center bg-gradient-to-l from-slate-50 to-transparent"
+                aria-label="scroll left"
+              >
+                <ChevronRight className="h-3.5 w-3.5 text-slate-400" />
+              </button>
+            </div>
+
+            {/* === MESSAGES === */}
+            <div className="flex-1 space-y-4 overflow-y-auto px-4 py-4"
+              style={{ background: "linear-gradient(to bottom, #f8fafc, #f1f5f9)" }}
+            >
+              {messages.map((msg, idx) => (
                 <div
-                  className={`max-w-[88%] whitespace-pre-line rounded-[1.4rem] px-4 py-3.5 text-xs leading-relaxed font-semibold shadow-sm ${
-                    msg.sender === "user"
-                      ? "rounded-tl-md bg-slate-950 text-white text-right border border-slate-800"
-                      : "rounded-tr-md bg-white text-slate-800 text-right border border-slate-200/70"
-                  }`}
+                  key={idx}
+                  className={`msg-enter flex flex-col ${msg.sender === "user" ? "items-start" : "items-end"}`}
+                  style={{ animationDelay: `${Math.min(idx * 30, 150)}ms` }}
                 >
-                  {msg.text}
-
-                  {/* CTA Button */}
-                  {msg.ctaLink && msg.ctaLabel && msg.ctaIcon && (
-                    <div className="mt-3 pt-3 border-t border-slate-100 flex justify-end">
-                      <Link
-                        href={msg.ctaLink}
-                        onClick={() => setIsOpen(false)}
-                        className={`inline-flex items-center gap-1.5 rounded-xl px-4 py-2 text-xs font-black transition-all hover:scale-[1.02] shadow-sm ${CTA_STYLES[msg.ctaIcon]}`}
-                      >
-                        {msg.ctaIcon === "offer" && <Tags className="h-3.5 w-3.5" />}
-                        {msg.ctaIcon === "booking" && <Calendar className="h-3.5 w-3.5 text-amber-400" />}
-                        {msg.ctaIcon === "beauty" && <Sparkles className="h-3.5 w-3.5" />}
-                        {msg.ctaIcon === "labs" && <FlaskConical className="h-3.5 w-3.5" />}
-                        {msg.ctaIcon === "marketplace" && <ShoppingBag className="h-3.5 w-3.5" />}
-                        {msg.ctaIcon === "blog" && <BookOpen className="h-3.5 w-3.5" />}
-                        {msg.ctaLabel}
-                      </Link>
+                  {/* Bot label */}
+                  {msg.sender === "bot" && (
+                    <div className="mb-1.5 flex items-center gap-1.5">
+                      <div className="flex h-[18px] w-[18px] items-center justify-center rounded-md bg-slate-950">
+                        <Bot className="h-2.5 w-2.5 text-amber-400" />
+                      </div>
+                      <span className="text-[10px] font-black text-slate-400">الحكيم اللبيب</span>
                     </div>
                   )}
-                </div>
-              </div>
-            ))}
 
-            {isTyping && (
-              <div className="flex flex-col items-end">
-                <div className="mb-1.5 flex items-center gap-1.5">
-                  <div className="flex h-5 w-5 items-center justify-center rounded-lg bg-slate-950">
-                    <Bot className="h-3 w-3 text-amber-400" />
+                  <div
+                    className={`max-w-[88%] whitespace-pre-line rounded-2xl px-4 py-3 text-[13px] leading-relaxed font-semibold shadow-sm ${
+                      msg.sender === "user"
+                        ? "rounded-tl-sm bg-slate-950 text-white text-right border border-slate-800/50"
+                        : "rounded-tr-sm bg-white text-slate-800 text-right border border-slate-200/80 shadow-[0_2px_12px_rgba(15,23,42,0.04)]"
+                    }`}
+                  >
+                    {msg.text}
+
+                    {/* CTA */}
+                    {msg.ctaLink && msg.ctaLabel && msg.ctaIcon && (
+                      <div className="mt-3 pt-3 border-t border-slate-100 flex justify-end">
+                        <Link
+                          href={msg.ctaLink}
+                          onClick={() => setIsOpen(false)}
+                          className={`inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r px-4 py-2 text-[12px] font-black transition-all hover:scale-[1.03] hover:shadow-md active:scale-95 shadow-sm ${CTA_STYLES[msg.ctaIcon]}`}
+                        >
+                          {msg.ctaIcon === "offer"       && <Tags         className="h-3.5 w-3.5" />}
+                          {msg.ctaIcon === "booking"     && <Calendar      className="h-3.5 w-3.5 text-amber-400" />}
+                          {msg.ctaIcon === "beauty"      && <Sparkles      className="h-3.5 w-3.5" />}
+                          {msg.ctaIcon === "labs"        && <FlaskConical  className="h-3.5 w-3.5" />}
+                          {msg.ctaIcon === "marketplace" && <ShoppingBag   className="h-3.5 w-3.5" />}
+                          {msg.ctaIcon === "blog"        && <BookOpen      className="h-3.5 w-3.5" />}
+                          {msg.ctaLabel}
+                        </Link>
+                      </div>
+                    )}
                   </div>
-                  <span className="text-[10px] font-black text-slate-400">يكتب...</span>
                 </div>
-                <div className="rounded-[1.4rem] rounded-tr-md bg-white border border-slate-200/70 px-5 py-4 flex items-center gap-1.5 shadow-sm">
-                  <span className="h-1.5 w-1.5 rounded-full bg-slate-400 animate-bounce" style={{ animationDelay: "0ms" }} />
-                  <span className="h-1.5 w-1.5 rounded-full bg-slate-400 animate-bounce" style={{ animationDelay: "140ms" }} />
-                  <span className="h-1.5 w-1.5 rounded-full bg-slate-400 animate-bounce" style={{ animationDelay: "280ms" }} />
+              ))}
+
+              {/* Typing indicator */}
+              {isTyping && (
+                <div className="msg-enter flex flex-col items-end">
+                  <div className="mb-1.5 flex items-center gap-1.5">
+                    <div className="flex h-[18px] w-[18px] items-center justify-center rounded-md bg-slate-950">
+                      <Bot className="h-2.5 w-2.5 text-amber-400" />
+                    </div>
+                    <span className="text-[10px] font-black text-slate-400 animate-pulse">يكتب...</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 rounded-2xl rounded-tr-sm bg-white border border-slate-200/80 px-5 py-3.5 shadow-sm">
+                    {[0, 140, 280].map((delay) => (
+                      <span
+                        key={delay}
+                        className="h-2 w-2 rounded-full bg-slate-300 animate-bounce"
+                        style={{ animationDelay: `${delay}ms` }}
+                      />
+                    ))}
+                  </div>
                 </div>
+              )}
+
+              <div ref={messagesEndRef} />
+            </div>
+
+            {/* === QUICK CHIPS === */}
+            <div className="border-t border-slate-100 bg-white px-4 py-2.5">
+              <div className="chips-scroll">
+                {QUICK_CHIPS.map((chip) => (
+                  <button
+                    key={chip.label}
+                    onClick={() => sendMessage(chip.q)}
+                    className="rounded-full border border-slate-200 bg-slate-50 px-3.5 py-1.5 text-[12px] font-black text-slate-600 transition-all duration-200 hover:border-slate-900 hover:bg-slate-900 hover:text-white active:scale-95"
+                  >
+                    {chip.label}
+                  </button>
+                ))}
               </div>
-            )}
-            <div ref={messagesEndRef} />
-          </div>
+            </div>
 
-          {/* Quick Chips */}
-          <div className="hide-scrollbar flex gap-2 overflow-x-auto border-t border-slate-100 bg-white px-4 py-2.5">
-            {QUICK_CHIPS.map((chip) => (
-              <button
-                key={chip.label}
-                onClick={() => sendMessage(chip.q)}
-                className="flex-shrink-0 whitespace-nowrap rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-[11px] font-black text-slate-600 transition-all hover:border-slate-950 hover:bg-slate-950 hover:text-white"
-              >
-                {chip.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Input */}
-          <form
-            onSubmit={(e) => { e.preventDefault(); sendMessage(input); }}
-            className="flex items-center gap-2.5 border-t border-slate-100 bg-white px-4 py-3"
-          >
-            <input
-              type="text"
-              placeholder="اكتب سؤالك هنا..."
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              className="flex-1 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-xs font-semibold text-slate-800 outline-none transition-all placeholder:text-slate-400 focus:border-amber-400 focus:bg-white focus:ring-2 focus:ring-amber-100"
-            />
-            <button
-              type="submit"
-              className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-2xl bg-slate-950 text-white shadow-md transition-all hover:bg-amber-500"
+            {/* === INPUT === */}
+            <form
+              onSubmit={(e) => { e.preventDefault(); sendMessage(input); }}
+              className="flex items-center gap-2.5 border-t border-slate-100 bg-white px-4 py-3"
             >
-              <Send className="h-4 w-4 -rotate-90" />
-            </button>
-          </form>
+              <input
+                type="text"
+                placeholder="اكتب سؤالك الطبي هنا..."
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                className="flex-1 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-[13px] font-semibold text-slate-800 outline-none placeholder:text-slate-400 transition-all focus:border-amber-400 focus:bg-white focus:ring-2 focus:ring-amber-100 focus:shadow-[0_0_0_3px_rgba(251,191,36,0.1)]"
+              />
+              <button
+                type="submit"
+                disabled={!input.trim()}
+                className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-2xl bg-slate-950 text-white shadow-md transition-all duration-200 hover:bg-amber-500 hover:shadow-amber-500/30 hover:shadow-lg active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed"
+              >
+                <Send className="h-4 w-4 -rotate-90" />
+              </button>
+            </form>
 
-          {/* Disclaimer */}
-          <div className="flex items-center gap-1.5 border-t border-slate-100 bg-slate-50 px-4 py-2">
-            <AlertCircle className="h-3 w-3 flex-shrink-0 text-slate-400" />
-            <span className="text-[10px] font-semibold text-slate-400">
-              إرشاد طبي أولي فقط، لا يغني عن الفحص السريري.
-            </span>
+            {/* === DISCLAIMER === */}
+            <div className="flex items-center gap-1.5 border-t border-slate-100 bg-slate-50 px-4 py-2">
+              <AlertCircle className="h-3 w-3 flex-shrink-0 text-slate-400" />
+              <span className="text-[10px] font-medium text-slate-400">
+                إرشاد طبي أولي فقط، لا يغني عن الفحص السريري المباشر.
+              </span>
+            </div>
+
           </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </>
   );
 }
