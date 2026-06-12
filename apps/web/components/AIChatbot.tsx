@@ -262,14 +262,14 @@ export default function AIChatbot() {
             </div>
 
             {/* === SERVICE PILLS (with scroll arrows) === */}
-            <div className="relative border-b border-slate-100 bg-slate-50/70 px-3 py-2.5">
+            <div className="relative border-b border-slate-900 bg-slate-950 px-3 py-2.5">
               {/* Left arrow */}
               <button
                 onClick={() => scrollPills("left")}
-                className="absolute left-0 top-1/2 -translate-y-1/2 z-10 flex h-full w-7 items-center justify-center bg-gradient-to-r from-slate-50 to-transparent"
+                className="absolute left-0 top-1/2 -translate-y-1/2 z-10 flex h-full w-7 items-center justify-center bg-gradient-to-r from-slate-950 to-transparent"
                 aria-label="scroll right"
               >
-                <ChevronRight className="h-3.5 w-3.5 text-slate-400 rotate-180" />
+                <ChevronRight className="h-3.5 w-3.5 text-slate-500 rotate-180" />
               </button>
 
               {/* Pills */}
@@ -278,7 +278,7 @@ export default function AIChatbot() {
                   <button
                     key={pill.label}
                     onClick={() => sendMessage(pill.q)}
-                    className="rounded-full border border-slate-200 bg-white px-3.5 py-1.5 text-[12px] font-black text-slate-600 transition-all duration-200 hover:border-amber-400 hover:bg-amber-50 hover:text-amber-700 hover:shadow-sm active:scale-95"
+                    className="rounded-full border border-slate-800 bg-slate-900 px-3.5 py-1.5 text-[12px] font-black text-slate-300 transition-all duration-200 hover:border-amber-500 hover:bg-amber-950/30 hover:text-amber-400 hover:shadow-sm active:scale-95"
                   >
                     {pill.label}
                   </button>
@@ -288,16 +288,16 @@ export default function AIChatbot() {
               {/* Right arrow */}
               <button
                 onClick={() => scrollPills("right")}
-                className="absolute right-0 top-1/2 -translate-y-1/2 z-10 flex h-full w-7 items-center justify-center bg-gradient-to-l from-slate-50 to-transparent"
+                className="absolute right-0 top-1/2 -translate-y-1/2 z-10 flex h-full w-7 items-center justify-center bg-gradient-to-l from-slate-950 to-transparent"
                 aria-label="scroll left"
               >
-                <ChevronRight className="h-3.5 w-3.5 text-slate-400" />
+                <ChevronRight className="h-3.5 w-3.5 text-slate-500" />
               </button>
             </div>
 
             {/* === MESSAGES === */}
             <div className="flex-1 space-y-4 overflow-y-auto px-4 py-4"
-              style={{ background: "linear-gradient(to bottom, #f8fafc, #f1f5f9)" }}
+              style={{ background: "linear-gradient(to bottom, #090d16, #0f172a)" }}
             >
               {messages.map((msg, idx) => (
                 <div
@@ -311,22 +311,22 @@ export default function AIChatbot() {
                       <div className="flex h-[18px] w-[18px] items-center justify-center rounded-md bg-slate-950">
                         <Bot className="h-2.5 w-2.5 text-amber-400" />
                       </div>
-                      <span className="text-[10px] font-black text-slate-400">الحكيم اللبيب</span>
+                      <span className="text-[10px] font-black text-slate-500">الحكيم اللبيب</span>
                     </div>
                   )}
 
                   <div
                     className={`max-w-[88%] whitespace-pre-line rounded-2xl px-4 py-3 text-[13px] leading-relaxed font-semibold shadow-sm ${
                       msg.sender === "user"
-                        ? "rounded-tl-sm bg-slate-950 text-white text-right border border-slate-800/50"
-                        : "rounded-tr-sm bg-white text-slate-800 text-right border border-slate-200/80 shadow-[0_2px_12px_rgba(15,23,42,0.04)]"
+                        ? "rounded-tl-sm bg-amber-500 text-slate-950 text-right border border-amber-600/30"
+                        : "rounded-tr-sm bg-slate-900 text-slate-100 text-right border border-slate-800 shadow-[0_2px_12px_rgba(0,0,0,0.2)]"
                     }`}
                   >
                     {msg.text}
 
                     {/* CTA */}
                     {msg.ctaLink && msg.ctaLabel && msg.ctaIcon && (
-                      <div className="mt-3 pt-3 border-t border-slate-100 flex justify-end">
+                      <div className="mt-3 pt-3 border-t border-slate-800 flex justify-end">
                         <Link
                           href={msg.ctaLink}
                           onClick={() => setIsOpen(false)}
@@ -353,13 +353,13 @@ export default function AIChatbot() {
                     <div className="flex h-[18px] w-[18px] items-center justify-center rounded-md bg-slate-950">
                       <Bot className="h-2.5 w-2.5 text-amber-400" />
                     </div>
-                    <span className="text-[10px] font-black text-slate-400 animate-pulse">يكتب...</span>
+                    <span className="text-[10px] font-black text-slate-500 animate-pulse">يكتب...</span>
                   </div>
-                  <div className="flex items-center gap-1.5 rounded-2xl rounded-tr-sm bg-white border border-slate-200/80 px-5 py-3.5 shadow-sm">
+                  <div className="flex items-center gap-1.5 rounded-2xl rounded-tr-sm bg-slate-900 border border-slate-800 px-5 py-3.5 shadow-sm">
                     {[0, 140, 280].map((delay) => (
                       <span
                         key={delay}
-                        className="h-2 w-2 rounded-full bg-slate-300 animate-bounce"
+                        className="h-2 w-2 rounded-full bg-slate-700 animate-bounce"
                         style={{ animationDelay: `${delay}ms` }}
                       />
                     ))}
@@ -371,13 +371,13 @@ export default function AIChatbot() {
             </div>
 
             {/* === QUICK CHIPS === */}
-            <div className="border-t border-slate-100 bg-white px-4 py-2.5">
+            <div className="border-t border-slate-900 bg-slate-950 px-4 py-2.5">
               <div className="chips-scroll">
                 {QUICK_CHIPS.map((chip) => (
                   <button
                     key={chip.label}
                     onClick={() => sendMessage(chip.q)}
-                    className="rounded-full border border-slate-200 bg-slate-50 px-3.5 py-1.5 text-[12px] font-black text-slate-600 transition-all duration-200 hover:border-slate-900 hover:bg-slate-900 hover:text-white active:scale-95"
+                    className="rounded-full border border-slate-800 bg-slate-900 px-3.5 py-1.5 text-[12px] font-black text-slate-300 transition-all duration-200 hover:border-slate-700 hover:bg-slate-800 hover:text-white active:scale-95"
                   >
                     {chip.label}
                   </button>
@@ -388,28 +388,28 @@ export default function AIChatbot() {
             {/* === INPUT === */}
             <form
               onSubmit={(e) => { e.preventDefault(); sendMessage(input); }}
-              className="flex items-center gap-2.5 border-t border-slate-100 bg-white px-4 py-3"
+              className="flex items-center gap-2.5 border-t border-slate-900 bg-slate-950 px-4 py-3"
             >
               <input
                 type="text"
                 placeholder="اكتب سؤالك الطبي هنا..."
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                className="flex-1 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-[13px] font-semibold text-slate-800 outline-none placeholder:text-slate-400 transition-all focus:border-amber-400 focus:bg-white focus:ring-2 focus:ring-amber-100 focus:shadow-[0_0_0_3px_rgba(251,191,36,0.1)]"
+                className="flex-1 rounded-2xl border border-slate-800 bg-slate-900 px-4 py-2.5 text-[13px] font-semibold text-slate-100 outline-none placeholder:text-slate-500 transition-all focus:border-amber-500 focus:bg-slate-950 focus:ring-2 focus:ring-amber-950/50"
               />
               <button
                 type="submit"
                 disabled={!input.trim()}
-                className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-2xl bg-slate-950 text-white shadow-md transition-all duration-200 hover:bg-amber-500 hover:shadow-amber-500/30 hover:shadow-lg active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed"
+                className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-2xl bg-amber-500 text-slate-950 shadow-md transition-all duration-200 hover:bg-amber-400 hover:shadow-amber-500/30 hover:shadow-lg active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed"
               >
                 <Send className="h-4 w-4 -rotate-90" />
               </button>
             </form>
 
             {/* === DISCLAIMER === */}
-            <div className="flex items-center gap-1.5 border-t border-slate-100 bg-slate-50 px-4 py-2">
-              <AlertCircle className="h-3 w-3 flex-shrink-0 text-slate-400" />
-              <span className="text-[10px] font-medium text-slate-400">
+            <div className="flex items-center gap-1.5 border-t border-slate-900 bg-slate-950 px-4 py-2">
+              <AlertCircle className="h-3 w-3 flex-shrink-0 text-slate-500" />
+              <span className="text-[10px] font-medium text-slate-500">
                 إرشاد طبي أولي فقط، لا يغني عن الفحص السريري المباشر.
               </span>
             </div>

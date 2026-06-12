@@ -552,7 +552,7 @@ export function AIChatbot({ onNavigateTab }: AIChatbotProps) {
                   style={({ pressed }) => [
                     styles.sendBtn,
                     {
-                      backgroundColor: input.trim() ? "#0a0f1d" : "#f1f5f9",
+                      backgroundColor: input.trim() ? "#fbbf24" : "#1e293b",
                       opacity: pressed ? 0.8 : 1,
                     },
                   ]}
@@ -560,7 +560,7 @@ export function AIChatbot({ onNavigateTab }: AIChatbotProps) {
                   <Ionicons
                     name="send"
                     size={16}
-                    color={input.trim() ? "#ffffff" : "#cbd5e1"}
+                    color={input.trim() ? "#0a0f1d" : "#475569"}
                     style={{ transform: [{ rotate: "180deg" }] }} // Point left for Arabic RTL
                   />
                 </Pressable>
@@ -660,18 +660,18 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     height: SCREEN_HEIGHT * 0.78,
-    backgroundColor: "#f8fafc",
+    backgroundColor: "#0a0f1d",
     borderTopLeftRadius: 32,
     borderTopRightRadius: 32,
     zIndex: 1001,
-    shadowColor: "#090d16",
+    shadowColor: "#000000",
     shadowOffset: { width: 0, height: -12 },
-    shadowOpacity: 0.18,
+    shadowOpacity: 0.4,
     shadowRadius: 24,
     elevation: 24,
     overflow: "hidden",
     borderWidth: 1,
-    borderColor: "#e2e8f0",
+    borderColor: "#1e293b",
   },
   header: {
     flexDirection: "row-reverse",
@@ -753,8 +753,8 @@ const styles = StyleSheet.create({
   },
   pillsContainer: {
     borderBottomWidth: 1,
-    borderBottomColor: "#f1f5f9",
-    backgroundColor: "#f8fafc",
+    borderBottomColor: "#1e293b",
+    backgroundColor: "#0a0f1d",
     paddingVertical: 10,
   },
   pillsScrollContent: {
@@ -762,9 +762,9 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   pill: {
-    backgroundColor: "#ffffff",
+    backgroundColor: "#1e293b",
     borderWidth: 1,
-    borderColor: "#e2e8f0",
+    borderColor: "#334155",
     borderRadius: 20,
     paddingHorizontal: 14,
     paddingVertical: 8,
@@ -772,11 +772,11 @@ const styles = StyleSheet.create({
   pillText: {
     fontSize: 12,
     fontWeight: "800",
-    color: "#475569",
+    color: "#e2e8f0",
   },
   messageScroll: {
     flex: 1,
-    backgroundColor: "#f1f5f9",
+    backgroundColor: "#0f172a",
   },
   messageScrollContent: {
     paddingHorizontal: 16,
@@ -788,10 +788,10 @@ const styles = StyleSheet.create({
     marginVertical: 2,
   },
   messageRowUser: {
-    alignItems: "flex-end", // Align User messages to the right side
+    alignItems: "flex-end",
   },
   messageRowBot: {
-    alignItems: "flex-start", // Align Bot messages to the left side
+    alignItems: "flex-start",
   },
   msgBotHeader: {
     flexDirection: "row-reverse",
@@ -810,30 +810,30 @@ const styles = StyleSheet.create({
   msgBotLabel: {
     fontSize: 10,
     fontWeight: "900",
-    color: "#94a3b8",
+    color: "#64748b",
   },
   messageBubble: {
     maxWidth: "85%",
     borderRadius: 18,
     paddingHorizontal: 14,
     paddingVertical: 11,
-    shadowColor: "#0f172a",
+    shadowColor: "#000000",
     shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.03,
+    shadowOpacity: 0.1,
     shadowRadius: 2,
     elevation: 1,
   },
   messageBubbleUser: {
-    backgroundColor: "#0a0f1d",
+    backgroundColor: "#fbbf24",
     borderTopRightRadius: 2,
     borderWidth: 1,
-    borderColor: "#1e293b",
+    borderColor: "rgba(212,175,55,0.2)",
   },
   messageBubbleBot: {
-    backgroundColor: "#ffffff",
+    backgroundColor: "#1e293b",
     borderTopLeftRadius: 2,
     borderWidth: 1,
-    borderColor: "#e2e8f0",
+    borderColor: "#334155",
   },
   typingBubble: {
     paddingVertical: 14,
@@ -848,15 +848,15 @@ const styles = StyleSheet.create({
     textAlign: "right",
   },
   messageTextUser: {
-    color: "#ffffff",
+    color: "#0a0f1d",
   },
   messageTextBot: {
-    color: "#1e293b",
+    color: "#ffffff",
   },
   ctaWrapper: {
     marginTop: 10,
     borderTopWidth: 1,
-    borderTopColor: "#f1f5f9",
+    borderTopColor: "#334155",
     paddingTop: 8,
     alignItems: "flex-end",
   },
@@ -879,8 +879,8 @@ const styles = StyleSheet.create({
   },
   chipsContainer: {
     borderTopWidth: 1,
-    borderTopColor: "#f1f5f9",
-    backgroundColor: "#ffffff",
+    borderTopColor: "#1e293b",
+    backgroundColor: "#0a0f1d",
     paddingVertical: 10,
   },
   chipsScrollContent: {
@@ -888,9 +888,9 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   chip: {
-    backgroundColor: "#f8fafc",
+    backgroundColor: "#1e293b",
     borderWidth: 1,
-    borderColor: "#e2e8f0",
+    borderColor: "#334155",
     borderRadius: 20,
     paddingHorizontal: 14,
     paddingVertical: 8,
@@ -898,14 +898,14 @@ const styles = StyleSheet.create({
   chipText: {
     fontSize: 12,
     fontWeight: "800",
-    color: "#64748b",
+    color: "#cbd5e1",
   },
   inputArea: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#ffffff",
+    backgroundColor: "#0a0f1d",
     borderTopWidth: 1,
-    borderTopColor: "#f1f5f9",
+    borderTopColor: "#1e293b",
     paddingHorizontal: 16,
     paddingVertical: 10,
     gap: 10,
@@ -913,14 +913,14 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     height: 44,
-    backgroundColor: "#f8fafc",
+    backgroundColor: "#1e293b",
     borderRadius: 14,
     borderWidth: 1,
-    borderColor: "#e2e8f0",
+    borderColor: "#334155",
     paddingHorizontal: 16,
     fontSize: 13,
     fontWeight: "600",
-    color: "#1e293b",
+    color: "#ffffff",
     textAlign: "right",
   },
   sendBtn: {
@@ -939,15 +939,15 @@ const styles = StyleSheet.create({
     flexDirection: "row-reverse",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#f8fafc",
+    backgroundColor: "#0a0f1d",
     borderTopWidth: 1,
-    borderTopColor: "#f1f5f9",
+    borderTopColor: "#1e293b",
     paddingVertical: 6,
     paddingHorizontal: 16,
   },
   disclaimerText: {
     fontSize: 9,
     fontWeight: "600",
-    color: "#94a3b8",
+    color: "#64748b",
   },
 });
