@@ -22,6 +22,7 @@ import { colors, cities, specialties } from "../constants/theme";
 import { supabase } from "../lib/supabase";
 import { doctorMapCoordinates } from "../lib/map-links";
 import { Article, Doctor, MarketplaceAd, MedicalService, Offer, Store } from "../types";
+import { AIChatbot } from "../components/AIChatbot";
 
 type MainTab = "home" | "doctors" | "map" | "services" | "more";
 type ServiceFilter = "all" | "booking" | "beauty" | "lab" | "consultation" | "partner" | "stores";
@@ -270,6 +271,14 @@ export default function HomeScreen() {
       </ScrollView>
 
       <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} bottomInset={insets.bottom} />
+      <AIChatbot
+        onNavigateTab={(tab, filter) => {
+          setActiveTab(tab);
+          if (filter) {
+            setServiceFilter(filter);
+          }
+        }}
+      />
     </View>
   );
 }
