@@ -7,6 +7,8 @@ export type Doctor = {
   address?: string | null;
   phone?: string | null;
   whatsapp?: string | null;
+  lat?: number | string | null;
+  lng?: number | string | null;
   bio?: string | null;
   image_url?: string | null;
   is_featured?: boolean | null;

@@ -1,22 +1,40 @@
 import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase";
 
+function toCoordinate(value: unknown) {
+  if (typeof value === "number") return value;
+  if (typeof value === "string" && value.trim()) return Number(value);
+  return Number.NaN;
+}
+
+function isInPalestineBounds(lat: number, lng: number) {
+  return lat >= 31 && lat <= 33 && lng >= 34 && lng <= 36;
+}
+
 export async function POST(request: Request) {
   try {
-    const { doctor_id, lat, lng } = await request.json();
+    const body = await request.json();
+    const doctorId = body.doctor_id || body.doctorId;
+    const lat = toCoordinate(body.lat ?? body.latitude);
+    const lng = toCoordinate(body.lng ?? body.longitude);
 
-    if (!doctor_id || !lat || !lng) {
-      return NextResponse.json({ error: "البيانات المدخلة غير كاملة" }, { status: 400 });
+    if (!doctorId || !Number.isFinite(lat) || !Number.isFinite(lng)) {
+      return NextResponse.json({ error: "بيانات الموقع غير كاملة" }, { status: 400 });
     }
 
-    // Update doctor's coordinates in database
+    if (!isInPalestineBounds(lat, lng)) {
+      return NextResponse.json({ error: "الإحداثيات خارج النطاق المتوقع لفلسطين" }, { status: 400 });
+    }
+
+    const updates: Record<string, unknown> = { lat, lng };
+    if (typeof body.city === "string") updates.city = body.city.trim();
+    if (typeof body.area === "string") updates.area = body.area.trim();
+    if (typeof body.address === "string") updates.address = body.address.trim();
+
     const { data, error } = await supabaseAdmin
       .from("doctors")
-      .update({
-        lat: parseFloat(lat),
-        lng: parseFloat(lng),
-      })
-      .eq("id", doctor_id)
+      .update(updates)
+      .eq("id", doctorId)
       .select()
       .single();
 

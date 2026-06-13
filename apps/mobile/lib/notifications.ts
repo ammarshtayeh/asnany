@@ -5,6 +5,7 @@ import { Platform } from "react-native";
 import { apiFetch } from "./api";
 
 const DEVICE_ID_KEY = "asnany_mobile_device_id";
+const ANDROID_CHANNEL_ID = "appointments";
 
 type RegisterPushOptions = {
   role?: "patient" | "doctor" | "admin";
@@ -32,40 +33,24 @@ function getProjectId() {
 }
 
 export async function registerPushSubscription(options: RegisterPushOptions = {}) {
-  if (Platform.OS === "web" || Constants.appOwnership === "expo") {
-    return { ok: false, reason: "expo-go-or-web" };
-  }
+  if (Platform.OS === "web" || Constants.appOwnership === "expo") return { ok: false, reason: "expo-go-or-web" };
 
   const projectId = getProjectId();
-  if (!projectId) {
-    return { ok: false, reason: "missing-eas-project-id" };
-  }
+  if (!projectId) return { ok: false, reason: "missing-eas-project-id" };
 
-  const Notifications = await import("expo-notifications");
-
-  Notifications.setNotificationHandler({
-    handleNotification: async () => ({
-      shouldShowAlert: true,
-      shouldPlaySound: true,
-      shouldSetBadge: false,
-      shouldShowBanner: true,
-      shouldShowList: true,
-    }),
-  });
-
-  if (Platform.OS === "android") {
-    await Notifications.setNotificationChannelAsync("default", {
-      name: "Default",
-      importance: Notifications.AndroidImportance.MAX,
-      vibrationPattern: [0, 250, 250, 250],
-      lightColor: "#0ea5e9",
-    });
-  }
+  const Notifications = await configureNotifications();
 
   const currentPermissions = await Notifications.getPermissionsAsync();
   let status = currentPermissions.status;
   if (status !== "granted") {
-    const requested = await Notifications.requestPermissionsAsync();
+    const requested = await Notifications.requestPermissionsAsync({
+      ios: {
+        allowAlert: true,
+        allowBadge: true,
+        allowSound: true,
+        allowProvisional: false,
+      },
+    });
     status = requested.status;
   }
 
@@ -92,4 +77,43 @@ export async function registerPushSubscription(options: RegisterPushOptions = {}
   });
 
   return { ok: response.ok && Boolean(data?.success), token: pushToken.data, error: data?.error };
+}
+
+export async function configureNotifications() {
+  const Notifications = await import("expo-notifications");
+
+  Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: true,
+      shouldSetBadge: true,
+      shouldShowBanner: true,
+      shouldShowList: true,
+    }),
+  });
+
+  if (Platform.OS === "ios") {
+    await Notifications.setBadgeCountAsync(0).catch(() => null);
+  }
+
+  if (Platform.OS === "android") {
+    await Notifications.setNotificationChannelAsync(ANDROID_CHANNEL_ID, {
+      name: "حجوزات وتنبيهات ملامح",
+      importance: Notifications.AndroidImportance.MAX,
+      vibrationPattern: [0, 250, 250, 250],
+      lightColor: "#0ea5e9",
+      sound: "default",
+      lockscreenVisibility: Notifications.AndroidNotificationVisibility.PUBLIC,
+    });
+
+    await Notifications.setNotificationChannelAsync("default", {
+      name: "تنبيهات عامة",
+      importance: Notifications.AndroidImportance.HIGH,
+      vibrationPattern: [0, 200, 200, 200],
+      lightColor: "#0ea5e9",
+      sound: "default",
+    });
+  }
+
+  return Notifications;
 }

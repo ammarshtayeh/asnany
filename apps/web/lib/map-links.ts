@@ -6,17 +6,30 @@ export type MapDoctor = {
   city?: string | null;
   area?: string | null;
   address?: string | null;
-  lat?: number | null;
-  lng?: number | null;
+  lat?: number | string | null;
+  lng?: number | string | null;
 };
 
+function toNumber(value: unknown) {
+  if (typeof value === "number") return value;
+  if (typeof value === "string" && value.trim()) return Number(value);
+  return Number.NaN;
+}
+
+function hasUsableCoordinates(lat: number, lng: number) {
+  return Number.isFinite(lat) && Number.isFinite(lng) && lat >= 31 && lat <= 33 && lng >= 34 && lng <= 36;
+}
+
 export function doctorMapLabel(doctor: Pick<MapDoctor, "city" | "area" | "address" | "name">) {
-  return [doctor.city, doctor.area, doctor.address].filter(Boolean).join(" • ") || doctor.name;
+  return [doctor.city, doctor.area, doctor.address].filter(Boolean).join(" - ") || doctor.name;
 }
 
 export function doctorMapCoordinates(doctor: Pick<MapDoctor, "lat" | "lng" | "city" | "area" | "address">) {
-  if (doctor.lat !== null && doctor.lat !== undefined && doctor.lng !== null && doctor.lng !== undefined) {
-    return { latitude: doctor.lat, longitude: doctor.lng };
+  const lat = toNumber(doctor.lat);
+  const lng = toNumber(doctor.lng);
+
+  if (hasUsableCoordinates(lat, lng)) {
+    return { latitude: lat, longitude: lng };
   }
 
   return cityToCoordinates(doctor.city || doctor.area || doctor.address || "");
@@ -24,20 +37,19 @@ export function doctorMapCoordinates(doctor: Pick<MapDoctor, "lat" | "lng" | "ci
 
 export function buildDoctorMapUrl(doctor: Pick<MapDoctor, "name" | "city" | "area" | "address" | "lat" | "lng">) {
   const label = encodeURIComponent(doctorMapLabel(doctor));
-  const hasCoords = doctor.lat !== null && doctor.lat !== undefined && doctor.lng !== null && doctor.lng !== undefined;
-  if (hasCoords) {
-    // Use directions API with exact destination coordinates for precise pinning
-    return `https://www.google.com/maps/dir/?api=1&destination=${doctor.lat},${doctor.lng}`;
+  const lat = toNumber(doctor.lat);
+  const lng = toNumber(doctor.lng);
+
+  if (hasUsableCoordinates(lat, lng)) {
+    return `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
   }
 
-  // Fallback to searching the text label if no coords are present
   return `https://www.google.com/maps/dir/?api=1&destination=${label}`;
 }
 
 export function buildAppleMapsUrl(doctor: Pick<MapDoctor, "name" | "city" | "area" | "address" | "lat" | "lng">) {
   const coords = doctorMapCoordinates(doctor);
   const label = encodeURIComponent(doctorMapLabel(doctor));
-  // Use 'daddr' for directions destination in Apple Maps
   return `https://maps.apple.com/?daddr=${coords.latitude},${coords.longitude}&q=${label}`;
 }
 

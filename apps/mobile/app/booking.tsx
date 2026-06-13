@@ -3,6 +3,7 @@ import { Alert, ScrollView, Text, TextInput, View, Pressable } from "react-nativ
 import { useLocalSearchParams, router } from "expo-router";
 import { Feather } from "@expo/vector-icons";
 import { apiFetch } from "../lib/api";
+import { registerPushSubscription } from "../lib/notifications";
 import { AppCard } from "../components/AppCard";
 import { AppButton } from "../components/Buttons";
 import { AppSubtitle, AppTitle } from "../components/AppText";
@@ -125,6 +126,11 @@ export default function BookingScreen() {
           : data?.error || "حاول مرة ثانية";
       return Alert.alert("تعذر الحجز", message);
     }
+
+    void registerPushSubscription({
+      role: "patient",
+      patientPhone: phone,
+    }).catch(() => null);
 
     Alert.alert("تم الحجز بنجاح", "تم تسجيل حجزك وسيظهر للطبيب في لوحة التحكم الخاصة به.");
     router.back();

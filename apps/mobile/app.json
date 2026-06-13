@@ -8,12 +8,14 @@
     "userInterfaceStyle": "light",
     "platforms": ["ios", "android", "web"],
     "ios": {
+      "bundleIdentifier": "ps.malamih.app",
       "infoPlist": {
-        "NSLocationWhenInUseUsageDescription": "We use your location to sort nearby medical and cosmetic clinics and show them on the map."
+        "NSLocationWhenInUseUsageDescription": "We use your location to sort nearby medical and cosmetic clinics and show them on the map.",
+        "UIBackgroundModes": ["remote-notification"]
       }
     },
     "android": {
-      "permissions": ["ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION"]
+      "permissions": ["ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION", "POST_NOTIFICATIONS"]
     },
     "plugins": ["expo-router", "expo-location", "expo-notifications"],
     "experiments": {

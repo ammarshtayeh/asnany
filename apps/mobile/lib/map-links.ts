@@ -6,17 +6,30 @@ type MapDoctor = {
   city?: string | null;
   area?: string | null;
   address?: string | null;
-  lat?: number | null;
-  lng?: number | null;
+  lat?: number | string | null;
+  lng?: number | string | null;
 };
 
+function toNumber(value: unknown) {
+  if (typeof value === "number") return value;
+  if (typeof value === "string" && value.trim()) return Number(value);
+  return Number.NaN;
+}
+
+function hasUsableCoordinates(lat: number, lng: number) {
+  return Number.isFinite(lat) && Number.isFinite(lng) && lat >= 31 && lat <= 33 && lng >= 34 && lng <= 36;
+}
+
 export function doctorMapLabel(doctor: Pick<MapDoctor, "city" | "area" | "address" | "name">) {
-  return [doctor.city, doctor.area, doctor.address].filter(Boolean).join(" • ") || doctor.name;
+  return [doctor.city, doctor.area, doctor.address].filter(Boolean).join(" - ") || doctor.name;
 }
 
 export function doctorMapCoordinates(doctor: Pick<MapDoctor, "lat" | "lng" | "city" | "area" | "address">) {
-  if (doctor.lat !== null && doctor.lat !== undefined && doctor.lng !== null && doctor.lng !== undefined) {
-    return { latitude: doctor.lat, longitude: doctor.lng };
+  const lat = toNumber(doctor.lat);
+  const lng = toNumber(doctor.lng);
+
+  if (hasUsableCoordinates(lat, lng)) {
+    return { latitude: lat, longitude: lng };
   }
 
   return cityToCoordinates(doctor.city || doctor.area || doctor.address || "");
@@ -27,9 +40,8 @@ export function buildNativeMapsUrl(doctor: Pick<MapDoctor, "name" | "city" | "ar
   const label = encodeURIComponent(doctorMapLabel(doctor));
 
   if (Platform.OS === "ios") {
-    // Use 'daddr' for destination pin on Apple Maps directions
     return `https://maps.apple.com/?daddr=${coords.latitude},${coords.longitude}&q=${label}`;
   }
-  // Use directions endpoint for Google Maps to ensure exact pin placement
+
   return `https://www.google.com/maps/dir/?api=1&destination=${coords.latitude},${coords.longitude}`;
 }

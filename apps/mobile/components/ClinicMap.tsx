@@ -25,6 +25,20 @@ export function ClinicMap({ doctor }: { doctor: Doctor }) {
     })();
   }, []);
 
+  useEffect(() => {
+    if (!mapRef.current) return;
+
+    const points = [{ latitude: coordinates.latitude, longitude: coordinates.longitude }];
+    if (userLoc) {
+      points.push({ latitude: userLoc.lat, longitude: userLoc.lng });
+    }
+
+    mapRef.current.fitToCoordinates(points, {
+      animated: true,
+      edgePadding: { top: 48, right: 48, bottom: 48, left: 48 },
+    });
+  }, [coordinates.latitude, coordinates.longitude, userLoc]);
+
   const region = coordinates
     ? {
         latitude: coordinates.latitude,

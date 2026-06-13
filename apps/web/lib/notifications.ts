@@ -60,6 +60,8 @@ async function sendExpoPush(tokens: string[], title: string, body: string, data:
   const messages = validTokens.map((to) => ({
     to,
     sound: "default",
+    channelId: "appointments",
+    priority: "high",
     title,
     body,
     data,

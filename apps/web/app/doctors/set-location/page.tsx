@@ -21,6 +21,7 @@ export default function SetDoctorLocation() {
 
   const [saving, setSaving] = useState(false);
   const [success, setSuccess] = useState(false);
+  const coordinatesAreValid = Number.isFinite(lat) && Number.isFinite(lng) && lat >= 31 && lat <= 33 && lng >= 34 && lng <= 36;
 
   useEffect(() => {
     const fetchDoctors = async () => {
@@ -47,6 +48,10 @@ export default function SetDoctorLocation() {
 
   const handleSaveLocation = async () => {
     if (!selectedDoctor) return;
+    if (!coordinatesAreValid) {
+      alert("الإحداثيات خارج النطاق المتوقع لفلسطين. يرجى اختيار موقع صحيح على الخريطة.");
+      return;
+    }
 
     setSaving(true);
     try {
@@ -61,9 +66,12 @@ export default function SetDoctorLocation() {
       });
 
       if (res.ok) {
+        const data = await res.json();
+        const updatedDoctor = { ...selectedDoctor, ...(data.doctor || {}), lat, lng };
         setSuccess(true);
         // Update local list item with new coordinates
-        setDoctorsList(doctorsList.map(d => d.id === selectedDoctor.id ? { ...d, lat, lng } : d));
+        setSelectedDoctor(updatedDoctor);
+        setDoctorsList(doctorsList.map(d => d.id === selectedDoctor.id ? { ...d, ...updatedDoctor } : d));
       } else {
         alert("فشل حفظ الموقع في الخريطة.");
       }
@@ -207,7 +215,7 @@ export default function SetDoctorLocation() {
 
                 <button
                   onClick={handleSaveLocation}
-                  disabled={saving}
+                  disabled={saving || !coordinatesAreValid}
                   className="bg-slate-900 hover:bg-slate-800 text-white font-bold px-8 py-3.5 rounded-2xl shadow-xl transition-all disabled:opacity-50 flex items-center gap-2"
                 >
                   {saving ? "جاري التثبيت برمجياً..." : "💾 حفظ وتثبيت الموقع بالعيادة"}

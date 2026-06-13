@@ -114,6 +114,7 @@ export interface MedicalService {
   whatsapp?: string;
   website?: string;
   image_url?: string;
+  gallery?: string[];
   address?: string;
   rating?: number;
   is_featured?: boolean;
