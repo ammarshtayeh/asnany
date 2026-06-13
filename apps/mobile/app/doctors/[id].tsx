@@ -50,6 +50,9 @@ export default function DoctorProfileScreen() {
 
   const book = async () => {
     if (!doctor) return;
+    if (!fullName || !phone || !identity || !address || !date || !time) {
+      return Alert.alert("حقول ناقصة", "يرجى ملء جميع الحقول المطلوبة لتقديم الحجز.");
+    }
     setBooking(true);
     const { response, data } = await apiFetch("/api/appointments", {
       method: "POST",
@@ -70,7 +73,7 @@ export default function DoctorProfileScreen() {
       role: "patient",
       patientPhone: phone,
     }).catch(() => null);
-    Alert.alert("تم الحجز", "تم إرسال طلبك للطبيب.");
+    Alert.alert("تم الحجز بنجاح", "تم إرسال طلب حجز الموعد للطبيب.");
     router.push("/booking");
   };
 
@@ -104,6 +107,19 @@ export default function DoctorProfileScreen() {
     );
   }
 
+  // Safely parse specialties array/string
+  const specialties = Array.isArray(doctor.specialty)
+    ? doctor.specialty
+    : doctor.specialty
+    ? [doctor.specialty]
+    : [];
+
+  const workingHours = doctor.working_hours || doctor.workingHours || {};
+  const hasWorkingHours = Object.keys(workingHours).length > 0;
+  
+  const insuranceList = doctor.insurance_list || doctor.insuranceList || [];
+  const acceptsInsurance = doctor.accepts_insurance || doctor.acceptsInsurance;
+
   return (
     <ScrollView style={{ flex: 1, backgroundColor: "#f8fafc" }} contentContainerStyle={{ padding: 16, paddingBottom: 120 }}>
       {/* Top Header with Back Button */}
@@ -117,28 +133,95 @@ export default function DoctorProfileScreen() {
         </Pressable>
       </View>
 
+      {/* Main Info Card */}
       <AppCard>
-        <AppTitle>{doctor.name}</AppTitle>
-        <AppSubtitle>{doctor.city || "غير محدد"} {doctor.area ? `• ${doctor.area}` : ""}</AppSubtitle>
-        <AppSubtitle style={{ marginTop: 8 }}>{doctor.bio || "صفحة الطبيب مع كل البيانات الأساسية مثل الموقع."}</AppSubtitle>
-        <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8, justifyContent: "flex-end", marginTop: 12 }}>
-          {(doctor.specialty || []).map((item) => (
-            <View key={item} style={{ backgroundColor: "#eff6ff", borderRadius: 999, paddingHorizontal: 10, paddingVertical: 6 }}>
-              <Text style={{ color: "#2563eb", fontWeight: "900" }}>{item}</Text>
+        <View style={{ flexDirection: "row-reverse", justifyContent: "space-between", alignItems: "center" }}>
+          <AppTitle style={{ flex: 1, textAlign: "right" }}>{doctor.name}</AppTitle>
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 4, backgroundColor: "#fef3c7", paddingHorizontal: 10, paddingVertical: 5, borderRadius: 12 }}>
+            <Feather name="star" size={14} color="#d97706" />
+            <Text style={{ color: "#d97706", fontWeight: "900", fontSize: 12 }}>{doctor.rating ? doctor.rating.toFixed(1) : "5.0"}</Text>
+          </View>
+        </View>
+        
+        <AppSubtitle style={{ textAlign: "right", marginTop: 4 }}>
+          {doctor.city || "غير محدد"} {doctor.area ? `• ${doctor.area}` : ""}
+        </AppSubtitle>
+        {doctor.address ? (
+          <Text style={{ textAlign: "right", color: "#64748b", fontSize: 12, fontWeight: "700", marginTop: 4 }}>
+            📍 {doctor.address}
+          </Text>
+        ) : null}
+
+        <AppSubtitle style={{ marginTop: 12, textAlign: "right", lineHeight: 22 }}>
+          {doctor.bio || "صفحة الطبيب المعتمد مع كل البيانات الأساسية مثل الموقع والتواصل والحجوزات."}
+        </AppSubtitle>
+        
+        {/* Specialties Tags */}
+        <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8, justifyContent: "flex-end", marginTop: 14 }}>
+          {specialties.map((item) => (
+            <View key={item} style={{ backgroundColor: "#eff6ff", borderRadius: 12, paddingHorizontal: 10, paddingVertical: 6, borderWidth: 1, borderColor: "#dbeafe" }}>
+              <Text style={{ color: "#2563eb", fontWeight: "900", fontSize: 11 }}>{item}</Text>
             </View>
           ))}
           {doctor.accepts_discount_card ? (
-            <View style={{ backgroundColor: "#dcfce7", borderRadius: 999, paddingHorizontal: 10, paddingVertical: 6 }}>
-              <Text style={{ color: "#166534", fontWeight: "900" }}>خصم البطاقة</Text>
+            <View style={{ backgroundColor: "#dcfce7", borderRadius: 12, paddingHorizontal: 10, paddingVertical: 6, borderWidth: 1, borderColor: "#bbf7d0" }}>
+              <Text style={{ color: "#166534", fontWeight: "900", fontSize: 11 }}>🎫 خصم البطاقة</Text>
             </View>
           ) : null}
         </View>
-        <View style={{ flexDirection: "row", gap: 8, flexWrap: "wrap", justifyContent: "flex-end", marginTop: 14 }}>
-          <AppButton label="واتساب" variant="secondary" onPress={whatsapp} />
-          <AppButton label="حجز موعد" onPress={() => router.push(`/booking?doctorId=${doctor.id}`)} />
+
+        <View style={{ flexDirection: "row", gap: 8, flexWrap: "wrap", justifyContent: "flex-end", marginTop: 18, borderTopWidth: 1, borderTopColor: "#f1f5f9", paddingTop: 14 }}>
+          {doctor.whatsapp ? (
+            <AppButton label="تواصل واتساب" variant="secondary" onPress={whatsapp} style={{ flex: 1 }} />
+          ) : null}
+          <AppButton label="حجز موعد عيادة" onPress={() => router.push(`/booking?doctorId=${doctor.id}`)} style={{ flex: 1 }} />
         </View>
       </AppCard>
 
+      {/* Insurance Info Card */}
+      <AppCard>
+        <View style={{ flexDirection: "row-reverse", alignItems: "center", gap: 8, marginBottom: 8 }}>
+          <Feather name="shield" size={18} color="#0f172a" />
+          <AppTitle style={{ fontSize: 16 }}>الغطاء التأميني والدفع</AppTitle>
+        </View>
+        <Text style={{ textAlign: "right", fontWeight: "800", color: acceptsInsurance ? "#166534" : "#64748b", fontSize: 13 }}>
+          {acceptsInsurance ? "🏥 يقبل شركات التأمين الطبي" : "💳 الدفع شخصي فقط"}
+        </Text>
+        {acceptsInsurance && insuranceList.length > 0 ? (
+          <View style={{ marginTop: 8, alignItems: "flex-end" }}>
+            <Text style={{ fontSize: 12, fontWeight: "900", color: "#475569", marginBottom: 4 }}>الشركات المعتمدة:</Text>
+            <View style={{ flexDirection: "row-reverse", flexWrap: "wrap", gap: 6 }}>
+              {insuranceList.map((ins: string) => (
+                <View key={ins} style={{ backgroundColor: "#f1f5f9", paddingHorizontal: 8, paddingVertical: 4, borderRadius: 8, borderWidth: 1, borderColor: "#e2e8f0" }}>
+                  <Text style={{ fontSize: 11, fontWeight: "800", color: "#334155" }}>{ins}</Text>
+                </View>
+              ))}
+            </View>
+          </View>
+        ) : null}
+      </AppCard>
+
+      {/* Weekly Working Hours Card */}
+      <AppCard>
+        <View style={{ flexDirection: "row-reverse", alignItems: "center", gap: 8, marginBottom: 10 }}>
+          <Feather name="clock" size={18} color="#0f172a" />
+          <AppTitle style={{ fontSize: 16 }}>أوقات العمل الأسبوعية</AppTitle>
+        </View>
+        {hasWorkingHours ? (
+          <View style={{ gap: 6 }}>
+            {(Object.entries(workingHours) as [string, string][]).map(([day, hours]) => (
+              <View key={day} style={{ flexDirection: "row-reverse", justifyContent: "space-between", alignItems: "center", paddingVertical: 4, borderBottomWidth: 1, borderBottomColor: "#f8fafc" }}>
+                <Text style={{ fontSize: 12, fontWeight: "900", color: "#334155" }}>{day}</Text>
+                <Text style={{ fontSize: 12, fontWeight: "800", color: hours.includes("مغلق") || hours.includes("Closed") ? "#ef4444" : "#0f172a" }}>{hours}</Text>
+              </View>
+            ))}
+          </View>
+        ) : (
+          <Text style={{ textAlign: "right", color: "#64748b", fontSize: 12, fontWeight: "700" }}>اتصل بالعيادة للاستعلام عن أوقات الدوام.</Text>
+        )}
+      </AppCard>
+
+      {/* Clinic Location Map */}
       <ClinicMap doctor={doctor} />
 
       <View style={{ marginTop: 12, flexDirection: "row", gap: 8 }}>
@@ -152,16 +235,26 @@ export default function DoctorProfileScreen() {
         </Pressable>
       </View>
 
+      {/* Smart Booking Form Card */}
       <AppCard>
-        <AppTitle style={{ fontSize: 20 }}>احجز مباشرة</AppTitle>
-        <Field label="الاسم الرباعي" value={fullName} onChangeText={setFullName} />
-        <Field label="رقم الهاتف" value={phone} onChangeText={setPhone} keyboardType="phone-pad" />
-        <Field label="رقم الهوية" value={identity} onChangeText={setIdentity} keyboardType="number-pad" />
-        <Field label="العنوان" value={address} onChangeText={setAddress} />
-        <Field label="التاريخ" value={date} onChangeText={setDate} placeholder="2026-06-01" />
-        <Field label="الوقت" value={time} onChangeText={setTime} placeholder="10:30" />
-        <Field label="ملاحظات" value={notes} onChangeText={setNotes} multiline />
-        <AppButton label={booking ? "جارٍ الإرسال..." : "إرسال الحجز"} onPress={book} style={{ marginTop: 12 }} disabled={booking} />
+        <View style={{ flexDirection: "row-reverse", alignItems: "center", gap: 8, marginBottom: 8 }}>
+          <Feather name="calendar" size={18} color="#0f172a" />
+          <AppTitle style={{ fontSize: 18 }}>احجز موعد مباشرة</AppTitle>
+        </View>
+        <Field label="الاسم الرباعي للمريض *" value={fullName} onChangeText={setFullName} />
+        <Field label="رقم الهاتف للتأكيد *" value={phone} onChangeText={setPhone} keyboardType="phone-pad" />
+        <Field label="رقم الهوية الشخصية *" value={identity} onChangeText={setIdentity} keyboardType="number-pad" />
+        <Field label="العنوان السكني الحالي *" value={address} onChangeText={setAddress} />
+        <Field label="التاريخ المطلوب للحجز *" value={date} onChangeText={setDate} placeholder="مثال: YYYY-MM-DD" />
+        <Field label="الوقت المفضل *" value={time} onChangeText={setTime} placeholder="مثال: 11:30 صباحاً" />
+        <Field label="ملاحظات أو الأعراض الطبية" value={notes} onChangeText={setNotes} multiline />
+        
+        <AppButton 
+          label={booking ? "جارٍ إرسال طلب الحجز..." : "تأكيد طلب الحجز الإلكتروني"} 
+          onPress={book} 
+          style={{ marginTop: 18 }} 
+          disabled={booking} 
+        />
       </AppCard>
     </ScrollView>
   );

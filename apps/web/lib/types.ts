@@ -11,6 +11,7 @@ export type Doctor = {
   lat?: number;
   lng?: number;
   working_hours?: Record<string, string>;
+  workingHours?: Record<string, string>;
   is_available?: boolean;
   availability_note?: string;
   accepts_discount_card?: boolean;
@@ -18,11 +19,15 @@ export type Doctor = {
   discount_note?: string;
   accepts_insurance: boolean;
   insurance_list?: string[];
+  insuranceList?: string[];
   image_url?: string;
+  imageUrl?: string;
   clinic_photos?: string[];
+  clinicPhotos?: string[];
   bio?: string;
   rating: number;
   is_featured: boolean;
+  isFeatured?: boolean;
   featured_until?: string;
   verified: boolean;
   created_at: string;

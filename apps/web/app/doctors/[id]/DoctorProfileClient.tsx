@@ -189,7 +189,7 @@ export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
                     </div>
                     
                     <div className="flex flex-wrap gap-2 mb-6">
-                      {doctor.specialty.map((spec, idx) => (
+                      {(Array.isArray(doctor.specialty) ? doctor.specialty : (doctor.specialty ? [doctor.specialty] : [])).map((spec, idx) => (
                         <span key={idx} className="bg-slate-100 text-slate-700 border border-slate-200/60 px-4 py-1.5 rounded-full text-sm font-bold shadow-sm">
                           {spec}
                         </span>
@@ -262,9 +262,9 @@ export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
                       </div>
                       <div>
                         <strong className="block text-slate-900 mb-1.5">التأمين الطبي المقبول</strong>
-                        {doctor.insurance_list && doctor.insurance_list.length > 0 ? (
+                        {(doctor.insurance_list || doctor.insuranceList) && (doctor.insurance_list || doctor.insuranceList || []).length > 0 ? (
                           <div className="flex flex-wrap gap-1.5">
-                            {doctor.insurance_list.map((ins, i) => (
+                            {(doctor.insurance_list || doctor.insuranceList || []).map((ins: string, i: number) => (
                               <span key={i} className="bg-amber-50 text-amber-700 text-xs px-2 py-0.5 rounded-lg border border-amber-100 font-bold">
                                 {ins}
                               </span>
@@ -340,7 +340,7 @@ export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
           </div>
 
           {/* Clinic Photos Gallery */}
-          {doctor.clinic_photos && doctor.clinic_photos.length > 0 && (
+          {(doctor.clinic_photos || doctor.clinicPhotos) && (doctor.clinic_photos || doctor.clinicPhotos || []).length > 0 && (
             <div className="bg-white rounded-3xl shadow-xl shadow-slate-200/30 border border-slate-100 p-8">
               <h2 className="text-xl font-black text-slate-900 mb-6 flex items-center gap-2">
                 <Sparkles className="w-6 h-6 text-primary" /> جولة في العيادة
@@ -350,7 +350,7 @@ export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
                 {/* Main Photo View */}
                 <div className="relative w-full h-[300px] md:h-[450px] rounded-2xl overflow-hidden bg-slate-100">
                   <Image 
-                    src={doctor.clinic_photos[activePhoto]} 
+                    src={(doctor.clinic_photos || doctor.clinicPhotos || [])[activePhoto] || ""} 
                     alt="صورة العيادة" 
                     fill 
                     className="object-cover transition-all duration-700" 
@@ -359,7 +359,7 @@ export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
                 
                 {/* Thumbnails */}
                 <div className="flex gap-3 overflow-x-auto pb-2 snap-x hide-scrollbar">
-                  {doctor.clinic_photos.map((photo, idx) => (
+                  {(doctor.clinic_photos || doctor.clinicPhotos || []).map((photo: string, idx: number) => (
                     <button 
                       key={idx} 
                       onClick={() => setActivePhoto(idx)}
@@ -486,16 +486,16 @@ export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
             <div className="my-6 border-t border-slate-100" />
 
             {/* Working Hours */}
-            {doctor.working_hours && (
+            {(doctor.working_hours || doctor.workingHours) && (
               <div>
                 <h3 className="font-bold text-slate-900 mb-4 flex items-center gap-2">
                   <Clock className="w-5 h-5 text-slate-400" /> الدوام الرسمي
                 </h3>
                 <div className="space-y-3 px-1">
-                  {Object.entries(doctor.working_hours).map(([day, hours]) => (
+                  {(Object.entries(doctor.working_hours || doctor.workingHours || {}) as [string, string][]).map(([day, hours]) => (
                     <div key={day} className="flex justify-between items-center text-sm font-medium">
                       <span className="text-slate-600">{day}</span>
-                      <span className={hours === "مغلق" ? "text-red-500 bg-red-50 px-2 py-0.5 rounded" : "text-slate-900 bg-slate-50 px-2 py-0.5 rounded border border-slate-100"}>{hours}</span>
+                      <span className={hours === "مغلق" || hours.includes("Closed") ? "text-red-500 bg-red-50 px-2 py-0.5 rounded" : "text-slate-900 bg-slate-50 px-2 py-0.5 rounded border border-slate-100"}>{hours}</span>
                     </div>
                   ))}
                 </div>

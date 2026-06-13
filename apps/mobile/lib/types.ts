@@ -16,6 +16,12 @@ export type Doctor = {
   discount_note?: string | null;
   discount_value?: string | null;
   working_hours?: Record<string, string> | null;
+  workingHours?: Record<string, string> | null;
+  rating?: number | null;
+  accepts_insurance?: boolean | null;
+  acceptsInsurance?: boolean | null;
+  insurance_list?: string[] | null;
+  insuranceList?: string[] | null;
 };
 
 export type AppointmentRecord = {
