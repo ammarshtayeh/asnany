@@ -7,9 +7,9 @@ import Link from "next/link";
 import {
   ArrowLeft,
   BadgeCheck,
-  BriefcaseMedical,
   CalendarCheck2,
   CheckCircle2,
+  ChevronDown,
   Clock,
   Ear,
   Eye,
@@ -28,7 +28,6 @@ import {
   X,
 } from "lucide-react";
 import AdSlider from "@/components/AdSlider";
-import PlatformExpansion from "@/components/PlatformExpansion";
 import { CITIES } from "@/lib/constants";
 import { getDistance } from "@/lib/distance";
 import { doctorMapCoordinates } from "@/lib/map-links";
@@ -62,20 +61,7 @@ const TRUST_POINTS = [
 
 const PALESTINIAN_INSURANCES = ["التكافل", "ترست", "المشرق", "تمكين", "المجموعة الأهلية"];
 
-const DIAGNOSIS_OPTIONS = [
-  { id: "diag1", title: "ألم شديد بالأسنان", specialty: "طب أسنان عام", desc: "غالبا يحتاج فحص عصب أو علاج طارئ." },
-  { id: "diag2", title: "تشوش بالرؤية / ضعف نظر", specialty: "طب وجراحة العيون", desc: "فحص نظر دوري أو عمليات تصحيح بالليزك." },
-  { id: "diag3", title: "تساقط شعر أو مشاكل بشرة", specialty: "جلدية وتجميل", desc: "استشارات ليزر وبشرة مع أخصائيين معتمدين." },
-  { id: "diag4", title: "تجميل الوجه أو حقن إبر", specialty: "جراحة التجميل والترميم", desc: "علاجات تجميلية وحقن فيلر وبوتكس." },
-];
 
-const HOME_ACTIONS = [
-  { title: "ابحث عن طبيب", desc: "قارن الأطباء حسب المدينة والتخصص.", href: "#doctors", icon: Search, color: "text-sky-600", bg: "bg-sky-50" },
-  { title: "احجز موعد", desc: "انتقل مباشرة لخدمات الحجز.", href: "/booking", icon: CalendarCheck2, color: "text-teal-600", bg: "bg-teal-50" },
-  { title: "بطاقة الخصم", desc: "اعرض العيادات المشاركة وخصوماتها.", href: "/discount-card", icon: BadgeCheck, color: "text-emerald-600", bg: "bg-emerald-50" },
-  { title: "العروض", desc: "شاهد أحدث عروض العيادات.", href: "/offers", icon: Sparkles, color: "text-amber-600", bg: "bg-amber-50" },
-  { title: "انضم للمنصة", desc: "سجل عيادتك أو شركتك.", href: "/join", icon: BriefcaseMedical, color: "text-violet-600", bg: "bg-violet-50" },
-];
 
 const HOW_IT_WORKS = [
   { title: "حدد موقعك", desc: "رتب النتائج حسب الأقرب لك.", icon: Navigation },
@@ -152,7 +138,6 @@ export default function Home() {
   const [selectedSpecialty, setSelectedSpecialty] = useState("");
   const [selectedInsurance, setSelectedInsurance] = useState("");
   const [selectedWorkStatus, setSelectedWorkStatus] = useState<"any" | "open" | "closed">("any");
-  const [activeDiagnosis, setActiveDiagnosis] = useState("");
   const [userLoc, setUserLoc] = useState<{ lat: number; lng: number } | null>(null);
   const [showMap, setShowMap] = useState(false);
   const [compareIds, setCompareIds] = useState<string[]>([]);
@@ -207,14 +192,6 @@ export default function Home() {
     }
     if (selectedWorkStatus === "open") result = result.filter((doc) => isDoctorOpenNow(doc.working_hours));
     if (selectedWorkStatus === "closed") result = result.filter((doc) => !isDoctorOpenNow(doc.working_hours));
-    if (activeDiagnosis) {
-      const match = DIAGNOSIS_OPTIONS.find((diagnosis) => diagnosis.id === activeDiagnosis);
-      if (match) {
-        result = result.filter((doc) =>
-          Array.isArray(doc.specialty) && doc.specialty.some((specialty) => specialty === match.specialty)
-        );
-      }
-    }
 
     if (userLoc) {
       result = result.map((doc) => ({
@@ -237,10 +214,10 @@ export default function Home() {
     }
 
     return result;
-  }, [activeDiagnosis, doctors, searchQuery, selectedCity, selectedInsurance, selectedSpecialty, selectedWorkStatus, userLoc]);
+  }, [doctors, searchQuery, selectedCity, selectedInsurance, selectedSpecialty, selectedWorkStatus, userLoc]);
 
   const hasActiveFilters =
-    searchQuery || selectedCity || selectedSpecialty || selectedInsurance || selectedWorkStatus !== "any" || activeDiagnosis;
+    searchQuery || selectedCity || selectedSpecialty || selectedInsurance || selectedWorkStatus !== "any";
 
   const resetFilters = () => {
     setSearchQuery("");
@@ -248,7 +225,6 @@ export default function Home() {
     setSelectedSpecialty("");
     setSelectedInsurance("");
     setSelectedWorkStatus("any");
-    setActiveDiagnosis("");
   };
 
   const handleLocationSearch = () => {
@@ -329,7 +305,6 @@ export default function Home() {
                   onClick={() => {
                     setSelectedSpecialty(path.specialty);
                     setSelectedWorkStatus(path.status);
-                    setActiveDiagnosis("");
                     document.getElementById("doctors")?.scrollIntoView({ behavior: "smooth", block: "start" });
                   }}
                   className="rounded-xl border border-slate-200/60 bg-slate-50/50 px-3 py-3 text-xs font-black text-slate-700 transition-all hover:border-amber-300 hover:bg-white hover:text-amber-700"
@@ -350,13 +325,13 @@ export default function Home() {
               </label>
               <div className="grid gap-3 sm:grid-cols-2">
                 <SelectShell icon={<MapPin className="h-5 w-5 text-amber-500" />}>
-                  <select value={selectedCity} onChange={(event) => setSelectedCity(event.target.value)} className="w-full cursor-pointer appearance-none bg-transparent py-3 text-sm font-black text-slate-800 outline-none">
+                  <select value={selectedCity} onChange={(event) => setSelectedCity(event.target.value)} className="w-full cursor-pointer appearance-none bg-transparent py-3 pl-6 text-sm font-black text-slate-800 outline-none">
                     <option value="">كل المحافظات</option>
                     {CITIES.map((city) => <option key={city} value={city}>{city}</option>)}
                   </select>
                 </SelectShell>
                 <SelectShell icon={<Stethoscope className="h-5 w-5 text-amber-500" />}>
-                  <select value={selectedSpecialty} onChange={(event) => setSelectedSpecialty(event.target.value)} className="w-full cursor-pointer appearance-none bg-transparent py-3 text-sm font-black text-slate-800 outline-none">
+                  <select value={selectedSpecialty} onChange={(event) => setSelectedSpecialty(event.target.value)} className="w-full cursor-pointer appearance-none bg-transparent py-3 pl-6 text-sm font-black text-slate-800 outline-none">
                     <option value="">كل التخصصات</option>
                     {QUICK_CATEGORIES.map((category) => <option key={category.id} value={category.label}>{category.label}</option>)}
                     <option value="أسنان الأطفال">أسنان الأطفال</option>
@@ -365,14 +340,14 @@ export default function Home() {
               </div>
               <div className="grid gap-3 sm:grid-cols-2">
                 <SelectShell icon={<Clock className="h-5 w-5 text-amber-500" />}>
-                  <select value={selectedWorkStatus} onChange={(event) => setSelectedWorkStatus(event.target.value as any)} className="w-full cursor-pointer appearance-none bg-transparent py-3 text-sm font-black text-slate-800 outline-none">
+                  <select value={selectedWorkStatus} onChange={(event) => setSelectedWorkStatus(event.target.value as any)} className="w-full cursor-pointer appearance-none bg-transparent py-3 pl-6 text-sm font-black text-slate-800 outline-none">
                     <option value="any">كل الأوقات</option>
                     <option value="open">مفتوح الآن</option>
                     <option value="closed">مغلق حاليا</option>
                   </select>
                 </SelectShell>
                 <SelectShell icon={<ShieldCheck className="h-5 w-5 text-amber-500" />}>
-                  <select value={selectedInsurance} onChange={(event) => setSelectedInsurance(event.target.value)} className="w-full cursor-pointer appearance-none bg-transparent py-3 text-sm font-black text-slate-800 outline-none">
+                  <select value={selectedInsurance} onChange={(event) => setSelectedInsurance(event.target.value)} className="w-full cursor-pointer appearance-none bg-transparent py-3 pl-6 text-sm font-black text-slate-800 outline-none">
                     <option value="">كل التأمينات</option>
                     {PALESTINIAN_INSURANCES.map((insurance) => <option key={insurance} value={insurance}>{insurance}</option>)}
                   </select>
@@ -398,7 +373,6 @@ export default function Home() {
                   {selectedWorkStatus !== "any" ? (
                     <FilterChip label={selectedWorkStatus === "open" ? "مفتوح الآن" : "مغلق حاليا"} onClear={() => setSelectedWorkStatus("any")} />
                   ) : null}
-                  {activeDiagnosis ? <FilterChip label="حسب الحالة" onClear={() => setActiveDiagnosis("")} /> : null}
                   <button type="button" onClick={resetFilters} className="text-xs font-black text-slate-500 hover:text-amber-700">
                     مسح الكل
                   </button>
@@ -412,7 +386,7 @@ export default function Home() {
 
       <main className="mx-auto w-full max-w-[1400px] px-4 py-8 lg:px-8">
         {/* Floating Quick Categories by Specialty */}
-        <section className="-mt-20 sm:-mt-24 mb-12 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 relative z-20" dir="rtl">
+        <section className="-mt-20 sm:-mt-24 mb-12 flex gap-4 overflow-x-auto pb-4 relative z-20 hide-scrollbar md:justify-center px-4 lg:px-0 scroll-smooth" dir="rtl">
           {QUICK_CATEGORIES.map((category) => (
             <button
               key={category.id}
@@ -421,7 +395,7 @@ export default function Home() {
                 setSelectedSpecialty(selectedSpecialty === category.label ? "" : category.label);
                 document.getElementById("doctors")?.scrollIntoView({ behavior: "smooth", block: "start" });
               }}
-              className={`min-h-26 rounded-3xl border p-4 text-center transition-all duration-500 shadow-md ${
+              className={`min-w-[130px] flex-shrink-0 min-h-26 rounded-3xl border p-4 text-center transition-all duration-500 shadow-md ${
                 selectedSpecialty === category.label 
                   ? "border-amber-500/85 bg-white scale-105 ring-4 ring-amber-100 shadow-[0_12px_24px_rgba(217,119,6,0.12)]" 
                   : "border-slate-200/60 bg-white/80 backdrop-blur-md hover:border-amber-300/80 hover:bg-white hover:-translate-y-1.5 hover:shadow-xl"
@@ -489,70 +463,6 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="mt-12 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4" dir="rtl">
-          {HOME_ACTIONS.map((action) => (
-            <Link
-              key={action.title}
-              href={action.href}
-              className="group rounded-2xl border border-slate-200 bg-white p-5 text-right shadow-sm transition hover:-translate-y-0.5 hover:border-sky-200 hover:shadow-md"
-            >
-              <span className={`mb-4 flex h-11 w-11 items-center justify-center rounded-xl ${action.bg} ${action.color}`}>
-                <action.icon className="h-5 w-5" />
-              </span>
-              <h2 className="text-base font-black text-slate-950 group-hover:text-sky-600">{action.title}</h2>
-              <p className="mt-2 text-sm font-semibold leading-6 text-slate-500">{action.desc}</p>
-            </Link>
-          ))}
-        </section>
-
-        <section className="mt-8 rounded-2xl border border-slate-200 bg-white p-5 text-right shadow-sm" dir="rtl">
-          <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <p className="text-sm font-black text-sky-600">اختيار سريع</p>
-              <h2 className="mt-1 text-2xl font-black text-slate-950">اختر حسب الحالة أو التخصص</h2>
-            </div>
-            {hasActiveFilters ? (
-              <button type="button" onClick={resetFilters} className="w-fit rounded-xl border border-slate-200 px-4 py-2 text-xs font-black text-slate-600 hover:border-sky-200 hover:text-sky-700">
-                إزالة الفلاتر
-              </button>
-            ) : null}
-          </div>
-          <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
-            {DIAGNOSIS_OPTIONS.map((diagnosis) => (
-              <button
-                key={diagnosis.id}
-                type="button"
-                onClick={() => setActiveDiagnosis(activeDiagnosis === diagnosis.id ? "" : diagnosis.id)}
-                className={`min-h-32 rounded-xl border p-4 text-right transition ${
-                  activeDiagnosis === diagnosis.id
-                    ? "border-sky-500 bg-sky-600 text-white"
-                    : "border-slate-200 bg-slate-50 text-slate-800 hover:border-sky-200 hover:bg-white"
-                }`}
-              >
-                <div className="mb-2 flex items-center justify-between gap-3">
-                  <span className={`text-xs font-black ${activeDiagnosis === diagnosis.id ? "text-sky-100" : "text-sky-600"}`}>
-                    {diagnosis.specialty}
-                  </span>
-                  {activeDiagnosis === diagnosis.id ? <CheckCircle2 className="h-5 w-5" /> : null}
-                </div>
-                <h3 className="text-base font-black leading-6">{diagnosis.title}</h3>
-                <p className={`mt-2 text-xs font-bold leading-6 ${activeDiagnosis === diagnosis.id ? "text-sky-50" : "text-slate-500"}`}>
-                  {diagnosis.desc}
-                </p>
-              </button>
-            ))}
-          </div>
-        </section>
-
-
-
-        {/* Metrics Row (placed below the fast actions) */}
-        <section className="mt-12 grid gap-3 sm:grid-cols-3" dir="rtl">
-          <Metric value={loading ? "..." : doctors.length || "24+"} label="عيادة وطبيب" />
-          <Metric value={String(CITIES.length)} label="محافظة" />
-          <Metric value="موثوق" label="تجربة بحث وحجز" />
-        </section>
-
         <section className="mt-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm" dir="rtl">
           <div className="grid gap-4 md:grid-cols-3">
             {HOW_IT_WORKS.map((step) => (
@@ -569,23 +479,22 @@ export default function Home() {
           </div>
         </section>
 
-
-
         <section className="mt-8">
           <AdSlider ads={ads} />
         </section>
       </main>
-
-      <PlatformExpansion />
     </div>
   );
 }
 
 function SelectShell({ icon, children }: { icon: ReactNode; children: ReactNode }) {
   return (
-    <label className="flex min-h-12 items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 focus-within:border-sky-300 focus-within:bg-white">
+    <label className="relative flex min-h-12 items-center gap-3 rounded-2xl border border-slate-200/80 bg-slate-50/40 px-4 focus-within:border-amber-400 focus-within:bg-white transition-all shadow-[inset_0_1px_2px_rgba(0,0,0,0.01)] cursor-pointer">
       {icon}
-      {children}
+      <div className="flex-1 w-full">
+        {children}
+      </div>
+      <ChevronDown className="h-4 w-4 text-slate-400 pointer-events-none absolute left-4" />
     </label>
   );
 }
@@ -753,7 +662,7 @@ function DoctorResult({
             <button
               type="button"
               onClick={onToggleCompare}
-              className={`inline-flex items-center justify-center gap-2 rounded-xl border px-4 py-3 text-sm font-black transition-all sm:col-span-4 ${
+              className={`inline-flex items-center justify-center gap-2 rounded-xl border px-4 py-3 text-sm font-black transition-all ${
                 compareSelected 
                   ? "border-amber-300 bg-amber-500 text-white shadow-md shadow-amber-500/10" 
                   : "border-slate-200 bg-white text-slate-700 hover:border-amber-300 hover:bg-amber-50/50"
