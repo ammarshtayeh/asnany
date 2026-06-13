@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { ArrowRight, CalendarCheck2, Clock, Phone, Search } from "lucide-react";
+import { ArrowRight, CalendarCheck2, Clock, Search, UserRound } from "lucide-react";
 
 type Appointment = {
   id: string;
@@ -29,24 +29,26 @@ const statusCopy: Record<string, { label: string; className: string }> = {
 };
 
 export default function AppointmentsPage() {
-  const [phone, setPhone] = useState("");
+  const [searchValue, setSearchValue] = useState("");
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [loading, setLoading] = useState(false);
   const [searched, setSearched] = useState(false);
   const [error, setError] = useState("");
 
-  const cleanPhone = useMemo(() => phone.replace(/[^0-9]/g, ""), [phone]);
-  const canSearch = cleanPhone.length >= 7;
+  const cleanPhone = useMemo(() => searchValue.replace(/[^0-9]/g, ""), [searchValue]);
+  const cleanName = useMemo(() => searchValue.trim().replace(/\s+/g, " "), [searchValue]);
+  const canSearch = cleanPhone.length >= 7 || cleanName.length >= 3;
 
-  const loadAppointments = async (nextPhone = phone) => {
-    const normalizedPhone = nextPhone.replace(/[^0-9]/g, "");
-    if (normalizedPhone.length < 7) return;
+  const loadAppointments = async (nextSearch = searchValue) => {
+    const normalizedPhone = nextSearch.replace(/[^0-9]/g, "");
+    const normalizedName = nextSearch.trim().replace(/\s+/g, " ");
+    if (normalizedPhone.length < 7 && normalizedName.length < 3) return;
     setLoading(true);
     setSearched(true);
     setError("");
 
     try {
-      const res = await fetch(`/api/appointments?phone=${encodeURIComponent(nextPhone)}`);
+      const res = await fetch(`/api/appointments?query=${encodeURIComponent(nextSearch)}`);
       const data = await res.json();
       if (!res.ok) throw new Error(data?.error || "تعذر جلب الحجوزات");
       setAppointments(Array.isArray(data.appointments) ? data.appointments : []);
@@ -59,10 +61,11 @@ export default function AppointmentsPage() {
   };
 
   useEffect(() => {
-    const initialPhone = new URLSearchParams(window.location.search).get("phone") || "";
-    if (initialPhone.replace(/[^0-9]/g, "").length >= 7) {
-      setPhone(initialPhone);
-      void loadAppointments(initialPhone);
+    const params = new URLSearchParams(window.location.search);
+    const initialSearch = params.get("query") || params.get("phone") || params.get("name") || "";
+    if (initialSearch.replace(/[^0-9]/g, "").length >= 7 || initialSearch.trim().length >= 3) {
+      setSearchValue(initialSearch);
+      void loadAppointments(initialSearch);
     }
   }, []);
 
@@ -83,23 +86,23 @@ export default function AppointmentsPage() {
               <p className="text-xs font-black text-sky-600">متابعة بسيطة</p>
               <h1 className="mt-1 text-3xl font-black text-slate-950">حجوزاتي</h1>
               <p className="mt-2 max-w-xl text-sm font-semibold leading-7 text-slate-500">
-                أدخل رقم الهاتف المستخدم في الحجز، وشاهد حالة مواعيدك بدون تسجيل دخول.
+                أدخل رقم الهاتف أو الاسم الرباعي المستخدم في الحجز، وشاهد حالة مواعيدك بدون تسجيل دخول.
               </p>
             </div>
           </div>
 
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
             <label className="flex min-h-12 flex-1 items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 focus-within:border-sky-400 focus-within:bg-white">
-              <Phone className="h-5 w-5 text-slate-400" />
+              <UserRound className="h-5 w-5 text-slate-400" />
               <input
-                value={phone}
-                onChange={(event) => setPhone(event.target.value)}
+                value={searchValue}
+                onChange={(event) => setSearchValue(event.target.value)}
                 onKeyDown={(event) => {
                   if (event.key === "Enter" && canSearch) void loadAppointments();
                 }}
-                inputMode="tel"
+                inputMode="search"
                 className="w-full bg-transparent py-3 text-right text-sm font-bold text-slate-900 outline-none placeholder:text-slate-400"
-                placeholder="رقم الهاتف"
+                placeholder="رقم الهاتف أو الاسم الرباعي"
               />
             </label>
             <button
@@ -123,8 +126,8 @@ export default function AppointmentsPage() {
             </div>
           ) : appointments.length === 0 && !loading ? (
             <div className="rounded-[1.5rem] border border-slate-200 bg-white p-8 text-center">
-              <p className="text-lg font-black text-slate-900">لا توجد حجوزات لهذا الرقم</p>
-              <p className="mt-2 text-sm font-semibold text-slate-500">تأكد من الرقم أو ابدأ حجزاً جديداً من صفحة الطبيب.</p>
+              <p className="text-lg font-black text-slate-900">لا توجد حجوزات لهذه البيانات</p>
+              <p className="mt-2 text-sm font-semibold text-slate-500">تأكد من رقم الهاتف أو الاسم الرباعي، أو ابدأ حجزاً جديداً من صفحة الطبيب.</p>
             </div>
           ) : (
             appointments.map((appointment) => {

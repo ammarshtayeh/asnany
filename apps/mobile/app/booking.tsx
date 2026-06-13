@@ -152,7 +152,7 @@ export default function BookingScreen() {
 
       <AppCard>
         <AppTitle>حجز موعد</AppTitle>
-        <AppSubtitle>املأ البيانات الأساسية فقط. بعد الإرسال تقدر تتابع حالة الحجز من صفحة حجوزاتي برقم الهاتف.</AppSubtitle>
+        <AppSubtitle>املأ البيانات الأساسية فقط. بعد الإرسال تقدر تتابع حالة الحجز من صفحة حجوزاتي برقم الهاتف أو الاسم الرباعي.</AppSubtitle>
 
         {doctorId ? (
           <View style={{ marginTop: 12, borderRadius: 18, backgroundColor: "#eff6ff", padding: 14, borderWidth: 1, borderColor: "#dbeafe" }}>

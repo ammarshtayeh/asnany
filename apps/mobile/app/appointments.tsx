@@ -30,28 +30,32 @@ const statusStyle: Record<string, { label: string; bg: string; text: string }> =
 };
 
 export default function PatientAppointmentsScreen() {
-  const params = useLocalSearchParams<{ phone?: string }>();
-  const [phone, setPhone] = useState(params.phone || "");
+  const params = useLocalSearchParams<{ phone?: string; query?: string; name?: string }>();
+  const [searchValue, setSearchValue] = useState(params.query || params.phone || params.name || "");
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [loading, setLoading] = useState(false);
   const [searched, setSearched] = useState(false);
-  const cleanPhone = useMemo(() => phone.replace(/[^0-9]/g, ""), [phone]);
-  const canSearch = cleanPhone.length >= 7;
+  const cleanPhone = useMemo(() => searchValue.replace(/[^0-9]/g, ""), [searchValue]);
+  const cleanName = useMemo(() => searchValue.trim().replace(/\s+/g, " "), [searchValue]);
+  const canSearch = cleanPhone.length >= 7 || cleanName.length >= 3;
 
   useEffect(() => {
-    if (params.phone && params.phone.replace(/[^0-9]/g, "").length >= 7) {
-      void loadAppointments(params.phone);
+    const initialSearch = params.query || params.phone || params.name || "";
+    if (initialSearch.replace(/[^0-9]/g, "").length >= 7 || initialSearch.trim().length >= 3) {
+      setSearchValue(initialSearch);
+      void loadAppointments(initialSearch);
     }
-  }, [params.phone]);
+  }, [params.query, params.phone, params.name]);
 
-  const loadAppointments = async (nextPhone = phone) => {
-    const normalized = nextPhone.replace(/[^0-9]/g, "");
-    if (normalized.length < 7) return;
+  const loadAppointments = async (nextSearch = searchValue) => {
+    const normalizedPhone = nextSearch.replace(/[^0-9]/g, "");
+    const normalizedName = nextSearch.trim().replace(/\s+/g, " ");
+    if (normalizedPhone.length < 7 && normalizedName.length < 3) return;
 
     setLoading(true);
     setSearched(true);
     const { response, data } = await apiFetch<{ success?: boolean; appointments?: Appointment[]; error?: string }>(
-      `/api/appointments?phone=${encodeURIComponent(nextPhone)}`
+      `/api/appointments?query=${encodeURIComponent(nextSearch)}`
     );
     setLoading(false);
 
@@ -76,14 +80,14 @@ export default function PatientAppointmentsScreen() {
       </View>
 
       <AppCard>
-        <AppTitle>رقم الهاتف</AppTitle>
-        <AppSubtitle>اكتب نفس الرقم المستخدم في الحجز. لا تحتاج حساب أو كلمة مرور.</AppSubtitle>
+        <AppTitle>بيانات الحجز</AppTitle>
+        <AppSubtitle>اكتب رقم الهاتف أو الاسم الرباعي المستخدم في الحجز. لا تحتاج حساب أو كلمة مرور.</AppSubtitle>
         <View style={{ marginTop: 14 }}>
           <TextInput
-            value={phone}
-            onChangeText={setPhone}
-            keyboardType="phone-pad"
-            placeholder="مثال: 059xxxxxxx"
+            value={searchValue}
+            onChangeText={setSearchValue}
+            keyboardType="default"
+            placeholder="رقم الهاتف أو الاسم الرباعي"
             placeholderTextColor="#94a3b8"
             style={{
               minHeight: 52,
@@ -107,9 +111,9 @@ export default function PatientAppointmentsScreen() {
             <ActivityIndicator color="#0f172a" />
           </View>
         ) : !searched ? (
-          <EmptyState title="حجوزاتك ستظهر هنا" text="ابحث برقم الهاتف لعرض آخر المواعيد وحالتها." />
+          <EmptyState title="حجوزاتك ستظهر هنا" text="ابحث برقم الهاتف أو الاسم الرباعي لعرض آخر المواعيد وحالتها." />
         ) : appointments.length === 0 ? (
-          <EmptyState title="لا توجد حجوزات" text="تأكد من الرقم أو ابدأ حجزاً جديداً من صفحة الطبيب." />
+          <EmptyState title="لا توجد حجوزات" text="تأكد من رقم الهاتف أو الاسم الرباعي، أو ابدأ حجزاً جديداً من صفحة الطبيب." />
         ) : (
           appointments.map((appointment) => <AppointmentCard key={appointment.id} appointment={appointment} />)
         )}

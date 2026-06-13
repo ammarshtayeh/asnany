@@ -6,6 +6,14 @@ function normalizePhone(phone?: string | null) {
   return (phone || "").replace(/[^0-9]/g, "");
 }
 
+function normalizeName(name?: string | null) {
+  return (name || "").trim().replace(/\s+/g, " ");
+}
+
+function escapeIlike(value: string) {
+  return value.replace(/[%_]/g, (match) => `\\${match}`);
+}
+
 export async function GET(request: Request) {
   try {
     if (!isSupabaseConfigured) {
@@ -13,21 +21,30 @@ export async function GET(request: Request) {
     }
 
     const { searchParams } = new URL(request.url);
-    const rawPhone = searchParams.get("phone") || "";
-    const phone = normalizePhone(rawPhone);
+    const rawQuery = searchParams.get("query") || searchParams.get("phone") || searchParams.get("name") || "";
+    const phone = normalizePhone(rawQuery);
+    const name = normalizeName(searchParams.get("name") || rawQuery);
 
-    if (phone.length < 7) {
-      return NextResponse.json({ error: "يرجى إدخال رقم هاتف صحيح" }, { status: 400 });
+    if (phone.length < 7 && name.length < 3) {
+      return NextResponse.json({ error: "أدخل رقم هاتف صحيح أو الاسم الرباعي" }, { status: 400 });
     }
 
-    const candidates = Array.from(new Set([rawPhone.trim(), phone].filter(Boolean)));
-    const { data, error } = await supabaseAdmin
+    let query = supabaseAdmin
       .from("appointments")
       .select("*, doctors(name, city, area, phone, whatsapp)")
-      .in("patient_phone", candidates)
       .order("date", { ascending: false })
       .order("created_at", { ascending: false })
       .limit(30);
+
+    if (phone.length >= 7) {
+      const candidates = Array.from(new Set([rawQuery.trim(), phone].filter(Boolean)));
+      query = query.in("patient_phone", candidates);
+    } else {
+      const pattern = `%${escapeIlike(name)}%`;
+      query = query.or(`patient_full_name.ilike.${pattern},patient_name.ilike.${pattern}`);
+    }
+
+    const { data, error } = await query;
 
     if (error) throw error;
 
