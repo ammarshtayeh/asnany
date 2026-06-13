@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Calendar, Clock, Mail, Trash2, Phone } from "lucide-react";
+import { Calendar, Clock, CreditCard, Mail, Trash2, Phone } from "lucide-react";
 import { AppointmentRecord } from "@/lib/types";
 
 const STATUS_LABELS: Record<string, { label: string; style: string }> = {
@@ -109,6 +109,14 @@ export default function AdminAppointments() {
                         </h3>
                         <span className={`inline-flex items-center rounded-full border px-3 py-0.5 text-xs font-black ${statusInfo.style}`}>
                           {statusInfo.label}
+                        </span>
+                        <span className={`inline-flex items-center gap-1 rounded-full border px-3 py-0.5 text-xs font-black ${
+                          app.discount_card_status === "active"
+                            ? "border-blue-200 bg-blue-50 text-blue-700"
+                            : "border-slate-200 bg-slate-50 text-slate-500"
+                        }`}>
+                          <CreditCard className="h-3.5 w-3.5" />
+                          {app.discount_card_status === "active" ? "مشترك بطاقة الخصم" : "غير مشترك"}
                         </span>
                       </div>
                       <div className="flex flex-wrap gap-4 text-sm font-semibold text-slate-500">

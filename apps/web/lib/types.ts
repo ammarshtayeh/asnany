@@ -137,6 +137,15 @@ export type AppointmentRecord = {
   status: "pending" | "confirmed" | "cancelled" | "completed";
   notes?: string;
   created_at: string;
+  discount_card_status?: "active" | "none";
+  discount_card_member?: {
+    id: string;
+    full_name: string;
+    phone: string;
+    city?: string | null;
+    status: string;
+    expires_at?: string | null;
+  } | null;
 };
 
 export type MedicalServiceType = "beauty" | "lab" | "consultation" | "partner" | "media" | "booking";

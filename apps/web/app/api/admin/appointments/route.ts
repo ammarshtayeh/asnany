@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { isSupabaseConfigured, supabaseAdmin } from "@/lib/supabase";
 import { notifyPatientAboutAppointmentStatus } from "@/lib/notifications";
+import { attachDiscountCardStatus, isMissingDiscountMemberTable } from "@/lib/discount-card-members";
 
 export async function GET() {
   try {
@@ -14,7 +15,20 @@ export async function GET() {
       .order("created_at", { ascending: false });
 
     if (error) throw error;
-    return NextResponse.json({ success: true, appointments: data || [] });
+
+    let appointments = data || [];
+    const { data: members, error: membersError } = await supabaseAdmin
+      .from("discount_card_members")
+      .select("*")
+      .eq("status", "active");
+
+    if (membersError) {
+      if (!isMissingDiscountMemberTable(membersError)) throw membersError;
+    } else {
+      appointments = attachDiscountCardStatus(data || [], members || []);
+    }
+
+    return NextResponse.json({ success: true, appointments });
   } catch (err: any) {
     console.error("Admin appointments list error:", err);
     return NextResponse.json({ error: err.message || "تعذر تحميل المواعيد" }, { status: 500 });

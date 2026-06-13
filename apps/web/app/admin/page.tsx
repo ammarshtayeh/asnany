@@ -90,8 +90,8 @@ export default async function AdminDashboard() {
             <CreditCard className="h-8 w-8" />
           </div>
           <div>
-            <h3 className="text-lg font-black text-slate-950 group-hover:text-blue-600 transition-colors">بطاقة الخصم والباقات</h3>
-            <p className="mt-1 text-xs md:text-sm font-semibold text-slate-500">تعديل أسعار الباقات، المزايا، مدة الاشتراك، وإظهارها للمستخدمين</p>
+            <h3 className="text-lg font-black text-slate-950 group-hover:text-blue-600 transition-colors">طلبات بطاقة الخصم</h3>
+            <p className="mt-1 text-xs md:text-sm font-semibold text-slate-500">مراجعة الطلبات، تفعيل المشتركين، وإظهار حالة البطاقة للطبيب داخل المواعيد</p>
           </div>
         </Link>
       </div>

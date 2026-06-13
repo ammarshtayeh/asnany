@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { ActivityIndicator, Linking, Pressable, ScrollView, Text, View } from "react-native";
+import { ActivityIndicator, Alert, Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { router } from "expo-router";
 import { Feather } from "@expo/vector-icons";
 import { apiFetch } from "../lib/api";
@@ -9,36 +9,23 @@ import { AppButton } from "../components/Buttons";
 import { AppCard } from "../components/AppCard";
 import { AppSubtitle, AppTitle } from "../components/AppText";
 
-type Plan = {
-  id: string;
-  name: string;
-  subtitle?: string | null;
-  price: number;
-  currency: string;
-  duration_months: number;
-  badge?: string | null;
-  benefits: string[];
-  limits?: string[] | null;
-  is_featured: boolean;
-};
-
 export default function DiscountCardScreen() {
   const [doctors, setDoctors] = useState<Doctor[]>([]);
-  const [plans, setPlans] = useState<Plan[]>([]);
+  const [fullName, setFullName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [city, setCity] = useState("");
   const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     (async () => {
       try {
-        const plansResult = await apiFetch<{ plans?: Plan[] }>("/api/discount-card/plans");
-        setPlans(Array.isArray(plansResult.data?.plans) ? plansResult.data.plans : []);
-
         if (!supabase) return;
         const { data, error } = await supabase.from("doctors").select("*").eq("verified", true);
         if (error) throw error;
         setDoctors(data || []);
       } catch (err) {
-        console.error("Error loading discount card:", err);
+        console.error("Error loading discount card doctors:", err);
       } finally {
         setLoading(false);
       }
@@ -49,19 +36,34 @@ export default function DiscountCardScreen() {
     () => doctors.filter((doctor) => doctor.accepts_discount_card || doctor.discount_note || doctor.discount_value),
     [doctors],
   );
-  const featuredPlan = plans.find((plan) => plan.is_featured) || plans[0];
+  const canSubmit = fullName.trim().length >= 3 && phone.replace(/[^0-9]/g, "").length >= 7 && city.trim().length >= 2;
 
-  const activatePlan = (plan: Plan) => {
-    const text = encodeURIComponent(`أرغب بتفعيل ${plan.name}`);
-    void Linking.openURL(`https://wa.me/970599123456?text=${text}`);
+  const submit = async () => {
+    if (!canSubmit) return;
+    setSubmitting(true);
+    const { response, data } = await apiFetch<{ error?: string }>("/api/discount-card/request", {
+      method: "POST",
+      body: JSON.stringify({ full_name: fullName, phone, city }),
+    });
+    setSubmitting(false);
+
+    if (!response.ok) {
+      Alert.alert("تعذر إرسال الطلب", data?.error || "حاول مرة ثانية");
+      return;
+    }
+
+    setFullName("");
+    setPhone("");
+    setCity("");
+    Alert.alert("وصل طلبك", "سنراجع البطاقة ونتواصل معك للتفعيل.");
   };
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: "#f8fafc" }} contentContainerStyle={{ padding: 16, paddingBottom: 120 }}>
       <View style={{ flexDirection: "row-reverse", alignItems: "center", justifyContent: "space-between", marginBottom: 16, backgroundColor: "white", padding: 16, borderRadius: 24, borderWidth: 1, borderColor: "#e2e8f0" }}>
         <View style={{ alignItems: "flex-end", flex: 1 }}>
-          <Text style={{ fontSize: 12, fontWeight: "900", color: "#64748b" }}>خصومات أسناني</Text>
-          <Text style={{ fontSize: 18, fontWeight: "900", color: "#0f172a", marginTop: 4, textAlign: "right" }}>بطاقة رقمية وباقات واضحة</Text>
+          <Text style={{ fontSize: 12, fontWeight: "900", color: "#64748b" }}>بطاقة خصم أسناني</Text>
+          <Text style={{ fontSize: 18, fontWeight: "900", color: "#0f172a", marginTop: 4, textAlign: "right" }}>طلب سريع بدون تعقيد</Text>
         </View>
         <Pressable onPress={() => router.back()} style={{ height: 40, width: 40, borderRadius: 20, backgroundColor: "#f1f5f9", alignItems: "center", justifyContent: "center" }}>
           <Feather name="arrow-right" size={20} color="#0f172a" />
@@ -69,74 +71,22 @@ export default function DiscountCardScreen() {
       </View>
 
       <AppCard>
-        <AppTitle>بطاقة الخصومات</AppTitle>
-        <AppSubtitle>اختر باقة، فعّل البطاقة، واعرضها عند العيادات والمراكز المشاركة لتطبيق الخصم.</AppSubtitle>
-        <View style={{ marginTop: 14, borderRadius: 26, backgroundColor: "#0f172a", padding: 18 }}>
-          <View style={{ flexDirection: "row-reverse", justifyContent: "space-between", alignItems: "center" }}>
-            <Text style={{ color: "#cbd5e1", fontSize: 12, fontWeight: "900" }}>Asnany Plus</Text>
-            <Feather name="credit-card" size={24} color="#fbbf24" />
-          </View>
-          <Text style={{ textAlign: "right", color: "white", fontSize: 24, fontWeight: "900", marginTop: 26 }}>ASN-PLUS-2026</Text>
-          <Text style={{ textAlign: "right", color: "#34d399", marginTop: 6, fontWeight: "900", fontSize: 13 }}>فعالة بعد الاشتراك والتحقق</Text>
-          <View style={{ marginTop: 16, paddingTop: 12, borderTopWidth: 1, borderTopColor: "rgba(255,255,255,0.1)", flexDirection: "row-reverse", justifyContent: "space-between" }}>
-            <Text style={{ color: "#94a3b8", fontWeight: "800", fontSize: 12 }}>{plans.length || 3} باقات</Text>
-            <Text style={{ color: "#94a3b8", fontWeight: "800", fontSize: 12 }}>{participating.length} شريك</Text>
-            <Text style={{ color: "#94a3b8", fontWeight: "800", fontSize: 12 }}>{featuredPlan?.duration_months || 12} شهر</Text>
-          </View>
+        <AppTitle>اطلب بطاقة الخصم</AppTitle>
+        <AppSubtitle>أرسل بياناتك، والأدمن يتابع الطلب ويفعّل البطاقة. بعدها تظهر للطبيب أنك مشترك عند مراجعة الحجز.</AppSubtitle>
+        <View style={{ marginTop: 14, borderRadius: 24, backgroundColor: "#0f172a", padding: 18 }}>
+          <Text style={{ textAlign: "right", color: "#cbd5e1", fontSize: 12, fontWeight: "900" }}>Asnany Discount Card</Text>
+          <Text style={{ textAlign: "right", color: "white", fontSize: 24, fontWeight: "900", marginTop: 18 }}>طلب بطاقة خصم</Text>
+          <Text style={{ textAlign: "right", color: "#34d399", marginTop: 6, fontWeight: "900", fontSize: 13 }}>تظهر للطبيب بعد التفعيل</Text>
         </View>
-      </AppCard>
-
-      <AppCard>
-        <AppTitle style={{ fontSize: 20 }}>الباقات والأسعار</AppTitle>
-        <AppSubtitle>هذه الباقات يتم التحكم بها من لوحة الأدمن وتظهر هنا تلقائياً.</AppSubtitle>
-        {loading ? (
-          <View style={{ paddingVertical: 20 }}>
-            <ActivityIndicator color="#0f172a" />
-          </View>
-        ) : (
-          <View style={{ gap: 12, marginTop: 14 }}>
-            {plans.map((plan) => (
-              <View key={plan.id} style={{ borderRadius: 22, borderWidth: 1, borderColor: plan.is_featured ? "#fbbf24" : "#e2e8f0", backgroundColor: plan.is_featured ? "#fffbeb" : "white", padding: 16 }}>
-                <View style={{ flexDirection: "row-reverse", justifyContent: "space-between", gap: 10 }}>
-                  <View style={{ flex: 1, alignItems: "flex-end" }}>
-                    <Text style={{ color: "#0f172a", fontSize: 18, fontWeight: "900", textAlign: "right" }}>{plan.name}</Text>
-                    {plan.subtitle ? <Text style={{ color: "#64748b", marginTop: 5, fontSize: 12, fontWeight: "700", textAlign: "right", lineHeight: 18 }}>{plan.subtitle}</Text> : null}
-                  </View>
-                  {plan.badge ? (
-                    <View style={{ alignSelf: "flex-start", borderRadius: 999, backgroundColor: "#0f172a", paddingHorizontal: 10, paddingVertical: 6 }}>
-                      <Text style={{ color: "white", fontSize: 11, fontWeight: "900" }}>{plan.badge}</Text>
-                    </View>
-                  ) : null}
-                </View>
-                <Text style={{ textAlign: "right", color: "#0f172a", fontSize: 30, fontWeight: "900", marginTop: 14 }}>
-                  {plan.price} <Text style={{ fontSize: 16, color: "#64748b" }}>{plan.currency}</Text>
-                </Text>
-                <Text style={{ textAlign: "right", color: "#94a3b8", fontSize: 12, fontWeight: "900" }}>صالحة {plan.duration_months} شهر</Text>
-                <View style={{ gap: 8, marginTop: 12 }}>
-                  {plan.benefits.map((benefit) => (
-                    <View key={benefit} style={{ flexDirection: "row-reverse", gap: 8, alignItems: "flex-start" }}>
-                      <Feather name="check-circle" size={15} color="#10b981" style={{ marginTop: 2 }} />
-                      <Text style={{ flex: 1, textAlign: "right", color: "#334155", fontSize: 13, fontWeight: "800", lineHeight: 20 }}>{benefit}</Text>
-                    </View>
-                  ))}
-                </View>
-                <AppButton label="فعّل هذه الباقة" onPress={() => activatePlan(plan)} style={{ marginTop: 14 }} />
-              </View>
-            ))}
-          </View>
-        )}
-      </AppCard>
-
-      <AppCard>
-        <AppTitle style={{ fontSize: 20 }}>كيف تستخدمها؟</AppTitle>
-        <Step number="1" title="اختر الباقة" text="السعر والمدة والمزايا واضحة قبل التفعيل." />
-        <Step number="2" title="فعّل البطاقة" text="تصلك بطاقة رقمية برقم عضوية وحالة اشتراك." />
-        <Step number="3" title="اعرضها للشريك" text="العيادة تتحقق من البطاقة وتطبق الخصم المناسب." />
+        <Field label="الاسم الرباعي" value={fullName} onChangeText={setFullName} />
+        <Field label="رقم الهاتف" value={phone} onChangeText={setPhone} keyboardType="phone-pad" />
+        <Field label="المدينة" value={city} onChangeText={setCity} />
+        <AppButton label={submitting ? "جاري الإرسال..." : "اطلب البطاقة"} onPress={submit} disabled={!canSubmit || submitting} style={{ marginTop: 12 }} />
       </AppCard>
 
       <AppCard>
         <AppTitle style={{ fontSize: 20 }}>العيادات المشاركة</AppTitle>
-        <AppSubtitle>كل شريك هنا يوضح قيمة الخصم أو ملاحظته داخل المنصة.</AppSubtitle>
+        <AppSubtitle>هذه العيادات يظهر لديها خصم البطاقة داخل المنصة.</AppSubtitle>
         {loading ? (
           <View style={{ paddingVertical: 20 }}>
             <ActivityIndicator color="#0f172a" />
@@ -164,16 +114,37 @@ export default function DiscountCardScreen() {
   );
 }
 
-function Step({ number, title, text }: { number: string; title: string; text: string }) {
+function Field({
+  label,
+  value,
+  onChangeText,
+  keyboardType,
+}: {
+  label: string;
+  value: string;
+  onChangeText: (value: string) => void;
+  keyboardType?: "default" | "phone-pad";
+}) {
   return (
-    <View style={{ flexDirection: "row-reverse", gap: 10, marginTop: 12, alignItems: "flex-start" }}>
-      <View style={{ width: 28, height: 28, borderRadius: 14, backgroundColor: "#e0f2fe", alignItems: "center", justifyContent: "center" }}>
-        <Text style={{ color: "#0369a1", fontWeight: "900" }}>{number}</Text>
-      </View>
-      <View style={{ flex: 1, alignItems: "flex-end" }}>
-        <Text style={{ color: "#0f172a", fontWeight: "900", fontSize: 15 }}>{title}</Text>
-        <Text style={{ color: "#64748b", fontWeight: "700", marginTop: 3, lineHeight: 20, textAlign: "right" }}>{text}</Text>
-      </View>
+    <View style={{ marginTop: 12 }}>
+      <Text style={{ textAlign: "right", fontWeight: "900", color: "#64748b", marginBottom: 6, fontSize: 12 }}>{label}</Text>
+      <TextInput
+        value={value}
+        onChangeText={onChangeText}
+        keyboardType={keyboardType}
+        placeholderTextColor="#94a3b8"
+        style={{
+          minHeight: 48,
+          borderRadius: 16,
+          borderWidth: 1,
+          borderColor: "#e2e8f0",
+          backgroundColor: "#f8fafc",
+          paddingHorizontal: 14,
+          textAlign: "right",
+          fontWeight: "700",
+          color: "#0f172a",
+        }}
+      />
     </View>
   );
 }

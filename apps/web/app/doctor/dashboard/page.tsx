@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import {
   Bell,
   CalendarCheck2,
+  CreditCard,
   Clock,
   LogOut,
   MapPin,
@@ -224,6 +225,14 @@ export default function DoctorDashboardPage() {
                     </div>
                     <h3 className="mt-3 text-base font-black text-slate-950">{item.patient_full_name || item.patient_name}</h3>
                     <p className="mt-1 text-xs font-bold text-slate-500 font-mono" dir="ltr">{item.patient_phone}</p>
+                    <span className={`mt-3 inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-[10px] font-black ${
+                      item.discount_card_status === "active"
+                        ? "border-blue-200 bg-blue-50 text-blue-700"
+                        : "border-slate-200 bg-white text-slate-500"
+                    }`}>
+                      <CreditCard className="h-3 w-3" />
+                      {item.discount_card_status === "active" ? "مشترك بطاقة الخصم" : "غير مشترك"}
+                    </span>
                   </div>
                   <div className="mt-4 pt-3 border-t border-slate-200/50">
                     <span className="text-[10px] font-black text-sky-600 bg-sky-50 px-2 py-1 rounded-md">
@@ -292,6 +301,14 @@ export default function DoctorDashboardPage() {
                         <div>
                           <h3 className="text-lg font-black text-slate-900">{item.patient_full_name || item.patient_name}</h3>
                           <p className="mt-1 text-xs md:text-sm font-semibold text-slate-500 font-mono" dir="ltr">{item.patient_phone}</p>
+                          <span className={`mt-3 inline-flex items-center gap-1 rounded-full border px-3 py-1 text-xs font-black ${
+                            item.discount_card_status === "active"
+                              ? "border-blue-200 bg-blue-50 text-blue-700"
+                              : "border-slate-200 bg-slate-50 text-slate-500"
+                          }`}>
+                            <CreditCard className="h-3.5 w-3.5" />
+                            {item.discount_card_status === "active" ? "مشترك بطاقة الخصم" : "غير مشترك"}
+                          </span>
                           <div className="mt-4 space-y-2 text-xs md:text-sm font-medium text-slate-600 bg-slate-50/50 p-3 rounded-xl">
                             <p><span className="font-bold text-slate-700">رقم الهوية:</span> {item.patient_identity || "غير متوفر"}</p>
                             <p><span className="font-bold text-slate-700">العنوان:</span> {item.patient_address || "غير محدد"}</p>

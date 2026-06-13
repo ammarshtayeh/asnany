@@ -218,6 +218,26 @@ ALTER TABLE discount_card_plans ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "public read active discount card plans" ON discount_card_plans FOR SELECT USING (is_active = true);
 CREATE POLICY "admin all discount card plans" ON discount_card_plans USING (true) WITH CHECK (true);
 
+-- Discount Card Members
+CREATE TABLE IF NOT EXISTS discount_card_members (
+  id          UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  full_name   TEXT NOT NULL,
+  phone       TEXT NOT NULL,
+  city        TEXT,
+  status      TEXT NOT NULL DEFAULT 'pending',
+  notes       TEXT,
+  expires_at  DATE,
+  created_at  TIMESTAMPTZ DEFAULT NOW(),
+  updated_at  TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS discount_card_members_phone_idx ON discount_card_members (phone);
+CREATE INDEX IF NOT EXISTS discount_card_members_status_idx ON discount_card_members (status);
+
+ALTER TABLE discount_card_members ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "public request discount card" ON discount_card_members FOR INSERT WITH CHECK (true);
+CREATE POLICY "admin all discount card members" ON discount_card_members USING (true) WITH CHECK (true);
+
 -- Admins Table
 CREATE TABLE admins (
   id          UUID DEFAULT gen_random_uuid() PRIMARY KEY,
