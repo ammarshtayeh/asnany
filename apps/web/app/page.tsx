@@ -260,37 +260,44 @@ export default function Home() {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-slate-950/60 via-slate-950/75 to-slate-950/95" />
         <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/70 to-transparent" />
-        <div className="relative z-10 mx-auto grid min-h-[580px] w-full max-w-[1400px] items-center gap-10 py-4 lg:grid-cols-[minmax(0,1fr)_480px]">
-          <div className="max-w-3xl text-right text-white" dir="rtl">
-            <h1 className="text-4xl font-black leading-[1.15] sm:text-5xl lg:text-6xl tracking-tight">
-              كل ما تحتاجه لصحتك وجمالك.. <span className="text-gradient-gold block sm:inline text-amber-400">في متناول يدك</span>
-            </h1>
-            <p className="mt-6 max-w-2xl text-base font-semibold leading-8 text-slate-200 sm:text-lg">
-              دليلك الطبي والتجميلي الشامل لأطباء الأسنان، العيون، الجلدية، التجميل، والأنف والأذن والحنجرة الأقرب إليك في فلسطين.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-2.5">
-              {TRUST_POINTS.map((item) => (
-                <span key={item.label} className="inline-flex items-center gap-2 rounded-full bg-white/8 px-4 py-2 text-xs font-black text-slate-100 backdrop-blur-sm border border-white/5">
-                  <item.icon className="h-4 w-4 text-amber-400" />
-                  {item.label}
-                </span>
-              ))}
+        <div className="relative z-10 mx-auto grid min-h-[580px] w-full max-w-[1400px] items-center gap-10 py-4 lg:grid-cols-[1fr_480px]">
+          <div className="grid gap-8 lg:grid-cols-[1fr_auto] items-center w-full text-right text-white" dir="rtl">
+            <div className="max-w-xl flex-1">
+              <h1 className="text-4xl font-black leading-[1.15] sm:text-5xl lg:text-6xl tracking-tight">
+                كل ما تحتاجه لصحتك وجمالك.. <span className="text-gradient-gold block sm:inline text-amber-400">في متناول يدك</span>
+              </h1>
+              <p className="mt-6 max-w-2xl text-base font-semibold leading-8 text-slate-200 sm:text-lg">
+                دليلك الطبي والتجميلي الشامل لأطباء الأسنان، العيون، الجلدية، التجميل، والأنف والأذن والحنجرة الأقرب إليك في فلسطين.
+              </p>
+              <div className="mt-8 flex flex-wrap gap-2.5">
+                {TRUST_POINTS.map((item) => (
+                  <span key={item.label} className="inline-flex items-center gap-2 rounded-full bg-white/8 px-4 py-2 text-xs font-black text-slate-100 backdrop-blur-sm border border-white/5">
+                    <item.icon className="h-4 w-4 text-amber-400" />
+                    {item.label}
+                  </span>
+                ))}
+              </div>
+
+              {/* Quick Premium Medical Stats */}
+              <div className="mt-8 grid grid-cols-3 gap-4 border-t border-white/10 pt-8 max-w-xl text-right">
+                <div>
+                  <p className="text-2xl sm:text-3xl font-black text-amber-400">+300</p>
+                  <p className="text-[10px] sm:text-xs font-bold text-slate-300 mt-1">عيادة ومزود خدمة موثق</p>
+                </div>
+                <div>
+                  <p className="text-2xl sm:text-3xl font-black text-amber-400">+15,000</p>
+                  <p className="text-[10px] sm:text-xs font-bold text-slate-300 mt-1">حجز وموعد ناجح</p>
+                </div>
+                <div>
+                  <p className="text-2xl sm:text-3xl font-black text-amber-400">12</p>
+                  <p className="text-[10px] sm:text-xs font-bold text-slate-300 mt-1">محافظة فلسطينية مغطاة</p>
+                </div>
+              </div>
             </div>
 
-            {/* Quick Premium Medical Stats */}
-            <div className="mt-8 grid grid-cols-3 gap-4 border-t border-white/10 pt-8 max-w-xl text-right">
-              <div>
-                <p className="text-2xl sm:text-3xl font-black text-amber-400">+300</p>
-                <p className="text-[10px] sm:text-xs font-bold text-slate-300 mt-1">عيادة ومزود خدمة موثق</p>
-              </div>
-              <div>
-                <p className="text-2xl sm:text-3xl font-black text-amber-400">+15,000</p>
-                <p className="text-[10px] sm:text-xs font-bold text-slate-300 mt-1">حجز وموعد ناجح</p>
-              </div>
-              <div>
-                <p className="text-2xl sm:text-3xl font-black text-amber-400">12</p>
-                <p className="text-[10px] sm:text-xs font-bold text-slate-300 mt-1">محافظة فلسطينية مغطاة</p>
-              </div>
+            {/* Interactive Face Map Search */}
+            <div className="hidden lg:block">
+              <InteractiveFaceMap onSelectSpecialty={setSelectedSpecialty} />
             </div>
           </div>
 
@@ -722,6 +729,185 @@ function EmptyResults({ onReset }: { onReset: () => void }) {
       <button type="button" onClick={onReset} className="mt-5 rounded-xl bg-slate-950 px-5 py-3 text-sm font-black text-white hover:bg-sky-600">
         عرض كل الأطباء
       </button>
+    </div>
+  );
+}
+
+function InteractiveFaceMap({
+  onSelectSpecialty
+}: {
+  onSelectSpecialty: (specialty: string) => void;
+}) {
+  const [hoveredLabel, setHoveredLabel] = useState<string>("");
+
+  const handleClick = (specialty: string) => {
+    onSelectSpecialty(specialty);
+    document.getElementById("doctors")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  return (
+    <div className="flex flex-col items-center bg-slate-900/60 border border-white/10 rounded-[2rem] p-6 backdrop-blur-xl max-w-xs mx-auto shadow-2xl">
+      <div className="relative">
+        <svg
+          viewBox="0 0 400 400"
+          className="w-[240px] h-[240px] select-none"
+        >
+          {/* Base Head Outline (representing general Dermatology/Skin) */}
+          <g
+            className="group cursor-pointer"
+            onClick={() => handleClick("جلدية")}
+            onMouseEnter={() => setHoveredLabel("جلدية (أمراض جلدية وبشرة) 🧴")}
+            onMouseLeave={() => setHoveredLabel("")}
+          >
+            <path
+              d="M 200,60 C 110,60 100,120 100,190 C 100,280 140,340 200,340 C 260,340 300,280 300,190 C 300,120 290,60 200,60 Z"
+              fill="transparent"
+              className="group-hover:fill-amber-500/5 transition-all duration-300"
+            />
+            <path
+              d="M 200,60 C 110,60 100,120 100,190 C 100,280 140,340 200,340 C 260,340 300,280 300,190 C 300,120 290,60 200,60 Z"
+              fill="none"
+              stroke="#475569"
+              strokeWidth="2"
+              className="group-hover:stroke-amber-400 group-hover:strokeWidth-[3] transition-all duration-300"
+              strokeDasharray="6 4"
+            />
+          </g>
+
+          {/* Ears & Nose (representing ENT) */}
+          <g
+            className="group cursor-pointer"
+            onClick={() => handleClick("أنف وأذن وحنجرة")}
+            onMouseEnter={() => setHoveredLabel("أنف وأذن وحنجرة 👂")}
+            onMouseLeave={() => setHoveredLabel("")}
+          >
+            <path
+              d="M 100,150 C 75,150 75,230 100,230"
+              fill="none"
+              stroke="#64748b"
+              strokeWidth="2.5"
+              className="group-hover:stroke-amber-400 group-hover:strokeWidth-[3.5] transition-all duration-300"
+            />
+            <path
+              d="M 300,150 C 325,150 325,230 300,230"
+              fill="none"
+              stroke="#64748b"
+              strokeWidth="2.5"
+              className="group-hover:stroke-amber-400 group-hover:strokeWidth-[3.5] transition-all duration-300"
+            />
+            <path
+              d="M 200,175 L 192,230 C 192,238 208,238 208,230 Z"
+              fill="none"
+              stroke="#64748b"
+              strokeWidth="2.5"
+              className="group-hover:stroke-amber-400 group-hover:strokeWidth-[3.5] transition-all duration-300"
+            />
+          </g>
+
+          {/* Eyes (representing Ophthalmology) */}
+          <g
+            className="group cursor-pointer"
+            onClick={() => handleClick("عيون")}
+            onMouseEnter={() => setHoveredLabel("عيون (طب وجراحة العيون) 👁️")}
+            onMouseLeave={() => setHoveredLabel("")}
+          >
+            <ellipse
+              cx="150"
+              cy="150"
+              rx="20"
+              ry="10"
+              fill="none"
+              stroke="#cbd5e1"
+              strokeWidth="2.5"
+              className="group-hover:stroke-amber-400 group-hover:strokeWidth-[3.5] transition-all duration-300"
+            />
+            <circle
+              cx="150"
+              cy="150"
+              r="6"
+              fill="#cbd5e1"
+              className="group-hover:fill-amber-400 transition-all duration-300"
+            />
+            <ellipse
+              cx="250"
+              cy="150"
+              rx="20"
+              ry="10"
+              fill="none"
+              stroke="#cbd5e1"
+              strokeWidth="2.5"
+              className="group-hover:stroke-amber-400 group-hover:strokeWidth-[3.5] transition-all duration-300"
+            />
+            <circle
+              cx="250"
+              cy="150"
+              r="6"
+              fill="#cbd5e1"
+              className="group-hover:fill-amber-400 transition-all duration-300"
+            />
+          </g>
+
+          {/* Cheeks (representing Cosmetics) */}
+          <g
+            className="group cursor-pointer"
+            onClick={() => handleClick("تجميل")}
+            onMouseEnter={() => setHoveredLabel("تجميل (فيلر وبوتوكس للوجه) ✨")}
+            onMouseLeave={() => setHoveredLabel("")}
+          >
+            <circle
+              cx="140"
+              cy="200"
+              r="14"
+              fill="rgba(245,158,11,0.02)"
+              stroke="rgba(245,158,11,0.2)"
+              strokeWidth="1.5"
+              className="group-hover:fill-amber-500/10 group-hover:stroke-amber-400/60 transition-all duration-300"
+              strokeDasharray="3 3"
+            />
+            <circle
+              cx="260"
+              cy="200"
+              r="14"
+              fill="rgba(245,158,11,0.02)"
+              stroke="rgba(245,158,11,0.2)"
+              strokeWidth="1.5"
+              className="group-hover:fill-amber-500/10 group-hover:stroke-amber-400/60 transition-all duration-300"
+              strokeDasharray="3 3"
+            />
+          </g>
+
+          {/* Mouth/Teeth (representing Dental) */}
+          <g
+            className="group cursor-pointer"
+            onClick={() => handleClick("أسنان")}
+            onMouseEnter={() => setHoveredLabel("أسنان (تجميل وزراعة وتقويم) 🦷")}
+            onMouseLeave={() => setHoveredLabel("")}
+          >
+            <path
+              d="M 160,270 Q 200,285 240,270 Q 200,310 160,270 Z"
+              fill="none"
+              stroke="#94a3b8"
+              strokeWidth="2.5"
+              className="group-hover:stroke-amber-400 group-hover:strokeWidth-[3.5] transition-all duration-300"
+            />
+            <path
+              d="M 170,274 Q 200,282 230,274"
+              fill="none"
+              stroke="#e2e8f0"
+              strokeWidth="1.5"
+              className="group-hover:stroke-amber-200 transition-all duration-300"
+            />
+          </g>
+        </svg>
+      </div>
+
+      <div className="text-center h-10 flex items-center justify-center mt-2">
+        {hoveredLabel ? (
+          <span className="text-xs font-black text-amber-400 animate-pulse tracking-wide">{hoveredLabel}</span>
+        ) : (
+          <span className="text-[10px] font-black text-slate-400 leading-relaxed">انقر للتصفية السريعة والبحث الذكي 👆</span>
+        )}
+      </div>
     </div>
   );
 }
