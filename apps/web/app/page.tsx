@@ -386,27 +386,34 @@ export default function Home() {
 
       <main className="mx-auto w-full max-w-[1400px] px-4 py-8 lg:px-8">
         {/* Floating Quick Categories by Specialty */}
-        <section className="-mt-20 sm:-mt-24 mb-12 flex gap-4 overflow-x-auto pb-4 relative z-20 hide-scrollbar md:justify-center px-4 lg:px-0 scroll-smooth" dir="rtl">
-          {QUICK_CATEGORIES.map((category) => (
-            <button
-              key={category.id}
-              type="button"
-              onClick={() => {
-                setSelectedSpecialty(selectedSpecialty === category.label ? "" : category.label);
-                document.getElementById("doctors")?.scrollIntoView({ behavior: "smooth", block: "start" });
-              }}
-              className={`min-w-[130px] flex-shrink-0 min-h-26 rounded-3xl border p-4 text-center transition-all duration-500 shadow-md ${
-                selectedSpecialty === category.label 
-                  ? "border-amber-500/85 bg-white scale-105 ring-4 ring-amber-100 shadow-[0_12px_24px_rgba(217,119,6,0.12)]" 
-                  : "border-slate-200/60 bg-white/80 backdrop-blur-md hover:border-amber-300/80 hover:bg-white hover:-translate-y-1.5 hover:shadow-xl"
-              }`}
-            >
-              <span className={`mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-2xl ${category.bg} ${category.color} shadow-sm border border-slate-100`}>
-                <category.icon className="h-6 w-6" />
-              </span>
-              <span className="text-sm font-black text-slate-900">{category.label}</span>
-            </button>
-          ))}
+        <section className="-mt-10 sm:-mt-12 mb-12 flex flex-wrap justify-center gap-3 px-4 relative z-20" dir="rtl">
+          {QUICK_CATEGORIES.map((category) => {
+            const isSelected = selectedSpecialty === category.label;
+            return (
+              <button
+                key={category.id}
+                type="button"
+                onClick={() => {
+                  setSelectedSpecialty(isSelected ? "" : category.label);
+                  document.getElementById("doctors")?.scrollIntoView({ behavior: "smooth", block: "start" });
+                }}
+                className={`flex items-center gap-3 rounded-2xl border px-5 py-3 transition-all duration-300 shadow-md hover:-translate-y-0.5 ${
+                  isSelected 
+                    ? "border-amber-500 bg-amber-500 text-white shadow-[0_8px_20px_rgba(245,158,11,0.25)] scale-105" 
+                    : "border-slate-200/60 bg-white/90 backdrop-blur-md hover:border-amber-300 hover:bg-white text-slate-800 hover:shadow-lg"
+                }`}
+              >
+                <span className={`flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl border transition-colors ${
+                  isSelected 
+                    ? "bg-white/20 border-white/10 text-white" 
+                    : `${category.bg} ${category.color} border-slate-100 shadow-sm`
+                }`}>
+                  <category.icon className="h-5 w-5" />
+                </span>
+                <span className="text-sm font-black whitespace-nowrap">{category.label}</span>
+              </button>
+            );
+          })}
         </section>
 
         {/* Doctors Section (#doctors) */}
