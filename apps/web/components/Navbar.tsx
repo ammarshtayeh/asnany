@@ -7,6 +7,7 @@ import {
   BookOpen,
   CalendarCheck2,
   ClipboardList,
+  CreditCard,
   Home,
   Menu,
   Microscope,
@@ -72,6 +73,13 @@ const links = [
     active: "bg-sky-50 text-sky-700 border-sky-100",
   },
   {
+    href: "/discount-card",
+    label: "بطاقة الخصم",
+    icon: CreditCard,
+    color: "text-blue-600",
+    active: "bg-blue-50 text-blue-700 border-blue-100",
+  },
+  {
     href: "/blog",
     label: "المجلة",
     icon: BookOpen,
@@ -92,7 +100,7 @@ const mobilePrimaryLinks = [
   { href: "/#doctors", label: "بحث", icon: Search },
   { href: "/booking", label: "حجز", icon: CalendarCheck2 },
   { href: "/offers", label: "عروض", icon: Tags },
-  { href: "/appointments", label: "حجوزاتي", icon: ClipboardList },
+  { href: "/discount-card", label: "خصم", icon: CreditCard },
 ];
 
 export default function Navbar() {

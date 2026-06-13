@@ -1,4 +1,4 @@
-import { Users, Calendar, Megaphone, CheckCircle2, Store, Sparkles, KeyRound, UserCheck, ShieldAlert, BadgeCheck } from "lucide-react";
+import { Users, Calendar, Megaphone, CheckCircle2, Store, Sparkles, KeyRound, UserCheck, ShieldAlert, BadgeCheck, CreditCard } from "lucide-react";
 import Link from "next/link";
 import { getDoctors, getAdvertisements, getStores, getAppointments, getMedicalServices } from "@/lib/data";
 
@@ -57,7 +57,7 @@ export default async function AdminDashboard() {
       </div>
 
       {/* Quick Management Shortcuts */}
-      <div className="mb-10 grid gap-6 sm:grid-cols-2">
+      <div className="mb-10 grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
         <Link 
           href="/admin/doctors" 
           className="group flex items-center gap-5 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-sky-300 hover:shadow-lg hover:shadow-sky-500/5"
@@ -80,6 +80,18 @@ export default async function AdminDashboard() {
           <div>
             <h3 className="text-lg font-black text-slate-950 group-hover:text-emerald-600 transition-colors">حسابات دخول الأطباء</h3>
             <p className="mt-1 text-xs md:text-sm font-semibold text-slate-500">إدارة حسابات الدخول وكلمات المرور الخاصة بالأطباء لتعديل عياداتهم</p>
+          </div>
+        </Link>
+        <Link
+          href="/admin/discount-card"
+          className="group flex items-center gap-5 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-blue-300 hover:shadow-lg hover:shadow-blue-500/5"
+        >
+          <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-blue-50 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300">
+            <CreditCard className="h-8 w-8" />
+          </div>
+          <div>
+            <h3 className="text-lg font-black text-slate-950 group-hover:text-blue-600 transition-colors">بطاقة الخصم والباقات</h3>
+            <p className="mt-1 text-xs md:text-sm font-semibold text-slate-500">تعديل أسعار الباقات، المزايا، مدة الاشتراك، وإظهارها للمستخدمين</p>
           </div>
         </Link>
       </div>
