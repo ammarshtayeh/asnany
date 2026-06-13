@@ -12,10 +12,12 @@ import {
   Linking,
   StyleSheet,
   ActivityIndicator,
+  Image,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { supabase } from "../lib/supabase";
 
 const { height: SCREEN_HEIGHT, width: SCREEN_WIDTH } = Dimensions.get("window");
 
@@ -25,6 +27,8 @@ interface Message {
   ctaLink?: string;
   ctaLabel?: string;
   ctaIcon?: "offer" | "booking" | "beauty" | "labs" | "marketplace" | "blog";
+  doctors?: any[];
+  chips?: { label: string; q: string }[];
 }
 
 const SERVICE_PILLS = [
@@ -186,6 +190,114 @@ function getBotResponse(text: string): Omit<Message, "sender"> {
   };
 }
 
+const PALESTINIAN_CITIES = [
+  "رام الله", "نابلس", "الخليل", "جنين", "بيت لحم", "طولكرم", "قلقيلية", "أريحا", "غزة", "القدس", "سلفيت", "طوباس"
+];
+
+const medicalCategories = [
+  { keywords: [/أسنان|ضرس|تقويم|زراعة|حشو|طواحين|خلع/i], category: "أسنان", label: "طب الأسنان" },
+  { keywords: [/عيون|نظر|ليزك|بصر|عدسات/i], category: "عيون", label: "طب وجراحة العيون" },
+  { keywords: [/أنف|أذن|حنجرة|سمع|بلعوم|طنين|جيوب/i], category: "أنف وأذن وحنجرة", label: "أنف وأذن وحنجرة" },
+  { keywords: [/جلدية|حبوب|بشرة|اكزيما|شعر|صدفية/i], category: "جلدية", label: "أمراض الجلدية وبشرة" },
+  { keywords: [/تجميل|فيلر|بوتوكس|بلازما|تخسيس/i], category: "تجميل", label: "التجميل والليزر" },
+];
+
+const SPECIALTY_CHIPS = [
+  { label: "🦷 أسنان", q: "أريد طبيب أسنان" },
+  { label: "👁️ عيون", q: "أريد طبيب عيون" },
+  { label: "🧴 بشرة وجلدية", q: "أريد طبيب جلدية وبشرة" },
+  { label: "✨ تجميل وفيلر", q: "أريد مركز تجميل وفيلر" },
+  { label: "👂 أنف وأذن", q: "أريد طبيب أنف وأذن وحنجرة" }
+];
+
+const CITY_CHIPS = [
+  { label: "📍 رام الله", q: "في رام الله" },
+  { label: "📍 نابلس", q: "في نابلس" },
+  { label: "📍 الخليل", q: "في الخليل" },
+  { label: "📍 القدس", q: "في القدس" },
+  { label: "📍 جنين", q: "في جنين" },
+  { label: "📍 بيت لحم", q: "في بيت لحم" },
+  { label: "📍 طولكرم", q: "في طولكرم" }
+];
+
+async function getBotResponseAsync(
+  text: string,
+  chatContext: { city?: string; category?: string },
+  setChatContext: (ctx: { city?: string; category?: string }) => void
+): Promise<Omit<Message, "sender">> {
+  const t = text;
+
+  // 1. Detect parameters
+  const detectedCity = PALESTINIAN_CITIES.find(city => t.includes(city));
+  const detectedCatObj = medicalCategories.find(item => item.keywords.some(rx => rx.test(t)));
+
+  const currentCity = detectedCity || chatContext.city;
+  const currentCategory = detectedCatObj?.category || chatContext.category;
+  const currentCategoryLabel = detectedCatObj?.label || (currentCategory ? medicalCategories.find(c => c.category === currentCategory)?.label : undefined);
+
+  // Update context if anything detected
+  if (detectedCity || detectedCatObj) {
+    setChatContext({
+      city: currentCity,
+      category: currentCategory
+    });
+  }
+
+  // Case A: We have both parameters!
+  if (currentCity && currentCategory) {
+    if (supabase) {
+      try {
+        const { data, error } = await supabase
+          .from("doctors")
+          .select("id, name, specialty, city, image_url, whatsapp, phone")
+          .eq("verified", true)
+          .eq("city", currentCity)
+          .eq("category", currentCategory)
+          .limit(3);
+
+        if (!error && data && data.length > 0) {
+          // Clear context since search is successful
+          setChatContext({});
+          return {
+            text: `لقد وجدت لك ${data.length} من أطباء/عيادات (${currentCategoryLabel}) المعتمدين في مدينة (${currentCity}). يمكنك التواصل معهم أو حجز موعد مباشرة:`,
+            doctors: data
+          };
+        }
+      } catch (err) {
+        console.error("Supabase query error:", err);
+      }
+    }
+    
+    // Fallback if no database or zero results
+    setChatContext({});
+    return {
+      text: `لم أجد حالياً أطباء معتمدين في تخصص (${currentCategoryLabel}) بمدينة (${currentCity}) في قاعدة البيانات. يمكنك البحث في مدينة أخرى أو تصفح الأطباء.`,
+      ctaLink: "/#doctors",
+      ctaLabel: "تصفح جميع الأطباء",
+      ctaIcon: "booking"
+    };
+  }
+
+  // Case B: We have city but need category
+  if (currentCity && !currentCategory) {
+    return {
+      text: `لقد حددت مدينة (${currentCity}) 📍. ما هو التخصص الطبي أو التجميلي الذي تبحث عنه؟`,
+      chips: SPECIALTY_CHIPS
+    };
+  }
+
+  // Case C: We have category but need city
+  if (!currentCity && currentCategory) {
+    return {
+      text: `لقد حددت تخصص (${currentCategoryLabel}) 🩺. في أي مدينة فلسطينية تبحث عن الطبيب؟`,
+      chips: CITY_CHIPS
+    };
+  }
+
+  // Default: Use static responses from fallback getBotResponse
+  return getBotResponse(t);
+}
+
 interface AIChatbotProps {
   onNavigateTab?: (
     tab: "home" | "doctors" | "map" | "services" | "more",
@@ -283,18 +395,27 @@ export function AIChatbot({ onNavigateTab }: AIChatbotProps) {
     });
   };
 
-  const sendMessage = (textToSend: string) => {
+  const [chatContext, setChatContext] = useState<{ city?: string; category?: string }>({});
+
+  const sendMessage = async (textToSend: string) => {
     if (!textToSend.trim()) return;
 
     setMessages((prev) => [...prev, { sender: "user", text: textToSend }]);
     setInput("");
     setIsTyping(true);
 
-    setTimeout(() => {
-      setIsTyping(false);
-      const response = getBotResponse(textToSend);
-      setMessages((prev) => [...prev, { sender: "bot", ...response }]);
-    }, 1000 + Math.random() * 500);
+    setTimeout(async () => {
+      try {
+        const response = await getBotResponseAsync(textToSend, chatContext, setChatContext);
+        setMessages((prev) => [...prev, { sender: "bot", ...response }]);
+      } catch (error) {
+        console.error("Error in mobile bot async response:", error);
+        const fallback = getBotResponse(textToSend);
+        setMessages((prev) => [...prev, { sender: "bot", ...fallback }]);
+      } finally {
+        setIsTyping(false);
+      }
+    }, 800 + Math.random() * 400);
   };
 
   const handleCtaClick = (ctaLink: string, ctaIcon: string) => {
@@ -472,6 +593,47 @@ export function AIChatbot({ onNavigateTab }: AIChatbotProps) {
                           {msg.text}
                         </Text>
 
+                        {/* Dynamic Doctor Cards */}
+                        {msg.doctors && msg.doctors.length > 0 && (
+                          <View style={styles.doctorsContainer}>
+                            {msg.doctors.map((doc: any) => (
+                              <View key={doc.id} style={styles.doctorCardMini}>
+                                {doc.image_url ? (
+                                  <Image source={{ uri: doc.image_url }} style={styles.doctorAvatarMini} />
+                                ) : (
+                                  <View style={styles.doctorAvatarFallbackMini}>
+                                    <Text style={{ fontSize: 16 }}>🧑‍⚕️</Text>
+                                  </View>
+                                )}
+                                <View style={styles.doctorInfoMini}>
+                                  <Text style={styles.doctorNameMini}>{doc.name}</Text>
+                                  <Text style={styles.doctorSpecialtyMini}>{(doc.specialty || []).join(" · ")}</Text>
+                                  <Text style={styles.doctorCityMini}>📍 {doc.city}</Text>
+                                </View>
+                                <View style={styles.doctorActionsMini}>
+                                  <Pressable
+                                    onPress={() => {
+                                      handleClose();
+                                      router.push(`/doctor/${doc.id}` as any);
+                                    }}
+                                    style={styles.doctorBtnMini}
+                                  >
+                                    <Text style={styles.doctorBtnTextMini}>الملف</Text>
+                                  </Pressable>
+                                  {doc.whatsapp && (
+                                    <Pressable
+                                      onPress={() => Linking.openURL(`https://wa.me/${doc.whatsapp.replace(/[^0-9]/g, '')}`)}
+                                      style={[styles.doctorBtnMini, { backgroundColor: "#10b981", marginTop: 4 }]}
+                                    >
+                                      <Text style={styles.doctorBtnTextMini}>واتساب</Text>
+                                    </Pressable>
+                                  )}
+                                </View>
+                              </View>
+                            ))}
+                          </View>
+                        )}
+
                         {/* CTA BUTTON */}
                         {msg.ctaLink && msg.ctaLabel && msg.ctaIcon && (
                           <View style={styles.ctaWrapper}>
@@ -532,7 +694,10 @@ export function AIChatbot({ onNavigateTab }: AIChatbotProps) {
                   contentContainerStyle={styles.chipsScrollContent}
                   style={{ flexDirection: "row-reverse" }}
                 >
-                  {QUICK_CHIPS.map((chip) => (
+                  {((messages[messages.length - 1]?.sender === "bot" && messages[messages.length - 1]?.chips)
+                    ? messages[messages.length - 1].chips
+                    : QUICK_CHIPS
+                  )?.map((chip) => (
                     <Pressable
                       key={chip.label}
                       onPress={() => sendMessage(chip.q)}
@@ -949,5 +1114,75 @@ const styles = StyleSheet.create({
     fontSize: 9,
     fontWeight: "600",
     color: "#64748b",
+  },
+  doctorsContainer: {
+    marginTop: 10,
+    gap: 8,
+    width: "100%",
+  },
+  doctorCardMini: {
+    backgroundColor: "#0f172a",
+    borderWidth: 1,
+    borderColor: "#334155",
+    borderRadius: 14,
+    padding: 10,
+    flexDirection: "row-reverse",
+    alignItems: "center",
+    gap: 10,
+    width: "100%",
+  },
+  doctorAvatarMini: {
+    width: 40,
+    height: 40,
+    borderRadius: 8,
+  },
+  doctorAvatarFallbackMini: {
+    width: 40,
+    height: 40,
+    borderRadius: 8,
+    backgroundColor: "#1e293b",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  doctorInfoMini: {
+    flex: 1,
+    alignItems: "flex-end",
+  },
+  doctorNameMini: {
+    fontSize: 11,
+    fontWeight: "900",
+    color: "#ffffff",
+    textAlign: "right",
+  },
+  doctorSpecialtyMini: {
+    fontSize: 9,
+    fontWeight: "800",
+    color: "#10b981",
+    marginTop: 2,
+    textAlign: "right",
+  },
+  doctorCityMini: {
+    fontSize: 9,
+    fontWeight: "700",
+    color: "#64748b",
+    marginTop: 1,
+    textAlign: "right",
+  },
+  doctorActionsMini: {
+    flexDirection: "column",
+    gap: 4,
+  },
+  doctorBtnMini: {
+    backgroundColor: "#334155",
+    borderRadius: 6,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    minWidth: 50,
+    alignItems: "center",
+  },
+  doctorBtnTextMini: {
+    color: "#ffffff",
+    fontSize: 9,
+    fontWeight: "900",
   },
 });

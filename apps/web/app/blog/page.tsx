@@ -7,9 +7,19 @@ import { ArrowRight, ArrowLeft, BookOpen, Calendar, Clock, UserCircle2 } from "l
 import { Article } from "@/lib/types";
 import { getArticles } from "@/lib/data";
 
+const BLOG_CATEGORIES = [
+  "الكل",
+  "بسمتك وصحة فمك",
+  "بشرتك ونضارتها",
+  "لمسات الجمال",
+  "رؤية واضحة",
+  "تنفس سليم"
+];
+
 export default function BlogPage() {
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState<string>("الكل");
 
   useEffect(() => {
     getArticles().then((data) => {
@@ -18,8 +28,12 @@ export default function BlogPage() {
     });
   }, []);
 
-  const lead = articles[0];
-  const rest = articles.slice(1);
+  const filteredArticles = selectedCategory === "الكل"
+    ? articles
+    : articles.filter(art => art.category === selectedCategory);
+
+  const lead = filteredArticles[0];
+  const rest = filteredArticles.slice(1);
 
   return (
     <main className="min-h-screen bg-[#f7fafc] pb-24 pt-24" dir="rtl">
@@ -49,6 +63,23 @@ export default function BlogPage() {
             <p className="text-3xl font-black text-slate-950">{articles.length || 0}</p>
             <p className="mt-1 text-sm font-bold text-slate-500">مقال وخبر</p>
           </div>
+        </div>
+
+        {/* Category Filters */}
+        <div className="mb-10 flex flex-wrap justify-center md:justify-start gap-2.5" dir="rtl">
+          {BLOG_CATEGORIES.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setSelectedCategory(cat)}
+              className={`rounded-2xl px-5 py-3 text-xs md:text-sm font-black transition-all hover:scale-[1.02] active:scale-95 border ${
+                selectedCategory === cat
+                  ? "bg-slate-950 border-slate-950 text-white shadow-lg"
+                  : "bg-white border-slate-200 text-slate-700 hover:bg-slate-50"
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
         </div>
 
         {loading ? (

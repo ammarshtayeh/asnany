@@ -437,7 +437,20 @@ function ArticleFields({ form, setForm }: { form: Record<string, any>; setForm: 
   return (
     <>
       <Field label="عنوان المقال/الخبر" name="title" form={form} setForm={setForm} required />
-      <Field label="التصنيف" name="category" form={form} setForm={setForm} />
+      <label className="space-y-1">
+        <span className="text-sm font-black text-slate-700">التصنيف *</span>
+        <select
+          value={form.category || "بسمتك وصحة فمك"}
+          onChange={(event) => setForm({ ...form, category: event.target.value })}
+          className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-bold outline-none focus:ring-2 focus:ring-sky-500"
+        >
+          <option value="بسمتك وصحة فمك">بسمتك وصحة فمك (الأسنان)</option>
+          <option value="بشرتك ونضارتها">بشرتك ونضارتها (الجلدية والليزر)</option>
+          <option value="لمسات الجمال">لمسات الجمال (التجميل، فيلر، بوتوكس)</option>
+          <option value="رؤية واضحة">رؤية واضحة (العيون والبصريات)</option>
+          <option value="تنفس سليم">تنفس سليم (أنف وأذن وحنجرة)</option>
+        </select>
+      </label>
       <Field label="اسم الكاتب/الطبيب" name="doctor_name" form={form} setForm={setForm} required />
       <Field label="معرف الطبيب (اختياري)" name="doctor_id" form={form} setForm={setForm} />
       <AdminImageUpload

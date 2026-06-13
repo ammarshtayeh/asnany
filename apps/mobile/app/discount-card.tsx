@@ -55,7 +55,14 @@ export default function DiscountCardScreen() {
         <View style={{ marginTop: 14, borderRadius: 26, backgroundColor: "#0f172a", padding: 18 }}>
           <Text style={{ textAlign: "right", color: "#cbd5e1", fontSize: 12, fontWeight: "800" }}>Malamih Discount Card</Text>
           <Text style={{ textAlign: "right", color: "white", fontSize: 24, fontWeight: "900", marginTop: 10 }}>MLM-DC-2026-001</Text>
-          <Text style={{ textAlign: "right", color: "#93c5fd", marginTop: 6, fontWeight: "700" }}>تفعيل الخصومات في الأطباء المشتركين</Text>
+          <Text style={{ textAlign: "right", color: "#34d399", marginTop: 6, fontWeight: "800", fontSize: 13 }}>تفعيل الخصومات في الأطباء والعيادات المشتركة</Text>
+          <View style={{ flexDirection: "row", justifyContent: "flex-end", gap: 12, marginTop: 14, borderTopWidth: 1, borderTopColor: "rgba(255,255,255,0.1)", paddingTop: 10 }}>
+            <Text style={{ fontSize: 16 }}>🦷</Text>
+            <Text style={{ fontSize: 16 }}>🧴</Text>
+            <Text style={{ fontSize: 16 }}>✨</Text>
+            <Text style={{ fontSize: 16 }}>👁️</Text>
+            <Text style={{ fontSize: 16 }}>👂</Text>
+          </View>
         </View>
 
         <View style={{ flexDirection: "row", gap: 10, flexWrap: "wrap", justifyContent: "flex-end", marginTop: 12 }}>

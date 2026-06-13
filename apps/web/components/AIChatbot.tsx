@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 
 interface Message {
   sender: "bot" | "user";
@@ -14,6 +15,8 @@ interface Message {
   ctaLink?: string;
   ctaLabel?: string;
   ctaIcon?: "offer" | "booking" | "beauty" | "labs" | "marketplace" | "blog";
+  doctors?: any[];
+  chips?: { label: string; q: string }[];
 }
 
 const SERVICE_PILLS = [
@@ -101,6 +104,114 @@ function getBotResponse(text: string): Omit<Message, "sender"> {
   };
 }
 
+const PALESTINIAN_CITIES = [
+  "رام الله", "نابلس", "الخليل", "جنين", "بيت لحم", "طولكرم", "قلقيلية", "أريحا", "غزة", "القدس", "سلفيت", "طوباس"
+];
+
+const medicalCategories = [
+  { keywords: [/أسنان|ضرس|تقويم|زراعة|حشو|طواحين|خلع/i], category: "أسنان", label: "طب الأسنان" },
+  { keywords: [/عيون|نظر|ليزك|بصر|عدسات/i], category: "عيون", label: "طب وجراحة العيون" },
+  { keywords: [/أنف|أذن|حنجرة|سمع|بلعوم|طنين|جيوب/i], category: "أنف وأذن وحنجرة", label: "أنف وأذن وحنجرة" },
+  { keywords: [/جلدية|حبوب|بشرة|اكزيما|شعر|صدفية/i], category: "جلدية", label: "أمراض الجلدية وبشرة" },
+  { keywords: [/تجميل|فيلر|بوتوكس|بلازما|تخسيس/i], category: "تجميل", label: "التجميل والليزر" },
+];
+
+const SPECIALTY_CHIPS = [
+  { label: "🦷 أسنان", q: "أريد طبيب أسنان" },
+  { label: "👁️ عيون", q: "أريد طبيب عيون" },
+  { label: "🧴 بشرة وجلدية", q: "أريد طبيب جلدية وبشرة" },
+  { label: "✨ تجميل وفيلر", q: "أريد مركز تجميل وفيلر" },
+  { label: "👂 أنف وأذن", q: "أريد طبيب أنف وأذن وحنجرة" }
+];
+
+const CITY_CHIPS = [
+  { label: "📍 رام الله", q: "في رام الله" },
+  { label: "📍 نابلس", q: "في نابلس" },
+  { label: "📍 الخليل", q: "في الخليل" },
+  { label: "📍 القدس", q: "في القدس" },
+  { label: "📍 جنين", q: "في جنين" },
+  { label: "📍 بيت لحم", q: "في بيت لحم" },
+  { label: "📍 طولكرم", q: "في طولكرم" }
+];
+
+async function getBotResponseAsync(
+  text: string,
+  chatContext: { city?: string; category?: string },
+  setChatContext: (ctx: { city?: string; category?: string }) => void
+): Promise<Omit<Message, "sender">> {
+  const t = text;
+
+  // 1. Detect parameters
+  const detectedCity = PALESTINIAN_CITIES.find(city => t.includes(city));
+  const detectedCatObj = medicalCategories.find(item => item.keywords.some(rx => rx.test(t)));
+
+  const currentCity = detectedCity || chatContext.city;
+  const currentCategory = detectedCatObj?.category || chatContext.category;
+  const currentCategoryLabel = detectedCatObj?.label || (currentCategory ? medicalCategories.find(c => c.category === currentCategory)?.label : undefined);
+
+  // Update context if anything detected
+  if (detectedCity || detectedCatObj) {
+    setChatContext({
+      city: currentCity,
+      category: currentCategory
+    });
+  }
+
+  // Case A: We have both parameters!
+  if (currentCity && currentCategory) {
+    if (isSupabaseConfigured) {
+      try {
+        const { data, error } = await supabase
+          .from("doctors")
+          .select("id, name, specialty, city, image_url, whatsapp, phone")
+          .eq("verified", true)
+          .eq("city", currentCity)
+          .eq("category", currentCategory)
+          .limit(3);
+
+        if (!error && data && data.length > 0) {
+          // Clear context since search is successful
+          setChatContext({});
+          return {
+            text: `لقد وجدت لك ${data.length} من أطباء/عيادات (${currentCategoryLabel}) المعتمدين في مدينة (${currentCity}). يمكنك التواصل معهم أو حجز موعد مباشرة:`,
+            doctors: data
+          };
+        }
+      } catch (err) {
+        console.error("Supabase query error:", err);
+      }
+    }
+    
+    // Fallback if no database or zero results
+    setChatContext({});
+    return {
+      text: `لم أجد حالياً أطباء معتمدين في تخصص (${currentCategoryLabel}) بمدينة (${currentCity}) في قاعدة البيانات. يمكنك البحث في مدينة أخرى أو تصفح الأطباء.`,
+      ctaLink: "/#doctors",
+      ctaLabel: "تصفح جميع الأطباء",
+      ctaIcon: "booking"
+    };
+  }
+
+  // Case B: We have city but need category
+  if (currentCity && !currentCategory) {
+    return {
+      text: `لقد حددت مدينة (${currentCity}) 📍. ما هو التخصص الطبي أو التجميلي الذي تبحث عنه؟`,
+      chips: SPECIALTY_CHIPS
+    };
+  }
+
+  // Case C: We have category but need city
+  if (!currentCity && currentCategory) {
+    return {
+      text: `لقد حددت تخصص (${currentCategoryLabel}) 🩺. في أي مدينة فلسطينية تبحث عن الطبيب؟`,
+      chips: CITY_CHIPS
+    };
+  }
+
+  // Default: Use static responses from fallback getBotResponse
+  return getBotResponse(t);
+}
+
 export default function AIChatbot() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
@@ -113,6 +224,8 @@ export default function AIChatbot() {
   const [isVisible, setIsVisible] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const pillsRef = useRef<HTMLDivElement>(null);
+
+  const [chatContext, setChatContext] = useState<{ city?: string; category?: string }>({});
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -127,16 +240,24 @@ export default function AIChatbot() {
     }
   }, [isOpen]);
 
-  const sendMessage = (textToSend: string) => {
+  const sendMessage = async (textToSend: string) => {
     if (!textToSend.trim()) return;
     setMessages(prev => [...prev, { sender: "user", text: textToSend }]);
     setInput("");
     setIsTyping(true);
-    setTimeout(() => {
-      setIsTyping(false);
-      const response = getBotResponse(textToSend);
-      setMessages(prev => [...prev, { sender: "bot", ...response }]);
-    }, 900 + Math.random() * 500);
+
+    setTimeout(async () => {
+      try {
+        const response = await getBotResponseAsync(textToSend, chatContext, setChatContext);
+        setMessages(prev => [...prev, { sender: "bot", ...response }]);
+      } catch (error) {
+        console.error("Error in async bot response:", error);
+        const fallback = getBotResponse(textToSend);
+        setMessages(prev => [...prev, { sender: "bot", ...fallback }]);
+      } finally {
+        setIsTyping(false);
+      }
+    }, 800 + Math.random() * 400);
   };
 
   // Scroll pills container via button
@@ -324,6 +445,45 @@ export default function AIChatbot() {
                   >
                     {msg.text}
 
+                    {/* Dynamic Doctor Cards */}
+                    {msg.doctors && msg.doctors.length > 0 && (
+                      <div className="mt-3 space-y-2.5">
+                        {msg.doctors.map((doc: any) => (
+                          <div key={doc.id} className="rounded-xl border border-slate-800 bg-slate-950/40 p-3 flex items-stretch gap-3 text-right">
+                            {doc.image_url ? (
+                              <img src={doc.image_url} alt={doc.name} className="w-12 h-12 rounded-lg object-cover bg-slate-800 flex-shrink-0" />
+                            ) : (
+                              <div className="w-12 h-12 rounded-lg bg-slate-900 flex items-center justify-center flex-shrink-0 text-sm">🧑‍⚕️</div>
+                            )}
+                            <div className="flex-1 min-w-0 flex flex-col justify-center">
+                              <h5 className="text-[12px] font-black text-slate-100 truncate">{doc.name}</h5>
+                              <p className="text-[9px] text-emerald-400 font-bold truncate">{(doc.specialty || []).join(" · ")}</p>
+                              <p className="text-[9px] text-slate-500 font-bold truncate">📍 {doc.city}</p>
+                            </div>
+                            <div className="flex flex-col gap-1 flex-shrink-0 justify-center">
+                              <Link
+                                href={`/doctors/${doc.id}`}
+                                onClick={() => setIsOpen(false)}
+                                className="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white text-[9px] font-black text-center"
+                              >
+                                الملف
+                              </Link>
+                              {doc.whatsapp && (
+                                <a
+                                  href={`https://wa.me/${doc.whatsapp.replace(/[^0-9]/g, '')}`}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="px-2.5 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 hover:bg-emerald-500 hover:text-slate-950 text-[9px] font-black text-center"
+                                >
+                                  واتساب
+                                </a>
+                              )}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
                     {/* CTA */}
                     {msg.ctaLink && msg.ctaLabel && msg.ctaIcon && (
                       <div className="mt-3 pt-3 border-t border-slate-800 flex justify-end">
@@ -373,7 +533,10 @@ export default function AIChatbot() {
             {/* === QUICK CHIPS === */}
             <div className="border-t border-slate-900 bg-slate-950 px-4 py-2.5">
               <div className="chips-scroll">
-                {QUICK_CHIPS.map((chip) => (
+                {((messages[messages.length - 1]?.sender === "bot" && messages[messages.length - 1]?.chips)
+                  ? messages[messages.length - 1].chips
+                  : QUICK_CHIPS
+                )?.map((chip) => (
                   <button
                     key={chip.label}
                     onClick={() => sendMessage(chip.q)}
