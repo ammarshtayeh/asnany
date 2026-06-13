@@ -196,6 +196,28 @@ ALTER TABLE medical_services ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "public read active medical services" ON medical_services FOR SELECT USING (is_active = true);
 CREATE POLICY "admin all medical services" ON medical_services USING (auth.role() = 'authenticated');
 
+-- Discount Card Plans
+CREATE TABLE IF NOT EXISTS discount_card_plans (
+  id              UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  name            TEXT NOT NULL,
+  subtitle        TEXT,
+  price           NUMERIC NOT NULL DEFAULT 0,
+  currency        TEXT NOT NULL DEFAULT '₪',
+  duration_months INT NOT NULL DEFAULT 12,
+  badge           TEXT,
+  benefits        TEXT[] NOT NULL DEFAULT '{}',
+  limits          TEXT[] NOT NULL DEFAULT '{}',
+  sort_order      INT NOT NULL DEFAULT 0,
+  is_featured     BOOLEAN NOT NULL DEFAULT false,
+  is_active       BOOLEAN NOT NULL DEFAULT true,
+  created_at      TIMESTAMPTZ DEFAULT NOW(),
+  updated_at      TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE discount_card_plans ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "public read active discount card plans" ON discount_card_plans FOR SELECT USING (is_active = true);
+CREATE POLICY "admin all discount card plans" ON discount_card_plans USING (true) WITH CHECK (true);
+
 -- Admins Table
 CREATE TABLE admins (
   id          UUID DEFAULT gen_random_uuid() PRIMARY KEY,

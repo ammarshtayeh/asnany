@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { usePathname } from "next/navigation";
-import { Users, Calendar as CalendarIcon, Megaphone, Store, Star, LayoutDashboard, LogOut, Sparkles, Menu, X, FileText, KeyRound, Plus, Link2, Check } from "lucide-react";
+import { Users, Calendar as CalendarIcon, Megaphone, Store, Star, LayoutDashboard, LogOut, Sparkles, Menu, X, FileText, KeyRound, Plus, Link2, Check, CreditCard } from "lucide-react";
 import Link from "next/link";
 
 export default function AdminShell({ children }: { children: React.ReactNode }) {
@@ -63,6 +63,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
               <AdminLink href="/admin/appointments" icon={CalendarIcon} label="المواعيد" onClick={() => setMobileOpen(false)} />
               <AdminLink href="/admin/ads" icon={Megaphone} label="الإعلانات" onClick={() => setMobileOpen(false)} />
               <AdminLink href="/admin/stores" icon={Store} label="المتاجر" onClick={() => setMobileOpen(false)} />
+              <AdminLink href="/admin/discount-card" icon={CreditCard} label="بطاقة الخصم" onClick={() => setMobileOpen(false)} />
               <AdminLink href="/admin/services" icon={Sparkles} label="خدمات المنصة" onClick={() => setMobileOpen(false)} />
               <AdminLink href="/admin/content" icon={FileText} label="المحتوى والعروض" onClick={() => setMobileOpen(false)} />
               <AdminLink href="/admin/reviews" icon={Star} label="التقييمات" onClick={() => setMobileOpen(false)} />
@@ -116,6 +117,9 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
           </Link>
           <Link href="/admin/stores" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:bg-white/10 hover:text-white transition-colors">
             <Store className="w-5 h-5" /> المتاجر
+          </Link>
+          <Link href="/admin/discount-card" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:bg-white/10 hover:text-white transition-colors">
+            <CreditCard className="w-5 h-5" /> بطاقة الخصم
           </Link>
           <Link href="/admin/services" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:bg-white/10 hover:text-white transition-colors">
             <Sparkles className="w-5 h-5" /> خدمات المنصة
