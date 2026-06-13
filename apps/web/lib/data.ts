@@ -299,6 +299,23 @@ export async function createOffer(offer: Omit<Offer, "id">) {
   }
 }
 
+export async function getMedicalServiceById(id: string): Promise<MedicalService | undefined> {
+  if (!isSupabaseConfigured) return undefined;
+  try {
+    const { data, error } = await supabase
+      .from("medical_services")
+      .select("*")
+      .eq("id", id)
+      .single();
+
+    if (error) throw error;
+    return data as MedicalService;
+  } catch (error) {
+    console.error("Error fetching medical service by id:", error);
+    return undefined;
+  }
+}
+
 export async function getMedicalServices(serviceType?: MedicalServiceType): Promise<MedicalService[]> {
   if (!isSupabaseConfigured) return [];
   try {
