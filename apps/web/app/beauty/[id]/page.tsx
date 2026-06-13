@@ -19,16 +19,18 @@ export async function generateStaticParams() {
   return services.map((s) => ({ id: s.id }));
 }
 
-export async function generateMetadata({ params }: { params: { id: string } }) {
-  const service = await getMedicalServiceById(params.id);
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const service = await getMedicalServiceById(id);
   return {
     title: service ? `${service.name} | مراكز التجميل | ملامح` : "مركز تجميل | ملامح",
     description: service?.description ?? "تفاصيل مركز التجميل على منصة ملامح.",
   };
 }
 
-export default async function BeautyDetailPage({ params }: { params: { id: string } }) {
-  const service = await getMedicalServiceById(params.id);
+export default async function BeautyDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const service = await getMedicalServiceById(id);
 
   if (!service) notFound();
 
