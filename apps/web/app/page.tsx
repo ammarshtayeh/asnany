@@ -4,6 +4,7 @@ import { type ReactNode, useEffect, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
+import { motion, AnimatePresence, useInView } from "framer-motion";
 import {
   ArrowLeft,
   BadgeCheck,
@@ -26,12 +27,17 @@ import {
   Star,
   Stethoscope,
   X,
+  Zap,
 } from "lucide-react";
 import AdSlider from "@/components/AdSlider";
 import { CITIES } from "@/lib/constants";
 import { getDistance } from "@/lib/distance";
 import { doctorMapCoordinates } from "@/lib/map-links";
 import { Advertisement, Doctor } from "@/lib/types";
+import { AnimatedCounter } from "@/components/AnimatedCounter";
+
+const FloatingParticles = dynamic(() => import("@/components/FloatingParticles"), { ssr: false });
+const TransformationsSection = dynamic(() => import("@/components/TransformationsSection"), { ssr: false });
 
 const DoctorMap = dynamic(() => import("@/components/DoctorMap"), {
   ssr: false,
@@ -256,43 +262,87 @@ export default function Home() {
           fill
           priority
           sizes="100vw"
-        className="object-cover object-center opacity-60"
+          className="object-cover object-center opacity-50"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-slate-950/60 via-slate-950/75 to-slate-950/95" />
         <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/70 to-transparent" />
+        {/* Floating Particles - purely decorative */}
+        <FloatingParticles count={45} className="opacity-70" />
+        {/* Glow orbs */}
+        <div className="pointer-events-none absolute -top-32 right-[20%] h-72 w-72 rounded-full bg-amber-500/10 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-32 left-[10%] h-96 w-96 rounded-full bg-emerald-500/8 blur-3xl" />
         <div className="relative z-10 mx-auto grid min-h-[580px] w-full max-w-[1400px] items-center gap-10 py-4 lg:grid-cols-[1fr_480px]">
           <div className="grid gap-8 lg:grid-cols-[1fr_auto] items-center w-full text-right text-white" dir="rtl">
             <div className="max-w-xl flex-1">
-              <h1 className="text-4xl font-black leading-[1.15] sm:text-5xl lg:text-6xl tracking-tight">
-                كل ما تحتاجه لصحتك وجمالك.. <span className="text-gradient-gold block sm:inline text-amber-400">في متناول يدك</span>
-              </h1>
-              <p className="mt-6 max-w-2xl text-base font-semibold leading-8 text-slate-200 sm:text-lg">
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+              >
+                <span className="inline-flex items-center gap-2 rounded-full bg-amber-500/10 border border-amber-500/20 px-4 py-1.5 text-xs font-black text-amber-400 mb-5 backdrop-blur-sm">
+                  <Zap className="h-3.5 w-3.5" />
+                  الأول من نوعه في فلسطين
+                </span>
+              </motion.div>
+              <motion.h1
+                className="text-4xl font-black leading-[1.15] sm:text-5xl lg:text-6xl tracking-tight"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.1 }}
+              >
+                كل ما تحتاجه لصحتك وجمالك..{" "}
+                <span className="block sm:inline bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 bg-clip-text text-transparent">
+                  في متناول يدك
+                </span>
+              </motion.h1>
+              <motion.p
+                className="mt-6 max-w-2xl text-base font-semibold leading-8 text-slate-200 sm:text-lg"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.2 }}
+              >
                 دليلك الطبي والتجميلي الشامل لأطباء الأسنان، العيون، الجلدية، التجميل، والأنف والأذن والحنجرة الأقرب إليك في فلسطين.
-              </p>
-              <div className="mt-8 flex flex-wrap gap-2.5">
+              </motion.p>
+              <motion.div
+                className="mt-8 flex flex-wrap gap-2.5"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.7, delay: 0.35 }}
+              >
                 {TRUST_POINTS.map((item) => (
                   <span key={item.label} className="inline-flex items-center gap-2 rounded-full bg-white/8 px-4 py-2 text-xs font-black text-slate-100 backdrop-blur-sm border border-white/5">
                     <item.icon className="h-4 w-4 text-amber-400" />
                     {item.label}
                   </span>
                 ))}
-              </div>
+              </motion.div>
 
-              {/* Quick Premium Medical Stats */}
-              <div className="mt-8 grid grid-cols-3 gap-4 border-t border-white/10 pt-8 max-w-xl text-right">
+              {/* Animated Stats */}
+              <motion.div
+                className="mt-8 grid grid-cols-3 gap-4 border-t border-white/10 pt-8 max-w-xl text-right"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.5 }}
+              >
                 <div>
-                  <p className="text-2xl sm:text-3xl font-black text-amber-400">+300</p>
+                  <p className="text-2xl sm:text-3xl font-black text-amber-400">
+                    +<AnimatedCounter target={300} duration={2200} />
+                  </p>
                   <p className="text-[10px] sm:text-xs font-bold text-slate-300 mt-1">عيادة ومزود خدمة موثق</p>
                 </div>
                 <div>
-                  <p className="text-2xl sm:text-3xl font-black text-amber-400">+15,000</p>
+                  <p className="text-2xl sm:text-3xl font-black text-amber-400">
+                    +<AnimatedCounter target={15000} duration={2500} />
+                  </p>
                   <p className="text-[10px] sm:text-xs font-bold text-slate-300 mt-1">حجز وموعد ناجح</p>
                 </div>
                 <div>
-                  <p className="text-2xl sm:text-3xl font-black text-amber-400">12</p>
+                  <p className="text-2xl sm:text-3xl font-black text-amber-400">
+                    <AnimatedCounter target={12} duration={1500} />
+                  </p>
                   <p className="text-[10px] sm:text-xs font-bold text-slate-300 mt-1">محافظة فلسطينية مغطاة</p>
                 </div>
-              </div>
+              </motion.div>
             </div>
 
             {/* Interactive Face Map Search */}
@@ -394,31 +444,36 @@ export default function Home() {
       <main className="mx-auto w-full max-w-[1400px] px-4 py-8 lg:px-8">
         {/* Floating Quick Categories by Specialty */}
         <section className="-mt-10 sm:-mt-12 mb-12 flex flex-wrap justify-center gap-3 px-4 relative z-20" dir="rtl">
-          {QUICK_CATEGORIES.map((category) => {
+          {QUICK_CATEGORIES.map((category, i) => {
             const isSelected = selectedSpecialty === category.label;
             return (
-              <button
+              <motion.button
                 key={category.id}
                 type="button"
                 onClick={() => {
                   setSelectedSpecialty(isSelected ? "" : category.label);
                   document.getElementById("doctors")?.scrollIntoView({ behavior: "smooth", block: "start" });
                 }}
-                className={`flex items-center gap-3 rounded-2xl border px-5 py-3 transition-all duration-300 shadow-md hover:-translate-y-0.5 ${
-                  isSelected 
-                    ? "border-amber-500 bg-amber-500 text-white shadow-[0_8px_20px_rgba(245,158,11,0.25)] scale-105" 
+                initial={{ opacity: 0, y: 20, scale: 0.9 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ duration: 0.4, delay: i * 0.08 }}
+                whileHover={{ y: -3, scale: 1.03 }}
+                whileTap={{ scale: 0.96 }}
+                className={`flex items-center gap-3 rounded-2xl border px-5 py-3 transition-colors duration-200 shadow-md ${
+                  isSelected
+                    ? "border-amber-500 bg-amber-500 text-white shadow-[0_8px_20px_rgba(245,158,11,0.25)]"
                     : "border-slate-200/60 bg-white/90 backdrop-blur-md hover:border-amber-300 hover:bg-white text-slate-800 hover:shadow-lg"
                 }`}
               >
                 <span className={`flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl border transition-colors ${
-                  isSelected 
-                    ? "bg-white/20 border-white/10 text-white" 
+                  isSelected
+                    ? "bg-white/20 border-white/10 text-white"
                     : `${category.bg} ${category.color} border-slate-100 shadow-sm`
                 }`}>
                   <category.icon className="h-5 w-5" />
                 </span>
                 <span className="text-sm font-black whitespace-nowrap">{category.label}</span>
-              </button>
+              </motion.button>
             );
           })}
         </section>
@@ -455,13 +510,19 @@ export default function Home() {
             {!loading && comparedDoctors.length > 0 ? (
               <CompareTray doctors={comparedDoctors} onClear={() => setCompareIds([])} />
             ) : null}
-            {!loading && filteredDoctors.map((doctor) => (
-              <DoctorResult
+            {!loading && filteredDoctors.map((doctor, index) => (
+              <motion.div
                 key={doctor.id}
-                doctor={doctor}
-                compareSelected={compareIds.includes(doctor.id)}
-                onToggleCompare={() => toggleCompare(doctor.id)}
-              />
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.45, delay: Math.min(index * 0.07, 0.5) }}
+              >
+                <DoctorResult
+                  doctor={doctor}
+                  compareSelected={compareIds.includes(doctor.id)}
+                  onToggleCompare={() => toggleCompare(doctor.id)}
+                />
+              </motion.div>
             ))}
             {!loading && !filteredDoctors.length ? <EmptyResults onReset={resetFilters} /> : null}
 
@@ -479,8 +540,15 @@ export default function Home() {
 
         <section className="mt-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm" dir="rtl">
           <div className="grid gap-4 md:grid-cols-3">
-            {HOW_IT_WORKS.map((step) => (
-              <div key={step.title} className="flex items-start gap-3 text-right">
+            {HOW_IT_WORKS.map((step, i) => (
+              <motion.div
+                key={step.title}
+                className="flex items-start gap-3 text-right"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5, delay: i * 0.12 }}
+              >
                 <span className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-sky-50 text-sky-600">
                   <step.icon className="h-5 w-5" />
                 </span>
@@ -488,10 +556,13 @@ export default function Home() {
                   <strong className="block text-sm font-black text-slate-950">{step.title}</strong>
                   <span className="mt-1 block text-sm font-semibold leading-6 text-slate-500">{step.desc}</span>
                 </span>
-              </div>
+              </motion.div>
             ))}
           </div>
         </section>
+
+        {/* Before / After Transformations Section */}
+        <TransformationsSection />
 
         <section className="mt-8">
           <AdSlider ads={ads} />

@@ -1,6 +1,7 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   ActivityIndicator,
+  Animated,
   Image,
   Linking,
   Pressable,
@@ -154,7 +155,19 @@ export default function HomeScreen() {
   const [query, setQuery] = useState("");
   const [latestOffers, setLatestOffers] = useState<Offer[]>([]);
 
+  // Animation values
+  const heroOpacity = useRef(new Animated.Value(0)).current;
+  const heroSlide = useRef(new Animated.Value(30)).current;
+  const contentOpacity = useRef(new Animated.Value(0)).current;
+  const contentSlide = useRef(new Animated.Value(40)).current;
+
   useEffect(() => {
+    // Hero entrance
+    Animated.parallel([
+      Animated.timing(heroOpacity, { toValue: 1, duration: 800, useNativeDriver: true }),
+      Animated.timing(heroSlide, { toValue: 0, duration: 700, useNativeDriver: true }),
+    ]).start();
+
     loadData();
   }, []);
 
@@ -174,6 +187,11 @@ export default function HomeScreen() {
       console.error(err);
     } finally {
       setLoading(false);
+      // Animate content after data loads
+      Animated.parallel([
+        Animated.timing(contentOpacity, { toValue: 1, duration: 600, useNativeDriver: true }),
+        Animated.timing(contentSlide, { toValue: 0, duration: 550, useNativeDriver: true }),
+      ]).start();
     }
   }
 
@@ -197,15 +215,19 @@ export default function HomeScreen() {
         showsVerticalScrollIndicator={false}
       >
       {/* ===== HERO ===== */}
-      <View style={{ height: 320, position: "relative" }}>
+      <Animated.View style={{ height: 320, position: "relative", opacity: heroOpacity, transform: [{ translateY: heroSlide }] }}>
         <Image source={{ uri: HERO_IMAGE }} style={{ width: "100%", height: "100%" }} resizeMode="cover" />
-        <View style={{ position: "absolute", inset: 0, backgroundColor: "rgba(15,23,42,0.6)" }} />
+        <View style={{ position: "absolute", inset: 0, backgroundColor: "rgba(15,23,42,0.65)" }} />
+        {/* Gradient overlay at bottom */}
+        <View style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 120, backgroundColor: "transparent",
+          // simulated gradient via layered views
+        }} />
 
         {/* Header */}
         <View style={{ position: "absolute", top: insets.top + 12, left: 0, right: 0, paddingHorizontal: 20, flexDirection: "row-reverse", justifyContent: "space-between", alignItems: "center" }}>
           <View style={{ flexDirection: "row-reverse", alignItems: "center", gap: 8 }}>
-            <View style={{ width: 28, height: 28, borderRadius: 8, backgroundColor: "#d4af37", alignItems: "center", justifyContent: "center" }}>
-              <Text style={{ color: "#fff", fontWeight: "900", fontSize: 13 }}>م</Text>
+            <View style={{ width: 32, height: 32, borderRadius: 10, backgroundColor: "#d4af37", alignItems: "center", justifyContent: "center", shadowColor: "#d4af37", shadowOpacity: 0.4, shadowRadius: 8, elevation: 4 }}>
+              <Text style={{ color: "#fff", fontWeight: "900", fontSize: 15 }}>م</Text>
             </View>
             <Text style={{ fontSize: 20, fontWeight: "900", color: "#fff" }}>ملامح.ps</Text>
           </View>
@@ -219,17 +241,18 @@ export default function HomeScreen() {
 
         {/* Hero Text */}
         <View style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: 20 }}>
-          <View style={{ backgroundColor: "rgba(212,175,55,0.15)", borderWidth: 1, borderColor: "rgba(212,175,55,0.35)", borderRadius: 100, paddingHorizontal: 12, paddingVertical: 5, alignSelf: "flex-end", marginBottom: 10 }}>
-            <Text style={{ color: "#fef08a", fontWeight: "900", fontSize: 11 }}>✨ دليل صحة وجمال الوجه والأسنان في فلسطين</Text>
+          <View style={{ backgroundColor: "rgba(212,175,55,0.2)", borderWidth: 1, borderColor: "rgba(212,175,55,0.4)", borderRadius: 100, paddingHorizontal: 12, paddingVertical: 5, alignSelf: "flex-end", marginBottom: 10 }}>
+            <Text style={{ color: "#fef08a", fontWeight: "900", fontSize: 11 }}>⚡ الأول من نوعه في فلسطين</Text>
           </View>
-          <Text style={{ fontSize: 26, fontWeight: "900", color: "#fff", textAlign: "right", lineHeight: 34 }}>
-            كل ما تحتاجه لصحتك وجمالك..{"\n"}في متناول يدك
+          <Text style={{ fontSize: 26, fontWeight: "900", color: "#fff", textAlign: "right", lineHeight: 36 }}>
+            كل ما تحتاجه لصحتك وجمالك..{"\n"}
+            <Text style={{ color: "#fcd34d" }}>في متناول يدك</Text>
           </Text>
           <Text style={{ fontSize: 13, color: "#cbd5e1", fontWeight: "600", textAlign: "right", marginTop: 6 }}>
             أطباء موثقون · حجز مباشر · عروض حصرية
           </Text>
         </View>
-      </View>
+      </Animated.View>
 
       {/* ===== SEARCH ===== */}
       <View style={{ marginHorizontal: 16, marginTop: -24, zIndex: 10 }}>
@@ -243,10 +266,10 @@ export default function HomeScreen() {
           paddingHorizontal: 18,
           paddingVertical: 4,
           shadowColor: "#0a0f1d",
-          shadowOpacity: 0.08,
-          shadowOffset: { width: 0, height: 10 },
-          shadowRadius: 20,
-          elevation: 5,
+          shadowOpacity: 0.1,
+          shadowOffset: { width: 0, height: 12 },
+          shadowRadius: 24,
+          elevation: 6,
         }}>
           <Text style={{ color: "#94a3b8", fontSize: 16, marginLeft: 8 }}>🔍</Text>
           <TextInput
@@ -259,33 +282,42 @@ export default function HomeScreen() {
         </View>
       </View>
 
-      <View style={{ padding: 16, gap: 24 }}>
+      <Animated.View style={{ padding: 16, gap: 24, opacity: contentOpacity, transform: [{ translateY: contentSlide }] }}>
         {/* ===== QUICK CATEGORIES ===== */}
         <View>
           <Text style={{ fontSize: 16, fontWeight: "900", color: "#0f172a", textAlign: "right", marginBottom: 10 }}>
             🗂️ ابحث حسب التخصص
           </Text>
           <View style={{ flexDirection: "row-reverse", flexWrap: "wrap", gap: 8 }}>
-            {QUICK_CATEGORIES.map((cat) => (
-              <Pressable
-                key={cat.label}
-                onPress={() => setQuery(cat.query)}
-                style={{
-                  flexDirection: "row-reverse",
-                  alignItems: "center",
-                  gap: 6,
-                  paddingHorizontal: 14,
-                  paddingVertical: 10,
-                  borderRadius: 14,
-                  backgroundColor: cat.bg,
-                  borderWidth: 1,
-                  borderColor: cat.color + "33",
-                }}
-              >
-                <Text style={{ fontSize: 16 }}>{cat.emoji}</Text>
-                <Text style={{ fontSize: 12, fontWeight: "900", color: cat.color }}>{cat.label}</Text>
-              </Pressable>
-            ))}
+            {QUICK_CATEGORIES.map((cat) => {
+              const isActive = query === cat.query;
+              return (
+                <Pressable
+                  key={cat.label}
+                  onPress={() => setQuery(isActive ? "" : cat.query)}
+                  style={({ pressed }) => ({
+                    flexDirection: "row-reverse",
+                    alignItems: "center",
+                    gap: 6,
+                    paddingHorizontal: 14,
+                    paddingVertical: 10,
+                    borderRadius: 14,
+                    backgroundColor: isActive ? cat.color : cat.bg,
+                    borderWidth: 1.5,
+                    borderColor: isActive ? cat.color : cat.color + "33",
+                    opacity: pressed ? 0.85 : 1,
+                    transform: [{ scale: pressed ? 0.96 : 1 }],
+                    shadowColor: isActive ? cat.color : "transparent",
+                    shadowOpacity: isActive ? 0.3 : 0,
+                    shadowRadius: 8,
+                    elevation: isActive ? 4 : 0,
+                  })}
+                >
+                  <Text style={{ fontSize: 16 }}>{cat.emoji}</Text>
+                  <Text style={{ fontSize: 12, fontWeight: "900", color: isActive ? "#fff" : cat.color }}>{cat.label}</Text>
+                </Pressable>
+              );
+            })}
           </View>
         </View>
 
@@ -460,7 +492,7 @@ export default function HomeScreen() {
             </View>
           ))}
         </View>
-      </View>
+      </Animated.View>
     </ScrollView>
     <AIChatbot />
   </View>

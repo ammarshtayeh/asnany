@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   BookOpen,
   CalendarCheck2,
@@ -91,13 +91,24 @@ export default function Navbar() {
   const pathname = usePathname();
   const currentPath = pathname || "";
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   if (currentPath.startsWith("/admin")) return null;
 
   return (
     <>
-    <nav className="fixed top-0 w-full z-50 bg-white/70 backdrop-blur-xl border-b border-slate-200/50 shadow-[0_2px_20px_-3px_rgba(15,23,42,0.02),0_10px_30px_-15px_rgba(15,23,42,0.03)] transition-all duration-300">
-      <div className="max-w-[1600px] mx-auto px-3 lg:px-6 h-[72px] flex items-center gap-3">
+    <nav className={`fixed top-0 w-full z-50 border-b transition-all duration-300 ${
+      scrolled
+        ? "bg-white/90 backdrop-blur-2xl border-slate-200/70 shadow-[0_4px_24px_-4px_rgba(15,23,42,0.08)] h-[60px]"
+        : "bg-white/70 backdrop-blur-xl border-slate-200/50 shadow-[0_2px_20px_-3px_rgba(15,23,42,0.02)] h-[72px]"
+    }`}>
+      <div className={`max-w-[1600px] mx-auto px-3 lg:px-6 flex items-center gap-3 transition-all duration-300 ${scrolled ? "h-[60px]" : "h-[72px]"}`}>
         <Link href="/" className="flex items-center gap-2.5 group flex-shrink-0">
           <div className="w-9 h-9 bg-gradient-to-tr from-slate-950 via-slate-800 to-amber-700 rounded-xl flex items-center justify-center shadow-md shadow-slate-950/30 group-hover:scale-105 transition-all duration-300 border border-white/10">
             <span className="text-white font-black text-lg select-none leading-none pt-0.5">م</span>
