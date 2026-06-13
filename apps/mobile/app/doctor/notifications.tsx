@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
-import { ActivityIndicator, Alert, Pressable, ScrollView, Text, View } from "react-native";
+import { ActivityIndicator, Pressable, ScrollView, Text, View } from "react-native";
 import { router } from "expo-router";
 import { Feather } from "@expo/vector-icons";
 
 import { apiFetch } from "../../lib/api";
 import { doctorSession } from "../../lib/session";
+import { useAppToast } from "../../components/AppToast";
 
 type NotificationItem = {
   id: string;
@@ -19,6 +20,7 @@ export default function DoctorNotificationsScreen() {
   const [refreshing, setRefreshing] = useState(false);
   const [token, setToken] = useState<string | undefined>();
   const [notifications, setNotifications] = useState<NotificationItem[]>([]);
+  const { showToast } = useAppToast();
   const unreadCount = useMemo(() => notifications.filter((item) => !item.read_at).length, [notifications]);
 
   useEffect(() => {
@@ -141,7 +143,7 @@ export default function DoctorNotificationsScreen() {
                   if (!item.read_at) {
                     void markAsRead(item.id).catch((error) => {
                       const message = error instanceof Error ? error.message : "تعذر تحديث الإشعار";
-                      Alert.alert("الإشعارات", message);
+                      showToast({ type: "error", title: "الإشعارات", message });
                     });
                   }
                 }}
@@ -149,7 +151,7 @@ export default function DoctorNotificationsScreen() {
                   borderRadius: 16,
                   borderWidth: 1,
                   borderColor: item.read_at ? "#e2e8f0" : "#bae6fd",
-                  backgroundColor: item.read_at ? "#white" : "#f0f9ff",
+                  backgroundColor: item.read_at ? "#fff" : "#f0f9ff",
                   padding: 16
                 }}
               >
@@ -163,7 +165,7 @@ export default function DoctorNotificationsScreen() {
                     <Text style={{ fontSize: 12, fontWeight: "700", color: "#94a3b8" }}>{formatDate(item.created_at)}</Text>
                   </View>
                   <View style={{ borderRadius: 16, backgroundColor: item.read_at ? "#ecfdf5" : "#0f172a", paddingHorizontal: 12, paddingVertical: 8 }}>
-                    <Text style={{ fontSize: 12, fontWeight: "900", color: item.read_at ? "#047857" : "#white" }}>
+                    <Text style={{ fontSize: 12, fontWeight: "900", color: item.read_at ? "#047857" : "#fff" }}>
                       {item.read_at ? "مقروء" : "لم يُقرأ"}
                     </Text>
                   </View>

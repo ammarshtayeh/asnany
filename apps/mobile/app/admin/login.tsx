@@ -1,10 +1,11 @@
 import { useMemo, useState } from "react";
-import { ActivityIndicator, Alert, KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, TextInput, View } from "react-native";
+import { ActivityIndicator, KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { router } from "expo-router";
 import { Feather } from "@expo/vector-icons";
 
 import { getMobileApiBaseUrl } from "../../lib/api-base";
 import { adminSession } from "../../lib/session";
+import { useAppToast } from "../../components/AppToast";
 
 const API_BASE = getMobileApiBaseUrl();
 
@@ -12,6 +13,7 @@ export default function AdminLoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const { showToast } = useAppToast();
 
   const canSubmit = useMemo(() => email.trim().length > 0 && password.trim().length > 0 && !loading, [email, password, loading]);
 
@@ -39,7 +41,7 @@ export default function AdminLoginScreen() {
       router.replace("/admin/dashboard");
     } catch (error) {
       const message = error instanceof Error ? error.message : "تعذر تسجيل الدخول";
-      Alert.alert("دخول الأدمن", message);
+      showToast({ type: "error", title: "دخول الأدمن", message });
     } finally {
       setLoading(false);
     }

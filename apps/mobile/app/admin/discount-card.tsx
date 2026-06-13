@@ -4,6 +4,7 @@ import { router } from "expo-router";
 import { Feather } from "@expo/vector-icons";
 import { getMobileApiBaseUrl } from "../../lib/api-base";
 import { adminSession } from "../../lib/session";
+import { useAppToast } from "../../components/AppToast";
 
 const API_BASE = getMobileApiBaseUrl();
 
@@ -33,6 +34,7 @@ export default function AdminDiscountCardScreen() {
   const [loading, setLoading] = useState(false);
   const [members, setMembers] = useState<Member[]>([]);
   const [token, setToken] = useState<string | undefined>(undefined);
+  const { showToast } = useAppToast();
 
   const stats = useMemo(
     () => ({
@@ -69,7 +71,7 @@ export default function AdminDiscountCardScreen() {
       setMembers(Array.isArray(data?.members) ? data.members : []);
     } catch (error) {
       const message = error instanceof Error ? error.message : "تعذر تحميل طلبات البطاقة";
-      Alert.alert("بطاقة الخصم", message);
+      showToast({ type: "error", title: "بطاقة الخصم", message });
     } finally {
       setLoading(false);
     }
@@ -98,7 +100,7 @@ export default function AdminDiscountCardScreen() {
       setMembers((current) => current.map((item) => (item.id === member.id ? data.member : item)));
     } catch (error) {
       const message = error instanceof Error ? error.message : "تعذر تحديث البطاقة";
-      Alert.alert("بطاقة الخصم", message);
+      showToast({ type: "error", title: "بطاقة الخصم", message });
     }
   };
 
@@ -119,10 +121,11 @@ export default function AdminDiscountCardScreen() {
           });
           const data = await response.json().catch(() => ({}));
           if (!response.ok) {
-            Alert.alert("بطاقة الخصم", data?.error || "تعذر حذف الطلب");
+            showToast({ type: "error", title: "بطاقة الخصم", message: data?.error || "تعذر حذف الطلب" });
             return;
           }
           setMembers((current) => current.filter((member) => member.id !== id));
+          showToast({ type: "success", title: "تم الحذف", message: "تم حذف طلب بطاقة الخصم." });
         },
       },
     ]);

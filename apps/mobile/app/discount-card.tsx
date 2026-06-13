@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { ActivityIndicator, Alert, Pressable, ScrollView, Text, TextInput, View } from "react-native";
+import { ActivityIndicator, Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { router } from "expo-router";
 import { Feather } from "@expo/vector-icons";
 import { apiFetch } from "../lib/api";
@@ -8,6 +8,7 @@ import { Doctor } from "../lib/types";
 import { AppButton } from "../components/Buttons";
 import { AppCard } from "../components/AppCard";
 import { AppSubtitle, AppTitle } from "../components/AppText";
+import { useAppToast } from "../components/AppToast";
 
 export default function DiscountCardScreen() {
   const [doctors, setDoctors] = useState<Doctor[]>([]);
@@ -16,6 +17,7 @@ export default function DiscountCardScreen() {
   const [city, setCity] = useState("");
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  const { showToast } = useAppToast();
 
   useEffect(() => {
     (async () => {
@@ -48,14 +50,14 @@ export default function DiscountCardScreen() {
     setSubmitting(false);
 
     if (!response.ok) {
-      Alert.alert("تعذر إرسال الطلب", data?.error || "حاول مرة ثانية");
+      showToast({ type: "error", title: "تعذر إرسال الطلب", message: data?.error || "حاول مرة ثانية" });
       return;
     }
 
     setFullName("");
     setPhone("");
     setCity("");
-    Alert.alert("وصل طلبك", "سنراجع البطاقة ونتواصل معك للتفعيل.");
+    showToast({ type: "success", title: "وصل طلبك", message: "سنراجع البطاقة ونتواصل معك للتفعيل." });
   };
 
   return (

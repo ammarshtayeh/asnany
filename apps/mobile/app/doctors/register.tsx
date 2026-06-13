@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { Alert, ScrollView, Text, TextInput, View } from "react-native";
+import { ScrollView, Text, TextInput, View } from "react-native";
 import { router } from "expo-router";
 import { apiFetch } from "../../lib/api";
 import { AppButton } from "../../components/Buttons";
 import { AppCard } from "../../components/AppCard";
 import { AppSubtitle, AppTitle } from "../../components/AppText";
+import { useAppToast } from "../../components/AppToast";
 
 export default function DoctorRegisterScreen() {
   const [form, setForm] = useState({
@@ -20,6 +21,7 @@ export default function DoctorRegisterScreen() {
     bio: "",
   });
   const [loading, setLoading] = useState(false);
+  const { showToast } = useAppToast();
 
   const submit = async () => {
     setLoading(true);
@@ -34,8 +36,11 @@ export default function DoctorRegisterScreen() {
       }),
     });
     setLoading(false);
-    if (!response.ok) return Alert.alert("تعذر التسجيل", data?.error || "تحقق من البيانات");
-    Alert.alert("تم التسجيل", "أصبح بإمكان الطبيب الدخول من صفحة الدخول الخاصة به.");
+    if (!response.ok) {
+      showToast({ type: "error", title: "تعذر التسجيل", message: data?.error || "تحقق من البيانات" });
+      return;
+    }
+    showToast({ type: "success", title: "تم التسجيل", message: "أصبح بإمكان الطبيب الدخول من صفحته." });
     router.replace("/doctor/login");
   };
 

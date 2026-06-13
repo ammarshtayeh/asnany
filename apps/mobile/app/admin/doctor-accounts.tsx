@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
-import { ActivityIndicator, Alert, Pressable, ScrollView, Text, TextInput, View } from "react-native";
+import { ActivityIndicator, Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { router } from "expo-router";
 import { Feather } from "@expo/vector-icons";
 
 import { getMobileApiBaseUrl } from "../../lib/api-base";
 import { adminSession } from "../../lib/session";
+import { useAppToast } from "../../components/AppToast";
 
 const API_BASE = getMobileApiBaseUrl();
 
@@ -26,6 +27,7 @@ export default function DoctorAccountsScreen() {
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [doctors, setDoctors] = useState<any[]>([]);
+  const { showToast } = useAppToast();
   const [form, setForm] = useState<DoctorAccountForm>({
     fullName: "",
     email: "",
@@ -71,7 +73,7 @@ export default function DoctorAccountsScreen() {
       setDoctors(Array.isArray(data?.doctors) ? data.doctors : Array.isArray(data) ? data : []);
     } catch (error) {
       const message = error instanceof Error ? error.message : "تعذر جلب الأطباء";
-      Alert.alert("حسابات الأطباء", message);
+      showToast({ type: "error", title: "حسابات الأطباء", message });
     } finally {
       setLoading(false);
     }
@@ -109,7 +111,7 @@ export default function DoctorAccountsScreen() {
       if (!response.ok) {
         throw new Error(data?.error || "تعذر إنشاء الحساب");
       }
-      Alert.alert("تم", "تم إنشاء حساب الطبيب بنجاح");
+      showToast({ type: "success", title: "تم إنشاء الحساب", message: "تم إنشاء حساب الطبيب بنجاح." });
       setForm({
         fullName: "",
         email: "",
@@ -125,7 +127,7 @@ export default function DoctorAccountsScreen() {
       await refreshDoctors(session?.token);
     } catch (error) {
       const message = error instanceof Error ? error.message : "تعذر إنشاء الحساب";
-      Alert.alert("حسابات الأطباء", message);
+      showToast({ type: "error", title: "حسابات الأطباء", message });
     } finally {
       setSaving(false);
     }

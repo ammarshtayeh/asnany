@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Alert, Pressable, ScrollView, Text, TextInput, View } from "react-native";
+import { Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { router } from "expo-router";
 import * as Location from "expo-location";
 import { Feather } from "@expo/vector-icons";
@@ -7,6 +7,7 @@ import { apiFetch } from "../../lib/api";
 import { AppButton } from "../../components/Buttons";
 import { AppCard } from "../../components/AppCard";
 import { AppSubtitle, AppTitle } from "../../components/AppText";
+import { useAppToast } from "../../components/AppToast";
 
 function isValidPalestineCoordinate(latitude: string, longitude: string) {
   const lat = Number(latitude);
@@ -25,6 +26,7 @@ export default function DoctorSetLocationScreen() {
   });
   const [loading, setLoading] = useState(false);
   const [locating, setLocating] = useState(false);
+  const { showToast } = useAppToast();
 
   const canSubmit = useMemo(
     () => Boolean(form.doctor_id.trim()) && isValidPalestineCoordinate(form.latitude, form.longitude),
@@ -36,7 +38,8 @@ export default function DoctorSetLocationScreen() {
     try {
       const { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
-        return Alert.alert("صلاحية الموقع", "فعّل صلاحية الموقع حتى نلتقط إحداثيات العيادة بدقة.");
+        showToast({ type: "info", title: "صلاحية الموقع", message: "فعّل صلاحية الموقع لالتقاط إحداثيات العيادة بدقة." });
+        return;
       }
 
       const position = await Location.getCurrentPositionAsync({
@@ -47,7 +50,8 @@ export default function DoctorSetLocationScreen() {
       const longitude = position.coords.longitude.toFixed(7);
 
       if (!isValidPalestineCoordinate(latitude, longitude)) {
-        return Alert.alert("تنبيه", "الإحداثيات الملتقطة تبدو خارج نطاق فلسطين. تأكد من تشغيل GPS قرب العيادة.");
+        showToast({ type: "info", title: "تحقق من الموقع", message: "الإحداثيات تبدو خارج نطاق فلسطين. شغّل GPS قرب العيادة." });
+        return;
       }
 
       setForm((current) => ({
@@ -57,7 +61,7 @@ export default function DoctorSetLocationScreen() {
       }));
     } catch (error) {
       console.error("Clinic location error:", error);
-      Alert.alert("تعذر تحديد الموقع", "تأكد من تشغيل GPS وخدمات الموقع ثم حاول مرة أخرى.");
+      showToast({ type: "error", title: "تعذر تحديد الموقع", message: "تأكد من تشغيل GPS وخدمات الموقع ثم حاول مرة أخرى." });
     } finally {
       setLocating(false);
     }
@@ -65,7 +69,8 @@ export default function DoctorSetLocationScreen() {
 
   const submit = async () => {
     if (!canSubmit) {
-      return Alert.alert("بيانات ناقصة", "أدخل رقم الطبيب والتقط أو اكتب إحداثيات صحيحة داخل فلسطين.");
+      showToast({ type: "info", title: "بيانات ناقصة", message: "أدخل رقم الطبيب وإحداثيات صحيحة داخل فلسطين." });
+      return;
     }
 
     setLoading(true);
@@ -82,8 +87,11 @@ export default function DoctorSetLocationScreen() {
     });
     setLoading(false);
 
-    if (!response.ok) return Alert.alert("تعذر الحفظ", data?.error || "حاول مرة ثانية");
-    Alert.alert("تم الحفظ", "تم تحديث إحداثيات العيادة وستظهر على الخريطة والاتجاهات.");
+    if (!response.ok) {
+      showToast({ type: "error", title: "تعذر الحفظ", message: data?.error || "حاول مرة ثانية" });
+      return;
+    }
+    showToast({ type: "success", title: "تم الحفظ", message: "تم تحديث إحداثيات العيادة." });
     router.back();
   };
 

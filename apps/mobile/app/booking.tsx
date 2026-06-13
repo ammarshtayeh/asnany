@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Alert, ScrollView, Text, TextInput, View, Pressable } from "react-native";
+import { ScrollView, Text, TextInput, View, Pressable } from "react-native";
 import { useLocalSearchParams, router } from "expo-router";
 import { Feather } from "@expo/vector-icons";
 import { apiFetch } from "../lib/api";
@@ -7,6 +7,7 @@ import { registerPushSubscription } from "../lib/notifications";
 import { AppCard } from "../components/AppCard";
 import { AppButton } from "../components/Buttons";
 import { AppSubtitle, AppTitle } from "../components/AppText";
+import { useAppToast } from "../components/AppToast";
 
 const WEEKDAY_AR = ["الأحد", "الإثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
 
@@ -34,6 +35,7 @@ export default function BookingScreen() {
   const [time, setTime] = useState("");
   const [notes, setNotes] = useState("");
   const [loading, setLoading] = useState(false);
+  const { showToast } = useAppToast();
 
   useEffect(() => {
     let cancelled = false;
@@ -86,20 +88,24 @@ export default function BookingScreen() {
   );
 
   const submit = async () => {
-    if (!doctorId) return Alert.alert("تنبيه", "اختر طبيباً أولاً من صفحة الطبيب أو من القائمة.");
+    if (!doctorId) {
+      showToast({ type: "info", title: "اختر طبيباً أولاً", message: "افتح صفحة الطبيب ثم احجز الموعد." });
+      return;
+    }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (email.trim() && !emailRegex.test(email)) {
-      return Alert.alert("خطأ في البيانات", "يرجى إدخال بريد إلكتروني صحيح");
+      showToast({ type: "error", title: "خطأ في البيانات", message: "يرجى إدخال بريد إلكتروني صحيح." });
+      return;
     }
 
     if (!isDoctorAvailableForSlot) {
-      return Alert.alert(
-        "الطبيب غير متاح",
-        selectedWeekday
-          ? `الموعد المختار يبدو خارج دوام الطبيب يوم ${selectedWeekday}. اختر يوماً آخر.`
-          : "الطبيب معلن أنه غير متاح الآن. اختر موعداً آخر."
-      );
+      showToast({
+        type: "info",
+        title: "الطبيب غير متاح",
+        message: selectedWeekday ? `الموعد المختار خارج دوام الطبيب يوم ${selectedWeekday}.` : "اختر موعداً آخر من فضلك.",
+      });
+      return;
     }
 
     setLoading(true);
@@ -124,7 +130,8 @@ export default function BookingScreen() {
         response.status === 409
           ? data?.error || "هذا الموعد محجوز للتو. اختر وقتاً آخر من فضلك."
           : data?.error || "حاول مرة ثانية";
-      return Alert.alert("تعذر الحجز", message);
+      showToast({ type: "error", title: "تعذر الحجز", message });
+      return;
     }
 
     void registerPushSubscription({
@@ -132,10 +139,8 @@ export default function BookingScreen() {
       patientPhone: phone,
     }).catch(() => null);
 
-    Alert.alert("تم إرسال طلب الحجز", "سنرسل لك تنبيهاً عند تحديث حالة الموعد. يمكنك متابعة الحجز من صفحة حجوزاتي.", [
-      { text: "لاحقاً", onPress: () => router.back(), style: "cancel" },
-      { text: "حجوزاتي", onPress: () => router.replace({ pathname: "/appointments", params: { phone } } as any) },
-    ]);
+    showToast({ type: "success", title: "تم إرسال طلب الحجز", message: "يمكنك متابعة الحالة من صفحة حجوزاتي." });
+    router.replace({ pathname: "/appointments", params: { phone } } as any);
   };
 
   return (

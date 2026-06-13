@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ActivityIndicator, Alert, Linking, Pressable, ScrollView, Text, TextInput, View } from "react-native";
+import { ActivityIndicator, Linking, Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { Link, useLocalSearchParams, router } from "expo-router";
 import { Feather } from "@expo/vector-icons";
 import { apiFetch } from "../../lib/api";
@@ -11,6 +11,7 @@ import { ClinicMap } from "../../components/ClinicMap";
 import { buildNativeMapsUrl } from "../../lib/map-links";
 import { registerPushSubscription } from "../../lib/notifications";
 import { supabase } from "../../lib/supabase";
+import { useAppToast } from "../../components/AppToast";
 
 export default function DoctorProfileScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -24,6 +25,7 @@ export default function DoctorProfileScreen() {
   const [time, setTime] = useState("");
   const [notes, setNotes] = useState("");
   const [booking, setBooking] = useState(false);
+  const { showToast } = useAppToast();
 
   useEffect(() => {
     if (!id) return;
@@ -51,7 +53,8 @@ export default function DoctorProfileScreen() {
   const book = async () => {
     if (!doctor) return;
     if (!fullName || !phone || !identity || !address || !date || !time) {
-      return Alert.alert("حقول ناقصة", "يرجى ملء جميع الحقول المطلوبة لتقديم الحجز.");
+      showToast({ type: "info", title: "حقول ناقصة", message: "يرجى تعبئة بيانات الحجز المطلوبة." });
+      return;
     }
     setBooking(true);
     const { response, data } = await apiFetch("/api/appointments", {
@@ -68,12 +71,15 @@ export default function DoctorProfileScreen() {
       }),
     });
     setBooking(false);
-    if (!response.ok) return Alert.alert("تعذر الحجز", data?.error || "حاول لاحقاً");
+    if (!response.ok) {
+      showToast({ type: "error", title: "تعذر الحجز", message: data?.error || "حاول لاحقاً" });
+      return;
+    }
     void registerPushSubscription({
       role: "patient",
       patientPhone: phone,
     }).catch(() => null);
-    Alert.alert("تم الحجز بنجاح", "تم إرسال طلب حجز الموعد للطبيب.");
+    showToast({ type: "success", title: "تم الحجز بنجاح", message: "تم إرسال طلب الموعد للطبيب." });
     router.push("/booking");
   };
 

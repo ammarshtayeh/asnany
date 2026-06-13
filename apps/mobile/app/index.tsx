@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   ActivityIndicator,
-  Alert,
   Animated,
   Image,
   Linking,
@@ -23,6 +22,7 @@ import { supabase } from "../lib/supabase";
 import { doctorMapCoordinates } from "../lib/map-links";
 import { Article, Doctor, MarketplaceAd, MedicalService, Offer, Store } from "../types";
 import { AIChatbot } from "../components/AIChatbot";
+import { useAppToast } from "../components/AppToast";
 
 type MainTab = "home" | "doctors" | "map" | "services" | "more";
 type ServiceFilter = "all" | "booking" | "beauty" | "lab" | "consultation" | "partner" | "stores";
@@ -89,6 +89,7 @@ export default function HomeScreen() {
   const [selectedSpecialty, setSelectedSpecialty] = useState("الكل");
   const [userLocation, setUserLocation] = useState<UserLocation | null>(null);
   const [locating, setLocating] = useState(false);
+  const { showToast } = useAppToast();
 
   const [doctors, setDoctors] = useState<Doctor[]>([]);
   const [stores, setStores] = useState<Store[]>([]);
@@ -152,7 +153,7 @@ export default function HomeScreen() {
     try {
       const { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
-        Alert.alert("صلاحية الموقع", "فعّل صلاحية الموقع حتى نرتب الأطباء حسب الأقرب لك.");
+        showToast({ type: "info", title: "صلاحية الموقع", message: "فعّل صلاحية الموقع حتى نرتب الأطباء حسب الأقرب لك." });
         return;
       }
       const position = await Location.getCurrentPositionAsync({
@@ -165,7 +166,7 @@ export default function HomeScreen() {
       setActiveTab("map");
     } catch (error) {
       console.error("Location error:", error);
-      Alert.alert("تعذر تحديد الموقع", "تأكد من تفعيل GPS وخدمات الموقع ثم حاول مرة أخرى.");
+      showToast({ type: "error", title: "تعذر تحديد الموقع", message: "تأكد من تفعيل GPS وخدمات الموقع ثم حاول مرة أخرى." });
     } finally {
       setLocating(false);
     }

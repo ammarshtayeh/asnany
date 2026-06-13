@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
-import { Alert, ActivityIndicator, Pressable, ScrollView, Switch, Text, TextInput, View } from "react-native";
+import { ActivityIndicator, Pressable, ScrollView, Switch, Text, TextInput, View } from "react-native";
 import { router } from "expo-router";
 import { Feather } from "@expo/vector-icons";
 
 import { getMobileApiBaseUrl } from "../../lib/api-base";
 import { doctorSession } from "../../lib/session";
 import { registerPushSubscription } from "../../lib/notifications";
+import { useAppToast } from "../../components/AppToast";
 
 type Appointment = {
   id: string;
@@ -45,6 +46,7 @@ export default function DoctorDashboardScreen() {
   const [profile, setProfile] = useState<DoctorProfile>({});
   const [token, setToken] = useState<string | undefined>(undefined);
   const [hoursText, setHoursText] = useState("");
+  const { showToast } = useAppToast();
 
   useEffect(() => {
     void bootstrap();
@@ -102,7 +104,7 @@ export default function DoctorDashboardScreen() {
       setAppointments(Array.isArray(appointmentsData?.appointments) ? appointmentsData.appointments : appointmentsData || []);
     } catch (error) {
       const message = error instanceof Error ? error.message : "تعذر تحميل لوحة الطبيب";
-      Alert.alert("لوحة الطبيب", message);
+      showToast({ type: "error", title: "لوحة الطبيب", message });
     } finally {
       setLoading(false);
     }
@@ -135,11 +137,11 @@ export default function DoctorDashboardScreen() {
         throw new Error(data?.error || "تعذر حفظ الملف");
       }
 
-      Alert.alert("تم", "تم حفظ بيانات الطبيب بنجاح");
+      showToast({ type: "success", title: "تم الحفظ", message: "تم حفظ بيانات الطبيب بنجاح." });
       await refresh(token);
     } catch (error) {
       const message = error instanceof Error ? error.message : "تعذر حفظ الملف";
-      Alert.alert("لوحة الطبيب", message);
+      showToast({ type: "error", title: "لوحة الطبيب", message });
     } finally {
       setSaving(false);
     }
@@ -165,7 +167,7 @@ export default function DoctorDashboardScreen() {
       await refresh(token);
     } catch (error) {
       const message = error instanceof Error ? error.message : "تعذر تحديث الحجز";
-      Alert.alert("الحجوزات", message);
+      showToast({ type: "error", title: "الحجوزات", message });
     }
   };
 
