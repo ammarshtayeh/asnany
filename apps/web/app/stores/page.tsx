@@ -19,7 +19,7 @@ export default function StoresPage() {
   
   const [formData, setFormData] = useState({
     storeName: "",
-    specialization: "أجهزة ومعدات",
+    specialization: "أجهزة ومستلزمات طبية",
     city: "رام الله",
     description: "",
     logoUrl: "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?q=80&w=200&auto=format&fit=crop",
@@ -75,7 +75,7 @@ export default function StoresPage() {
         setSubmitSuccess(false);
         setFormData({
           storeName: "",
-          specialization: "أجهزة ومعدات",
+          specialization: "أجهزة ومستلزمات طبية",
           city: "رام الله",
           description: "",
           logoUrl: "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?q=80&w=200&auto=format&fit=crop",
@@ -112,13 +112,13 @@ export default function StoresPage() {
           </div>
           <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white mb-6">
             <Package className="w-4 h-4 text-blue-400" />
-            <span className="text-sm font-bold">لأطباء الأسنان والعيادات (B2B)</span>
+            <span className="text-sm font-bold">للأطباء والعيادات والمراكز الطبية والتجميلية (B2B)</span>
           </div>
           <h1 className="text-4xl md:text-6xl font-black text-white mb-6 tracking-tight">
             دليل الموردين و <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">الشركات الطبية</span>
           </h1>
           <p className="text-slate-300 text-lg md:text-xl font-medium max-w-2xl mx-auto mb-10 leading-relaxed">
-            تواصل مباشرة مع كبرى شركات الأجهزة والمواد السنية في فلسطين، واحصل على أفضل عروض التوريد لعيادتك.
+            تواصل مباشرة مع كبرى شركات الأجهزة والمستلزمات الطبية، التجميلية، والبصريات في فلسطين، واحصل على أفضل عروض التوريد لعيادتك أو مركزك.
           </p>
 
           <div className="flex flex-col sm:flex-row justify-center items-center gap-4 max-w-2xl mx-auto">
@@ -294,10 +294,12 @@ export default function StoresPage() {
                         onChange={handleInputChange}
                         className="w-full bg-slate-50 border border-slate-200 px-4 py-3.5 rounded-xl outline-none focus:border-blue-500 focus:bg-white transition-all font-bold"
                       >
-                        <option value="أجهزة ومعدات">أجهزة ومعدات</option>
-                        <option value="مواد استهلاكية">مواد استهلاكية</option>
-                        <option value="أثاث عيادات">أثاث عيادات</option>
-                        <option value="برمجيات طبية">برمجيات طبية</option>
+                        <option value="أجهزة ومستلزمات طبية">أجهزة ومستلزمات طبية</option>
+                        <option value="أجهزة ليزر وتجميل">أجهزة ليزر وتجميل</option>
+                        <option value="أجهزة بصرية وعيون">أجهزة بصرية وعيون</option>
+                        <option value="أدوات ومواد استهلاكية">أدوات ومواد استهلاكية</option>
+                        <option value="أثاث عيادات ومراكز">أثاث عيادات ومراكز</option>
+                        <option value="أنظمة وبرمجيات طبية">أنظمة وبرمجيات طبية</option>
                       </select>
                     </div>
                     <div>

@@ -23,7 +23,7 @@ export default function MarketplacePage() {
   const [formData, setFormData] = useState({
     title: "",
     type: "equipment" as "equipment" | "job",
-    category: "كراسي أسنان",
+    category: "أجهزة ليزر وتجميل",
     price: "",
     salary: "",
     publisher: "",
@@ -85,7 +85,7 @@ export default function MarketplacePage() {
         setFormData({
           title: "",
           type: "equipment",
-          category: "كراسي أسنان",
+          category: "أجهزة ليزر وتجميل",
           price: "",
           salary: "",
           publisher: "",
@@ -119,7 +119,7 @@ export default function MarketplacePage() {
           <div className="relative overflow-hidden rounded-2xl bg-slate-950 p-7 text-white shadow-xl md:p-10">
             <Image
               src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1400&q=80"
-              alt="معدات طب الأسنان"
+              alt="مستلزمات وأجهزة العيادات الطبية والتجميلية"
               fill
               priority
               className="object-cover opacity-28"
@@ -128,7 +128,7 @@ export default function MarketplacePage() {
             <div className="relative z-10 max-w-3xl text-right">
               <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs font-black text-amber-200 backdrop-blur">
                 <Megaphone className="h-4 w-4" />
-                سوق أطباء الأسنان
+                سوق ملامح للأجهزة والمستلزمات الطبية والتجميلية
               </span>
               <h1 className="text-4xl font-black leading-tight md:text-6xl">معدات، وظائف، وفرص للعيادات.</h1>
               <p className="mt-5 max-w-2xl text-base font-semibold leading-8 text-slate-200">
@@ -347,10 +347,11 @@ export default function MarketplacePage() {
                           onChange={handleInputChange}
                           className="w-full bg-slate-50 border border-slate-200 px-4 py-3 rounded-xl outline-none focus:border-primary focus:bg-white transition-all font-bold"
                         >
-                          <option value="كراسي أسنان">كراسي أسنان</option>
-                          <option value="أجهزة تعقيم">أجهزة تعقيم</option>
-                          <option value="أشعة وتصوير">أشعة وتصوير</option>
-                          <option value="أدوات يدوية">أدوات يدوية</option>
+                          <option value="أجهزة ليزر وتجميل">أجهزة ليزر وتجميل</option>
+                          <option value="كراسي وأجهزة عيادات">كراسي وأجهزة عيادات</option>
+                          <option value="أجهزة فحص نظر وبصريات">أجهزة فحص نظر وبصريات</option>
+                          <option value="أجهزة تصوير وأشعة">أجهزة تصوير وأشعة</option>
+                          <option value="مستلزمات ومواد استهلاكية">مستلزمات ومواد استهلاكية</option>
                         </select>
                       ) : (
                         <select 
@@ -359,10 +360,11 @@ export default function MarketplacePage() {
                           onChange={handleInputChange}
                           className="w-full bg-slate-50 border border-slate-200 px-4 py-3 rounded-xl outline-none focus:border-primary focus:bg-white transition-all font-bold"
                         >
-                          <option value="أطباء أسنان">أطباء أسنان</option>
-                          <option value="مساعدي أسنان">مساعدي أسنان</option>
+                          <option value="أطباء (كل التخصصات)">أطباء (كل التخصصات)</option>
+                          <option value="ممرضين وأخصائيي بشرة">ممرضين وأخصائيي بشرة</option>
+                          <option value="أخصائيي فحص وبصريات">أخصائيي فحص وبصريات</option>
                           <option value="إداريين وسكرتاريا">إداريين وسكرتاريا</option>
-                          <option value="فنيي معمل">فنيي معمل</option>
+                          <option value="مساعدين وفنيي معمل">مساعدين وفنيي معمل</option>
                         </select>
                       )}
                     </div>

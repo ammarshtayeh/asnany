@@ -76,7 +76,7 @@ export default function AdminReviews() {
           <h1 className="text-3xl font-black text-slate-900 flex items-center gap-3">
             <Star className="w-8 h-8 text-yellow-500 fill-current" /> إدارة التقييمات والمراجعات
           </h1>
-          <p className="text-slate-500 mt-1">مراجعة وتوثيق واعتماد وإلغاء تقييمات المرضى لأطباء الأسنان</p>
+          <p className="text-slate-500 mt-1">مراجعة وتوثيق واعتماد وإلغاء تقييمات المرضى للأطباء والعيادات</p>
         </div>
       </div>
 

@@ -5,8 +5,8 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { supabase } from "../../lib/supabase";
 import { MarketplaceAd } from "../../types";
 
-const SPECIALIZATIONS_EQUIP = ["كراسي أسنان", "أجهزة تعقيم", "أشعة وتصوير", "أدوات يدوية"];
-const SPECIALIZATIONS_JOBS = ["أطباء أسنان", "مساعدي أسنان", "إداريين وسكرتاريا", "فنيي معمل"];
+const SPECIALIZATIONS_EQUIP = ["أجهزة ليزر وتجميل", "كراسي وأجهزة عيادات", "أجهزة فحص نظر وبصريات", "أجهزة تصوير وأشعة", "مستلزمات ومواد استهلاكية"];
+const SPECIALIZATIONS_JOBS = ["أطباء (كل التخصصات)", "ممرضين وأخصائيي بشرة", "أخصائيي فحص وبصريات", "إداريين وسكرتاريا", "مساعدين وفنيي معمل"];
 const CITIES = ["رام الله", "نابلس", "الخليل", "القدس", "بيت لحم", "جنين"];
 
 export default function MarketplaceScreen() {
@@ -127,7 +127,7 @@ export default function MarketplaceScreen() {
         <View style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "#f59e0b", opacity: 0.08 }} />
         
         <View style={{ backgroundColor: "rgba(245,158,11,0.2)", borderWidth: 1, borderColor: "rgba(245,158,11,0.4)", paddingHorizontal: 14, paddingVertical: 6, borderRadius: 100, alignSelf: "flex-start", marginBottom: 12 }}>
-          <Text style={{ color: "#fef3c7", fontWeight: "900", fontSize: 12 }}>📢 سوق أطباء الأسنان</Text>
+          <Text style={{ color: "#fef3c7", fontWeight: "900", fontSize: 12 }}>📢 سوق ملامح الطبي والتجميلي</Text>
         </View>
         <Text style={{ fontSize: 24, fontWeight: "900", color: "#fff", textAlign: "right", marginBottom: 6 }}>
           معدات، وظائف، وفرص للعيادات
@@ -277,7 +277,7 @@ export default function MarketplaceScreen() {
 
             <Text style={{ fontSize: 18, fontWeight: "900", color: "#0f172a", textAlign: "right", marginTop: 14, marginBottom: 8 }}>📢 أعلن معنا وحقق أهدافك</Text>
             <Text style={{ fontSize: 12, color: "#64748b", textAlign: "right", lineHeight: 18, marginBottom: 18 }}>
-              عيادات الأسنان والموردون الطبيون يبحثون عن هذه المستلزمات والوظائف يومياً. اختر الباقة المناسبة:
+              العيادات والمراكز وأخصائيو البشرة والتجميل يبحثون عن هذه المستلزمات والوظائف يومياً. اختر الباقة المناسبة:
             </Text>
 
             <View style={{ gap: 10, marginBottom: 18 }}>

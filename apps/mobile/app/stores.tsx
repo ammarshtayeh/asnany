@@ -18,7 +18,7 @@ type Store = {
   website?: string;
 };
 
-const SPECIALIZATIONS = ["أجهزة ومعدات", "مواد استهلاكية", "أثاث عيادات", "برمجيات طبية"];
+const SPECIALIZATIONS = ["أجهزة ومستلزمات طبية", "أجهزة ليزر وتجميل", "أجهزة بصرية وعيون", "أدوات ومواد استهلاكية", "أثاث عيادات ومراكز", "أنظمة وبرمجيات طبية"];
 const CITIES = ["رام الله", "نابلس", "الخليل", "القدس", "بيت لحم", "جنين"];
 
 export default function StoresScreen() {
@@ -100,13 +100,13 @@ export default function StoresScreen() {
         </Pressable>
 
         <View style={{ backgroundColor: "rgba(59,130,246,0.2)", borderWidth: 1, borderColor: "rgba(59,130,246,0.4)", paddingHorizontal: 14, paddingVertical: 6, borderRadius: 100, alignSelf: "flex-start", marginBottom: 12 }}>
-          <Text style={{ color: "#93c5fd", fontWeight: "900", fontSize: 12 }}>📦 لأطباء الأسنان والعيادات (B2B)</Text>
+          <Text style={{ color: "#93c5fd", fontWeight: "900", fontSize: 12 }}>📦 للأطباء والعيادات والمراكز (B2B)</Text>
         </View>
         <Text style={{ fontSize: 24, fontWeight: "900", color: "#fff", textAlign: "right", marginBottom: 6 }}>
           دليل الموردين و<Text style={{ color: "#60a5fa" }}>الشركات الطبية</Text>
         </Text>
         <Text style={{ color: "#94a3b8", fontSize: 12, fontWeight: "600", textAlign: "right", marginBottom: 20, lineHeight: 20 }}>
-          تواصل مباشرة مع كبرى شركات الأجهزة والمواد السنية في فلسطين
+          تواصل مباشرة مع كبرى شركات الأجهزة والمستلزمات الطبية والتجميلية والبصريات في فلسطين
         </Text>
 
         {/* Search */}

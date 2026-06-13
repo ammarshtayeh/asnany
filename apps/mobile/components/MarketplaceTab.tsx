@@ -24,7 +24,7 @@ export default function MarketplaceTab({
     <View style={styles.tabContent}>
       <View style={styles.filterBox}>
         <TextInput
-          placeholder="🔎 ابحث في سوق أجهزة الأسنان المستعملة..."
+          placeholder="🔎 ابحث في سوق أجهزة ومستلزمات العيادات..."
           placeholderTextColor="#94a3b8"
           value={searchQuery}
           onChangeText={setSearchQuery}
@@ -32,7 +32,7 @@ export default function MarketplaceTab({
           textAlign="right"
         />
       </View>
-      <Text style={styles.resultsCount}>🛒 أجهزة ومعدات أسنان مستعملة للبيع ({marketplace.length})</Text>
+      <Text style={styles.resultsCount}>🛒 أجهزة ومعدات عيادات مستعملة للبيع ({marketplace.length})</Text>
 
       {marketplace.length === 0 ? (
         <View style={styles.emptyContainer}>
