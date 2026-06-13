@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase";
 import { getDoctorSession } from "@/lib/doctor-session";
 
-export async function PATCH(request: Request) {
+async function updateDoctorProfile(request: Request) {
   try {
     const session = await getDoctorSession(request);
     if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -18,6 +18,9 @@ export async function PATCH(request: Request) {
       working_hours: body.working_hours || {},
       is_available: Boolean(body.is_available),
       availability_note: body.availability_note || "",
+      accepts_discount_card: Boolean(body.accepts_discount_card),
+      discount_value: body.discount_value || "",
+      discount_note: body.discount_note || "",
     };
 
     const { data, error } = await supabaseAdmin
@@ -33,4 +36,12 @@ export async function PATCH(request: Request) {
     console.error("Doctor profile update error:", err);
     return NextResponse.json({ error: err.message || "تعذر تحديث بيانات العيادة" }, { status: 500 });
   }
+}
+
+export async function POST(request: Request) {
+  return updateDoctorProfile(request);
+}
+
+export async function PATCH(request: Request) {
+  return updateDoctorProfile(request);
 }

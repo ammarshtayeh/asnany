@@ -17,6 +17,7 @@ type Appointment = {
   time?: string;
   status?: string;
   notes?: string;
+  discount_card_status?: "active" | "none" | null;
 };
 
 type DoctorProfile = {
@@ -269,6 +270,7 @@ export default function DoctorDashboardScreen() {
                 <Text style={{ marginTop: 4, fontSize: 13, fontWeight: "500", color: "#475569", textAlign: "right" }}>
                   {appointment.patient_phone ?? ""}
                 </Text>
+                <DiscountCardBadge active={appointment.discount_card_status === "active"} />
               </View>
             ))
           )}
@@ -348,6 +350,7 @@ export default function DoctorDashboardScreen() {
               <Text style={{ marginTop: 4, fontSize: 14, fontWeight: "500", color: "#475569", textAlign: "right" }}>
                 {appointment.patient_phone ?? ""} {appointment.patient_identity ? `- ${appointment.patient_identity}` : ""}
               </Text>
+              <DiscountCardBadge active={appointment.discount_card_status === "active"} />
               <Text style={{ marginTop: 4, fontSize: 14, fontWeight: "500", color: "#475569", textAlign: "right" }}>
                 {appointment.date ?? ""} {appointment.time ? `- ${appointment.time}` : ""}
               </Text>
@@ -372,6 +375,17 @@ export default function DoctorDashboardScreen() {
         )}
       </View>
     </ScrollView>
+  );
+}
+
+function DiscountCardBadge({ active }: { active: boolean }) {
+  return (
+    <View style={{ marginTop: 8, alignSelf: "flex-end", flexDirection: "row-reverse", alignItems: "center", gap: 6, borderRadius: 999, borderWidth: 1, borderColor: active ? "#bfdbfe" : "#e2e8f0", backgroundColor: active ? "#eff6ff" : "#f8fafc", paddingHorizontal: 10, paddingVertical: 6 }}>
+      <Feather name="credit-card" size={13} color={active ? "#1d4ed8" : "#64748b"} />
+      <Text style={{ color: active ? "#1d4ed8" : "#64748b", fontSize: 11, fontWeight: "900" }}>
+        {active ? "مشترك بطاقة الخصم" : "غير مشترك"}
+      </Text>
+    </View>
   );
 }
 

@@ -40,6 +40,15 @@ export type AppointmentRecord = {
   status?: string | null;
   created_at?: string | null;
   doctor?: Doctor | null;
+  discount_card_status?: "active" | "none" | null;
+  discount_card_member?: {
+    id: string;
+    full_name: string;
+    phone: string;
+    city?: string | null;
+    status: string;
+    expires_at?: string | null;
+  } | null;
 };
 
 export type DoctorAccount = {

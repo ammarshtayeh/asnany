@@ -17,8 +17,9 @@ export function middleware(request: NextRequest) {
     // For now, doing a basic check for demo purposes.
     // Replace with Supabase session checking in production.
     const hasAuthCookie = request.cookies.has('admin_session');
+    const hasBearerToken = Boolean(request.headers.get('authorization')?.match(/^Bearer\s+.+$/i));
 
-    if (!hasAuthCookie) {
+    if (!hasAuthCookie && !(isAdminApi && hasBearerToken)) {
       if (isAdminApi) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
       }
@@ -36,8 +37,9 @@ export function middleware(request: NextRequest) {
     }
 
     const hasDoctorCookie = request.cookies.has('doctor_session');
+    const hasBearerToken = Boolean(request.headers.get('authorization')?.match(/^Bearer\s+.+$/i));
 
-    if (!hasDoctorCookie) {
+    if (!hasDoctorCookie && !(isDoctorApi && hasBearerToken)) {
       if (isDoctorApi) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
       }

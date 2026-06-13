@@ -36,7 +36,7 @@ export default function AdminLoginScreen() {
         raw: data,
       });
 
-      router.replace("/admin/doctor-accounts");
+      router.replace("/admin/dashboard");
     } catch (error) {
       const message = error instanceof Error ? error.message : "تعذر تسجيل الدخول";
       Alert.alert("دخول الأدمن", message);

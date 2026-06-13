@@ -21,6 +21,8 @@ export default function RootLayout() {
         <Stack.Screen name="doctor/login" />
         <Stack.Screen name="doctor/dashboard" />
         <Stack.Screen name="admin/login" />
+        <Stack.Screen name="admin/dashboard" />
+        <Stack.Screen name="admin/discount-card" />
         <Stack.Screen name="admin/doctor-accounts" />
         <Stack.Screen name="about" />
         <Stack.Screen name="advertise" />

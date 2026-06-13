@@ -21,7 +21,14 @@ export async function POST(request: Request) {
     }
 
     // Set cookie using next/server
-    const response = NextResponse.json({ success: true });
+    const response = NextResponse.json({
+      success: true,
+      token: admin.id,
+      admin: {
+        id: admin.id,
+        email: admin.email,
+      },
+    });
     
     // We set a cookie manually on the response object
     response.cookies.set("admin_session", admin.id, {

@@ -5,11 +5,11 @@ export async function GET() {
   try {
     const { data, error } = await supabaseAdmin
       .from("doctor_accounts")
-      .select("id, doctor_id, email, is_active, created_at, doctors(name, city, phone)")
+      .select("id, doctor_id, email, is_active, created_at, doctors(id, name, city, phone, specialty)")
       .order("created_at", { ascending: false });
 
     if (error) throw error;
-    return NextResponse.json({ success: true, accounts: data || [] });
+    return NextResponse.json({ success: true, accounts: data || [], doctors: data || [] });
   } catch (err: any) {
     console.error("Doctor accounts list error:", err);
     return NextResponse.json({ error: err.message || "تعذر تحميل حسابات الأطباء" }, { status: 500 });
@@ -18,7 +18,40 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    const { doctor_id, email, password, is_active = true } = await request.json();
+    const body = await request.json();
+    let { doctor_id, email, password, is_active = true } = body;
+
+    if (!doctor_id && (body.full_name || body.name)) {
+      const specialty = body.specialty
+        ? String(body.specialty).split(",").map((item) => item.trim()).filter(Boolean)
+        : ["أسنان"];
+      const { data: doctor, error: doctorError } = await supabaseAdmin
+        .from("doctors")
+        .insert([{
+          name: body.full_name || body.name,
+          category: body.category || "أسنان",
+          specialty,
+          city: body.city || "",
+          area: body.area || "",
+          phone: body.phone || "",
+          whatsapp: body.whatsapp || "",
+          discount_value: body.discount_value || null,
+          discount_note: body.discount_note || null,
+          accepts_discount_card: Boolean(body.discount_value || body.discount_note),
+          accepts_insurance: false,
+          verified: true,
+          is_featured: false,
+          rating: 5,
+          image_url: body.image_url || "",
+          clinic_photos: [],
+          working_hours: {},
+        }])
+        .select("id")
+        .single();
+
+      if (doctorError) throw doctorError;
+      doctor_id = doctor.id;
+    }
     if (!doctor_id || !email || !password) {
       return NextResponse.json({ error: "الطبيب والبريد وكلمة المرور مطلوبة" }, { status: 400 });
     }
@@ -83,4 +116,3 @@ export async function DELETE(request: Request) {
     return NextResponse.json({ error: err.message || "تعذر حذف حساب الطبيب" }, { status: 500 });
   }
 }
-
