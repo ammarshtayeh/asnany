@@ -1,8 +1,56 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
+type SessionRole = 'admin' | 'doctor';
+
+function base64UrlDecode(value: string) {
+  const normalized = value.replace(/-/g, '+').replace(/_/g, '/');
+  const padded = normalized + '='.repeat((4 - (normalized.length % 4)) % 4);
+  return Uint8Array.from(atob(padded), (character) => character.charCodeAt(0));
+}
+
+function getSessionSecret() {
+  const secret =
+    process.env.AUTH_SECRET ||
+    process.env.SUPABASE_SERVICE_ROLE_KEY ||
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  if (!secret && process.env.NODE_ENV === 'production') {
+    throw new Error('AUTH_SECRET is required in production');
+  }
+
+  return secret || 'development-session-secret';
+}
+
+async function verifySignedToken(token: string | undefined, role: SessionRole) {
+  if (!token || !token.includes('.')) return false;
+  const [encodedPayload, signature] = token.split('.');
+  if (!encodedPayload || !signature) return false;
+
+  try {
+    const key = await crypto.subtle.importKey(
+      'raw',
+      new TextEncoder().encode(getSessionSecret()),
+      { name: 'HMAC', hash: 'SHA-256' },
+      false,
+      ['verify']
+    );
+    const validSignature = await crypto.subtle.verify('HMAC', key, base64UrlDecode(signature), new TextEncoder().encode(encodedPayload));
+    if (!validSignature) return false;
+
+    const payload = JSON.parse(new TextDecoder().decode(base64UrlDecode(encodedPayload)));
+    return payload?.role === role && payload?.sub && payload?.exp >= Math.floor(Date.now() / 1000);
+  } catch {
+    return false;
+  }
+}
+
+function bearerToken(request: NextRequest) {
+  return request.headers.get('authorization')?.match(/^Bearer\s+(.+)$/i)?.[1];
+}
+
 // Basic middleware for admin route protection
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
   if (pathname.startsWith('/admin') || pathname.startsWith('/api/admin')) {
@@ -13,13 +61,10 @@ export function middleware(request: NextRequest) {
       return NextResponse.next();
     }
 
-    // Check for a session cookie or auth token
-    // For now, doing a basic check for demo purposes.
-    // Replace with Supabase session checking in production.
-    const hasAuthCookie = request.cookies.has('admin_session');
-    const hasBearerToken = Boolean(request.headers.get('authorization')?.match(/^Bearer\s+.+$/i));
+    const hasValidCookie = await verifySignedToken(request.cookies.get('admin_session')?.value, 'admin');
+    const hasValidBearerToken = isAdminApi ? await verifySignedToken(bearerToken(request), 'admin') : false;
 
-    if (!hasAuthCookie && !(isAdminApi && hasBearerToken)) {
+    if (!hasValidCookie && !hasValidBearerToken) {
       if (isAdminApi) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
       }
@@ -36,10 +81,10 @@ export function middleware(request: NextRequest) {
       return NextResponse.next();
     }
 
-    const hasDoctorCookie = request.cookies.has('doctor_session');
-    const hasBearerToken = Boolean(request.headers.get('authorization')?.match(/^Bearer\s+.+$/i));
+    const hasValidCookie = await verifySignedToken(request.cookies.get('doctor_session')?.value, 'doctor');
+    const hasValidBearerToken = isDoctorApi ? await verifySignedToken(bearerToken(request), 'doctor') : false;
 
-    if (!hasDoctorCookie && !(isDoctorApi && hasBearerToken)) {
+    if (!hasValidCookie && !hasValidBearerToken) {
       if (isDoctorApi) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
       }

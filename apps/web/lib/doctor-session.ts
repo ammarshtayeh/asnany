@@ -1,11 +1,13 @@
 import { cookies } from "next/headers";
 import { supabaseAdmin } from "@/lib/supabase";
+import { verifySessionToken } from "@/lib/session-token";
 
 export async function getDoctorSession(request?: Request) {
   const cookieStore = await cookies();
-  const cookieAccountId = cookieStore.get("doctor_session")?.value;
-  const bearerAccountId = request?.headers.get("authorization")?.match(/^Bearer\s+(.+)$/i)?.[1];
-  const accountId = bearerAccountId || cookieAccountId;
+  const cookieToken = cookieStore.get("doctor_session")?.value;
+  const bearerToken = request?.headers.get("authorization")?.match(/^Bearer\s+(.+)$/i)?.[1];
+  const session = verifySessionToken(bearerToken, "doctor") || verifySessionToken(cookieToken, "doctor");
+  const accountId = session?.sub;
   if (!accountId) return null;
 
   const { data, error } = await supabaseAdmin

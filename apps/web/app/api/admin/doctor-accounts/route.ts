@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase";
+import { hashPassword } from "@/lib/passwords";
 
 export async function GET() {
   try {
@@ -58,7 +59,7 @@ export async function POST(request: Request) {
 
     const { data, error } = await supabaseAdmin
       .from("doctor_accounts")
-      .upsert({ doctor_id, email, password, is_active }, { onConflict: "email" })
+      .upsert({ doctor_id, email, password: hashPassword(password), is_active }, { onConflict: "email" })
       .select("id, doctor_id, email, is_active, created_at")
       .single();
 
@@ -78,7 +79,7 @@ export async function PATCH(request: Request) {
 
     const update: Record<string, any> = {};
     if (typeof is_active === "boolean") update.is_active = is_active;
-    if (password && password.length >= 6) update.password = password;
+    if (password && password.length >= 6) update.password = hashPassword(password);
 
     if (Object.keys(update).length === 0) {
       return NextResponse.json({ error: "لا توجد بيانات للتحديث" }, { status: 400 });
