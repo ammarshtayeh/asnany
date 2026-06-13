@@ -10,6 +10,7 @@ const SECTIONS = [
     bgColor: "#ecfdf5",
     items: [
       { emoji: "🦷", label: "احجز طبيب", desc: "احجز موعد مع الطبيب المناسب", path: "/booking" },
+      { emoji: "📋", label: "حجوزاتي", desc: "تابع حالة مواعيدك برقم الهاتف", path: "/appointments" },
       { emoji: "💳", label: "بطاقة الخصم", desc: "خصومات حصرية لحاملي البطاقة", path: "/discount-card" },
       { emoji: "💆", label: "مراكز التجميل", desc: "تجميل الأسنان والابتسامة", path: "/beauty" },
       { emoji: "🔬", label: "المختبرات", desc: "مختبرات طبية معتمدة", path: "/labs" },

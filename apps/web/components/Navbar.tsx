@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import {
   BookOpen,
   CalendarCheck2,
+  ClipboardList,
   Home,
   Menu,
   Microscope,
@@ -64,6 +65,13 @@ const links = [
     active: "bg-teal-50 text-teal-700 border-teal-100",
   },
   {
+    href: "/appointments",
+    label: "حجوزاتي",
+    icon: ClipboardList,
+    color: "text-sky-600",
+    active: "bg-sky-50 text-sky-700 border-sky-100",
+  },
+  {
     href: "/blog",
     label: "المجلة",
     icon: BookOpen,
@@ -84,7 +92,7 @@ const mobilePrimaryLinks = [
   { href: "/#doctors", label: "بحث", icon: Search },
   { href: "/booking", label: "حجز", icon: CalendarCheck2 },
   { href: "/offers", label: "عروض", icon: Tags },
-  { href: "/marketplace", label: "السوق", icon: Store },
+  { href: "/appointments", label: "حجوزاتي", icon: ClipboardList },
 ];
 
 export default function Navbar() {

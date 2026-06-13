@@ -135,7 +135,7 @@ export default async function BookingPage({
       ]}
       actions={[
         { label: "ابحث عن طبيب", href: "/doctors/search" },
-        { label: "سجل عيادتك", href: "/join" },
+        { label: "تابع حجوزاتك", href: "/appointments" },
       ]}
       listings={listings}
       emptyLabel="سيتم عرض خدمات الحجز المتاحة قريباً."

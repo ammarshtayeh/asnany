@@ -2,6 +2,42 @@ import { NextResponse } from "next/server";
 import { isSupabaseConfigured, supabaseAdmin } from "@/lib/supabase";
 import { notifyDoctorAboutAppointment } from "@/lib/notifications";
 
+function normalizePhone(phone?: string | null) {
+  return (phone || "").replace(/[^0-9]/g, "");
+}
+
+export async function GET(request: Request) {
+  try {
+    if (!isSupabaseConfigured) {
+      return NextResponse.json({ success: true, appointments: [] });
+    }
+
+    const { searchParams } = new URL(request.url);
+    const rawPhone = searchParams.get("phone") || "";
+    const phone = normalizePhone(rawPhone);
+
+    if (phone.length < 7) {
+      return NextResponse.json({ error: "يرجى إدخال رقم هاتف صحيح" }, { status: 400 });
+    }
+
+    const candidates = Array.from(new Set([rawPhone.trim(), phone].filter(Boolean)));
+    const { data, error } = await supabaseAdmin
+      .from("appointments")
+      .select("*, doctors(name, city, area, phone, whatsapp)")
+      .in("patient_phone", candidates)
+      .order("date", { ascending: false })
+      .order("created_at", { ascending: false })
+      .limit(30);
+
+    if (error) throw error;
+
+    return NextResponse.json({ success: true, appointments: data || [] });
+  } catch (err: any) {
+    console.error("Patient appointments list error:", err);
+    return NextResponse.json({ error: err.message || "تعذر جلب الحجوزات" }, { status: 500 });
+  }
+}
+
 export async function POST(request: Request) {
   try {
     if (!isSupabaseConfigured) {
@@ -12,7 +48,7 @@ export async function POST(request: Request) {
     const doctorId = body.doctor_id;
     const patientFullName = body.patient_full_name || body.full_name;
     const patientEmail = body.patient_email || body.email || null;
-    const patientPhone = body.patient_phone || body.phone;
+    const patientPhone = normalizePhone(body.patient_phone || body.phone);
     const patientIdentity = body.patient_identity || body.identity;
     const patientAddress = body.patient_address || body.address;
     const date = body.date;

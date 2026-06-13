@@ -26,6 +26,7 @@ export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
   const [bookingNotes, setBookingNotes] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [submittedPhone, setSubmittedPhone] = useState("");
   const [isSaved, setIsSaved] = useState(false);
 
   // Reviews States
@@ -103,8 +104,14 @@ export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
 
   const handleSmartBookingSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!bookingName || !bookingEmail || !bookingPhone || !bookingIdentity || !bookingAddress || !bookingDate) {
-      alert("يرجى تعبئة جميع الحقول المطلوبة بما فيها البريد الإلكتروني");
+    if (!bookingName || !bookingPhone || !bookingIdentity || !bookingAddress || !bookingDate) {
+      alert("يرجى تعبئة الحقول الأساسية المطلوبة");
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (bookingEmail.trim() && !emailRegex.test(bookingEmail)) {
+      alert("يرجى إدخال بريد إلكتروني صحيح أو تركه فارغاً");
       return;
     }
 
@@ -115,7 +122,7 @@ export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
       body: JSON.stringify({
         doctor_id: doctor.id,
         patient_full_name: bookingName,
-        patient_email: bookingEmail,
+        patient_email: bookingEmail.trim() || null,
         patient_phone: bookingPhone,
         patient_identity: bookingIdentity,
         patient_address: bookingAddress,
@@ -130,6 +137,7 @@ export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
       alert(data.error || "تعذر إرسال الحجز");
       return;
     }
+    setSubmittedPhone(bookingPhone);
     setShowSuccessModal(true);
     setBookingName("");
     setBookingEmail("");
@@ -520,7 +528,7 @@ export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
 
         <form onSubmit={handleSmartBookingSubmit} className="grid gap-3 md:grid-cols-2">
           <BookingInput label="الاسم الرباعي" value={bookingName} onChange={setBookingName} required />
-          <BookingInput label="البريد الإلكتروني" value={bookingEmail} onChange={setBookingEmail} required type="email" />
+          <BookingInput label="البريد الإلكتروني - اختياري" value={bookingEmail} onChange={setBookingEmail} type="email" />
           <BookingInput label="رقم الهاتف" value={bookingPhone} onChange={setBookingPhone} required inputMode="tel" />
           <BookingInput label="رقم الهوية" value={bookingIdentity} onChange={setBookingIdentity} required />
           <BookingInput label="عنوان السكن" value={bookingAddress} onChange={setBookingAddress} required />
@@ -553,13 +561,21 @@ export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
             <p className="mt-2 text-sm font-bold leading-7 text-slate-500">
               سيظهر الطلب للطبيب داخل لوحة العيادة، وسيتم التواصل معك لتأكيد الموعد.
             </p>
-            <button
-              type="button"
-              onClick={() => setShowSuccessModal(false)}
-              className="mt-5 min-h-12 rounded-2xl bg-slate-950 px-6 text-sm font-black text-white"
-            >
-              تمام
-            </button>
+            <div className="mt-5 grid gap-2 sm:grid-cols-2">
+              <Link
+                href={`/appointments?phone=${encodeURIComponent(submittedPhone)}`}
+                className="min-h-12 rounded-2xl bg-slate-950 px-6 py-3 text-sm font-black text-white"
+              >
+                حجوزاتي
+              </Link>
+              <button
+                type="button"
+                onClick={() => setShowSuccessModal(false)}
+                className="min-h-12 rounded-2xl border border-slate-200 bg-white px-6 text-sm font-black text-slate-700"
+              >
+                تمام
+              </button>
+            </div>
           </div>
         </div>
       ) : null}

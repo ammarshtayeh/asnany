@@ -81,15 +81,15 @@ export default function BookingScreen() {
   }, [doctor, selectedWeekday]);
 
   const canSubmit = useMemo(
-    () => Boolean(fullName && email && phone && identity && address && date && time && doctorId),
-    [fullName, email, phone, identity, address, date, time, doctorId]
+    () => Boolean(fullName && phone && identity && address && date && time && doctorId),
+    [fullName, phone, identity, address, date, time, doctorId]
   );
 
   const submit = async () => {
     if (!doctorId) return Alert.alert("تنبيه", "اختر طبيباً أولاً من صفحة الطبيب أو من القائمة.");
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
+    if (email.trim() && !emailRegex.test(email)) {
       return Alert.alert("خطأ في البيانات", "يرجى إدخال بريد إلكتروني صحيح");
     }
 
@@ -108,7 +108,7 @@ export default function BookingScreen() {
       body: JSON.stringify({
         doctor_id: doctorId,
         patient_full_name: fullName,
-        patient_email: email,
+        patient_email: email.trim() || null,
         patient_phone: phone,
         patient_identity: identity,
         patient_address: address,
@@ -132,8 +132,10 @@ export default function BookingScreen() {
       patientPhone: phone,
     }).catch(() => null);
 
-    Alert.alert("تم الحجز بنجاح", "تم تسجيل حجزك وسيظهر للطبيب في لوحة التحكم الخاصة به.");
-    router.back();
+    Alert.alert("تم إرسال طلب الحجز", "سنرسل لك تنبيهاً عند تحديث حالة الموعد. يمكنك متابعة الحجز من صفحة حجوزاتي.", [
+      { text: "لاحقاً", onPress: () => router.back(), style: "cancel" },
+      { text: "حجوزاتي", onPress: () => router.replace({ pathname: "/appointments", params: { phone } } as any) },
+    ]);
   };
 
   return (
@@ -150,7 +152,7 @@ export default function BookingScreen() {
 
       <AppCard>
         <AppTitle>حجز موعد</AppTitle>
-        <AppSubtitle>الاسم الرباعي، البريد الإلكتروني، الهوية، والعنوان تظهر للطبيب مباشرة لتأكيد حجزك.</AppSubtitle>
+        <AppSubtitle>املأ البيانات الأساسية فقط. بعد الإرسال تقدر تتابع حالة الحجز من صفحة حجوزاتي برقم الهاتف.</AppSubtitle>
 
         {doctorId ? (
           <View style={{ marginTop: 12, borderRadius: 18, backgroundColor: "#eff6ff", padding: 14, borderWidth: 1, borderColor: "#dbeafe" }}>
@@ -170,7 +172,7 @@ export default function BookingScreen() {
         ) : null}
 
         <Field label="الاسم الرباعي *" value={fullName} onChangeText={setFullName} />
-        <Field label="البريد الإلكتروني *" value={email} onChangeText={setEmail} keyboardType="email-address" placeholder="example@domain.com" />
+        <Field label="البريد الإلكتروني - اختياري" value={email} onChangeText={setEmail} keyboardType="email-address" placeholder="example@domain.com" />
         <Field label="رقم الهاتف *" value={phone} onChangeText={setPhone} keyboardType="phone-pad" />
         <Field label="رقم الهوية *" value={identity} onChangeText={setIdentity} keyboardType="number-pad" />
         <Field label="العنوان *" value={address} onChangeText={setAddress} />
