@@ -1,6 +1,7 @@
 {
   "cli": {
-    "version": ">= 14.0.0"
+    "version": ">= 20.1.0",
+    "appVersionSource": "remote"
   },
   "build": {
     "development": {
@@ -19,10 +20,14 @@
       }
     },
     "production": {
+      "autoIncrement": true,
       "environment": "production",
       "env": {
         "EXPO_PUBLIC_EAS_PROJECT_ID": "0afe92b7-860e-493a-977e-b2742b96b947"
       }
     }
+  },
+  "submit": {
+    "production": {}
   }
 }
