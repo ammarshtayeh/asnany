@@ -15,7 +15,6 @@ import {
 import { Link, router } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Location from "expo-location";
-import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { Ionicons } from "@expo/vector-icons";
 import { colors, cities, specialties } from "../constants/theme";
 import { supabase } from "../lib/supabase";
@@ -746,82 +745,44 @@ function MiniMap({
   userLocation?: UserLocation | null;
   compact?: boolean;
 }) {
-  const points = doctors.slice(0, compact ? 10 : 28);
-  const center = userLocation || (() => {
-    const first = points[0];
-    if (!first) return { lat: 31.9522, lng: 35.2332 };
-    const coords = doctorMapCoordinates(first);
-    return { lat: coords.latitude, lng: coords.longitude };
-  })();
-  const latitudeDelta = compact ? 0.72 : 1.4;
-  const longitudeDelta = compact ? 0.54 : 1.0;
+  const points = doctors.slice(0, compact ? 3 : 5);
 
   return (
     <View style={[styles.mapCard, compact && styles.mapCardCompact]}>
-      <MapView
-        provider={Platform.OS === "android" ? PROVIDER_GOOGLE : undefined}
-        style={styles.nativeMap}
-        initialRegion={{
-          latitude: center.lat,
-          longitude: center.lng,
-          latitudeDelta,
-          longitudeDelta,
-        }}
-        showsMyLocationButton={false}
-        toolbarEnabled={false}
-      >
+      <View style={styles.safeMapPreview}>
+        <View style={styles.safeMapIcon}>
+          <Ionicons name="map-outline" size={30} color={colors.sky} />
+        </View>
+        <Text style={styles.mapFloatingTitle}>{points.length ? `${points.length} عيادة قريبة` : "الخريطة جاهزة"}</Text>
+        <Text style={styles.mapFloatingText}>
+          {userLocation ? "موقعك مستخدم لترتيب النتائج حسب الأقرب" : "حدد موقعك لعرض الأقرب ثم افتح الاتجاهات من خرائط الجهاز"}
+        </Text>
+      </View>
+      <View style={styles.safeMapList}>
         {points.map((doctor, index) => {
           const coords = doctorMapCoordinates(doctor);
-          if (!coords || !Number.isFinite(coords.latitude) || !Number.isFinite(coords.longitude)) {
+          if (!Number.isFinite(coords.latitude) || !Number.isFinite(coords.longitude)) {
             return null;
           }
           return (
-            <Marker
+            <Pressable
               key={doctor.id}
-              coordinate={{ latitude: coords.latitude, longitude: coords.longitude }}
-              title={doctor.name}
-              description={`${doctor.city || ""}${doctor.area ? ` - ${doctor.area}` : ""}`}
-              onCalloutPress={() => openNativeMap(doctor)}
+              onPress={() => openNativeMap(doctor)}
+              style={styles.safeMapRow}
             >
-              <View style={[styles.nativeMarker, { backgroundColor: index < 4 ? colors.sky : colors.emerald }]}>
-                <Text style={styles.nativeMarkerText}>{index + 1}</Text>
+              <View style={[styles.safeMapPin, { backgroundColor: index < 3 ? colors.sky : colors.emerald }]}>
+                <Text style={styles.safeMapPinText}>{index + 1}</Text>
               </View>
-            </Marker>
+              <View style={styles.flex}>
+                <Text style={styles.safeMapDoctorName} numberOfLines={1}>{doctor.name}</Text>
+                <Text style={styles.safeMapDoctorMeta} numberOfLines={1}>
+                  {doctor.city || "فلسطين"}{doctor.area ? ` - ${doctor.area}` : ""} · {coords.latitude.toFixed(4)}, {coords.longitude.toFixed(4)}
+                </Text>
+              </View>
+              <Ionicons name="navigate-outline" size={18} color={colors.sky} />
+            </Pressable>
           );
         })}
-        {userLocation && Number.isFinite(userLocation.lat) && Number.isFinite(userLocation.lng) ? (
-          <Marker coordinate={{ latitude: userLocation.lat, longitude: userLocation.lng }} title="موقعي">
-            <View style={{ alignItems: "center", justifyContent: "center" }}>
-              <View style={{
-                position: "absolute",
-                width: 44,
-                height: 44,
-                borderRadius: 22,
-                backgroundColor: "rgba(225, 29, 72, 0.2)",
-                borderWidth: 1.5,
-                borderColor: "rgba(225, 29, 72, 0.4)",
-              }} />
-              <View style={{
-                backgroundColor: "#fff",
-                padding: 6,
-                borderRadius: 14,
-                borderWidth: 2,
-                borderColor: colors.rose,
-                shadowColor: "#000",
-                shadowOffset: { width: 0, height: 3 },
-                shadowOpacity: 0.3,
-                shadowRadius: 4,
-                elevation: 6,
-              }}>
-                <Ionicons name="location-sharp" size={20} color={colors.rose} />
-              </View>
-            </View>
-          </Marker>
-        ) : null}
-      </MapView>
-      <View style={styles.mapFloatingHeader}>
-        <Text style={styles.mapFloatingTitle}>{points.length ? `${points.length} عيادة على الخريطة` : "الخريطة جاهزة"}</Text>
-        <Text style={styles.mapFloatingText}>{userLocation ? "موقعك ظاهر باللون الأحمر" : "حدد موقعك لعرض الأقرب"}</Text>
       </View>
     </View>
   );
@@ -1473,23 +1434,66 @@ const styles = StyleSheet.create({
     position: "relative",
   },
   mapCardCompact: {
-    height: 245,
+    height: 320,
   },
-  nativeMap: {
-    ...StyleSheet.absoluteFillObject,
-  },
-  mapFloatingHeader: {
-    position: "absolute",
-    top: 12,
-    right: 16,
-    left: 16,
-    borderRadius: 18,
-    backgroundColor: "rgba(255, 255, 255, 0.94)",
-    borderWidth: 1,
-    borderColor: "rgba(226, 232, 240, 0.9)",
-    paddingHorizontal: 14,
-    paddingVertical: 11,
+  safeMapPreview: {
+    padding: 16,
     alignItems: "flex-end",
+    backgroundColor: "#eff6ff",
+    borderBottomWidth: 1,
+    borderBottomColor: "#bae6fd",
+  },
+  safeMapIcon: {
+    width: 54,
+    height: 54,
+    borderRadius: 18,
+    backgroundColor: "#dbeafe",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 10,
+  },
+  safeMapList: {
+    flex: 1,
+    padding: 12,
+    gap: 8,
+    backgroundColor: "#f8fafc",
+  },
+  safeMapRow: {
+    minHeight: 52,
+    borderRadius: 16,
+    backgroundColor: "#fff",
+    borderWidth: 1,
+    borderColor: colors.border,
+    flexDirection: "row-reverse",
+    alignItems: "center",
+    gap: 10,
+    paddingHorizontal: 12,
+    paddingVertical: 9,
+  },
+  safeMapPin: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  safeMapPinText: {
+    color: "#fff",
+    fontSize: 11,
+    fontWeight: "900",
+  },
+  safeMapDoctorName: {
+    color: colors.ink,
+    fontSize: 13,
+    fontWeight: "900",
+    textAlign: "right",
+  },
+  safeMapDoctorMeta: {
+    color: colors.muted,
+    fontSize: 10,
+    fontWeight: "700",
+    marginTop: 2,
+    textAlign: "right",
   },
   distancePanel: {
     backgroundColor: colors.card,
@@ -1552,36 +1556,6 @@ const styles = StyleSheet.create({
     fontWeight: "800",
     marginTop: 2,
     textAlign: "right",
-  },
-  nativeMarker: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 3,
-    borderColor: "#fff",
-  },
-  nativeMarkerText: {
-    color: "#fff",
-    fontSize: 11,
-    fontWeight: "900",
-  },
-  nativeUserMarker: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "rgba(225, 29, 72, 0.18)",
-    borderWidth: 2,
-    borderColor: "#fff",
-  },
-  nativeUserMarkerCore: {
-    width: 14,
-    height: 14,
-    borderRadius: 7,
-    backgroundColor: colors.rose,
   },
   mapCallout: {
     backgroundColor: colors.ink,
