@@ -170,7 +170,7 @@ export const demoDoctors: Doctor[] = [
     },
     acceptsInsurance: true,
     insuranceList: ["NatHealth"],
-    imageUrl: "https://images.unsplash.com/photo-1594824813573-246434de83fb",
+    imageUrl: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d",
     rating: 4.9,
     isFeatured: true,
     verified: true

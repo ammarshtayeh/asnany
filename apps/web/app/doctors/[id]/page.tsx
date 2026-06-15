@@ -22,9 +22,10 @@ async function getDoctor(id: string): Promise<Doctor> {
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const resolvedParams = await params;
   const doctor = await getDoctor(resolvedParams.id);
+  const doctorName = doctor.name.trim().startsWith("د.") ? doctor.name.trim() : `د. ${doctor.name}`;
   return {
-    title: `د. ${doctor.name} — ${doctor.city} | ملامح`,
-    description: `احجز موعد مع د. ${doctor.name}، طبيب ${doctor.specialty.join('، ')} في ${doctor.city}`,
+    title: `${doctorName} — ${doctor.city} | ملامح`,
+    description: `احجز موعد مع ${doctorName}، طبيب ${doctor.specialty.join('، ')} في ${doctor.city}`,
     openGraph: { images: doctor.image_url ? [doctor.image_url] : [] }
   };
 }
@@ -57,5 +58,3 @@ export default async function DoctorPage({ params }: { params: Promise<{ id: str
     </main>
   );
 }
-
-
