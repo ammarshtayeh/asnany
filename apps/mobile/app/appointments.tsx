@@ -3,6 +3,7 @@ import { ActivityIndicator, Pressable, ScrollView, Text, TextInput, View } from 
 import { router, useLocalSearchParams } from "expo-router";
 import { Feather } from "@expo/vector-icons";
 import { apiFetch } from "../lib/api";
+import { registerPushSubscription } from "../lib/notifications";
 import { AppButton } from "../components/Buttons";
 import { AppCard } from "../components/AppCard";
 import { AppSubtitle, AppTitle } from "../components/AppText";
@@ -13,6 +14,7 @@ type Appointment = {
   time?: string | null;
   status?: "pending" | "confirmed" | "cancelled" | "completed" | string;
   notes?: string | null;
+  patient_phone?: string | null;
   doctors?: {
     name?: string | null;
     city?: string | null;
@@ -64,7 +66,15 @@ export default function PatientAppointmentsScreen() {
       return;
     }
 
-    setAppointments(Array.isArray(data?.appointments) ? data.appointments : []);
+    const nextAppointments = Array.isArray(data?.appointments) ? data.appointments : [];
+    setAppointments(nextAppointments);
+
+    if (normalizedPhone.length >= 7) {
+      void registerPushSubscription({
+        role: "patient",
+        patientPhone: normalizedPhone,
+      }).catch(() => null);
+    }
   };
 
   return (

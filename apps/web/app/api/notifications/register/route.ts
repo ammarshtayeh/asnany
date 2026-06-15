@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { isSupabaseConfigured, supabaseAdmin } from "@/lib/supabase";
 import { getDoctorSession } from "@/lib/doctor-session";
+import { getAdminSession } from "@/lib/admin-session";
 import { normalizePushPhone } from "@/lib/notifications";
 
 function isExpoPushToken(token: string) {
@@ -19,9 +20,14 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Invalid Expo push token" }, { status: 400 });
     }
 
-    const session = await getDoctorSession(request);
-    const role = session ? "doctor" : body.role === "admin" ? "admin" : "patient";
-    const doctorId = session?.doctor_id || body.doctor_id || null;
+    const doctorSession = await getDoctorSession(request);
+    const adminSession = doctorSession ? null : await getAdminSession(request);
+    if (body.role === "admin" && !adminSession) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const role = doctorSession ? "doctor" : adminSession && body.role === "admin" ? "admin" : "patient";
+    const doctorId = doctorSession?.doctor_id || body.doctor_id || null;
     const patientPhone = role === "patient" ? normalizePushPhone(body.patient_phone || body.phone) || null : null;
 
     const { error } = await supabaseAdmin.from("push_subscriptions").upsert(

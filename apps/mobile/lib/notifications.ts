@@ -14,6 +14,25 @@ type RegisterPushOptions = {
   authToken?: string;
 };
 
+export function resolveNotificationRoute(data?: Record<string, unknown> | null) {
+  const type = typeof data?.type === "string" ? data.type : "";
+  const patientPhone = typeof data?.patientPhone === "string" ? data.patientPhone : "";
+
+  if (type === "appointment_created") {
+    return "/doctor/notifications";
+  }
+
+  if (type === "admin_appointment_created") {
+    return "/admin/dashboard";
+  }
+
+  if (type === "appointment_status") {
+    return patientPhone ? `/appointments?phone=${encodeURIComponent(patientPhone)}` : "/appointments";
+  }
+
+  return null;
+}
+
 async function getDeviceId() {
   const existing = await AsyncStorage.getItem(DEVICE_ID_KEY);
   if (existing) return existing;

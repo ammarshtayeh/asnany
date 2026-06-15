@@ -1,14 +1,45 @@
-import { Stack } from "expo-router";
-import { useEffect } from "react";
+import { router, Stack } from "expo-router";
+import { useEffect, useRef } from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { configureNotifications } from "../lib/notifications";
+import { configureNotifications, resolveNotificationRoute } from "../lib/notifications";
 import { AppToastProvider } from "../components/AppToast";
 
 export default function RootLayout() {
+  const handledNotificationIds = useRef(new Set<string>());
+
   useEffect(() => {
-    void configureNotifications().catch((error) => {
-      console.log("Notification setup skipped:", error);
-    });
+    let mounted = true;
+    let subscription: { remove: () => void } | undefined;
+
+    const openNotification = (response: any) => {
+      const identifier = response?.notification?.request?.identifier;
+      if (identifier && handledNotificationIds.current.has(identifier)) return;
+      if (identifier) handledNotificationIds.current.add(identifier);
+
+      const route = resolveNotificationRoute(response?.notification?.request?.content?.data || null);
+      if (!route) return;
+
+      setTimeout(() => {
+        router.push(route as any);
+      }, 250);
+    };
+
+    void configureNotifications()
+      .then(async (Notifications) => {
+        if (!mounted) return;
+
+        subscription = Notifications.addNotificationResponseReceivedListener(openNotification);
+        const lastResponse = await Notifications.getLastNotificationResponseAsync().catch(() => null);
+        if (lastResponse && mounted) openNotification(lastResponse);
+      })
+      .catch((error) => {
+        console.log("Notification setup skipped:", error);
+      });
+
+    return () => {
+      mounted = false;
+      subscription?.remove();
+    };
   }, []);
 
   return (

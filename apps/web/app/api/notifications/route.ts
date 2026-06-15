@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getDoctorSession } from "@/lib/doctor-session";
+import { getAdminSession } from "@/lib/admin-session";
 import { isSupabaseConfigured, supabaseAdmin } from "@/lib/supabase";
 
 function parseLimit(value: string | null) {
@@ -14,8 +15,9 @@ export async function GET(request: Request) {
       return NextResponse.json({ success: true, notifications: [] });
     }
 
-    const session = await getDoctorSession(request);
-    if (!session) {
+    const doctorSession = await getDoctorSession(request);
+    const adminSession = doctorSession ? null : await getAdminSession(request);
+    if (!doctorSession && !adminSession) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
@@ -26,10 +28,14 @@ export async function GET(request: Request) {
     let query = supabaseAdmin
       .from("notifications")
       .select("*")
-      .eq("recipient_role", "doctor")
-      .eq("doctor_id", session.doctor_id)
       .order("created_at", { ascending: false })
       .limit(limit);
+
+    if (doctorSession) {
+      query = query.eq("recipient_role", "doctor").eq("doctor_id", doctorSession.doctor_id);
+    } else {
+      query = query.eq("recipient_role", "admin");
+    }
 
     if (unreadOnly) {
       query = query.is("read_at", null);
@@ -51,8 +57,9 @@ export async function PATCH(request: Request) {
       return NextResponse.json({ success: true });
     }
 
-    const session = await getDoctorSession(request);
-    if (!session) {
+    const doctorSession = await getDoctorSession(request);
+    const adminSession = doctorSession ? null : await getAdminSession(request);
+    if (!doctorSession && !adminSession) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
@@ -63,12 +70,17 @@ export async function PATCH(request: Request) {
       return NextResponse.json({ error: "Notification id is required" }, { status: 400 });
     }
 
-    const { error } = await supabaseAdmin
+    let query = supabaseAdmin
       .from("notifications")
       .update({ read_at: new Date().toISOString() })
       .in("id", ids)
-      .eq("recipient_role", "doctor")
-      .eq("doctor_id", session.doctor_id);
+      .eq("recipient_role", doctorSession ? "doctor" : "admin");
+
+    if (doctorSession) {
+      query = query.eq("doctor_id", doctorSession.doctor_id);
+    }
+
+    const { error } = await query;
 
     if (error) throw error;
     return NextResponse.json({ success: true });

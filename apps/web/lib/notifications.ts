@@ -16,6 +16,7 @@ type PushSubscription = {
 };
 
 const EXPO_PUSH_URL = "https://exp.host/--/api/v2/push/send";
+const APPOINTMENTS_CHANNEL_ID = "appointments";
 
 function normalizePhone(phone?: string | null) {
   return (phone || "").replace(/[^0-9]/g, "");
@@ -60,8 +61,11 @@ async function sendExpoPush(tokens: string[], title: string, body: string, data:
   const messages = validTokens.map((to) => ({
     to,
     sound: "default",
-    channelId: "appointments",
+    channelId: APPOINTMENTS_CHANNEL_ID,
     priority: "high",
+    ttl: 60 * 60 * 24,
+    badge: 1,
+    interruptionLevel: "active",
     title,
     body,
     data,
@@ -74,6 +78,11 @@ async function sendExpoPush(tokens: string[], title: string, body: string, data:
   });
 
   const result = await response.json().catch(() => null);
+  if (!response.ok) {
+    console.error("Expo push send error:", result || response.statusText);
+    return;
+  }
+
   const tickets = Array.isArray(result?.data) ? result.data : [];
   const invalidTokens = tickets
     .map((ticket: any, index: number) => (ticket?.details?.error === "DeviceNotRegistered" ? validTokens[index] : null))
@@ -111,13 +120,29 @@ async function notifyByPatientPhone(patientPhone: string, title: string, body: s
   await sendExpoPush((subscriptions as PushSubscription[] | null)?.map((item) => item.expo_push_token) || [], title, body, data);
 }
 
+async function notifyAdmins(title: string, body: string, data: Record<string, unknown>) {
+  const { data: subscriptions, error } = await supabaseAdmin
+    .from("push_subscriptions")
+    .select("expo_push_token")
+    .eq("role", "admin")
+    .eq("is_active", true);
+
+  if (error) throw error;
+  await sendExpoPush((subscriptions as PushSubscription[] | null)?.map((item) => item.expo_push_token) || [], title, body, data);
+}
+
 export async function notifyDoctorAboutAppointment(appointment: AppointmentNotification) {
   try {
     if (!appointment.doctor_id) return;
     const patientName = appointment.patient_full_name || appointment.patient_name || "Patient";
     const title = "New appointment request";
     const body = `${patientName} requested an appointment${appointment.date ? ` on ${appointment.date}` : ""}.`;
-    const data = { type: "appointment_created", appointmentId: appointment.id, doctorId: appointment.doctor_id };
+    const data = {
+      type: "appointment_created",
+      appointmentId: appointment.id,
+      doctorId: appointment.doctor_id,
+      patientPhone: appointment.patient_phone ? normalizePhone(appointment.patient_phone) : null,
+    };
 
     await insertNotification({
       recipientRole: "doctor",
@@ -128,8 +153,19 @@ export async function notifyDoctorAboutAppointment(appointment: AppointmentNotif
       data,
     });
     await notifyByDoctor(appointment.doctor_id, title, body, data);
+
+    const adminData = { ...data, type: "admin_appointment_created" };
+    await insertNotification({
+      recipientRole: "admin",
+      doctorId: appointment.doctor_id,
+      appointmentId: appointment.id,
+      title,
+      body,
+      data: adminData,
+    });
+    await notifyAdmins(title, body, adminData);
   } catch (error) {
-    console.error("Doctor notification error:", error);
+    console.error("Appointment notification error:", error);
   }
 }
 
@@ -139,7 +175,13 @@ export async function notifyPatientAboutAppointmentStatus(appointment: Appointme
     const status = appointment.status || "updated";
     const title = "Appointment updated";
     const body = `Your appointment is now ${status}.`;
-    const data = { type: "appointment_status", appointmentId: appointment.id, status };
+    const data = {
+      type: "appointment_status",
+      appointmentId: appointment.id,
+      status,
+      doctorId: appointment.doctor_id || null,
+      patientPhone: normalizePhone(appointment.patient_phone),
+    };
 
     await insertNotification({
       recipientRole: "patient",

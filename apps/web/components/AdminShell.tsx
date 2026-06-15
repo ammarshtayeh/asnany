@@ -4,6 +4,7 @@ import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { Users, Calendar as CalendarIcon, Megaphone, Store, Star, LayoutDashboard, LogOut, Sparkles, Menu, X, FileText, KeyRound, Plus, Link2, Check, CreditCard } from "lucide-react";
 import Link from "next/link";
+import NotificationSoundBridge from "@/components/NotificationSoundBridge";
 
 export default function AdminShell({ children }: { children: React.ReactNode }) {
   const [copied, setCopied] = useState(false);
@@ -160,6 +161,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
       </aside>
 
       <main className="flex-1 overflow-y-auto pt-16 md:pt-0">
+        <NotificationSoundBridge href="/admin/appointments" />
         {children}
       </main>
     </div>

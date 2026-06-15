@@ -3,6 +3,7 @@ import { ActivityIndicator, Pressable, ScrollView, Text, View } from "react-nati
 import { router } from "expo-router";
 import { Feather } from "@expo/vector-icons";
 import { adminSession } from "../../lib/session";
+import { registerPushSubscription } from "../../lib/notifications";
 
 export default function AdminDashboardScreen() {
   const [ready, setReady] = useState(false);
@@ -14,6 +15,10 @@ export default function AdminDashboardScreen() {
         router.replace("/admin/login");
         return;
       }
+      void registerPushSubscription({
+        role: "admin",
+        authToken: session?.token,
+      }).catch(() => null);
       setReady(true);
     })();
   }, []);
