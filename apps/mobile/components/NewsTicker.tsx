@@ -43,7 +43,7 @@ export function NewsTicker() {
   };
 
   return (
-    <Pressable onPress={open} style={{ backgroundColor: active.background_color || "#0f172a" }}>
+    <Pressable onPress={open} style={{ backgroundColor: active.background_color || "#0a1628" }}>
       <Animated.View style={{ opacity: fade, minHeight: 44, flexDirection: "row-reverse", alignItems: "center", gap: 10, paddingHorizontal: 14, paddingVertical: 8 }}>
         <View style={{ backgroundColor: "rgba(255,255,255,0.14)", borderRadius: 999, paddingHorizontal: 10, paddingVertical: 4 }}>
           <Text style={{ color: active.text_color || "#fff", fontSize: 10, fontWeight: "900" }}>آخر الأخبار</Text>

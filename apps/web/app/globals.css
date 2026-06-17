@@ -13,32 +13,75 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 162 85% 20%; /* Premium Emerald Green #0c5e47 */
-    --primary-foreground: 210 40% 98%;
+    /* Malamih teal — primary actions */
+    --primary: 162 78% 21%; /* #0c5e47 */
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 47 70% 50%; /* Luminous Gold #d4af37 */
+    /* Malamih gold — accents */
+    --secondary: 46 65% 52%; /* #d4af37 */
     --secondary-foreground: 222.2 84% 4.9%;
 
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 162 85% 95%;
-    --accent-foreground: 162 85% 15%;
+    --accent: 162 76% 95%;
+    --accent-foreground: 162 78% 18%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 162 85% 20%;
+    --ring: 162 78% 21%;
 
-    --radius: 1.25rem;
+    --radius: 1rem;
+
+    /* Brand extras */
+    --malamih-navy: 220 52% 10%; /* #0a1628 */
+    --malamih-teal: 162 78% 21%;
+    --malamih-gold: 46 65% 52%;
   }
 }
 
 @layer components {
   .form-field {
-    @apply w-full rounded-2xl border border-slate-200 bg-slate-50/50 px-4 py-3.5 text-right text-sm font-bold text-slate-800 outline-none transition-all duration-300 focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-100;
+    @apply w-full rounded-2xl border border-slate-200 bg-slate-50/50 px-4 py-3.5 text-right text-sm font-bold text-slate-800 outline-none transition-all duration-300 focus:border-primary focus:bg-white focus:ring-4 focus:ring-primary/10;
+  }
+
+  .malamih-logo-mark {
+    @apply flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[#0c5e47] via-[#10b981] to-[#d4af37] text-white font-black text-lg leading-none shadow-md shadow-emerald-900/20 border border-white/15 select-none;
+  }
+
+  .malamih-logo-text {
+    @apply text-xl font-black tracking-tight text-slate-900;
+  }
+
+  .malamih-logo-dot {
+    @apply text-xl font-black text-[#d4af37];
+  }
+
+  .btn-malama {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-primary px-5 py-2.5 text-xs font-black text-white shadow-[0_10px_24px_-8px_rgba(12,94,71,0.45)] transition-all duration-300 hover:bg-[#0a4d3a] hover:-translate-y-0.5;
+  }
+
+  .btn-malama-outline {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-primary/25 bg-white px-5 py-2.5 text-xs font-black text-primary transition-all duration-300 hover:bg-primary/5;
+  }
+
+  .card-malama {
+    @apply rounded-2xl border border-slate-100 bg-white shadow-[0_8px_30px_-12px_rgba(10,22,40,0.12)] transition-shadow duration-300 hover:shadow-[0_16px_40px_-14px_rgba(10,22,40,0.16)];
+  }
+
+  .offer-card-gradient {
+    @apply bg-gradient-to-br from-violet-600 via-fuchsia-600 to-rose-500 text-white;
+  }
+
+  .hero-malama {
+    @apply relative overflow-hidden rounded-[2.5rem] bg-[#0a1628] shadow-2xl border border-slate-900/50 sm:rounded-[3rem];
+  }
+
+  .nav-active-mobile {
+    @apply bg-emerald-50 text-primary;
   }
 }
 
@@ -51,68 +94,72 @@
   }
 }
 
-/* Custom Utilities for "Mind-Blowing" UI */
+/* Custom Utilities for Malamih UI */
 @layer utilities {
   .mesh-bg {
-    background-color: #fafbfd;
-    background-image: 
-      radial-gradient(at 0% 0%, rgba(244, 63, 94, 0.04) 0px, transparent 50%), 
-      radial-gradient(at 50% 0%, rgba(14, 165, 233, 0.05) 0px, transparent 50%), 
+    background-color: #f8fafc;
+    background-image:
+      radial-gradient(at 0% 0%, rgba(12, 94, 71, 0.04) 0px, transparent 50%),
+      radial-gradient(at 50% 0%, rgba(16, 185, 129, 0.04) 0px, transparent 50%),
       radial-gradient(at 100% 0%, rgba(212, 175, 55, 0.03) 0px, transparent 40%),
-      radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.02) 0px, transparent 50%);
+      radial-gradient(at 100% 100%, rgba(10, 22, 40, 0.02) 0px, transparent 50%);
   }
-  
+
   .bg-grid-pattern {
     background-size: 24px 24px;
-    background-image: 
+    background-image:
       linear-gradient(to right, rgba(148, 163, 184, 0.02) 1px, transparent 1px),
       linear-gradient(to bottom, rgba(148, 163, 184, 0.02) 1px, transparent 1px);
   }
 
   .glass {
-    background: rgba(255, 255, 255, 0.76);
+    background: rgba(255, 255, 255, 0.82);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.6);
-    box-shadow: 
-      0 10px 30px -10px rgba(15, 23, 42, 0.04),
-      0 1px 1px 0 rgba(255, 255, 255, 0.8) inset;
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    box-shadow:
+      0 10px 30px -10px rgba(10, 22, 40, 0.06),
+      0 1px 1px 0 rgba(255, 255, 255, 0.85) inset;
   }
-  
+
   .glass-dark {
-    background: rgba(15, 23, 42, 0.85);
+    background: rgba(10, 22, 40, 0.9);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 
-      0 20px 40px -15px rgba(0, 0, 0, 0.3),
-      0 1px 0 0 rgba(255, 255, 255, 0.1) inset;
+    box-shadow:
+      0 20px 40px -15px rgba(0, 0, 0, 0.35),
+      0 1px 0 0 rgba(255, 255, 255, 0.08) inset;
   }
-  
+
   .text-gradient-gold {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-amber-300 via-amber-400 to-amber-100;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#d4af37] via-[#f59e0b] to-[#fde68a];
   }
-  
+
   .text-gradient-primary {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-sky-600 via-indigo-600 to-emerald-600;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#0c5e47] via-[#10b981] to-[#0c5e47];
+  }
+
+  .text-gradient-teal-gold {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#10b981] via-[#d4af37] to-[#f59e0b];
   }
 
   .animate-blob {
     animation: blob 10s infinite;
   }
-  
+
   .animation-delay-2000 {
     animation-delay: 2.5s;
   }
-  
+
   .animation-delay-4000 {
     animation-delay: 5s;
   }
-  
+
   .hide-scrollbar::-webkit-scrollbar {
     display: none;
   }
-  
+
   .hide-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -172,4 +219,3 @@ section:has(> img[alt="عيادة أسنان حديثة"]) {
 img[alt="عيادة أسنان حديثة"] {
   object-position: center 25% !important;
 }
-

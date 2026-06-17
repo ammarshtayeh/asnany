@@ -20,7 +20,7 @@ const ToastContext = createContext<ToastContextValue | null>(null);
 const palette = {
   success: { background: "#ecfdf5", border: "#bbf7d0", icon: "check-circle", color: "#047857" },
   error: { background: "#fef2f2", border: "#fecaca", icon: "alert-circle", color: "#b91c1c" },
-  info: { background: "#eff6ff", border: "#bfdbfe", icon: "info", color: "#1d4ed8" },
+  info: { background: "#ecfdf5", border: "#a7f3d0", icon: "info", color: "#0c5e47" },
 } as const;
 
 export function AppToastProvider({ children }: { children: ReactNode }) {

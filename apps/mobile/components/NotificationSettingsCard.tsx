@@ -1,5 +1,6 @@
 import { Pressable, Text, View } from "react-native";
 import { Feather } from "@expo/vector-icons";
+import { theme } from "../constants/theme";
 
 type Props = {
   enabled: boolean;
@@ -20,8 +21,8 @@ export function NotificationSettingsCard({ enabled, onEnable, onTest }: Props) {
       }}
     >
       <View style={{ flexDirection: "row-reverse", alignItems: "center", gap: 10, marginBottom: 10 }}>
-        <View style={{ width: 40, height: 40, borderRadius: 12, backgroundColor: "#eff6ff", alignItems: "center", justifyContent: "center" }}>
-          <Feather name="bell" size={18} color="#0284c7" />
+        <View style={{ width: 40, height: 40, borderRadius: 12, backgroundColor: theme.tealMuted, alignItems: "center", justifyContent: "center" }}>
+          <Feather name="bell" size={18} color={theme.teal} />
         </View>
         <View style={{ flex: 1 }}>
           <Text style={{ fontSize: 15, fontWeight: "900", color: "#0f172a", textAlign: "right" }}>التنبيهات</Text>
@@ -46,7 +47,7 @@ export function NotificationSettingsCard({ enabled, onEnable, onTest }: Props) {
       <Pressable
         onPress={enabled ? onTest : onEnable}
         style={{
-          backgroundColor: enabled ? "#0f172a" : "#0284c7",
+          backgroundColor: enabled ? theme.navy : theme.teal,
           borderRadius: 14,
           paddingVertical: 12,
           alignItems: "center",

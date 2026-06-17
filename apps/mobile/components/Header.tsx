@@ -1,6 +1,6 @@
 import React from "react";
 import { ImageBackground, StyleSheet, Text, View } from "react-native";
-import { colors } from "../constants/theme";
+import { colors, theme } from "../constants/theme";
 
 const HERO_IMAGE_URL =
   "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&q=80&w=1400";
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     width: 42,
     height: 42,
     borderRadius: 14,
-    backgroundColor: colors.amber,
+    backgroundColor: theme.teal,
     alignItems: "center",
     justifyContent: "center",
   },

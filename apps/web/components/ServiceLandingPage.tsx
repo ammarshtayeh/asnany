@@ -33,7 +33,7 @@ export default function ServiceLandingPage({
       <section className="relative overflow-hidden bg-slate-950 px-4 pt-16 pb-28 text-white border-b border-slate-900 shadow-2xl">
         {/* Glow Effects */}
         <div className="absolute top-0 right-1/4 h-96 w-96 rounded-full bg-amber-500/5 blur-[120px]" />
-        <div className="absolute bottom-0 left-1/4 h-96 w-96 rounded-full bg-sky-500/5 blur-[120px]" />
+        <div className="absolute bottom-0 left-1/4 h-96 w-96 rounded-full bg-emerald-500/5 blur-[120px]" />
 
         <div className="relative z-10 max-w-5xl mx-auto">
           {/* Breadcrumb Navigation */}
@@ -74,7 +74,7 @@ export default function ServiceLandingPage({
               <Link
                 key={action.href}
                 href={action.href}
-                className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 px-6 py-3 rounded-xl font-black hover:from-amber-300 hover:to-amber-400 transition-all shadow-[0_4px_20px_rgba(217,119,6,0.15)] hover:scale-[1.02]"
+                className="inline-flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-xl font-black hover:bg-primary/90 transition-all shadow-[0_4px_20px_rgba(12,94,71,0.25)] hover:scale-[1.02]"
               >
                 {action.label}
                 <ArrowRight className="w-4 h-4" />

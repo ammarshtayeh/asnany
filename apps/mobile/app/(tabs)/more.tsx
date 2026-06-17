@@ -7,6 +7,7 @@ import Constants from "expo-constants";
 import { HubSectionBlock, QuickActionStrip } from "../../components/HubMenu";
 import { NotificationSettingsCard } from "../../components/NotificationSettingsCard";
 import { APP_META, HUB_SECTIONS, QUICK_ACTIONS } from "../../constants/navigation";
+import { theme } from "../../constants/theme";
 import { configureNotifications, registerPushSubscription } from "../../lib/notifications";
 import { adminSession, doctorSession } from "../../lib/session";
 
@@ -85,7 +86,7 @@ export default function MoreScreen() {
 
   return (
     <ScrollView
-      style={{ flex: 1, backgroundColor: "#f8fafc" }}
+      style={{ flex: 1, backgroundColor: theme.bg }}
       contentContainerStyle={{
         paddingTop: insets.top + 10,
         paddingHorizontal: 16,
@@ -96,7 +97,7 @@ export default function MoreScreen() {
       {/* Hero */}
       <View
         style={{
-          backgroundColor: "#0f172a",
+          backgroundColor: theme.navy,
           borderRadius: 26,
           padding: 22,
           marginBottom: 18,
@@ -139,7 +140,7 @@ export default function MoreScreen() {
               style={{
                 marginTop: 12,
                 alignSelf: "flex-end",
-                backgroundColor: "#10b981",
+                backgroundColor: theme.tealLight,
                 borderRadius: 12,
                 paddingHorizontal: 14,
                 paddingVertical: 9,

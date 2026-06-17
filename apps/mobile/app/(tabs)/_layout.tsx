@@ -5,9 +5,11 @@ import { AIChatbot } from "../../components/AIChatbot";
 import { NewsTicker } from "../../components/NewsTicker";
 import { MobileNotificationBridge } from "../../components/MobileNotificationBridge";
 
+import { theme } from "../../constants/theme";
+
 export default function TabsLayout() {
   return (
-    <View style={{ flex: 1, backgroundColor: "#f8fafc" }}>
+    <View style={{ flex: 1, backgroundColor: theme.bg }}>
       <NewsTicker />
       <MobileNotificationBridge />
       <Tabs
@@ -18,11 +20,11 @@ export default function TabsLayout() {
             paddingTop: 6,
             paddingBottom: 8,
             borderTopWidth: 1,
-            borderTopColor: "#e2e8f0",
-            backgroundColor: "#ffffff",
+            borderTopColor: theme.border,
+            backgroundColor: theme.card,
           },
-          tabBarActiveTintColor: "#0f172a",
-          tabBarInactiveTintColor: "#94a3b8",
+          tabBarActiveTintColor: theme.teal,
+          tabBarInactiveTintColor: theme.textSoft,
           tabBarLabelStyle: { fontSize: 10, fontWeight: "800" },
         }}
       >

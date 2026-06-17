@@ -9,9 +9,9 @@ type ButtonProps = {
 };
 
 const palette = {
-  primary: { backgroundColor: "#0a0f1d", color: "#fff" },
-  secondary: { backgroundColor: "#f1f5f9", color: "#0a0f1d" },
-  ghost: { backgroundColor: "transparent", color: "#0a0f1d" },
+  primary: { backgroundColor: "#0c5e47", color: "#fff" },
+  secondary: { backgroundColor: "#ecfdf5", color: "#0c5e47" },
+  ghost: { backgroundColor: "transparent", color: "#0c5e47" },
   success: { backgroundColor: "#dcfce7", color: "#15803d" },
   danger: { backgroundColor: "#fee2e2", color: "#b91c1c" },
 } as const;

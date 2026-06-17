@@ -15,6 +15,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { supabase } from "../../lib/supabase";
 import { Doctor, Offer } from "../../types";
 import { formatSpecialty } from "../../lib/format";
+import { theme } from "../../constants/theme";
 
 const HERO_IMAGE =
   "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=800&q=80";
@@ -66,7 +67,7 @@ function DoctorCard({
       }}
     >
       {/* Top strip */}
-      <View style={{ backgroundColor: doctor.is_featured ? "#0f172a" : "#f8fafc", height: 6 }} />
+      <View style={{ backgroundColor: doctor.is_featured ? theme.teal : theme.bg, height: 6 }} />
       <View style={{ padding: 16, gap: 10 }}>
         <View style={{ flexDirection: "row-reverse", alignItems: "center", gap: 12 }}>
           {/* Avatar */}
@@ -96,7 +97,7 @@ function DoctorCard({
               </Text>
               {doctor.verified && <Text style={{ fontSize: 14 }}>✅</Text>}
             </View>
-            <Text style={{ fontSize: 12, color: "#10b981", fontWeight: "800", textAlign: "right" }}>
+            <Text style={{ fontSize: 12, color: theme.tealLight, fontWeight: "800", textAlign: "right" }}>
               {formatSpecialty(doctor.specialty)}
             </Text>
             <Text style={{ fontSize: 11, color: "#64748b", fontWeight: "700", textAlign: "right" }}>
@@ -130,7 +131,7 @@ function DoctorCard({
         <View style={{ flexDirection: "row-reverse", gap: 8 }}>
           <Pressable
             onPress={onPress}
-            style={{ flex: 1, backgroundColor: "#0f172a", borderRadius: 12, paddingVertical: 11, alignItems: "center" }}
+            style={{ flex: 1, backgroundColor: theme.teal, borderRadius: 12, paddingVertical: 11, alignItems: "center" }}
           >
             <Text style={{ color: "#fff", fontWeight: "900", fontSize: 13 }}>عرض الملف</Text>
           </Pressable>
@@ -210,14 +211,14 @@ export default function HomeScreen() {
   return (
     <View style={{ flex: 1 }}>
       <ScrollView
-        style={{ flex: 1, backgroundColor: "#f8fafc" }}
+        style={{ flex: 1, backgroundColor: theme.bg }}
         contentContainerStyle={{ paddingBottom: 100 }}
         showsVerticalScrollIndicator={false}
       >
       {/* ===== HERO ===== */}
       <Animated.View style={{ height: 320, position: "relative", opacity: heroOpacity, transform: [{ translateY: heroSlide }] }}>
         <Image source={{ uri: HERO_IMAGE }} style={{ width: "100%", height: "100%" }} resizeMode="cover" />
-        <View style={{ position: "absolute", inset: 0, backgroundColor: "rgba(15,23,42,0.65)" }} />
+        <View style={{ position: "absolute", inset: 0, backgroundColor: "rgba(10,22,40,0.68)" }} />
         {/* Gradient overlay at bottom */}
         <View style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 120, backgroundColor: "transparent",
           // simulated gradient via layered views
@@ -226,10 +227,10 @@ export default function HomeScreen() {
         {/* Header */}
         <View style={{ position: "absolute", top: insets.top + 12, left: 0, right: 0, paddingHorizontal: 20, flexDirection: "row-reverse", justifyContent: "space-between", alignItems: "center" }}>
           <View style={{ flexDirection: "row-reverse", alignItems: "center", gap: 8 }}>
-            <View style={{ width: 32, height: 32, borderRadius: 10, backgroundColor: "#d4af37", alignItems: "center", justifyContent: "center", shadowColor: "#d4af37", shadowOpacity: 0.4, shadowRadius: 8, elevation: 4 }}>
-              <Text style={{ color: "#fff", fontWeight: "900", fontSize: 15 }}>م</Text>
+            <View style={{ width: 32, height: 32, borderRadius: 10, backgroundColor: theme.teal, alignItems: "center", justifyContent: "center", borderWidth: 1, borderColor: theme.gold, shadowColor: theme.gold, shadowOpacity: 0.35, shadowRadius: 8, elevation: 4 }}>
+              <Text style={{ color: theme.gold, fontWeight: "900", fontSize: 15 }}>م</Text>
             </View>
-            <Text style={{ fontSize: 20, fontWeight: "900", color: "#fff" }}>ملامح.ps</Text>
+            <Text style={{ fontSize: 20, fontWeight: "900", color: theme.white }}>ملامح<Text style={{ color: theme.gold }}>.ps</Text></Text>
           </View>
           <Pressable
             onPress={() => router.push("/discount-card" as any)}
@@ -241,12 +242,12 @@ export default function HomeScreen() {
 
         {/* Hero Text */}
         <View style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: 20 }}>
-          <View style={{ backgroundColor: "rgba(212,175,55,0.2)", borderWidth: 1, borderColor: "rgba(212,175,55,0.4)", borderRadius: 100, paddingHorizontal: 12, paddingVertical: 5, alignSelf: "flex-end", marginBottom: 10 }}>
-            <Text style={{ color: "#fef08a", fontWeight: "900", fontSize: 11 }}>⚡ الأول من نوعه في فلسطين</Text>
+          <View style={{ backgroundColor: "rgba(212,175,55,0.18)", borderWidth: 1, borderColor: "rgba(212,175,55,0.35)", borderRadius: 100, paddingHorizontal: 12, paddingVertical: 5, alignSelf: "flex-end", marginBottom: 10 }}>
+            <Text style={{ color: "#fde68a", fontWeight: "900", fontSize: 11 }}>⚡ الأول من نوعه في فلسطين</Text>
           </View>
-          <Text style={{ fontSize: 26, fontWeight: "900", color: "#fff", textAlign: "right", lineHeight: 36 }}>
+          <Text style={{ fontSize: 26, fontWeight: "900", color: theme.white, textAlign: "right", lineHeight: 36 }}>
             كل ما تحتاجه لصحتك وجمالك..{"\n"}
-            <Text style={{ color: "#fcd34d" }}>في متناول يدك</Text>
+            <Text style={{ color: theme.gold }}>في متناول يدك</Text>
           </Text>
           <Text style={{ fontSize: 13, color: "#cbd5e1", fontWeight: "600", textAlign: "right", marginTop: 6 }}>
             أطباء موثقون · حجز مباشر · عروض حصرية

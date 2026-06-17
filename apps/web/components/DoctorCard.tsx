@@ -5,7 +5,7 @@ import Image from "next/image";
 
 export default function DoctorCard({ doctor }: { doctor: Doctor }) {
   return (
-    <div className="bg-white rounded-2xl p-4 shadow-sm border border-slate-100 hover:shadow-md transition-shadow relative overflow-hidden group flex flex-col md:flex-row gap-4">
+    <div className="bg-white rounded-2xl p-4 shadow-[0_8px_30px_-12px_rgba(10,22,40,0.12)] border border-slate-100 hover:shadow-[0_16px_40px_-14px_rgba(10,22,40,0.16)] transition-shadow relative overflow-hidden group flex flex-col md:flex-row gap-4">
       {/* Featured Badge */}
       {doctor.is_featured && (
         <div className="absolute top-0 right-0 bg-gradient-to-l from-amber-400 to-yellow-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg flex items-center gap-1 z-10 shadow-sm">
@@ -64,7 +64,7 @@ export default function DoctorCard({ doctor }: { doctor: Doctor }) {
 
           <Link
             href={`/doctors/${doctor.id}`}
-            className="bg-primary hover:bg-primary/90 text-white px-5 py-2 rounded-lg text-sm font-semibold transition-colors shadow-sm shadow-primary/20"
+            className="bg-primary hover:bg-primary/90 text-white px-5 py-2.5 rounded-xl text-sm font-black transition-colors shadow-sm shadow-primary/25"
           >
             احجز الآن
           </Link>

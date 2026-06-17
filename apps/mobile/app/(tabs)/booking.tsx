@@ -2,6 +2,7 @@ import { Pressable, ScrollView, Text, View } from "react-native";
 import { router } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Feather } from "@expo/vector-icons";
+import { theme } from "../../constants/theme";
 
 const STEPS = [
   { icon: "search" as const, title: "اختر الطبيب", desc: "من دليل الأطباء المعتمدين" },
@@ -14,7 +15,7 @@ export default function BookingTabScreen() {
 
   return (
     <ScrollView
-      style={{ flex: 1, backgroundColor: "#f8fafc" }}
+      style={{ flex: 1, backgroundColor: theme.bg }}
       contentContainerStyle={{
         paddingTop: insets.top + 12,
         paddingHorizontal: 16,
@@ -22,7 +23,7 @@ export default function BookingTabScreen() {
       }}
       showsVerticalScrollIndicator={false}
     >
-      <View style={{ backgroundColor: "#0f172a", borderRadius: 26, padding: 24, marginBottom: 18 }}>
+      <View style={{ backgroundColor: theme.navy, borderRadius: 26, padding: 24, marginBottom: 18 }}>
         <View style={{ alignSelf: "flex-end", backgroundColor: "rgba(16,185,129,0.2)", borderRadius: 999, paddingHorizontal: 12, paddingVertical: 5, marginBottom: 12 }}>
           <Text style={{ color: "#6ee7b7", fontWeight: "900", fontSize: 11 }}>حجز سريع وآمن</Text>
         </View>
@@ -47,8 +48,8 @@ export default function BookingTabScreen() {
               borderColor: "#f1f5f9",
             }}
           >
-            <View style={{ width: 42, height: 42, borderRadius: 14, backgroundColor: "#eff6ff", alignItems: "center", justifyContent: "center" }}>
-              <Feather name={step.icon} size={18} color="#0284c7" />
+            <View style={{ width: 42, height: 42, borderRadius: 14, backgroundColor: theme.tealMuted, alignItems: "center", justifyContent: "center" }}>
+              <Feather name={step.icon} size={18} color={theme.teal} />
             </View>
             <View style={{ flex: 1 }}>
               <Text style={{ fontWeight: "900", color: "#0f172a", textAlign: "right" }}>
@@ -63,7 +64,7 @@ export default function BookingTabScreen() {
       <Pressable
         onPress={() => router.push("/booking")}
         style={({ pressed }) => ({
-          backgroundColor: "#10b981",
+          backgroundColor: theme.teal,
           borderRadius: 18,
           paddingVertical: 16,
           alignItems: "center",

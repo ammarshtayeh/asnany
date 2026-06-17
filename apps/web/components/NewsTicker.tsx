@@ -37,7 +37,7 @@ export default function NewsTicker() {
   const content = (
     <div
       className="relative flex h-12 items-center overflow-hidden border-b border-white/10"
-      style={{ backgroundColor: active.background_color || "#0f172a", color: active.text_color || "#ffffff" }}
+      style={{ backgroundColor: active.background_color || "#0a1628", color: active.text_color || "#ffffff" }}
     >
       <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-black/20 to-transparent" />
       <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-black/20 to-transparent" />

@@ -1,4 +1,5 @@
 import type { Feather } from "@expo/vector-icons";
+import { theme } from "./theme";
 
 type IconName = keyof typeof Feather.glyphMap;
 
@@ -25,24 +26,24 @@ export const QUICK_ACTIONS: HubItem[] = [
     label: "احجز الآن",
     path: "/booking",
     icon: "calendar",
-    color: "#10b981",
-    bg: "#ecfdf5",
+    color: theme.teal,
+    bg: theme.tealMuted,
   },
   {
     id: "appointments",
     label: "حجوزاتي",
     path: "/appointments",
     icon: "clipboard",
-    color: "#0284c7",
-    bg: "#eff6ff",
+    color: theme.teal,
+    bg: theme.tealMuted,
   },
   {
     id: "discount",
     label: "بطاقة الخصم",
     path: "/discount-card",
     icon: "credit-card",
-    color: "#7c3aed",
-    bg: "#f5f3ff",
+    color: theme.purple,
+    bg: theme.purpleMuted,
   },
 ];
 
@@ -86,8 +87,8 @@ export const HUB_SECTIONS: HubSection[] = [
     title: "الحسابات",
     subtitle: "دخول الطبيب أو الإدارة",
     items: [
-      { id: "doctor", label: "دخول الطبيب", desc: "إدارة العيادة والمواعيد", path: "/doctor/login", icon: "user-check", color: "#0284c7", bg: "#eff6ff" },
-      { id: "admin", label: "دخول الإدارة", desc: "لوحة تحكم ملامح", path: "/admin/login", icon: "shield", color: "#0f172a", bg: "#f1f5f9" },
+      { id: "doctor", label: "دخول الطبيب", desc: "إدارة العيادة والمواعيد", path: "/doctor/login", icon: "user-check", color: theme.teal, bg: theme.tealMuted },
+      { id: "admin", label: "دخول الإدارة", desc: "لوحة تحكم ملامح", path: "/admin/login", icon: "shield", color: theme.navy, bg: theme.bg },
     ],
   },
   {

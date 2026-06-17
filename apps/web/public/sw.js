@@ -1,5 +1,5 @@
 const CACHE_NAME = "asnany-shell-v1";
-const APP_SHELL = ["/", "/manifest.json", "/icon.svg"];
+const APP_SHELL = ["/", "/manifest.json", "/icon.svg", "/icon-512.png"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(

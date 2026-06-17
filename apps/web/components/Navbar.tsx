@@ -126,12 +126,12 @@ export default function Navbar() {
     }`}>
       <div className={`max-w-[1600px] mx-auto px-3 lg:px-6 flex items-center gap-3 transition-all duration-300 ${scrolled ? "h-[60px]" : "h-[72px]"}`}>
         <Link href="/" className="flex items-center gap-2.5 group flex-shrink-0">
-          <div className="w-9 h-9 bg-gradient-to-tr from-slate-950 via-slate-800 to-amber-700 rounded-xl flex items-center justify-center shadow-md shadow-slate-950/30 group-hover:scale-105 transition-all duration-300 border border-white/10">
-            <span className="text-white font-black text-lg select-none leading-none pt-0.5">م</span>
+          <div className="malamih-logo-mark group-hover:scale-105 transition-all duration-300">
+            <span className="pt-0.5">م</span>
           </div>
           <div className="flex items-center select-none">
-            <span className="text-xl font-black tracking-tight text-slate-900">ملامح</span>
-            <span className="text-xl font-black text-amber-500">.ps</span>
+            <span className="malamih-logo-text">ملامح</span>
+            <span className="malamih-logo-dot">.ps</span>
           </div>
         </Link>
 
@@ -171,7 +171,7 @@ export default function Navbar() {
           </Link>
           <Link
             href="/booking"
-            className="bg-gradient-to-r from-slate-950 via-slate-800 to-amber-700 hover:from-amber-600 hover:to-amber-500 text-white px-5 py-2.5 rounded-full text-xs font-black transition-all duration-300 shadow-[0_10px_20px_-5px_rgba(15,23,42,0.15)] hover:shadow-[0_12px_25px_rgba(180,83,9,0.25)] hover:-translate-y-0.5"
+            className="btn-malama px-5 py-2.5 text-xs"
           >
             احجز الآن
           </Link>
@@ -221,7 +221,7 @@ export default function Navbar() {
               <Link
                 href="/booking"
                 onClick={() => setMenuOpen(false)}
-                className="flex items-center justify-center rounded-2xl bg-slate-950 px-4 py-3 text-sm font-black text-white shadow-lg shadow-slate-900/10"
+                className="flex items-center justify-center rounded-2xl bg-primary px-4 py-3 text-sm font-black text-white shadow-lg shadow-primary/20"
               >
                 احجز الآن
               </Link>
@@ -251,10 +251,10 @@ export default function Navbar() {
               key={link.href}
               href={link.href}
               className={`flex min-h-14 flex-col items-center justify-center gap-1 rounded-2xl text-[11px] font-black transition ${
-                isActive ? "bg-sky-50 text-sky-700" : "text-slate-500 active:bg-slate-100"
+                isActive ? "nav-active-mobile" : "text-slate-500 active:bg-slate-100"
               }`}
             >
-              <Icon className={`h-5 w-5 ${isActive ? "text-sky-600" : "text-slate-500"}`} />
+              <Icon className={`h-5 w-5 ${isActive ? "text-primary" : "text-slate-500"}`} />
               {link.label}
             </Link>
           );

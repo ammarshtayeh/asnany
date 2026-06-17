@@ -16,7 +16,15 @@ module.exports = {
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
-          dark: '#0284c7', // fallback or specific
+          dark: "#0a4d3a",
+          light: "#10b981",
+        },
+        malamih: {
+          navy: "#0a1628",
+          teal: "#0c5e47",
+          "teal-light": "#10b981",
+          gold: "#d4af37",
+          "gold-light": "#f59e0b",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
