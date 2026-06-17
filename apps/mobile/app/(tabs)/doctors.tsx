@@ -1,11 +1,21 @@
 import { useEffect, useMemo, useState } from "react";
-import { ActivityIndicator, Pressable, ScrollView, TextInput, View, Text } from "react-native";
+import { ActivityIndicator, Image, Pressable, ScrollView, Text, View } from "react-native";
 import { router } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Feather } from "@expo/vector-icons";
 import { supabase } from "../../lib/supabase";
 import { formatSpecialty } from "../../lib/format";
 import { Doctor } from "../../types";
 import { apiFetch } from "../../lib/api";
+import { theme } from "../../constants/theme";
+import {
+  DoctorListCard,
+  EmptyState,
+  FilterChip,
+  ScreenHero,
+  SearchField,
+  SectionHeader,
+} from "../../components/ui/premium";
 
 type Advertisement = {
   id: string;
@@ -13,6 +23,8 @@ type Advertisement = {
   image_url?: string;
   display_priority?: number;
 };
+
+const CITIES = ["الكل", "رام الله", "نابلس", "الخليل", "بيت لحم", "غزة"];
 
 export default function DoctorsTabScreen() {
   const insets = useSafeAreaInsets();
@@ -38,13 +50,9 @@ export default function DoctorsTabScreen() {
       const doctorRows = "data" in doctorsRes ? (doctorsRes.data as Doctor[] | null) || [] : [];
       setDoctors(doctorRows);
 
-      const adsData = adsRes.data as any;
+      const adsData = adsRes.data as { items?: Advertisement[] } | Advertisement[] | null;
       const adRows = Array.isArray(adsData) ? adsData : Array.isArray(adsData?.items) ? adsData.items : [];
-      setAds(
-        [...adRows].sort(
-          (a: Advertisement, b: Advertisement) => (b.display_priority || 0) - (a.display_priority || 0),
-        ),
-      );
+      setAds([...adRows].sort((a, b) => (b.display_priority || 0) - (a.display_priority || 0)));
     } finally {
       setLoading(false);
     }
@@ -61,93 +69,116 @@ export default function DoctorsTabScreen() {
 
   return (
     <ScrollView
-      style={{ flex: 1, backgroundColor: "#f8fafc" }}
-      contentContainerStyle={{ paddingTop: insets.top + 8, paddingHorizontal: 16, paddingBottom: insets.bottom + 100 }}
+      style={{ flex: 1, backgroundColor: theme.bg }}
+      contentContainerStyle={{ paddingBottom: insets.bottom + 100 }}
       showsVerticalScrollIndicator={false}
     >
-      <Text style={{ fontSize: 28, fontWeight: "900", color: "#0f172a", textAlign: "right" }}>دليل الأطباء</Text>
-      <Text style={{ marginTop: 4, color: "#64748b", fontWeight: "700", textAlign: "right" }}>ابحث واحجز من أفضل الأخصائيين في فلسطين</Text>
-
-      {ads.length ? (
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginTop: 16 }} contentContainerStyle={{ gap: 10, flexDirection: "row-reverse" }}>
-          {ads.slice(0, 6).map((ad) => (
-            <View key={ad.id} style={{ width: 220, height: 110, borderRadius: 18, overflow: "hidden", backgroundColor: "#0f172a", justifyContent: "flex-end", padding: 12 }}>
-              <Text style={{ color: "#fff", fontWeight: "900", fontSize: 13, textAlign: "right" }} numberOfLines={2}>
-                {ad.title || "إعلان مميز"}
-              </Text>
-              <Text style={{ color: "#fde68a", fontSize: 10, fontWeight: "900", textAlign: "right", marginTop: 4 }}>إعلان مرتب حسب الباقة</Text>
+      <ScreenHero
+        paddingTop={insets.top + 12}
+        badge="دليل موثّق"
+        title="دليل الأطباء"
+        subtitle="ابحث، قارن، واحجز من أفضل الأخصائيين في فلسطين"
+      >
+        <View style={{ flexDirection: "row-reverse", gap: 10, marginTop: 18 }}>
+          {[
+            { value: String(doctors.length), label: "طبيب" },
+            { value: String(ads.length), label: "إعلان" },
+            { value: "موثق", label: "التحقق" },
+          ].map((stat) => (
+            <View
+              key={stat.label}
+              style={{
+                flex: 1,
+                backgroundColor: "rgba(255,255,255,0.07)",
+                borderRadius: 14,
+                padding: 12,
+                alignItems: "center",
+                borderWidth: 1,
+                borderColor: "rgba(255,255,255,0.1)",
+              }}
+            >
+              <Text style={{ color: theme.white, fontWeight: "900", fontSize: 16 }}>{stat.value}</Text>
+              <Text style={{ color: "#94a3b8", fontWeight: "700", fontSize: 10, marginTop: 2 }}>{stat.label}</Text>
             </View>
           ))}
-        </ScrollView>
-      ) : null}
-
-      <TextInput
-        value={query}
-        onChangeText={setQuery}
-        placeholder="ابحث بالاسم أو التخصص..."
-        placeholderTextColor="#94a3b8"
-        style={{
-          marginTop: 16,
-          minHeight: 50,
-          borderRadius: 16,
-          borderWidth: 1,
-          borderColor: "#e2e8f0",
-          backgroundColor: "#fff",
-          paddingHorizontal: 14,
-          textAlign: "right",
-          fontWeight: "700",
-        }}
-      />
-
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8, marginTop: 12, flexDirection: "row-reverse" }}>
-        {["الكل", "رام الله", "نابلس", "الخليل", "بيت لحم", "غزة"].map((item) => (
-          <Pressable
-            key={item}
-            onPress={() => setCity(item)}
-            style={{
-              paddingHorizontal: 14,
-              paddingVertical: 8,
-              borderRadius: 999,
-              backgroundColor: city === item ? "#0f172a" : "#fff",
-              borderWidth: 1,
-              borderColor: city === item ? "#0f172a" : "#e2e8f0",
-            }}
-          >
-            <Text style={{ color: city === item ? "#fff" : "#334155", fontWeight: "900", fontSize: 12 }}>{item}</Text>
-          </Pressable>
-        ))}
-      </ScrollView>
-
-      {loading ? (
-        <ActivityIndicator color="#0f172a" style={{ marginTop: 40 }} />
-      ) : (
-        <View style={{ gap: 12, marginTop: 16 }}>
-          {filtered.map((doctor) => (
-            <Pressable
-              key={doctor.id}
-              onPress={() => router.push(`/doctors/${doctor.id}`)}
-              style={{ backgroundColor: "#fff", borderRadius: 22, padding: 16, borderWidth: 1, borderColor: "#f1f5f9" }}
-            >
-              <View style={{ flexDirection: "row-reverse", justifyContent: "space-between", alignItems: "center" }}>
-                <View style={{ flex: 1, paddingLeft: 10 }}>
-                  <Text style={{ fontSize: 17, fontWeight: "900", color: "#0f172a", textAlign: "right" }}>{doctor.name}</Text>
-                  <Text style={{ marginTop: 4, fontSize: 12, fontWeight: "800", color: "#10b981", textAlign: "right" }}>{formatSpecialty(doctor.specialty)}</Text>
-                  <Text style={{ marginTop: 2, fontSize: 11, fontWeight: "700", color: "#64748b", textAlign: "right" }}>
-                    {doctor.city}
-                    {doctor.area ? ` · ${doctor.area}` : ""}
-                  </Text>
-                </View>
-                {doctor.is_featured ? (
-                  <View style={{ backgroundColor: "#fef3c7", borderRadius: 999, paddingHorizontal: 10, paddingVertical: 4 }}>
-                    <Text style={{ color: "#b45309", fontSize: 10, fontWeight: "900" }}>مميز</Text>
-                  </View>
-                ) : null}
-              </View>
-            </Pressable>
-          ))}
-          {!filtered.length ? <Text style={{ textAlign: "center", color: "#64748b", fontWeight: "800", marginTop: 24 }}>لا توجد نتائج</Text> : null}
         </View>
-      )}
+      </ScreenHero>
+
+      <View style={{ paddingHorizontal: 16, marginTop: -20 }}>
+        {ads.length > 0 ? (
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 10, flexDirection: "row-reverse", marginBottom: 16 }}>
+            {ads.slice(0, 6).map((ad) => (
+              <View
+                key={ad.id}
+                style={{
+                  width: 240,
+                  height: 120,
+                  borderRadius: 20,
+                  overflow: "hidden",
+                  backgroundColor: theme.navy,
+                  justifyContent: "flex-end",
+                  padding: 14,
+                  borderWidth: 1,
+                  borderColor: "rgba(212,175,55,0.2)",
+                }}
+              >
+                {ad.image_url ? (
+                  <Image source={{ uri: ad.image_url }} style={{ position: "absolute", inset: 0, opacity: 0.35 }} resizeMode="cover" />
+                ) : null}
+                <View style={{ position: "absolute", inset: 0, backgroundColor: "rgba(10,22,40,0.55)" }} />
+                <Text style={{ color: theme.white, fontWeight: "900", fontSize: 13, textAlign: "right" }} numberOfLines={2}>
+                  {ad.title || "إعلان مميز"}
+                </Text>
+                <View style={{ flexDirection: "row-reverse", alignItems: "center", gap: 4, marginTop: 4 }}>
+                  <Feather name="award" size={10} color={theme.gold} />
+                  <Text style={{ color: theme.gold, fontSize: 10, fontWeight: "800" }}>باقة مميزة</Text>
+                </View>
+              </View>
+            ))}
+          </ScrollView>
+        ) : null}
+
+        <SearchField
+          value={query}
+          onChangeText={setQuery}
+          placeholder="ابحث بالاسم أو التخصص..."
+          style={{ marginBottom: 12 }}
+        />
+
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8, flexDirection: "row-reverse", marginBottom: 8 }}>
+          {CITIES.map((item) => (
+            <FilterChip key={item} label={item} active={city === item} onPress={() => setCity(item)} />
+          ))}
+        </ScrollView>
+
+        <SectionHeader title={`النتائج (${filtered.length})`} icon="users" />
+
+        {loading ? (
+          <View style={{ paddingVertical: 48, alignItems: "center" }}>
+            <ActivityIndicator size="large" color={theme.teal} />
+            <Text style={{ color: theme.textSoft, fontWeight: "700", marginTop: 12 }}>جاري التحميل...</Text>
+          </View>
+        ) : filtered.length === 0 ? (
+          <EmptyState icon="search" title="لا توجد نتائج" description="جرّب مدينة أو تخصصاً مختلفاً" actionLabel="مسح البحث" onAction={() => { setQuery(""); setCity("الكل"); }} />
+        ) : (
+          <View style={{ gap: 12 }}>
+            {filtered.map((doctor) => (
+              <DoctorListCard
+                key={doctor.id}
+                name={doctor.name}
+                specialty={formatSpecialty(doctor.specialty)}
+                city={doctor.city}
+                area={doctor.area}
+                imageUrl={doctor.image_url}
+                rating={doctor.rating}
+                verified={doctor.verified}
+                featured={doctor.is_featured}
+                onPress={() => router.push(`/doctors/${doctor.id}`)}
+              />
+            ))}
+          </View>
+        )}
+      </View>
     </ScrollView>
   );
 }

@@ -4,6 +4,8 @@ import { router } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { supabase } from "../../lib/supabase";
 import { Offer } from "../../types";
+import { theme } from "../../constants/theme";
+import { EmptyState, ScreenHero } from "../../components/ui/premium";
 
 const OFFER_IMAGES = [
   "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=800&q=80",
@@ -56,109 +58,40 @@ export default function OffersScreen() {
 
   return (
     <ScrollView
-      style={{ flex: 1, backgroundColor: "#f8fafc" }}
+      style={{ flex: 1, backgroundColor: theme.bg }}
       contentContainerStyle={{ paddingBottom: insets.bottom + 40 }}
       showsVerticalScrollIndicator={false}
     >
-      {/* Hero Header */}
-      <View
-        style={{
-          backgroundColor: "#0f172a",
-          minHeight: 240,
-          justifyContent: "flex-end",
-          padding: 24,
-          paddingTop: insets.top + 16,
-        }}
+      <ScreenHero
+        paddingTop={insets.top + 12}
+        badge="عروض مختارة بعناية"
+        title="وفّر على خدمات الصحة والجمال"
+        subtitle="عروض محدثة من أطباء وعيادات ضمن شبكة ملامح — بدون التنازل عن الجودة."
       >
-        <View
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: "#f59e0b",
-            opacity: 0.12,
-          }}
-        />
-        {/* Badge */}
-        <View
-          style={{
-            backgroundColor: "rgba(245,158,11,0.2)",
-            borderWidth: 1,
-            borderColor: "rgba(245,158,11,0.4)",
-            paddingHorizontal: 14,
-            paddingVertical: 6,
-            borderRadius: 100,
-            alignSelf: "flex-start",
-            marginBottom: 12,
-          }}
-        >
-          <Text style={{ color: "#fcd34d", fontWeight: "900", fontSize: 12 }}>
-            🏷️ عروض مختارة بعناية
-          </Text>
-        </View>
-        <Text style={{ fontSize: 24, fontWeight: "900", color: "#fff", textAlign: "right" }}>
-          وفّر على خدمات الصحة والجمال{"\n"}بدون ما تتنازل عن الجودة
-        </Text>
-        <Text style={{ color: "#94a3b8", fontSize: 12, fontWeight: "600", marginTop: 6, textAlign: "right" }}>
-          عروض محدثة من أطباء وعيادات ضمن شبكة ملامح.
-        </Text>
-
-        {/* Stats Row */}
-        <View style={{ flexDirection: "row-reverse", gap: 10, marginTop: 16 }}>
+        <View style={{ flexDirection: "row-reverse", gap: 10, marginTop: 18 }}>
           {[
             { value: String(offers.length || "—"), label: "عرض نشط" },
             { value: "موثق", label: "مصدر العرض" },
             { value: "سريع", label: "حجز فوري" },
           ].map((stat) => (
-            <View
-              key={stat.label}
-              style={{
-                flex: 1,
-                backgroundColor: "rgba(255,255,255,0.08)",
-                borderWidth: 1,
-                borderColor: "rgba(255,255,255,0.12)",
-                borderRadius: 16,
-                padding: 12,
-                alignItems: "center",
-              }}
-            >
-              <Text style={{ color: "#fff", fontWeight: "900", fontSize: 16 }}>{stat.value}</Text>
+            <View key={stat.label} style={{ flex: 1, backgroundColor: "rgba(255,255,255,0.08)", borderWidth: 1, borderColor: "rgba(255,255,255,0.12)", borderRadius: 14, padding: 12, alignItems: "center" }}>
+              <Text style={{ color: theme.white, fontWeight: "900", fontSize: 16 }}>{stat.value}</Text>
               <Text style={{ color: "#94a3b8", fontWeight: "700", fontSize: 10, marginTop: 2 }}>{stat.label}</Text>
             </View>
           ))}
         </View>
-      </View>
+      </ScreenHero>
 
-      <View style={{ padding: 16, gap: 14 }}>
+      <View style={{ padding: 16, gap: 14, marginTop: -12 }}>
         {loading ? (
           <View style={{ paddingVertical: 60, alignItems: "center" }}>
-            <ActivityIndicator size="large" color="#f59e0b" />
+            <ActivityIndicator size="large" color={theme.teal} />
             <Text style={{ color: "#94a3b8", fontWeight: "700", marginTop: 12, fontSize: 13 }}>
               جاري تحميل العروض...
             </Text>
           </View>
         ) : offers.length === 0 ? (
-          <View
-            style={{
-              backgroundColor: "#fff",
-              borderRadius: 24,
-              padding: 40,
-              alignItems: "center",
-              borderWidth: 1.5,
-              borderColor: "#f1f5f9",
-              borderStyle: "dashed",
-            }}
-          >
-            <Text style={{ fontSize: 40, marginBottom: 12 }}>🏷️</Text>
-            <Text style={{ fontSize: 16, fontWeight: "900", color: "#0f172a", textAlign: "center" }}>
-              لا توجد عروض نشطة حالياً
-            </Text>
-            <Text style={{ fontSize: 12, color: "#64748b", fontWeight: "600", marginTop: 6, textAlign: "center" }}>
-              تابعنا لاحقاً للاطلاع على أحدث الخصومات.
-            </Text>
-          </View>
+          <EmptyState icon="tag" title="لا توجد عروض نشطة حالياً" description="تابعنا لاحقاً للاطلاع على أحدث الخصومات." />
         ) : (
           <>
             {/* Featured Offer */}
@@ -282,7 +215,7 @@ export default function OffersScreen() {
                     {featuredOffer.doctor_id ? (
                       <Pressable
                         onPress={() => router.push(`/doctors/${featuredOffer.doctor_id}` as any)}
-                        style={{ backgroundColor: "#0f172a", borderRadius: 14, paddingHorizontal: 18, paddingVertical: 12 }}
+                        style={{ backgroundColor: theme.teal, borderRadius: 14, paddingHorizontal: 18, paddingVertical: 12 }}
                       >
                         <Text style={{ color: "#fff", fontWeight: "900", fontSize: 13 }}>احجز الآن</Text>
                       </Pressable>
@@ -381,7 +314,7 @@ export default function OffersScreen() {
                         </Text>
                       </View>
                       {offer.doctor_id && (
-                        <View style={{ backgroundColor: "#0f172a", borderRadius: 10, paddingHorizontal: 14, paddingVertical: 8 }}>
+                        <View style={{ backgroundColor: theme.teal, borderRadius: 10, paddingHorizontal: 14, paddingVertical: 8 }}>
                           <Text style={{ color: "#fff", fontWeight: "900", fontSize: 11 }}>عرض التفاصيل ←</Text>
                         </View>
                       )}

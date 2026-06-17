@@ -5,6 +5,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Feather } from "@expo/vector-icons";
 import Constants from "expo-constants";
 import { HubSectionBlock, QuickActionStrip } from "../../components/HubMenu";
+import { MalamihLogo } from "../../components/ui/premium";
 import { NotificationSettingsCard } from "../../components/NotificationSettingsCard";
 import { APP_META, HUB_SECTIONS, QUICK_ACTIONS } from "../../constants/navigation";
 import { theme } from "../../constants/theme";
@@ -115,8 +116,8 @@ export default function MoreScreen() {
             backgroundColor: "rgba(16,185,129,0.18)",
           }}
         />
-        <Text style={{ color: "#fff", fontSize: 28, fontWeight: "900", textAlign: "right" }}>المزيد</Text>
-        <Text style={{ color: "#94a3b8", marginTop: 6, fontWeight: "700", textAlign: "right", fontSize: 13 }}>
+        <MalamihLogo size="md" />
+        <Text style={{ color: theme.textSoft, marginTop: 10, fontWeight: "700", textAlign: "right", fontSize: 13 }}>
           {APP_META.tagline}
         </Text>
 
