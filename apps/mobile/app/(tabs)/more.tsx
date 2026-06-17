@@ -1,169 +1,191 @@
-import React from "react";
-import { Pressable, ScrollView, Text, View } from "react-native";
-import { router } from "expo-router";
+import { useCallback, useState } from "react";
+import { Linking, Pressable, ScrollView, Text, View } from "react-native";
+import { router, useFocusEffect } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Feather } from "@expo/vector-icons";
+import Constants from "expo-constants";
+import { HubSectionBlock, QuickActionStrip } from "../../components/HubMenu";
+import { NotificationSettingsCard } from "../../components/NotificationSettingsCard";
+import { APP_META, HUB_SECTIONS, QUICK_ACTIONS } from "../../constants/navigation";
+import { configureNotifications, registerPushSubscription } from "../../lib/notifications";
+import { adminSession, doctorSession } from "../../lib/session";
 
-const SECTIONS = [
-  {
-    title: "الخدمات الطبية",
-    color: "#10b981",
-    bgColor: "#ecfdf5",
-    items: [
-      { emoji: "🦷", label: "احجز طبيب", desc: "احجز موعد مع الطبيب المناسب", path: "/booking" },
-      { emoji: "📋", label: "حجوزاتي", desc: "تابع حالة مواعيدك برقم الهاتف", path: "/appointments" },
-      { emoji: "💳", label: "بطاقة الخصم", desc: "خصومات حصرية لحاملي البطاقة", path: "/discount-card" },
-      { emoji: "💆", label: "مراكز التجميل", desc: "تجميل الأسنان والابتسامة", path: "/beauty" },
-      { emoji: "🔬", label: "المختبرات", desc: "مختبرات طبية معتمدة", path: "/labs" },
-      { emoji: "💬", label: "استشارات", desc: "استشارات طبية كتابية", path: "/consultations" },
-    ],
-  },
-  {
-    title: "المحتوى والمجتمع",
-    color: "#2563eb",
-    bgColor: "#eff6ff",
-    items: [
-      { emoji: "📖", label: "المجلة الطبية", desc: "مقالات ونصائح طبية", path: "/blog" },
-      { emoji: "📰", label: "الميديا", desc: "أخبار ومقاطع فيديو", path: "/media" },
-      { emoji: "🏪", label: "المتاجر", desc: "متاجر ومنتجات طبية", path: "/stores" },
-      { emoji: "🤝", label: "الشركاء", desc: "شركات ومنتجات معتمدة", path: "/partners" },
-    ],
-  },
-  {
-    title: "انضم لملامح",
-    color: "#7c3aed",
-    bgColor: "#f5f3ff",
-    items: [
-      { emoji: "👨‍⚕️", label: "أنا طبيب", desc: "أضف عيادتك للشبكة", path: "/join" },
-      { emoji: "📢", label: "أعلن معنا", desc: "ابدأ حملة إعلانية", path: "/advertise" },
-      { emoji: "🏭", label: "شركاء الأعمال", desc: "تسجيل شركات ومتاجر", path: "/stores" },
-    ],
-  },
-  {
-    title: "الحسابات",
-    color: "#0f172a",
-    bgColor: "#f8fafc",
-    items: [
-      { emoji: "🔐", label: "دخول الطبيب", desc: "لوحة تحكم الطبيب", path: "/doctor/login" },
-      { emoji: "⚙️", label: "دخول الإدارة", desc: "لوحة تحكم الأدمن", path: "/admin/login" },
-      { emoji: "📋", label: "سجّل طبيب", desc: "تسجيل عيادة جديدة", path: "/doctors/register" },
-    ],
-  },
-  {
-    title: "عن ملامح",
-    color: "#64748b",
-    bgColor: "#f8fafc",
-    items: [
-      { emoji: "ℹ️", label: "من نحن", desc: "قصة ورسالة ملامح", path: "/about" },
-      { emoji: "🔒", label: "سياسة الخصوصية", desc: "كيف نحمي بياناتك", path: "/privacy" },
-      { emoji: "📄", label: "شروط الاستخدام", desc: "القواعد والأحكام", path: "/terms" },
-    ],
-  },
-];
+type SessionState = {
+  label: string;
+  detail: string;
+  actionLabel?: string;
+  actionPath?: string;
+};
 
 export default function MoreScreen() {
   const insets = useSafeAreaInsets();
+  const [notificationsEnabled, setNotificationsEnabled] = useState(false);
+  const [session, setSession] = useState<SessionState>({
+    label: "مرحباً بك في ملامح",
+    detail: "تصفح الخدمات أو سجّل دخولك كطبيب/أدمن",
+  });
+
+  const refresh = useCallback(async () => {
+    const Notifications = await configureNotifications().catch(() => null);
+    const permission = await Notifications?.getPermissionsAsync();
+    setNotificationsEnabled(permission?.status === "granted");
+
+    const doctor = await doctorSession.read();
+    if (doctor?.token) {
+      setSession({
+        label: "حساب الطبيب نشط",
+        detail: "إدارة المواعيد والإشعارات من لوحة الطبيب",
+        actionLabel: "فتح لوحة الطبيب",
+        actionPath: "/doctor/dashboard",
+      });
+      return;
+    }
+
+    const admin = await adminSession.read();
+    if (admin?.token) {
+      setSession({
+        label: "حساب الإدارة نشط",
+        detail: "متابعة الطلبات والإشعارات من لوحة الأدمن",
+        actionLabel: "فتح لوحة الأدمن",
+        actionPath: "/admin/dashboard",
+      });
+      return;
+    }
+
+    setSession({
+      label: "مرحباً بك في ملامح",
+      detail: "تصفح الخدمات أو سجّل دخولك كطبيب/أدمن",
+    });
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      void refresh();
+    }, [refresh]),
+  );
+
+  const requestNotificationPermission = async () => {
+    await registerPushSubscription({ role: "patient" });
+    await refresh();
+  };
+
+  const triggerTestNotification = async () => {
+    const Notifications = await configureNotifications();
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: "ملامح — تنبيه تجريبي",
+        body: "الإشعارات تعمل بشكل صحيح على جهازك.",
+        sound: "default",
+      },
+      trigger: null,
+    });
+  };
+
+  const appVersion = Constants.expoConfig?.version || APP_META.version;
 
   return (
     <ScrollView
       style={{ flex: 1, backgroundColor: "#f8fafc" }}
-      contentContainerStyle={{ paddingBottom: insets.bottom + 40 }}
+      contentContainerStyle={{
+        paddingTop: insets.top + 10,
+        paddingHorizontal: 16,
+        paddingBottom: insets.bottom + 110,
+      }}
       showsVerticalScrollIndicator={false}
     >
-      {/* Header */}
-      <View style={{ backgroundColor: "#0f172a", padding: 24, paddingTop: insets.top + 16 }}>
-        <Text style={{ fontSize: 22, fontWeight: "900", color: "#fff", textAlign: "right" }}>
-          ✨ كل خدمات ملامح
-        </Text>
-        <Text style={{ fontSize: 13, color: "#94a3b8", fontWeight: "600", marginTop: 4, textAlign: "right" }}>
-          دليل طبي متكامل في مكان واحد
-        </Text>
-      </View>
-
-      <View style={{ padding: 16, gap: 20 }}>
-        {SECTIONS.map((section) => (
-          <View key={section.title}>
-            {/* Section Header */}
-            <View style={{ flexDirection: "row-reverse", alignItems: "center", gap: 8, marginBottom: 10 }}>
-              <View style={{ width: 4, height: 18, backgroundColor: section.color, borderRadius: 2 }} />
-              <Text style={{ fontSize: 14, fontWeight: "900", color: "#0f172a" }}>{section.title}</Text>
-            </View>
-
-            {/* Items Grid */}
-            <View style={{ gap: 8 }}>
-              {section.items.map((item) => (
-                <Pressable
-                  key={item.path + item.label}
-                  onPress={() => router.push(item.path as any)}
-                  style={({ pressed }) => ({
-                    backgroundColor: "#fff",
-                    borderRadius: 18,
-                    padding: 14,
-                    flexDirection: "row-reverse",
-                    alignItems: "center",
-                    gap: 14,
-                    borderWidth: 1,
-                    borderColor: "#f1f5f9",
-                    shadowColor: "#000",
-                    shadowOpacity: 0.03,
-                    shadowRadius: 6,
-                    elevation: 1,
-                    opacity: pressed ? 0.8 : 1,
-                  })}
-                >
-                  {/* Emoji Icon */}
-                  <View
-                    style={{
-                      width: 46,
-                      height: 46,
-                      borderRadius: 14,
-                      backgroundColor: section.bgColor,
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <Text style={{ fontSize: 22 }}>{item.emoji}</Text>
-                  </View>
-
-                  {/* Text */}
-                  <View style={{ flex: 1 }}>
-                    <Text style={{ fontSize: 14, fontWeight: "900", color: "#0f172a", textAlign: "right" }}>
-                      {item.label}
-                    </Text>
-                    <Text style={{ fontSize: 12, color: "#64748b", fontWeight: "600", textAlign: "right", marginTop: 1 }}>
-                      {item.desc}
-                    </Text>
-                  </View>
-
-                  {/* Arrow */}
-                  <Text style={{ color: "#cbd5e1", fontWeight: "900", fontSize: 16 }}>←</Text>
-                </Pressable>
-              ))}
-            </View>
-          </View>
-        ))}
-
-        {/* Footer */}
+      {/* Hero */}
+      <View
+        style={{
+          backgroundColor: "#0f172a",
+          borderRadius: 26,
+          padding: 22,
+          marginBottom: 18,
+          overflow: "hidden",
+        }}
+      >
         <View
           style={{
-            backgroundColor: "#0f172a",
-            borderRadius: 24,
-            padding: 20,
-            alignItems: "center",
-            gap: 8,
-            marginTop: 4,
+            position: "absolute",
+            top: -30,
+            left: -20,
+            width: 120,
+            height: 120,
+            borderRadius: 60,
+            backgroundColor: "rgba(16,185,129,0.18)",
+          }}
+        />
+        <Text style={{ color: "#fff", fontSize: 28, fontWeight: "900", textAlign: "right" }}>المزيد</Text>
+        <Text style={{ color: "#94a3b8", marginTop: 6, fontWeight: "700", textAlign: "right", fontSize: 13 }}>
+          {APP_META.tagline}
+        </Text>
+
+        <View
+          style={{
+            marginTop: 16,
+            backgroundColor: "rgba(255,255,255,0.08)",
+            borderRadius: 18,
+            padding: 14,
+            borderWidth: 1,
+            borderColor: "rgba(255,255,255,0.1)",
           }}
         >
-          <Text style={{ fontSize: 20, fontWeight: "900", color: "#fff" }}>ملامح .ps</Text>
-          <Text style={{ fontSize: 12, color: "#64748b", fontWeight: "600", textAlign: "center" }}>
-            دليل فلسطين لصحة وجمال الوجه
+          <Text style={{ color: "#fff", fontWeight: "900", fontSize: 14, textAlign: "right" }}>{session.label}</Text>
+          <Text style={{ color: "#cbd5e1", marginTop: 4, fontSize: 12, fontWeight: "600", textAlign: "right", lineHeight: 18 }}>
+            {session.detail}
           </Text>
-          <Pressable
-            onPress={() => router.push("/" as any)}
-            style={{ backgroundColor: "#10b981", borderRadius: 12, paddingHorizontal: 18, paddingVertical: 10, marginTop: 4 }}
-          >
-            <Text style={{ color: "#fff", fontWeight: "900", fontSize: 13 }}>🏠 الرئيسية</Text>
-          </Pressable>
+          {session.actionPath ? (
+            <Pressable
+              onPress={() => router.push(session.actionPath as any)}
+              style={{
+                marginTop: 12,
+                alignSelf: "flex-end",
+                backgroundColor: "#10b981",
+                borderRadius: 12,
+                paddingHorizontal: 14,
+                paddingVertical: 9,
+                flexDirection: "row-reverse",
+                alignItems: "center",
+                gap: 6,
+              }}
+            >
+              <Text style={{ color: "#fff", fontWeight: "900", fontSize: 12 }}>{session.actionLabel}</Text>
+              <Feather name="arrow-left" size={14} color="#fff" />
+            </Pressable>
+          ) : null}
         </View>
+      </View>
+
+      <QuickActionStrip items={QUICK_ACTIONS} onPress={(path) => router.push(path as any)} />
+
+      <NotificationSettingsCard
+        enabled={notificationsEnabled}
+        onEnable={requestNotificationPermission}
+        onTest={triggerTestNotification}
+      />
+
+      {HUB_SECTIONS.map((section) => (
+        <HubSectionBlock key={section.id} section={section} onPress={(path) => router.push(path as any)} />
+      ))}
+
+      {/* Footer */}
+      <View
+        style={{
+          marginTop: 8,
+          backgroundColor: "#fff",
+          borderRadius: 22,
+          padding: 18,
+          alignItems: "center",
+          borderWidth: 1,
+          borderColor: "#f1f5f9",
+          gap: 6,
+        }}
+      >
+        <Text style={{ fontSize: 20, fontWeight: "900", color: "#0f172a" }}>ملامح .ps</Text>
+        <Text style={{ fontSize: 12, fontWeight: "600", color: "#64748b", textAlign: "center" }}>{APP_META.tagline}</Text>
+        <Pressable onPress={() => Linking.openURL(APP_META.domain)} style={{ marginTop: 4 }}>
+          <Text style={{ color: "#0284c7", fontWeight: "900", fontSize: 12 }}>{APP_META.domain}</Text>
+        </Pressable>
+        <Text style={{ color: "#94a3b8", fontSize: 11, fontWeight: "700", marginTop: 4 }}>الإصدار {appVersion}</Text>
       </View>
     </ScrollView>
   );

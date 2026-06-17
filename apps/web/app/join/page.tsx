@@ -59,6 +59,12 @@ export default function JoinAsDoctor() {
 
             <div className="pt-8">
               <Link
+                href="/subscriptions"
+                className="mb-3 block w-full rounded-2xl border border-emerald-200 bg-emerald-50 py-3 text-center font-black text-emerald-700"
+              >
+                عرض باقات الاشتراك والأسعار
+              </Link>
+              <Link
                 href="/doctors/register"
                 className="w-full bg-slate-900 hover:bg-slate-800 text-white font-black py-4 rounded-2xl shadow-xl transition-all flex justify-center items-center gap-2 hover:scale-[1.02]"
               >

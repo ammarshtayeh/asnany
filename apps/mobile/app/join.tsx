@@ -56,6 +56,12 @@ export default function JoinScreen() {
             ))}
           </View>
           <Pressable
+            onPress={() => router.push("/subscriptions")}
+            style={{ backgroundColor: "#10b981", borderRadius: 16, paddingVertical: 14, alignItems: "center", marginBottom: 10 }}
+          >
+            <Text style={{ color: "#fff", fontWeight: "900", fontSize: 14 }}>عرض باقات الاشتراك والأسعار</Text>
+          </Pressable>
+          <Pressable
             onPress={() => router.push("/doctors/register")}
             style={{ backgroundColor: "#0f172a", borderRadius: 16, paddingVertical: 14, alignItems: "center" }}
           >

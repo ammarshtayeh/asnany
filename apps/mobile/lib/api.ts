@@ -1,28 +1,56 @@
 import Constants from "expo-constants";
 import { Platform } from "react-native";
 
-const DEFAULT_BASE_URL = Platform.OS === "web" ? "" : "http://127.0.0.1:3003";
+const PRODUCTION_API_BASE = "https://malamih.ps";
+
+function getConfiguredApiBaseUrl() {
+  const fromEnv = process.env.EXPO_PUBLIC_API_BASE_URL?.replace(/\/$/, "");
+  if (fromEnv) return fromEnv;
+
+  const fromExtra = Constants.expoConfig?.extra?.apiBaseUrl as string | undefined;
+  if (fromExtra) return fromExtra.replace(/\/$/, "");
+
+  return null;
+}
 
 function getHostFromExpo(): string | null {
-  const hostUri = Constants.expoConfig?.hostUri || (Constants as any)?.manifest2?.extra?.expoGo?.debuggerHost || "";
-  if (!hostUri) return null;
+  const candidates = [
+    Constants.expoConfig?.hostUri,
+    (Constants as any)?.manifest2?.extra?.expoGo?.debuggerHost,
+    (Constants as any)?.manifest?.debuggerHost,
+    (Constants as any)?.expoGoConfig?.debuggerHost,
+    (Constants as any)?.linkingUrl,
+  ].filter(Boolean) as string[];
 
-  const match = hostUri.match(/^(?:exp|http|https):\/\/([^/:]+)(?::\d+)?/i);
-  const host = match?.[1] || hostUri.split(":")[0].replace(/^exp:\/\//i, "");
-  if (!host || host === "localhost" || host === "127.0.0.1") return null;
-  return host;
+  for (const candidate of candidates) {
+    const match = candidate.match(/^(?:exp|http|https):\/\/([^/:]+)(?::\d+)?/i);
+    const host =
+      match?.[1] ||
+      candidate
+        .split(":")[0]
+        .replace(/^exp:\/\//i, "")
+        .replace(/^https?:\/\//i, "");
+
+    if (host && host !== "localhost" && host !== "127.0.0.1") {
+      return host;
+    }
+  }
+
+  return null;
 }
 
 function getApiBaseUrl() {
-  const envBase = process.env.EXPO_PUBLIC_API_BASE_URL?.replace(/\/$/, "");
-  if (envBase) return envBase;
+  const configured = getConfiguredApiBaseUrl();
+  if (configured) return configured;
 
-  if (Platform.OS === "web") return DEFAULT_BASE_URL;
+  if (Platform.OS === "web") return "";
 
   const host = getHostFromExpo();
   if (host) return `http://${host}:3003`;
 
-  return DEFAULT_BASE_URL;
+  if (!__DEV__) return PRODUCTION_API_BASE;
+
+  return "http://127.0.0.1:3003";
 }
 
 export const API_BASE_URL = getApiBaseUrl();

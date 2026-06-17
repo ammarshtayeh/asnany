@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { usePathname } from "next/navigation";
-import { Users, Calendar as CalendarIcon, Megaphone, Store, Star, LayoutDashboard, LogOut, Sparkles, Menu, X, FileText, KeyRound, Plus, Link2, Check, CreditCard } from "lucide-react";
+import { Users, Calendar as CalendarIcon, Megaphone, Store, Star, LayoutDashboard, LogOut, Sparkles, Menu, X, FileText, KeyRound, Plus, Link2, Check, CreditCard, Newspaper, Wallet, Bell } from "lucide-react";
 import Link from "next/link";
 import NotificationSoundBridge from "@/components/NotificationSoundBridge";
 
@@ -67,6 +67,9 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
               <AdminLink href="/admin/discount-card" icon={CreditCard} label="بطاقة الخصم" onClick={() => setMobileOpen(false)} />
               <AdminLink href="/admin/services" icon={Sparkles} label="خدمات المنصة" onClick={() => setMobileOpen(false)} />
               <AdminLink href="/admin/content" icon={FileText} label="المحتوى والعروض" onClick={() => setMobileOpen(false)} />
+              <AdminLink href="/admin/notifications" icon={Bell} label="الإشعارات" onClick={() => setMobileOpen(false)} />
+              <AdminLink href="/admin/ticker" icon={Newspaper} label="الشريط الإخباري" onClick={() => setMobileOpen(false)} />
+              <AdminLink href="/admin/subscriptions" icon={Wallet} label="الاشتراكات والباقات" onClick={() => setMobileOpen(false)} />
               <AdminLink href="/admin/reviews" icon={Star} label="التقييمات" onClick={() => setMobileOpen(false)} />
               
               <div className="px-3 mt-4">
@@ -127,6 +130,15 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
           </Link>
           <Link href="/admin/content" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:bg-white/10 hover:text-white transition-colors">
             <FileText className="w-5 h-5" /> المحتوى والعروض
+          </Link>
+          <Link href="/admin/notifications" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:bg-white/10 hover:text-white transition-colors">
+            <Bell className="w-5 h-5" /> الإشعارات
+          </Link>
+          <Link href="/admin/ticker" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:bg-white/10 hover:text-white transition-colors">
+            <Newspaper className="w-5 h-5" /> الشريط الإخباري
+          </Link>
+          <Link href="/admin/subscriptions" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:bg-white/10 hover:text-white transition-colors">
+            <Wallet className="w-5 h-5" /> الاشتراكات والباقات
           </Link>
           <Link href="/admin/reviews" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:bg-white/10 hover:text-white transition-colors">
             <Star className="w-5 h-5" /> التقييمات

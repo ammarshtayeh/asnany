@@ -13,7 +13,9 @@ export async function GET() {
       .from("advertisements")
       .select("*")
       .eq("is_active", true)
-      .gte("end_date", today); // Only current active ads
+      .gte("end_date", today)
+      .order("display_priority", { ascending: false })
+      .order("created_at", { ascending: false });
 
     if (error) throw error;
 

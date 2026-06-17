@@ -14,7 +14,7 @@ import { router } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { supabase } from "../../lib/supabase";
 import { Doctor, Offer } from "../../types";
-import { AIChatbot } from "../../components/AIChatbot";
+import { formatSpecialty } from "../../lib/format";
 
 const HERO_IMAGE =
   "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=800&q=80";
@@ -30,7 +30,7 @@ const QUICK_CATEGORIES = [
 const HOME_ACTIONS = [
   { label: "احجز الآن", emoji: "📅", path: "/booking", color: "#10b981", bg: "#ecfdf5" },
   { label: "بطاقة الخصم", emoji: "💳", path: "/discount-card", color: "#2563eb", bg: "#eff6ff" },
-  { label: "العروض", emoji: "🏷️", path: "/offers", color: "#f59e0b", bg: "#fffbeb" },
+  { label: "العروض", emoji: "🏷️", path: "/(tabs)/offers", color: "#f59e0b", bg: "#fffbeb" },
   { label: "انضم للمنصة", emoji: "🤝", path: "/join", color: "#8b5cf6", bg: "#f5f3ff" },
 ];
 
@@ -97,7 +97,7 @@ function DoctorCard({
               {doctor.verified && <Text style={{ fontSize: 14 }}>✅</Text>}
             </View>
             <Text style={{ fontSize: 12, color: "#10b981", fontWeight: "800", textAlign: "right" }}>
-              {(doctor.specialty || []).slice(0, 2).join(" · ")}
+              {formatSpecialty(doctor.specialty)}
             </Text>
             <Text style={{ fontSize: 11, color: "#64748b", fontWeight: "700", textAlign: "right" }}>
               📍 {doctor.city} {doctor.area ? `· ${doctor.area}` : ""}
@@ -358,7 +358,7 @@ export default function HomeScreen() {
           <View>
             <View style={{ flexDirection: "row-reverse", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
               <Text style={{ fontSize: 16, fontWeight: "900", color: "#0f172a" }}>🏷️ أحدث العروض</Text>
-              <Pressable onPress={() => router.push("/offers" as any)}>
+              <Pressable onPress={() => router.push("/(tabs)/offers" as any)}>
                 <Text style={{ fontSize: 12, color: "#10b981", fontWeight: "900" }}>عرض الكل ←</Text>
               </Pressable>
             </View>
@@ -368,7 +368,7 @@ export default function HomeScreen() {
                 return (
                   <Pressable
                     key={offer.id}
-                    onPress={() => offer.doctor_id && router.push(`/doctor/${offer.doctor_id}` as any)}
+                    onPress={() => offer.doctor_id && router.push(`/doctors/${offer.doctor_id}` as any)}
                     style={{ width: 220, backgroundColor: "#fff", borderRadius: 18, overflow: "hidden", borderWidth: 1, borderColor: "#f1f5f9", shadowColor: "#000", shadowOpacity: 0.04, shadowRadius: 8, elevation: 1 }}
                   >
                     <View style={{ height: 120, position: "relative" }}>
@@ -455,7 +455,7 @@ export default function HomeScreen() {
                 <DoctorCard
                   key={doctor.id}
                   doctor={doctor}
-                  onPress={() => router.push(`/doctor/${doctor.id}` as any)}
+                  onPress={() => router.push(`/doctors/${doctor.id}` as any)}
                   onWhatsApp={() => {
                     const phone = (doctor.whatsapp || doctor.phone || "").replace(/[^0-9]/g, "");
                     if (phone) Linking.openURL(`https://wa.me/${phone}`);
@@ -494,7 +494,6 @@ export default function HomeScreen() {
         </View>
       </Animated.View>
     </ScrollView>
-    <AIChatbot />
   </View>
   );
 }

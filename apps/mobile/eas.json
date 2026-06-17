@@ -7,15 +7,50 @@
     "development": {
       "developmentClient": true,
       "distribution": "internal",
-      "environment": "development"
+      "environment": "development",
+      "env": {
+        "EXPO_PUBLIC_API_BASE_URL": "https://malamih.ps",
+        "EXPO_USE_METRO_WORKSPACE_ROOT": "1"
+      }
     },
     "preview": {
       "distribution": "internal",
-      "environment": "preview"
+      "environment": "preview",
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "EXPO_PUBLIC_API_BASE_URL": "https://malamih.ps",
+        "EXPO_PUBLIC_SUPABASE_URL": "https://lpplggiqdxxcnwffcmxu.supabase.co",
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "sb_publishable_sJ1Q8sg4ACp2uJN_t2SGoA_TxUl_Iry",
+        "EXPO_PUBLIC_EAS_PROJECT_ID": "0afe92b7-860e-493a-977e-b2742b96b947",
+        "EXPO_USE_METRO_WORKSPACE_ROOT": "1"
+      }
     },
     "production": {
       "autoIncrement": true,
-      "environment": "production"
+      "distribution": "store",
+      "environment": "production",
+      "android": {
+        "buildType": "app-bundle"
+      },
+      "ios": {
+        "simulator": false
+      },
+      "env": {
+        "EXPO_PUBLIC_API_BASE_URL": "https://malamih.ps",
+        "EXPO_PUBLIC_SUPABASE_URL": "https://lpplggiqdxxcnwffcmxu.supabase.co",
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "sb_publishable_sJ1Q8sg4ACp2uJN_t2SGoA_TxUl_Iry",
+        "EXPO_PUBLIC_EAS_PROJECT_ID": "0afe92b7-860e-493a-977e-b2742b96b947",
+        "EXPO_USE_METRO_WORKSPACE_ROOT": "1"
+      }
+    },
+    "production-apk": {
+      "extends": "production",
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk"
+      }
     }
   },
   "submit": {

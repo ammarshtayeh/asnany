@@ -18,6 +18,7 @@ export const viewport: Viewport = {
 };
 
 import Navbar from "@/components/Navbar";
+import NewsTicker from "@/components/NewsTicker";
 import AIChatbot from "@/components/AIChatbot";
 import SiteFooter from "@/components/SiteFooter";
 import PWARegister from "@/components/PWARegister";
@@ -32,6 +33,7 @@ export default function RootLayout({
     <html lang="ar" dir="rtl">
       <body className={`${cairoFont.variable} font-sans mesh-bg bg-grid-pattern text-slate-900 min-h-screen flex flex-col pt-20 pb-24 lg:pb-0 md:pt-20`}>
         <Navbar />
+        <NewsTicker />
         <ConnectivityBanner />
         {children}
         <SiteFooter />

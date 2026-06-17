@@ -5,6 +5,7 @@ import { Feather } from "@expo/vector-icons";
 
 import { getMobileApiBaseUrl } from "../../lib/api-base";
 import { doctorSession } from "../../lib/session";
+import { onAuthLogin } from "../../lib/push-manager";
 import { useAppToast } from "../../components/AppToast";
 
 const API_BASE = getMobileApiBaseUrl();
@@ -36,6 +37,13 @@ export default function DoctorLoginScreen() {
         token: data?.token ?? data?.accessToken ?? undefined,
         doctor: data?.doctor ?? data?.user ?? data?.profile ?? data,
         raw: data,
+      });
+
+      const doctorId =
+        data?.doctor?.id || data?.account?.doctor_id || data?.doctor_id || data?.id;
+      await onAuthLogin("doctor", {
+        authToken: data?.token ?? data?.accessToken,
+        doctorId,
       });
 
       router.replace("/doctor/dashboard");

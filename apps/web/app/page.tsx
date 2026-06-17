@@ -14,7 +14,6 @@ import {
   Clock,
   Ear,
   Eye,
-  GitCompareArrows,
   HeartPulse,
   MapPin,
   MessageCircle,
@@ -61,7 +60,7 @@ const QUICK_CATEGORIES = [
 
 const TRUST_POINTS = [
   { label: "أطباء موثقون", icon: BadgeCheck },
-  { label: "حجز ومقارنة", icon: CalendarCheck2 },
+  { label: "حجز موعد", icon: CalendarCheck2 },
   { label: "تواصل مباشر", icon: PhoneCall },
 ];
 
@@ -146,7 +145,6 @@ export default function Home() {
   const [selectedWorkStatus, setSelectedWorkStatus] = useState<"any" | "open" | "closed">("any");
   const [userLoc, setUserLoc] = useState<{ lat: number; lng: number } | null>(null);
   const [showMap, setShowMap] = useState(false);
-  const [compareIds, setCompareIds] = useState<string[]>([]);
 
   useEffect(() => {
     async function loadData() {
@@ -240,18 +238,6 @@ export default function Home() {
       () => alert("تعذر الوصول إلى الموقع. يرجى تفعيل صلاحيات الموقع والمحاولة مجددا.")
     );
   };
-
-  const toggleCompare = (doctorId: string) => {
-    setCompareIds((current) => {
-      if (current.includes(doctorId)) return current.filter((id) => id !== doctorId);
-      if (current.length >= 2) return [current[1], doctorId];
-      return [...current, doctorId];
-    });
-  };
-
-  const comparedDoctors = compareIds
-    .map((id) => doctors.find((doctor) => doctor.id === id))
-    .filter(Boolean) as Doctor[];
 
   return (
     <div className="min-h-screen overflow-x-hidden font-sans">
@@ -507,9 +493,6 @@ export default function Home() {
             </div>
 
             {loading ? <LoadingList /> : null}
-            {!loading && comparedDoctors.length > 0 ? (
-              <CompareTray doctors={comparedDoctors} onClear={() => setCompareIds([])} />
-            ) : null}
             {!loading && filteredDoctors.map((doctor, index) => (
               <motion.div
                 key={doctor.id}
@@ -517,11 +500,7 @@ export default function Home() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.45, delay: Math.min(index * 0.07, 0.5) }}
               >
-                <DoctorResult
-                  doctor={doctor}
-                  compareSelected={compareIds.includes(doctor.id)}
-                  onToggleCompare={() => toggleCompare(doctor.id)}
-                />
+                <DoctorResult doctor={doctor} />
               </motion.div>
             ))}
             {!loading && !filteredDoctors.length ? <EmptyResults onReset={resetFilters} /> : null}
@@ -606,50 +585,7 @@ function Metric({ value, label }: { value: string | number; label: string }) {
   );
 }
 
-function CompareTray({ doctors, onClear }: { doctors: Doctor[]; onClear: () => void }) {
-  return (
-    <div className="rounded-2xl border border-sky-100 bg-sky-50 p-4">
-      <div className="mb-3 flex items-center justify-between gap-3">
-        <h3 className="flex items-center gap-2 text-lg font-black text-slate-950">
-          <GitCompareArrows className="h-5 w-5 text-sky-600" />
-          مقارنة الأطباء
-        </h3>
-        <button type="button" onClick={onClear} className="rounded-xl bg-white p-2 text-slate-500 hover:text-slate-900">
-          <X className="h-4 w-4" />
-        </button>
-      </div>
-      <div className="grid gap-3 md:grid-cols-2">
-        {doctors.map((doctor) => (
-          <div key={doctor.id} className="rounded-2xl bg-white p-4 shadow-sm">
-            <h4 className="text-base font-black text-slate-950">{doctor.name}</h4>
-            <p className="mt-1 text-sm font-bold text-slate-500">{doctor.city}{doctor.area ? ` - ${doctor.area}` : ""}</p>
-            <div className="mt-3 grid gap-2 text-xs font-black text-slate-600">
-              <span>التخصص: {(doctor.specialty || []).join("، ") || "غير محدد"}</span>
-              <span>التقييم: {doctor.rating || 0}</span>
-              <span>التأمين: {doctor.accepts_insurance ? "يقبل التأمين" : "لا يقبل التأمين"}</span>
-              <span>الحالة: {doctor.is_available === false ? "غير متاح الآن" : "متاح الآن"}</span>
-            </div>
-          </div>
-        ))}
-        {doctors.length === 1 ? (
-          <div className="flex min-h-40 items-center justify-center rounded-2xl border border-dashed border-sky-200 bg-white/60 p-4 text-center text-sm font-black text-sky-700">
-            اختر طبيباً ثانياً لإكمال المقارنة.
-          </div>
-        ) : null}
-      </div>
-    </div>
-  );
-}
-
-function DoctorResult({
-  doctor,
-  compareSelected,
-  onToggleCompare,
-}: {
-  doctor: Doctor;
-  compareSelected: boolean;
-  onToggleCompare: () => void;
-}) {
+function DoctorResult({ doctor }: { doctor: Doctor }) {
   const openNow = isDoctorOpenNow(doctor.working_hours);
   const whatsappHref = doctor.whatsapp ? `https://wa.me/${doctor.whatsapp.replace(/[^\d]/g, "")}` : undefined;
 
@@ -729,7 +665,7 @@ function DoctorResult({
           </div>
 
           {/* Action Buttons arranged horizontally */}
-          <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
             <Link href={`/doctors/${doctor.id}`} className="inline-flex items-center justify-center gap-2 rounded-xl bg-slate-950 px-4 py-3 text-sm font-black text-white transition-all hover:bg-amber-600 hover:shadow-lg hover:shadow-amber-600/10">
               احجز
               <ArrowLeft className="h-4 w-4" />
@@ -744,18 +680,6 @@ function DoctorResult({
               <MapPin className="h-4 w-4" />
               الخريطة
             </Link>
-            <button
-              type="button"
-              onClick={onToggleCompare}
-              className={`inline-flex items-center justify-center gap-2 rounded-xl border px-4 py-3 text-sm font-black transition-all ${
-                compareSelected 
-                  ? "border-amber-300 bg-amber-500 text-white shadow-md shadow-amber-500/10" 
-                  : "border-slate-200 bg-white text-slate-700 hover:border-amber-300 hover:bg-amber-50/50"
-              }`}
-            >
-              <GitCompareArrows className="h-4 w-4" />
-              {compareSelected ? "ضمن المقارنة" : "قارن مع طبيب آخر"}
-            </button>
           </div>
         </div>
       </div>

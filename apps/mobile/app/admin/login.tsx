@@ -5,6 +5,7 @@ import { Feather } from "@expo/vector-icons";
 
 import { getMobileApiBaseUrl } from "../../lib/api-base";
 import { adminSession } from "../../lib/session";
+import { onAuthLogin } from "../../lib/push-manager";
 import { useAppToast } from "../../components/AppToast";
 
 const API_BASE = getMobileApiBaseUrl();
@@ -37,6 +38,8 @@ export default function AdminLoginScreen() {
         admin: data?.admin ?? data?.user ?? data?.profile ?? data,
         raw: data,
       });
+
+      await onAuthLogin("admin", { authToken: data?.token ?? data?.accessToken });
 
       router.replace("/admin/dashboard");
     } catch (error) {

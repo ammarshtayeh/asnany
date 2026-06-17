@@ -4,6 +4,7 @@ import { router, useLocalSearchParams } from "expo-router";
 import { Feather } from "@expo/vector-icons";
 import { apiFetch } from "../lib/api";
 import { registerPushSubscription } from "../lib/notifications";
+import { setStoredPatientPhone } from "../lib/push-manager";
 import { AppButton } from "../components/Buttons";
 import { AppCard } from "../components/AppCard";
 import { AppSubtitle, AppTitle } from "../components/AppText";
@@ -70,6 +71,7 @@ export default function PatientAppointmentsScreen() {
     setAppointments(nextAppointments);
 
     if (normalizedPhone.length >= 7) {
+      await setStoredPatientPhone(normalizedPhone);
       void registerPushSubscription({
         role: "patient",
         patientPhone: normalizedPhone,

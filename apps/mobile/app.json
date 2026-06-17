@@ -6,6 +6,8 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
+    "description": "دليل فلسطين لصحة وجمال الوجه — ابحث عن أطباء، احجز مواعيد، وتابع العروض والإعلانات الطبية.",
+    "primaryColor": "#0f172a",
     "platforms": [
       "ios",
       "android",
@@ -13,25 +15,43 @@
     ],
     "ios": {
       "bundleIdentifier": "ps.malamih.app",
+      "buildNumber": "1",
+      "supportsTablet": true,
       "infoPlist": {
-        "NSLocationWhenInUseUsageDescription": "We use your location to sort nearby medical and cosmetic clinics and show them on the map.",
+        "CFBundleDisplayName": "ملامح",
+        "NSLocationWhenInUseUsageDescription": "نستخدم موقعك لعرض العيادات والمراكز الطبية القريبة منك على الخريطة.",
         "UIBackgroundModes": [
           "remote-notification"
         ]
+      },
+      "config": {
+        "usesNonExemptEncryption": false
       }
     },
     "android": {
+      "versionCode": 1,
       "permissions": [
         "ACCESS_COARSE_LOCATION",
         "ACCESS_FINE_LOCATION",
-        "POST_NOTIFICATIONS"
+        "POST_NOTIFICATIONS",
+        "VIBRATE"
       ],
-      "package": "ps.malamih.app"
+      "package": "ps.malamih.app",
+      "blockedPermissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "plugins": [
       "expo-router",
       "expo-location",
-      "expo-notifications"
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/icon.png",
+          "color": "#0f172a",
+          "sounds": []
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": false

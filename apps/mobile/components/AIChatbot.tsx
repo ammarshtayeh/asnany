@@ -614,7 +614,7 @@ export function AIChatbot({ onNavigateTab }: AIChatbotProps) {
                                   <Pressable
                                     onPress={() => {
                                       handleClose();
-                                      router.push(`/doctor/${doc.id}` as any);
+                                      router.push(`/doctors/${doc.id}` as any);
                                     }}
                                     style={styles.doctorBtnMini}
                                   >

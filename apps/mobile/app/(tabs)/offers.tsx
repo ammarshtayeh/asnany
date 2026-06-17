@@ -281,7 +281,7 @@ export default function OffersScreen() {
                     {/* CTA */}
                     {featuredOffer.doctor_id ? (
                       <Pressable
-                        onPress={() => router.push(`/doctor/${featuredOffer.doctor_id}` as any)}
+                        onPress={() => router.push(`/doctors/${featuredOffer.doctor_id}` as any)}
                         style={{ backgroundColor: "#0f172a", borderRadius: 14, paddingHorizontal: 18, paddingVertical: 12 }}
                       >
                         <Text style={{ color: "#fff", fontWeight: "900", fontSize: 13 }}>احجز الآن</Text>
@@ -299,7 +299,7 @@ export default function OffersScreen() {
               return (
                 <Pressable
                   key={offer.id}
-                  onPress={() => offer.doctor_id && router.push(`/doctor/${offer.doctor_id}` as any)}
+                  onPress={() => offer.doctor_id && router.push(`/doctors/${offer.doctor_id}` as any)}
                   style={{
                     backgroundColor: "#fff",
                     borderRadius: 20,

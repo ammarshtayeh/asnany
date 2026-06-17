@@ -133,7 +133,7 @@ export default function DoctorsTab({
           {doctors.map((doc) => {
             const isOpen = isDoctorOpenNow(doc.working_hours);
             return (
-              <Link href={`/doctor/${doc.id}`} asChild key={doc.id}>
+              <Link href={`/doctors/${doc.id}`} asChild key={doc.id}>
                 <Pressable style={styles.card}>
                   <View style={styles.cardHeader}>
                     <Image source={{ uri: doc.image_url || "https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=120&auto=format&fit=crop&q=80" }} style={styles.avatar as any} />

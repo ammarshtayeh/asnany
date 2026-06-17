@@ -5,7 +5,7 @@ import { Feather } from "@expo/vector-icons";
 
 import { getMobileApiBaseUrl } from "../../lib/api-base";
 import { doctorSession } from "../../lib/session";
-import { registerPushSubscription } from "../../lib/notifications";
+import { onAuthLogin, syncPushForCurrentUser } from "../../lib/push-manager";
 import { useAppToast } from "../../components/AppToast";
 
 type Appointment = {
@@ -59,10 +59,9 @@ export default function DoctorDashboardScreen() {
       return;
     }
     setToken(session?.token);
-    void registerPushSubscription({
-      role: "doctor",
-      doctorId: (session?.doctor as any)?.id || (session?.raw as any)?.account?.doctor_id || session?.token,
+    void onAuthLogin("doctor", {
       authToken: session?.token,
+      doctorId: (session?.doctor as any)?.id || (session?.raw as any)?.account?.doctor_id,
     }).catch(() => null);
     await refresh(session?.token);
     setReady(true);
@@ -173,6 +172,7 @@ export default function DoctorDashboardScreen() {
 
   const signOut = async () => {
     await doctorSession.clear();
+    await syncPushForCurrentUser();
     router.replace("/doctor/login");
   };
 

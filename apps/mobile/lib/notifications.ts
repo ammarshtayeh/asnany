@@ -23,7 +23,7 @@ export function resolveNotificationRoute(data?: Record<string, unknown> | null) 
   }
 
   if (type === "admin_appointment_created") {
-    return "/admin/dashboard";
+    return "/admin/notifications";
   }
 
   if (type === "appointment_status") {
@@ -135,4 +135,35 @@ export async function configureNotifications() {
   }
 
   return Notifications;
+}
+
+export async function playNotificationAlert() {
+  if (Platform.OS === "web") return;
+  const Notifications = await import("expo-notifications");
+  await Notifications.scheduleNotificationAsync({
+    content: {
+      title: "ملامح",
+      body: "لديك إشعار جديد",
+      sound: "default",
+      priority: Notifications.AndroidNotificationPriority.MAX,
+    },
+    trigger: null,
+  }).catch(() => null);
+}
+
+export function attachForegroundNotificationListener(onReceived?: (notification: any) => void) {
+  if (Platform.OS === "web") return { remove: () => undefined };
+
+  let subscription: { remove: () => void } | undefined;
+
+  void import("expo-notifications").then((Notifications) => {
+    subscription = Notifications.addNotificationReceivedListener((notification) => {
+      void playNotificationAlert();
+      onReceived?.(notification);
+    });
+  });
+
+  return {
+    remove: () => subscription?.remove(),
+  };
 }

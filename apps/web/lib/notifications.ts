@@ -135,8 +135,8 @@ export async function notifyDoctorAboutAppointment(appointment: AppointmentNotif
   try {
     if (!appointment.doctor_id) return;
     const patientName = appointment.patient_full_name || appointment.patient_name || "Patient";
-    const title = "New appointment request";
-    const body = `${patientName} requested an appointment${appointment.date ? ` on ${appointment.date}` : ""}.`;
+    const title = "طلب حجز جديد";
+    const body = `${patientName} طلب موعداً${appointment.date ? ` بتاريخ ${appointment.date}` : ""}.`;
     const data = {
       type: "appointment_created",
       appointmentId: appointment.id,
@@ -173,8 +173,8 @@ export async function notifyPatientAboutAppointmentStatus(appointment: Appointme
   try {
     if (!appointment.patient_phone) return;
     const status = appointment.status || "updated";
-    const title = "Appointment updated";
-    const body = `Your appointment is now ${status}.`;
+    const title = "تحديث على موعدك";
+    const body = `تم تحديث حالة موعدك إلى: ${status === "confirmed" ? "مؤكد" : status === "cancelled" ? "ملغي" : status === "completed" ? "مكتمل" : status}.`;
     const data = {
       type: "appointment_status",
       appointmentId: appointment.id,
