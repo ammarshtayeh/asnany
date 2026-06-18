@@ -143,6 +143,33 @@ export function filterActiveTickerItems(items: NewsTickerItem[], now = Date.now(
     .sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0));
 }
 
+/** Auto-advance interval for web + mobile ticker carousel */
+export const TICKER_ROTATE_MS = 7000;
+
+const TICKER_BRAND_BACKGROUNDS = ["#0a1628", "#0c5e47", "#0f2744"] as const;
+const TICKER_BRAND_TEXT = ["#ffffff", "#ffffff", "#fde68a"] as const;
+
+export type TickerPresentation = {
+  backgroundColor: string;
+  textColor: string;
+  accentColor: string;
+  useImageBackdrop: boolean;
+};
+
+export function getTickerPresentation(item: NewsTickerItem, index: number): TickerPresentation {
+  const backgroundColor =
+    item.background_color?.trim() || TICKER_BRAND_BACKGROUNDS[index % TICKER_BRAND_BACKGROUNDS.length];
+  const textColor = item.text_color?.trim() || TICKER_BRAND_TEXT[index % TICKER_BRAND_TEXT.length];
+  const accentColor = index % 3 === 2 ? "#d4af37" : "#10b981";
+
+  return {
+    backgroundColor,
+    textColor,
+    accentColor,
+    useImageBackdrop: Boolean(item.image_url),
+  };
+}
+
 export const demoDoctors: Doctor[] = [
   {
     id: "dr-lina-khalil",

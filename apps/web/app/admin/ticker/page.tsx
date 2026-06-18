@@ -5,6 +5,7 @@ import { Plus, Trash2, Eye, EyeOff, Megaphone } from "lucide-react";
 import Image from "next/image";
 import AdminImageUpload from "@/components/AdminImageUpload";
 import type { NewsTickerItem } from "@pal-dental/shared";
+import { getTickerPresentation } from "@pal-dental/shared";
 
 export default function AdminTickerPage() {
   const [items, setItems] = useState<NewsTickerItem[]>([]);
@@ -61,15 +62,16 @@ export default function AdminTickerPage() {
   };
 
   const activeItems = items.filter((i) => i.is_active);
-  const preview = form.title
-    ? {
+  const previewItem = form.title
+    ? ({
         title: form.title,
         subtitle: form.subtitle,
         image_url: form.image_url,
         background_color: form.background_color,
         text_color: form.text_color,
-      }
+      } as NewsTickerItem)
     : activeItems[previewIndex];
+  const previewStyle = previewItem ? getTickerPresentation(previewItem, previewIndex) : null;
 
   return (
     <div className="space-y-6" dir="rtl">
@@ -80,24 +82,37 @@ export default function AdminTickerPage() {
         </p>
       </div>
 
-      {preview ? (
+      {previewItem && previewStyle ? (
         <div className="overflow-hidden rounded-2xl border border-slate-200 shadow-lg">
-          <div className="bg-slate-100 px-4 py-2 text-xs font-black text-slate-500">معاينة حية (موقع + تطبيق)</div>
-          <div
-            className="flex h-[68px] items-center gap-3 px-4"
-            style={{ backgroundColor: preview.background_color || "#0a1628", color: preview.text_color || "#fff" }}
-          >
-            <span className="inline-flex items-center gap-1 rounded-full bg-white/12 px-3 py-1 text-[10px] font-black">
-              <Megaphone className="h-3 w-3" /> إعلان مميز
+          <div className="bg-slate-100 px-4 py-2 text-xs font-black text-slate-500">معاينة حية — يتحرك تلقائياً كل 7 ثوانٍ</div>
+          <div className="relative flex h-[68px] items-center gap-3 overflow-hidden px-4" style={{ color: previewStyle.textColor }}>
+            {previewStyle.useImageBackdrop && previewItem.image_url ? (
+              <>
+                <Image src={previewItem.image_url} alt="" fill className="object-cover blur-[4px] brightness-75" unoptimized />
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    background: `linear-gradient(270deg, ${previewStyle.backgroundColor}f2 0%, ${previewStyle.backgroundColor}cc 100%)`,
+                  }}
+                />
+              </>
+            ) : (
+              <div className="absolute inset-0" style={{ backgroundColor: previewStyle.backgroundColor }} />
+            )}
+            <span
+              className="relative z-10 inline-flex items-center gap-1 rounded-full px-3 py-1 text-[10px] font-black"
+              style={{ backgroundColor: `${previewStyle.accentColor}33` }}
+            >
+              <Megaphone className="h-3 w-3" style={{ color: previewStyle.accentColor }} /> إعلان مميز
             </span>
-            {preview.image_url ? (
-              <div className="relative h-12 w-16 overflow-hidden rounded-xl border border-white/20">
-                <Image src={preview.image_url} alt="" fill className="object-cover" unoptimized />
+            {previewItem.image_url ? (
+              <div className="relative z-10 h-12 w-16 overflow-hidden rounded-xl border-2" style={{ borderColor: `${previewStyle.accentColor}55` }}>
+                <Image src={previewItem.image_url} alt="" fill className="object-cover" unoptimized />
               </div>
             ) : null}
-            <div className="min-w-0 flex-1 text-right">
-              <p className="truncate text-sm font-black">{preview.title}</p>
-              {preview.subtitle ? <p className="truncate text-xs font-bold opacity-85">{preview.subtitle}</p> : null}
+            <div className="relative z-10 min-w-0 flex-1 text-right">
+              <p className="truncate text-sm font-black">{previewItem.title}</p>
+              {previewItem.subtitle ? <p className="truncate text-xs font-bold opacity-85">{previewItem.subtitle}</p> : null}
             </div>
           </div>
         </div>
