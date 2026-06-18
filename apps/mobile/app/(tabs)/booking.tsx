@@ -21,7 +21,7 @@ export default function BookingTabScreen() {
       showsVerticalScrollIndicator={false}
     >
       <ScreenHero
-        paddingTop={insets.top + 12}
+        paddingTop={12}
         badge="حجز سريع وآمن"
         title="احجز موعدك"
         subtitle="اختر الطبيب المناسب واحجز من التطبيق مباشرة — بدون مكالمات أو انتظار."

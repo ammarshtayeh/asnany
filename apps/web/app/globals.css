@@ -40,6 +40,9 @@
     --malamih-navy: 220 52% 10%; /* #0a1628 */
     --malamih-teal: 162 78% 21%;
     --malamih-gold: 46 65% 52%;
+
+    --navbar-height: 72px;
+    --ticker-height: 0px;
   }
 }
 

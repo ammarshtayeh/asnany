@@ -117,7 +117,32 @@ export type User = {
   created_at: string;
 };
 
-// Demo data
+export type NewsTickerItem = {
+  id: string;
+  title: string;
+  subtitle?: string | null;
+  image_url?: string | null;
+  link_url?: string | null;
+  background_color?: string | null;
+  text_color?: string | null;
+  sort_order?: number | null;
+  is_active?: boolean | null;
+  starts_at?: string | null;
+  ends_at?: string | null;
+  created_at?: string | null;
+};
+
+export function filterActiveTickerItems(items: NewsTickerItem[], now = Date.now()) {
+  return items
+    .filter((item) => item.is_active !== false)
+    .filter((item) => {
+      const starts = item.starts_at ? new Date(item.starts_at).getTime() : 0;
+      const ends = item.ends_at ? new Date(item.ends_at).getTime() : Number.POSITIVE_INFINITY;
+      return now >= starts && now <= ends;
+    })
+    .sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0));
+}
+
 export const demoDoctors: Doctor[] = [
   {
     id: "dr-lina-khalil",

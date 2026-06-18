@@ -74,7 +74,7 @@ export default function DoctorsTabScreen() {
       showsVerticalScrollIndicator={false}
     >
       <ScreenHero
-        paddingTop={insets.top + 12}
+        paddingTop={12}
         badge="دليل موثّق"
         title="دليل الأطباء"
         subtitle="ابحث، قارن، واحجز من أفضل الأخصائيين في فلسطين"

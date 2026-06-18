@@ -63,7 +63,7 @@ export default function OffersScreen() {
       showsVerticalScrollIndicator={false}
     >
       <ScreenHero
-        paddingTop={insets.top + 12}
+        paddingTop={12}
         badge="عروض مختارة بعناية"
         title="وفّر على خدمات الصحة والجمال"
         subtitle="عروض محدثة من أطباء وعيادات ضمن شبكة ملامح — بدون التنازل عن الجودة."

@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { filterActiveTickerItems } from "@pal-dental/shared";
 import { isSupabaseConfigured, supabaseAdmin } from "@/lib/supabase";
 
 export async function GET() {
@@ -16,12 +17,7 @@ export async function GET() {
 
     if (error) throw error;
 
-    const now = Date.now();
-    const items = (data || []).filter((item) => {
-      const starts = item.starts_at ? new Date(item.starts_at).getTime() : 0;
-      const ends = item.ends_at ? new Date(item.ends_at).getTime() : Number.POSITIVE_INFINITY;
-      return now >= starts && now <= ends;
-    });
+    const items = filterActiveTickerItems(data || []);
 
     return NextResponse.json({ items });
   } catch (error: any) {

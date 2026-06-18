@@ -10,7 +10,6 @@ import {
   View,
 } from "react-native";
 import { router } from "expo-router";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Feather } from "@expo/vector-icons";
 import { supabase } from "../../lib/supabase";
 import { Doctor, Offer } from "../../types";
@@ -54,7 +53,6 @@ const DIAGNOSIS_OPTIONS = [
 ];
 
 export default function HomeScreen() {
-  const insets = useSafeAreaInsets();
   const [doctors, setDoctors] = useState<Doctor[]>([]);
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState("");
@@ -111,7 +109,7 @@ export default function HomeScreen() {
           <Image source={{ uri: HERO_IMAGE }} style={{ width: "100%", height: "100%" }} resizeMode="cover" />
           <View style={{ position: "absolute", inset: 0, backgroundColor: "rgba(10,22,40,0.72)" }} />
 
-          <View style={{ position: "absolute", top: insets.top + 10, left: 16, right: 16, flexDirection: "row-reverse", justifyContent: "space-between", alignItems: "center" }}>
+          <View style={{ position: "absolute", top: 10, left: 16, right: 16, flexDirection: "row-reverse", justifyContent: "space-between", alignItems: "center" }}>
             <MalamihLogo size="sm" />
             <Pressable
               onPress={() => router.push("/discount-card" as any)}

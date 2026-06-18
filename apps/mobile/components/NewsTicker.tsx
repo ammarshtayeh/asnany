@@ -1,67 +1,113 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Animated, Image, Linking, Pressable, Text, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Feather } from "@expo/vector-icons";
+import type { NewsTickerItem } from "@pal-dental/shared";
+import { filterActiveTickerItems } from "@pal-dental/shared";
 import { apiFetch } from "../lib/api";
+import { theme } from "../constants/theme";
 
-type TickerItem = {
-  id: string;
-  title: string;
-  subtitle?: string | null;
-  image_url?: string | null;
-  link_url?: string | null;
-  background_color?: string | null;
-  text_color?: string | null;
-};
+const ROTATE_MS = 5000;
 
 export function NewsTicker() {
-  const [items, setItems] = useState<TickerItem[]>([]);
+  const insets = useSafeAreaInsets();
+  const [items, setItems] = useState<NewsTickerItem[]>([]);
   const [index, setIndex] = useState(0);
   const fade = useRef(new Animated.Value(1)).current;
 
-  useEffect(() => {
-    void apiFetch<{ items?: TickerItem[] }>("/api/ticker").then(({ data }) => {
-      setItems(Array.isArray(data?.items) ? data.items : []);
-    });
+  const load = useCallback(async () => {
+    const { data } = await apiFetch<{ items?: NewsTickerItem[] }>("/api/ticker");
+    const rows = Array.isArray(data?.items) ? data.items : [];
+    setItems(filterActiveTickerItems(rows));
   }, []);
+
+  useEffect(() => {
+    void load();
+    const timer = setInterval(() => void load(), 60_000);
+    return () => clearInterval(timer);
+  }, [load]);
 
   useEffect(() => {
     if (items.length <= 1) return;
     const timer = setInterval(() => {
       Animated.sequence([
-        Animated.timing(fade, { toValue: 0, duration: 220, useNativeDriver: true }),
-        Animated.timing(fade, { toValue: 1, duration: 320, useNativeDriver: true }),
+        Animated.timing(fade, { toValue: 0, duration: 200, useNativeDriver: true }),
+        Animated.timing(fade, { toValue: 1, duration: 280, useNativeDriver: true }),
       ]).start();
       setIndex((current) => (current + 1) % items.length);
-    }, 5000);
+    }, ROTATE_MS);
     return () => clearInterval(timer);
   }, [fade, items.length]);
 
   const active = useMemo(() => items[index] || null, [items, index]);
   if (!active) return null;
 
+  const textColor = active.text_color || theme.white;
+  const bg = active.background_color || theme.navy;
+
   const open = () => {
-    if (active.link_url) void Linking.openURL(active.link_url);
+    if (!active.link_url) return;
+    const url = active.link_url.startsWith("http") ? active.link_url : `https://malamih.ps${active.link_url}`;
+    void Linking.openURL(url);
   };
 
   return (
-    <Pressable onPress={open} style={{ backgroundColor: active.background_color || "#0a1628" }}>
-      <Animated.View style={{ opacity: fade, minHeight: 44, flexDirection: "row-reverse", alignItems: "center", gap: 10, paddingHorizontal: 14, paddingVertical: 8 }}>
-        <View style={{ backgroundColor: "rgba(255,255,255,0.14)", borderRadius: 999, paddingHorizontal: 10, paddingVertical: 4 }}>
-          <Text style={{ color: active.text_color || "#fff", fontSize: 10, fontWeight: "900" }}>آخر الأخبار</Text>
-        </View>
-        {active.image_url ? (
-          <Image source={{ uri: active.image_url }} style={{ width: 42, height: 28, borderRadius: 8 }} resizeMode="cover" />
-        ) : null}
-        <View style={{ flex: 1 }}>
-          <Text style={{ color: active.text_color || "#fff", fontSize: 12, fontWeight: "900", textAlign: "right" }} numberOfLines={1}>
-            {active.title}
-          </Text>
-          {active.subtitle ? (
-            <Text style={{ color: active.text_color || "#fff", fontSize: 10, fontWeight: "700", opacity: 0.85, textAlign: "right" }} numberOfLines={1}>
-              {active.subtitle}
+    <View style={{ paddingTop: insets.top, backgroundColor: bg }}>
+      <Pressable onPress={open} style={{ backgroundColor: bg, borderBottomWidth: 1, borderBottomColor: "rgba(255,255,255,0.08)" }}>
+        <Animated.View
+          style={{
+            opacity: fade,
+            minHeight: 64,
+            flexDirection: "row-reverse",
+            alignItems: "center",
+            gap: 10,
+            paddingHorizontal: 14,
+            paddingVertical: 10,
+          }}
+        >
+          <View style={{ backgroundColor: "rgba(255,255,255,0.12)", borderRadius: 999, paddingHorizontal: 10, paddingVertical: 5, flexDirection: "row-reverse", alignItems: "center", gap: 4 }}>
+            <Feather name="volume-2" size={11} color={textColor} />
+            <Text style={{ color: textColor, fontSize: 10, fontWeight: "900" }}>إعلان</Text>
+          </View>
+
+          {active.image_url ? (
+            <Image source={{ uri: active.image_url }} style={{ width: 52, height: 40, borderRadius: 10, borderWidth: 1, borderColor: "rgba(255,255,255,0.2)" }} resizeMode="cover" />
+          ) : (
+            <View style={{ width: 40, height: 40, borderRadius: 10, backgroundColor: "rgba(255,255,255,0.1)", alignItems: "center", justifyContent: "center" }}>
+              <Feather name="image" size={18} color={textColor} />
+            </View>
+          )}
+
+          <View style={{ flex: 1 }}>
+            <Text style={{ color: textColor, fontSize: 13, fontWeight: "900", textAlign: "right" }} numberOfLines={1}>
+              {active.title}
             </Text>
-          ) : null}
-        </View>
-      </Animated.View>
-    </Pressable>
+            {active.subtitle ? (
+              <Text style={{ color: textColor, fontSize: 11, fontWeight: "700", opacity: 0.88, textAlign: "right", marginTop: 2 }} numberOfLines={1}>
+                {active.subtitle}
+              </Text>
+            ) : null}
+          </View>
+
+          {items.length > 1 ? (
+            <View style={{ flexDirection: "row-reverse", gap: 3 }}>
+              {items.map((item, i) => (
+                <View
+                  key={item.id}
+                  style={{
+                    width: i === index ? 14 : 5,
+                    height: 5,
+                    borderRadius: 999,
+                    backgroundColor: i === index ? textColor : "rgba(255,255,255,0.35)",
+                  }}
+                />
+              ))}
+            </View>
+          ) : (
+            <Feather name="chevron-left" size={16} color={textColor} style={{ opacity: 0.7 }} />
+          )}
+        </Animated.View>
+      </Pressable>
+    </View>
   );
 }
