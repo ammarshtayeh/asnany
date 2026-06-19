@@ -1,5 +1,5 @@
-const CACHE_NAME = "asnany-shell-v1";
-const APP_SHELL = ["/", "/manifest.json", "/icon.svg", "/icon-512.png"];
+const CACHE_NAME = "malamih-shell-v2";
+const APP_SHELL = ["/", "/manifest.json", "/icon-512.png"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
@@ -16,9 +16,19 @@ self.addEventListener("activate", (event) => {
   self.clients.claim();
 });
 
+function shouldCache(url: URL) {
+  if (url.pathname.startsWith("/api/")) return false;
+  if (url.pathname.startsWith("/admin")) return false;
+  if (url.pathname.startsWith("/doctor")) return false;
+  return url.origin === self.location.origin;
+}
+
 self.addEventListener("fetch", (event) => {
   const request = event.request;
   if (request.method !== "GET") return;
+
+  const url = new URL(request.url);
+  if (!shouldCache(url)) return;
 
   event.respondWith(
     fetch(request)

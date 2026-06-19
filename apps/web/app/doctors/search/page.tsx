@@ -2,15 +2,16 @@
 
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { Suspense, useState, useEffect } from 'react';
 import { Doctor } from '@pal-dental/shared';
-import { ArrowRight, BadgeCheck, PhoneCall, Search, Star, Sparkles, MapPin, ShieldCheck, HeartPulse } from 'lucide-react';
+import { ArrowRight, BadgeCheck, PhoneCall, Search, Star, Sparkles, MapPin } from 'lucide-react';
 import { CITIES, SPECIALTIES } from '@/lib/constants';
 
-export default function SearchPage() {
+function SearchPageContent() {
   const searchParams = useSearchParams();
   const [doctors, setDoctors] = useState<Doctor[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [filters, setFilters] = useState({
     city: searchParams?.get('city') || '',
     specialty: searchParams?.get('specialty') || '',
@@ -18,11 +19,12 @@ export default function SearchPage() {
   });
 
   useEffect(() => {
-    fetchDoctors();
+    void fetchDoctors();
   }, [filters]);
 
   const fetchDoctors = async () => {
     setLoading(true);
+    setError(null);
     try {
       const params = new URLSearchParams();
       if (filters.city) params.append('city', filters.city);
@@ -30,10 +32,9 @@ export default function SearchPage() {
 
       const response = await fetch(`/api/doctors?${params}`);
       if (!response.ok) throw new Error('Failed to fetch');
-      
+
       let data = await response.json();
-      
-      // Client-side filtering for insurance
+
       if (filters.insurance === 'yes') {
         data = data.filter((d: Doctor) => d.acceptsInsurance || d.accepts_insurance);
       } else if (filters.insurance === 'no') {
@@ -41,8 +42,8 @@ export default function SearchPage() {
       }
 
       setDoctors(data);
-    } catch (error) {
-      console.error('Error fetching doctors:', error);
+    } catch {
+      setError('تعذر تحميل نتائج البحث. تحقق من الاتصال وحاول مجدداً.');
     } finally {
       setLoading(false);
     }
@@ -54,7 +55,6 @@ export default function SearchPage() {
 
   return (
     <main className="min-h-screen bg-slate-50 pb-24 pt-24 text-right" dir="rtl">
-      {/* Header section with gradient */}
       <section className="bg-slate-950 pt-20 pb-32 px-4 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-15 pointer-events-none" />
         <div className="absolute -top-40 -right-40 w-96 h-96 bg-amber-600 rounded-full blur-[120px] opacity-15" />
@@ -83,13 +83,12 @@ export default function SearchPage() {
             ابحث وقارن بين نخبة أطباء وعيادات العيون، الجلدية، التجميل، والأسنان في فلسطين، واحجز موعدك بضغطة زر.
           </p>
 
-          {/* Filter Panel (Glassmorphic) */}
           <div className="bg-white/5 backdrop-blur-xl p-5 rounded-3xl border border-white/10 shadow-2xl max-w-4xl">
             <div className="grid gap-4 sm:grid-cols-3">
               <div>
                 <label className="block text-slate-300 text-xs font-black mb-2 mr-1">المدينة</label>
-                <select 
-                  value={filters.city} 
+                <select
+                  value={filters.city}
                   onChange={(e) => handleFilterChange('city', e.target.value)}
                   className="w-full bg-slate-900/80 border border-white/10 text-white px-4 py-3 rounded-2xl outline-none focus:border-amber-400 transition-all font-bold text-sm"
                 >
@@ -102,8 +101,8 @@ export default function SearchPage() {
 
               <div>
                 <label className="block text-slate-300 text-xs font-black mb-2 mr-1">التخصص أو القسم</label>
-                <select 
-                  value={filters.specialty} 
+                <select
+                  value={filters.specialty}
                   onChange={(e) => handleFilterChange('specialty', e.target.value)}
                   className="w-full bg-slate-900/80 border border-white/10 text-white px-4 py-3 rounded-2xl outline-none focus:border-amber-400 transition-all font-bold text-sm"
                 >
@@ -116,8 +115,8 @@ export default function SearchPage() {
 
               <div>
                 <label className="block text-slate-300 text-xs font-black mb-2 mr-1">شركات التأمين</label>
-                <select 
-                  value={filters.insurance} 
+                <select
+                  value={filters.insurance}
                   onChange={(e) => handleFilterChange('insurance', e.target.value)}
                   className="w-full bg-slate-900/80 border border-white/10 text-white px-4 py-3 rounded-2xl outline-none focus:border-amber-400 transition-all font-bold text-sm"
                 >
@@ -131,7 +130,6 @@ export default function SearchPage() {
         </div>
       </section>
 
-      {/* Results Section */}
       <section className="max-w-[1400px] mx-auto px-4 lg:px-8 -mt-12 relative z-20">
         {loading && (
           <div className="bg-white rounded-3xl p-16 text-center border border-slate-200/60 shadow-lg flex flex-col items-center justify-center">
@@ -140,7 +138,16 @@ export default function SearchPage() {
           </div>
         )}
 
-        {!loading && doctors.length === 0 && (
+        {error && !loading && (
+          <div className="bg-white rounded-3xl p-12 text-center border border-rose-200 shadow-lg">
+            <p className="text-rose-600 font-black mb-4">{error}</p>
+            <button type="button" onClick={() => void fetchDoctors()} className="rounded-xl bg-primary px-5 py-3 text-sm font-black text-white">
+              إعادة المحاولة
+            </button>
+          </div>
+        )}
+
+        {!loading && !error && doctors.length === 0 && (
           <div className="bg-white rounded-3xl p-16 text-center border border-slate-200/60 shadow-lg">
             <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <Search className="w-8 h-8 text-slate-400" />
@@ -150,7 +157,7 @@ export default function SearchPage() {
           </div>
         )}
 
-        {!loading && doctors.length > 0 && (
+        {!loading && !error && doctors.length > 0 && (
           <>
             <div className="mb-6 flex justify-between items-center mr-2">
               <span className="text-xs font-black text-slate-400 bg-slate-200/50 px-3 py-1.5 rounded-lg">
@@ -160,20 +167,19 @@ export default function SearchPage() {
 
             <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
               {doctors.map((doctor: Doctor) => (
-                <article 
+                <article
                   className={`bg-white rounded-3xl overflow-hidden border p-5 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg flex flex-col justify-between ${
-                    doctor.isFeatured || doctor.is_featured 
-                      ? 'border-amber-300 ring-2 ring-amber-100' 
+                    doctor.isFeatured || doctor.is_featured
+                      ? 'border-amber-300 ring-2 ring-amber-100'
                       : 'border-slate-200/70 hover:border-slate-300'
                   }`}
                   key={doctor.id}
                 >
                   <div>
-                    {/* Image & Badges */}
                     <div className="relative w-full h-48 rounded-2xl overflow-hidden bg-slate-100 mb-4 border border-slate-55">
-                      <img 
-                        alt={doctor.name} 
-                        src={doctor.imageUrl || doctor.image_url || 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=400&auto=format&fit=crop'} 
+                      <img
+                        alt={doctor.name}
+                        src={doctor.imageUrl || doctor.image_url || 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=400&auto=format&fit=crop'}
                         className="object-cover w-full h-full"
                         loading="lazy"
                       />
@@ -184,7 +190,6 @@ export default function SearchPage() {
                       )}
                     </div>
 
-                    {/* Title & Specialties */}
                     <div className="mb-4">
                       <div className="flex items-center gap-1.5 justify-start flex-row-reverse mb-1.5">
                         <h3 className="text-xl font-black text-slate-900 tracking-tight leading-snug">{doctor.name}</h3>
@@ -192,7 +197,7 @@ export default function SearchPage() {
                           <BadgeCheck className="w-5 h-5 text-sky-500 fill-sky-50" />
                         )}
                       </div>
-                      
+
                       <div className="flex flex-wrap gap-1.5 justify-start mt-2">
                         {Array.isArray(doctor.specialty) ? (
                           doctor.specialty.map(s => (
@@ -208,7 +213,6 @@ export default function SearchPage() {
                       </div>
                     </div>
 
-                    {/* Location Info */}
                     <div className="flex items-center gap-1.5 text-xs text-slate-500 font-bold mb-4 justify-start">
                       <MapPin className="w-4 h-4 text-slate-400" />
                       <span>{doctor.city} {doctor.area ? `• ${doctor.area}` : ''}</span>
@@ -216,33 +220,31 @@ export default function SearchPage() {
                   </div>
 
                   <div>
-                    {/* Meta Row */}
                     <div className="border-t border-slate-100 pt-4 mb-5 flex items-center justify-between text-xs font-black">
                       <div className="flex items-center gap-1">
                         <Star className="w-4 h-4 text-amber-500 fill-amber-500" />
                         <span className="text-slate-800">{doctor.rating || '5.0'}</span>
                       </div>
                       <span className={`px-2.5 py-1 rounded-lg border ${
-                        (doctor.acceptsInsurance || doctor.accepts_insurance) 
-                          ? 'bg-emerald-50 text-emerald-700 border-emerald-100' 
+                        (doctor.acceptsInsurance || doctor.accepts_insurance)
+                          ? 'bg-emerald-50 text-emerald-700 border-emerald-100'
                           : 'bg-slate-50 text-slate-500 border-slate-100'
                       }`}>
                         {(doctor.acceptsInsurance || doctor.accepts_insurance) ? '🏥 يقبل التأمين' : '💳 دفع شخصي'}
                       </span>
                     </div>
 
-                    {/* Action Buttons */}
                     <div className="flex gap-2">
-                      <Link 
-                        className="flex-1 bg-slate-900 hover:bg-slate-800 text-white font-black text-center py-3 rounded-2xl text-xs transition-all hover:scale-[1.01]" 
+                      <Link
+                        className="flex-1 bg-slate-900 hover:bg-slate-800 text-white font-black text-center py-3 rounded-2xl text-xs transition-all hover:scale-[1.01]"
                         href={`/doctors/${doctor.id}`}
                       >
                         تفاصيل الملف
                       </Link>
-                      {(doctor.whatsapp || doctor.whatsapp) && (
-                        <a 
-                          className="bg-emerald-50 hover:bg-emerald-100 border border-emerald-200/60 text-emerald-700 font-black px-4 py-3 rounded-2xl text-xs transition-all flex items-center justify-center hover:scale-[1.01]" 
-                          href={`https://wa.me/${(doctor.whatsapp || doctor.whatsapp || '').replace(/[^0-9]/g, '')}`}
+                      {doctor.whatsapp && (
+                        <a
+                          className="bg-emerald-50 hover:bg-emerald-100 border border-emerald-200/60 text-emerald-700 font-black px-4 py-3 rounded-2xl text-xs transition-all flex items-center justify-center hover:scale-[1.01]"
+                          href={`https://wa.me/${doctor.whatsapp.replace(/[^0-9]/g, '')}`}
                           target="_blank"
                           rel="noopener noreferrer"
                         >
@@ -258,5 +260,17 @@ export default function SearchPage() {
         )}
       </section>
     </main>
+  );
+}
+
+export default function SearchPage() {
+  return (
+    <Suspense fallback={
+      <main className="min-h-screen bg-slate-50 flex items-center justify-center">
+        <div className="w-10 h-10 rounded-full border-4 border-primary border-t-transparent animate-spin" />
+      </main>
+    }>
+      <SearchPageContent />
+    </Suspense>
   );
 }

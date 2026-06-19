@@ -71,7 +71,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
               <AdminLink href="/admin/ticker" icon={Newspaper} label="الشريط الإخباري" onClick={() => setMobileOpen(false)} />
               <AdminLink href="/admin/subscriptions" icon={Wallet} label="الاشتراكات والباقات" onClick={() => setMobileOpen(false)} />
               <AdminLink href="/admin/reviews" icon={Star} label="التقييمات" onClick={() => setMobileOpen(false)} />
-              
+
               <div className="px-3 mt-4">
                 <button
                   type="button"
@@ -88,6 +88,14 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
                     </>
                   )}
                 </button>
+              </div>
+
+              <div className="mt-auto border-t border-white/10 p-3">
+                <form action="/api/auth/logout" method="POST">
+                  <button type="submit" className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-red-400 hover:bg-red-500/10">
+                    <LogOut className="h-5 w-5" /> تسجيل خروج
+                  </button>
+                </form>
               </div>
             </nav>
           </aside>

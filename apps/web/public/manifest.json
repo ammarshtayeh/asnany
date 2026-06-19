@@ -6,7 +6,7 @@
   "scope": "/",
   "display": "standalone",
   "background_color": "#f8fafc",
-  "theme_color": "#0c5e47",
+  "theme_color": "#0a1628",
   "dir": "rtl",
   "lang": "ar",
   "icons": [
@@ -15,12 +15,10 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
-    },
-    {
-      "src": "/icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any"
     }
+  ],
+  "shortcuts": [
+    { "name": "حجز موعد", "url": "/booking" },
+    { "name": "البحث عن أطباء", "url": "/doctors/search" }
   ]
 }

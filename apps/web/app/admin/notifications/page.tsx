@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import NotificationSoundBridge from "@/components/NotificationSoundBridge";
 
 type NotificationRecord = {
   id: string;
@@ -36,7 +35,6 @@ export default function AdminNotificationsPage() {
 
   return (
     <div className="space-y-6">
-      <NotificationSoundBridge href="/admin/notifications" />
       <div>
         <h1 className="text-3xl font-black text-slate-950">مركز إشعارات الإدارة</h1>
         <p className="mt-2 text-sm font-bold text-slate-500">تنبيهات صوتية وفورية عند وصول حجوزات أو طلبات جديدة.</p>

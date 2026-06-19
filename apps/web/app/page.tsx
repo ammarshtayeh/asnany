@@ -48,7 +48,7 @@ const DoctorMap = dynamic(() => import("@/components/DoctorMap"), {
   ),
 });
 
-const HERO_IMAGE_URL = "/hero-clinic.png";
+const HERO_IMAGE_URL = "https://images.unsplash.com/photo-1629909613654-28e377c37b94?q=80&w=1920&auto=format&fit=crop";
 
 const QUICK_CATEGORIES = [
   { id: "dental", label: "أسنان", icon: Stethoscope, color: "text-emerald-600", bg: "bg-emerald-50" },

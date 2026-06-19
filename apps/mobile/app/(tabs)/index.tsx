@@ -145,7 +145,7 @@ export default function HomeScreen() {
         </View>
 
         <Animated.View style={{ padding: 16, gap: 28, opacity: contentOpacity, transform: [{ translateY: contentSlide }] }}>
-          <AssistantPromoCard onPress={() => {}} />
+          <AssistantPromoCard onPress={() => router.push("/(tabs)/booking")} />
 
           <View>
             <SectionHeader title="ابحث حسب التخصص" icon="layers" />

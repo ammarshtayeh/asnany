@@ -1,6 +1,7 @@
 import { Tabs } from "expo-router";
 import { Feather } from "@expo/vector-icons";
 import { View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { AIChatbot } from "../../components/AIChatbot";
 import { NewsTicker } from "../../components/NewsTicker";
 import { MobileNotificationBridge } from "../../components/MobileNotificationBridge";
@@ -24,6 +25,9 @@ function TabIcon({ name, color, size, focused }: { name: keyof typeof Feather.gl
 }
 
 export default function TabsLayout() {
+  const insets = useSafeAreaInsets();
+  const tabBarHeight = 64 + insets.bottom;
+
   return (
     <View style={{ flex: 1, backgroundColor: theme.bg }}>
       <NewsTicker />
@@ -32,9 +36,9 @@ export default function TabsLayout() {
         screenOptions={{
           headerShown: false,
           tabBarStyle: {
-            height: 72,
+            height: tabBarHeight,
             paddingTop: 8,
-            paddingBottom: 10,
+            paddingBottom: insets.bottom + 8,
             borderTopWidth: 0,
             backgroundColor: theme.card,
             shadowColor: theme.navy,

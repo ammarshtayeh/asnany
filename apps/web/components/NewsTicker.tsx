@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { usePathname } from "next/navigation";
 import { ChevronLeft, ChevronRight, Megaphone } from "lucide-react";
 import type { NewsTickerItem } from "@pal-dental/shared";
 import { TICKER_ROTATE_MS, filterActiveTickerItems, getTickerPresentation } from "@pal-dental/shared";
@@ -11,6 +12,7 @@ const TICKER_HEIGHT_PX = 68;
 const NAVBAR_HEIGHT_PX = 72;
 
 export default function NewsTicker() {
+  const pathname = usePathname() || "";
   const [items, setItems] = useState<NewsTickerItem[]>([]);
   const [index, setIndex] = useState(0);
   const [loaded, setLoaded] = useState(false);
@@ -71,6 +73,7 @@ export default function NewsTicker() {
     }, 180);
   };
 
+  if (pathname.startsWith("/admin") || pathname.startsWith("/doctor")) return null;
   if (!loaded || !active || !style) return null;
 
   const inner = (
@@ -181,7 +184,7 @@ export default function NewsTicker() {
   );
 
   return (
-    <div className="fixed left-0 right-0 z-40" style={{ top: NAVBAR_HEIGHT_PX }}>
+    <div className="fixed left-0 right-0 z-40" style={{ top: "var(--navbar-height, 72px)" }}>
       {active.link_url ? (
         <Link href={active.link_url} className="block">
           {inner}

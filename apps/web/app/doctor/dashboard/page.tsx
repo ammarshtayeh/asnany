@@ -22,7 +22,6 @@ import {
   DollarSign
 } from "lucide-react";
 import { AppointmentRecord, Doctor } from "@/lib/types";
-import NotificationSoundBridge from "@/components/NotificationSoundBridge";
 
 const DAYS = ["السبت", "الأحد", "الإثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة"];
 const STATUS_LABELS: Record<string, string> = {
@@ -141,7 +140,6 @@ export default function DoctorDashboardPage() {
 
   return (
     <main className="min-h-screen bg-slate-50 p-4 md:p-8 font-sans text-right" dir="rtl">
-      <NotificationSoundBridge href="/doctor/notifications" />
       <div className="mx-auto max-w-7xl space-y-8">
         
         {/* Header Welcome Card */}

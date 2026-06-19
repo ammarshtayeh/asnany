@@ -157,23 +157,29 @@ export default function NotificationSoundBridge({ href, pollMs = 15000 }: Notifi
     let cancelled = false;
 
     const tick = async () => {
-      if (cancelled) return;
+      if (cancelled || document.visibilityState === "hidden") return;
       await poll().catch(() => null);
     };
 
     void tick();
     const interval = window.setInterval(tick, pollMs);
 
+    const onVisibility = () => {
+      if (document.visibilityState === "visible") void tick();
+    };
+    document.addEventListener("visibilitychange", onVisibility);
+
     return () => {
       cancelled = true;
       window.clearInterval(interval);
+      document.removeEventListener("visibilitychange", onVisibility);
     };
   }, [poll, pollMs]);
 
   if (!toast) return null;
 
   return (
-    <div className="fixed bottom-4 left-4 z-[70] w-[min(360px,calc(100vw-2rem))]" dir="rtl" aria-live="polite">
+    <div className="fixed bottom-[calc(env(safe-area-inset-bottom)+5.5rem)] left-4 z-[70] w-[min(360px,calc(100vw-2rem))] lg:bottom-4" dir="rtl" aria-live="polite">
       <div className="rounded-2xl border border-sky-200 bg-white p-4 text-right shadow-2xl shadow-slate-950/15">
         <div className="flex items-start gap-3">
           <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-sky-50 text-sky-600">

@@ -1,9 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { WifiOff } from "lucide-react";
 
 export default function ConnectivityBanner() {
+  const pathname = usePathname() || "";
   const [isOffline, setIsOffline] = useState(false);
   const [isSlow, setIsSlow] = useState(false);
 
@@ -26,10 +28,15 @@ export default function ConnectivityBanner() {
     };
   }, []);
 
+  if (pathname.startsWith("/admin") || pathname.startsWith("/doctor")) return null;
   if (!isOffline && !isSlow) return null;
 
   return (
-    <div className="fixed inset-x-3 top-20 z-[60] mx-auto max-w-xl rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-right text-sm font-bold text-amber-900 shadow-lg" dir="rtl">
+    <div
+      className="fixed inset-x-3 z-[45] mx-auto max-w-xl rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-right text-sm font-bold text-amber-900 shadow-lg"
+      style={{ top: "calc(var(--navbar-height, 72px) + var(--ticker-height, 0px) + 8px)" }}
+      dir="rtl"
+    >
       <div className="flex items-center gap-3">
         <WifiOff className="h-5 w-5 flex-shrink-0 text-amber-600" />
         <span>

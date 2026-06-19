@@ -1,12 +1,13 @@
 import { Metadata } from "next";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { ArrowRight } from "lucide-react";
 import { Doctor } from "@/lib/types";
 import DoctorProfileClient from "./DoctorProfileClient";
 import { supabase } from "@/lib/supabase";
 
 // Database fetching function
-async function getDoctor(id: string): Promise<Doctor> {
+async function getDoctor(id: string): Promise<Doctor | null> {
   const { data, error } = await supabase
     .from("doctors")
     .select("*")
@@ -14,7 +15,7 @@ async function getDoctor(id: string): Promise<Doctor> {
     .single();
 
   if (error || !data) {
-    throw new Error("الطبيب غير موجود");
+    return null;
   }
   return data;
 }
@@ -22,6 +23,9 @@ async function getDoctor(id: string): Promise<Doctor> {
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const resolvedParams = await params;
   const doctor = await getDoctor(resolvedParams.id);
+  if (!doctor) {
+    return { title: "طبيب غير موجود | ملامح" };
+  }
   const doctorName = doctor.name.trim().startsWith("د.") ? doctor.name.trim() : `د. ${doctor.name}`;
   return {
     title: `${doctorName} — ${doctor.city} | ملامح`,
@@ -33,6 +37,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 export default async function DoctorPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params;
   const doctor = await getDoctor(resolvedParams.id);
+  if (!doctor) notFound();
 
   return (
     <main className="bg-slate-50 min-h-screen relative font-sans selection:bg-primary/20 selection:text-primary">

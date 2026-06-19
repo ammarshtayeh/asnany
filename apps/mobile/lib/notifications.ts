@@ -158,7 +158,6 @@ export function attachForegroundNotificationListener(onReceived?: (notification:
 
   void import("expo-notifications").then((Notifications) => {
     subscription = Notifications.addNotificationReceivedListener((notification) => {
-      void playNotificationAlert();
       onReceived?.(notification);
     });
   });

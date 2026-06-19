@@ -5,6 +5,7 @@ import { Feather } from "@expo/vector-icons";
 import type { NewsTickerItem } from "@pal-dental/shared";
 import { TICKER_ROTATE_MS, filterActiveTickerItems, getTickerPresentation } from "@pal-dental/shared";
 import { apiFetch } from "../lib/api";
+import { theme } from "../constants/theme";
 
 export function NewsTicker() {
   const insets = useSafeAreaInsets();
@@ -42,7 +43,9 @@ export function NewsTicker() {
     [active, index],
   );
 
-  if (!active || !style) return null;
+  if (!active || !style) {
+    return <View style={{ paddingTop: insets.top, backgroundColor: theme.bg }} />;
+  }
 
   const open = () => {
     if (!active.link_url) return;

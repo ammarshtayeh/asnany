@@ -110,12 +110,17 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => {
+      const next = window.scrollY > 20;
+      setScrolled(next);
+      document.documentElement.style.setProperty("--navbar-height", next ? "60px" : "72px");
+    };
+    onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  if (currentPath.startsWith("/admin")) return null;
+  if (currentPath.startsWith("/admin") || currentPath.startsWith("/doctor")) return null;
 
   return (
     <>

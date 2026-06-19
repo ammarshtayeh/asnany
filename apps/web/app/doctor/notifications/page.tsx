@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { ArrowRight, Bell, CheckCheck, RefreshCw } from "lucide-react";
-import NotificationSoundBridge from "@/components/NotificationSoundBridge";
 
 type NotificationRecord = {
   id: string;
@@ -72,7 +71,6 @@ export default function DoctorNotificationsPage() {
 
   return (
     <main className="min-h-screen bg-slate-50 p-4 md:p-8" dir="rtl">
-      <NotificationSoundBridge href="/doctor/notifications" />
       <div className="mx-auto max-w-5xl">
         <header className="mb-6 rounded-3xl bg-slate-950 p-6 text-white shadow-xl">
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">

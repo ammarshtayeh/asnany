@@ -28,14 +28,20 @@ export default function DoctorNotificationsScreen() {
   }, []);
 
   const bootstrap = async () => {
-    const session = await doctorSession.read();
-    if (!session?.token && !session?.doctor) {
-      router.replace("/doctor/login");
-      return;
+    try {
+      const session = await doctorSession.read();
+      if (!session?.token && !session?.doctor) {
+        router.replace("/doctor/login");
+        return;
+      }
+      setToken(session?.token);
+      await load(session?.token);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "تعذر جلب الإشعارات";
+      showToast({ type: "error", title: "الإشعارات", message });
+    } finally {
+      setLoading(false);
     }
-    setToken(session?.token);
-    await load(session?.token);
-    setLoading(false);
   };
 
   const headers = useMemo(

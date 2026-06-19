@@ -4,6 +4,8 @@ import { Cairo } from "next/font/google";
 
 const cairoFont = Cairo({
   subsets: ["arabic"],
+  weight: ["400", "600", "700", "800", "900"],
+  display: "swap",
   variable: "--font-cairo",
 });
 
@@ -23,6 +25,7 @@ import AIChatbot from "@/components/AIChatbot";
 import SiteFooter from "@/components/SiteFooter";
 import PWARegister from "@/components/PWARegister";
 import ConnectivityBanner from "@/components/ConnectivityBanner";
+import SiteBodyWrapper from "@/components/SiteBodyWrapper";
 
 export default function RootLayout({
   children,
@@ -31,11 +34,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ar" dir="rtl">
-      <body className={`${cairoFont.variable} font-sans mesh-bg bg-grid-pattern text-slate-900 min-h-screen flex flex-col pb-24 lg:pb-0`} style={{ paddingTop: "calc(var(--navbar-height, 72px) + var(--ticker-height, 0px))" }}>
+      <body className={`${cairoFont.variable} font-sans mesh-bg bg-grid-pattern text-slate-900 min-h-screen flex flex-col pb-24 lg:pb-0`}>
         <Navbar />
         <NewsTicker />
         <ConnectivityBanner />
-        {children}
+        <SiteBodyWrapper>
+          {children}
+        </SiteBodyWrapper>
         <SiteFooter />
         <AIChatbot />
         <PWARegister />
