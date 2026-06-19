@@ -5,7 +5,7 @@ import { Feather } from "@expo/vector-icons";
 import { adminSession } from "../../lib/session";
 import { syncPushForCurrentUser } from "../../lib/push-manager";
 
-const WEB_ADMIN_BASE = "https://malamih.ps/admin";
+const WEB_ADMIN_BASE = "https://www.malamih.ps/admin";
 
 const ADMIN_SECTIONS = [
   {

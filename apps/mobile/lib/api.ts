@@ -1,7 +1,7 @@
 import Constants from "expo-constants";
 import { Platform } from "react-native";
 
-const PRODUCTION_API_BASE = "https://malamih.ps";
+const PRODUCTION_API_BASE = "https://www.malamih.ps";
 
 function getConfiguredApiBaseUrl() {
   const fromEnv = process.env.EXPO_PUBLIC_API_BASE_URL?.replace(/\/$/, "");

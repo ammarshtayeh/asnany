@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-const base = process.env.NEXT_PUBLIC_SITE_URL || "https://malamih.ps";
+const base = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.malamih.ps").replace(/\/$/, "");
 
 const staticRoutes = [
   "",

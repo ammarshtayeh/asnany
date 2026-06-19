@@ -10,7 +10,7 @@ const cairoFont = Cairo({
 });
 
 function siteBaseUrl() {
-  const raw = process.env.NEXT_PUBLIC_SITE_URL || "https://malamih.ps";
+  const raw = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.malamih.ps").replace(/\/$/, "");
   if (raw.startsWith("http://") || raw.startsWith("https://")) return raw;
   return `https://${raw.replace(/^\/+/, "")}`;
 }

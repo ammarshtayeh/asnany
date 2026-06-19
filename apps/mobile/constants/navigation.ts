@@ -112,7 +112,7 @@ export const HUB_SECTIONS: HubSection[] = [
 
 export const APP_META = {
   name: "ملامح",
-  domain: "https://malamih.ps",
+  domain: "https://www.malamih.ps",
   tagline: "دليل فلسطين لصحة وجمال الوجه",
   version: "1.0.0",
   supportEmail: "ammar.shtayeh@gmail.com",

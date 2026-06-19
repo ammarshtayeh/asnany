@@ -37,7 +37,7 @@ function loadEnvFile(filePath) {
   path.join(__dirname, "../../.env.local"),
 ].forEach(loadEnvFile);
 
-const productionApiBase = "https://malamih.ps";
+const productionApiBase = "https://www.malamih.ps";
 const apiBase =
   process.env.EXPO_PUBLIC_API_BASE_URL?.replace(/\/$/, "") || productionApiBase;
 const isLocalApi = /localhost|127\.0\.0\.1|192\.168\./.test(apiBase);

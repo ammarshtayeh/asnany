@@ -49,7 +49,7 @@ export function NewsTicker() {
 
   const open = () => {
     if (!active.link_url) return;
-    const url = active.link_url.startsWith("http") ? active.link_url : `https://malamih.ps${active.link_url}`;
+    const url = active.link_url.startsWith("http") ? active.link_url : `https://www.malamih.ps${active.link_url}`;
     void Linking.openURL(url);
   };
 
