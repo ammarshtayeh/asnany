@@ -1,0 +1,1477 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8"/>
+  <title>دليل ملامح الشامل — Master Playbook</title>
+  <style>
+  @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap');
+  :root { --navy:#0a1628; --teal:#0c5e47; --gold:#d4af37; }
+  * { box-sizing:border-box; }
+  body {
+    font-family:'Cairo',sans-serif; font-size:10.5pt; line-height:1.75;
+    color:#0f172a; background:#fff; direction:rtl; text-align:right;
+    -webkit-print-color-adjust:exact; print-color-adjust:exact;
+  }
+  .cover {
+    min-height:100vh; display:flex; flex-direction:column; justify-content:center;
+    align-items:center; text-align:center; padding:60px 40px;
+    background:linear-gradient(135deg,var(--navy),#0f2744,var(--teal));
+    color:#fff; page-break-after:always;
+  }
+  .cover-logo {
+    width:96px;height:96px;border-radius:28px;
+    background:linear-gradient(135deg,var(--gold),#f59e0b);
+    display:flex;align-items:center;justify-content:center;
+    font-size:48px;font-weight:900;color:var(--navy);margin-bottom:24px;
+  }
+  .cover h1 { font-size:32pt;font-weight:900;margin:0 0 8px; }
+  .cover .sub { font-size:13pt;opacity:0.92;max-width:560px;line-height:1.8; }
+  .cover .meta { margin-top:40px;font-size:10pt;opacity:0.75; }
+  .content { padding:32px 36px 48px; max-width:900px; margin:0 auto; }
+  h1 { color:var(--teal);font-size:18pt;font-weight:900;margin:32px 0 12px;
+    padding-bottom:8px;border-bottom:3px solid var(--gold); page-break-after:avoid; }
+  h2 { color:var(--navy);font-size:14pt;font-weight:900;margin:24px 0 10px; page-break-after:avoid; }
+  h3 { color:#334155;font-size:11.5pt;font-weight:800;margin:18px 0 8px; page-break-after:avoid; }
+  h4 { font-size:10.5pt;font-weight:800;margin:14px 0 6px; }
+  p { margin:0 0 10px; }
+  blockquote {
+    border-right:4px solid var(--gold); margin:14px 0; padding:12px 18px;
+    background:#fffbeb;border-radius:0 12px 12px 0;font-weight:700;color:var(--navy);
+  }
+  table { width:100%;border-collapse:collapse;margin:12px 0 18px;font-size:9pt; }
+  th { background:var(--navy);color:#fff;padding:8px 10px;text-align:right;font-weight:800; }
+  td { padding:7px 10px;border-bottom:1px solid #e2e8f0;vertical-align:top; }
+  tr:nth-child(even) td { background:#f8fafc; }
+  ul,ol { margin:8px 24px 14px 0; }
+  li { margin-bottom:5px; }
+  code, pre {
+    font-family:Consolas,monospace; background:#f1f5f9; border-radius:6px;
+    direction:ltr; text-align:left;
+  }
+  pre { padding:12px 14px; overflow-x:auto; font-size:8.5pt; line-height:1.5; white-space:pre-wrap; }
+  code { padding:2px 6px; font-size:9pt; }
+  pre code { padding:0;background:none; }
+  hr { border:none;border-top:2px solid #e2e8f0;margin:28px 0; }
+  strong { color:var(--navy); }
+  .toc-note {
+    background:#ecfdf5;border:1px solid #a7f3d0;border-radius:12px;
+    padding:14px 18px;margin:16px 0;font-size:10pt;
+  }
+  @media print {
+    h1,h2,h3 { page-break-after:avoid; }
+    table,pre,blockquote { page-break-inside:avoid; }
+    tr { page-break-inside:avoid; }
+  }
+</style>
+</head>
+<body>
+  <section class="cover">
+    <div class="cover-logo">م</div>
+    <h1>دليل ملامح الشامل</h1>
+    <p class="sub">Malamih Master Playbook — تسويق · مبيعات · عمليات · تكاليف · تطوير · نمو<br/>
+    Product Owner · Business Planner · Project Manager · Programmer-founder</p>
+    <p class="meta">malamih.ps · v2.0 · يونيو 2026<br/>ammar.shtayeh@gmail.com</p>
+  </section>
+  <div class="content">
+    <div class="toc-note"><strong>كيف تستخدم هذا الدليل:</strong> راجعه أسبوعياً (اجتماع الاثنين)، شهرياً (KPIs)، وكل ربع سنة (تحديث الإصدار). هذا نظام تشغيل مدى الحياة — ليس تقريراً للقراءة مرة واحدة.</div>
+    <h1>دليل ملامح الشامل — Malamih Master Playbook</h1>
+<p><strong>الإصدار:</strong> 2.0 | <strong>التاريخ:</strong> يونيو 2026<br><strong>المنصة:</strong> malamih.ps<br><strong>المالك / Product Owner:</strong> عمار اشتية<br><strong>نوع الوثيقة:</strong> دليل تشغيل واستراتيجية مدى الحياة — Marketing · Sales · Operations · Tech · Finance</p>
+<hr>
+<blockquote>
+<p><strong>كيف تستخدم هذا الدليل:</strong><br>هذا ليس تقريراً للقراءة مرة واحدة. هو <strong>نظام تشغيل</strong> لملامح. ارجع إليه أسبوعياً (اجتماع الاثنين)، شهرياً (مراجعة KPIs)، وكلما اتخذت قرار توظيف أو تسويق أو تطوير. كل قسم مكتوب من منظور: <strong>Product Owner · Business Planner · Project Manager · Programmer-founder</strong>.</p>
+</blockquote>
+<hr>
+<h1>الجزء 0 — خريطة الدليل</h1>
+<table>
+<thead>
+<tr>
+<th>الجزء</th>
+<th>المحتوى</th>
+<th>متى تراجعه</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>الرؤية والملخص</td>
+<td>كل ربع سنة</td>
+</tr>
+<tr>
+<td>2</td>
+<td>أدوار الفريق (عربي/إنجليزي)</td>
+<td>عند التوظيف</td>
+</tr>
+<tr>
+<td>3</td>
+<td>دورك كمؤسس مبرمج</td>
+<td>أسبوعياً</td>
+</tr>
+<tr>
+<td>4</td>
+<td>التكاليف من الصفر → نمو</td>
+<td>شهرياً</td>
+</tr>
+<tr>
+<td>5</td>
+<td>مندوبو المبيعات (SOP كامل)</td>
+<td>يومياً للفريق</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Product Owner — Roadmap</td>
+<td>كل Sprint</td>
+</tr>
+<tr>
+<td>7</td>
+<td>إدارة المشروع البرمجي</td>
+<td>كل أسبوع</td>
+</tr>
+<tr>
+<td>8</td>
+<td>التسويق والنمو</td>
+<td>أسبوعياً</td>
+</tr>
+<tr>
+<td>9</td>
+<td>تطوير الأعمال والشراكات</td>
+<td>شهرياً</td>
+</tr>
+<tr>
+<td>10</td>
+<td>النموذج المالي 36 شهر</td>
+<td>ربع سنوي</td>
+</tr>
+<tr>
+<td>11</td>
+<td>لوحة KPIs</td>
+<td>يومياً/أسبوعياً</td>
+</tr>
+<tr>
+<td>12</td>
+<td>SOPs التشغيلية</td>
+<td>حسب الحاجة</td>
+</tr>
+<tr>
+<td>13</td>
+<td>بوابات المراحل (Phase Gates)</td>
+<td>عند كل انتقال</td>
+</tr>
+<tr>
+<td>14</td>
+<td>سجل المخاطر</td>
+<td>شهرياً</td>
+</tr>
+<tr>
+<td>15</td>
+<td>ملحق — قوالب جاهزة</td>
+<td>عند التنفيذ</td>
+</tr>
+</tbody></table>
+<hr>
+<h1>الجزء 1 — الرؤية والملخص التنفيذي</h1>
+<h2>1.1 ما هي ملامح؟</h2>
+<p><strong>ملامح.ps</strong> أول منصة فلسطينية متخصصة تجمع:</p>
+<ul>
+<li>دليل أطباء (أسنان، عيون، جلدية، تجميل، أنف وأذن)</li>
+<li>حجز إلكتروني + إشعارات</li>
+<li>عروض وبطاقة خصم</li>
+<li>باقات اشتراك للأطباء (دليل · مميز · إعلانات)</li>
+<li>موقع + تطبيق موبايل متزامنان</li>
+</ul>
+<p><strong>شعار التموضع:</strong> <em>«ملامح — دليلك لصحة وجمال الوجه في فلسطين»</em></p>
+<h2>1.2 North Star Metric (المؤشر الرئيسي)</h2>
+<p><strong>عدد الحجوزات المكتملة شهرياً</strong> — لأنه يربط: أطباء (عرض) + مرضى (طلب) + قيمة المنصة.</p>
+<table>
+<thead>
+<tr>
+<th>مرحلة</th>
+<th>North Star</th>
+<th>أطباء</th>
+<th>MAU</th>
+<th>إيراد شهري</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>إطلاق (M1–3)</td>
+<td>200 حجز/شهر</td>
+<td>100</td>
+<td>3K</td>
+<td>$500</td>
+</tr>
+<tr>
+<td>نمو (M4–12)</td>
+<td>2,000 حجز/شهر</td>
+<td>500</td>
+<td>25K</td>
+<td>$5K</td>
+</tr>
+<tr>
+<td>نضج (M13–24)</td>
+<td>8,000 حجز/شهر</td>
+<td>1,200</td>
+<td>80K</td>
+<td>$15K</td>
+</tr>
+<tr>
+<td>قيادة (M25–36)</td>
+<td>20,000 حجز/شهر</td>
+<td>2,500</td>
+<td>200K</td>
+<td>$40K</td>
+</tr>
+</tbody></table>
+<h2>1.3 المبادئ غير القابلة للتفاوض</h2>
+<ol>
+<li><strong>الثقة أولاً</strong> — لا طبيب غير موثّق على المنصة</li>
+<li><strong>بساطة الحجز</strong> — أقل من 60 ثانية من البحث للتأكيد</li>
+<li><strong>تزامن الموقع والتطبيق</strong> — نفس المحتوى دائماً</li>
+<li><strong>B2B يغذّي B2C</strong> — بدون أطباء لا مرضى</li>
+<li><strong>البيانات تقود القرار</strong> — كل أسبوع: أرقام، لا انطباعات</li>
+</ol>
+<hr>
+<h1>الجزء 2 — أدوار الفريق (عربي / English)</h1>
+<h2>2.1 جدول الأدوار الكامل</h2>
+<table>
+<thead>
+<tr>
+<th>العربية</th>
+<th>English</th>
+<th>متى تحتاجه</th>
+<th>الأولوية</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>مالك المنتج</td>
+<td>Product Owner</td>
+<td><strong>أنت — من اليوم 1</strong></td>
+<td>—</td>
+</tr>
+<tr>
+<td>مدير مشروع</td>
+<td>Project Manager</td>
+<td>M6+ أو عند فريق 3+</td>
+<td>متوسطة</td>
+</tr>
+<tr>
+<td>مدير برامج</td>
+<td>Program Manager</td>
+<td>M18+ (منتجات متعددة)</td>
+<td>منخفضة</td>
+</tr>
+<tr>
+<td>مدير منتجات</td>
+<td>Product Manager</td>
+<td>M12+ (عندما لا تكفي ساعاتك)</td>
+<td>متوسطة</td>
+</tr>
+<tr>
+<td>مدير عمليات</td>
+<td>Operations Manager</td>
+<td>M9+ (مندوبين + دعم)</td>
+<td>عالية</td>
+</tr>
+<tr>
+<td>مدير تطوير الأعمال</td>
+<td>Business Development Manager</td>
+<td>M6+</td>
+<td>عالية</td>
+</tr>
+<tr>
+<td>محلل أعمال</td>
+<td>Business Analyst</td>
+<td>M12+</td>
+<td>متوسطة</td>
+</tr>
+<tr>
+<td>محلل نظم</td>
+<td>Systems Analyst</td>
+<td>M18+</td>
+<td>منخفضة</td>
+</tr>
+<tr>
+<td>مدير تسويق</td>
+<td>Marketing Manager</td>
+<td>M6+</td>
+<td>عالية</td>
+</tr>
+<tr>
+<td>أخصائي تسويق رقمي</td>
+<td>Digital Marketing Specialist</td>
+<td>M3+ (فريلancer)</td>
+<td>عالية</td>
+</tr>
+<tr>
+<td>أخصائي SEO</td>
+<td>SEO Specialist</td>
+<td>M2+ (فريلancer)</td>
+<td>عالية</td>
+</tr>
+<tr>
+<td>أخصائي إعلانات ممولة</td>
+<td>Performance Marketing Specialist</td>
+<td>M4+</td>
+<td>متوسطة</td>
+</tr>
+<tr>
+<td>أخصائي تسويق بالمحتوى</td>
+<td>Content Marketing Specialist</td>
+<td>M3+</td>
+<td>متوسطة</td>
+</tr>
+<tr>
+<td>مدير نمو</td>
+<td>Growth Manager</td>
+<td>M12+</td>
+<td>متوسطة</td>
+</tr>
+<tr>
+<td>مدير العلامة التجارية</td>
+<td>Brand Manager</td>
+<td>M18+</td>
+<td>منخفضة</td>
+</tr>
+<tr>
+<td>محلل / باحث سوق</td>
+<td>Market Research Analyst</td>
+<td>M12+ (مشروع)</td>
+<td>منخفضة</td>
+</tr>
+<tr>
+<td>مستشار أعمال</td>
+<td>Business Consultant</td>
+<td>حسب الحاجة</td>
+<td>—</td>
+</tr>
+<tr>
+<td>مستشار استراتيجي</td>
+<td>Strategy Consultant</td>
+<td>M24+</td>
+<td>—</td>
+</tr>
+<tr>
+<td>محلل منافسين</td>
+<td>Competitive Intelligence Analyst</td>
+<td>M12+</td>
+<td>منخفضة</td>
+</tr>
+<tr>
+<td>مخطط أعمال</td>
+<td>Business Planner</td>
+<td><strong>أنت + هذا الدليل</strong></td>
+<td>—</td>
+</tr>
+<tr>
+<td>استشاري UX</td>
+<td>UX Consultant</td>
+<td>M6+ (مشروع)</td>
+<td>متوسطة</td>
+</tr>
+<tr>
+<td>باحث UX</td>
+<td>UX Researcher</td>
+<td>M12+</td>
+<td>منخفضة</td>
+</tr>
+<tr>
+<td><strong>مندوب مبيعات</strong></td>
+<td><strong>Sales Representative</strong></td>
+<td><strong>M2+ (أول توظيف!)</strong></td>
+<td><strong>حرجة</strong></td>
+</tr>
+<tr>
+<td><strong>مطور / مبرمج</strong></td>
+<td><strong>Software Developer</strong></td>
+<td><strong>أنت M0–M12</strong></td>
+<td><strong>حرجة</strong></td>
+</tr>
+<tr>
+<td>دعم عملاء</td>
+<td>Customer Support</td>
+<td>M6+</td>
+<td>متوسطة</td>
+</tr>
+<tr>
+<td>مصمم UI</td>
+<td>UI Designer</td>
+<td>M4+ (فريلancer)</td>
+<td>متوسطة</td>
+</tr>
+<tr>
+<td><strong>مدير مبيعات</strong></td>
+<td><strong>Sales Manager</strong></td>
+<td><strong>M9+ (عند 3+ مندوبين)</strong></td>
+<td><strong>عالية</strong></td>
+</tr>
+</tbody></table>
+<h2>2.2 خريطة التوظيف حسب المرحلة</h2>
+<pre><code>M0–M3:   أنت (PO + Dev) + فريلancer تسويق/SEO
+M3–M6:   + 1 مندوب مبيعات + فريلancer محتوى
+M6–M9:   + 1 مندوب ثاني + أخصائي إعلانات
+M9–M12:  + مدير عمليات (part-time) + دعم
+M12–M18: + PM + مطور ثاني (part-time)
+M18–M24: + مدير تسويق + BD Manager
+M24+:    بناء فريق كامل حسب الإيراد
+</code></pre>
+<h2>2.3 RACI — من يقرر ماذا؟</h2>
+<table>
+<thead>
+<tr>
+<th>القرار</th>
+<th>PO (أنت)</th>
+<th>Sales</th>
+<th>Marketing</th>
+<th>Dev</th>
+<th>Ops</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ميزات المنتج</td>
+<td><strong>A</strong></td>
+<td>C</td>
+<td>C</td>
+<td>R</td>
+<td>I</td>
+</tr>
+<tr>
+<td>تسعير الباقات</td>
+<td><strong>A</strong></td>
+<td>C</td>
+<td>I</td>
+<td>I</td>
+<td>R</td>
+</tr>
+<tr>
+<td>حملة إعلانية</td>
+<td>A</td>
+<td>I</td>
+<td><strong>R</strong></td>
+<td>I</td>
+<td>I</td>
+</tr>
+<tr>
+<td>زيارة عيادة</td>
+<td>I</td>
+<td><strong>R</strong></td>
+<td>I</td>
+<td>I</td>
+<td>C</td>
+</tr>
+<tr>
+<td>bug حرج</td>
+<td>A</td>
+<td>I</td>
+<td>I</td>
+<td><strong>R</strong></td>
+<td>I</td>
+</tr>
+<tr>
+<td>توظيف</td>
+<td><strong>A</strong></td>
+<td>C</td>
+<td>C</td>
+<td>I</td>
+<td>C</td>
+</tr>
+</tbody></table>
+<p><em>R=Responsible · A=Accountable · C=Consulted · I=Informed</em></p>
+<hr>
+<h1>الجزء 3 — دورك كمؤسس مبرمج (Product Owner)</h1>
+<h2>3.1 تقسيم وقتك — المراحل</h2>
+<h3>المرحلة A: بناء المنتج (M0–M3) — 80% Dev · 20% Business</h3>
+<table>
+<thead>
+<tr>
+<th>اليوم</th>
+<th>Block 1 (صباح)</th>
+<th>Block 2 (ظهر)</th>
+<th>Block 3 (مساء)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>إث</td>
+<td>تطوير features</td>
+<td>مبيعات (5 عيادات)</td>
+<td>محتوى/سوشال</td>
+</tr>
+<tr>
+<td>ث</td>
+<td>تطوير + bugs</td>
+<td>SEO + analytics</td>
+<td>متابعة حجوزات</td>
+</tr>
+<tr>
+<td>أر</td>
+<td>code review + deploy</td>
+<td>مكالمات أطباء</td>
+<td>تخطيط أسبوع</td>
+</tr>
+<tr>
+<td>خ</td>
+<td>تطوير</td>
+<td>زيارة ميدانية</td>
+<td>—</td>
+</tr>
+<tr>
+<td>ج</td>
+<td>testing + release</td>
+<td>admin + support</td>
+<td>KPI review</td>
+</tr>
+</tbody></table>
+<h3>المرحلة B: نمو (M4–M12) — 40% Dev · 40% Business · 20% Leadership</h3>
+<ul>
+<li><strong>Dev:</strong> architecture، features كبرى، code review فقط</li>
+<li><strong>Business:</strong> استراتيجية، شراكات، توظيف، pricing</li>
+<li><strong>Leadership:</strong> 1:1 مع المندوبين، culture، vision</li>
+</ul>
+<h3>المرحلة C: قيادة (M12+) — 10% Dev · 50% Business · 40% Leadership</h3>
+<ul>
+<li>Dev → CTO أو lead developer</li>
+<li>أنت → PO + CEO</li>
+</ul>
+<h2>3.2 Sprint Calendar (Product Owner)</h2>
+<p><strong>Sprint = أسبوعان</strong> (مناسب لـ solo/small team)</p>
+<table>
+<thead>
+<tr>
+<th>اليوم</th>
+<th>النشاط</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>الاثنين W1</td>
+<td>Sprint Planning — اختر 3–5 stories</td>
+</tr>
+<tr>
+<td>يومياً</td>
+<td>Standup 15 دقيقة (حتى لو مع نفسك: ماذا أمس؟ اليوم؟ عائق؟)</td>
+</tr>
+<tr>
+<td>الجمعة W1</td>
+<td>Demo داخلي + deploy staging</td>
+</tr>
+<tr>
+<td>الاثنين W2</td>
+<td>Mid-sprint check</td>
+</tr>
+<tr>
+<td>الجمعة W2</td>
+<td>Sprint Review + Retro + deploy production</td>
+</tr>
+</tbody></table>
+<h2>3.3 Product Backlog — الأولويات الثابتة</h2>
+<ol>
+<li><strong>P0 — حرج:</strong> أمان، حجز لا يعمل، crash التطبيق</li>
+<li><strong>P1 — revenue:</strong> باقات، إعلانات، onboarding طبيب</li>
+<li><strong>P2 — growth:</strong> SEO pages، referral، push notifications</li>
+<li><strong>P3 — nice:</strong> dark mode، animations، marketplace advanced</li>
+</ol>
+<hr>
+<h1>الجزء 4 — التكاليف من الصفر حتى النمو</h1>
+<blockquote>
+<p><strong>ملاحظة:</strong> الأسعار تقديرية بالدولار. عدّل حسب واقعك.</p>
+</blockquote>
+<h2>4.1 المرحلة 0 — Pre-Launch (شهر -2 إلى 0)</h2>
+<table>
+<thead>
+<tr>
+<th>البند</th>
+<th>تكلفة</th>
+<th>ملاحظة</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Domain malamih.ps</td>
+<td>$15/سنة</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Supabase (Free→Pro)</td>
+<td>$0–25/شهر</td>
+<td>Pro عند &gt;500MB</td>
+</tr>
+<tr>
+<td>Vercel (Hobby→Pro)</td>
+<td>$0–20/شهر</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Expo/EAS</td>
+<td>$0–29/شهر</td>
+<td>Production builds</td>
+</tr>
+<tr>
+<td>Apple Developer</td>
+<td>$99/سنة</td>
+<td>iOS</td>
+</tr>
+<tr>
+<td>Google Play</td>
+<td>$25 مرة</td>
+<td>Android</td>
+</tr>
+<tr>
+<td>Canva Pro</td>
+<td>$13/شهر</td>
+<td>تصميم</td>
+</tr>
+<tr>
+<td><strong>وقتك كمبرمج</strong></td>
+<td><strong>400–600 ساعة</strong></td>
+<td>opportunity cost — انظر 4.5</td>
+</tr>
+</tbody></table>
+<p><strong>إجمالي cash:</strong> ~$200–400 قبل الإطلاق</p>
+<h2>4.2 المرحلة 1 — Launch (شهر 1–3)</h2>
+<table>
+<thead>
+<tr>
+<th>البند</th>
+<th>شهري</th>
+<th>سنوي</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Infrastructure</td>
+<td>$50</td>
+<td>$600</td>
+</tr>
+<tr>
+<td>Meta Ads (test)</td>
+<td>$200</td>
+<td>—</td>
+</tr>
+<tr>
+<td>SEO freelancer</td>
+<td>$150</td>
+<td>—</td>
+</tr>
+<tr>
+<td>طباعة QR + مواد</td>
+<td>$100</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>مندوب مبيعات (M2+)</strong></td>
+<td><strong>$400–600 + commission</strong></td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>إجمالي cash</strong></td>
+<td><strong>~$900–1,100</strong></td>
+<td></td>
+</tr>
+</tbody></table>
+<h2>4.3 المرحلة 2 — Growth (شهر 4–12)</h2>
+<table>
+<thead>
+<tr>
+<th>البند</th>
+<th>شهري</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Infrastructure</td>
+<td>$80–150</td>
+</tr>
+<tr>
+<td>2 مندوبي مبيعات</td>
+<td>$1,200 + commissions</td>
+</tr>
+<tr>
+<td>Marketing (Meta+Google+content)</td>
+<td>$600</td>
+</tr>
+<tr>
+<td>Freelancers (design, video)</td>
+<td>$300</td>
+</tr>
+<tr>
+<td>Support part-time</td>
+<td>$300</td>
+</tr>
+<tr>
+<td><strong>إجمالي</strong></td>
+<td><strong>~$2,500–3,000/شهر</strong></td>
+</tr>
+</tbody></table>
+<h2>4.4 المرحلة 3 — Scale (شهر 13–36)</h2>
+<table>
+<thead>
+<tr>
+<th>البند</th>
+<th>شهري</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>فريق (5–8 أشخاص)</td>
+<td>$8,000–15,000</td>
+</tr>
+<tr>
+<td>Marketing</td>
+<td>$2,000–5,000</td>
+</tr>
+<tr>
+<td>Infrastructure</td>
+<td>$300–800</td>
+</tr>
+<tr>
+<td>Legal/accounting</td>
+<td>$200</td>
+</tr>
+<tr>
+<td><strong>إجمالي</strong></td>
+<td><strong>$10,000–20,000/شهر</strong></td>
+</tr>
+</tbody></table>
+<h2>4.5 تكلفة وقتك كمبرمج (Opportunity Cost)</h2>
+<table>
+<thead>
+<tr>
+<th>السenario</th>
+<th>$/ساعة</th>
+<th>160h/شهر</th>
+<th>12 شهر</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Junior market rate</td>
+<td>$15</td>
+<td>$2,400</td>
+<td>$28,800</td>
+</tr>
+<tr>
+<td>Mid developer</td>
+<td>$30</td>
+<td>$4,800</td>
+<td>$57,600</td>
+</tr>
+<tr>
+<td>Senior / your value</td>
+<td>$50</td>
+<td>$8,000</td>
+<td>$96,000</td>
+</tr>
+</tbody></table>
+<p><strong>قرار PO:</strong> في M0–M6 لا «تدفع» لنفسك cash — لكن سجّل opportunity cost في financial model. عند M12+ ابدأ راتب رمزي $500–1,000 ثم زِد.</p>
+<h2>4.6 Break-Even Analysis</h2>
+<p><strong>متوسط إيراد/طبيب/سنة:</strong> $150 (mix باقات)</p>
+<table>
+<thead>
+<tr>
+<th>أطباء مدفوعين</th>
+<th>إيراد سنوي</th>
+<th>vs تكلفة M4–12 (~$30K/سنة)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>50</td>
+<td>$7,500</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>100</td>
+<td>$15,000</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>200</td>
+<td>$30,000</td>
+<td>✅ break-even</td>
+</tr>
+<tr>
+<td>500</td>
+<td>$75,000</td>
+<td>✅ ربح</td>
+</tr>
+</tbody></table>
+<p><strong>هدف break-even:</strong> <strong>200 طبيب مدفوع</strong> أو <strong>~170 باقة مميز + إعلانات</strong> — متوقع M8–M10.</p>
+<hr>
+<h1>الجزء 5 — مندوبو المبيعات — الدليل الكامل</h1>
+<h2>5.1 الهدف الوظيفي (Job Description)</h2>
+<p><strong>العنوان:</strong> مندوب مبيعات ميداني — قطاع طبي/تجميل<br><strong>التقارير إلى:</strong> Product Owner (لاحقاً Sales Manager)<br><strong>الموقع:</strong> رام الله + [مدينة حسب التوزيع]</p>
+<p><strong>المسؤوليات:</strong></p>
+<ul>
+<li>زيارة 8–12 عيادة/أسبوع</li>
+<li>تسجيل 4–6 أطباء جدد/شهر</li>
+<li>upsell باقات (دليل → مميز)</li>
+<li>جمع feedback من الميدان</li>
+<li>تمثيل ملامح باحترافية</li>
+</ul>
+<h2>5.2 الهيكل التعويضي (Compensation)</h2>
+<table>
+<thead>
+<tr>
+<th>المكون</th>
+<th>المبلغ</th>
+<th>ملاحظة</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>راتب أساس</td>
+<td>$400–600/شهر</td>
+<td>حسب الخبرة</td>
+</tr>
+<tr>
+<td>عمولة تسجيل</td>
+<td>$15/طبيب مفعّل</td>
+<td>بعد approval</td>
+</tr>
+<tr>
+<td>عمولة باقة دليل</td>
+<td>$20</td>
+<td>عند الدفع</td>
+</tr>
+<tr>
+<td>عمولة باقة مميز</td>
+<td>$50</td>
+<td>عند الدفع</td>
+</tr>
+<tr>
+<td>عمولة إعلان</td>
+<td>$10/إعلان</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>Bonus شهري</strong></td>
+<td>$100</td>
+<td>إذا ≥6 تسجيلات + 2 باقات</td>
+</tr>
+</tbody></table>
+<p><strong>مثال دخل مندوب جيد:</strong> $500 + $90 (6×15) + $100 (2×50) + $100 bonus = <strong>$790/شهر</strong></p>
+<h2>5.3 روتين يومي (Daily Routine)</h2>
+<pre><code>08:30 — مراجعة CRM: من سأزور اليوم؟
+09:00 — زيارة 1 (عيادة A)
+10:30 — زيارة 2 (عيادة B)
+12:00 — break + update CRM + WhatsApp follow-ups
+13:00 — زيارة 3
+14:30 — مكالمات follow-up (أمس)
+16:00 — زيارة 4 أو admin (تسجيل بيانات)
+17:30 — تقرير يومي للـ PO (5 أسطر WhatsApp)
+</code></pre>
+<h2>5.4 روتين أسبوعي</h2>
+<table>
+<thead>
+<tr>
+<th>اليوم</th>
+<th>تركيز</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>الأحد</td>
+<td>تخطيط أسبوع + territories</td>
+</tr>
+<tr>
+<td>إث–خ</td>
+<td>زيارات ميدانية</td>
+</tr>
+<tr>
+<td>الخميس</td>
+<td>follow-ups + تسجيل + admin</td>
+</tr>
+<tr>
+<td><strong>الجمعة</strong></td>
+<td><strong>تقرير أسبوعي + اجتماع PO 30 دقيقة</strong></td>
+</tr>
+</tbody></table>
+<h2>5.5 Pipeline CRM — مراحل الصفقة</h2>
+<pre><code>1. Lead (سمعت بالعيادة)
+   ↓
+2. Contact (تواصلت/زرت)
+   ↓
+3. Demo (عرضت malamih.ps + التطبيق)
+   ↓
+4. Proposal (شرحت الباقة)
+   ↓
+5. Negotiation (سعر/اعتراض)
+   ↓
+6. Closed-Won (سجّل + دفع/طلب)
+   ↓
+7. Onboarding (profile complete)
+</code></pre>
+<p><strong>أداة CRM:</strong> Google Sheet أو Notion — لا تعقّد في البداية.</p>
+<p><strong>أعمدة CRM:</strong>
+<code>| العيادة | الطبيب | هاتف | مدينة | المرحلة | الباقة | آخر تواصل | ملاحظات |</code></p>
+<h2>5.6 Script — أول زيارة (60 ثانية)</h2>
+<blockquote>
+<p>«السلام عليكم دكتور، أنا [الاسم] من <strong>ملامih.ps</strong> — أول دليل فلسطini لأطباء الأسنان والتجميل.<br>المنصة بتخلّي المراجع يحجز عندك من الموبايل بدون مكالمات.<br>عندنا [X] طبيب مسجّل و[Y] حجز هالشهر.<br>التسجيل ببلاش أول 3 أشهر للأطباء الجدد — بقدر أورّيك في دقيقة؟»</p>
+</blockquote>
+<h2>5.7 Script — عرض الباقات</h2>
+<blockquote>
+<p>«عندنا 3 باقات واضحة:<br><strong>الدليل</strong> $100/سنة — ملفك يظهر لآلاف الناس.<br><strong>المميز</strong> $300/سنة — حجوزات + إشعارات + استشارات.<br><strong>الإعلان</strong> $50 — banner على الرئيسية.<br>أكثر طبيب بيختار المميز لأنه بيحوّل الزيارات لحجوزات.»</p>
+</blockquote>
+<h2>5.8 معالجة الاعتراضات</h2>
+<table>
+<thead>
+<tr>
+<th>الاعتراض</th>
+<th>الرد</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>«غالي»</td>
+<td>«$300/سنة = أقل من $1/يوم. حجز واحد بيغطي السنة»</td>
+</tr>
+<tr>
+<td>«عندي فيسبوك»</td>
+<td>«فيسبوك مش منظم. ملامح = حجز + SEO + ثقة»</td>
+</tr>
+<tr>
+<td>«ما عندي وقت»</td>
+<td>«نحن بنعبّي الملف — 10 دقائق منك»</td>
+</tr>
+<tr>
+<td>«بدي أفكر»</td>
+<td>«تمام — ببعتلك رابط + أرجعلك يوم الخميس»</td>
+</tr>
+<tr>
+<td>«ما بصدق online»</td>
+<td>«شوف [طبيب X] — عنده [N] حجز منّا»</td>
+</tr>
+</tbody></table>
+<h2>5.9 KPIs مندوب المبيعات</h2>
+<table>
+<thead>
+<tr>
+<th>KPI</th>
+<th>هدف أسبوعي</th>
+<th>هدف شهري</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>زيارات</td>
+<td>8–10</td>
+<td>35–40</td>
+</tr>
+<tr>
+<td>leads جديدة</td>
+<td>10</td>
+<td>40</td>
+</tr>
+<tr>
+<td>demos</td>
+<td>5</td>
+<td>20</td>
+</tr>
+<tr>
+<td>تسجيلات</td>
+<td>1–2</td>
+<td>6</td>
+</tr>
+<tr>
+<td>باقات م sold</td>
+<td>0.5</td>
+<td>2</td>
+</tr>
+<tr>
+<td>conversion lead→register</td>
+<td>—</td>
+<td>≥15%</td>
+</tr>
+</tbody></table>
+<h2>5.10 Onboarding مندوب جديد (أسبوع 1)</h2>
+<ul>
+<li><input disabled="" type="checkbox"> يوم 1: product demo كامل (موقع + app + admin)</li>
+<li><input disabled="" type="checkbox"> يوم 2: shadow PO في 2 زيارات</li>
+<li><input disabled="" type="checkbox"> يوم 3: 3 زيارات solo + PO backup</li>
+<li><input disabled="" type="checkbox"> يوم 4: CRM training + scripts</li>
+<li><input disabled="" type="checkbox"> يوم 5: أول تقرير + retro</li>
+</ul>
+<h2>5.11 توزيع المناطق (Territory)</h2>
+<table>
+<thead>
+<tr>
+<th>مندوب</th>
+<th>مدن</th>
+<th>هدف أطباء M6</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Rep 1</td>
+<td>رام الله، البيرة، بيتونيا</td>
+<td>80</td>
+</tr>
+<tr>
+<td>Rep 2</td>
+<td>نابlus، طولكرم</td>
+<td>60</td>
+</tr>
+<tr>
+<td>Rep 3 (M6+)</td>
+<td>الخليل، بيت لحم</td>
+<td>50</td>
+</tr>
+<tr>
+<td>Rep 4 (M9+)</td>
+<td>جنين، طوباس</td>
+<td>40</td>
+</tr>
+</tbody></table>
+<hr>
+<h1>الجزء 6 — Product Owner: Roadmap 36 شهر</h1>
+<h2>6.1 Q1 (M1–3): Foundation</h2>
+<ul>
+<li><input checked="" disabled="" type="checkbox"> موقع + تطبيق + admin</li>
+<li><input checked="" disabled="" type="checkbox"> حجز + إشعارات</li>
+<li><input checked="" disabled="" type="checkbox"> باقات + ticker</li>
+<li><input disabled="" type="checkbox"> 100 طبيب</li>
+<li><input disabled="" type="checkbox"> SEO 20 صفحة مدينة</li>
+</ul>
+<h2>6.2 Q2 (M4–6): Traction</h2>
+<ul>
+<li><input disabled="" type="checkbox"> referral program</li>
+<li><input disabled="" type="checkbox"> analytics dashboard admin</li>
+<li><input disabled="" type="checkbox"> WhatsApp booking reminders</li>
+<li><input disabled="" type="checkbox"> 300 طبيب</li>
+</ul>
+<h2>6.3 Q3 (M7–9): Monetization</h2>
+<ul>
+<li><input disabled="" type="checkbox"> payment integration (optional)</li>
+<li><input disabled="" type="checkbox"> featured algorithm</li>
+<li><input disabled="" type="checkbox"> patient reviews verified</li>
+<li><input disabled="" type="checkbox"> break-even</li>
+</ul>
+<h2>6.4 Q4 (M10–12): Scale</h2>
+<ul>
+<li><input disabled="" type="checkbox"> 500 طبيب</li>
+<li><input disabled="" type="checkbox"> insurance filter live</li>
+<li><input disabled="" type="checkbox"> API partners</li>
+</ul>
+<h2>6.5 Year 2–3</h2>
+<ul>
+<li>Expansion: أردن؟ (research)</li>
+<li>AI matching doctor-patient</li>
+<li>Telemedicine lite</li>
+<li>Enterprise packages</li>
+</ul>
+<hr>
+<h1>الجزء 7 — إدارة المشروع البرمجي</h1>
+<h2>7.1 Methodology: Scrumban (Solo → Small Team)</h2>
+<ul>
+<li><strong>Backlog</strong> في GitHub Issues أو Linear</li>
+<li><strong>Sprint</strong> أسبوعان</li>
+<li><strong>WIP limit:</strong> 3 tasks max in progress</li>
+<li><strong>Release:</strong> كل جمعة (hotfix anytime)</li>
+</ul>
+<h2>7.2 Definition of Done</h2>
+<ul>
+<li><input disabled="" type="checkbox"> Code merged to main</li>
+<li><input disabled="" type="checkbox"> Typecheck pass</li>
+<li><input disabled="" type="checkbox"> Tested on web + mobile</li>
+<li><input disabled="" type="checkbox"> Deployed production</li>
+<li><input disabled="" type="checkbox"> Documented if API change</li>
+</ul>
+<h2>7.3 Release Checklist</h2>
+<ul>
+<li><input disabled="" type="checkbox"> <code>npm run supabase:db:push</code> if migrations</li>
+<li><input disabled="" type="checkbox"> Vercel deploy green</li>
+<li><input disabled="" type="checkbox"> EAS build if native change</li>
+<li><input disabled="" type="checkbox"> Smoke test: booking, ticker, notifications</li>
+<li><input disabled="" type="checkbox"> Announce in admin ticker if user-facing</li>
+</ul>
+<h2>7.4 Tech Debt Budget</h2>
+<p><strong>20% of each sprint</strong> = refactoring, security, performance — لا تتنازل عنها.</p>
+<hr>
+<h1>الجزء 8 — التسويق والنمو (ملخص موسّع)</h1>
+<h2>8.1 قنوات حسب المرحلة</h2>
+<table>
+<thead>
+<tr>
+<th>M1–3</th>
+<th>M4–9</th>
+<th>M10+</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SEO</td>
+<td>Meta Ads scale</td>
+<td>Brand campaigns</td>
+</tr>
+<tr>
+<td>Social organic</td>
+<td>Influencers</td>
+<td>TV/Radio local</td>
+</tr>
+<tr>
+<td>M-field sales</td>
+<td>Google Ads</td>
+<td>Partnerships</td>
+</tr>
+<tr>
+<td>PR launch</td>
+<td>Email/WhatsApp</td>
+<td>Retargeting</td>
+</tr>
+</tbody></table>
+<h2>8.2 Content Calendar (أسبوعي)</h2>
+<table>
+<thead>
+<tr>
+<th>اليوم</th>
+<th>نوع</th>
+<th>مثال</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>الأحد</td>
+<td>Tip طبي</td>
+<td>«5 أخطاء بعد تبييض»</td>
+</tr>
+<tr>
+<td>الث</td>
+<td>Before/After</td>
+<td>بموافقة طبيب</td>
+</tr>
+<tr>
+<td>الأر</td>
+<td>عرض</td>
+<td>من /offers</td>
+</tr>
+<tr>
+<td>الخ</td>
+<td>Story</td>
+<td>behind scenes</td>
+</tr>
+<tr>
+<td>الج</td>
+<td>CTA</td>
+<td>«حمّل التطبيق»</td>
+</tr>
+</tbody></table>
+<h2>8.3 SEO — 50 صفحة مستهدفة</h2>
+<p>Template: <code>أفضل طبيب [تخصص] في [مدينة] — ملامح</code><br>Cities: رام الله، نابlus، الخليل، جنين، بيت لحم، طولكرم، قلقيلية، سلفيت، أريحا، بيتونيا...</p>
+<h2>8.4 Growth Loops</h2>
+<pre><code>Loop 1: طبيب → مراجع → حجز → review → SEO → مراجع جديد
+Loop 2: عرض → share → download app → booking
+Loop 3: بطاقة خصم → referral → patient → doctor demand
+Loop 4: مندوب → طبيب → content → social proof → مندوب easier
+</code></pre>
+<hr>
+<h1>الجزء 9 — تطوير الأعمال والشراكات</h1>
+<h2>9.1 شركاء استراتيجيون</h2>
+<table>
+<thead>
+<tr>
+<th>شريك</th>
+<th>القيمة</th>
+<th>المقابل</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>شركات تأمين</td>
+<td>credibility</td>
+<td>listing fee</td>
+</tr>
+<tr>
+<td>جامعات</td>
+<td>awareness</td>
+<td>free profiles</td>
+</tr>
+<tr>
+<td>influencers</td>
+<td>reach</td>
+<td>commission/barter</td>
+</tr>
+<tr>
+<td>صيدليات</td>
+<td>cross-promo</td>
+<td>QR stands</td>
+</tr>
+</tbody></table>
+<h2>9.2 BD Pipeline (Business Development)</h2>
+<p>نفس CRM — deals أكبر ($500+)</p>
+<hr>
+<h1>الجزء 10 — النموذج المالي 36 شهر (ملخص)</h1>
+<table>
+<thead>
+<tr>
+<th>الشهر</th>
+<th>أطباء</th>
+<th>MAU</th>
+<th>حجوزات</th>
+<th>إيراد</th>
+<th>تكلفة</th>
+<th>صافي</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>M3</td>
+<td>100</td>
+<td>3K</td>
+<td>200</td>
+<td>$800</td>
+<td>$3K</td>
+<td>-$2.2K</td>
+</tr>
+<tr>
+<td>M6</td>
+<td>250</td>
+<td>10K</td>
+<td>600</td>
+<td>$3K</td>
+<td>$4K</td>
+<td>-$1K</td>
+</tr>
+<tr>
+<td>M9</td>
+<td>400</td>
+<td>20K</td>
+<td>1.2K</td>
+<td>$6K</td>
+<td>$5K</td>
+<td>+$1K</td>
+</tr>
+<tr>
+<td>M12</td>
+<td>500</td>
+<td>30K</td>
+<td>2K</td>
+<td>$8K</td>
+<td>$6K</td>
+<td>+$2K</td>
+</tr>
+<tr>
+<td>M18</td>
+<td>800</td>
+<td>50K</td>
+<td>5K</td>
+<td>$15K</td>
+<td>$10K</td>
+<td>+$5K</td>
+</tr>
+<tr>
+<td>M24</td>
+<td>1,200</td>
+<td>80K</td>
+<td>8K</td>
+<td>$25K</td>
+<td>$14K</td>
+<td>+$11K</td>
+</tr>
+<tr>
+<td>M36</td>
+<td>2,500</td>
+<td>200K</td>
+<td>20K</td>
+<td>$50K</td>
+<td>$22K</td>
+<td>+$28K</td>
+</tr>
+</tbody></table>
+<p><em>عدّل الأرقام كل ربع سنة من KPIs الفعلية</em></p>
+<hr>
+<h1>الجزء 11 — لوحة KPIs</h1>
+<h2>11.1 يومياً (5 دقائق)</h2>
+<ul>
+<li><input disabled="" type="checkbox"> حجوزات جديدة أمس</li>
+<li><input disabled="" type="checkbox"> أطباء pending approval</li>
+<li><input disabled="" type="checkbox"> crash/errors (Sentry if added)</li>
+<li><input disabled="" type="checkbox"> مندوب: تقرير يومي</li>
+</ul>
+<h2>11.2 أسبوعياً (اجتماع الاثنين 45 دقيقة)</h2>
+<table>
+<thead>
+<tr>
+<th>KPI</th>
+<th>المصدر</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MAU / sessions</td>
+<td>GA4</td>
+</tr>
+<tr>
+<td>New doctors</td>
+<td>Supabase</td>
+</tr>
+<tr>
+<td>Bookings</td>
+<td>Supabase</td>
+</tr>
+<tr>
+<td>Revenue</td>
+<td>admin/subscriptions</td>
+</tr>
+<tr>
+<td>CAC</td>
+<td>marketing spend / new users</td>
+</tr>
+<tr>
+<td>Sales visits</td>
+<td>CRM sheet</td>
+</tr>
+</tbody></table>
+<h2>11.3 شهرياً (مراجعة PO — نهاية الشهر)</h2>
+<ul>
+<li>North Star trend</li>
+<li>Burn rate vs revenue</li>
+<li>Churn doctors (inactive 90 days)</li>
+<li>NPS survey (Google Form)</li>
+<li>Roadmap reprioritize</li>
+</ul>
+<h2>11.4 ربع سنوي</h2>
+<ul>
+<li>Financial model update</li>
+<li>Competitive scan</li>
+<li>Team planning</li>
+<li>This playbook revision (v X.X)</li>
+</ul>
+<hr>
+<h1>الجزء 12 — SOPs التشغيلية</h1>
+<h2>SOP-01: تسجيل طبيب جديد</h2>
+<ol>
+<li>مندوب يجمع بيانات → /doctors/register</li>
+<li>Admin يراجع خلال 24h</li>
+<li>approve → notification للطبيب</li>
+<li>follow-up بعد 7 أيام: profile complete?</li>
+</ol>
+<h2>SOP-02: طلب اشتراك باقة</h2>
+<ol>
+<li>طبيب يختار على /subscriptions</li>
+<li>Admin يتواصل WhatsApp خلال 24h</li>
+<li>تفعيل يدوي + invoice</li>
+<li>update doctor <code>active_package_slug</code></li>
+</ol>
+<h2>SOP-03: حجز مريض</h2>
+<ol>
+<li>مريض يحجز → notification طبيب+admin</li>
+<li>طبيب يconfirm خلال 24h</li>
+<li>reminder قبل الموعد بـ 24h (future)</li>
+<li>post-visit: review request</li>
+</ol>
+<h2>SOP-04: incident (موقع down)</h2>
+<ol>
+<li>Check Vercel + Supabase status</li>
+<li>Rollback if bad deploy</li>
+<li>Post-mortem within 48h</li>
+</ol>
+<hr>
+<h1>الجزء 13 — Phase Gates (متى تنتقل للمرحلة التالية)</h1>
+<h2>Gate 1 → Launch Public</h2>
+<ul>
+<li><input disabled="" type="checkbox"> 30 طبيب beta</li>
+<li><input disabled="" type="checkbox"> 0 P0 bugs 7 days</li>
+<li><input disabled="" type="checkbox"> HTTPS + privacy live</li>
+</ul>
+<h2>Gate 2 → Hire Sales Rep 1</h2>
+<ul>
+<li><input disabled="" type="checkbox"> 50 doctors</li>
+<li><input disabled="" type="checkbox"> PO spending &gt;50% time on sales</li>
+<li><input disabled="" type="checkbox"> CRM template ready</li>
+</ul>
+<h2>Gate 3 → Paid Marketing Scale</h2>
+<ul>
+<li><input disabled="" type="checkbox"> 200 doctors</li>
+<li><input disabled="" type="checkbox"> CAC &lt; $5/patient</li>
+<li><input disabled="" type="checkbox"> break-even path visible</li>
+</ul>
+<h2>Gate 4 → Hire Dev #2</h2>
+<ul>
+<li><input disabled="" type="checkbox"> MRR &gt; $5K</li>
+<li><input disabled="" type="checkbox"> backlog &gt; 3 months work</li>
+<li><input disabled="" type="checkbox"> PO dev time &lt; 20h/week</li>
+</ul>
+<h2>Gate 5 → Regional Expansion Research</h2>
+<ul>
+<li><input disabled="" type="checkbox"> 1,000 doctors Palestine</li>
+<li><input disabled="" type="checkbox"> 10K bookings/month</li>
+<li><input disabled="" type="checkbox"> NPS &gt; 50</li>
+</ul>
+<hr>
+<h1>الجزء 14 — سجل المخاطر</h1>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>الخطر</th>
+<th>احتمال</th>
+<th>أثر</th>
+<th>التخفيف</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>R1</td>
+<td>بطء تسجيل أطباء</td>
+<td>عالي</td>
+<td>حرج</td>
+<td>مندوبين + free trial</td>
+</tr>
+<tr>
+<td>R2</td>
+<td>منافس ينسخ</td>
+<td>متوسط</td>
+<td>متوسط</td>
+<td>speed + brand + data</td>
+</tr>
+<tr>
+<td>R3</td>
+<td>burnout مؤسس</td>
+<td>عالي</td>
+<td>حرج</td>
+<td>hire ops M9, delegate</td>
+</tr>
+<tr>
+<td>R4</td>
+<td>Supabase cost spike</td>
+<td>منخفض</td>
+<td>متوسط</td>
+<td>monitoring + optimize</td>
+</tr>
+<tr>
+<td>R5</td>
+<td>App store rejection</td>
+<td>منخفض</td>
+<td>عالي</td>
+<td>follow store-publish.md</td>
+</tr>
+</tbody></table>
+<hr>
+<h1>الجزء 15 — ملحق: قوالب جاهزة</h1>
+<h2>15.1 تقرير مندوب يومي (WhatsApp)</h2>
+<pre><code>📊 تقرير [التاريخ]
+✅ زيارات: X
+📞 follow-ups: X
+🆕 leads: X
+📝 تسجيلات: X
+💰 باقات: X
+⚠️ عائق: [إن وجد]
+📅 غداً: [عيادات]
+</code></pre>
+<h2>15.2 agenda اجتماع PO الأسبوعي</h2>
+<ol>
+<li>KPIs vs targets (10 min)</li>
+<li>Sales pipeline review (10 min)</li>
+<li>Product/demo feedback (10 min)</li>
+<li>Marketing recap (5 min)</li>
+<li>Priorities next week (10 min)</li>
+</ol>
+<h2>15.3 رسالة WhatsApp للطبيب بعد التسجيل</h2>
+<blockquote>
+<p>«مرحباً د. [الاسم]! 🎉<br>تم تفعيل عيادتك على ملامih.ps<br>رابط ملفك: malamih.ps/doctors/[id]<br>لوحة الطبيب: malamih.ps/doctor/login<br>أي استفسار: [رقم]»</p>
+</blockquote>
+<h2>15.4 Checklist إطلاق حملة</h2>
+<ul>
+<li><input disabled="" type="checkbox"> هدف واضح (awareness / installs / registrations)</li>
+<li><input disabled="" type="checkbox"> جمهور + budget + duration</li>
+<li><input disabled="" type="checkbox"> creative (3 variants)</li>
+<li><input disabled="" type="checkbox"> landing page + UTM</li>
+<li><input disabled="" type="checkbox"> tracking pixel</li>
+<li><input disabled="" type="checkbox"> review after 7 days → kill or scale</li>
+</ul>
+<hr>
+<h1>خاتمة — عقد مع نفسك كـ Product Owner</h1>
+<ol>
+<li><strong>أرقام كل أسبوع</strong> — لا تتخطى اجتماع الاثنين</li>
+<li><strong>مندوب قبل إعلانات كبيرة</strong> — B2B يغذّي B2C</li>
+<li><strong>20% tech debt</strong> — لا تتراكم</li>
+<li><strong>راجع هذا الدليل كل ربع سنة</strong> — حدّث v2.1, v2.2...</li>
+<li><strong>North Star = حجوزات</strong> — كل feature تسأل: هل تزيد الحجوزات؟</li>
+</ol>
+<hr>
+<p><strong>© 2026 ملامih.ps — دليل داخلي · عمار اشتية · <a href="mailto:ammar.shtayeh@gmail.com">ammar.shtayeh@gmail.com</a></strong></p>
+<p><em>الإصدار التالي: أضف صفحة &quot;Case Studies&quot; عند 10 قصص نجاح حقيقية</em></p>
+
+    <hr/>
+    <p style="text-align:center;color:#64748b;font-size:9pt;">© 2026 ملامih.ps — دليل داخلي · الإصدار 2.0</p>
+  </div>
+</body>
+</html>
