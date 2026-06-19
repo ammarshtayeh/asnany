@@ -1,15 +1,11 @@
-import { Linking, Pressable, Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import { Feather } from "@expo/vector-icons";
 
 import { Doctor } from "../lib/types";
-import { buildNativeMapsUrl, doctorMapCoordinates, doctorMapLabel } from "../lib/map-links";
+import { doctorMapCoordinates, doctorMapLabel, openNativeMaps } from "../lib/map-links";
 
 export function ClinicMap({ doctor }: { doctor: Doctor }) {
   const coordinates = doctorMapCoordinates(doctor);
-
-  const openInMaps = () => {
-    void Linking.openURL(buildNativeMapsUrl(doctor));
-  };
 
   return (
     <View style={{ borderRadius: 24, backgroundColor: "#eff6ff", padding: 14, borderWidth: 1, borderColor: "#bfdbfe" }}>
@@ -45,7 +41,7 @@ export function ClinicMap({ doctor }: { doctor: Doctor }) {
         </View>
         <Text style={{ textAlign: "center", color: "#0f172a", fontWeight: "900", fontSize: 16 }}>موقع العيادة جاهز</Text>
         <Text style={{ textAlign: "center", color: "#475569", fontWeight: "700", fontSize: 12, marginTop: 6, lineHeight: 18 }}>
-          افتح الاتجاهات مباشرة في خرائط الجهاز بدون تحميل خريطة داخلية قد تسبب مشاكل على أندرويد.
+          يفتح تطبيق الخرائط على جهازك مباشرة (Apple Maps أو Google Maps) — بدون متصفح داخلي.
         </Text>
         <Text style={{ textAlign: "center", color: "#64748b", fontWeight: "800", fontSize: 11, marginTop: 10 }}>
           {coordinates.latitude.toFixed(5)}, {coordinates.longitude.toFixed(5)}
@@ -57,7 +53,7 @@ export function ClinicMap({ doctor }: { doctor: Doctor }) {
       </Text>
 
       <Pressable
-        onPress={openInMaps}
+        onPress={() => void openNativeMaps(doctor)}
         style={{
           marginTop: 12,
           minHeight: 44,

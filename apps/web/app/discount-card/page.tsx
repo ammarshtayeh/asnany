@@ -85,7 +85,7 @@ export default function DiscountCardPage() {
 
           <form onSubmit={submit} className="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-xl shadow-slate-950/5">
             <div className="mb-5 rounded-3xl bg-slate-950 p-5 text-white">
-              <p className="text-xs font-black text-slate-400">Asnany Discount Card</p>
+              <p className="text-xs font-black text-slate-400">بطاقة خصم ملامح</p>
               <p className="mt-8 text-2xl font-black">طلب بطاقة خصم</p>
               <p className="mt-2 text-sm font-bold leading-6 text-slate-300">بعد التفعيل، يظهر للطبيب أن صاحب هذا الرقم مشترك بالبطاقة.</p>
             </div>

@@ -6,6 +6,7 @@ import { ShoppingCart, Briefcase, PlusCircle, Star, PhoneCall, Search, BadgePerc
 import Image from "next/image";
 import { MarketplaceAd } from "@/lib/types";
 import { getMarketplaceAds, createMarketplaceAd } from "@/lib/data";
+import { whatsappHref } from "@/lib/site-contact";
 
 export default function MarketplacePage() {
   const [ads, setAds] = useState<MarketplaceAd[]>([]);
@@ -534,7 +535,7 @@ export default function MarketplacePage() {
             </div>
 
             <a
-              href="https://wa.me/970599000000?text=أهلاً ملامح، أرغب في إضافة إعلان جديد على سوق ملامح الطبي"
+              href={whatsappHref("أهلاً ملامح، أرغب في إضافة إعلان جديد على سوق ملامح الطبي")}
               target="_blank"
               rel="noreferrer"
               className="w-full bg-slate-900 hover:bg-primary text-white py-4 rounded-2xl font-black text-base transition-all text-center block shadow-lg"

@@ -20,6 +20,10 @@
       "infoPlist": {
         "CFBundleDisplayName": "ملامح",
         "NSLocationWhenInUseUsageDescription": "نستخدم موقعك لعرض العيادات والمراكز الطبية القريبة منك على الخريطة.",
+        "LSApplicationQueriesSchemes": [
+          "maps",
+          "comgooglemaps"
+        ],
         "UIBackgroundModes": [
           "remote-notification"
         ]

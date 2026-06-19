@@ -6,7 +6,7 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { Doctor } from "@/lib/types";
 import { getDistance } from "@/lib/distance";
-import { buildDeviceMapUrl, doctorMapCoordinates } from "@/lib/map-links";
+import { doctorMapCoordinates, openDoctorInExternalMaps } from "@/lib/map-links";
 import { Star, MapPin, CheckCircle2, Clock, Calendar, Navigation, Route, Award, HeartPulse, Sparkles, Map, Heart, ArrowRight } from "lucide-react";
 
 const DoctorMap = dynamic(() => import("@/components/DoctorMap"), { ssr: false });
@@ -52,7 +52,6 @@ export default function DoctorProfileClient({ doctor, canBookOnWebsite }: { doct
   }, [doctor]);
 
   const doctorMapHref = `/doctors/${doctor.id}/map`;
-  const deviceMapHref = buildDeviceMapUrl(doctor, typeof window === "undefined" ? "" : window.navigator.userAgent);
 
   const toggleSaved = () => {
     const saved = JSON.parse(localStorage.getItem("malamih_saved_doctors") || "[]") as string[];
@@ -230,15 +229,14 @@ export default function DoctorProfileClient({ doctor, canBookOnWebsite }: { doct
                         <Navigation className="w-3.5 h-3.5" />
                         الخريطة داخل الموقع
                       </Link>
-                      <a
-                        href={deviceMapHref}
-                        target="_blank"
-                        rel="noreferrer"
+                      <button
+                        type="button"
+                        onClick={() => openDoctorInExternalMaps(doctor)}
                         className="mt-2 ml-2 text-slate-700 hover:text-slate-950 text-xs font-bold inline-flex items-center gap-1.5 bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-lg shadow-sm hover:shadow transition-all"
                       >
                         <MapPin className="w-3.5 h-3.5" />
                         افتح في خرائط الجهاز
-                      </a>
+                      </button>
                     </div>
                   </div>
                   {doctor.accepts_insurance && (
@@ -313,15 +311,14 @@ export default function DoctorProfileClient({ doctor, canBookOnWebsite }: { doct
                 <Navigation className="w-4 h-4 text-white animate-pulse" />
                 الخريطة داخل الموقع
               </Link>
-              <a
-                href={deviceMapHref}
-                target="_blank"
-                rel="noreferrer"
+              <button
+                type="button"
+                onClick={() => openDoctorInExternalMaps(doctor)}
                 className="bg-white/95 hover:bg-white text-slate-900 hover:scale-105 transition-all px-5 py-3 rounded-2xl shadow-xl font-bold text-sm flex items-center gap-2 cursor-pointer border-0"
               >
                 <MapPin className="w-4 h-4" />
                 خرائط الجهاز
-              </a>
+              </button>
             </div>
           </div>
 

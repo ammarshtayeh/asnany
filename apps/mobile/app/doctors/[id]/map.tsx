@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { ActivityIndicator, Pressable, ScrollView, Text, View, Linking } from "react-native";
+import { ActivityIndicator, Pressable, ScrollView, Text, View } from "react-native";
 import { Link, useLocalSearchParams, router } from "expo-router";
 import { Feather } from "@expo/vector-icons";
 
 import { Doctor } from "../../../lib/types";
 import { ClinicMap } from "../../../components/ClinicMap";
-import { buildNativeMapsUrl, doctorMapLabel } from "../../../lib/map-links";
+import { openNativeMaps, doctorMapLabel } from "../../../lib/map-links";
 import { supabase } from "../../../lib/supabase";
 
 export default function DoctorMapScreen() {
@@ -39,7 +39,7 @@ export default function DoctorMapScreen() {
 
   const openDeviceMap = async () => {
     if (!doctor) return;
-    await Linking.openURL(buildNativeMapsUrl(doctor));
+    await openNativeMaps(doctor);
   };
 
   if (loading) {

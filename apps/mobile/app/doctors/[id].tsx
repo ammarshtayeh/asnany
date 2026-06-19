@@ -9,7 +9,7 @@ import { AppButton } from "../../components/Buttons";
 import { AppCard } from "../../components/AppCard";
 import { AppSubtitle, AppTitle } from "../../components/AppText";
 import { ClinicMap } from "../../components/ClinicMap";
-import { buildNativeMapsUrl } from "../../lib/map-links";
+import { openNativeMaps } from "../../lib/map-links";
 import { registerPushSubscription } from "../../lib/notifications";
 import { useAppToast } from "../../components/AppToast";
 
@@ -219,7 +219,7 @@ export default function DoctorProfileScreen() {
         <Pressable onPress={() => router.push(`/doctors/${doctor.id}/map`)} style={{ flex: 1, minHeight: 48, borderRadius: 16, backgroundColor: "#0f172a", alignItems: "center", justifyContent: "center" }}>
           <Text style={{ color: "#fff", fontWeight: "900" }}>الخريطة داخل التطبيق</Text>
         </Pressable>
-        <Pressable onPress={() => Linking.openURL(buildNativeMapsUrl(doctor))} style={{ flex: 1, minHeight: 48, borderRadius: 16, backgroundColor: "#0ea5e9", alignItems: "center", justifyContent: "center" }}>
+        <Pressable onPress={() => void openNativeMaps(doctor)} style={{ flex: 1, minHeight: 48, borderRadius: 16, backgroundColor: "#0ea5e9", alignItems: "center", justifyContent: "center" }}>
           <Text style={{ color: "#fff", fontWeight: "900" }}>فتح في خرائط الجهاز</Text>
         </Pressable>
       </View>

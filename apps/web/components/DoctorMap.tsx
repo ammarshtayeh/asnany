@@ -79,7 +79,7 @@ export default function DoctorMap({
 
   return (
     <div className="h-full w-full rounded-3xl overflow-hidden border border-slate-200/60 shadow-lg shadow-slate-200/40 z-10">
-      <MapContainer center={defaultCenter} zoom={9} className="h-full w-full" scrollWheelZoom={false}>
+      <MapContainer center={defaultCenter} zoom={9} className="h-full w-full" scrollWheelZoom={false} touchZoom zoomControl>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

@@ -7,7 +7,7 @@ import Link from "next/link";
 import { MapPin, Navigation, Route, ArrowRight } from "lucide-react";
 
 import { Doctor } from "@/lib/types";
-import { buildDeviceMapUrl, doctorMapLabel, doctorMapCoordinates } from "@/lib/map-links";
+import { doctorMapLabel, doctorMapCoordinates, openDoctorInExternalMaps } from "@/lib/map-links";
 import { getDistance } from "@/lib/distance";
 
 const DoctorMap = dynamic(() => import("@/components/DoctorMap"), { ssr: false });
@@ -50,8 +50,6 @@ export default function DoctorMapPage() {
       );
     }
   }, []);
-
-  const deviceMapHref = doctor ? buildDeviceMapUrl(doctor, typeof window !== "undefined" ? window.navigator.userAgent : "") : "";
 
   const distance = (() => {
     if (!doctor || !userLoc) return null;
@@ -108,18 +106,17 @@ export default function DoctorMapPage() {
               </div>
 
               <div className="flex flex-wrap gap-2">
-                <a
-                  href={deviceMapHref || undefined}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-disabled={!doctor}
+                <button
+                  type="button"
+                  onClick={() => doctor && openDoctorInExternalMaps(doctor)}
+                  disabled={!doctor}
                   className={`inline-flex min-h-11 items-center gap-2 rounded-full bg-slate-950 px-4 text-sm font-black text-white hover:bg-sky-600 transition ${
                     doctor ? "" : "pointer-events-none opacity-50"
                   }`}
                 >
                   <Navigation className="h-4 w-4" />
                   افتح في خرائط الجهاز
-                </a>
+                </button>
               </div>
             </div>
 

@@ -1,12 +1,16 @@
-import { Linking, Pressable, Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import { Feather } from "@expo/vector-icons";
 
 import { Doctor } from "../lib/types";
-import { buildNativeMapsUrl, doctorMapLabel } from "../lib/map-links";
+import { buildGoogleMapsUrl, doctorMapLabel } from "../lib/map-links";
 
 export function ClinicMap({ doctor }: { doctor: Doctor }) {
   const openInMaps = () => {
-    void Linking.openURL(buildNativeMapsUrl(doctor));
+    if (typeof window !== "undefined") {
+      const url = buildGoogleMapsUrl(doctor);
+      const opened = window.open(url, "_blank", "noopener,noreferrer");
+      if (!opened) window.location.assign(url);
+    }
   };
 
   return (
@@ -42,10 +46,10 @@ export function ClinicMap({ doctor }: { doctor: Doctor }) {
           <Feather name="map-pin" size={34} color="#0284c7" />
         </View>
         <Text style={{ textAlign: "center", color: "#0f172a", fontWeight: "900", fontSize: 16 }}>
-          الخريطة التفاعلية تظهر على التطبيق
+          افتح الاتجاهات في Google Maps
         </Text>
         <Text style={{ textAlign: "center", color: "#475569", fontWeight: "700", fontSize: 12, marginTop: 6, lineHeight: 18 }}>
-          على الويب بنفتح لك الموقع مباشرة في خرائط الجهاز حتى تشوف العنوان والاتجاهات بدون مشاكل Bundling.
+          على الويب نستخدم Google Maps لأنه يعمل في Safari وMessenger وPWA بدون شاشة فارغة.
         </Text>
       </View>
 
@@ -68,7 +72,7 @@ export function ClinicMap({ doctor }: { doctor: Doctor }) {
         }}
       >
         <Feather name="external-link" size={16} color="#fff" />
-        <Text style={{ color: "#fff", fontWeight: "900", fontSize: 14 }}>افتح في خرائط الجهاز</Text>
+        <Text style={{ color: "#fff", fontWeight: "900", fontSize: 14 }}>افتح في Google Maps</Text>
       </Pressable>
     </View>
   );

@@ -1,26 +1,18 @@
-import { Users, Calendar, Megaphone, CheckCircle2, Store, Sparkles, KeyRound, UserCheck, ShieldAlert, BadgeCheck, CreditCard } from "lucide-react";
+import { Users, Megaphone, CheckCircle2, Store, Sparkles, KeyRound, UserCheck, ShieldAlert, BadgeCheck, CreditCard } from "lucide-react";
 import Link from "next/link";
-import { getDoctors, getAdvertisements, getStores, getAppointments, getMedicalServices } from "@/lib/data";
+import { getAdminDashboardStats, getAdminRecentDoctors, getAdminRecentStores } from "@/lib/admin-dashboard";
 
 export default async function AdminDashboard() {
-  const [doctors, ads, stores, appointments, services] = await Promise.all([
-    getDoctors(),
-    getAdvertisements(),
-    getStores(),
-    getAppointments(),
-    getMedicalServices()
+  const [stats, doctors, stores] = await Promise.all([
+    getAdminDashboardStats(),
+    getAdminRecentDoctors(5),
+    getAdminRecentStores(5),
   ]);
 
-  const totalDoctors = doctors.length;
-  const activeAds = ads.length;
-  const activeStores = stores.length;
-  const totalAppointments = appointments.length;
-  const pendingAppointments = appointments.filter(a => a.status === "pending").length;
-  const totalServices = services.length;
+  const { totalDoctors, activeAds, activeStores, totalAppointments, totalServices } = stats;
 
   return (
     <div className="p-4 md:p-8 font-sans bg-slate-50 min-h-screen text-right" dir="rtl">
-      {/* Dashboard Top Header */}
       <div className="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
           <h1 className="text-3xl font-black text-slate-900 tracking-tight">لوحة التحكم</h1>
@@ -32,12 +24,11 @@ export default async function AdminDashboard() {
         </div>
       </div>
 
-      {/* Main Announcement Banner (Glassmorphic Dark Mode style) */}
       <div className="mb-10 bg-slate-950 rounded-3xl p-6 md:p-8 text-white relative overflow-hidden shadow-xl border border-slate-800">
         <div className="absolute top-0 right-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10 pointer-events-none" />
         <div className="absolute -top-32 -left-32 w-64 h-64 bg-sky-500 rounded-full blur-[100px] opacity-20 pointer-events-none" />
         <div className="absolute -bottom-32 -right-32 w-64 h-64 bg-emerald-500 rounded-full blur-[100px] opacity-10 pointer-events-none" />
-        
+
         <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
           <div>
             <p className="text-sky-400 font-black text-xs uppercase tracking-wider mb-2">تحديث المنصة الشامل</p>
@@ -46,8 +37,8 @@ export default async function AdminDashboard() {
               عيادات التجميل، أخصائيي الجلدية، البصريات والعيون، ومراكز الأنف والأذن والحنجرة أصبحت مفعلة وجاهزة للتحكم.
             </p>
           </div>
-          <Link 
-            href="/admin/services" 
+          <Link
+            href="/admin/services"
             className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 px-6 py-3.5 rounded-2xl font-black hover:from-amber-500 hover:to-amber-600 transition-all hover:scale-[1.02] active:scale-95 text-sm shadow-lg shadow-amber-500/10 self-start lg:self-auto"
           >
             <Sparkles className="w-4 h-4" />
@@ -56,10 +47,9 @@ export default async function AdminDashboard() {
         </div>
       </div>
 
-      {/* Quick Management Shortcuts */}
       <div className="mb-10 grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-        <Link 
-          href="/admin/doctors" 
+        <Link
+          href="/admin/doctors"
           className="group flex items-center gap-5 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-sky-300 hover:shadow-lg hover:shadow-sky-500/5"
         >
           <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-sky-50 text-sky-600 group-hover:bg-sky-600 group-hover:text-white transition-all duration-300">
@@ -70,8 +60,8 @@ export default async function AdminDashboard() {
             <p className="mt-1 text-xs md:text-sm font-semibold text-slate-500">مراجعة بيانات الأطباء، الصور والتخصصات — {totalDoctors} طبيب مسجل</p>
           </div>
         </Link>
-        <Link 
-          href="/admin/doctor-accounts" 
+        <Link
+          href="/admin/doctor-accounts"
           className="group flex items-center gap-5 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-emerald-300 hover:shadow-lg hover:shadow-emerald-500/5"
         >
           <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition-all duration-300">
@@ -96,7 +86,6 @@ export default async function AdminDashboard() {
         </Link>
       </div>
 
-      {/* Stats Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
         <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-200/80 flex items-center gap-5 transition hover:shadow-md">
           <div className="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center flex-shrink-0">
@@ -140,7 +129,6 @@ export default async function AdminDashboard() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Latest Registered Doctors Section */}
         <div className="bg-white rounded-3xl shadow-sm border border-slate-200/85 overflow-hidden flex flex-col">
           <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
             <h2 className="text-lg font-black text-slate-950">آخر الأطباء المسجلين</h2>
@@ -148,12 +136,10 @@ export default async function AdminDashboard() {
               إدارة الأطباء
             </Link>
           </div>
-          
+
           <div className="flex-1 overflow-x-auto">
             {doctors.length === 0 ? (
-              <div className="p-10 text-center text-slate-400 font-bold text-sm">
-                لا يوجد أطباء مسجلين حالياً في قاعدة البيانات.
-              </div>
+              <div className="p-10 text-center text-slate-400 font-bold text-sm">لا يوجد أطباء مسجلين حالياً في قاعدة البيانات.</div>
             ) : (
               <table className="w-full text-right text-sm border-collapse min-w-[500px]">
                 <thead className="bg-slate-50 text-slate-500 font-bold text-xs">
@@ -165,13 +151,13 @@ export default async function AdminDashboard() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100 font-semibold text-slate-700">
-                  {doctors.slice(0, 5).map((doctor) => (
+                  {doctors.map((doctor) => (
                     <tr key={doctor.id} className="hover:bg-slate-50/60 transition-colors">
                       <td className="px-6 py-4 font-black text-slate-900">د. {doctor.name}</td>
                       <td className="px-6 py-4 text-slate-600">{doctor.city}</td>
                       <td className="px-6 py-4">
                         <span className="bg-slate-100 text-slate-600 px-2.5 py-1 rounded-xl text-xs font-black border border-slate-200/30">
-                          {Array.isArray(doctor.specialty) ? doctor.specialty[0] : (doctor.specialty || doctor.category || "عام")}
+                          {Array.isArray(doctor.specialty) ? doctor.specialty[0] : doctor.specialty || doctor.category || "عام"}
                         </span>
                       </td>
                       <td className="px-6 py-4 text-center">
@@ -195,7 +181,6 @@ export default async function AdminDashboard() {
           </div>
         </div>
 
-        {/* Supplier Stores Section */}
         <div className="bg-white rounded-3xl shadow-sm border border-slate-200/85 overflow-hidden flex flex-col">
           <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
             <h2 className="text-lg font-black text-slate-950">المتاجر الطبية المسجلة</h2>
@@ -203,12 +188,10 @@ export default async function AdminDashboard() {
               إدارة المتاجر
             </Link>
           </div>
-          
+
           <div className="flex-1 overflow-x-auto">
             {stores.length === 0 ? (
-              <div className="p-10 text-center text-slate-400 font-bold text-sm">
-                لا يوجد متاجر طبية مسجلة حالياً في قاعدة البيانات.
-              </div>
+              <div className="p-10 text-center text-slate-400 font-bold text-sm">لا يوجد متاجر طبية مسجلة حالياً في قاعدة البيانات.</div>
             ) : (
               <table className="w-full text-right text-sm border-collapse min-w-[500px]">
                 <thead className="bg-slate-50 text-slate-500 font-bold text-xs">
@@ -219,11 +202,13 @@ export default async function AdminDashboard() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100 font-semibold text-slate-700">
-                  {stores.slice(0, 5).map((store) => (
+                  {stores.map((store) => (
                     <tr key={store.id} className="hover:bg-slate-50/60 transition-colors">
                       <td className="px-6 py-4 font-black text-slate-900">{store.store_name || store.storeName}</td>
                       <td className="px-6 py-4 text-slate-600">{store.city || "فلسطين"}</td>
-                      <td className="px-6 py-4 text-slate-600 font-mono" dir="ltr">{store.phone}</td>
+                      <td className="px-6 py-4 text-slate-600 font-mono" dir="ltr">
+                        {store.phone}
+                      </td>
                     </tr>
                   ))}
                 </tbody>

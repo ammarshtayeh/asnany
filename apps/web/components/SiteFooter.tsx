@@ -4,9 +4,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Mail, Phone } from "lucide-react";
 import { SITE_NAV_MORE_SECTIONS, SITE_NAV_PRIMARY } from "@pal-dental/shared";
+import { SITE_SUPPORT_EMAIL, SITE_SUPPORT_WHATSAPP } from "@/lib/site-contact";
 
-const ownerPhone = "9720595537190";
-const ownerEmail = "ammar.shtayeh@gmail.com";
+const ownerPhone = SITE_SUPPORT_WHATSAPP;
+const ownerEmail = SITE_SUPPORT_EMAIL;
 
 export default function SiteFooter() {
   const pathname = usePathname();

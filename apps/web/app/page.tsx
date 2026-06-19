@@ -146,13 +146,15 @@ export default function Home() {
   const [selectedWorkStatus, setSelectedWorkStatus] = useState<"any" | "open" | "closed">("any");
   const [userLoc, setUserLoc] = useState<{ lat: number; lng: number } | null>(null);
   const [showMap, setShowMap] = useState(false);
+  const [publicStats, setPublicStats] = useState({ verifiedProviders: 0, appointments: 0, cities: 0 });
 
   useEffect(() => {
     async function loadData() {
       try {
-        const [doctorsRes, adsRes] = await Promise.all([
+        const [doctorsRes, adsRes, statsRes] = await Promise.all([
           fetch("/api/doctors"),
           fetch("/api/advertisements"),
+          fetch("/api/stats/public"),
         ]);
         if (doctorsRes.ok) {
           const doctorsData = await doctorsRes.json();
@@ -161,6 +163,14 @@ export default function Home() {
         if (adsRes.ok) {
           const adsData = await adsRes.json();
           setAds(Array.isArray(adsData) ? adsData : []);
+        }
+        if (statsRes.ok) {
+          const statsData = await statsRes.json();
+          setPublicStats({
+            verifiedProviders: Number(statsData.verifiedProviders) || 0,
+            appointments: Number(statsData.appointments) || 0,
+            cities: Number(statsData.cities) || 0,
+          });
         }
       } catch (error) {
         console.error("Error loading homepage data:", error);
@@ -304,7 +314,7 @@ export default function Home() {
                 ))}
               </motion.div>
 
-              {/* Animated Stats */}
+              {(publicStats.verifiedProviders > 0 || publicStats.appointments > 0 || publicStats.cities > 0) && (
               <motion.div
                 className="mt-8 grid grid-cols-3 gap-4 border-t border-white/10 pt-8 max-w-xl text-right"
                 initial={{ opacity: 0, y: 20 }}
@@ -313,23 +323,24 @@ export default function Home() {
               >
                 <div>
                   <p className="text-2xl sm:text-3xl font-black text-[#d4af37]">
-                    +<AnimatedCounter target={300} duration={2200} />
+                    <AnimatedCounter target={publicStats.verifiedProviders} duration={2200} />
                   </p>
                   <p className="text-[10px] sm:text-xs font-bold text-slate-300 mt-1">عيادة ومزود خدمة موثق</p>
                 </div>
                 <div>
                   <p className="text-2xl sm:text-3xl font-black text-[#d4af37]">
-                    +<AnimatedCounter target={15000} duration={2500} />
+                    <AnimatedCounter target={publicStats.appointments} duration={2500} />
                   </p>
-                  <p className="text-[10px] sm:text-xs font-bold text-slate-300 mt-1">حجز وموعد ناجح</p>
+                  <p className="text-[10px] sm:text-xs font-bold text-slate-300 mt-1">حجز مسجّل</p>
                 </div>
                 <div>
                   <p className="text-2xl sm:text-3xl font-black text-[#d4af37]">
-                    <AnimatedCounter target={12} duration={1500} />
+                    <AnimatedCounter target={publicStats.cities} duration={1500} />
                   </p>
-                  <p className="text-[10px] sm:text-xs font-bold text-slate-300 mt-1">محافظة فلسطينية مغطاة</p>
+                  <p className="text-[10px] sm:text-xs font-bold text-slate-300 mt-1">مدينة مغطاة</p>
                 </div>
               </motion.div>
+              )}
             </div>
 
             {/* Interactive Face Map Search */}

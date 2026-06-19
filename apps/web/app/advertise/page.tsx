@@ -4,8 +4,9 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { ArrowRight, BadgePercent, CheckCircle, Image as ImageIcon, Megaphone, MessageSquare, Send, Sparkles } from "lucide-react";
 import AdminImageUpload from "@/components/AdminImageUpload";
+import { SITE_SUPPORT_WHATSAPP, whatsappHref } from "@/lib/site-contact";
 
-const whatsappNumber = "9720595537190";
+const whatsappNumber = SITE_SUPPORT_WHATSAPP;
 
 export default function AdvertiseWithUs() {
   const [advertiserName, setAdvertiserName] = useState("");

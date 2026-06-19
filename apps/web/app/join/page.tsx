@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import { ArrowRight, MessageSquare, FileText, Sparkles, CheckCircle2, ShieldAlert } from "lucide-react";
+import { SITE_SUPPORT_WHATSAPP } from "@/lib/site-contact";
 
 export default function JoinAsDoctor() {
-  const adminWhatsapp = "970599123456";
+  const adminWhatsapp = SITE_SUPPORT_WHATSAPP;
 
   return (
     <main className="bg-slate-50 min-h-screen relative font-sans" dir="rtl">
