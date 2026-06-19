@@ -87,8 +87,10 @@ CREATE POLICY "public read verified doctors" ON doctors FOR SELECT USING (verifi
 CREATE POLICY "admin all doctors" ON doctors USING (auth.role() = 'authenticated');
 
 ALTER TABLE appointments ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "public insert appointments" ON appointments FOR INSERT WITH CHECK (true);
-CREATE POLICY "admin all appointments" ON appointments USING (auth.role() = 'authenticated');
+CREATE POLICY "service role appointments" ON appointments
+  FOR ALL
+  USING (auth.role() = 'service_role')
+  WITH CHECK (auth.role() = 'service_role');
 
 ALTER TABLE advertisements ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "public read ads" ON advertisements FOR SELECT USING (true);

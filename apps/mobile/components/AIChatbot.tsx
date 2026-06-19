@@ -432,7 +432,7 @@ export function AIChatbot({ onNavigateTab }: AIChatbotProps) {
       if (onNavigateTab) onNavigateTab("services", "stores");
       else router.push("/(tabs)/marketplace" as any);
     } else if (ctaLink === "/booking") {
-      router.push("/booking" as any);
+      router.push("/(tabs)/doctors" as any);
     } else if (ctaLink === "/beauty") {
       router.push("/beauty" as any);
     } else if (ctaLink === "/labs") {

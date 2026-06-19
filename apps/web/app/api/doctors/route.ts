@@ -1,5 +1,14 @@
 import { NextResponse } from "next/server";
-import { isSupabaseConfigured, supabase } from "@/lib/supabase";
+import { isSupabaseConfigured, supabase, supabaseAdmin } from "@/lib/supabase";
+
+async function activeBookableDoctorIds() {
+  const { data, error } = await supabaseAdmin
+    .from("doctor_accounts")
+    .select("doctor_id")
+    .eq("is_active", true);
+  if (error) throw error;
+  return new Set((data || []).map((row) => row.doctor_id as string));
+}
 
 export async function GET(request: Request) {
   try {
@@ -20,12 +29,15 @@ export async function GET(request: Request) {
       query = query.eq("city", city);
     }
 
-    const { data, error } = await query;
+    const [{ data, error }, bookableIds] = await Promise.all([query, activeBookableDoctorIds()]);
 
     if (error) throw error;
 
-    // Filter by specialty client-side if it's stored as a JSON array
-    let doctors = data || [];
+    let doctors = (data || []).map((doc: any) => ({
+      ...doc,
+      can_book_online: bookableIds.has(doc.id),
+    }));
+
     if (specialty) {
       doctors = doctors.filter((doc: any) => {
         if (Array.isArray(doc.specialty)) {

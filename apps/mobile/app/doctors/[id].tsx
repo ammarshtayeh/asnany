@@ -11,13 +11,13 @@ import { AppSubtitle, AppTitle } from "../../components/AppText";
 import { ClinicMap } from "../../components/ClinicMap";
 import { buildNativeMapsUrl } from "../../lib/map-links";
 import { registerPushSubscription } from "../../lib/notifications";
-import { supabase } from "../../lib/supabase";
 import { useAppToast } from "../../components/AppToast";
 
 export default function DoctorProfileScreen() {
   const params = useLocalSearchParams<{ id: string | string[] }>();
   const doctorId = normalizeRouteId(params.id);
   const [doctor, setDoctor] = useState<Doctor | null>(null);
+  const [canBookOnline, setCanBookOnline] = useState(false);
   const [loading, setLoading] = useState(true);
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
@@ -34,16 +34,20 @@ export default function DoctorProfileScreen() {
     (async () => {
       setLoading(true);
       try {
-        if (supabase) {
-          const { data, error } = await supabase.from("doctors").select("*").eq("id", doctorId).eq("verified", true).single();
-          if (error) throw error;
-          setDoctor(data || null);
-        } else {
+        const { response, data } = await apiFetch<{ doctor?: Doctor; can_book_online?: boolean; error?: string }>(
+          `/api/doctors/${doctorId}`
+        );
+        if (!response.ok || !data?.doctor) {
           setDoctor(null);
+          setCanBookOnline(false);
+        } else {
+          setDoctor(data.doctor);
+          setCanBookOnline(Boolean(data.can_book_online));
         }
       } catch (error) {
         console.error("Fetch doctor details error:", error);
         setDoctor(null);
+        setCanBookOnline(false);
       } finally {
         setLoading(false);
       }
@@ -88,7 +92,7 @@ export default function DoctorProfileScreen() {
     }
     void registerPushSubscription({ role: "patient", patientPhone: phone }).catch(() => null);
     showToast({ type: "success", title: "تم الحجز بنجاح", message: "تم إرسال طلب الموعد للطبيب." });
-    router.push("/appointments");
+    router.push(`/appointments?phone=${encodeURIComponent(phone)}`);
   };
 
   const goBack = () => {
@@ -160,7 +164,11 @@ export default function DoctorProfileScreen() {
           {doctor.whatsapp ? (
             <AppButton label="تواصل واتساب" variant="secondary" onPress={() => Linking.openURL(`https://wa.me/${doctor.whatsapp!.replace(/[^0-9]/g, "")}`)} style={{ flex: 1 }} />
           ) : null}
-          <AppButton label="حجز موعد عيادة" onPress={() => router.push(`/booking?doctorId=${doctor.id}`)} style={{ flex: 1 }} />
+          {canBookOnline ? (
+            <AppButton label="حجز موعد عيادة" onPress={() => router.push(`/booking?doctorId=${doctor.id}`)} style={{ flex: 1 }} />
+          ) : (
+            <AppButton label="تواصل للحجز" variant="secondary" onPress={() => doctor.phone && Linking.openURL(`tel:${doctor.phone}`)} style={{ flex: 1 }} />
+          )}
         </View>
       </AppCard>
 
@@ -216,6 +224,7 @@ export default function DoctorProfileScreen() {
         </Pressable>
       </View>
 
+      {canBookOnline ? (
       <AppCard>
         <View style={{ flexDirection: "row-reverse", alignItems: "center", gap: 8, marginBottom: 8 }}>
           <Feather name="calendar" size={18} color="#0f172a" />
@@ -230,6 +239,14 @@ export default function DoctorProfileScreen() {
         <Field label="ملاحظات أو الأعراض الطبية" value={notes} onChangeText={setNotes} multiline />
         <AppButton label={booking ? "جارٍ إرسال طلب الحجز..." : "تأكيد طلب الحجز الإلكتروني"} onPress={book} style={{ marginTop: 18 }} disabled={booking} />
       </AppCard>
+      ) : (
+        <AppCard>
+          <AppTitle style={{ fontSize: 16, textAlign: "right" }}>الحجز عبر التطبيق غير متاح</AppTitle>
+          <AppSubtitle style={{ textAlign: "right", marginTop: 8 }}>
+            الطبيب موثّق في الدليل، لكن الحجز الإلكتروني يتطلب حساب طبيب مفعّل. تواصل عبر واتساب أو الهاتف.
+          </AppSubtitle>
+        </AppCard>
+      )}
     </ScrollView>
   );
 }

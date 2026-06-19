@@ -30,6 +30,13 @@ export async function POST(request: Request) {
     const doctorId = doctorSession?.doctor_id || body.doctor_id || null;
     const patientPhone = role === "patient" ? normalizePushPhone(body.patient_phone || body.phone) || null : null;
 
+    if (role === "patient" && !patientPhone) {
+      return NextResponse.json(
+        { error: "رقم هاتف المريض مطلوب لتفعيل تنبيهات الحجز" },
+        { status: 400 }
+      );
+    }
+
     const { error } = await supabaseAdmin.from("push_subscriptions").upsert(
       {
         expo_push_token: token,

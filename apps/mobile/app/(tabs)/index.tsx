@@ -40,7 +40,7 @@ const QUICK_CATEGORIES = [
 ];
 
 const HOME_ACTIONS = [
-  { label: "احجز الآن", desc: "موعد سريع", path: "/booking", icon: "calendar" as const, color: theme.teal, bg: theme.tealMuted },
+  { label: "احجز الآن", desc: "موعد سريع", path: "/(tabs)/doctors", icon: "calendar" as const, color: theme.teal, bg: theme.tealMuted },
   { label: "بطاقة الخصم", desc: "خصومات حصرية", path: "/discount-card", icon: "credit-card" as const, color: theme.purple, bg: theme.purpleMuted },
   { label: "العروض", desc: "أحدث الخصومات", path: "/(tabs)/offers", icon: "tag" as const, color: theme.goldLight, bg: theme.goldMuted },
   { label: "انضم للمنصة", desc: "للأطباء", path: "/join", icon: "user-plus" as const, color: theme.tealLight, bg: theme.tealMuted },

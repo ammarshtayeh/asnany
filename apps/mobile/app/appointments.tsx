@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { ActivityIndicator, Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import { Feather } from "@expo/vector-icons";
@@ -44,15 +44,17 @@ export default function PatientAppointmentsScreen() {
   const cleanIdentity = useMemo(() => identityLast4.replace(/[^0-9]/g, "").slice(0, 4), [identityLast4]);
   const canSearch = cleanPhone.length >= 9;
 
-  const loadAppointments = async () => {
-    if (!canSearch) return;
+  const loadAppointments = useCallback(async (phoneOverride?: string, identityOverride?: string) => {
+    const phone = (phoneOverride ?? phoneValue).replace(/[^0-9]/g, "");
+    const identity = (identityOverride ?? identityLast4).replace(/[^0-9]/g, "").slice(0, 4);
+    if (phone.length < 9) return;
 
     setLoading(true);
     setSearched(true);
     setError("");
-    const query = new URLSearchParams({ phone: cleanPhone });
-    if (cleanIdentity.length === 4) {
-      query.set("identity_last4", cleanIdentity);
+    const query = new URLSearchParams({ phone });
+    if (identity.length === 4) {
+      query.set("identity_last4", identity);
     }
     const { response, data } = await apiFetch<{ success?: boolean; appointments?: Appointment[]; error?: string }>(
       `/api/appointments?${query.toString()}`
@@ -68,23 +70,25 @@ export default function PatientAppointmentsScreen() {
     const nextAppointments = Array.isArray(data?.appointments) ? data.appointments : [];
     setAppointments(nextAppointments);
 
-    await setStoredPatientPhone(cleanPhone);
+    await setStoredPatientPhone(phone);
     void registerPushSubscription({
       role: "patient",
-      patientPhone: cleanPhone,
+      patientPhone: phone,
     }).catch(() => null);
-  };
+  }, [phoneValue, identityLast4]);
 
   useEffect(() => {
     const initialPhone = params.phone || params.query || "";
     const initialIdentity = (params.identity_last4 || "").replace(/[^0-9]/g, "").slice(0, 4);
-    if (initialPhone.replace(/[^0-9]/g, "").length >= 9) {
+    const normalizedPhone = initialPhone.replace(/[^0-9]/g, "");
+    if (normalizedPhone.length >= 9) {
       setPhoneValue(initialPhone);
       if (initialIdentity.length === 4) {
         setIdentityLast4(initialIdentity);
       }
+      void loadAppointments(normalizedPhone, initialIdentity);
     }
-  }, [params.phone, params.query, params.identity_last4]);
+  }, [params.phone, params.query, params.identity_last4, loadAppointments]);
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: "#f8fafc" }} contentContainerStyle={{ padding: 16, paddingBottom: 40 }}>

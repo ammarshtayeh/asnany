@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { ArrowRight, CalendarCheck2, Clock, Search, ShieldCheck } from "lucide-react";
 
@@ -40,16 +40,18 @@ export default function AppointmentsPage() {
   const cleanIdentity = useMemo(() => identityLast4.replace(/[^0-9]/g, "").slice(0, 4), [identityLast4]);
   const canSearch = cleanPhone.length >= 9;
 
-  const loadAppointments = async () => {
-    if (!canSearch) return;
+  const loadAppointments = useCallback(async (phoneOverride?: string, identityOverride?: string) => {
+    const phone = (phoneOverride ?? phoneValue).replace(/[^0-9]/g, "");
+    const identity = (identityOverride ?? identityLast4).replace(/[^0-9]/g, "").slice(0, 4);
+    if (phone.length < 9) return;
     setLoading(true);
     setSearched(true);
     setError("");
 
     try {
-      const params = new URLSearchParams({ phone: cleanPhone });
-      if (cleanIdentity.length === 4) {
-        params.set("identity_last4", cleanIdentity);
+      const params = new URLSearchParams({ phone });
+      if (identity.length === 4) {
+        params.set("identity_last4", identity);
       }
       const res = await fetch(`/api/appointments?${params.toString()}`);
       const data = await res.json();
@@ -61,19 +63,22 @@ export default function AppointmentsPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [phoneValue, identityLast4]);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const initialPhone = params.get("phone") || params.get("query") || "";
     const initialIdentity = params.get("identity_last4") || "";
-    if (initialPhone.replace(/[^0-9]/g, "").length >= 9) {
+    const normalizedPhone = initialPhone.replace(/[^0-9]/g, "");
+    const normalizedIdentity = initialIdentity.replace(/[^0-9]/g, "").slice(0, 4);
+    if (normalizedPhone.length >= 9) {
       setPhoneValue(initialPhone);
-      if (initialIdentity.replace(/[^0-9]/g, "").length === 4) {
-        setIdentityLast4(initialIdentity.replace(/[^0-9]/g, "").slice(0, 4));
+      if (normalizedIdentity.length === 4) {
+        setIdentityLast4(normalizedIdentity);
       }
+      void loadAppointments(normalizedPhone, normalizedIdentity);
     }
-  }, []);
+  }, [loadAppointments]);
 
   return (
     <main className="min-h-screen bg-slate-50 px-4 py-8" dir="rtl">

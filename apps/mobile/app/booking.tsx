@@ -24,6 +24,7 @@ type DoctorPreview = {
 export default function BookingScreen() {
   const { doctorId } = useLocalSearchParams<{ doctorId?: string }>();
   const [doctor, setDoctor] = useState<DoctorPreview | null>(null);
+  const [canBookOnline, setCanBookOnline] = useState(false);
   const [doctorLoading, setDoctorLoading] = useState(Boolean(doctorId));
 
   const [fullName, setFullName] = useState("");
@@ -43,14 +44,17 @@ export default function BookingScreen() {
     const loadDoctor = async () => {
       if (!doctorId) return;
       setDoctorLoading(true);
-      const { response, data } = await apiFetch<{ error?: string }>("/api/doctors");
+      const { response, data } = await apiFetch<{ doctor?: DoctorPreview; can_book_online?: boolean; error?: string }>(
+        `/api/doctors/${doctorId}`
+      );
       if (cancelled) return;
 
-      if (response.ok) {
-        const list = Array.isArray(data) ? data : Array.isArray((data as any)?.doctors) ? (data as any).doctors : [];
-        setDoctor(list.find((item: any) => item.id === doctorId) || null);
+      if (response.ok && data?.doctor) {
+        setDoctor(data.doctor);
+        setCanBookOnline(Boolean(data.can_book_online));
       } else {
         setDoctor(null);
+        setCanBookOnline(false);
       }
       setDoctorLoading(false);
     };
@@ -83,8 +87,8 @@ export default function BookingScreen() {
   }, [doctor, selectedWeekday]);
 
   const canSubmit = useMemo(
-    () => Boolean(fullName && phone && identity && address && date && time && doctorId),
-    [fullName, phone, identity, address, date, time, doctorId]
+    () => Boolean(fullName && phone && identity && address && date && time && doctorId && canBookOnline),
+    [fullName, phone, identity, address, date, time, doctorId, canBookOnline]
   );
 
   const submit = async () => {
@@ -167,6 +171,8 @@ export default function BookingScreen() {
             <Text style={{ textAlign: "right", fontWeight: "700", color: "#475569", fontSize: 12, lineHeight: 18 }}>
               {doctorLoading
                 ? "نتأكد من الدوام والحالة الحالية قبل إرسال الحجز."
+                : !canBookOnline
+                  ? "الحجز الإلكتروني غير مفعّل لهذا الطبيب. ارجع للدليل واختر طبيباً آخر أو تواصل مباشرة."
                 : doctor?.is_available === false
                   ? "الطبيب معلن أنه غير متاح حالياً. اختر موعداً آخر."
                   : isDoctorAvailableForSlot
