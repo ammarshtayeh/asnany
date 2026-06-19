@@ -28,7 +28,12 @@ export default function ConnectivityBanner() {
     };
   }, []);
 
-  if (pathname.startsWith("/admin") || pathname.startsWith("/doctor")) return null;
+  const isPortalRoute =
+    pathname === "/admin" ||
+    pathname.startsWith("/admin/") ||
+    pathname === "/doctor" ||
+    pathname.startsWith("/doctor/");
+  if (isPortalRoute) return null;
   if (!isOffline && !isSlow) return null;
 
   return (

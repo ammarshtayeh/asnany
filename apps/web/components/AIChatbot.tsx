@@ -267,7 +267,13 @@ export default function AIChatbot() {
     }
   };
 
-  if (pathname?.startsWith("/admin") || pathname?.startsWith("/doctor")) return null;
+  const currentPath = pathname || "";
+  const isPortalRoute =
+    currentPath === "/admin" ||
+    currentPath.startsWith("/admin/") ||
+    currentPath === "/doctor" ||
+    currentPath.startsWith("/doctor/");
+  if (isPortalRoute) return null;
 
   return (
     <>

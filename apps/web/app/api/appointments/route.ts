@@ -103,6 +103,21 @@ export async function POST(request: Request) {
       );
     }
 
+    const { data: doctorAccount, error: doctorAccountError } = await supabaseAdmin
+      .from("doctor_accounts")
+      .select("id, is_active")
+      .eq("doctor_id", doctorId)
+      .eq("is_active", true)
+      .maybeSingle();
+
+    if (doctorAccountError) throw doctorAccountError;
+    if (!doctorAccount) {
+      return NextResponse.json(
+        { error: "الحجز عبر الموقع متاح فقط للأطباء الذين لديهم حساب مفعّل على المنصة." },
+        { status: 403 }
+      );
+    }
+
     const { data, error } = await supabaseAdmin
       .from("appointments")
       .insert([

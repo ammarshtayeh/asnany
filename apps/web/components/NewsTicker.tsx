@@ -73,7 +73,12 @@ export default function NewsTicker() {
     }, 180);
   };
 
-  if (pathname.startsWith("/admin") || pathname.startsWith("/doctor")) return null;
+  const isPortalRoute =
+    pathname === "/admin" ||
+    pathname.startsWith("/admin/") ||
+    pathname === "/doctor" ||
+    pathname.startsWith("/doctor/");
+  if (isPortalRoute) return null;
   if (!loaded || !active || !style) return null;
 
   const inner = (

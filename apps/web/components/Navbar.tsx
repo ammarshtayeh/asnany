@@ -57,7 +57,12 @@ export default function Navbar() {
     return () => document.removeEventListener("click", onClick);
   }, []);
 
-  if (currentPath.startsWith("/admin") || currentPath.startsWith("/doctor")) return null;
+  const isPortalRoute =
+    currentPath === "/admin" ||
+    currentPath.startsWith("/admin/") ||
+    currentPath === "/doctor" ||
+    currentPath.startsWith("/doctor/");
+  if (isPortalRoute) return null;
 
   const isMoreActive = SITE_NAV_MORE_SECTIONS.some((section) =>
     section.links.some((link) => currentPath === link.href || currentPath.startsWith(`${link.href}/`)),

@@ -7,10 +7,10 @@ import DoctorProfileClient from "./DoctorProfileClient";
 import { supabase } from "@/lib/supabase";
 
 // Database fetching function
-async function getDoctor(id: string): Promise<Doctor | null> {
+async function getDoctor(id: string): Promise<(Doctor & { doctor_accounts?: Array<{ id: string; is_active: boolean }> }) | null> {
   const { data, error } = await supabase
     .from("doctors")
-    .select("*")
+    .select("*, doctor_accounts(id, is_active)")
     .eq("id", id)
     .eq("verified", true)
     .single();
@@ -39,6 +39,9 @@ export default async function DoctorPage({ params }: { params: Promise<{ id: str
   const resolvedParams = await params;
   const doctor = await getDoctor(resolvedParams.id);
   if (!doctor) notFound();
+  const canBookOnWebsite = Array.isArray(doctor.doctor_accounts)
+    ? doctor.doctor_accounts.some((account) => account.is_active)
+    : false;
 
   return (
     <main className="bg-slate-50 min-h-screen relative font-sans selection:bg-primary/20 selection:text-primary">
@@ -60,7 +63,7 @@ export default async function DoctorPage({ params }: { params: Promise<{ id: str
       </div>
 
       {/* Main Content Rendered Client-side for Map/Distance functionality */}
-      <DoctorProfileClient doctor={doctor} />
+      <DoctorProfileClient doctor={doctor} canBookOnWebsite={canBookOnWebsite} />
     </main>
   );
 }

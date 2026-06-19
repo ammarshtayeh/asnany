@@ -11,7 +11,7 @@ import { Star, MapPin, CheckCircle2, Clock, Calendar, Navigation, Route, Award, 
 
 const DoctorMap = dynamic(() => import("@/components/DoctorMap"), { ssr: false });
 
-export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
+export default function DoctorProfileClient({ doctor, canBookOnWebsite }: { doctor: Doctor; canBookOnWebsite: boolean }) {
   const [userLoc, setUserLoc] = useState<{ lat: number; lng: number } | null>(null);
   const [distance, setDistance] = useState<number | null>(null);
   const [activePhoto, setActivePhoto] = useState(0);
@@ -78,6 +78,10 @@ export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
 
   const handleSmartBookingSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!canBookOnWebsite) {
+      alert("الحجز عبر الموقع متاح فقط للأطباء الذين لديهم حساب مفعّل على المنصة.");
+      return;
+    }
     if (!bookingName || !bookingPhone || !bookingIdentity || !bookingAddress || !bookingDate) {
       alert("يرجى تعبئة الحقول الأساسية المطلوبة");
       return;
@@ -446,13 +450,16 @@ export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
             <span className="text-sm font-black text-amber-600">حجز موعد</span>
             <h2 className="mt-1 text-3xl font-black text-slate-950">أرسل طلب حجز للطبيب</h2>
             <p className="mt-2 text-sm font-bold text-slate-500">
-              سيتم عرض بياناتك للطبيب داخل لوحة الطبيب لتأكيد الموعد أو تعديله.
+              {canBookOnWebsite
+                ? "سيتم عرض بياناتك للطبيب داخل لوحة الطبيب لتأكيد الموعد أو تعديله."
+                : "الحجز عبر الموقع غير مفعّل لهذا الطبيب حالياً. استخدم التواصل المباشر لحين تفعيل الحساب."}
             </p>
           </div>
           <Calendar className="h-10 w-10 text-amber-500" />
         </div>
 
-        <form onSubmit={handleSmartBookingSubmit} className="grid gap-3 md:grid-cols-2">
+        {canBookOnWebsite ? (
+          <form onSubmit={handleSmartBookingSubmit} className="grid gap-3 md:grid-cols-2">
           <BookingInput label="الاسم الرباعي" value={bookingName} onChange={setBookingName} required />
           <BookingInput label="البريد الإلكتروني - اختياري" value={bookingEmail} onChange={setBookingEmail} type="email" />
           <BookingInput label="رقم الهاتف" value={bookingPhone} onChange={setBookingPhone} required inputMode="tel" />
@@ -476,7 +483,12 @@ export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
             >
             {isSubmitting ? "جاري إرسال الحجز..." : "إرسال طلب الحجز"}
           </button>
-        </form>
+          </form>
+        ) : (
+          <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-5 text-right text-sm font-bold text-amber-800">
+            الطبيب ظاهر في الدليل لأنه موثق، لكن الحجز عبر الموقع يحتاج حساب طبيب مفعّل. يمكنك التواصل عبر واتساب أو الهاتف حالياً.
+          </div>
+        )}
       </div>
 
       {showSuccessModal ? (
@@ -526,13 +538,15 @@ export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
                 محادثة واتساب الفورية
               </a>
             )}
-            <a
-              href="#booking"
-              className="w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-white px-8 py-4 rounded-2xl font-black transition-all flex items-center justify-center gap-3 shadow-lg hover:scale-105"
-            >
-              <Calendar className="w-6 h-6" />
-              نموذج الحجز داخل الموقع
-            </a>
+            {canBookOnWebsite ? (
+              <a
+                href="#booking"
+                className="w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-white px-8 py-4 rounded-2xl font-black transition-all flex items-center justify-center gap-3 shadow-lg hover:scale-105"
+              >
+                <Calendar className="w-6 h-6" />
+                نموذج الحجز داخل الموقع
+              </a>
+            ) : null}
           </div>
         </div>
       </div>

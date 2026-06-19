@@ -19,7 +19,7 @@ self.addEventListener("activate", (event) => {
 function shouldCache(url: URL) {
   if (url.pathname.startsWith("/api/")) return false;
   if (url.pathname.startsWith("/admin")) return false;
-  if (url.pathname.startsWith("/doctor")) return false;
+  if (url.pathname === "/doctor" || url.pathname.startsWith("/doctor/")) return false;
   return url.origin === self.location.origin;
 }
 

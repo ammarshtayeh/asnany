@@ -4,7 +4,12 @@ import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 
 function isPortalRoute(pathname: string) {
-  return pathname.startsWith("/admin") || pathname.startsWith("/doctor");
+  return (
+    pathname === "/admin" ||
+    pathname.startsWith("/admin/") ||
+    pathname === "/doctor" ||
+    pathname.startsWith("/doctor/")
+  );
 }
 
 export default function SiteBodyWrapper({ children }: { children: React.ReactNode }) {
