@@ -207,6 +207,53 @@
   margin: 12px !important;
 }
 
+.malamih-user-location-marker {
+  background: transparent !important;
+  border: none !important;
+}
+
+.malamih-user-home-pin {
+  position: relative;
+  width: 44px;
+  height: 44px;
+}
+
+.malamih-user-home-pin__pulse {
+  position: absolute;
+  inset: 4px;
+  border-radius: 9999px;
+  background: rgba(16, 185, 129, 0.25);
+  animation: malamih-user-pulse 2s ease-out infinite;
+}
+
+.malamih-user-home-pin__core {
+  position: absolute;
+  inset: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: #059669;
+  color: #fff;
+  border: 3px solid #fff;
+  box-shadow: 0 8px 20px rgba(5, 150, 105, 0.45);
+}
+
+@keyframes malamih-user-pulse {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.9;
+  }
+  70% {
+    transform: scale(1.35);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.35);
+    opacity: 0;
+  }
+}
+
 section:has(> img[alt="عيادة أسنان حديثة"]) {
   border-radius: 2.5rem;
   overflow: hidden;

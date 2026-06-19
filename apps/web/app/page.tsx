@@ -32,6 +32,7 @@ import AdSlider from "@/components/AdSlider";
 import { CITIES } from "@/lib/constants";
 import { getDistance } from "@/lib/distance";
 import { doctorMapCoordinates } from "@/lib/map-links";
+import { requestAccuratePosition, type UserMapLocation } from "@/lib/geolocation";
 import { Advertisement, Doctor } from "@/lib/types";
 import { AnimatedCounter } from "@/components/AnimatedCounter";
 
@@ -144,7 +145,7 @@ export default function Home() {
   const [selectedSpecialty, setSelectedSpecialty] = useState("");
   const [selectedInsurance, setSelectedInsurance] = useState("");
   const [selectedWorkStatus, setSelectedWorkStatus] = useState<"any" | "open" | "closed">("any");
-  const [userLoc, setUserLoc] = useState<{ lat: number; lng: number } | null>(null);
+  const [userLoc, setUserLoc] = useState<UserMapLocation | null>(null);
   const [showMap, setShowMap] = useState(false);
   const [publicStats, setPublicStats] = useState({ verifiedProviders: 0, appointments: 0, cities: 0 });
 
@@ -243,11 +244,9 @@ export default function Home() {
   };
 
   const handleLocationSearch = () => {
-    if (!navigator.geolocation) return;
-    navigator.geolocation.getCurrentPosition(
-      (pos) => setUserLoc({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
-      () => alert("تعذر الوصول إلى الموقع. يرجى تفعيل صلاحيات الموقع والمحاولة مجددا.")
-    );
+    void requestAccuratePosition()
+      .then((location) => setUserLoc(location))
+      .catch(() => alert("تعذر الوصول إلى الموقع. فعّل GPS/الموقع بدقة عالية وحاول مجدداً."));
   };
 
   return (

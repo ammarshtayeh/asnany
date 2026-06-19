@@ -7,7 +7,8 @@ import Link from "next/link";
 import { MapPin, Navigation, Route, ArrowRight } from "lucide-react";
 
 import { Doctor } from "@/lib/types";
-import { doctorMapLabel, doctorMapCoordinates, openDoctorInExternalMaps } from "@/lib/map-links";
+import { doctorMapLabel, doctorMapCoordinates, openDoctorInExternalMaps, openCoordinatesInExternalMaps } from "@/lib/map-links";
+import { startAccuratePositionWatch, type UserMapLocation } from "@/lib/geolocation";
 import { getDistance } from "@/lib/distance";
 
 const DoctorMap = dynamic(() => import("@/components/DoctorMap"), { ssr: false });
@@ -16,7 +17,7 @@ export default function DoctorMapPage() {
   const params = useParams<{ id: string }>() as { id?: string } | null;
   const doctorId = params?.id || "";
   const [doctor, setDoctor] = useState<Doctor | null>(null);
-  const [userLoc, setUserLoc] = useState<{ lat: number; lng: number } | null>(null);
+  const [userLoc, setUserLoc] = useState<UserMapLocation | null>(null);
   const [locating, setLocating] = useState(false);
 
   useEffect(() => {
@@ -36,19 +37,17 @@ export default function DoctorMapPage() {
   }, [doctorId]);
 
   useEffect(() => {
-    if (typeof navigator !== "undefined" && navigator.geolocation) {
-      setLocating(true);
-      navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          setUserLoc({ lat: pos.coords.latitude, lng: pos.coords.longitude });
-          setLocating(false);
-        },
-        () => {
-          setLocating(false);
-        },
-        { enableHighAccuracy: true }
-      );
-    }
+    setLocating(true);
+    const stopWatch = startAccuratePositionWatch((location) => {
+      setUserLoc(location);
+      setLocating(false);
+    });
+
+    const timeout = window.setTimeout(() => setLocating(false), 12000);
+    return () => {
+      stopWatch();
+      window.clearTimeout(timeout);
+    };
   }, []);
 
   const distance = (() => {
@@ -81,14 +80,26 @@ export default function DoctorMapPage() {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
                 </span>
-                <div>
-                  <p className="text-sm font-black">موقعك الحالي نشط وموثق</p>
+                <div className="flex-1">
+                  <p className="text-sm font-black">موقعك الحالي نشط</p>
+                  {userLoc.accuracy ? (
+                    <p className="text-xs font-bold mt-0.5 text-emerald-700">
+                      دقة GPS: ±{Math.round(userLoc.accuracy)} م
+                    </p>
+                  ) : null}
                   {distance !== null ? (
                     <p className="text-xs font-bold mt-0.5 text-emerald-700">
                       تبعد العيادة عنك مسافة <strong className="text-emerald-950 font-black">{distance.toFixed(1)} كم</strong>
                     </p>
                   ) : null}
                 </div>
+                <button
+                  type="button"
+                  onClick={() => openCoordinatesInExternalMaps(userLoc.lat, userLoc.lng, "موقعي")}
+                  className="shrink-0 rounded-full bg-emerald-700 px-3 py-2 text-xs font-black text-white hover:bg-emerald-800"
+                >
+                  موقعي على الخريطة
+                </button>
               </div>
             ) : locating ? (
               <div className="mb-4 flex items-center gap-3 rounded-2xl border border-sky-200 bg-sky-50 p-4 text-sky-800">

@@ -7,12 +7,13 @@ import Link from "next/link";
 import { Doctor } from "@/lib/types";
 import { getDistance } from "@/lib/distance";
 import { doctorMapCoordinates, openDoctorInExternalMaps } from "@/lib/map-links";
+import { startAccuratePositionWatch, type UserMapLocation } from "@/lib/geolocation";
 import { Star, MapPin, CheckCircle2, Clock, Calendar, Navigation, Route, Award, HeartPulse, Sparkles, Map, Heart, ArrowRight } from "lucide-react";
 
 const DoctorMap = dynamic(() => import("@/components/DoctorMap"), { ssr: false });
 
 export default function DoctorProfileClient({ doctor, canBookOnWebsite }: { doctor: Doctor; canBookOnWebsite: boolean }) {
-  const [userLoc, setUserLoc] = useState<{ lat: number; lng: number } | null>(null);
+  const [userLoc, setUserLoc] = useState<UserMapLocation | null>(null);
   const [distance, setDistance] = useState<number | null>(null);
   const [activePhoto, setActivePhoto] = useState(0);
 
@@ -35,20 +36,13 @@ export default function DoctorProfileClient({ doctor, canBookOnWebsite }: { doct
     const saved = JSON.parse(localStorage.getItem("malamih_saved_doctors") || "[]") as string[];
     setIsSaved(saved.includes(doctor.id));
 
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          const lat = pos.coords.latitude;
-          const lng = pos.coords.longitude;
-          setUserLoc({ lat, lng });
-          const doctorCoords = doctorMapCoordinates(doctor);
-          setDistance(getDistance(lat, lng, doctorCoords.latitude, doctorCoords.longitude));
-        },
-        () => {
-          console.log("Geolocation permission denied or failed.");
-        }
-      );
-    }
+    const stopWatch = startAccuratePositionWatch((location) => {
+      setUserLoc(location);
+      const doctorCoords = doctorMapCoordinates(doctor);
+      setDistance(getDistance(location.lat, location.lng, doctorCoords.latitude, doctorCoords.longitude));
+    });
+
+    return () => stopWatch();
   }, [doctor]);
 
   const doctorMapHref = `/doctors/${doctor.id}/map`;

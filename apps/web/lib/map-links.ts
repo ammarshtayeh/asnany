@@ -46,7 +46,67 @@ export function doctorMapCoordinates(doctor: Pick<MapDoctor, "lat" | "lng" | "ci
 /** Google Maps — works on desktop, mobile Safari, PWA, and in-app browsers */
 export function buildGoogleMapsUrl(doctor: Pick<MapDoctor, "name" | "city" | "area" | "address" | "lat" | "lng">) {
   const coords = doctorMapCoordinates(doctor);
-  return `https://www.google.com/maps/dir/?api=1&destination=${coords.latitude},${coords.longitude}`;
+  return buildGoogleMapsDirectionsUrl(coords.latitude, coords.longitude);
+}
+
+export function buildGoogleMapsDirectionsUrl(destLat: number, destLng: number) {
+  return `https://www.google.com/maps/dir/?api=1&destination=${destLat},${destLng}`;
+}
+
+export function buildGoogleMapsPlaceUrl(lat: number, lng: number) {
+  return `https://www.google.com/maps?q=${lat},${lng}`;
+}
+
+function getUserAgent(userAgent?: string) {
+  return userAgent || (typeof navigator !== "undefined" ? navigator.userAgent : "");
+}
+
+/** Platform-aware external maps for coordinates (user location or any point) */
+export function buildCoordinatesExternalUrl(
+  lat: number,
+  lng: number,
+  label = "موقعي",
+  userAgent?: string
+) {
+  const ua = getUserAgent(userAgent);
+
+  if (isInAppBrowser(ua)) {
+    return buildGoogleMapsPlaceUrl(lat, lng);
+  }
+
+  if (/iPad|iPhone|iPod/i.test(ua)) {
+    return `maps://?ll=${lat},${lng}&q=${encodeURIComponent(label)}`;
+  }
+
+  if (/Android/i.test(ua)) {
+    return `geo:0,0?q=${lat},${lng}(${encodeURIComponent(label)})`;
+  }
+
+  return buildGoogleMapsPlaceUrl(lat, lng);
+}
+
+/** Turn-by-turn / directions to a destination — platform-aware on web */
+export function buildDirectionsExternalUrl(
+  destLat: number,
+  destLng: number,
+  label: string,
+  userAgent?: string
+) {
+  const ua = getUserAgent(userAgent);
+
+  if (isInAppBrowser(ua)) {
+    return buildGoogleMapsDirectionsUrl(destLat, destLng);
+  }
+
+  if (/iPad|iPhone|iPod/i.test(ua)) {
+    return `maps://?daddr=${destLat},${destLng}&dirflg=d&q=${encodeURIComponent(label)}`;
+  }
+
+  if (/Android/i.test(ua)) {
+    return `google.navigation:q=${destLat},${destLng}`;
+  }
+
+  return buildGoogleMapsDirectionsUrl(destLat, destLng);
 }
 
 /** @deprecated use buildGoogleMapsUrl */
@@ -63,29 +123,49 @@ export function buildAppleMapsWebUrl(doctor: Pick<MapDoctor, "name" | "city" | "
 
 /**
  * External maps link for the website (laptop, phone browser, PWA, in-app browsers).
- * Always Google Maps — maps.apple.com shows a blank screen in Messenger/Facebook WebViews.
+ * Uses native maps on iOS/Android Safari; Google Maps in in-app browsers.
  */
 export function buildDeviceMapUrl(
   doctor: Pick<MapDoctor, "name" | "city" | "area" | "address" | "lat" | "lng">,
   userAgent = ""
 ) {
-  void userAgent;
-  return buildGoogleMapsUrl(doctor);
+  const coords = doctorMapCoordinates(doctor);
+  return buildDirectionsExternalUrl(coords.latitude, coords.longitude, doctorMapLabel(doctor), userAgent);
 }
 
 export function buildBrowserMapUrl(doctorId: string) {
   return `/doctors/${doctorId}/map`;
 }
 
-/** Client-side opener — more reliable than target=_blank in some WebViews */
+/** Client-side opener — native schemes use location.assign */
 export function openExternalMapsUrl(url: string) {
   if (typeof window === "undefined") return;
+
+  const isNativeScheme =
+    url.startsWith("maps://") ||
+    url.startsWith("geo:") ||
+    url.startsWith("google.navigation:");
+
+  if (isNativeScheme) {
+    window.location.assign(url);
+    return;
+  }
+
   const opened = window.open(url, "_blank", "noopener,noreferrer");
   if (!opened) window.location.assign(url);
+}
+
+export function openCoordinatesInExternalMaps(lat: number, lng: number, label = "موقعي") {
+  const ua = typeof navigator !== "undefined" ? navigator.userAgent : "";
+  openExternalMapsUrl(buildCoordinatesExternalUrl(lat, lng, label, ua));
 }
 
 export function openDoctorInExternalMaps(
   doctor: Pick<MapDoctor, "name" | "city" | "area" | "address" | "lat" | "lng">
 ) {
-  openExternalMapsUrl(buildGoogleMapsUrl(doctor));
+  const coords = doctorMapCoordinates(doctor);
+  const ua = typeof navigator !== "undefined" ? navigator.userAgent : "";
+  openExternalMapsUrl(
+    buildDirectionsExternalUrl(coords.latitude, coords.longitude, doctorMapLabel(doctor), ua)
+  );
 }
