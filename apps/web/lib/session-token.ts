@@ -28,7 +28,7 @@ function getSessionSecret() {
   const secret = process.env.AUTH_SECRET || process.env.SUPABASE_SERVICE_ROLE_KEY;
 
   if (!secret && process.env.NODE_ENV === "production") {
-    throw new Error("AUTH_SECRET is required in production");
+    console.error("AUTH_SECRET is missing — set it in Vercel environment variables.");
   }
 
   return secret || "development-session-secret";

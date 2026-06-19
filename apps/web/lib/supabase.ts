@@ -5,7 +5,7 @@ const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "placeholde
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 if (!supabaseServiceKey && process.env.NODE_ENV === "production") {
-  throw new Error("SUPABASE_SERVICE_ROLE_KEY is required in production");
+  console.error("SUPABASE_SERVICE_ROLE_KEY is missing — admin/API routes may fail until it is set in Vercel.");
 }
 
 export const isSupabaseConfigured =

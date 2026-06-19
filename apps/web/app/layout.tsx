@@ -9,8 +9,14 @@ const cairoFont = Cairo({
   variable: "--font-cairo",
 });
 
+function siteBaseUrl() {
+  const raw = process.env.NEXT_PUBLIC_SITE_URL || "https://malamih.ps";
+  if (raw.startsWith("http://") || raw.startsWith("https://")) return raw;
+  return `https://${raw.replace(/^\/+/, "")}`;
+}
+
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://malamih.ps"),
+  metadataBase: new URL(siteBaseUrl()),
   title: "ملامح | دليل صحة وجمال الوجه والأسنان في فلسطين",
   description: "ابحث عن أفضل أطباء الأسنان، العيون، الجلدية، التجميل، والأنف والأذن والحنجرة في فلسطين، واحجز موعدك بسهولة.",
   manifest: "/manifest.json",
