@@ -63,7 +63,11 @@ export async function POST(request: Request) {
 
     if (error) throw error;
 
-    return NextResponse.json({ success: true, doctor: data });
+    return NextResponse.json({
+      success: true,
+      message: "تم إرسال طلب التسجيل بنجاح. سيظهر ملفك للجمهور بعد موافقة الإدارة.",
+      doctor: { id: data.id, name: data.name, verified: data.verified },
+    });
   } catch (err: any) {
     console.error("Register Doctor Request Error:", err);
     return NextResponse.json({ error: err.message || "حدث خطأ أثناء إرسال طلب التسجيل" }, { status: 500 });

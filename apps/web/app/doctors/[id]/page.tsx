@@ -12,6 +12,7 @@ async function getDoctor(id: string): Promise<Doctor | null> {
     .from("doctors")
     .select("*")
     .eq("id", id)
+    .eq("verified", true)
     .single();
 
   if (error || !data) {

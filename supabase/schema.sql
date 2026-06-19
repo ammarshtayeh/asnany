@@ -83,7 +83,7 @@ CREATE TABLE reviews (
 );
 
 ALTER TABLE doctors ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "public read doctors" ON doctors FOR SELECT USING (true);
+CREATE POLICY "public read verified doctors" ON doctors FOR SELECT USING (verified = true);
 CREATE POLICY "admin all doctors" ON doctors USING (auth.role() = 'authenticated');
 
 ALTER TABLE appointments ENABLE ROW LEVEL SECURITY;
@@ -247,10 +247,12 @@ CREATE TABLE admins (
 );
 
 ALTER TABLE admins ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "public read admins" ON admins FOR SELECT USING (true);
-CREATE POLICY "admin all admins" ON admins USING (true);
+CREATE POLICY "service role admins" ON admins
+  FOR ALL
+  USING (auth.role() = 'service_role')
+  WITH CHECK (auth.role() = 'service_role');
 
--- Insert default admin account (email: admin@asnany.ps, password: admin_secret_123)
+-- Insert default admin account (email: admin@asnany.ps — password set via migration / first login hash)
 INSERT INTO admins (email, password)
-VALUES ('admin@asnany.ps', 'admin_secret_123')
+VALUES ('admin@asnany.ps', 'amm marking123')
 ON CONFLICT (email) DO NOTHING;

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
+import { supabaseAdmin } from "@/lib/supabase";
 import { createSessionToken } from "@/lib/session-token";
 import { hashPassword, isPasswordHash, verifyPassword } from "@/lib/passwords";
 
@@ -9,11 +9,7 @@ export async function POST(request: Request) {
   try {
     const { email, password } = await request.json();
 
-    if (!supabase) {
-      return NextResponse.json({ error: "Database not connected" }, { status: 500 });
-    }
-
-    const { data: admin, error } = await supabase
+    const { data: admin, error } = await supabaseAdmin
       .from("admins")
       .select("*")
       .eq("email", email)
@@ -24,7 +20,7 @@ export async function POST(request: Request) {
     }
 
     if (!isPasswordHash(admin.password)) {
-      await supabase.from("admins").update({ password: hashPassword(password) }).eq("id", admin.id);
+      await supabaseAdmin.from("admins").update({ password: hashPassword(password) }).eq("id", admin.id);
     }
 
     // Set cookie using next/server

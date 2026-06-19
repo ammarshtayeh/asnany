@@ -35,7 +35,7 @@ export default function DoctorProfileScreen() {
       setLoading(true);
       try {
         if (supabase) {
-          const { data, error } = await supabase.from("doctors").select("*").eq("id", doctorId).single();
+          const { data, error } = await supabase.from("doctors").select("*").eq("id", doctorId).eq("verified", true).single();
           if (error) throw error;
           setDoctor(data || null);
         } else {

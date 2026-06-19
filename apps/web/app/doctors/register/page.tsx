@@ -171,7 +171,7 @@ export default function DoctorRegister() {
               <div className="space-y-2">
                 <h2 className="text-2xl font-black text-slate-900">تم استلام طلب التسجيل بنجاح!</h2>
                 <p className="text-slate-500 font-medium text-sm max-w-md mx-auto leading-relaxed">
-                  شكراً د. <strong>{name}</strong> — تم حفظ بيانات عيادتك وإرسالها للإدارة. سيتم مراجعة الطلب وتفعيل حسابك على دليل ملامح.ps فور الموافقة.
+                  شكراً د. <strong>{name}</strong> — تم حفظ بيانات عيادتك وإرسالها للإدارة. <strong>لن يظهر ملفك أو عيادتك في الدليل</strong> حتى تتم الموافقة من فريق ملامح.
                 </p>
               </div>
               <div className="pt-6 border-t border-slate-100 flex justify-center gap-4">

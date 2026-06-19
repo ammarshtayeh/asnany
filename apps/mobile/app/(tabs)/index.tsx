@@ -77,7 +77,7 @@ export default function HomeScreen() {
     try {
       if (!supabase) return;
       const [{ data: docs }, { data: offs }] = await Promise.all([
-        supabase.from("doctors").select("*").order("is_featured", { ascending: false }).limit(50),
+        supabase.from("doctors").select("*").eq("verified", true).order("is_featured", { ascending: false }).limit(50),
         supabase.from("offers").select("*").order("created_at", { ascending: false }).limit(3),
       ]);
       setDoctors((docs as Doctor[]) || []);

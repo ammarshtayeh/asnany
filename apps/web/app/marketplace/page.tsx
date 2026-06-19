@@ -294,8 +294,8 @@ export default function MarketplacePage() {
                 <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4 animate-bounce">
                   <CheckCircle className="w-10 h-10" />
                 </div>
-                <h3 className="text-2xl font-black text-slate-900 mb-2">تم نشر إعلانك بنجاح!</h3>
-                <p className="text-slate-500 font-medium">تمت إضافة إعلانك إلى سوق ملامح بنجاح وهو يظهر الآن للجميع.</p>
+                <h3 className="text-2xl font-black text-slate-900 mb-2">تم إرسال إعلانك!</h3>
+                <p className="text-slate-500 font-medium">تم استلام طلبك وسيراجعه فريق ملامح. سيظهر إعلانك للجميع بعد موافقة الإدارة.</p>
               </div>
             ) : (
               <form onSubmit={handleFormSubmit} className="space-y-4">

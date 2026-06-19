@@ -23,6 +23,7 @@ export default function DoctorMapScreen() {
             .from("doctors")
             .select("*")
             .eq("id", id)
+            .eq("verified", true)
             .single();
           if (error) throw error;
           setDoctor(data || null);

@@ -26,14 +26,15 @@ export async function getDoctors(city?: string, specialty?: string): Promise<Doc
   }
 }
 
-export async function getDoctorById(id: string): Promise<Doctor | undefined> {
+export async function getDoctorById(id: string, options?: { publicOnly?: boolean }): Promise<Doctor | undefined> {
   if (!isSupabaseConfigured) return undefined;
   try {
-    const { data, error } = await supabase
-      .from("doctors")
-      .select("*")
-      .eq("id", id)
-      .single();
+    let query = supabase.from("doctors").select("*").eq("id", id);
+    if (options?.publicOnly !== false) {
+      query = query.eq("verified", true);
+    }
+
+    const { data, error } = await query.single();
 
     if (error) throw error;
     return data as Doctor;

@@ -13,8 +13,8 @@ export async function GET(request: Request) {
 
     let query = supabase
       .from("doctors")
-      .select("*")
-      .eq("verified", true); // Only verified doctors for public listing
+      .select("id, name, category, specialty, city, area, address, phone, whatsapp, bio, lat, lng, image_url, clinic_photos, rating, verified, is_featured, accepts_insurance, insurance_list, working_hours, is_available, availability_note")
+      .eq("verified", true);
 
     if (city) {
       query = query.eq("city", city);

@@ -422,12 +422,15 @@ export function AIChatbot({ onNavigateTab }: AIChatbotProps) {
     handleClose();
 
     // Route transitions based on CTA
-    if (ctaLink === "/#doctors" && onNavigateTab) {
-      onNavigateTab("doctors");
-    } else if (ctaLink === "/offers" && onNavigateTab) {
-      onNavigateTab("more");
-    } else if (ctaLink === "/marketplace" && onNavigateTab) {
-      onNavigateTab("services", "stores");
+    if (ctaLink === "/#doctors") {
+      if (onNavigateTab) onNavigateTab("doctors");
+      else router.push("/(tabs)/doctors" as any);
+    } else if (ctaLink === "/offers") {
+      if (onNavigateTab) onNavigateTab("more");
+      else router.push("/(tabs)/offers" as any);
+    } else if (ctaLink === "/marketplace") {
+      if (onNavigateTab) onNavigateTab("services", "stores");
+      else router.push("/(tabs)/marketplace" as any);
     } else if (ctaLink === "/booking") {
       router.push("/booking" as any);
     } else if (ctaLink === "/beauty") {

@@ -6,13 +6,11 @@ function normalizePhone(phone?: string | null) {
   return (phone || "").replace(/[^0-9]/g, "");
 }
 
-function normalizeName(name?: string | null) {
-  return (name || "").trim().replace(/\s+/g, " ");
-}
-
 function escapeIlike(value: string) {
   return value.replace(/[%_]/g, (match) => `\\${match}`);
 }
+
+const MIN_PHONE_DIGITS = 9;
 
 export async function GET(request: Request) {
   try {
@@ -21,34 +19,40 @@ export async function GET(request: Request) {
     }
 
     const { searchParams } = new URL(request.url);
-    const rawQuery = searchParams.get("query") || searchParams.get("phone") || searchParams.get("name") || "";
-    const phone = normalizePhone(rawQuery);
-    const name = normalizeName(searchParams.get("name") || rawQuery);
+    const rawPhone = searchParams.get("phone") || searchParams.get("query") || "";
+    const identityLast4 = (searchParams.get("identity_last4") || "").replace(/[^0-9]/g, "");
+    const phone = normalizePhone(rawPhone);
 
-    if (phone.length < 7 && name.length < 3) {
-      return NextResponse.json({ error: "أدخل رقم هاتف صحيح أو الاسم الرباعي" }, { status: 400 });
+    if (phone.length < MIN_PHONE_DIGITS) {
+      return NextResponse.json({ error: "أدخل رقم هاتف كامل (9 أرقام على الأقل)" }, { status: 400 });
     }
 
+    const candidates = Array.from(new Set([rawPhone.trim(), phone].filter(Boolean)));
     let query = supabaseAdmin
       .from("appointments")
       .select("*, doctors(name, city, area, phone, whatsapp)")
+      .in("patient_phone", candidates)
       .order("date", { ascending: false })
       .order("created_at", { ascending: false })
       .limit(30);
 
-    if (phone.length >= 7) {
-      const candidates = Array.from(new Set([rawQuery.trim(), phone].filter(Boolean)));
-      query = query.in("patient_phone", candidates);
-    } else {
-      const pattern = `%${escapeIlike(name)}%`;
-      query = query.or(`patient_full_name.ilike.${pattern},patient_name.ilike.${pattern}`);
+    if (identityLast4.length === 4) {
+      query = query.ilike("patient_identity", `%${escapeIlike(identityLast4)}`);
     }
 
     const { data, error } = await query;
 
     if (error) throw error;
 
-    return NextResponse.json({ success: true, appointments: data || [] });
+    let appointments = data || [];
+    if (identityLast4.length === 4) {
+      appointments = appointments.filter((row) => {
+        const identity = normalizePhone(String(row.patient_identity || ""));
+        return identity.slice(-4) === identityLast4;
+      });
+    }
+
+    return NextResponse.json({ success: true, appointments });
   } catch (err: any) {
     console.error("Patient appointments list error:", err);
     return NextResponse.json({ error: err.message || "تعذر جلب الحجوزات" }, { status: 500 });
@@ -79,6 +83,23 @@ export async function POST(request: Request) {
       return NextResponse.json(
         { error: "يرجى تعبئة جميع الحقول المطلوبة بما فيها الاسم والهوية والهاتف والعنوان والتاريخ" },
         { status: 400 }
+      );
+    }
+
+    const { data: doctor, error: doctorError } = await supabaseAdmin
+      .from("doctors")
+      .select("id, verified, name")
+      .eq("id", doctorId)
+      .single();
+
+    if (doctorError || !doctor) {
+      return NextResponse.json({ error: "الطبيب غير موجود" }, { status: 404 });
+    }
+
+    if (!doctor.verified) {
+      return NextResponse.json(
+        { error: "هذا الطبيب/العيادة لم تُعتمد بعد من الإدارة. لا يمكن الحجز حالياً." },
+        { status: 403 }
       );
     }
 

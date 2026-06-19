@@ -1,4 +1,4 @@
-import { Tabs } from "expo-router";
+import { Tabs, router } from "expo-router";
 import { Feather } from "@expo/vector-icons";
 import { View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -89,7 +89,13 @@ export default function TabsLayout() {
         />
         <Tabs.Screen name="marketplace" options={{ href: null }} />
       </Tabs>
-      <AIChatbot />
+      <AIChatbot
+        onNavigateTab={(tab, section) => {
+          if (tab === "doctors") router.push("/(tabs)/doctors");
+          else if (tab === "more") router.push(section ? "/(tabs)/more" : "/(tabs)/offers");
+          else if (tab === "services") router.push("/(tabs)/marketplace");
+        }}
+      />
     </View>
   );
 }

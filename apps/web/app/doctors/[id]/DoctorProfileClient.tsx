@@ -29,33 +29,7 @@ export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
   const [submittedPhone, setSubmittedPhone] = useState("");
   const [isSaved, setIsSaved] = useState(false);
 
-  // Reviews States
-  const [reviewRating, setReviewRating] = useState(5);
-  const [reviewName, setReviewName] = useState("");
-  const [reviewText, setReviewText] = useState("");
-  const [reviewsList, setReviewsList] = useState([
-    { name: "سامر أبو فؤاد", rating: 5, date: "12 مايو 2026", text: "دكتور ممتاز ومحترف جداً، العيادة مجهزة بأحدث التقنيات والمعاملة رائعة." },
-    { name: "نهى المصري", rating: 4, date: "3 مايو 2026", text: "الخدمة ممتازة ودقة في المواعيد، أنصح به بشدة لعلاج عصب الأسنان." }
-  ]);
-
-  const handleReviewSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!reviewName || !reviewText) {
-      alert("يرجى كتابة الاسم والتعليق");
-      return;
-    }
-    const newReview = {
-      name: reviewName,
-      rating: reviewRating,
-      date: "اليوم",
-      text: reviewText
-    };
-    setReviewsList([newReview, ...reviewsList]);
-    setReviewName("");
-    setReviewText("");
-    setReviewRating(5);
-    alert("شكراً لك! تم إضافة تقييمك بنجاح.");
-  };
+  const [reviewsList] = useState<Array<{ name: string; rating: number; date: string; text: string }>>([]);
 
   useEffect(() => {
     const saved = JSON.parse(localStorage.getItem("malamih_saved_doctors") || "[]") as string[];
@@ -381,85 +355,37 @@ export default function DoctorProfileClient({ doctor }: { doctor: Doctor }) {
             </div>
           )}
 
-          {/* Reviews & Testimonials Section */}
-          <div className="bg-white rounded-3xl shadow-xl shadow-slate-200/30 border border-slate-100 p-8 space-y-8">
-            <div className="flex justify-between items-center border-b border-slate-100 pb-5">
+          {/* Reviews — coming soon */}
+          <div className="bg-white rounded-3xl shadow-xl shadow-slate-200/30 border border-slate-100 p-8">
+            <div className="flex justify-between items-center border-b border-slate-100 pb-5 mb-5">
               <h2 className="text-xl font-black text-slate-900 flex items-center gap-2">
                 <Star className="w-6 h-6 text-yellow-500 fill-current" /> التقييمات والمراجعات
               </h2>
-              <span className="text-sm font-bold text-slate-500">({reviewsList.length} تقييم)</span>
             </div>
-
-            {/* Existing Reviews List */}
-            <div className="space-y-6">
-              {reviewsList.map((rev, index) => (
-                <div key={index} className="bg-slate-50/50 p-6 rounded-2xl border border-slate-100/60 relative">
-                  <div className="flex justify-between items-start mb-3">
-                    <div>
-                      <h4 className="font-bold text-slate-900">{rev.name}</h4>
-                      <span className="text-xs text-slate-400 font-bold">{rev.date}</span>
+            {reviewsList.length > 0 ? (
+              <div className="space-y-6">
+                {reviewsList.map((rev, index) => (
+                  <div key={index} className="bg-slate-50/50 p-6 rounded-2xl border border-slate-100/60">
+                    <div className="flex justify-between items-start mb-3">
+                      <div>
+                        <h4 className="font-bold text-slate-900">{rev.name}</h4>
+                        <span className="text-xs text-slate-400 font-bold">{rev.date}</span>
+                      </div>
+                      <div className="flex gap-0.5 text-yellow-500">
+                        {Array.from({ length: 5 }).map((_, i) => (
+                          <Star key={i} className={`w-4 h-4 ${i < rev.rating ? "fill-current" : "text-slate-200"}`} />
+                        ))}
+                      </div>
                     </div>
-                    {/* Stars */}
-                    <div className="flex gap-0.5 text-yellow-500">
-                      {Array.from({ length: 5 }).map((_, i) => (
-                        <Star key={i} className={`w-4 h-4 ${i < rev.rating ? "fill-current" : "text-slate-200"}`} />
-                      ))}
-                    </div>
+                    <p className="text-slate-600 text-sm leading-relaxed font-medium">{rev.text}</p>
                   </div>
-                  <p className="text-slate-600 text-sm leading-relaxed font-medium">{rev.text}</p>
-                </div>
-              ))}
-            </div>
-
-            {/* Write a Review Form */}
-            <div className="border-t border-slate-100 pt-8">
-              <h3 className="text-lg font-black text-slate-950 mb-4">أضف تجربتك مع الطبيب</h3>
-              <form onSubmit={handleReviewSubmit} className="space-y-4">
-                <div className="flex items-center gap-3 mb-4">
-                  <span className="text-sm font-bold text-slate-600">تقييمك بالنجوم:</span>
-                  <div className="flex gap-1">
-                    {[1, 2, 3, 4, 5].map((star) => (
-                      <button
-                        type="button"
-                        key={star}
-                        onClick={() => setReviewRating(star)}
-                        className="text-yellow-500 hover:scale-110 transition-transform"
-                      >
-                        <Star className={`w-6 h-6 ${star <= reviewRating ? "fill-current" : "text-slate-200"}`} />
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="grid sm:grid-cols-2 gap-4">
-                  <input
-                    type="text"
-                    required
-                    placeholder="اسمك الكامل"
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white outline-none font-medium text-sm transition-all"
-                    value={reviewName}
-                    onChange={(e) => setReviewName(e.target.value)}
-                  />
-                  <span className="text-xs font-medium text-slate-400 flex items-center">سيتم نشر التقييم فوراً بعد التحقق من الزيارة.</span>
-                </div>
-
-                <textarea
-                  rows={3}
-                  required
-                  placeholder="اكتب تفاصيل تجربتك هنا بكل أمانة..."
-                  className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white outline-none font-medium text-sm transition-all resize-none"
-                  value={reviewText}
-                  onChange={(e) => setReviewText(e.target.value)}
-                />
-
-                <button
-                  type="submit"
-                  className="bg-slate-900 hover:bg-primary text-white px-6 py-3 rounded-xl font-bold text-sm transition-all shadow-md shadow-slate-900/10 hover:shadow-primary/20"
-                >
-                  نشر التقييم الآن
-                </button>
-              </form>
-            </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-sm font-semibold text-slate-500 leading-7">
+                التقييمات المعتمدة ستظهر هنا قريباً بعد التحقق من الحجز. شاركنا تجربتك لاحقاً لمساعدة المرضى الآخرين.
+              </p>
+            )}
           </div>
         </div>
 

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase";
+import { getDoctorSession } from "@/lib/doctor-session";
 
 function toCoordinate(value: unknown) {
   if (typeof value === "number") return value;
@@ -13,8 +14,18 @@ function isInPalestineBounds(lat: number, lng: number) {
 
 export async function POST(request: Request) {
   try {
+    const session = await getDoctorSession(request);
+    if (!session) {
+      return NextResponse.json({ error: "غير مصرح — سجّل دخول الطبيب أولاً" }, { status: 401 });
+    }
+
     const body = await request.json();
     const doctorId = body.doctor_id || body.doctorId;
+
+    if (doctorId !== session.doctor_id) {
+      return NextResponse.json({ error: "لا يمكنك تعديل موقع طبيب آخر" }, { status: 403 });
+    }
+
     const lat = toCoordinate(body.lat ?? body.latitude);
     const lng = toCoordinate(body.lng ?? body.longitude);
 

@@ -42,7 +42,7 @@ export default function BookingTabScreen() {
           </SurfaceCard>
         ))}
 
-        <PrimaryButton label="ابدأ الحجز الآن" icon="calendar" onPress={() => router.push("/booking")} style={{ marginTop: 8 }} />
+        <PrimaryButton label="ابدأ الحجز الآن" icon="calendar" onPress={() => router.push("/(tabs)/doctors")} style={{ marginTop: 8 }} />
         <OutlineButton label="متابعة حجوزاتي السابقة" onPress={() => router.push("/appointments")} />
       </View>
     </ScrollView>

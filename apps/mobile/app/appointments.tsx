@@ -33,147 +33,114 @@ const statusStyle: Record<string, { label: string; bg: string; text: string }> =
 };
 
 export default function PatientAppointmentsScreen() {
-  const params = useLocalSearchParams<{ phone?: string; query?: string; name?: string }>();
-  const [searchValue, setSearchValue] = useState(params.query || params.phone || params.name || "");
+  const params = useLocalSearchParams<{ phone?: string; query?: string; identity_last4?: string }>();
+  const [phoneValue, setPhoneValue] = useState(params.phone || params.query || "");
+  const [identityLast4, setIdentityLast4] = useState((params.identity_last4 || "").replace(/[^0-9]/g, "").slice(0, 4));
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [loading, setLoading] = useState(false);
   const [searched, setSearched] = useState(false);
-  const cleanPhone = useMemo(() => searchValue.replace(/[^0-9]/g, ""), [searchValue]);
-  const cleanName = useMemo(() => searchValue.trim().replace(/\s+/g, " "), [searchValue]);
-  const canSearch = cleanPhone.length >= 7 || cleanName.length >= 3;
+  const [error, setError] = useState("");
+  const cleanPhone = useMemo(() => phoneValue.replace(/[^0-9]/g, ""), [phoneValue]);
+  const cleanIdentity = useMemo(() => identityLast4.replace(/[^0-9]/g, "").slice(0, 4), [identityLast4]);
+  const canSearch = cleanPhone.length >= 9;
 
-  useEffect(() => {
-    const initialSearch = params.query || params.phone || params.name || "";
-    if (initialSearch.replace(/[^0-9]/g, "").length >= 7 || initialSearch.trim().length >= 3) {
-      setSearchValue(initialSearch);
-      void loadAppointments(initialSearch);
-    }
-  }, [params.query, params.phone, params.name]);
-
-  const loadAppointments = async (nextSearch = searchValue) => {
-    const normalizedPhone = nextSearch.replace(/[^0-9]/g, "");
-    const normalizedName = nextSearch.trim().replace(/\s+/g, " ");
-    if (normalizedPhone.length < 7 && normalizedName.length < 3) return;
+  const loadAppointments = async () => {
+    if (!canSearch) return;
 
     setLoading(true);
     setSearched(true);
+    setError("");
+    const query = new URLSearchParams({ phone: cleanPhone });
+    if (cleanIdentity.length === 4) {
+      query.set("identity_last4", cleanIdentity);
+    }
     const { response, data } = await apiFetch<{ success?: boolean; appointments?: Appointment[]; error?: string }>(
-      `/api/appointments?query=${encodeURIComponent(nextSearch)}`
+      `/api/appointments?${query.toString()}`
     );
     setLoading(false);
 
     if (!response.ok) {
       setAppointments([]);
+      setError(data?.error || "تعذر جلب الحجوزات");
       return;
     }
 
     const nextAppointments = Array.isArray(data?.appointments) ? data.appointments : [];
     setAppointments(nextAppointments);
 
-    if (normalizedPhone.length >= 7) {
-      await setStoredPatientPhone(normalizedPhone);
-      void registerPushSubscription({
-        role: "patient",
-        patientPhone: normalizedPhone,
-      }).catch(() => null);
-    }
+    await setStoredPatientPhone(cleanPhone);
+    void registerPushSubscription({
+      role: "patient",
+      patientPhone: cleanPhone,
+    }).catch(() => null);
   };
 
-  return (
-    <ScrollView style={{ flex: 1, backgroundColor: "#f8fafc" }} contentContainerStyle={{ padding: 16, paddingBottom: 120 }}>
-      <View style={{ flexDirection: "row-reverse", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
-        <View style={{ alignItems: "flex-end" }}>
-          <Text style={{ color: "#64748b", fontSize: 12, fontWeight: "900" }}>متابعة بسيطة</Text>
-          <Text style={{ color: "#0f172a", fontSize: 24, fontWeight: "900", marginTop: 3 }}>حجوزاتي</Text>
-        </View>
-        <Pressable onPress={() => router.back()} style={{ width: 42, height: 42, borderRadius: 21, backgroundColor: "#fff", borderWidth: 1, borderColor: "#e2e8f0", alignItems: "center", justifyContent: "center" }}>
-          <Feather name="arrow-right" size={20} color="#0f172a" />
-        </Pressable>
-      </View>
+  useEffect(() => {
+    const initialPhone = params.phone || params.query || "";
+    const initialIdentity = (params.identity_last4 || "").replace(/[^0-9]/g, "").slice(0, 4);
+    if (initialPhone.replace(/[^0-9]/g, "").length >= 9) {
+      setPhoneValue(initialPhone);
+      if (initialIdentity.length === 4) {
+        setIdentityLast4(initialIdentity);
+      }
+    }
+  }, [params.phone, params.query, params.identity_last4]);
 
-      <AppCard>
-        <AppTitle>بيانات الحجز</AppTitle>
-        <AppSubtitle>اكتب رقم الهاتف أو الاسم الرباعي المستخدم في الحجز. لا تحتاج حساب أو كلمة مرور.</AppSubtitle>
-        <View style={{ marginTop: 14 }}>
-          <TextInput
-            value={searchValue}
-            onChangeText={setSearchValue}
-            keyboardType="default"
-            placeholder="رقم الهاتف أو الاسم الرباعي"
-            placeholderTextColor="#94a3b8"
-            style={{
-              minHeight: 52,
-              borderRadius: 18,
-              borderWidth: 1,
-              borderColor: "#e2e8f0",
-              backgroundColor: "#f8fafc",
-              paddingHorizontal: 14,
-              textAlign: "right",
-              color: "#0f172a",
-              fontWeight: "800",
-            }}
-          />
-        </View>
-        <AppButton label={loading ? "جاري البحث..." : "عرض حجوزاتي"} onPress={() => loadAppointments()} disabled={!canSearch || loading} style={{ marginTop: 12 }} />
+  return (
+    <ScrollView style={{ flex: 1, backgroundColor: "#f8fafc" }} contentContainerStyle={{ padding: 16, paddingBottom: 40 }}>
+      <Pressable onPress={() => router.back()} style={{ flexDirection: "row-reverse", alignItems: "center", gap: 8, marginBottom: 16 }}>
+        <Feather name="arrow-right" size={18} color="#334155" />
+        <Text style={{ fontWeight: "800", color: "#334155" }}>رجوع</Text>
+      </Pressable>
+
+      <AppTitle>حجوزاتي</AppTitle>
+      <AppSubtitle>أدخل رقم الهاتف. آخر 4 أرقام من الهوية اختياري.</AppSubtitle>
+
+      <AppCard style={{ marginTop: 16, gap: 12 }}>
+        <TextInput
+          value={phoneValue}
+          onChangeText={setPhoneValue}
+          placeholder="رقم الهاتف"
+          keyboardType="phone-pad"
+          style={{ borderWidth: 1, borderColor: "#e2e8f0", borderRadius: 12, padding: 14, textAlign: "right", fontWeight: "700" }}
+        />
+        <TextInput
+          value={identityLast4}
+          onChangeText={(v) => setIdentityLast4(v.replace(/[^0-9]/g, "").slice(0, 4))}
+          placeholder="آخر 4 أرقام من الهوية (اختياري)"
+          keyboardType="number-pad"
+          maxLength={4}
+          style={{ borderWidth: 1, borderColor: "#e2e8f0", borderRadius: 12, padding: 14, textAlign: "right", fontWeight: "700" }}
+        />
+        <AppButton label={loading ? "جاري البحث..." : "عرض الحجوزات"} onPress={loadAppointments} disabled={!canSearch || loading} />
+        {error ? <Text style={{ color: "#b91c1c", fontWeight: "700", textAlign: "right" }}>{error}</Text> : null}
       </AppCard>
 
-      <View style={{ marginTop: 14, gap: 10 }}>
-        {loading ? (
-          <View style={{ padding: 28, alignItems: "center" }}>
-            <ActivityIndicator color="#0f172a" />
-          </View>
-        ) : !searched ? (
-          <EmptyState title="حجوزاتك ستظهر هنا" text="ابحث برقم الهاتف أو الاسم الرباعي لعرض آخر المواعيد وحالتها." />
-        ) : appointments.length === 0 ? (
-          <EmptyState title="لا توجد حجوزات" text="تأكد من رقم الهاتف أو الاسم الرباعي، أو ابدأ حجزاً جديداً من صفحة الطبيب." />
-        ) : (
-          appointments.map((appointment) => <AppointmentCard key={appointment.id} appointment={appointment} />)
-        )}
-      </View>
+      {loading ? <ActivityIndicator style={{ marginTop: 24 }} color="#0c5e47" /> : null}
+
+      {!searched ? (
+        <Text style={{ marginTop: 24, textAlign: "center", color: "#64748b", fontWeight: "600" }}>حجوزاتك ستظهر هنا بعد التحقق.</Text>
+      ) : appointments.length === 0 && !loading ? (
+        <Text style={{ marginTop: 24, textAlign: "center", color: "#64748b", fontWeight: "700" }}>لا توجد حجوزات لهذه البيانات.</Text>
+      ) : (
+        appointments.map((appointment) => {
+          const status = statusStyle[appointment.status || "pending"] || statusStyle.pending;
+          return (
+            <AppCard key={appointment.id} style={{ marginTop: 12 }}>
+              <Text style={{ fontWeight: "900", fontSize: 16, textAlign: "right" }}>{appointment.doctors?.name || "الطبيب"}</Text>
+              <Text style={{ marginTop: 4, color: "#64748b", fontWeight: "600", textAlign: "right" }}>
+                {[appointment.doctors?.city, appointment.doctors?.area].filter(Boolean).join(" - ")}
+              </Text>
+              <View style={{ marginTop: 8, alignSelf: "flex-end", backgroundColor: status.bg, paddingHorizontal: 10, paddingVertical: 4, borderRadius: 999 }}>
+                <Text style={{ color: status.text, fontWeight: "800", fontSize: 12 }}>{status.label}</Text>
+              </View>
+              <Text style={{ marginTop: 8, fontWeight: "700", textAlign: "right" }}>
+                {appointment.date} {appointment.time ? `— ${appointment.time}` : ""}
+              </Text>
+            </AppCard>
+          );
+        })
+      )}
     </ScrollView>
-  );
-}
-
-function AppointmentCard({ appointment }: { appointment: Appointment }) {
-  const status = statusStyle[appointment.status || "pending"] || statusStyle.pending;
-  const doctorName = appointment.doctors?.name || "الطبيب";
-  const place = [appointment.doctors?.city, appointment.doctors?.area].filter(Boolean).join(" - ");
-
-  return (
-    <View style={{ borderRadius: 22, backgroundColor: "#fff", padding: 16, borderWidth: 1, borderColor: "#e2e8f0" }}>
-      <View style={{ flexDirection: "row-reverse", justifyContent: "space-between", alignItems: "flex-start", gap: 10 }}>
-        <View style={{ flex: 1, alignItems: "flex-end" }}>
-          <Text style={{ color: "#0f172a", fontSize: 17, fontWeight: "900", textAlign: "right" }}>{doctorName}</Text>
-          <Text style={{ color: "#64748b", fontSize: 12, fontWeight: "700", textAlign: "right", marginTop: 3 }}>{place || "عيادة ملامح"}</Text>
-        </View>
-        <View style={{ borderRadius: 999, backgroundColor: status.bg, paddingHorizontal: 12, paddingVertical: 7 }}>
-          <Text style={{ color: status.text, fontSize: 12, fontWeight: "900" }}>{status.label}</Text>
-        </View>
-      </View>
-      <View style={{ flexDirection: "row-reverse", gap: 8, marginTop: 14 }}>
-        <InfoPill icon="calendar" text={appointment.date || "بدون تاريخ"} />
-        <InfoPill icon="clock" text={appointment.time || "بدون وقت"} />
-      </View>
-      {appointment.notes ? <Text style={{ marginTop: 10, color: "#64748b", fontSize: 12, lineHeight: 20, fontWeight: "700", textAlign: "right" }}>{appointment.notes}</Text> : null}
-    </View>
-  );
-}
-
-function InfoPill({ icon, text }: { icon: keyof typeof Feather.glyphMap; text: string }) {
-  return (
-    <View style={{ flexDirection: "row-reverse", alignItems: "center", gap: 6, borderRadius: 14, backgroundColor: "#f8fafc", paddingHorizontal: 10, paddingVertical: 8 }}>
-      <Feather name={icon} size={14} color="#0ea5e9" />
-      <Text style={{ color: "#334155", fontSize: 12, fontWeight: "900" }}>{text}</Text>
-    </View>
-  );
-}
-
-function EmptyState({ title, text }: { title: string; text: string }) {
-  return (
-    <View style={{ borderRadius: 22, backgroundColor: "#fff", padding: 26, borderWidth: 1, borderColor: "#e2e8f0", alignItems: "center" }}>
-      <Feather name="calendar" size={30} color="#cbd5e1" />
-      <Text style={{ color: "#0f172a", fontSize: 17, fontWeight: "900", marginTop: 12, textAlign: "center" }}>{title}</Text>
-      <Text style={{ color: "#64748b", fontSize: 13, fontWeight: "700", marginTop: 6, lineHeight: 21, textAlign: "center" }}>{text}</Text>
-    </View>
   );
 }

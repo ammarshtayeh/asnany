@@ -24,7 +24,7 @@ export default function SubscriptionsScreen() {
   const { showToast } = useAppToast();
 
   useEffect(() => {
-    void apiFetch<{ packages?: Package[] }>("/api/subscriptions/packages").then(({ data }) => {
+    void apiFetch<{ packages?: SubscriptionPackage[] }>("/api/subscriptions/packages").then(({ data }) => {
       setPackages(Array.isArray(data?.packages) ? data.packages : []);
       setLoading(false);
     });
