@@ -51,6 +51,8 @@
 - أيقونة 512×512 (من `apps/mobile/assets/icon.png`)
 - لقطات شاشة: الرئيسية، الأطباء، الحجز، العروض، المزيد
 - Feature graphic 1024×500 (اختياري)
+- **دليل كامل:** [`docs/store-screenshots/README.md`](store-screenshots/README.md)
+- **التقاط تلقائي (موقع):** `npm run capture:screenshots`
 
 ### الرفع
 ```bash

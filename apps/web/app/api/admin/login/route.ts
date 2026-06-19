@@ -2,11 +2,15 @@ import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase";
 import { createSessionToken } from "@/lib/session-token";
 import { hashPassword, isPasswordHash, verifyPassword } from "@/lib/passwords";
+import { rateLimitResponse, withRateLimit } from "@/lib/rate-limit";
 
 const ADMIN_SESSION_MAX_AGE = 60 * 60 * 24;
 
 export async function POST(request: Request) {
   try {
+    const rate = withRateLimit(request, "admin-login", 10, 15 * 60_000);
+    if (!rate.ok) return rateLimitResponse(rate.retryAfter);
+
     const { email, password } = await request.json();
 
     const { data: admin, error } = await supabaseAdmin

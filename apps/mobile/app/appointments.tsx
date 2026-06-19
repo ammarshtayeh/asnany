@@ -15,7 +15,6 @@ type Appointment = {
   time?: string | null;
   status?: "pending" | "confirmed" | "cancelled" | "completed" | string;
   notes?: string | null;
-  patient_phone?: string | null;
   doctors?: {
     name?: string | null;
     city?: string | null;
@@ -33,29 +32,23 @@ const statusStyle: Record<string, { label: string; bg: string; text: string }> =
 };
 
 export default function PatientAppointmentsScreen() {
-  const params = useLocalSearchParams<{ phone?: string; query?: string; identity_last4?: string }>();
+  const params = useLocalSearchParams<{ phone?: string; query?: string }>();
   const [phoneValue, setPhoneValue] = useState(params.phone || params.query || "");
-  const [identityLast4, setIdentityLast4] = useState((params.identity_last4 || "").replace(/[^0-9]/g, "").slice(0, 4));
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [loading, setLoading] = useState(false);
   const [searched, setSearched] = useState(false);
   const [error, setError] = useState("");
   const cleanPhone = useMemo(() => phoneValue.replace(/[^0-9]/g, ""), [phoneValue]);
-  const cleanIdentity = useMemo(() => identityLast4.replace(/[^0-9]/g, "").slice(0, 4), [identityLast4]);
   const canSearch = cleanPhone.length >= 9;
 
-  const loadAppointments = useCallback(async (phoneOverride?: string, identityOverride?: string) => {
+  const loadAppointments = useCallback(async (phoneOverride?: string) => {
     const phone = (phoneOverride ?? phoneValue).replace(/[^0-9]/g, "");
-    const identity = (identityOverride ?? identityLast4).replace(/[^0-9]/g, "").slice(0, 4);
     if (phone.length < 9) return;
 
     setLoading(true);
     setSearched(true);
     setError("");
     const query = new URLSearchParams({ phone });
-    if (identity.length === 4) {
-      query.set("identity_last4", identity);
-    }
     const { response, data } = await apiFetch<{ success?: boolean; appointments?: Appointment[]; error?: string }>(
       `/api/appointments?${query.toString()}`
     );
@@ -75,20 +68,16 @@ export default function PatientAppointmentsScreen() {
       role: "patient",
       patientPhone: phone,
     }).catch(() => null);
-  }, [phoneValue, identityLast4]);
+  }, [phoneValue]);
 
   useEffect(() => {
     const initialPhone = params.phone || params.query || "";
-    const initialIdentity = (params.identity_last4 || "").replace(/[^0-9]/g, "").slice(0, 4);
     const normalizedPhone = initialPhone.replace(/[^0-9]/g, "");
     if (normalizedPhone.length >= 9) {
       setPhoneValue(initialPhone);
-      if (initialIdentity.length === 4) {
-        setIdentityLast4(initialIdentity);
-      }
-      void loadAppointments(normalizedPhone, initialIdentity);
+      void loadAppointments(normalizedPhone);
     }
-  }, [params.phone, params.query, params.identity_last4, loadAppointments]);
+  }, [params.phone, params.query, loadAppointments]);
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: "#f8fafc" }} contentContainerStyle={{ padding: 16, paddingBottom: 40 }}>
@@ -98,7 +87,7 @@ export default function PatientAppointmentsScreen() {
       </Pressable>
 
       <AppTitle>حجوزاتي</AppTitle>
-      <AppSubtitle>أدخل رقم الهاتف. آخر 4 أرقام من الهوية اختياري.</AppSubtitle>
+      <AppSubtitle>أدخل رقم الهاتف المستخدم في الحجز.</AppSubtitle>
 
       <AppCard style={{ marginTop: 16, gap: 12 }}>
         <TextInput
@@ -106,14 +95,6 @@ export default function PatientAppointmentsScreen() {
           onChangeText={setPhoneValue}
           placeholder="رقم الهاتف"
           keyboardType="phone-pad"
-          style={{ borderWidth: 1, borderColor: "#e2e8f0", borderRadius: 12, padding: 14, textAlign: "right", fontWeight: "700" }}
-        />
-        <TextInput
-          value={identityLast4}
-          onChangeText={(v) => setIdentityLast4(v.replace(/[^0-9]/g, "").slice(0, 4))}
-          placeholder="آخر 4 أرقام من الهوية (اختياري)"
-          keyboardType="number-pad"
-          maxLength={4}
           style={{ borderWidth: 1, borderColor: "#e2e8f0", borderRadius: 12, padding: 14, textAlign: "right", fontWeight: "700" }}
         />
         <AppButton label={loading ? "جاري البحث..." : "عرض الحجوزات"} onPress={loadAppointments} disabled={!canSearch || loading} />
@@ -125,7 +106,7 @@ export default function PatientAppointmentsScreen() {
       {!searched ? (
         <Text style={{ marginTop: 24, textAlign: "center", color: "#64748b", fontWeight: "600" }}>حجوزاتك ستظهر هنا بعد التحقق.</Text>
       ) : appointments.length === 0 && !loading ? (
-        <Text style={{ marginTop: 24, textAlign: "center", color: "#64748b", fontWeight: "700" }}>لا توجد حجوزات لهذه البيانات.</Text>
+        <Text style={{ marginTop: 24, textAlign: "center", color: "#64748b", fontWeight: "700" }}>لا توجد حجوزات لهذا الرقم.</Text>
       ) : (
         appointments.map((appointment) => {
           const status = statusStyle[appointment.status || "pending"] || statusStyle.pending;

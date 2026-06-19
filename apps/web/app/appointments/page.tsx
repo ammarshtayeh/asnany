@@ -2,15 +2,14 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { ArrowRight, CalendarCheck2, Clock, Search, ShieldCheck } from "lucide-react";
+import { ArrowRight, CalendarCheck2, Clock, Search } from "lucide-react";
+import WebPushOptIn from "@/components/WebPushOptIn";
 
 type Appointment = {
   id: string;
   date?: string;
   time?: string | null;
   status?: string;
-  patient_full_name?: string | null;
-  patient_name?: string | null;
   notes?: string | null;
   doctors?: {
     name?: string | null;
@@ -30,19 +29,16 @@ const statusCopy: Record<string, { label: string; className: string }> = {
 
 export default function AppointmentsPage() {
   const [phoneValue, setPhoneValue] = useState("");
-  const [identityLast4, setIdentityLast4] = useState("");
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [loading, setLoading] = useState(false);
   const [searched, setSearched] = useState(false);
   const [error, setError] = useState("");
 
   const cleanPhone = useMemo(() => phoneValue.replace(/[^0-9]/g, ""), [phoneValue]);
-  const cleanIdentity = useMemo(() => identityLast4.replace(/[^0-9]/g, "").slice(0, 4), [identityLast4]);
   const canSearch = cleanPhone.length >= 9;
 
-  const loadAppointments = useCallback(async (phoneOverride?: string, identityOverride?: string) => {
+  const loadAppointments = useCallback(async (phoneOverride?: string) => {
     const phone = (phoneOverride ?? phoneValue).replace(/[^0-9]/g, "");
-    const identity = (identityOverride ?? identityLast4).replace(/[^0-9]/g, "").slice(0, 4);
     if (phone.length < 9) return;
     setLoading(true);
     setSearched(true);
@@ -50,9 +46,6 @@ export default function AppointmentsPage() {
 
     try {
       const params = new URLSearchParams({ phone });
-      if (identity.length === 4) {
-        params.set("identity_last4", identity);
-      }
       const res = await fetch(`/api/appointments?${params.toString()}`);
       const data = await res.json();
       if (!res.ok) throw new Error(data?.error || "تعذر جلب الحجوزات");
@@ -63,20 +56,15 @@ export default function AppointmentsPage() {
     } finally {
       setLoading(false);
     }
-  }, [phoneValue, identityLast4]);
+  }, [phoneValue]);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const initialPhone = params.get("phone") || params.get("query") || "";
-    const initialIdentity = params.get("identity_last4") || "";
     const normalizedPhone = initialPhone.replace(/[^0-9]/g, "");
-    const normalizedIdentity = initialIdentity.replace(/[^0-9]/g, "").slice(0, 4);
     if (normalizedPhone.length >= 9) {
       setPhoneValue(initialPhone);
-      if (normalizedIdentity.length === 4) {
-        setIdentityLast4(normalizedIdentity);
-      }
-      void loadAppointments(normalizedPhone, normalizedIdentity);
+      void loadAppointments(normalizedPhone);
     }
   }, [loadAppointments]);
 
@@ -97,33 +85,20 @@ export default function AppointmentsPage() {
               <p className="text-xs font-black text-sky-600">متابعة آمنة</p>
               <h1 className="mt-1 text-3xl font-black text-slate-950">حجوزاتي</h1>
               <p className="mt-2 max-w-xl text-sm font-semibold leading-7 text-slate-500">
-                أدخل رقم الهاتف المستخدم في الحجز. يمكنك إضافة آخر 4 أرقام من الهوية (اختياري) لتضييق النتائج.
+                أدخل رقم الهاتف المستخدم في الحجز لعرض مواعيدك فقط.
               </p>
             </div>
           </div>
 
-          <div className="mt-6 grid gap-3 sm:grid-cols-2">
-            <label className="flex min-h-12 items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 focus-within:border-sky-400 focus-within:bg-white">
-              <input
-                value={phoneValue}
-                onChange={(event) => setPhoneValue(event.target.value)}
-                inputMode="tel"
-                className="w-full bg-transparent py-3 text-right text-sm font-bold text-slate-900 outline-none placeholder:text-slate-400"
-                placeholder="رقم الهاتف المستخدم في الحجز"
-              />
-            </label>
-            <label className="flex min-h-12 items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 focus-within:border-sky-400 focus-within:bg-white">
-              <ShieldCheck className="h-5 w-5 shrink-0 text-slate-400" />
-              <input
-                value={identityLast4}
-                onChange={(event) => setIdentityLast4(event.target.value.replace(/[^0-9]/g, "").slice(0, 4))}
-                inputMode="numeric"
-                maxLength={4}
-                className="w-full bg-transparent py-3 text-right text-sm font-bold text-slate-900 outline-none placeholder:text-slate-400"
-                placeholder="آخر 4 أرقام من الهوية (اختياري)"
-              />
-            </label>
-          </div>
+          <label className="mt-6 flex min-h-12 items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 focus-within:border-sky-400 focus-within:bg-white">
+            <input
+              value={phoneValue}
+              onChange={(event) => setPhoneValue(event.target.value)}
+              inputMode="tel"
+              className="w-full bg-transparent py-3 text-right text-sm font-bold text-slate-900 outline-none placeholder:text-slate-400"
+              placeholder="رقم الهاتف المستخدم في الحجز"
+            />
+          </label>
 
           <button
             type="button"
@@ -135,6 +110,8 @@ export default function AppointmentsPage() {
             {loading ? "جاري البحث..." : "عرض الحجوزات"}
           </button>
 
+          {searched && canSearch ? <WebPushOptIn patientPhone={cleanPhone} /> : null}
+
           {error ? <p className="mt-4 rounded-2xl bg-rose-50 px-4 py-3 text-sm font-bold text-rose-700">{error}</p> : null}
         </div>
 
@@ -145,7 +122,7 @@ export default function AppointmentsPage() {
             </div>
           ) : appointments.length === 0 && !loading ? (
             <div className="rounded-[1.5rem] border border-slate-200 bg-white p-8 text-center">
-              <p className="text-lg font-black text-slate-900">لا توجد حجوزات لهذه البيانات</p>
+              <p className="text-lg font-black text-slate-900">لا توجد حجوزات لهذا الرقم</p>
               <p className="mt-2 text-sm font-semibold text-slate-500">تأكد من رقم الهاتف، أو ابدأ حجزاً جديداً من صفحة الطبيب.</p>
             </div>
           ) : (

@@ -1,4 +1,5 @@
 import { supabaseAdmin } from "@/lib/supabase";
+import { sendWebPushNotification } from "@/lib/web-push";
 
 type AppointmentNotification = {
   id: string;
@@ -11,8 +12,14 @@ type AppointmentNotification = {
   status?: string | null;
 };
 
-type PushSubscription = {
-  expo_push_token: string;
+type ExpoPushSubscription = {
+  expo_push_token: string | null;
+};
+
+type WebPushSubscription = {
+  web_endpoint: string;
+  web_p256dh: string;
+  web_auth: string;
 };
 
 const EXPO_PUSH_URL = "https://exp.host/--/api/v2/push/send";
@@ -102,7 +109,12 @@ async function notifyByDoctor(doctorId: string, title: string, body: string, dat
     .eq("is_active", true);
 
   if (error) throw error;
-  await sendExpoPush((subscriptions as PushSubscription[] | null)?.map((item) => item.expo_push_token) || [], title, body, data);
+  await sendExpoPush(
+    (subscriptions as ExpoPushSubscription[] | null)?.map((item) => item.expo_push_token).filter(Boolean) as string[] || [],
+    title,
+    body,
+    data
+  );
 }
 
 async function notifyByPatientPhone(patientPhone: string, title: string, body: string, data: Record<string, unknown>) {
@@ -111,13 +123,41 @@ async function notifyByPatientPhone(patientPhone: string, title: string, body: s
 
   const { data: subscriptions, error } = await supabaseAdmin
     .from("push_subscriptions")
-    .select("expo_push_token")
+    .select("expo_push_token, web_endpoint, web_p256dh, web_auth")
     .eq("role", "patient")
     .eq("patient_phone", normalizedPhone)
     .eq("is_active", true);
 
   if (error) throw error;
-  await sendExpoPush((subscriptions as PushSubscription[] | null)?.map((item) => item.expo_push_token) || [], title, body, data);
+
+  const rows = (subscriptions || []) as Array<ExpoPushSubscription & Partial<WebPushSubscription>>;
+  const expoTokens = rows.map((item) => item.expo_push_token).filter(Boolean) as string[];
+  await sendExpoPush(expoTokens, title, body, data);
+
+  const staleWebEndpoints: string[] = [];
+  for (const row of rows) {
+    if (!row.web_endpoint || !row.web_p256dh || !row.web_auth) continue;
+    const sent = await sendWebPushNotification(
+      {
+        endpoint: row.web_endpoint,
+        keys: { p256dh: row.web_p256dh, auth: row.web_auth },
+      },
+      {
+        title,
+        body,
+        url: "/appointments",
+        data,
+      }
+    );
+    if (!sent) staleWebEndpoints.push(row.web_endpoint);
+  }
+
+  if (staleWebEndpoints.length) {
+    await supabaseAdmin
+      .from("push_subscriptions")
+      .update({ is_active: false })
+      .in("web_endpoint", staleWebEndpoints);
+  }
 }
 
 async function notifyAdmins(title: string, body: string, data: Record<string, unknown>) {
@@ -128,7 +168,12 @@ async function notifyAdmins(title: string, body: string, data: Record<string, un
     .eq("is_active", true);
 
   if (error) throw error;
-  await sendExpoPush((subscriptions as PushSubscription[] | null)?.map((item) => item.expo_push_token) || [], title, body, data);
+  await sendExpoPush(
+    (subscriptions as ExpoPushSubscription[] | null)?.map((item) => item.expo_push_token).filter(Boolean) as string[] || [],
+    title,
+    body,
+    data
+  );
 }
 
 export async function notifyDoctorAboutAppointment(appointment: AppointmentNotification) {

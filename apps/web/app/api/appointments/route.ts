@@ -1,26 +1,45 @@
 import { NextResponse } from "next/server";
 import { isSupabaseConfigured, supabaseAdmin } from "@/lib/supabase";
 import { notifyDoctorAboutAppointment } from "@/lib/notifications";
+import { rateLimitResponse, withRateLimit } from "@/lib/rate-limit";
 
 function normalizePhone(phone?: string | null) {
   return (phone || "").replace(/[^0-9]/g, "");
 }
 
-function escapeIlike(value: string) {
-  return value.replace(/[%_]/g, (match) => `\\${match}`);
-}
-
 const MIN_PHONE_DIGITS = 9;
+
+function sanitizeAppointment(row: Record<string, unknown>) {
+  const doctors = row.doctors as Record<string, unknown> | null | undefined;
+  return {
+    id: row.id,
+    date: row.date,
+    time: row.time,
+    status: row.status,
+    notes: row.notes || null,
+    doctors: doctors
+      ? {
+          name: doctors.name,
+          city: doctors.city,
+          area: doctors.area,
+          phone: doctors.phone,
+          whatsapp: doctors.whatsapp,
+        }
+      : null,
+  };
+}
 
 export async function GET(request: Request) {
   try {
+    const rate = withRateLimit(request, "appointments-get", 12, 60_000);
+    if (!rate.ok) return rateLimitResponse(rate.retryAfter);
+
     if (!isSupabaseConfigured) {
       return NextResponse.json({ success: true, appointments: [] });
     }
 
     const { searchParams } = new URL(request.url);
     const rawPhone = searchParams.get("phone") || searchParams.get("query") || "";
-    const identityLast4 = (searchParams.get("identity_last4") || "").replace(/[^0-9]/g, "");
     const phone = normalizePhone(rawPhone);
 
     if (phone.length < MIN_PHONE_DIGITS) {
@@ -28,30 +47,17 @@ export async function GET(request: Request) {
     }
 
     const candidates = Array.from(new Set([rawPhone.trim(), phone].filter(Boolean)));
-    let query = supabaseAdmin
+    const { data, error } = await supabaseAdmin
       .from("appointments")
-      .select("*, doctors(name, city, area, phone, whatsapp)")
+      .select("id, date, time, status, notes, doctors(name, city, area, phone, whatsapp)")
       .in("patient_phone", candidates)
       .order("date", { ascending: false })
       .order("created_at", { ascending: false })
       .limit(30);
 
-    if (identityLast4.length === 4) {
-      query = query.ilike("patient_identity", `%${escapeIlike(identityLast4)}`);
-    }
-
-    const { data, error } = await query;
-
     if (error) throw error;
 
-    let appointments = data || [];
-    if (identityLast4.length === 4) {
-      appointments = appointments.filter((row) => {
-        const identity = normalizePhone(String(row.patient_identity || ""));
-        return identity.slice(-4) === identityLast4;
-      });
-    }
-
+    const appointments = (data || []).map((row) => sanitizeAppointment(row as Record<string, unknown>));
     return NextResponse.json({ success: true, appointments });
   } catch (err: any) {
     console.error("Patient appointments list error:", err);
@@ -61,6 +67,9 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
+    const rate = withRateLimit(request, "appointments-post", 6, 60_000);
+    if (!rate.ok) return rateLimitResponse(rate.retryAfter);
+
     if (!isSupabaseConfigured) {
       return NextResponse.json({ error: "قاعدة البيانات غير مهيأة" }, { status: 503 });
     }

@@ -1,4 +1,4 @@
-const CACHE_NAME = "malamih-shell-v2";
+const CACHE_NAME = "malamih-shell-v3";
 const APP_SHELL = ["/", "/manifest.json", "/icon-512.png"];
 
 self.addEventListener("install", (event) => {
@@ -45,5 +45,39 @@ self.addEventListener("fetch", (event) => {
         if (request.mode === "navigate") return caches.match("/");
         throw new Error("Offline and no cache match");
       })
+  );
+});
+
+self.addEventListener("push", (event) => {
+  let payload = { title: "ملامح", body: "تحديث على موعدك", url: "/appointments", data: {} };
+  try {
+    payload = { ...payload, ...(event.data ? event.data.json() : {}) };
+  } catch {
+    payload.body = event.data?.text() || payload.body;
+  }
+
+  event.waitUntil(
+    self.registration.showNotification(payload.title, {
+      body: payload.body,
+      icon: "/icon-512.png",
+      badge: "/icon-512.png",
+      data: { url: payload.url, ...(payload.data || {}) },
+    })
+  );
+});
+
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+  const targetUrl = event.notification.data?.url || "/appointments";
+  event.waitUntil(
+    self.clients.matchAll({ type: "window", includeUncontrolled: true }).then((clients) => {
+      for (const client of clients) {
+        if ("focus" in client) {
+          client.navigate(targetUrl);
+          return client.focus();
+        }
+      }
+      return self.clients.openWindow(targetUrl);
+    })
   );
 });

@@ -24,7 +24,8 @@
     "lint:web": "npm --workspace @pal-dental/web run lint",
     "typecheck:web": "npm --workspace @pal-dental/web run typecheck",
     "supabase:link": "npx supabase link",
-    "supabase:db:push": "npx supabase db push"
+    "supabase:db:push": "npx supabase db push",
+    "capture:screenshots": "node scripts/capture-store-screenshots.mjs"
   },
   "overrides": {
     "react": "19.1.0",

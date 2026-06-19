@@ -1,8 +1,12 @@
 import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase";
+import { rateLimitResponse, withRateLimit } from "@/lib/rate-limit";
 
 export async function POST(request: Request) {
   try {
+    const rate = withRateLimit(request, "doctor-register", 3, 60 * 60_000);
+    if (!rate.ok) return rateLimitResponse(rate.retryAfter);
+
     const body = await request.json();
     const { 
       name, 

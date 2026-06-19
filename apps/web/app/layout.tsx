@@ -39,6 +39,7 @@ import PWARegister from "@/components/PWARegister";
 import ConnectivityBanner from "@/components/ConnectivityBanner";
 import CookieBanner from "@/components/CookieBanner";
 import SiteBodyWrapper from "@/components/SiteBodyWrapper";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
 
 export default function RootLayout({
   children,
@@ -48,6 +49,7 @@ export default function RootLayout({
   return (
     <html lang="ar" dir="rtl">
       <body className={`${cairoFont.variable} font-sans mesh-bg bg-grid-pattern text-slate-900 min-h-screen flex flex-col pb-24 lg:pb-0`}>
+        <GoogleAnalytics />
         <Navbar />
         <NewsTicker />
         <ConnectivityBanner />
