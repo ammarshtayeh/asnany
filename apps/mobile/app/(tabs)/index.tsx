@@ -15,6 +15,7 @@ import { supabase } from "../../lib/supabase";
 import { Doctor, Offer } from "../../types";
 import { formatSpecialty } from "../../lib/format";
 import { theme } from "../../constants/theme";
+import { SubscriptionPackagesPreview } from "../../components/SubscriptionPackagesPreview";
 import {
   AssistantPromoCard,
   CategoryPill,
@@ -180,6 +181,8 @@ export default function HomeScreen() {
               ))}
             </View>
           </View>
+
+          <SubscriptionPackagesPreview compact />
 
           {latestOffers.length > 0 ? (
             <View>

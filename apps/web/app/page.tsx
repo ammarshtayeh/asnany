@@ -37,6 +37,7 @@ import { AnimatedCounter } from "@/components/AnimatedCounter";
 
 const FloatingParticles = dynamic(() => import("@/components/FloatingParticles"), { ssr: false });
 const TransformationsSection = dynamic(() => import("@/components/TransformationsSection"), { ssr: false });
+const SubscriptionPackagesSection = dynamic(() => import("@/components/SubscriptionPackagesSection"), { ssr: false });
 
 const DoctorMap = dynamic(() => import("@/components/DoctorMap"), {
   ssr: false,
@@ -510,9 +511,14 @@ export default function Home() {
               <p className="mx-auto mt-3 max-w-2xl text-sm font-semibold leading-7 text-slate-300">
                 انضم إلى شبكة ملامح، اعرض خدماتك الطبية والتجميلية، واستقبل طلبات المراجعين من مكان واحد.
               </p>
-              <Link href="/join" className="mt-6 inline-flex items-center justify-center rounded-xl bg-white px-6 py-3 text-sm font-black text-primary hover:bg-emerald-50">
-                سجل عيادتك الآن
-              </Link>
+              <div className="mt-6 flex flex-wrap justify-center gap-3">
+                <Link href="/join" className="inline-flex items-center justify-center rounded-xl bg-white px-6 py-3 text-sm font-black text-primary hover:bg-emerald-50">
+                  سجل عيادتك الآن
+                </Link>
+                <Link href="/subscriptions" className="inline-flex items-center justify-center rounded-xl border border-white/30 bg-white/10 px-6 py-3 text-sm font-black text-white hover:bg-white/20">
+                  عرض باقات الاشتراك
+                </Link>
+              </div>
             </div>
           </div>
         </section>
@@ -542,6 +548,8 @@ export default function Home() {
 
         {/* Before / After Transformations Section */}
         <TransformationsSection />
+
+        <SubscriptionPackagesSection />
 
         <section className="mt-8">
           <AdSlider ads={ads} />

@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>ملامح.ps — خطة تسويق وعمل ونشر</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy: #0a1628;
+      --teal: #0c5e47;
+      --gold: #d4af37;
+      --bg: #f8fafc;
+      --text: #0f172a;
+      --muted: #64748b;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Cairo", sans-serif;
+      background: #fff;
+      color: var(--text);
+      line-height: 1.75;
+      font-size: 11pt;
+    }
+    .cover {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background: linear-gradient(135deg, var(--navy) 0%, #0f2744 50%, var(--teal) 100%);
+      color: #fff;
+      padding: 60px 40px;
+      page-break-after: always;
+    }
+    .cover-logo {
+      width: 88px; height: 88px;
+      border-radius: 24px;
+      background: linear-gradient(135deg, var(--gold), #f59e0b);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 42px; font-weight: 900; color: var(--navy);
+      margin-bottom: 28px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    .cover h1 { font-size: 36pt; font-weight: 900; margin-bottom: 12px; }
+    .cover .subtitle { font-size: 14pt; font-weight: 600; opacity: 0.9; max-width: 520px; }
+    .cover .meta { margin-top: 48px; font-size: 10pt; opacity: 0.75; }
+    .page { padding: 0 0 24px; page-break-inside: avoid; }
+    h2 {
+      color: var(--teal);
+      font-size: 16pt;
+      font-weight: 900;
+      margin: 28px 0 12px;
+      padding-bottom: 8px;
+      border-bottom: 3px solid var(--gold);
+      page-break-after: avoid;
+    }
+    h3 { color: var(--navy); font-size: 12pt; font-weight: 800; margin: 18px 0 8px; }
+    p { margin-bottom: 10px; color: var(--text); }
+    .content { padding: 32px 40px; }
+    .summary-box {
+      background: linear-gradient(135deg, #ecfdf5, #f0fdf4);
+      border: 1px solid #a7f3d0;
+      border-radius: 16px;
+      padding: 20px 24px;
+      margin: 16px 0;
+    }
+    .summary-box strong { color: var(--teal); }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0 20px;
+      font-size: 9.5pt;
+    }
+    th {
+      background: var(--navy);
+      color: #fff;
+      padding: 10px 12px;
+      text-align: right;
+      font-weight: 800;
+    }
+    td {
+      padding: 9px 12px;
+      border-bottom: 1px solid #e2e8f0;
+      vertical-align: top;
+    }
+    tr:nth-child(even) td { background: #f8fafc; }
+    ul, ol { margin: 8px 24px 14px 0; }
+    li { margin-bottom: 6px; }
+    .tag {
+      display: inline-block;
+      background: var(--teal);
+      color: #fff;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 8.5pt;
+      font-weight: 800;
+      margin-left: 6px;
+    }
+    .quote {
+      border-right: 4px solid var(--gold);
+      padding: 12px 20px;
+      background: #fffbeb;
+      border-radius: 0 12px 12px 0;
+      margin: 14px 0;
+      font-weight: 700;
+      color: var(--navy);
+    }
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin: 16px 0;
+    }
+    .kpi-card {
+      background: var(--navy);
+      color: #fff;
+      border-radius: 12px;
+      padding: 14px;
+      text-align: center;
+    }
+    .kpi-card .num { font-size: 18pt; font-weight: 900; color: var(--gold); }
+    .kpi-card .lbl { font-size: 8.5pt; opacity: 0.85; margin-top: 4px; }
+    .checklist { list-style: none; margin-right: 0; }
+    .checklist li::before { content: "☐ "; color: var(--teal); font-weight: 900; }
+    .footer-note {
+      text-align: center;
+      color: var(--muted);
+      font-size: 9pt;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid #e2e8f0;
+    }
+    .section-num { color: var(--gold); font-weight: 900; }
+    @media print {
+      body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .cover { min-height: 100vh; }
+      h2 { page-break-after: avoid; }
+      table { page-break-inside: auto; }
+      tr { page-break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+
+<section class="cover">
+  <div class="cover-logo">م</div>
+  <h1>ملامح.ps</h1>
+  <p class="subtitle">خطة تسويق · خطة عمل · نشر وشهرة · الوصول للزبائن</p>
+  <p class="meta">تقرير استراتيجي شامل — يونيو 2026<br/>malamih.ps · ammar.shtayeh@gmail.com</p>
+</section>
+
+<div class="content">
+
+<h2><span class="section-num">01</span> الملخص التنفيذي</h2>
+<div class="summary-box">
+  <p><strong>ملامح</strong> أول منصة فلسطينية متخصصة تجمع دليل أطباء الأسنان، العيون، الجلدية، التجميل، والأنف والأذن والحنجرة — مع حجز إلكتروني، عروض، بطاقة خصم، وإعلانات.</p>
+</div>
+<div class="kpi-grid">
+  <div class="kpi-card"><div class="num">500+</div><div class="lbl">طبيب خلال 12 شهر</div></div>
+  <div class="kpi-card"><div class="num">50K</div><div class="lbl">زيارة شهرية</div></div>
+  <div class="kpi-card"><div class="num">2K</div><div class="lbl">حجز شهري</div></div>
+</div>
+<p class="quote">«ملامح — دليلك لصحة وجمال الوجه في فلسطين»</p>
+
+<h2><span class="section-num">02</span> تحليل السوق</h2>
+<h3>المشكلة</h3>
+<table>
+  <tr><th>المشكلة</th><th>الأثر</th></tr>
+  <tr><td>لا يوجد دليل موحّد للتخصصات الدقيقة</td><td>البحث عشوائي على فيسبوك وواتساب</td></tr>
+  <tr><td>الحجز عبر مكالمات</td><td>ضياع وقت و no-show</td></tr>
+  <tr><td>الأطباء بلا حضور رقمي</td><td>خسارة مراجعين</td></tr>
+  <tr><td>إعلانات طبية عشوائية</td><td>صعوبة الوصول للجمهور المناسب</td></tr>
+</table>
+
+<h3>التميّز عن المنافسين</h3>
+<table>
+  <tr><th>البديل</th><th>نقطة ضعفه</th><th>تميّز ملامح</th></tr>
+  <tr><td>فيسبوك/إنستغرام</td><td>غير منظم</td><td>دليل + حجز + توثيق</td></tr>
+  <tr><td>Google Maps</td><td>عام</td><td>تخصصات دقيقة + عروض</td></tr>
+  <tr><td>واتسApp جماعات</td><td>فوضى</td><td>منصة واحدة موثوقة</td></tr>
+</table>
+
+<h2><span class="section-num">03</span> الجمهور المستهدف</h2>
+<h3>B2C — المراجعون</h3>
+<table>
+  <tr><th>الشريحة</th><th>العمر</th><th>القناة</th></tr>
+  <tr><td>شباب تجميل وأسنان</td><td>18–35</td><td>إنستغرام، TikTok</td></tr>
+  <tr><td>عائلات</td><td>30–50</td><td>فيسبوك، واتساب</td></tr>
+  <tr><td>نساء جلدية وتجميل</td><td>25–45</td><td>Influencers محليات</td></tr>
+</table>
+
+<h3>B2B — الأطباء والعيادات</h3>
+<table>
+  <tr><th>الشريحة</th><th>الحافز</th><th>الباقة</th></tr>
+  <tr><td>طبيب جديد</td><td>ظهور ومراجع</td><td>دليل (أساسي)</td></tr>
+  <tr><td>عيادة راسخة</td><td>حجوزات وتميّز</td><td>مميز + إعلان</td></tr>
+  <tr><td>مركز تجميل</td><td>عروض وصور</td><td>Banner + Featured</td></tr>
+</table>
+
+<h2><span class="section-num">04</span> خطة العمل — 12 شهر</h2>
+
+<h3>المرحلة 1 — الإطلاق (شهر 1–2)</h3>
+<p><span class="tag">الهدف</span> 100 طبيب · 5,000 زيارة · 200 حجز</p>
+<ul>
+  <li>إطلاق رسمي: موقع + تطبيق + بيان صحفي</li>
+  <li>30 طبيب «مؤسس» مجاناً 3 أشهر</li>
+  <li>حملة «انضم كطبيب شريك» — malamih.ps/join</li>
+  <li>10 منشورات يومية (فيسبوك + إنستغرام)</li>
+  <li>زيارات ميدانية لـ 20 عيادة (رام الله، البيرة، نابلس)</li>
+  <li>Live: «كيف تحجز في دقيقة»</li>
+</ul>
+
+<h3>المرحلة 2 — النمو (شهر 3–6)</h3>
+<p><span class="tag">الهدف</span> 300 طبيب · 20,000 زيارة · 800 حجز/شهر</p>
+<ul>
+  <li>SEO: «أفضل طبيب أسنان في [مدينة]» — 50 صفحة</li>
+  <li>3 فيديوهات Reels/TikTok أسبوعياً</li>
+  <li>5 influencers محليات</li>
+  <li>تغطية: الخليل، نابlus، جنين، طولكرم، بيت لحم</li>
+  <li>عروض B2B: 3 أشهر مميز بسعر شهر</li>
+</ul>
+
+<h3>المرحلة 3 — التوسع (شهر 7–12)</h3>
+<p><span class="tag">الهدف</span> 500+ طبيب · 50,000 زيارة · 2,000 حجز/شهر</p>
+<ul>
+  <li>Meta Ads + Google Ads</li>
+  <li>مقابلات إذاعية وصحفية</li>
+  <li>QR «حمّل التطبيق» في العيادات</li>
+  <li>بطاقة الخصم ملامح — شراكات</li>
+</ul>
+
+<h2><span class="section-num">05</span> خطة التسويق الرقمي</h2>
+
+<h3>SEO — أولوية عالية (مجاني)</h3>
+<p>كلمات مفتاحية: طبيب أسنان فلسطين، عيادة تجميل، حجز موعد طبيب، عروض أسنان، دليل أطباء فلسطين</p>
+<p>صفحات: /doctors/search + مدونة نصائح صحة + before/after</p>
+
+<h3>Meta Ads (فيسبوك + إنستغرام)</h3>
+<table>
+  <tr><th>الحملة</th><th>الجمهور</th><th>الميزانية/شهر</th></tr>
+  <tr><td>تحميل التطبيق</td><td>18–45 فلسطين</td><td>$150–300</td></tr>
+  <tr><td>انضم كطبيب</td><td>أطباء وعيادات</td><td>$100–200</td></tr>
+  <tr><td>عروض وخصومات</td><td>مهتمون بتجميل/أسنان</td><td>$100–200</td></tr>
+</table>
+
+<h3>TikTok / Reels</h3>
+<ul>
+  <li>تعليمي: «5 أخطاء بعد تبييض الأسنان»</li>
+  <li>Behind the scenes: جولة في عيادة شريكة</li>
+  <li>Before/After (بموافقة)</li>
+  <li>هدف: 1 فيديو viral/شهر = 100K+ مشاهدة</li>
+</ul>
+
+<h2><span class="section-num">06</span> كيف تشهر ملامح ونفسك</h2>
+
+<h3>شهرة المنصة</h3>
+<ol>
+  <li><strong>بيان إطلاق</strong> — Wafa، شبكات إخبارية، مجموعات فيسبوك طبية</li>
+  <li><strong>قصة «الأول من نوعه»</strong> — أول دليل فلسطيني لصحة وجمال الوجه</li>
+  <li><strong>«أفضل 10 عيادات 2026»</strong> — محتوى viral</li>
+  <li><strong>مسابقات UGC</strong> — «شاركنا تجربتك مع طبيبك»</li>
+  <li><strong>QR في العيادات</strong> — «احجز عبر ملامح»</li>
+</ol>
+
+<h3>شهرة المؤسس (Personal Brand)</h3>
+<table>
+  <tr><th>القناة</th><th>المحتوى</th><th>التردد</th></tr>
+  <tr><td>LinkedIn</td><td>رحلة startup، تقنية، صحة</td><td>2/أسبوع</td></tr>
+  <tr><td>فيسبوك شخصي</td><td>Behind the scenes</td><td>3/أسبوع</td></tr>
+  <tr><td>إنستغرام</td><td>Stories + Reels</td><td>يومي</td></tr>
+  <tr><td>محاضرات</td><td>جامعات، incubators</td><td>1/شهر</td></tr>
+</table>
+<p class="quote">«بنيت أول منصة تجمع أطباء التجميل والأسنان في فلسطين — لأن كل واحد يستحق يوصل للطبيب المناسب بسهولة»</p>
+
+<h2><span class="section-num">07</span> الوصول للزبائن</h2>
+
+<h3>قمع التحويل</h3>
+<p><strong>وعي</strong> → PR + social + word of mouth</p>
+<p><strong>اهتمام</strong> → SEO + محتوى + إعلانات</p>
+<p><strong>قرار</strong> → مقارنة أطباء + تقييمات + عروض</p>
+<p><strong>حجز</strong> → حجز سهل + تأكيد فوري + Push</p>
+<p><strong>ولاء</strong> → بطاقة خصم + إشعارات عروض</p>
+
+<h3>برنامج الإحالة</h3>
+<ul>
+  <li><strong>مريض:</strong> ادعُ صديق → خصم 10% (بطاقة الخصم)</li>
+  <li><strong>طبيب:</strong> ادعُ طبيب → شهر مجاني باقة مميز</li>
+</ul>
+
+<h3>Influencer Marketing</h3>
+<table>
+  <tr><th>النوع</th><th>العدد</th><th>الميزانية</th></tr>
+  <tr><td>Micro (5K–20K)</td><td>10</td><td>$50–100 each</td></tr>
+  <tr><td>Mid (20K–100K)</td><td>3</td><td>$200–500</td></tr>
+  <tr><td>أطباء influencers</td><td>5</td><td>باقة مميز مجاناً</td></tr>
+</table>
+
+<h2><span class="section-num">08</span> خطة النشر (App Store + Google Play)</h2>
+<table>
+  <tr><th>الأسبوع</th><th>الإجراء</th></tr>
+  <tr><td>1</td><td>Soft launch — 50 beta user</td></tr>
+  <tr><td>2</td><td>جمع feedback + إصلاح</td></tr>
+  <tr><td>3</td><td>ASO — screenshots + وصف</td></tr>
+  <tr><td>4</td><td>Launch رسمي + حملة «حمّل الآن»</td></tr>
+  <tr><td>5–8</td><td>Meta Ads → install app</td></tr>
+</table>
+
+<h2><span class="section-num">09</span> نموذج الإيرادات</h2>
+<table>
+  <tr><th>المصدر</th><th>السعر المقترح</th></tr>
+  <tr><td>باقة دليل (أساسي)</td><td>مجاني / $29 سنة</td></tr>
+  <tr><td>باقة مميز</td><td>$99–199/سنة</td></tr>
+  <tr><td>إعلان Banner</td><td>$50–200/شهر</td></tr>
+  <tr><td>بطاقة خصم (commission)</td><td>% من الخصم</td></tr>
+</table>
+<p><strong>هدف إيرادات الشهر 12:</strong> $3,000–8,000/شهر</p>
+
+<h2><span class="section-num">10</span> الميزانية التسويقية (سنة 1)</h2>
+<table>
+  <tr><th>البند</th><th>شهري</th><th>سنوي</th></tr>
+  <tr><td>Meta + Google Ads</td><td>$400</td><td>$4,800</td></tr>
+  <tr><td>Influencers</td><td>$300</td><td>$3,600</td></tr>
+  <tr><td>محتوى (فيديو/تصميم)</td><td>$200</td><td>$2,400</td></tr>
+  <tr><td>ميداني (QR، زيارات)</td><td>$150</td><td>$1,800</td></tr>
+  <tr><td>PR / events</td><td>$100</td><td>$1,200</td></tr>
+  <tr><td>أدوات</td><td>$50</td><td>$600</td></tr>
+  <tr><td><strong>المجموع</strong></td><td><strong>~$1,200</strong></td><td><strong>~$14,400</strong></td></tr>
+</table>
+<p><em>يمكن البدء بـ $300–500/شهر في المرحلة الأولى</em></p>
+
+<h2><span class="section-num">11</span> KPIs — مؤشرات النجاح</h2>
+<table>
+  <tr><th>المؤشر</th><th>شهر 1</th><th>شهر 6</th><th>شهر 12</th></tr>
+  <tr><td>أطباء مسجّلين</td><td>100</td><td>300</td><td>500+</td></tr>
+  <tr><td>زيارات الموقع</td><td>5K</td><td>20K</td><td>50K</td></tr>
+  <tr><td>تحميلات التطبيق</td><td>500</td><td>3K</td><td>10K</td></tr>
+  <tr><td>حجوزات</td><td>200</td><td>800</td><td>2,000</td></tr>
+</table>
+
+<h2><span class="section-num">12</span> خطة 90 يوم — Action Plan</h2>
+<h3>الشهر 1</h3>
+<ul class="checklist">
+  <li>إطلاق رسمي + بيان صحفي</li>
+  <li>100 طبيب مسجّل</li>
+  <li>5 حسابات social نشطة</li>
+  <li>30 منشور + 10 reels</li>
+  <li>QR في 50 عيادة</li>
+  <li>أول حملة Meta ($200)</li>
+</ul>
+<h3>الشهر 2</h3>
+<ul class="checklist">
+  <li>10 influencers</li>
+  <li>5 مقالات SEO</li>
+  <li>Live أسبوعي</li>
+  <li>برنامج إحالة للأطباء</li>
+</ul>
+<h3>الشهر 3</h3>
+<ul class="checklist">
+  <li>200 طبيب</li>
+  <li>1,000 تحميل تطبيق</li>
+  <li>أول إيراد من باقات</li>
+  <li>توسع لمدينة جديدة</li>
+</ul>
+
+<h2><span class="section-num">13</span> رسائل تسويقية جاهزة</h2>
+<p><strong>للمريض:</strong></p>
+<p class="quote">«ملامح — احجز طبيب أسنان أو تجميل في فلسطين خلال دقيقة. بدون مكالمات، بدون انتظار.»</p>
+<p><strong>للطبيب:</strong></p>
+<p class="quote">«اعرض عيادتك لآلاف المراجعين. انضم لأول دليل فلسطيني لصحة وجمال الوجه — مجاناً للمؤسسين.»</p>
+<p><strong>للإعلام:</strong></p>
+<p class="quote">«منصة فلسطينية جديدة تجمع أطباء الأسنان والتجميل والجلدية في مكان واحد — مع حجز إلكتروني وعروض حصرية.»</p>
+
+<h2><span class="section-num">14</span> الخطوة التالية — ابدأ اليوم</h2>
+<ol>
+  <li><strong>سجّل 10 أطباء</strong> تعرفهم — مجاناً 3 أشهر</li>
+  <li><strong>انشر</strong> في 5 مجموعات فيسبوك طبية/محلية</li>
+  <li><strong>Google Search Console</strong> + أول 3 مقالات SEO</li>
+  <li><strong>حمّل التطبيق</strong> على جهازك وشارك QR مع 5 عيادات</li>
+  <li><strong>سجّل في Meta Business</strong> وابدأ أول حملة $50</li>
+</ol>
+
+<div class="footer-note">
+  © 2026 ملامح.ps — malamih.ps · ammar.shtayeh@gmail.com<br/>
+  تقرير استراتيجي — للاستخدام الداخلي والتخطيط
+</div>
+
+</div>
+</body>
+</html>

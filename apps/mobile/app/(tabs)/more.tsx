@@ -4,6 +4,7 @@ import { router, useFocusEffect } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Feather } from "@expo/vector-icons";
 import Constants from "expo-constants";
+import { SubscriptionPackagesPreview } from "../../components/SubscriptionPackagesPreview";
 import { HubSectionBlock, QuickActionStrip } from "../../components/HubMenu";
 import { MalamihLogo } from "../../components/ui/premium";
 import { NotificationSettingsCard } from "../../components/NotificationSettingsCard";
@@ -158,6 +159,10 @@ export default function MoreScreen() {
       </View>
 
       <QuickActionStrip items={QUICK_ACTIONS} onPress={(path) => router.push(path as any)} />
+
+      <View style={{ marginBottom: 18 }}>
+        <SubscriptionPackagesPreview compact />
+      </View>
 
       <NotificationSettingsCard
         enabled={notificationsEnabled}
