@@ -56,7 +56,7 @@ const ADMIN_SECTIONS = [
     title: "الإعلانات",
     subtitle: "إدارة الإعلانات والحملات",
     color: "#ec4899",
-    webPath: "/ads",
+    webPath: "/offers",
   },
   {
     icon: "shopping-bag" as const,

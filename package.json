@@ -27,7 +27,9 @@
     "supabase:db:push": "npx supabase db push",
     "capture:screenshots": "node scripts/capture-store-screenshots.mjs",
     "capture:poster-assets": "node scripts/capture-poster-assets.mjs",
-    "generate:sales-pdf": "node scripts/generate-sales-pdf.mjs"
+    "generate:sales-pdf": "node scripts/generate-sales-pdf.mjs",
+    "smoke:live": "node scripts/smoke-test-live.mjs",
+    "smoke:live:extended": "node scripts/smoke-test-live-extended.mjs"
   },
   "overrides": {
     "react": "19.1.0",

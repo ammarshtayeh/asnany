@@ -4,13 +4,12 @@ import { notFound } from "next/navigation";
 import { ArrowRight } from "lucide-react";
 import { Doctor } from "@/lib/types";
 import DoctorProfileClient from "./DoctorProfileClient";
-import { supabase } from "@/lib/supabase";
+import { supabase, supabaseAdmin } from "@/lib/supabase";
 
-// Database fetching function
-async function getDoctor(id: string): Promise<(Doctor & { doctor_accounts?: Array<{ id: string; is_active: boolean }> }) | null> {
+async function getDoctor(id: string): Promise<Doctor | null> {
   const { data, error } = await supabase
     .from("doctors")
-    .select("*, doctor_accounts(id, is_active)")
+    .select("*")
     .eq("id", id)
     .eq("verified", true)
     .single();
@@ -18,7 +17,17 @@ async function getDoctor(id: string): Promise<(Doctor & { doctor_accounts?: Arra
   if (error || !data) {
     return null;
   }
-  return data;
+  return data as Doctor;
+}
+
+async function canBookOnline(doctorId: string) {
+  const { data } = await supabaseAdmin
+    .from("doctor_accounts")
+    .select("id")
+    .eq("doctor_id", doctorId)
+    .eq("is_active", true)
+    .maybeSingle();
+  return Boolean(data);
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
@@ -39,9 +48,7 @@ export default async function DoctorPage({ params }: { params: Promise<{ id: str
   const resolvedParams = await params;
   const doctor = await getDoctor(resolvedParams.id);
   if (!doctor) notFound();
-  const canBookOnWebsite = Array.isArray(doctor.doctor_accounts)
-    ? doctor.doctor_accounts.some((account) => account.is_active)
-    : false;
+  const canBookOnWebsite = await canBookOnline(resolvedParams.id);
 
   return (
     <main className="bg-slate-50 min-h-screen relative font-sans selection:bg-primary/20 selection:text-primary">
