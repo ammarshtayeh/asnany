@@ -1,7 +1,19 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { migrateStorageKey } from "./storage-migrate";
 
-const DOCTOR_SESSION_KEY = "asnany_mobile_doctor_session";
-const ADMIN_SESSION_KEY = "asnany_mobile_admin_session";
+const DOCTOR_SESSION_KEY = "malamih_mobile_doctor_session";
+const ADMIN_SESSION_KEY = "malamih_mobile_admin_session";
+const LEGACY_DOCTOR_SESSION_KEY = "asnany_mobile_doctor_session";
+const LEGACY_ADMIN_SESSION_KEY = "asnany_mobile_admin_session";
+
+let migrationDone = false;
+
+async function ensureMigrated() {
+  if (migrationDone) return;
+  await migrateStorageKey(DOCTOR_SESSION_KEY, LEGACY_DOCTOR_SESSION_KEY);
+  await migrateStorageKey(ADMIN_SESSION_KEY, LEGACY_ADMIN_SESSION_KEY);
+  migrationDone = true;
+}
 
 export type AuthSession = {
   token?: string;
@@ -11,6 +23,7 @@ export type AuthSession = {
 };
 
 async function readSession(key: string): Promise<AuthSession | null> {
+  await ensureMigrated();
   try {
     const value = await AsyncStorage.getItem(key);
     return value ? (JSON.parse(value) as AuthSession) : null;
@@ -20,10 +33,12 @@ async function readSession(key: string): Promise<AuthSession | null> {
 }
 
 async function writeSession(key: string, session: AuthSession) {
+  await ensureMigrated();
   await AsyncStorage.setItem(key, JSON.stringify(session));
 }
 
 async function clearSession(key: string) {
+  await ensureMigrated();
   await AsyncStorage.removeItem(key);
 }
 
@@ -38,4 +53,3 @@ export const adminSession = {
   write: (session: AuthSession) => writeSession(ADMIN_SESSION_KEY, session),
   clear: () => clearSession(ADMIN_SESSION_KEY),
 };
-

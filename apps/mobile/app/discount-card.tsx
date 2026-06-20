@@ -64,7 +64,7 @@ export default function DiscountCardScreen() {
     <ScrollView style={{ flex: 1, backgroundColor: "#f8fafc" }} contentContainerStyle={{ padding: 16, paddingBottom: 120 }}>
       <View style={{ flexDirection: "row-reverse", alignItems: "center", justifyContent: "space-between", marginBottom: 16, backgroundColor: "white", padding: 16, borderRadius: 24, borderWidth: 1, borderColor: "#e2e8f0" }}>
         <View style={{ alignItems: "flex-end", flex: 1 }}>
-          <Text style={{ fontSize: 12, fontWeight: "900", color: "#64748b" }}>بطاقة خصم أسناني</Text>
+          <Text style={{ fontSize: 12, fontWeight: "900", color: "#64748b" }}>بطاقة خصم ملامح</Text>
           <Text style={{ fontSize: 18, fontWeight: "900", color: "#0f172a", marginTop: 4, textAlign: "right" }}>طلب سريع بدون تعقيد</Text>
         </View>
         <Pressable onPress={() => router.back()} style={{ height: 40, width: 40, borderRadius: 20, backgroundColor: "#f1f5f9", alignItems: "center", justifyContent: "center" }}>
@@ -76,7 +76,7 @@ export default function DiscountCardScreen() {
         <AppTitle>اطلب بطاقة الخصم</AppTitle>
         <AppSubtitle>أرسل بياناتك، والأدمن يتابع الطلب ويفعّل البطاقة. بعدها تظهر للطبيب أنك مشترك عند مراجعة الحجز.</AppSubtitle>
         <View style={{ marginTop: 14, borderRadius: 24, backgroundColor: "#0f172a", padding: 18 }}>
-          <Text style={{ textAlign: "right", color: "#cbd5e1", fontSize: 12, fontWeight: "900" }}>Asnany Discount Card</Text>
+          <Text style={{ textAlign: "right", color: "#cbd5e1", fontSize: 12, fontWeight: "900" }}>Malamih Discount Card</Text>
           <Text style={{ textAlign: "right", color: "white", fontSize: 24, fontWeight: "900", marginTop: 18 }}>طلب بطاقة خصم</Text>
           <Text style={{ textAlign: "right", color: "#34d399", marginTop: 6, fontWeight: "900", fontSize: 13 }}>تظهر للطبيب بعد التفعيل</Text>
         </View>

@@ -410,3 +410,4 @@ export const demoStores: Store[] = [
 ];
 
 export * from "./navigation";
+export * from "./site-contact";

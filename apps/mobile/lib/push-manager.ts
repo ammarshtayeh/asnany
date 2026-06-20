@@ -1,16 +1,20 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { doctorSession, adminSession } from "./session";
 import { registerPushSubscription } from "./notifications";
+import { migrateStorageKey } from "./storage-migrate";
 
-const PATIENT_PHONE_KEY = "asnany_mobile_patient_phone";
+const PATIENT_PHONE_KEY = "malamih_mobile_patient_phone";
+const LEGACY_PATIENT_PHONE_KEY = "asnany_mobile_patient_phone";
 
 export type PushRole = "patient" | "doctor" | "admin";
 
 export async function getStoredPatientPhone() {
+  await migrateStorageKey(PATIENT_PHONE_KEY, LEGACY_PATIENT_PHONE_KEY);
   return AsyncStorage.getItem(PATIENT_PHONE_KEY);
 }
 
 export async function setStoredPatientPhone(phone: string) {
+  await migrateStorageKey(PATIENT_PHONE_KEY, LEGACY_PATIENT_PHONE_KEY);
   const normalized = phone.replace(/[^0-9]/g, "");
   if (!normalized) return;
   await AsyncStorage.setItem(PATIENT_PHONE_KEY, normalized);

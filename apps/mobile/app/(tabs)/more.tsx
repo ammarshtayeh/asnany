@@ -190,7 +190,10 @@ export default function MoreScreen() {
         <Text style={{ fontSize: 20, fontWeight: "900", color: "#0f172a" }}>ملامح .ps</Text>
         <Text style={{ fontSize: 12, fontWeight: "600", color: "#64748b", textAlign: "center" }}>{APP_META.tagline}</Text>
         <Pressable onPress={() => Linking.openURL(APP_META.domain)} style={{ marginTop: 4 }}>
-          <Text style={{ color: "#0284c7", fontWeight: "900", fontSize: 12 }}>{APP_META.domain}</Text>
+          <Text style={{ color: "#0284c7", fontWeight: "900", fontSize: 12 }}>{APP_META.domainLabel}</Text>
+        </Pressable>
+        <Pressable onPress={() => Linking.openURL(`mailto:${APP_META.supportEmail}`)} style={{ marginTop: 2 }}>
+          <Text style={{ color: "#64748b", fontWeight: "700", fontSize: 11 }}>{APP_META.supportEmail}</Text>
         </Pressable>
         <Text style={{ color: "#94a3b8", fontSize: 11, fontWeight: "700", marginTop: 4 }}>الإصدار {appVersion}</Text>
       </View>

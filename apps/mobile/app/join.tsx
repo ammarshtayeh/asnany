@@ -2,15 +2,15 @@ import React from "react";
 import { Linking, ScrollView, Text, View, Pressable } from "react-native";
 import { router } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-
-const ADMIN_WHATSAPP = "970599123456";
+import { whatsappHref } from "../lib/site-contact";
 
 export default function JoinScreen() {
   const insets = useSafeAreaInsets();
 
   const openWhatsapp = () => {
-    const msg = encodeURIComponent("مرحباً ملامح، أنا طبيب وأرغب في الانضمام وإعلان عيادتي على منصتكم الموقرة.");
-    Linking.openURL(`https://wa.me/${ADMIN_WHATSAPP}?text=${msg}`);
+    Linking.openURL(
+      whatsappHref("مرحباً ملامح، أنا طبيب وأرغب في الانضمام وإعلان عيادتي على منصتكم الموقرة."),
+    );
   };
 
   return (

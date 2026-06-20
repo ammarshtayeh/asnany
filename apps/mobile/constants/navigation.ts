@@ -1,5 +1,11 @@
 import type { Feather } from "@expo/vector-icons";
 import { theme } from "./theme";
+import {
+  SITE_DOMAIN,
+  SITE_NAME,
+  SITE_SUPPORT_EMAIL,
+  SITE_URL,
+} from "@pal-dental/shared";
 
 type IconName = keyof typeof Feather.glyphMap;
 
@@ -111,9 +117,10 @@ export const HUB_SECTIONS: HubSection[] = [
 ];
 
 export const APP_META = {
-  name: "ملامح",
-  domain: "https://www.malamih.ps",
+  name: SITE_NAME,
+  domain: SITE_URL,
+  domainLabel: SITE_DOMAIN,
   tagline: "دليل فلسطين لصحة وجمال الوجه",
   version: "1.0.0",
-  supportEmail: "ammar.shtayeh@gmail.com",
+  supportEmail: SITE_SUPPORT_EMAIL,
 };

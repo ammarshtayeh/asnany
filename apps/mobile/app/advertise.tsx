@@ -2,8 +2,7 @@ import React, { useState, useMemo } from "react";
 import { Linking, ScrollView, Text, TextInput, View, Pressable } from "react-native";
 import { router } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-
-const WHATSAPP_NUMBER = "9720595537190";
+import { whatsappHref } from "../lib/site-contact";
 
 const AD_TYPES = ["عيادة أسنان", "طبيب عيون", "طبيب جلدية", "مركز تجميل", "أنف وأذن وحنجرة", "مختبر طبي", "شركة/مورد", "إعلان وظيفة"];
 const AD_NATURES = ["بنر على الصفحة الرئيسية", "عرض وخصم", "إعلان في سوق ملامح", "ترويج طبيب/عيادة", "إعلان وظيفة", "حملة شهرية"];
@@ -30,7 +29,7 @@ export default function AdvertiseScreen() {
       budget ? `الميزانية المتوقعة: ${budget}` : "",
       message ? `تفاصيل: ${message}` : "",
     ].filter(Boolean).join("\n");
-    return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(lines)}`;
+    return whatsappHref(lines);
   }, [advertiserName, advertiserType, adNature, city, phone, budget, message]);
 
   const handleSend = () => {
@@ -118,7 +117,7 @@ export default function AdvertiseScreen() {
               <Text style={{ color: "#fff", fontWeight: "900", fontSize: 14 }}>📤 إرسال الاستمارة عبر واتساب</Text>
             </Pressable>
             <Pressable
-              onPress={() => Linking.openURL(`https://wa.me/${WHATSAPP_NUMBER}`)}
+              onPress={() => Linking.openURL(whatsappHref())}
               style={{ backgroundColor: "#16a34a", borderRadius: 16, paddingVertical: 15, alignItems: "center" }}
             >
               <Text style={{ color: "#fff", fontWeight: "900", fontSize: 14 }}>💬 تواصل مباشر عبر واتساب</Text>

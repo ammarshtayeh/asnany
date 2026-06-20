@@ -4,6 +4,7 @@ import { router } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { supabase } from "../../lib/supabase";
 import { MarketplaceAd } from "../../types";
+import { FORM_PHONE_PLACEHOLDER, whatsappHref } from "../../lib/site-contact";
 
 const SPECIALIZATIONS_EQUIP = ["أجهزة ليزر وتجميل", "كراسي وأجهزة عيادات", "أجهزة فحص نظر وبصريات", "أجهزة تصوير وأشعة", "مستلزمات ومواد استهلاكية"];
 const SPECIALIZATIONS_JOBS = ["أطباء (كل التخصصات)", "ممرضين وأخصائيي بشرة", "أخصائيي فحص وبصريات", "إداريين وسكرتاريا", "مساعدين وفنيي معمل"];
@@ -299,7 +300,9 @@ export default function MarketplaceScreen() {
             </View>
 
             <Pressable
-              onPress={() => Linking.openURL("https://wa.me/970599000000?text=أهلاً ملامح، أرغب في إضافة إعلان جديد على سوق ملامح الطبي")}
+              onPress={() =>
+                Linking.openURL(whatsappHref("أهلاً ملامح، أرغب في إضافة إعلان جديد على سوق ملامح الطبي"))
+              }
               style={{ backgroundColor: "#25d366", borderRadius: 16, paddingVertical: 14, alignItems: "center" }}
             >
               <Text style={{ color: "#fff", fontWeight: "900", fontSize: 13 }}>تواصل معنا لتفعيل إعلانك 💬</Text>
@@ -390,7 +393,7 @@ export default function MarketplaceScreen() {
                 )}
 
                 <FormField label="الناشر *" value={form.publisher} onChangeText={(v) => setForm(f => ({ ...f, publisher: v }))} placeholder="اسم العيادة أو اسمك الشخصي" />
-                <FormField label="رقم التواصل (واتساب) *" value={form.phone} onChangeText={(v) => setForm(f => ({ ...f, phone: v }))} keyboardType="phone-pad" placeholder="+970599123456" />
+                <FormField label="رقم التواصل (واتساب) *" value={form.phone} onChangeText={(v) => setForm(f => ({ ...f, phone: v }))} keyboardType="phone-pad" placeholder={FORM_PHONE_PLACEHOLDER} />
 
                 {form.type === "equipment" && (
                   <FormField label="رابط صورة الجهاز (اختياري)" value={form.image_url} onChangeText={(v) => setForm(f => ({ ...f, image_url: v }))} placeholder="رابط صورة للمنتج..." />

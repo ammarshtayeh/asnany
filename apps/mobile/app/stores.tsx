@@ -3,6 +3,7 @@ import { ActivityIndicator, Image, Linking, ScrollView, Text, TextInput, View, P
 import { router } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { apiFetch } from "../lib/api";
+import { FORM_PHONE_PLACEHOLDER } from "../lib/site-contact";
 
 type Store = {
   id: string;
@@ -257,7 +258,7 @@ export default function StoresScreen() {
                 </ScrollView>
 
                 <FormField label="رقم الهاتف *" value={form.phone} onChangeText={(v) => setForm(f => ({ ...f, phone: v }))} keyboardType="phone-pad" placeholder="022987654" />
-                <FormField label="رقم الواتساب" value={form.whatsapp} onChangeText={(v) => setForm(f => ({ ...f, whatsapp: v }))} keyboardType="phone-pad" placeholder="+970599123456" />
+                <FormField label="رقم الواتساب" value={form.whatsapp} onChangeText={(v) => setForm(f => ({ ...f, whatsapp: v }))} keyboardType="phone-pad" placeholder={FORM_PHONE_PLACEHOLDER} />
                 <FormField label="الموقع الإلكتروني (اختياري)" value={form.website} onChangeText={(v) => setForm(f => ({ ...f, website: v }))} placeholder="https://example.com" />
                 <FormField label="وصف الشركة ونشاطها *" value={form.description} onChangeText={(v) => setForm(f => ({ ...f, description: v }))} multiline placeholder="صف نشاط شركتك والخدمات التي تقدمها للعيادات..." />
 

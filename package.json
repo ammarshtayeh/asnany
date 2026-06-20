@@ -25,7 +25,9 @@
     "typecheck:web": "npm --workspace @pal-dental/web run typecheck",
     "supabase:link": "npx supabase link",
     "supabase:db:push": "npx supabase db push",
-    "capture:screenshots": "node scripts/capture-store-screenshots.mjs"
+    "capture:screenshots": "node scripts/capture-store-screenshots.mjs",
+    "capture:poster-assets": "node scripts/capture-poster-assets.mjs",
+    "generate:sales-pdf": "node scripts/generate-sales-pdf.mjs"
   },
   "overrides": {
     "react": "19.1.0",
@@ -42,6 +44,7 @@
     "react-native-screens": "4.16.0"
   },
   "devDependencies": {
-    "@expo/ngrok": "^4.1.3"
+    "@expo/ngrok": "^4.1.3",
+    "playwright": "^1.61.0"
   }
 }

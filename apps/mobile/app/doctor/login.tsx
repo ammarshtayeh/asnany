@@ -7,6 +7,7 @@ import { getMobileApiBaseUrl } from "../../lib/api-base";
 import { doctorSession } from "../../lib/session";
 import { onAuthLogin } from "../../lib/push-manager";
 import { useAppToast } from "../../components/AppToast";
+import { DOCTOR_LOGIN_EMAIL_PLACEHOLDER } from "../../lib/site-contact";
 
 const API_BASE = getMobileApiBaseUrl();
 
@@ -76,7 +77,7 @@ export default function DoctorLoginScreen() {
               onChangeText={setEmail}
               autoCapitalize="none"
               keyboardType="email-address"
-              placeholder="doctor@asnany.ps"
+              placeholder={DOCTOR_LOGIN_EMAIL_PLACEHOLDER}
               style={{ marginBottom: 16, minHeight: 56, borderRadius: 16, borderWidth: 1, borderColor: "#e2e8f0", backgroundColor: "#f8fafc", paddingHorizontal: 16, fontSize: 16, fontWeight: "500", color: "#0f172a", textAlign: "right" }}
             />
 

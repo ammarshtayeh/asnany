@@ -3,8 +3,10 @@ import Constants from "expo-constants";
 import { Platform } from "react-native";
 
 import { apiFetch } from "./api";
+import { migrateStorageKey } from "./storage-migrate";
 
-const DEVICE_ID_KEY = "asnany_mobile_device_id";
+const DEVICE_ID_KEY = "malamih_mobile_device_id";
+const LEGACY_DEVICE_ID_KEY = "asnany_mobile_device_id";
 const ANDROID_CHANNEL_ID = "appointments";
 
 type RegisterPushOptions = {
@@ -34,6 +36,7 @@ export function resolveNotificationRoute(data?: Record<string, unknown> | null) 
 }
 
 async function getDeviceId() {
+  await migrateStorageKey(DEVICE_ID_KEY, LEGACY_DEVICE_ID_KEY);
   const existing = await AsyncStorage.getItem(DEVICE_ID_KEY);
   if (existing) return existing;
 

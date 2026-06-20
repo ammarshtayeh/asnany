@@ -3,7 +3,7 @@ import { Animated, Image, ImageBackground, Linking, Pressable, Text, View } from
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Feather } from "@expo/vector-icons";
 import type { NewsTickerItem } from "@pal-dental/shared";
-import { TICKER_ROTATE_MS, filterActiveTickerItems, getTickerPresentation } from "@pal-dental/shared";
+import { SITE_URL, TICKER_ROTATE_MS, filterActiveTickerItems, getTickerPresentation } from "@pal-dental/shared";
 import { apiFetch } from "../lib/api";
 import { theme } from "../constants/theme";
 
@@ -49,7 +49,7 @@ export function NewsTicker() {
 
   const open = () => {
     if (!active.link_url) return;
-    const url = active.link_url.startsWith("http") ? active.link_url : `https://www.malamih.ps${active.link_url}`;
+    const url = active.link_url.startsWith("http") ? active.link_url : `${SITE_URL}${active.link_url}`;
     void Linking.openURL(url);
   };
 

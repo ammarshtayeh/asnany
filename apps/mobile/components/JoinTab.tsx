@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View, TextInput, Pressable } from "react-native";
+import { FORM_PHONE_PLACEHOLDER } from "../lib/site-contact";
 
 interface JoinTabProps {
   regType: "doctor" | "store";
@@ -91,7 +92,7 @@ export default function JoinTab({
             <TextInput value={regPhone} onChangeText={setRegPhone} keyboardType="phone-pad" placeholder="مثال: 0599123456" style={styles.formInput} textAlign="right" />
 
             <Text style={styles.inputLabel}>رقم واتساب الحجز/المبيعات:</Text>
-            <TextInput value={regWhatsapp} onChangeText={setRegWhatsapp} keyboardType="phone-pad" placeholder="مثال: +970599123456" style={styles.formInput} textAlign="right" />
+            <TextInput value={regWhatsapp} onChangeText={setRegWhatsapp} keyboardType="phone-pad" placeholder={`مثال: ${FORM_PHONE_PLACEHOLDER}`} style={styles.formInput} textAlign="right" />
 
             <Text style={styles.inputLabel}>رابط الصورة الشخصية/شعار المتجر:</Text>
             <TextInput value={regImageUrl} onChangeText={setRegImageUrl} placeholder="https://example.com/logo.jpg" style={styles.formInput} textAlign="right" />

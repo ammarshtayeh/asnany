@@ -4,8 +4,9 @@ import { router } from "expo-router";
 import { Feather } from "@expo/vector-icons";
 import { adminSession } from "../../lib/session";
 import { syncPushForCurrentUser } from "../../lib/push-manager";
+import { SITE_URL } from "../../lib/site-contact";
 
-const WEB_ADMIN_BASE = "https://www.malamih.ps/admin";
+const WEB_ADMIN_BASE = `${SITE_URL}/admin`;
 
 const ADMIN_SECTIONS = [
   {

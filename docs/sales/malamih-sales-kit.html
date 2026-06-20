@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>ملامح.ps — دليل مندوب المبيعات</title>
+  <style>
+    @page { size: A4; margin: 14mm 12mm; }
+    * { box-sizing: border-box; }
+    body {
+      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+      color: #0f172a;
+      line-height: 1.65;
+      margin: 0;
+      background: #fff;
+    }
+    .page { page-break-after: always; padding: 4mm 0 8mm; }
+    .page:last-child { page-break-after: auto; }
+    .cover {
+      min-height: 260mm;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background: linear-gradient(145deg, #0a1628 0%, #0c5e47 55%, #0a1628 100%);
+      color: #fff;
+      border-radius: 8mm;
+      padding: 20mm;
+    }
+    .logo {
+      width: 22mm; height: 22mm; border-radius: 6mm;
+      background: #d4af37; color: #0a1628;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14mm; font-weight: 900; margin-bottom: 8mm;
+    }
+    h1 { font-size: 16mm; margin: 0 0 4mm; line-height: 1.2; }
+    h2 { font-size: 7mm; color: #0c5e47; border-right: 4px solid #d4af37; padding-right: 4mm; margin: 8mm 0 4mm; }
+    h3 { font-size: 5mm; margin: 5mm 0 2mm; color: #1e293b; }
+    p, li { font-size: 4mm; }
+    .subtitle { font-size: 5.5mm; color: #cbd5e1; max-width: 140mm; }
+    .badge {
+      display: inline-block; background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.25);
+      padding: 2mm 5mm; border-radius: 999px; font-size: 3.8mm; margin-top: 6mm;
+    }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4mm; }
+    .card {
+      border: 1px solid #e2e8f0; border-radius: 4mm; padding: 4mm;
+      background: #f8fafc;
+    }
+    .card strong { color: #0c5e47; }
+    .price { font-size: 8mm; font-weight: 900; color: #059669; }
+    .highlight { background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 4mm; padding: 4mm; }
+    .warn { background: #fffbeb; border: 1px solid #fde68a; border-radius: 4mm; padding: 4mm; }
+    .script {
+      background: #0f172a; color: #e2e8f0; border-radius: 4mm; padding: 5mm;
+      font-size: 3.8mm; white-space: pre-wrap;
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 3.6mm; margin: 3mm 0; }
+    th, td { border: 1px solid #e2e8f0; padding: 2.5mm; text-align: right; vertical-align: top; }
+    th { background: #0a1628; color: #fff; }
+    ul { padding-right: 5mm; margin: 2mm 0; }
+    .footer-note { font-size: 3.2mm; color: #64748b; margin-top: 6mm; border-top: 1px solid #e2e8f0; padding-top: 3mm; }
+    .checklist li { margin-bottom: 2mm; }
+    .gold { color: #d4af37; }
+  </style>
+</head>
+<body>
+
+<div class="page">
+  <div class="cover">
+    <div class="logo">م</div>
+    <h1>ملامح<span class="gold">.ps</span></h1>
+    <p class="subtitle">دليل مندوب المبيعات — منصة فلسطينية لصحة وجمال الوجه والأسنان</p>
+    <span class="badge">الموقع: https://www.malamih.ps</span>
+    <span class="badge">تطبيق iOS + Android</span>
+    <span class="badge">نسخة مندوب — 2026</span>
+    <p style="margin-top:12mm;font-size:4mm;color:#94a3b8">استخدم هذا الملف لشرح الفكرة للأطباء، العيادات، مراكز التجميل، والمختبرات</p>
+  </div>
+</div>
+
+<div class="page">
+  <h2>1. الفكرة في 30 ثانية (الافتتاحية)</h2>
+  <div class="highlight">
+    <p><strong>ملامح</strong> هو دليل رقمي فلسطيني يربط المريض بالطبيب/العيادة المناسبة — بحث، خريطة، حجز، عروض، وإشعارات — عبر <strong>موقع</strong> و<strong>تطبيق موبايل</strong>.</p>
+  </div>
+  <h3>جملة واحدة للمندوب</h3>
+  <p>«ملامح.ps منصة بتخلّي المريض يلاقي طبيب أسنان، عيون، جلدية، أو تجميل قريب منه، يحجز موعد أونلاين، ويتابع حجوزاته — وبتخلّي العيادة تظهر لآلاف الناس بدل ما تعتمد بس على إنستغرام والكلام الشفهي.»</p>
+
+  <h2>2. المشكلة التي نحلّها</h2>
+  <div class="grid-2">
+    <div class="card">
+      <strong>للمريض</strong>
+      <ul>
+        <li>صعب يعرف مين الطبيب الموثوق في مدينته</li>
+        <li>الحجز بالواتساب فقط — بدون متابعة واضحة</li>
+        <li>معلومات متفرقة على فيسبوك ومجموعات</li>
+        <li>ما في مكان واحد للعروض والتخصصات</li>
+      </ul>
+    </div>
+    <div class="card">
+      <strong>للطبيب / العيادة</strong>
+      <ul>
+        <li>ظهور محدود خارج السوشيال</li>
+        <li>إدارة مواعيد يدوية ومتعبة</li>
+        <li>صعوبة إثبات المصداقية للمراجع الجديد</li>
+        <li>إعلانات م costly بدون استهداف دقيق</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>3. الحل — ماذا يقدّم ملامح؟</h2>
+  <table>
+    <tr><th>للمريض (مجاني)</th><th>للطبيب / الشريك (باقات)</th></tr>
+    <tr>
+      <td>
+        <ul>
+          <li>بحث أطباء حسب المدينة والتخصص</li>
+          <li>خريطة + أقرب عيادة + اتجاهات (Apple/Google Maps)</li>
+          <li>حجز موعد أونلاين (للأطباء المفعّلين)</li>
+          <li>متابعة الحجوزات برقم الهاتف + إشعارات</li>
+          <li>عروض وإعلانات طبية</li>
+          <li>تطبيق موبايل + موقع PWA</li>
+        </ul>
+      </td>
+      <td>
+        <ul>
+          <li>صفحة عيادة/طبيب موثّقة بعد مراجعة الإدارة</li>
+          <li>ظهور في دليل الأطباء والبحث</li>
+          <li>لوحة تحكم للطبيب (مواعيد، إشعارات، ملف)</li>
+          <li>حجوزات أونلاين + تنبيه فوري</li>
+          <li>إعلانات وعروض مميزة (حسب الباقة)</li>
+          <li>بطاقة خصم للمرضى (برنامج ولاء)</li>
+        </ul>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<div class="page">
+  <h2>4. الجمهور المستهدف — مين تزور؟</h2>
+  <table>
+    <tr><th>الفئة</th><th>أمثلة</th><th>الباقة المناسبة</th></tr>
+    <tr><td>أطباء أسنان</td><td>عيادات، عيادات أطفال، زراعة</td><td>دليل → مميز</td></tr>
+    <tr><td>جلدية وتجميل</td><td>ليزر، فيller، عيادات تجميل</td><td>مميز + إعلانات</td></tr>
+    <tr><td>عيون</td><td>فحوصات، ليزك، نظارات</td><td>دليل / مميز</td></tr>
+    <tr><td>أنف وأذن وحنجرة</td><td>عيادات ENT</td><td>دليل</td></tr>
+    <tr><td>مختبرات</td><td>تحاليل، عروض فحص</td><td>إعلانات مميزة</td></tr>
+    <tr><td>متاجر طبية</td><td>معدات، مستلزمات</td><td>سوق ملامح / إعلان</td></tr>
+  </table>
+
+  <h2>5. التغطية الجغرافية</h2>
+  <p>رام الله، نابلس، الخليل، جنين، بيت لحم، طولكرم، قلقيلية، أريحا، القدس، سلفيت، طوباس — وفلسطين بشكل عام. المندوب يركّز على مدينته أولاً ثم يوسّع.</p>
+
+  <h2>6. لماذا نحن مختلفون؟</h2>
+  <div class="grid-3">
+    <div class="card"><strong>موثوقية</strong><br/>لا يظهر الطبيب للعامة إلا بعد موافقة الإدارة (verified).</div>
+    <div class="card"><strong>متكامل</strong><br/>موقع + تطبيق + حجز + إشعارات + خرائط.</div>
+    <div class="card"><strong>فلسطيني</strong><br/>مصمّم للسوق المحلي — عربي RTL — دعم واتساب.</div>
+  </div>
+</div>
+
+<div class="page">
+  <h2>7. الباقات والأسعار (USD)</h2>
+  <p>الأسعار من قاعدة البيانات — يفعّلها فريق ملامح بعد الطلب (لا دفع إلكتروني تلقائي حالياً).</p>
+  <div class="grid-3">
+    <div class="card">
+      <h3>باقة الدليل</h3>
+      <div class="price">$100</div>
+      <p>/ سنوياً <span style="text-decoration:line-through;color:#94a3b8">$120</span></p>
+      <ul>
+        <li>صفحة تعريف كاملة</li>
+        <li>ظهور في الدليل المعتمد</li>
+        <li>إعلانات في المجلة</li>
+        <li>خريطة + تواصل</li>
+      </ul>
+      <p><strong>مناسبة ل:</strong> طبيب يريد حضور رقمي أساسي</p>
+    </div>
+    <div class="card" style="border-color:#7c3aed;background:#faf5ff">
+      <h3>الباقة المميزة ⭐</h3>
+      <div class="price">$300</div>
+      <p>/ سنوياً</p>
+      <ul>
+        <li>كل مزايا الدليل</li>
+        <li><strong>حجوزات أونلاين</strong></li>
+        <li>لوحة طبيب + إشعارات</li>
+        <li>استشارات ومتابعات</li>
+      </ul>
+      <p><strong>الأكثر طلباً —</strong> للعيادات النشطة</p>
+    </div>
+    <div class="card">
+      <h3>عروض وإعلانات</h3>
+      <div class="price">$50</div>
+      <p>/ لكل إعلان</p>
+      <ul>
+        <li>إعلان في الرئيسية</li>
+        <li>عروض مختبرات/تجميل</li>
+        <li>ظهور في الحملات</li>
+        <li>حجز مرتبط بالعرض</li>
+      </ul>
+    </div>
+  </div>
+  <div class="warn" style="margin-top:4mm">
+    <strong>ملاحظة للمندوب:</strong> الحجز الأونلاين يحتاج: (1) موافقة الإدارة verified (2) حساب طبيب مفعّل (3) الباقة المميزة أو ما ي equivalent.
+  </div>
+</div>
+
+<div class="page">
+  <h2>8. جولة سريعة على المنصة — ماذا تُري العميل؟</h2>
+  <table>
+    <tr><th>الصفحة</th><th>الرابط</th><th>ماذا تشرح</th></tr>
+    <tr><td>الرئيسية</td><td>/</td><td>بحث، تخصصات، خريطة، عروض</td></tr>
+    <tr><td>دليل الأطباء</td><td>/doctors/search</td><td>فلتر مدينة + تخصص + «الأقرب لي»</td></tr>
+    <tr><td>ملف طبيب</td><td>/doctors/[id]</td><td>صور، خريطة، واتساب، حجز</td></tr>
+    <tr><td>حجوزاتي</td><td>/appointments</td><td>متابعة بالهاتف + إشعارات</td></tr>
+    <tr><td>انضم كطبيب</td><td>/join</td><td>تسجيل أو واتساب</td></tr>
+    <tr><td>الباقات</td><td>/subscriptions</td><td>اختيار باقة + طلب</td></tr>
+    <tr><td>تسجيل طبيب</td><td>/doctors/register</td><td>استمارة + صور + موقع GPS</td></tr>
+  </table>
+
+  <h2>9. رحلة العميل — من أول زيارة للتفعيل</h2>
+  <ol>
+    <li>المندوب يزور العيادة ويعرض الموقع على جواله (30 ثانية demo)</li>
+    <li>الطبيب يختار: تسجيل ذاتي (/doctors/register) أو واتساب (/join)</li>
+    <li>يرسل طلب باقة (/subscriptions) إن أراد مميز أو إعلان</li>
+    <li>فريق ملامح يراجع البيانات ويوثّق الحساب (verified)</li>
+    <li>يُنشأ حساب طبيب → يفعّل الحجز الأونلاين</li>
+    <li>العيادة تظهر للمرضى + تبدأ الحجوزات والإشعارات</li>
+  </ol>
+</div>
+
+<div class="page">
+  <h2>10. سكريبت المندوب — كيف تشرح (5 دقائق)</h2>
+
+  <h3>الافتتاح (30 ث)</h3>
+  <div class="script">«السلام عليكم دكتور/ د. ___، أنا ___ من منصة ملامح.ps — أول دليل فلسطيني لصحة وجمال الوجه والأسنان. جيت أعرضلك كيف ممكن مرضى جداد يلاقوك أونلاين ويحجزوا عندك بدون ما تضلّ ترد على نفس أسئلة الواتساب.»</div>
+
+  <h3>المشكلة (45 ث)</h3>
+  <div class="script">«كثير مراجعين اليوم بدوا يبحثوا على جوجل وإنستغرام قبل ما يختاروا طبيب. إذا ما انت ظاهر بمكان موثوق، بيروح لمنافس. وكمان الحجز بالواتساب بيضل مش منظم — مواعيد بتنسى، ومتابعة صعبة.»</div>
+
+  <h3>العرض (90 ث)</h3>
+  <div class="script">«ملامح فيها 3 أشياء:
+1) صفحة عيادة احترافية — صور، تخصص، خريطة، تواصل.
+2) للباقة المميزة: حجز أونلاين — المريض يحجز، انت بتستلم إشعار، بتأكد أو تلغي، والمريض بيت notify.
+3) ظهور في بحث فلسطين — حسب مدينة وتخصص، و«الأقرب لي» على الخريطة.
+
+[افتح malamih.ps على جوالك وورّي صفحة طبيب مشابه]»</div>
+
+  <h3>الباقات (60 ث)</h3>
+  <div class="script">«عندنا 3 خيارات واضحة:
+— دليل 100$ بالسنة: حضور رقمي + مجلة.
+— مميز 300$ بالسنة: كل شي + حجوزات + لوحة تحكم — هاي الأكثر طلباً للعيادات اللي بدهم مواعيد أونلاين.
+— إعلان 50$ لكل حملة: عرض خاص أو موسم.
+
+الدفع والتفعيل بيتم مع فريقنا خلال 24–48 ساعة.»</div>
+
+  <h3>الإغلاق (30 ث)</h3>
+  <div class="script">«شو رأيك نبدأ اليوم؟ في خيارين:
+أ) تعبّي استمارة التسجيل على malamih.ps/doctors/register — 10 دقائق.
+ب) أبعتلك رابط واتساب وفريقنا بكمّل معك.
+
+ممكن نبدأ بباقة الدليل وترقّي للمميز لما تحس بالحجوزات — أو مباشرة مميز إذا بدك حجز أونلاين.»</div>
+</div>
+
+<div class="page">
+  <h2>11. اعتراضات شائعة — وكيف ترد</h2>
+  <table>
+    <tr><th>الاعتراض</th><th>الرد</th></tr>
+    <tr><td>«عندي إنستغرام كفاية»</td><td>إنستغرام ما بيعطيك حجز منظم ولا بحث حسب المدينة/التخصص. ملامح تكمّل السوشيال مو تستبدله.</td></tr>
+    <tr><td>«غالي»</td><td>100$ بالسنة = أقل من 10$ بالشهر للظهور أمام آلاف الباحثين. موعد واحد جديد بيغطي الباقة.</td></tr>
+    <tr><td>«ما بثق بالإنترنت»</td><td>كل طبيب بمرّ مراجعة إدارة قبل الظهور. المريض بيشوف فقط verified doctors.</td></tr>
+    <tr><td>«ما عندي وقت للتسجيل»</td><td>المندوب يساعد على الاستمارة أو واتساب الفريق — 10 دقائق فقط.</td></tr>
+    <tr><td>«بدي أفكر»</td><td>تمام — أبعتلك رابط /join و /subscriptions. أرجعلك بعد 3 أيام. ممكن نبدأ بباقة الدليل بدون حجز.</td></tr>
+  </table>
+
+  <h2>12. checklist المندوب قبل/بعد الزيارة</h2>
+  <ul class="checklist">
+    <li>☐ جوال مشحون + إنترنت + malamih.ps يفتح</li>
+    <li>☐ تعرف الباقات الثلاث وأسعارها</li>
+    <li>☐ تعرف الفرق: دليل vs مميز (حجز أونلاين)</li>
+    <li>☐ معك QR أو رابط: /join و /doctors/register</li>
+    <li>☐ بعد الزيارة: سجّل اسم العيادة، الهاتف، الباقة المطلوبة، تاريخ المتابعة</li>
+    <li>☐ أرسل للإدارة على واتساب: ammar.shtayeh@gmail.com / 9720595537190</li>
+  </ul>
+</div>
+
+<div class="page">
+  <h2>13. معلومات التواصل والدعم</h2>
+  <div class="grid-2">
+    <div class="card">
+      <strong>الموقع</strong><br/>https://www.malamih.ps
+    </div>
+    <div class="card">
+      <strong>البريد</strong><br/>ammar.shtayeh@gmail.com
+    </div>
+    <div class="card">
+      <strong>واتساب الدعم</strong><br/>9720595537190
+    </div>
+    <div class="card">
+      <strong>صفحات مهمة</strong><br/>
+      /join · /subscriptions · /doctors/register · /about · /privacy
+    </div>
+  </div>
+
+  <h2>14. رسالة للإدارة (يملأها المندوب)</h2>
+  <table>
+    <tr><th>الحقل</th><th>البيانات</th></tr>
+    <tr><td>اسم العيادة / الطبيب</td><td>&nbsp;</td></tr>
+    <tr><td>المدينة / المنطقة</td><td>&nbsp;</td></tr>
+    <tr><td>التخصص</td><td>&nbsp;</td></tr>
+    <tr><td>هاتف / واتساب</td><td>&nbsp;</td></tr>
+    <tr><td>الباقة المطلوبة</td><td>☐ دليل ☐ مميز ☐ إعلان</td></tr>
+    <tr><td>مهتم بالحجز أونلاين؟</td><td>☐ نعم ☐ لا</td></tr>
+    <tr><td>تاريخ المتابعة</td><td>&nbsp;</td></tr>
+    <tr><td>ملاحظات المندوب</td><td>&nbsp;</td></tr>
+  </table>
+
+  <p class="footer-note">
+    © ملامح.ps — وثيقة داخلية لمندوبي المبيعات. لا تشارك كلمات مرور أو مفاتيح API. الأسعار والمزايا قابلة للتحديث — راجع /subscriptions قبل كل حملة.
+  </p>
+</div>
+
+</body>
+</html>
