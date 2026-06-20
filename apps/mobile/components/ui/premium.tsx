@@ -31,7 +31,7 @@ export const ui = {
 };
 
 export function MalamihLogo({ size = "md", showText = true }: { size?: "sm" | "md" | "lg"; showText?: boolean }) {
-  const box = size === "sm" ? 32 : size === "lg" ? 48 : 40;
+  const box = size === "sm" ? 38 : size === "lg" ? 56 : 46;
   const title = size === "sm" ? 18 : size === "lg" ? 26 : 22;
 
   return (

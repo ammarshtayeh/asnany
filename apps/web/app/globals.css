@@ -56,11 +56,11 @@
   }
 
   .malamih-logo-text {
-    @apply text-xl font-black tracking-tight text-slate-900;
+    @apply text-lg font-black tracking-tight text-slate-900;
   }
 
   .malamih-logo-dot {
-    @apply text-xl font-black text-[#d4af37];
+    @apply text-lg font-black text-[#d4af37];
   }
 
   .btn-malama {

@@ -8,7 +8,7 @@ type MalamihLogoMarkProps = {
   priority?: boolean;
 };
 
-export function MalamihLogoMark({ size = 44, className = "", priority = false }: MalamihLogoMarkProps) {
+export function MalamihLogoMark({ size = 52, className = "", priority = false }: MalamihLogoMarkProps) {
   return (
     <Image
       src={LOGO_SRC}

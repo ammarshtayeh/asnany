@@ -16,9 +16,9 @@ const outputs = [
   { path: path.join(root, "apps/web/public/icon-512.png"), size: 512, padding: 48 },
   { path: path.join(root, "apps/web/app/icon.png"), size: 256, padding: 24 },
   { path: path.join(root, "apps/web/public/apple-icon.png"), size: 180, padding: 18 },
-  { path: path.join(root, "apps/mobile/assets/icon.png"), size: 1024, padding: 96 },
-  { path: path.join(root, "apps/mobile/assets/adaptive-icon.png"), size: 1024, padding: 120 },
-  { path: path.join(root, "apps/mobile/assets/splash-icon.png"), size: 512, padding: 64 },
+  { path: path.join(root, "apps/mobile/assets/icon.png"), size: 1024, padding: 64 },
+  { path: path.join(root, "apps/mobile/assets/adaptive-icon.png"), size: 1024, padding: 86 },
+  { path: path.join(root, "apps/mobile/assets/splash-icon.png"), size: 512, padding: 48 },
 ];
 
 async function makeCircularIcon(outPath, size, padding) {

@@ -87,7 +87,7 @@ export default function Navbar() {
           className={`max-w-[1600px] mx-auto px-3 lg:px-6 flex items-center gap-2 transition-all duration-300 ${scrolled ? "h-[60px]" : "h-[72px]"}`}
         >
           <Link href="/" className="flex items-center gap-2.5 group flex-shrink-0">
-            <MalamihLogoMark size={50} className="group-hover:scale-105 transition-all duration-300" priority />
+            <MalamihLogoMark size={58} className="group-hover:scale-105 transition-all duration-300" priority />
             <div className="flex items-center select-none">
               <span className="malamih-logo-text">ملامح</span>
               <span className="malamih-logo-dot">.ps</span>
@@ -105,12 +105,12 @@ export default function Navbar() {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className={`flex items-center gap-1.5 px-3 py-2 rounded-full border text-xs font-black transition-all duration-300 whitespace-nowrap ${
+                    className={`flex items-center gap-1.5 px-3 py-2 rounded-full border text-sm font-black transition-all duration-300 whitespace-nowrap ${
                       link.highlight && !isActive
                         ? "border-violet-200 bg-violet-50/80 text-violet-700 hover:bg-violet-100"
                         : isActive
                           ? `${link.active} shadow-sm scale-[1.02]`
-                          : "border-transparent text-slate-500 hover:bg-white hover:text-slate-900 hover:border-slate-200/70 hover:shadow-sm"
+                          : "border-slate-200/80 bg-white/80 text-slate-700 hover:bg-white hover:text-slate-900 hover:border-slate-300 hover:shadow-sm"
                     }`}
                   >
                     <Icon className={`w-3.5 h-3.5 ${isActive || link.highlight ? "" : link.color}`} />
@@ -123,10 +123,10 @@ export default function Navbar() {
                 <button
                   type="button"
                   onClick={() => setMoreOpen((o) => !o)}
-                  className={`flex items-center gap-1 px-3 py-2 rounded-full border text-xs font-black transition-all whitespace-nowrap ${
+                  className={`flex items-center gap-1 px-3 py-2 rounded-full border text-sm font-black transition-all whitespace-nowrap ${
                     isMoreActive || moreOpen
                       ? "bg-slate-100 text-slate-900 border-slate-200 shadow-sm"
-                      : "border-transparent text-slate-500 hover:bg-white hover:text-slate-900"
+                      : "border-slate-200/80 bg-white/80 text-slate-700 hover:bg-white hover:text-slate-900"
                   }`}
                 >
                   المزيد
