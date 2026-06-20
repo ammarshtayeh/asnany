@@ -87,7 +87,7 @@ export default function Navbar() {
           className={`max-w-[1600px] mx-auto px-3 lg:px-6 flex items-center gap-2 transition-all duration-300 ${scrolled ? "h-[60px]" : "h-[72px]"}`}
         >
           <Link href="/" className="flex items-center gap-2.5 group flex-shrink-0">
-            <MalamihLogoMark className="group-hover:scale-105 transition-all duration-300" priority />
+            <MalamihLogoMark size={50} className="group-hover:scale-105 transition-all duration-300" priority />
             <div className="flex items-center select-none">
               <span className="malamih-logo-text">ملامح</span>
               <span className="malamih-logo-dot">.ps</span>
