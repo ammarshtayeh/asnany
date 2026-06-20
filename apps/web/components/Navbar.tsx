@@ -18,6 +18,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { SITE_NAV_MOBILE_BOTTOM, SITE_NAV_MORE_SECTIONS, SITE_NAV_PRIMARY } from "@pal-dental/shared";
+import { MalamihLogoMark } from "@/components/MalamihLogoMark";
 
 const ICON_MAP: Record<string, LucideIcon> = {
   Sparkles,
@@ -86,9 +87,7 @@ export default function Navbar() {
           className={`max-w-[1600px] mx-auto px-3 lg:px-6 flex items-center gap-2 transition-all duration-300 ${scrolled ? "h-[60px]" : "h-[72px]"}`}
         >
           <Link href="/" className="flex items-center gap-2.5 group flex-shrink-0">
-            <div className="malamih-logo-mark group-hover:scale-105 transition-all duration-300">
-              <span className="pt-0.5">م</span>
-            </div>
+            <MalamihLogoMark className="group-hover:scale-105 transition-all duration-300" priority />
             <div className="flex items-center select-none">
               <span className="malamih-logo-text">ملامح</span>
               <span className="malamih-logo-dot">.ps</span>

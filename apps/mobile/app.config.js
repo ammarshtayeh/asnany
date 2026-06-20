@@ -49,14 +49,14 @@ module.exports = {
   splash: {
     image: "./assets/splash-icon.png",
     resizeMode: "contain",
-    backgroundColor: "#0a1628",
+    backgroundColor: "#ffffff",
   },
   android: {
     ...appJson.expo.android,
     usesCleartextTraffic: isLocalApi,
     adaptiveIcon: {
       foregroundImage: "./assets/adaptive-icon.png",
-      backgroundColor: "#0a1628",
+      backgroundColor: "#ffffff",
     },
   },
   extra: {

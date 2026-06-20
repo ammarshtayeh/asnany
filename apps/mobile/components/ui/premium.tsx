@@ -32,25 +32,22 @@ export const ui = {
 
 export function MalamihLogo({ size = "md", showText = true }: { size?: "sm" | "md" | "lg"; showText?: boolean }) {
   const box = size === "sm" ? 32 : size === "lg" ? 48 : 40;
-  const font = size === "sm" ? 15 : size === "lg" ? 22 : 18;
   const title = size === "sm" ? 18 : size === "lg" ? 26 : 22;
 
   return (
     <View style={{ flexDirection: "row-reverse", alignItems: "center", gap: 10 }}>
-      <View
+      <Image
+        source={require("../../assets/logo-full.png")}
         style={{
           width: box,
           height: box,
-          borderRadius: box * 0.28,
-          backgroundColor: theme.teal,
-          alignItems: "center",
-          justifyContent: "center",
-          borderWidth: 1.5,
-          borderColor: theme.gold,
+          borderRadius: box / 2,
+          backgroundColor: "#fff",
+          borderWidth: 1,
+          borderColor: theme.borderLight,
         }}
-      >
-        <Text style={{ color: theme.gold, fontWeight: "900", fontSize: font }}>م</Text>
-      </View>
+        resizeMode="contain"
+      />
       {showText ? (
         <Text style={{ fontSize: title, fontWeight: "900", color: theme.white }}>
           ملامح<Text style={{ color: theme.gold }}>.ps</Text>

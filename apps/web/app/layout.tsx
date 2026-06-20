@@ -20,6 +20,10 @@ export const metadata: Metadata = {
   title: "ملامح | دليل صحة وجمال الوجه والأسنان في فلسطين",
   description: "ابحث عن أفضل أطباء الأسنان، العيون، الجلدية، التجميل، والأنف والأذن والحنجرة في فلسطين، واحجز موعدك بسهولة.",
   manifest: "/manifest.json",
+  icons: {
+    icon: [{ url: "/icon-512.png", sizes: "512x512", type: "image/png" }],
+    apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
+  },
   openGraph: {
     type: "website",
     locale: "ar_PS",

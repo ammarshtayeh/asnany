@@ -28,6 +28,8 @@
     "capture:screenshots": "node scripts/capture-store-screenshots.mjs",
     "capture:poster-assets": "node scripts/capture-poster-assets.mjs",
     "generate:sales-pdf": "node scripts/generate-sales-pdf.mjs",
+    "generate:doctor-brochure-pdf": "node scripts/generate-doctor-brochure-pdf.mjs",
+    "generate:brand-icons": "node scripts/generate-brand-icons.mjs",
     "smoke:live": "node scripts/smoke-test-live.mjs",
     "smoke:live:extended": "node scripts/smoke-test-live-extended.mjs"
   },
@@ -47,6 +49,7 @@
   },
   "devDependencies": {
     "@expo/ngrok": "^4.1.3",
-    "playwright": "^1.61.0"
+    "playwright": "^1.61.0",
+    "sharp": "^0.35.2"
   }
 }

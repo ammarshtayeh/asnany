@@ -1,6 +1,6 @@
 import React from "react";
-import { ImageBackground, StyleSheet, Text, View } from "react-native";
-import { colors, theme } from "../constants/theme";
+import { ImageBackground, Image, StyleSheet, Text, View } from "react-native";
+import { colors } from "../constants/theme";
 
 const HERO_IMAGE_URL =
   "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&q=80&w=1400";
@@ -11,9 +11,11 @@ export default function Header() {
       <View style={styles.overlay} />
       <View style={styles.content}>
         <View style={styles.brandRow}>
-          <View style={styles.logo}>
-            <Text style={styles.logoText}>م</Text>
-          </View>
+          <Image
+            source={require("../assets/logo-full.png")}
+            style={styles.logo}
+            resizeMode="contain"
+          />
           <View>
             <Text style={styles.brand}>ملامح.ps</Text>
             <Text style={styles.country}>دليل صحة وجمال الوجه في فلسطين</Text>
@@ -78,15 +80,10 @@ const styles = StyleSheet.create({
   logo: {
     width: 42,
     height: 42,
-    borderRadius: 14,
-    backgroundColor: theme.teal,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  logoText: {
-    color: "#fff",
-    fontSize: 20,
-    fontWeight: "900",
+    borderRadius: 21,
+    backgroundColor: "#fff",
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.35)",
   },
   brand: {
     color: "#fff",

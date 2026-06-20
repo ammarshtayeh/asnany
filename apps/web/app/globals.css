@@ -52,7 +52,7 @@
   }
 
   .malamih-logo-mark {
-    @apply flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[#0c5e47] via-[#10b981] to-[#d4af37] text-white font-black text-lg leading-none shadow-md shadow-emerald-900/20 border border-white/15 select-none;
+    @apply rounded-full overflow-hidden bg-white border border-slate-200/80 shadow-sm object-contain select-none;
   }
 
   .malamih-logo-text {

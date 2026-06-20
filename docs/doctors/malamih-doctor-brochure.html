@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>ملامح.ps — دعوة للأطباء والعيادات</title>
+  <style>
+    @page { size: A4; margin: 12mm 10mm; }
+    * { box-sizing: border-box; }
+    body {
+      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+      color: #0f172a;
+      line-height: 1.7;
+      margin: 0;
+      background: #fff;
+    }
+    .page { page-break-after: always; padding: 2mm 0 6mm; }
+    .page:last-child { page-break-after: auto; }
+    .cover {
+      min-height: 265mm;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background: linear-gradient(145deg, #0a1628 0%, #0c5e47 50%, #0a1628 100%);
+      color: #fff;
+      border-radius: 6mm;
+      padding: 18mm;
+    }
+    .logo {
+      width: 20mm; height: 20mm; border-radius: 5mm;
+      background: linear-gradient(135deg, #0c5e47, #d4af37);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12mm; font-weight: 900; margin-bottom: 6mm;
+    }
+    h1 { font-size: 14mm; margin: 0 0 3mm; }
+    h2 {
+      font-size: 6.5mm; color: #0c5e47;
+      border-right: 4px solid #d4af37;
+      padding-right: 4mm; margin: 7mm 0 4mm;
+    }
+    h3 { font-size: 4.8mm; margin: 4mm 0 2mm; color: #1e293b; }
+    p, li { font-size: 3.8mm; }
+    .gold { color: #d4af37; }
+    .subtitle { font-size: 5mm; color: #cbd5e1; max-width: 145mm; }
+    .badge {
+      display: inline-block; background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.25);
+      padding: 2mm 5mm; border-radius: 999px; font-size: 3.5mm; margin: 2mm;
+    }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4mm; }
+    .card {
+      border: 1px solid #e2e8f0; border-radius: 4mm;
+      padding: 4mm; background: #f8fafc;
+    }
+    .card-premium { border-color: #7c3aed; background: #faf5ff; }
+    .price { font-size: 9mm; font-weight: 900; color: #059669; }
+    .highlight {
+      background: #ecfdf5; border: 1px solid #a7f3d0;
+      border-radius: 4mm; padding: 4mm; margin: 3mm 0;
+    }
+    .quote {
+      background: #0a1628; color: #e2e8f0;
+      border-radius: 4mm; padding: 5mm; font-size: 4mm;
+      text-align: center; font-weight: 600;
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 3.5mm; margin: 3mm 0; }
+    th, td { border: 1px solid #e2e8f0; padding: 2.5mm; text-align: right; vertical-align: top; }
+    th { background: #0a1628; color: #fff; }
+    ul { padding-right: 5mm; margin: 2mm 0; }
+    .check li { list-style: none; margin-bottom: 1.5mm; }
+    .check li::before { content: "✓ "; color: #059669; font-weight: 900; }
+    .footer { font-size: 3mm; color: #64748b; margin-top: 5mm; border-top: 1px solid #e2e8f0; padding-top: 3mm; }
+    .cta-box {
+      background: linear-gradient(135deg, #0c5e47, #0a1628);
+      color: #fff; border-radius: 5mm; padding: 6mm; text-align: center; margin-top: 5mm;
+    }
+    .cta-box strong { font-size: 5mm; display: block; margin-bottom: 2mm; }
+  </style>
+</head>
+<body>
+
+<!-- صفحة الغلاف -->
+<div class="page">
+  <div class="cover">
+    <div class="logo">م</div>
+    <h1>ملامح<span class="gold">.ps</span></h1>
+    <p class="subtitle">منصة رقمية فلسطينية متكاملة لصحة وجمال الوجه والأسنان</p>
+    <span class="badge">malamih.ps</span>
+    <span class="badge">موقع + تطبيق</span>
+    <p style="margin-top:14mm;font-size:4.5mm;color:#94a3b8;max-width:130mm">
+      دعوة خاصة للأطباء، العيادات، ومراكز التجميل<br/>
+      <strong style="color:#fde68a;font-size:5mm">انضموا إلى عائلة ملامح</strong>
+    </p>
+    <p style="font-size:3.8mm;color:#64748b;margin-top:8mm">وثيقة تعريفية للشركاء — 2026</p>
+  </div>
+</div>
+
+<!-- الرؤية -->
+<div class="page">
+  <h2>1. ما هي ملامح؟</h2>
+  <div class="highlight">
+    <p><strong>ملامح.ps</strong> أول منصة فلسطينية متكاملة تجمع بين <strong>الدليل الطبي</strong>، <strong>الحجز الإلكتروني</strong>، <strong>الخرائط</strong>، <strong>العروض</strong>، و<strong>التسويق الطبي</strong> — في مكان واحد، بالعربية، وبمعايير موثوقية.</p>
+  </div>
+
+  <h3>رؤيتنا</h3>
+  <p>أن تكون ملامح المرجع الأول لصحة وجمال الوجه والأسنان في فلسطين — حيث يجد المريض الطبيب المناسب بثقة، ويجد الطبيب حضوراً رقمياً احترافياً يخدم عيادته.</p>
+
+  <h3>رسالتنا للأطباء</h3>
+  <p>نحن لا نستبدل علاقتكم مع مرضاكم — <strong>نكمّلها</strong>. نمنح عيادتكم منصة موثّقة، ظهوراً منظماً، وحجوزات أذكى — لتصلوا لمرضى جدد وتديروا وقتكم بأفضل شكل.</p>
+
+  <h2>2. لماذا تنضمون لعائلة ملامح؟</h2>
+  <div class="grid-2">
+    <div class="card">
+      <strong>ظهور أمام جمهور حقيقي</strong>
+      <ul class="check">
+        <li>مرضى يبحثون عن طبيب حسب المدينة والتخصص</li>
+        <li>خريطة «الأقرب لي» توجّههم لعيادتكم</li>
+        <li>ظهور في دليل معتمد — ليس مجرد منشور يضيع</li>
+      </ul>
+    </div>
+    <div class="card">
+      <strong>مصداقية وثقة</strong>
+      <ul class="check">
+        <li>كل طبيب يُراجع قبل الظهور (verified)</li>
+        <li>صفحة عيادة احترافية: صور، تخصص، دوام</li>
+        <li>منصة فلسطينية — مصممة للسوق المحلي</li>
+      </ul>
+    </div>
+    <div class="card">
+      <strong>حجوزات منظمة</strong>
+      <ul class="check">
+        <li>طلبات حجز واضحة: اسم، هاتف، تاريخ</li>
+        <li>لوحة تحكم للطبيب + إشعارات فورية</li>
+        <li>تأكيد / إلغاء / متابعة — بدون فوضى واتساب</li>
+      </ul>
+    </div>
+    <div class="card">
+      <strong>تسويق وعروض</strong>
+      <ul class="check">
+        <li>إعلانات في الرئيسية والحملات</li>
+        <li>عروض موسمية للمختبرات والتجميل</li>
+        <li>مجلة طبية ومحتوى توعوي</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="quote" style="margin-top:5mm">
+    «موعد واحد جديد من المنصة قد يغطي اشتراككم السنوي — والباقي ربح لعيادتكم.»
+  </div>
+</div>
+
+<!-- للمريض والطبيب -->
+<div class="page">
+  <h2>3. ماذا تقدّم المنصة؟</h2>
+  <table>
+    <tr><th>للمرضى (مجاني)</th><th>لكم كأطباء وشركاء</th></tr>
+    <tr>
+      <td>
+        <ul class="check">
+          <li>بحث أطباء حسب المدينة والتخصص</li>
+          <li>فلتر: دوام، تأمين، «مفتوح الآن»</li>
+          <li>خريطة واتجاهات للعيادة</li>
+          <li>حجز موعد أونلاين</li>
+          <li>متابعة الحجوزات بالهاتف</li>
+          <li>إشعارات عند تحديث الموعد</li>
+          <li>عروض وإعلانات موثوقة</li>
+          <li>تطبيق iOS و Android + موقع</li>
+        </ul>
+      </td>
+      <td>
+        <ul class="check">
+          <li>صفحة عيادة / طبيب كاملة</li>
+          <li>ظهور في دليل الأطباء المعتمد</li>
+          <li>حجوزات أونلاين (الباقة المميزة)</li>
+          <li>لوحة تحكم + إشعارات Push</li>
+          <li>تعديل الملف ومواعيد العمل</li>
+          <li>إعلانات وعروض مميزة</li>
+          <li>بطاقة خصم للمرضى (برنامج ولاء)</li>
+          <li>دعم فني عبر واتساب والبريد</li>
+        </ul>
+      </td>
+    </tr>
+  </table>
+
+  <h2>4. التخصصات والتغطية</h2>
+  <p><strong>التخصصات:</strong> أسنان (عام، أطفال، زراعة) · عيون · جلدية · تجميل · أنف وأذن وحنجرة · مختبرات · مستلزمات طبية</p>
+  <p><strong>المدن:</strong> رام الله، نابلس، الخليل، جنين، بيت لحم، طولكرم، قلقيلية، أريحا، القدس، سلفيت، طوباس — وفلسطين بشكل عام.</p>
+
+  <h2>5. كيف تبدو صفحتكم؟</h2>
+  <p>كل عيادة شريكة تحصل على:</p>
+  <ul class="check">
+    <li>اسم الطبيب / العيادة + التخصص والمدينة</li>
+    <li>صور العيادة والأجهزة</li>
+    <li>موقع GPS على الخريطة + فتح في Apple/Google Maps</li>
+    <li>واتساب، هاتف، ساعات العمل</li>
+    <li>قبول التأمين (إن وُجد)</li>
+    <li>زر حجز — للباقة المميزة</li>
+    <li>شارة «موثّق» بعد موافقة الإدارة</li>
+  </ul>
+</div>
+
+<!-- الباقات -->
+<div class="page">
+  <h2>6. باقات الاشتراك — واضحة وبدون التباس</h2>
+  <p>الأسعار بالدولار الأمريكي. التفعيل خلال <strong>24–48 ساعة</strong> بعد الطلب.</p>
+
+  <div class="grid-3">
+    <div class="card">
+      <h3>باقة الدليل</h3>
+      <div class="price">$100</div>
+      <p>/ سنوياً <span style="text-decoration:line-through;color:#94a3b8">$120</span></p>
+      <p style="font-size:3.2mm;color:#64748b">صفحة تعريف + ظهور في الدليل والمجلة</p>
+      <ul class="check">
+        <li>صفحة تعريف كاملة</li>
+        <li>ظهور في دليل الأطباء المعتمد</li>
+        <li>إعلانات في المجلة الطبية</li>
+        <li>خريطة + تواصل</li>
+      </ul>
+      <p><strong>مناسبة ل:</strong> بداية حضور رقمي</p>
+    </div>
+    <div class="card card-premium">
+      <h3>الباقة المميزة ⭐</h3>
+      <div class="price">$300</div>
+      <p>/ سنوياً</p>
+      <p style="font-size:3.2mm;color:#64748b">الأكثر طلباً — حجوزات + لوحة تحكم</p>
+      <ul class="check">
+        <li>كل مزايا الدليل</li>
+        <li>حجوزات عبر الموقع والتطبيق</li>
+        <li>لوحة طبيب + إشعارات</li>
+        <li>استشارات ومتابعات</li>
+      </ul>
+      <p><strong>مناسبة ل:</strong> عيادات نشطة</p>
+    </div>
+    <div class="card">
+      <h3>عروض وإعلانات</h3>
+      <div class="price">$50</div>
+      <p>/ لكل إعلان</p>
+      <ul class="check">
+        <li>إعلان في الرئيسية</li>
+        <li>عروض مختبرات وتجميل</li>
+        <li>ظهور في الحملات</li>
+        <li>حجز مرتبط بالعرض</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>مقارنة سريعة</h3>
+  <table>
+    <tr><th>الميزة</th><th>الدليل</th><th>المميز</th></tr>
+    <tr><td>صفحة عيادة</td><td>✓</td><td>✓</td></tr>
+    <tr><td>دليل + خريطة</td><td>✓</td><td>✓</td></tr>
+    <tr><td>حجز أونلاين</td><td>—</td><td>✓</td></tr>
+    <tr><td>لوحة تحكم + إشعارات</td><td>—</td><td>✓</td></tr>
+    <tr><td>إعلان منفصل</td><td colspan="2">$50 / إعلان</td></tr>
+  </table>
+</div>
+
+<!-- خطوات الانضمام -->
+<div class="page">
+  <h2>7. كيف تنضمون — 3 خطوات بسيطة</h2>
+  <table>
+    <tr><th>الخطوة</th><th>ماذا تفعلون</th><th>الرابط</th></tr>
+    <tr><td>1</td><td>اختر الباقة المناسبة</td><td>malamih.ps/subscriptions</td></tr>
+    <tr><td>2</td><td>سجّل عيادتك (استمارة + صور + GPS)</td><td>malamih.ps/doctors/register</td></tr>
+    <tr><td>3</td><td>أو تواصل معنا — نحن نكمّل معكم</td><td>malamih.ps/join</td></tr>
+  </table>
+
+  <h3>ماذا يحدث بعد التسجيل؟</h3>
+  <ol>
+    <li>فريق ملامح يراجع بياناتكم ووثائق العيادة</li>
+    <li>نوثّق حسابكم (verified) — للحفاظ على جودة المنصة</li>
+    <li>نفعّل الباقة ولوحة الطبيب</li>
+    <li>تظهر عيادتكم للمرضى — وتبدأ استقبال الحجوزات</li>
+  </ol>
+
+  <h2>8. أسئلة شائعة</h2>
+  <table>
+    <tr><th>السؤال</th><th>الجواب</th></tr>
+    <tr><td>هل الحجز يستبدل واتساب؟</td><td>لا — ينظم الطلبات؛ التواصل يبقى معكم</td></tr>
+    <tr><td>متى أظهر في الدليل؟</td><td>بعد مراجعة الإدارة والتفعيل (24–48 ساعة)</td></tr>
+    <tr><td>هل أستطيع البدء بالدليل ثم الترقية؟</td><td>نعم — ترقية للمميز في أي وقت</td></tr>
+    <tr><td>كيف أدفع؟</td><td>تنسيق مع فريق ملامح — تفعيل بعد الدفع</td></tr>
+    <tr><td>هل بيانات المرضى آمنة؟</td><td>نعم — سياسة خصوصية واضحة على malamih.ps/privacy</td></tr>
+  </table>
+</div>
+
+<!-- الختام -->
+<div class="page">
+  <h2>9. انضموا لعائلة ملامح اليوم</h2>
+  <p>فلسطين تستحق منصة طبية وتجميلية <strong>موثوقة، عربية، ومتكاملة</strong>. نحن نبنيها — و<strong>أنتم</strong> قلبها. كل عيادة تنضم تصنع المنصة أقوى للجميع.</p>
+
+  <div class="grid-2" style="margin-top:5mm">
+    <div class="card">
+      <strong>للتسجيل الذاتي</strong>
+      <p>malamih.ps/doctors/register</p>
+      <p>malamih.ps/subscriptions</p>
+    </div>
+    <div class="card">
+      <strong>للمساعدة والانضمام</strong>
+      <p>malamih.ps/join</p>
+      <p>واتساب: 9720595537190</p>
+      <p>ammar.shtayeh@gmail.com</p>
+    </div>
+  </div>
+
+  <div class="cta-box">
+    <strong>malamih.ps — عائلتكم الرقمية في فلسطين</strong>
+    <span>بحث · خرائط · حجز · عروض · ثقة</span>
+    <p style="margin-top:3mm;font-size:3.5mm;color:#94a3b8">ننتظركم في عائلة ملامح</p>
+  </div>
+
+  <h3 style="margin-top:8mm">نموذج طلب سريع (للطباعة)</h3>
+  <table>
+    <tr><th>اسم العيادة / الطبيب</th><td style="height:10mm">&nbsp;</td></tr>
+    <tr><th>التخصص</th><td>&nbsp;</td></tr>
+    <tr><th>المدينة</th><td>&nbsp;</td></tr>
+    <tr><th>هاتف / واتساب</th><td>&nbsp;</td></tr>
+    <tr><th>الباقة المطلوبة</th><td>☐ دليل $100 &nbsp; ☐ مميز $300 &nbsp; ☐ إعلان $50</td></tr>
+    <tr><th>ملاحظات</th><td>&nbsp;</td></tr>
+  </table>
+
+  <p class="footer">© ملامح.ps — وثيقة للأطباء والشركاء. الأسعار والمزايا حسب malamih.ps/subscriptions. آخر تحديث: 2026.</p>
+</div>
+
+</body>
+</html>

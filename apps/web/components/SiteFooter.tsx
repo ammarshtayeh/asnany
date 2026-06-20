@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { Mail, Phone } from "lucide-react";
 import { SITE_NAV_MORE_SECTIONS, SITE_NAV_PRIMARY } from "@pal-dental/shared";
 import { SITE_SUPPORT_EMAIL, SITE_SUPPORT_WHATSAPP } from "@/lib/site-contact";
+import { MalamihLogoMark } from "@/components/MalamihLogoMark";
 
 const ownerPhone = SITE_SUPPORT_WHATSAPP;
 const ownerEmail = SITE_SUPPORT_EMAIL;
@@ -25,7 +26,7 @@ export default function SiteFooter() {
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
           <div className="text-right lg:col-span-1">
             <div className="mb-4 flex items-center gap-2.5">
-              <span className="malamih-logo-mark text-lg">م</span>
+              <MalamihLogoMark size={40} />
               <h2 className="text-2xl font-black text-white">
                 ملامح<span className="text-[#d4af37]">.ps</span>
               </h2>
