@@ -31,7 +31,7 @@ export async function getAdminDashboardStats(): Promise<AdminDashboardStats> {
       supabaseAdmin.from("doctors").select("id, verified"),
       supabaseAdmin.from("appointments").select("id, status"),
       supabaseAdmin.from("advertisements").select("id").eq("is_active", true).gte("end_date", today),
-      supabaseAdmin.from("stores").select("id").eq("verified", true),
+      supabaseAdmin.from("stores").select("id").eq("is_active", true),
       supabaseAdmin.from("medical_services").select("id"),
     ]);
 
