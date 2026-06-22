@@ -2,97 +2,71 @@
 
 import Link from "next/link";
 import { Sparkles, Scale, ShieldAlert, HeartHandshake } from "lucide-react";
-import BackButton from "@/components/BackButton";
+import PageShell, { ContentPanel } from "@/components/ui/PageShell";
+
+const CLAUSES = [
+  {
+    title: "1. طبيعة الخدمات ومسؤوليتنا",
+    body: "ملامح.ps دليل إعلامي يربط المرضى بالعيادات. لا نقدم استشارات طبية ولا نتحمل مسؤولية العلاجات داخل العيادات.",
+  },
+  {
+    title: "2. شروط تسجيل الأطباء",
+    body: "يلتزم الطبيب بمعلومات حقيقية ومحدّثة. تحتفظ الإدارة بحق تعليق أي حساب يقدّم معلومات مضللة.",
+  },
+  {
+    title: "3. سياسة التقييمات",
+    body: "نراجع التقييمات لمنع الإساءة والمراجعات الكاذبة، مع حق إخفاء أي تعليق يخالف الآداب.",
+  },
+  {
+    title: "4. الخصوصية وحماية البيانات",
+    body: "نحافظ على سرية البيانات ولن نبيعها لأطراف خارجية.",
+  },
+];
 
 export default function TermsAndConditions() {
   return (
-    <main className="bg-slate-50 min-h-screen relative font-sans" dir="rtl">
-      {/* Premium Header */}
-      <div className="h-[280px] w-full bg-slate-900 relative overflow-hidden flex items-center justify-center text-center">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/80 via-slate-900 to-secondary/80" />
-        <div className="absolute top-8 right-8 z-50">
-          <BackButton />
+    <PageShell
+      badge="الضوابط والاتفاقية القانونية"
+      badgeIcon={Sparkles}
+      title="الشروط والأحكام"
+      description="يرجى قراءة شروط استخدام ملامح.ps لضمان تجربة آمنة للجميع."
+      useBackButton
+    >
+      <ContentPanel>
+        <div className="flex items-center gap-3 border-b border-slate-100 pb-4">
+          <Scale className="h-8 w-8 text-primary" />
+          <h2 className="text-2xl font-black text-slate-900">بنود الاستخدام العام</h2>
         </div>
 
-        <div className="relative z-10 px-4">
-          <span className="bg-white/10 border border-white/20 text-white text-xs font-black px-4 py-1.5 rounded-full inline-flex items-center gap-1.5 mb-3">
-            <Sparkles className="w-3.5 h-3.5 text-yellow-400 fill-current animate-pulse" /> الضوابط والاتفاقية القانونية
+        <p className="text-sm font-medium leading-relaxed text-slate-600">
+          دخولك للموقع أو التطبيق يعني موافقتك على هذه الاتفاقية. راجع أيضاً{" "}
+          <Link href="/privacy" className="font-bold text-primary hover:underline">
+            سياسة الخصوصية
+          </Link>
+          .
+        </p>
+
+        <div className="space-y-5">
+          {CLAUSES.map((clause) => (
+            <div key={clause.title} className="bento-card p-5">
+              <h3 className="flex items-center gap-2 text-lg font-black text-slate-800">
+                <span className="h-2 w-2 rounded-full bg-primary" />
+                {clause.title}
+              </h3>
+              <p className="mt-2 pr-4 text-sm font-medium leading-relaxed text-slate-500">{clause.body}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="flex flex-col items-center justify-between gap-4 border-t border-slate-100 pt-6 text-xs font-semibold text-slate-400 md:flex-row">
+          <span className="flex items-center gap-1.5">
+            <ShieldAlert className="h-4 w-4" /> آخر تحديث: مايو 2026
           </span>
-          <h1 className="text-3xl md:text-5xl font-black text-white tracking-tight">
-            الشروط والأحكام وسياسة الاستخدام
-          </h1>
-          <p className="text-slate-300 mt-2 text-sm md:text-base font-medium max-w-xl mx-auto">
-            يرجى قراءة شروط وأحكام استخدام بوابة ملامح.ps لضمان تجربة آمنة ومميزة لجميع الأعضاء والزوار.
-          </p>
+          <span className="flex items-center gap-1.5">
+            <HeartHandshake className="h-4 w-4" /> ملامح.ps — معاً لصحة فلسطين
+          </span>
         </div>
-      </div>
-
-      <div className="max-w-4xl mx-auto px-4 -mt-16 pb-24 relative z-10">
-        <div className="bg-white rounded-3xl shadow-2xl p-8 md:p-12 border border-slate-100 space-y-8 text-right">
-          
-          <div className="flex items-center gap-3 border-b border-slate-100 pb-4">
-            <Scale className="w-8 h-8 text-primary" />
-            <h2 className="text-2xl font-black text-slate-900">مقدمة وبنود الاستخدام العام</h2>
-          </div>
-
-          <p className="text-slate-600 text-sm font-medium leading-relaxed">
-            مرحباً بكم في <strong>ملامح.ps</strong>. يمثل دخولك وتصفحك للموقع أو التطبيق موافقة تامة وغير مشروطة على الالتزام بكافة البنود والشروط الواردة في هذه الاتفاقية. إذا كنت لا توافق على أي بند منها، يرجى التوقف عن استخدام الخدمات.
-          </p>
-          <p className="text-slate-500 text-sm font-medium leading-relaxed">
-            ويمكنك أيضًا مراجعة <Link href="/privacy" className="text-sky-600 font-bold hover:underline">سياسة الخصوصية</Link> لمعرفة كيف نتعامل مع بياناتك داخل الموقع والتطبيق.
-          </p>
-
-          <div className="space-y-6 pt-4">
-            
-            {/* Clause 1 */}
-            <div className="space-y-2">
-              <h3 className="text-lg font-black text-slate-800 flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-primary" /> 1. طبيعة الخدمات ومسؤوليتنا
-              </h3>
-              <p className="text-slate-500 text-xs md:text-sm font-medium leading-relaxed pr-4">
-                تعتبر منصة ملامح.ps بمثابة دليل جغرافي وإعلامي يسهل ربط المرضى بالعيادات والأطباء. نحن لا نقدم أي استشارات طبية ولا نتحمل أي مسؤولية قانونية أو مدنية ناتجة عن العلاجات الطبية أو القرارات المهنية المتخذة داخل العيادات المسجلة بالمنصة.
-              </p>
-            </div>
-
-            {/* Clause 2 */}
-            <div className="space-y-2">
-              <h3 className="text-lg font-black text-slate-800 flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-primary" /> 2. شروط تسجيل وعضوية الأطباء
-              </h3>
-              <p className="text-slate-500 text-xs md:text-sm font-medium leading-relaxed pr-4">
-                يلتزم كل طبيب يسجل عيادته في البوابة بتقديم معلومات حقيقية وصحيحة ومحدثة بالكامل (مثل الاسم، الإحداثيات، التخصص، ورقم الهاتف). تحتفظ الإدارة بالحق المطلق في تعليق أو حذف أي حساب طبي يتبين تقديمه لمعلومات مضللة أو غير مرخصة من النقابات المهنية المختصة أو وزارة الصحة الفلسطينية.
-              </p>
-            </div>
-
-            {/* Clause 3 */}
-            <div className="space-y-2">
-              <h3 className="text-lg font-black text-slate-800 flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-primary" /> 3. سياسة التقييمات والمراجعات
-              </h3>
-              <p className="text-slate-500 text-xs md:text-sm font-medium leading-relaxed pr-4">
-                تتيح المنصة للمرضى إضافة تقييماتهم لخدمات العيادات. نلتزم بنشر المراجعات بشفافية تامة ومراجعتها لمنع أي إساءة، تجريح، أو مراجعات كاذبة تستهدف تشويه السمعة المهنية. تحتفظ الإدارة بحق إخفاء أي تعليق يخالف الآداب العامة.
-              </p>
-            </div>
-
-            {/* Clause 4 */}
-            <div className="space-y-2">
-              <h3 className="text-lg font-black text-slate-800 flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-primary" /> 4. الخصوصية وحماية البيانات
-              </h3>
-              <p className="text-slate-500 text-xs md:text-sm font-medium leading-relaxed pr-4">
-                نحن نحترم خصوصية المرضى والأطباء ونتعهد بالحفاظ على سرية وتأمين كافة البيانات الشخصية والملفات الطبية والرسائل المستلمة، ولن نقوم بنشرها أو بيعها لأي جهات خارجية أو أطراف ثالثة لأي أغراض دعائية.
-              </p>
-            </div>
-
-          </div>
-
-          <div className="border-t border-slate-100 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-semibold text-slate-400">
-            <span className="flex items-center gap-1.5"><ShieldAlert className="w-4 h-4 text-slate-300" /> آخر تحديث للاتفاقية: مايو 2026</span>
-            <span className="flex items-center gap-1.5"><HeartHandshake className="w-4 h-4 text-slate-300" /> ملامح.ps - معاً لصحة وجمال فلسطين</span>
-          </div>
-
-        </div>
-      </div>
-    </main>
+      </ContentPanel>
+    </PageShell>
   );
 }

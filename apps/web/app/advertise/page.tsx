@@ -42,23 +42,18 @@ export default function AdvertiseWithUs() {
   };
 
   return (
-    <main className="min-h-screen bg-[#f7fafc] pb-24 pt-24" dir="rtl">
-      {/* Back button */}
-      <div className="mx-auto max-w-[1400px] px-4 lg:px-8 mb-6">
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 px-5 py-2.5 rounded-full text-sm font-bold transition-all hover:scale-105"
-        >
-          <ArrowRight className="w-4 h-4" />
+    <main className="min-h-screen animate-fade-in bg-transparent pb-24 pt-4" dir="rtl">
+      <div className="section-shell mb-8">
+        <Link href="/" className="btn-malama-outline mb-6 inline-flex text-xs">
+          <ArrowRight className="h-4 w-4" />
           الرئيسية
         </Link>
-      </div>
-      <section className="mx-auto grid max-w-[1400px] gap-8 px-4 lg:grid-cols-[minmax(0,0.95fr)_minmax(420px,1.05fr)] lg:px-8">
-        <div className="flex flex-col justify-center text-right">
-          <span className="mb-4 inline-flex w-fit items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-4 py-2 text-xs font-black text-amber-700">
-            <Megaphone className="h-4 w-4" />
-            أعلن مع ملامح
-          </span>
+        <div className="grid gap-8 lg:grid-cols-[minmax(0,0.95fr)_minmax(420px,1.05fr)] lg:items-start">
+          <div className="text-right">
+            <span className="mb-4 inline-flex w-fit items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-4 py-2 text-xs font-black text-amber-700">
+              <Megaphone className="h-4 w-4" />
+              أعلن مع ملامح
+            </span>
           <h1 className="text-4xl font-black leading-tight text-slate-950 md:text-6xl">
             إعلان واضح، جمهور مهتم، وتواصل مباشر.
           </h1>
@@ -70,9 +65,9 @@ export default function AdvertiseWithUs() {
             <Value icon={ImageIcon} title="بنرات" />
             <Value icon={MessageSquare} title="واتساب مباشر" />
           </div>
-        </div>
+          </div>
 
-        <form onSubmit={handleSubmit} className="rounded-2xl border border-slate-200 bg-white p-5 text-right shadow-xl md:p-7">
+        <form onSubmit={handleSubmit} className="bento-card shine-border p-5 text-right md:p-7">
           <div className="mb-5">
             <p className="text-sm font-black text-sky-600">استمارة الإعلان</p>
             <h2 className="mt-1 text-2xl font-black text-slate-950">احكيلنا شو الإعلان وطبيعته</h2>
@@ -156,23 +151,24 @@ export default function AdvertiseWithUs() {
             </a>
           </div>
         </form>
-      </section>
+        </div>
+      </div>
 
-      <section className="mx-auto mt-8 max-w-[1400px] px-4 lg:px-8">
+      <div className="section-shell">
         <div className="grid gap-4 md:grid-cols-3">
           {["بنر الصفحة الرئيسية", "إعلان عرض طبي", "إعلان سوق أو وظيفة"].map((item) => (
-            <div key={item} className="rounded-2xl border border-slate-200 bg-white p-5 text-right shadow-sm">
+            <div key={item} className="bento-card p-5 text-right">
               <CheckCircle className="mb-3 h-6 w-6 text-emerald-500" />
               <h3 className="text-lg font-black text-slate-950">{item}</h3>
               <p className="mt-2 text-sm font-semibold leading-7 text-slate-500">نجهز الإعلان بصيغة مناسبة للموقع والتطبيق مع توجيه واضح للتواصل.</p>
             </div>
           ))}
         </div>
-        <Link href="/" className="mt-6 inline-flex items-center gap-2 text-sm font-black text-slate-600 hover:text-sky-600">
+        <Link href="/" className="btn-malama-outline mt-6 inline-flex text-xs">
           <ArrowRight className="h-4 w-4" />
           العودة للرئيسية
         </Link>
-      </section>
+      </div>
     </main>
   );
 }

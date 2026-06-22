@@ -36,28 +36,27 @@ export default function OffersPage() {
   const restOffers = offers.slice(1);
 
   return (
-    <main className="min-h-screen bg-slate-50 pb-24 pt-24" dir="rtl">
-      {/* Back button */}
-      <div className="mx-auto max-w-[1400px] px-4 lg:px-8 mb-6">
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 px-5 py-2.5 rounded-full text-sm font-bold transition-all hover:scale-105"
-        >
-          <ArrowRight className="w-4 h-4" />
+    <main className="min-h-screen animate-fade-in bg-transparent pb-24" dir="rtl">
+      <div className="section-shell pb-8 pt-4">
+        <Link href="/" className="btn-malama-outline mb-6 inline-flex text-xs">
+          <ArrowRight className="h-4 w-4" />
           الرئيسية
         </Link>
-      </div>
-      <section className="mx-auto grid max-w-[1400px] gap-8 px-4 lg:grid-cols-[minmax(0,0.95fr)_minmax(420px,1.05fr)] lg:px-8">
-        <div className="flex flex-col justify-center text-right">
-          <h1 className="text-4xl font-black leading-tight text-slate-950 md:text-6xl">
-            أفضل عروض العناية والجمال بدون مساومة على الجودة.
-          </h1>
-          <p className="mt-5 max-w-2xl text-base font-semibold leading-8 text-slate-600">
-            عروض محدثة من أطباء وعيادات ضمن شبكة ملامح. قارن السعر، مدة العرض، والطبيب قبل الحجز.
-          </p>
-        </div>
+        <div className="grid gap-8 lg:grid-cols-[minmax(0,0.95fr)_minmax(420px,1.05fr)] lg:items-center">
+          <div className="text-right">
+            <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-xs font-black text-primary">
+              <Sparkles className="h-3.5 w-3.5" />
+              عروض مختارة
+            </span>
+            <h1 className="text-3xl font-black leading-tight tracking-tight text-slate-950 md:text-5xl">
+              أفضل عروض العناية والجمال بدون مساومة على الجودة.
+            </h1>
+            <p className="mt-4 max-w-2xl text-base font-semibold leading-8 text-slate-600">
+              عروض محدثة من أطباء وعيادات ضمن شبكة ملامح. قارن السعر، المدة، والطبيب قبل الحجز.
+            </p>
+          </div>
 
-        <div className="relative min-h-[360px] overflow-hidden rounded-2xl bg-slate-900 shadow-xl">
+          <div className="page-hero-dark relative min-h-[360px] overflow-hidden">
           <Image
             src={getOfferImage(0)}
             alt={featuredOffer?.title || "عروض ملامح"}
@@ -76,10 +75,11 @@ export default function OffersPage() {
               {featuredOffer?.description || "تابع أحدث الخصومات والعروض من العيادات المعتمدة."}
             </p>
           </div>
+          </div>
         </div>
-      </section>
+      </div>
 
-      <section className="mx-auto mt-10 max-w-[1400px] px-4 lg:px-8">
+      <section className="section-shell pb-24">
         {loading ? (
           <LoadingGrid />
         ) : offers.length ? (
@@ -89,7 +89,7 @@ export default function OffersPage() {
               const discount = offer.discount_percentage ?? 0;
 
               return (
-                <article key={offer.id} className="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:border-amber-200 hover:shadow-lg">
+                <article key={offer.id} className="bento-card shine-border group overflow-hidden">
                   <div className="relative h-56 overflow-hidden bg-slate-100">
                     <Image src={getOfferImage(index + 1)} alt={offer.title} fill className="object-cover transition duration-700 group-hover:scale-105" />
                     <div className="absolute right-4 top-4 rounded-xl bg-rose-600 px-4 py-3 text-center text-white shadow-lg">

@@ -104,20 +104,14 @@ export default function MarketplacePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f7fafc] px-4 py-24 lg:px-8" dir="rtl">
-      <div className="mx-auto max-w-[1400px]">
-        {/* Back button */}
-        <div className="mb-6">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2 bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 px-5 py-2.5 rounded-full text-sm font-bold transition-all hover:scale-105"
-          >
-            <ArrowRight className="w-4 h-4" />
-            الرئيسية
-          </Link>
-        </div>
+    <main className="min-h-screen animate-fade-in bg-transparent pb-24" dir="rtl">
+      <div className="section-shell pb-8 pt-4">
+        <Link href="/" className="btn-malama-outline mb-6 inline-flex text-xs">
+          <ArrowRight className="w-4 h-4" />
+          الرئيسية
+        </Link>
         <div className="mb-10 grid gap-6 lg:grid-cols-[minmax(0,1fr)_420px]">
-          <div className="relative overflow-hidden rounded-2xl bg-slate-950 p-7 text-white shadow-xl md:p-10">
+          <div className="page-hero-dark relative overflow-hidden rounded-3xl p-7 text-white md:p-10">
             <Image
               src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1400&q=80"
               alt="مستلزمات وأجهزة العيادات الطبية والتجميلية"
@@ -159,7 +153,7 @@ export default function MarketplacePage() {
           </div>
         </div>
 
-        <div className="mb-8 flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm md:flex-row md:items-center md:justify-between">
+        <div className="mb-8 flex flex-col gap-4 bento-card p-4 md:flex-row md:items-center md:justify-between">
           <div className="flex w-full overflow-x-auto rounded-xl bg-slate-100 p-1 md:w-fit">
             <button
               onClick={() => setActiveTab("all")}
@@ -203,10 +197,8 @@ export default function MarketplacePage() {
             {filteredAds.map((ad) => (
               <div
                 key={ad.id}
-                className={`relative flex flex-col overflow-hidden rounded-2xl border bg-white p-5 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg ${
-                  ad.is_featured 
-                    ? "border-amber-300 ring-2 ring-amber-100" 
-                    : "border-slate-200 hover:border-sky-200"
+                className={`bento-card shine-border relative flex flex-col overflow-hidden p-5 transition duration-300 hover:-translate-y-1 ${
+                  ad.is_featured ? "ring-2 ring-amber-200" : ""
                 }`}
               >
                 {/* Featured Badge */}
@@ -560,7 +552,7 @@ export default function MarketplacePage() {
           </div>
         </div>
       )}
-    </div>
+    </main>
   );
 }
 
@@ -574,7 +566,7 @@ function MarketMetric({
   value: string | number;
 }) {
   return (
-    <div className="flex items-center gap-4 rounded-2xl border border-slate-200 bg-white p-5 text-right shadow-sm">
+    <div className="flex items-center gap-4 bento-card p-5 text-right">
       <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-sky-50 text-sky-600">
         <Icon className="h-6 w-6" />
       </span>

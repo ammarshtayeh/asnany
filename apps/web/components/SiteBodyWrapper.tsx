@@ -30,7 +30,7 @@ export default function SiteBodyWrapper({ children }: { children: React.ReactNod
           ? undefined
           : { paddingTop: "calc(var(--navbar-height, 72px) + var(--ticker-height, 0px))" }
       }
-      className="flex min-h-screen flex-1 flex-col"
+      className={`flex min-h-screen flex-1 flex-col ${portal ? "" : "animate-fade-in"}`}
     >
       {children}
     </div>

@@ -69,14 +69,14 @@ export default function AppointmentsPage() {
   }, [loadAppointments]);
 
   return (
-    <main className="min-h-screen bg-slate-50 px-4 py-8" dir="rtl">
-      <section className="mx-auto max-w-3xl">
-        <Link href="/" className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-black text-slate-700 shadow-sm hover:bg-slate-100">
+    <main className="min-h-screen animate-fade-in bg-transparent pb-24 pt-4" dir="rtl">
+      <section className="section-shell mx-auto max-w-3xl">
+        <Link href="/" className="btn-malama-outline inline-flex text-xs">
           <ArrowRight className="h-4 w-4" />
           الرئيسية
         </Link>
 
-        <div className="mt-6 rounded-[2rem] border border-slate-200 bg-white p-5 shadow-xl shadow-slate-950/5 sm:p-7">
+        <div className="bento-card shine-border mt-6 p-5 sm:p-7">
           <div className="flex items-start gap-4">
             <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-sky-50 text-sky-600">
               <CalendarCheck2 className="h-6 w-6" />

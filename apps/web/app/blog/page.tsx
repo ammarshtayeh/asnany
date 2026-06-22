@@ -37,15 +37,11 @@ export default function BlogPage() {
   const rest = filteredArticles.slice(1);
 
   return (
-    <main className="min-h-screen bg-[#f7fafc] pb-24 pt-24" dir="rtl">
-      <section className="mx-auto max-w-[1400px] px-4 lg:px-8">
+    <main className="min-h-screen animate-fade-in bg-transparent pb-24 pt-4" dir="rtl">
+      <section className="section-shell pb-24">
         <div className="mb-8 flex flex-col gap-5 text-right md:flex-row md:items-end md:justify-between">
           <div>
-            {/* Back button */}
-            <Link
-              href="/"
-              className="inline-flex items-center gap-2 bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 px-4 py-2 rounded-full text-xs font-bold transition-all hover:scale-105 mb-5"
-            >
+            <Link href="/" className="btn-malama-outline mb-5 inline-flex text-xs">
               <ArrowRight className="w-3.5 h-3.5" />
               الرئيسية
             </Link>
@@ -60,7 +56,7 @@ export default function BlogPage() {
               مقالات قصيرة ومفيدة تساعد المرضى على فهم الخيارات قبل زيارة الطبيب.
             </p>
           </div>
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+          <div className="bento-card p-5">
             <p className="text-3xl font-black text-slate-950">{articles.length || 0}</p>
             <p className="mt-1 text-sm font-bold text-slate-500">مقال وخبر</p>
           </div>
@@ -86,7 +82,7 @@ export default function BlogPage() {
         {loading ? (
           <div className="h-[420px] animate-pulse rounded-2xl bg-white" />
         ) : lead ? (
-          <Link href={`/blog/${lead.id}`} className="group grid overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:border-emerald-200 hover:shadow-lg lg:grid-cols-[1.1fr_0.9fr]">
+          <Link href={`/blog/${lead.id}`} className="group bento-card shine-border grid overflow-hidden transition hover:-translate-y-0.5 lg:grid-cols-[1.1fr_0.9fr]">
             <div className="relative min-h-[320px] overflow-hidden bg-slate-100">
               <Image src={lead.image_url} alt={lead.title} fill priority className="object-cover transition duration-700 group-hover:scale-105" />
               <span className="absolute right-5 top-5 rounded-xl bg-white/90 px-3 py-1.5 text-xs font-black text-emerald-700 backdrop-blur">
@@ -127,7 +123,7 @@ export default function BlogPage() {
 
       <section className="mx-auto mt-8 grid max-w-[1400px] gap-5 px-4 md:grid-cols-2 xl:grid-cols-3 lg:px-8">
         {rest.map((article) => (
-          <Link key={article.id} href={`/blog/${article.id}`} className="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:border-emerald-200 hover:shadow-lg">
+          <Link key={article.id} href={`/blog/${article.id}`} className="group bento-card overflow-hidden transition hover:-translate-y-1">
             <div className="relative h-52 overflow-hidden bg-slate-100">
               <Image src={article.image_url} alt={article.title} fill className="object-cover transition duration-700 group-hover:scale-105" />
             </div>

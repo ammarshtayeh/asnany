@@ -92,30 +92,24 @@ export default function StoresPage() {
   };
 
   return (
-    <main className="min-h-screen bg-slate-50 font-sans pb-24">
-      {/* Header */}
-      <div className="bg-slate-900 pt-28 pb-36 px-4 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20 pointer-events-none" />
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-blue-600 rounded-full blur-[120px] opacity-20" />
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-indigo-600 rounded-full blur-[120px] opacity-20" />
+    <main className="min-h-screen animate-fade-in bg-transparent font-sans pb-24">
+      <div className="section-shell pb-8 pt-4">
+        <Link href="/" className="btn-malama-outline mb-6 inline-flex text-xs">
+          <ArrowRight className="w-4 h-4" />
+          الرئيسية
+        </Link>
+        <div className="page-hero-dark relative overflow-hidden rounded-3xl px-6 py-14 text-center md:py-16">
+        <div className="absolute top-0 right-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10 pointer-events-none" />
+        <div className="absolute -top-40 -right-40 w-96 h-96 bg-emerald-500 rounded-full blur-[120px] opacity-15" />
+        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-amber-500 rounded-full blur-[120px] opacity-10" />
 
-        <div className="max-w-6xl mx-auto text-center relative z-10">
-          {/* Back button */}
-          <div className="flex justify-start mb-6" dir="rtl">
-            <Link
-              href="/"
-              className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white px-5 py-2.5 rounded-full text-sm font-bold transition-all hover:scale-105"
-            >
-              <ArrowRight className="w-4 h-4" />
-              الرئيسية
-            </Link>
-          </div>
-          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white mb-6">
+        <div className="relative z-10 mx-auto max-w-4xl text-center">
+          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-white/15 bg-white/10 backdrop-blur-md text-white mb-6">
             <Package className="w-4 h-4 text-blue-400" />
             <span className="text-sm font-bold">للأطباء والعيادات والمراكز الطبية والتجميلية (B2B)</span>
           </div>
           <h1 className="text-4xl md:text-6xl font-black text-white mb-6 tracking-tight">
-            دليل الموردين و <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">الشركات الطبية</span>
+            دليل الموردين و <span className="text-gradient-gold">الشركات الطبية</span>
           </h1>
           <p className="text-slate-300 text-lg md:text-xl font-medium max-w-2xl mx-auto mb-10 leading-relaxed">
             تواصل مباشرة مع كبرى شركات الأجهزة والمستلزمات الطبية، التجميلية، والبصريات في فلسطين، واحصل على أفضل عروض التوريد لعيادتك أو مركزك.
@@ -139,23 +133,24 @@ export default function StoresPage() {
             {/* B2B Register Button */}
             <button
               onClick={() => setIsModalOpen(true)}
-              className="w-full sm:w-auto bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white px-6 py-4 rounded-2xl font-black transition-all flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20"
+              className="w-full sm:w-auto bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white px-6 py-4 rounded-2xl font-black transition-all flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20"
             >
               <Plus className="w-5 h-5" />
               سجل شركتك الطبية
             </button>
           </div>
         </div>
+        </div>
       </div>
 
-      {/* Stores List */}
-      <div className="max-w-6xl mx-auto px-4 -mt-16 relative z-20">
+      <div className="section-shell relative z-20 -mt-10 pb-24">
+      <div className="mx-auto max-w-6xl">
         {loading ? (
           <div className="flex justify-center items-center py-20">
             <div className="w-12 h-12 rounded-full border-4 border-blue-500 border-t-transparent animate-spin" />
           </div>
         ) : filteredStores.length === 0 ? (
-          <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-xl">
+          <div className="bento-card p-8">
             {stores.length === 0 ? (
               <div className="text-center">
                 <Building2 className="w-16 h-16 text-slate-300 mx-auto mb-4" />
@@ -188,7 +183,7 @@ export default function StoresPage() {
               return (
                 <div 
                   key={store.id} 
-                  className="bg-white rounded-3xl p-6 shadow-xl shadow-slate-200/50 border border-slate-100 flex flex-col sm:flex-row gap-6 group hover:border-blue-200 hover:shadow-2xl transition-all duration-300"
+                  className="bento-card shine-border p-6 flex flex-col sm:flex-row gap-6 group hover:-translate-y-0.5 transition-all duration-300"
                 >
                   {/* Logo */}
                   <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-2xl overflow-hidden bg-slate-100 flex-shrink-0 relative border border-slate-100">
@@ -253,6 +248,7 @@ export default function StoresPage() {
             })}
           </div>
         )}
+      </div>
       </div>
 
       {/* Registration Modal */}

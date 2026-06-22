@@ -55,15 +55,15 @@ export default function DiscountCardPage() {
   };
 
   return (
-    <main className="min-h-screen bg-slate-50" dir="rtl">
-      <section className="bg-white px-4 pt-24 pb-10">
+    <main className="min-h-screen animate-fade-in bg-transparent pb-24" dir="rtl">
+      <section className="section-shell pb-8 pt-4">
         <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[1fr_430px] lg:items-center">
-          <div>
-            <Link href="/" className="mb-7 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-black text-slate-700 hover:bg-slate-50">
+          <div className="text-right">
+            <Link href="/" className="btn-malama-outline mb-7 inline-flex text-xs">
               <ArrowRight className="h-4 w-4" />
               الرئيسية
             </Link>
-            <div className="inline-flex items-center gap-2 rounded-full bg-blue-50 px-4 py-2 text-sm font-black text-blue-700">
+            <div className="inline-flex items-center gap-2 rounded-full border border-sky-200 bg-sky-50 px-4 py-2 text-sm font-black text-sky-700">
               <CreditCard className="h-4 w-4" />
               بطاقة خصم أسناني
             </div>
@@ -75,7 +75,7 @@ export default function DiscountCardPage() {
             </p>
             <div className="mt-6 grid gap-3 sm:grid-cols-3">
               {["طلب سريع", "تفعيل من الأدمن", "تظهر للطبيب"].map((item) => (
-                <div key={item} className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm font-black text-slate-700">
+                <div key={item} className="bento-card p-4 text-sm font-black text-slate-700">
                   <CheckCircle2 className="mb-2 h-5 w-5 text-emerald-500" />
                   {item}
                 </div>
@@ -83,7 +83,7 @@ export default function DiscountCardPage() {
             </div>
           </div>
 
-          <form onSubmit={submit} className="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-xl shadow-slate-950/5">
+          <form onSubmit={submit} className="bento-card shine-border p-5 md:p-6">
             <div className="mb-5 rounded-3xl bg-slate-950 p-5 text-white">
               <p className="text-xs font-black text-slate-400">بطاقة خصم ملامح</p>
               <p className="mt-8 text-2xl font-black">طلب بطاقة خصم</p>
@@ -103,8 +103,8 @@ export default function DiscountCardPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-10">
-        <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm md:p-7">
+      <section className="section-shell pb-24">
+        <div className="bento-card shine-border mx-auto max-w-6xl p-5 md:p-7">
           <div className="mb-6 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <div>
               <h2 className="text-2xl font-black text-slate-950">العيادات المشاركة</h2>
@@ -131,7 +131,7 @@ export default function DiscountCardPage() {
           ) : (
             <div className="grid gap-3 md:grid-cols-2">
               {participating.map((doctor) => (
-                <article key={doctor.id} className="rounded-2xl border border-slate-200 p-4">
+                <article key={doctor.id} className="bento-card p-4">
                   <h3 className="text-lg font-black text-slate-950">{doctor.name}</h3>
                   <p className="mt-1 flex items-center gap-1 text-sm font-bold text-slate-500">
                     <MapPin className="h-4 w-4" />

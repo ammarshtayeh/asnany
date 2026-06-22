@@ -61,32 +61,36 @@ export default function SubscriptionsPage() {
   };
 
   return (
-    <main className="min-h-screen bg-slate-50 pb-24" dir="rtl">
-      <section className="relative overflow-hidden bg-slate-950 px-4 py-16 text-white">
-        <div className="absolute inset-0 bg-gradient-to-br from-violet-900/40 via-slate-950 to-emerald-900/30" />
-        <div className="relative mx-auto max-w-5xl text-right">
-          <Link href="/join" className="inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-2 text-sm font-bold">
+    <main className="min-h-screen animate-fade-in bg-transparent pb-24" dir="rtl">
+      <div className="section-shell pb-2 pt-3 sm:pt-4">
+        <section className="page-hero-dark relative overflow-hidden px-6 py-14 text-right text-white sm:px-10 sm:py-16">
+          <div className="pointer-events-none absolute -right-16 top-0 h-64 w-64 rounded-full bg-violet-500/15 blur-[100px]" />
+          <div className="pointer-events-none absolute -left-16 bottom-0 h-72 w-72 rounded-full bg-emerald-500/10 blur-[100px]" />
+          <div className="relative z-10 mx-auto max-w-5xl">
+          <Link href="/join" className="btn-malama-ghost mb-6 inline-flex px-4 py-2 text-xs sm:text-sm">
             <ArrowRight className="h-4 w-4" /> انضم كطبيب شريك
           </Link>
-          <span className="mt-6 inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-xs font-black">
-            <Sparkles className="h-3.5 w-3.5 text-amber-400" /> باقات ملامح للأطباء والشركاء
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-[#d4af37]/30 bg-[#d4af37]/10 px-3 py-1 text-xs font-black text-[#fde68a]">
+            <Sparkles className="h-3.5 w-3.5" /> باقات ملامح للأطباء والشركاء
           </span>
           <h1 className="mt-4 text-4xl font-black md:text-5xl">اختر باقتك وابدأ الظهور</h1>
           <p className="mt-3 max-w-2xl text-slate-300 font-semibold leading-7">
             ثلاث باقات واضحة: دليل، مميز، وإعلانات. كل باقة توضّح بالضبط ماذا تحصل — بدون التباس. الأسعار بالدولار الأمريكي.
           </p>
-        </div>
-      </section>
+          </div>
+        </section>
+      </div>
 
-      <div className="mx-auto -mt-10 max-w-6xl px-4 grid gap-6 lg:grid-cols-3">
+      <div className="section-shell relative z-10 -mt-12 pb-24">
+      <div className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-3">
         {(loading ? [] : packages).map((pkg) => {
           const recommended = pkg.slug === RECOMMENDED_PACKAGE_SLUG;
           const selected = form.package_id === pkg.id;
           return (
             <article
               key={pkg.id}
-              className={`relative rounded-3xl border bg-white p-6 shadow-xl transition hover:-translate-y-1 ${
-                selected ? "border-slate-950 ring-2 ring-slate-200" : recommended ? "border-violet-200" : "border-slate-200"
+              className={`bento-card shine-border relative p-6 transition hover:-translate-y-1 ${
+                selected ? "ring-2 ring-slate-950" : recommended ? "border-violet-200" : ""
               }`}
             >
               {recommended ? (
@@ -125,7 +129,7 @@ export default function SubscriptionsPage() {
         })}
       </div>
 
-      <div className="mx-auto mt-10 max-w-3xl rounded-3xl border border-slate-200 bg-white p-6 shadow-lg">
+      <div className="mx-auto mt-10 max-w-3xl bento-card shine-border p-6">
         <h3 className="text-xl font-black text-slate-950">طلب تفعيل الباقة</h3>
         {selectedPackage ? (
           <p className="mt-2 text-sm font-bold text-emerald-700">الباقة المختارة: {selectedPackage.name}</p>
@@ -144,6 +148,7 @@ export default function SubscriptionsPage() {
             <p className={`text-sm font-black ${message.includes("تم") ? "text-emerald-700" : "text-slate-700"}`}>{message}</p>
           ) : null}
         </div>
+      </div>
       </div>
     </main>
   );
