@@ -1,6 +1,6 @@
 export default function BookingLoading() {
   return (
-    <main className="min-h-screen bg-slate-50 p-4" dir="rtl">
+    <main className="min-h-screen animate-fade-in bg-transparent p-4" dir="rtl">
       <section className="mx-auto max-w-5xl space-y-5 pt-12">
         <div className="h-56 animate-pulse rounded-3xl bg-slate-200" />
         <div className="grid gap-4 md:grid-cols-2">

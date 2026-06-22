@@ -34,9 +34,8 @@ export default async function LabDetailPage({ params }: { params: Promise<{ id: 
   if (!service) notFound();
 
   return (
-    <main className="min-h-screen bg-slate-50" dir="rtl">
-      {/* Hero */}
-      <section className="relative overflow-hidden bg-slate-950 text-white">
+    <main className="min-h-screen animate-fade-in bg-transparent" dir="rtl">
+      <section className="page-hero-dark relative overflow-hidden text-white">
         {service.image_url && (
           <div className="absolute inset-0">
             <img
@@ -114,13 +113,13 @@ export default async function LabDetailPage({ params }: { params: Promise<{ id: 
       </section>
 
       {/* Main content */}
-      <section className="max-w-4xl mx-auto px-4 -mt-8 pb-24 relative z-10">
+      <section className="section-shell max-w-4xl mx-auto -mt-8 pb-24 relative z-10">
         <div className="grid lg:grid-cols-3 gap-6">
           {/* Left column */}
           <div className="lg:col-span-2 space-y-6">
             {/* Description */}
             {service.description && (
-              <div className="bg-white rounded-3xl border border-slate-200/70 p-7 shadow-sm">
+              <div className="bento-card p-7">
                 <div className="flex items-center gap-2 mb-4">
                   <FlaskConical className="w-5 h-5 text-sky-500" />
                   <h2 className="text-lg font-black text-slate-950">نبذة عن المختبر</h2>
@@ -133,7 +132,7 @@ export default async function LabDetailPage({ params }: { params: Promise<{ id: 
 
             {/* Services / Tests list */}
             {service.services && service.services.length > 0 && (
-              <div className="bg-white rounded-3xl border border-slate-200/70 p-7 shadow-sm">
+              <div className="bento-card p-7">
                 <div className="flex items-center gap-2 mb-5">
                   <CheckCircle2 className="w-5 h-5 text-emerald-500" />
                   <h2 className="text-lg font-black text-slate-950">الفحوصات والخدمات المتاحة</h2>
@@ -151,7 +150,7 @@ export default async function LabDetailPage({ params }: { params: Promise<{ id: 
 
             {/* Gallery */}
             {service.gallery && service.gallery.length > 0 && (
-              <div className="bg-white rounded-3xl border border-slate-200/70 p-7 shadow-sm">
+              <div className="bento-card p-7">
                 <h2 className="text-lg font-black text-slate-950 mb-5">معرض الصور</h2>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                   {service.gallery.map((img, i) => (
@@ -167,7 +166,7 @@ export default async function LabDetailPage({ params }: { params: Promise<{ id: 
           {/* Right sidebar */}
           <div className="space-y-5">
             {/* Contact card */}
-            <div className="bg-white rounded-3xl border border-slate-200/70 p-6 shadow-sm">
+            <div className="bento-card p-6">
               <h3 className="text-base font-black text-slate-950 mb-4">التواصل والحجز</h3>
               <div className="space-y-3">
                 {service.phone && (
@@ -206,7 +205,7 @@ export default async function LabDetailPage({ params }: { params: Promise<{ id: 
             </div>
 
             {/* Info card */}
-            <div className="bg-white rounded-3xl border border-slate-200/70 p-6 shadow-sm">
+            <div className="bento-card p-6">
               <h3 className="text-base font-black text-slate-950 mb-4">معلومات إضافية</h3>
               <div className="space-y-3 text-sm font-semibold text-slate-700">
                 {service.city && (

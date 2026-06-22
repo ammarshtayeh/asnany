@@ -34,10 +34,10 @@ export default function ArticlePage() {
 
   if (!article) {
     return (
-      <div className="min-h-screen bg-slate-50 flex flex-col justify-center items-center p-4 text-center">
+      <div className="min-h-screen animate-fade-in bg-transparent flex flex-col justify-center items-center p-4 text-center">
         <h3 className="text-2xl font-black text-slate-800 mb-2">المقال غير موجود</h3>
         <p className="text-slate-500 mb-6 font-medium">عذراً، لم نتمكن من العثور على المقال المطلوب.</p>
-        <Link href="/blog" className="bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-6 py-2.5 rounded-full transition-all">
+        <Link href="/blog" className="btn-malama-primary inline-flex px-6 py-2.5">
           العودة للمدونة
         </Link>
       </div>
@@ -45,7 +45,7 @@ export default function ArticlePage() {
   }
 
   return (
-    <main className="min-h-screen bg-white font-sans pb-24">
+    <main className="min-h-screen animate-fade-in bg-transparent font-sans pb-24">
       {/* Header Image */}
       <div className="relative h-[40vh] md:h-[60vh] w-full mt-20">
         <Image src={article.image_url} alt={article.title} fill className="object-cover" priority />
@@ -83,9 +83,8 @@ export default function ArticlePage() {
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto px-4 py-12 flex flex-col md:flex-row gap-12">
-        {/* Main Content */}
-        <div className="flex-1">
+      <div className="section-shell max-w-4xl mx-auto px-4 py-12 flex flex-col md:flex-row gap-12">
+        <div className="flex-1 bento-card shine-border p-8 md:p-10">
           <div className="prose prose-slate prose-lg max-w-none text-slate-700 leading-loose">
             <p className="text-xl font-medium text-slate-500 mb-8 leading-relaxed">
               {article.excerpt}
@@ -95,17 +94,11 @@ export default function ArticlePage() {
             ))}
             
             <div className="mt-12 pt-8 border-t border-slate-100 flex flex-wrap gap-4">
-              <Link 
-                href="/blog"
-                className="inline-flex items-center gap-2 bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 px-6 py-3 rounded-2xl text-sm font-black transition-all hover:scale-[1.02]"
-              >
+              <Link href="/blog" className="btn-malama-outline inline-flex text-xs">
                 <ChevronRight className="w-4 h-4" />
                 العودة للمجلة
               </Link>
-              <Link 
-                href="/"
-                className="inline-flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white px-6 py-3 rounded-2xl text-sm font-black transition-all hover:scale-[1.02]"
-              >
+              <Link href="/" className="btn-malama-primary inline-flex text-xs">
                 الرئيسية
               </Link>
             </div>
@@ -114,7 +107,7 @@ export default function ArticlePage() {
 
         {/* Sidebar / Embedded CTA */}
         <div className="w-full md:w-[350px]">
-          <div className="bg-slate-50 rounded-3xl p-6 border border-slate-100 shadow-xl shadow-slate-200/40 sticky top-28">
+          <div className="bento-card shine-border p-6 sticky top-28">
             <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-6 shadow-sm border border-slate-100 text-primary">
               <Sparkles className="w-8 h-8" />
             </div>

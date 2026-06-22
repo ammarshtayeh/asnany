@@ -1,13 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { ActivityIndicator, Pressable, ScrollView, Text, TextInput, View } from "react-native";
-import { router, useLocalSearchParams } from "expo-router";
-import { Feather } from "@expo/vector-icons";
+import { ActivityIndicator, Text, TextInput, View } from "react-native";
+import { useLocalSearchParams } from "expo-router";
 import { apiFetch } from "../lib/api";
 import { registerPushSubscription } from "../lib/notifications";
 import { setStoredPatientPhone } from "../lib/push-manager";
-import { AppButton } from "../components/Buttons";
-import { AppCard } from "../components/AppCard";
-import { AppSubtitle, AppTitle } from "../components/AppText";
+import { StackCard, StackPageLayout, StackPrimaryButton } from "../components/ui/StackPageLayout";
+import { theme } from "../constants/theme";
 
 type Appointment = {
   id: string;
@@ -64,10 +62,7 @@ export default function PatientAppointmentsScreen() {
     setAppointments(nextAppointments);
 
     await setStoredPatientPhone(phone);
-    void registerPushSubscription({
-      role: "patient",
-      patientPhone: phone,
-    }).catch(() => null);
+    void registerPushSubscription({ role: "patient", patientPhone: phone }).catch(() => null);
   }, [phoneValue]);
 
   useEffect(() => {
@@ -80,52 +75,49 @@ export default function PatientAppointmentsScreen() {
   }, [params.phone, params.query, loadAppointments]);
 
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: "#f8fafc" }} contentContainerStyle={{ padding: 16, paddingBottom: 40 }}>
-      <Pressable onPress={() => router.back()} style={{ flexDirection: "row-reverse", alignItems: "center", gap: 8, marginBottom: 16 }}>
-        <Feather name="arrow-right" size={18} color="#334155" />
-        <Text style={{ fontWeight: "800", color: "#334155" }}>رجوع</Text>
-      </Pressable>
-
-      <AppTitle>حجوزاتي</AppTitle>
-      <AppSubtitle>أدخل رقم الهاتف المستخدم في الحجز.</AppSubtitle>
-
-      <AppCard style={{ marginTop: 16, gap: 12 }}>
+    <StackPageLayout badge="📅 متابعة آمنة" title="حجوزاتي" subtitle="أدخل رقم الهاتف المستخدم في الحجز لعرض مواعيدك فقط">
+      <StackCard>
         <TextInput
           value={phoneValue}
           onChangeText={setPhoneValue}
           placeholder="رقم الهاتف"
           keyboardType="phone-pad"
-          style={{ borderWidth: 1, borderColor: "#e2e8f0", borderRadius: 12, padding: 14, textAlign: "right", fontWeight: "700" }}
+          placeholderTextColor={theme.textSoft}
+          style={{ borderWidth: 1, borderColor: theme.borderLight, borderRadius: 14, padding: 14, textAlign: "right", fontWeight: "700", backgroundColor: theme.bg, color: theme.text }}
         />
-        <AppButton label={loading ? "جاري البحث..." : "عرض الحجوزات"} onPress={loadAppointments} disabled={!canSearch || loading} />
-        {error ? <Text style={{ color: "#b91c1c", fontWeight: "700", textAlign: "right" }}>{error}</Text> : null}
-      </AppCard>
+        <View style={{ marginTop: 12 }}>
+          <StackPrimaryButton label={loading ? "جاري البحث..." : "عرض الحجوزات"} onPress={() => void loadAppointments()} />
+        </View>
+        {error ? <Text style={{ color: "#b91c1c", fontWeight: "700", textAlign: "right", marginTop: 10 }}>{error}</Text> : null}
+      </StackCard>
 
-      {loading ? <ActivityIndicator style={{ marginTop: 24 }} color="#0c5e47" /> : null}
+      {loading ? <ActivityIndicator style={{ marginTop: 8 }} color={theme.teal} /> : null}
 
       {!searched ? (
-        <Text style={{ marginTop: 24, textAlign: "center", color: "#64748b", fontWeight: "600" }}>حجوزاتك ستظهر هنا بعد التحقق.</Text>
+        <Text style={{ textAlign: "center", color: theme.textMuted, fontWeight: "600" }}>حجوزاتك ستظهر هنا بعد التحقق.</Text>
       ) : appointments.length === 0 && !loading ? (
-        <Text style={{ marginTop: 24, textAlign: "center", color: "#64748b", fontWeight: "700" }}>لا توجد حجوزات لهذا الرقم.</Text>
+        <StackCard>
+          <Text style={{ textAlign: "center", color: theme.textMuted, fontWeight: "700" }}>لا توجد حجوزات لهذا الرقم.</Text>
+        </StackCard>
       ) : (
         appointments.map((appointment) => {
           const status = statusStyle[appointment.status || "pending"] || statusStyle.pending;
           return (
-            <AppCard key={appointment.id} style={{ marginTop: 12 }}>
-              <Text style={{ fontWeight: "900", fontSize: 16, textAlign: "right" }}>{appointment.doctors?.name || "الطبيب"}</Text>
-              <Text style={{ marginTop: 4, color: "#64748b", fontWeight: "600", textAlign: "right" }}>
+            <StackCard key={appointment.id}>
+              <Text style={{ fontWeight: "900", fontSize: 16, textAlign: "right", color: theme.text }}>{appointment.doctors?.name || "الطبيب"}</Text>
+              <Text style={{ marginTop: 4, color: theme.textMuted, fontWeight: "600", textAlign: "right" }}>
                 {[appointment.doctors?.city, appointment.doctors?.area].filter(Boolean).join(" - ")}
               </Text>
               <View style={{ marginTop: 8, alignSelf: "flex-end", backgroundColor: status.bg, paddingHorizontal: 10, paddingVertical: 4, borderRadius: 999 }}>
                 <Text style={{ color: status.text, fontWeight: "800", fontSize: 12 }}>{status.label}</Text>
               </View>
-              <Text style={{ marginTop: 8, fontWeight: "700", textAlign: "right" }}>
+              <Text style={{ marginTop: 8, fontWeight: "700", textAlign: "right", color: theme.text }}>
                 {appointment.date} {appointment.time ? `— ${appointment.time}` : ""}
               </Text>
-            </AppCard>
+            </StackCard>
           );
         })
       )}
-    </ScrollView>
+    </StackPageLayout>
   );
 }

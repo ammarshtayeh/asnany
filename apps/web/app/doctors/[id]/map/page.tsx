@@ -58,9 +58,9 @@ export default function DoctorMapPage() {
   })();
 
   return (
-    <main className="min-h-screen bg-slate-50 px-4 py-8" dir="rtl">
-      <div className="mx-auto max-w-5xl space-y-5">
-        <section className="rounded-3xl bg-white p-5 shadow-sm">
+    <main className="min-h-screen animate-fade-in bg-transparent pb-24 pt-4" dir="rtl">
+      <div className="section-shell mx-auto max-w-5xl space-y-5">
+        <section className="bento-card p-5">
           <p className="text-sm font-black text-sky-600">خريطة العيادة</p>
           <h1 className="mt-2 text-3xl font-black text-slate-950">
             {doctor?.name || "جاري التحميل..."}
@@ -70,7 +70,7 @@ export default function DoctorMapPage() {
           </p>
         </section>
 
-        <section className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-4 shadow-sm">
+        <section className="bento-card shine-border overflow-hidden p-4">
           <div className="rounded-[1.6rem] border border-sky-100 bg-sky-50 p-4">
             
             {/* Live Location Alert Status */}

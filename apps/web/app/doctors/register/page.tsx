@@ -133,9 +133,9 @@ export default function DoctorRegister() {
   };
 
   return (
-    <main className="bg-slate-50 min-h-screen relative font-sans" dir="rtl">
-      {/* Premium Gradient Header */}
-      <div className="h-[250px] w-full bg-slate-900 relative overflow-hidden flex items-center justify-center text-center">
+    <main className="min-h-screen animate-fade-in bg-transparent relative font-sans pb-24" dir="rtl">
+      <div className="section-shell pt-4 pb-0">
+      <div className="page-hero-dark relative overflow-hidden rounded-3xl py-16 text-center text-white">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/80 via-slate-900 to-secondary/80" />
         <div className="absolute top-8 right-8 z-50">
           <Link
@@ -159,9 +159,11 @@ export default function DoctorRegister() {
           </p>
         </div>
       </div>
+      </div>
 
-      <div className="max-w-3xl mx-auto px-4 -mt-16 pb-24 relative z-10">
-        <div className="bg-white rounded-3xl shadow-2xl p-6 md:p-10 border border-slate-100">
+      <div className="section-shell relative z-10 -mt-12 pb-24">
+      <div className="mx-auto max-w-3xl">
+        <div className="bento-card shine-border p-6 md:p-10">
 
           {success ? (
             <div className="text-center py-10 space-y-6">
@@ -519,6 +521,7 @@ export default function DoctorRegister() {
             </form>
           )}
         </div>
+      </div>
       </div>
     </main>
   );
