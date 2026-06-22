@@ -132,7 +132,7 @@ export default function DoctorDashboardPage() {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-slate-50 p-6 flex flex-col justify-center items-center" dir="rtl">
+      <main className="min-h-screen animate-fade-in bg-transparent p-6 flex flex-col justify-center items-center" dir="rtl">
         <div className="w-10 h-10 rounded-full border-4 border-sky-500 border-t-transparent animate-spin mb-4" />
         <p className="text-slate-500 font-bold text-sm">جاري تحميل لوحة التحكم الخاصة بك...</p>
       </main>
@@ -140,7 +140,7 @@ export default function DoctorDashboardPage() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-50 p-4 md:p-8 font-sans text-right" dir="rtl">
+    <main className="portal-page font-sans" dir="rtl">
       <div className="mx-auto max-w-7xl space-y-8">
         
         {/* Header Welcome Card */}
@@ -197,7 +197,7 @@ export default function DoctorDashboardPage() {
         </section>
 
         {/* Quick Summary Cards (Upcoming) */}
-        <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+        <section className="bento-card p-6 shadow-sm">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
               <h2 className="text-xl font-black text-slate-900">أقرب الحجوزات القادمة</h2>
@@ -250,7 +250,7 @@ export default function DoctorDashboardPage() {
         <div className="grid gap-6 lg:grid-cols-[1fr_400px]">
           
           {/* Main Booking Management Section */}
-          <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm flex flex-col justify-between">
+          <section className="bento-card p-6 shadow-sm flex flex-col justify-between">
             <div>
               <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-100 pb-5">
                 <div>
@@ -334,7 +334,7 @@ export default function DoctorDashboardPage() {
           <aside className="space-y-6">
             
             {/* Availability Control */}
-            <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+            <section className="bento-card p-5 shadow-sm">
               <h2 className="text-lg font-black text-slate-900 mb-4 flex items-center gap-1.5 justify-start">
                 <CheckCircle className="w-5 h-5 text-emerald-500" />
                 <span>حالة العيادة الحالية</span>
@@ -357,7 +357,7 @@ export default function DoctorDashboardPage() {
             </section>
 
             {/* Pending Requests List */}
-            <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+            <section className="bento-card p-5 shadow-sm">
               <h2 className="text-lg font-black text-slate-900 mb-4 flex items-center gap-1.5 justify-start">
                 <AlertCircle className="w-5 h-5 text-amber-500" />
                 <span>طلبات بحاجة للمراجعة</span>
@@ -377,7 +377,7 @@ export default function DoctorDashboardPage() {
             </section>
 
             {/* Clinic Details Form */}
-            <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+            <section className="bento-card p-5 shadow-sm">
               <h2 className="text-lg font-black text-slate-900 mb-4 flex items-center gap-1.5 justify-start">
                 <FileText className="w-5 h-5 text-sky-500" />
                 <span>بيانات الاتصال والعنوان</span>
@@ -392,7 +392,7 @@ export default function DoctorDashboardPage() {
             </section>
 
             {/* Weekly Working Hours */}
-            <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+            <section className="bento-card p-5 shadow-sm">
               <h2 className="text-lg font-black text-slate-900 mb-4 flex items-center gap-1.5 justify-start">
                 <Clock className="w-5 h-5 text-violet-500" />
                 <span>ساعات العمل الأسبوعية</span>

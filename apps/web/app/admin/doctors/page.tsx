@@ -377,7 +377,7 @@ export default function AdminDoctors() {
       {/* Add Doctor Modal */}
       {showAddModal && (
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-[999] flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-2xl w-full p-6 md:p-8 shadow-2xl relative border border-slate-100 overflow-y-auto max-h-[90vh]">
+          <div className="bento-card max-w-2xl w-full p-6 md:p-8 shadow-2xl relative border border-slate-100 overflow-y-auto max-h-[90vh]">
             <h2 className="text-2xl font-black text-slate-900 mb-6">إضافة طبيب جديد للدليل</h2>
 
             <form onSubmit={handleAddDoctor} className="space-y-4">
@@ -567,7 +567,7 @@ export default function AdminDoctors() {
       {/* Edit Doctor Modal */}
       {showEditModal && activeDoctor && (
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-[999] flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-2xl w-full p-6 md:p-8 shadow-2xl relative border border-slate-100 overflow-y-auto max-h-[90vh]">
+          <div className="bento-card max-w-2xl w-full p-6 md:p-8 shadow-2xl relative border border-slate-100 overflow-y-auto max-h-[90vh]">
             <h2 className="text-2xl font-black text-slate-900 mb-6">تعديل بيانات الطبيب: د. {activeDoctor.name}</h2>
 
             <form onSubmit={handleEditDoctor} className="space-y-4">

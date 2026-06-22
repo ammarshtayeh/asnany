@@ -5,6 +5,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { apiFetch } from "../lib/api";
 import { FORM_PHONE_PLACEHOLDER } from "../lib/site-contact";
 import { EmptyStateCTA } from "../components/EmptyStateCTA";
+import { theme } from "../constants/theme";
 
 type Store = {
   id: string;
@@ -132,7 +133,7 @@ export default function StoresScreen() {
       </View>
 
       {/* Stores list */}
-      <View style={{ backgroundColor: "#f8fafc", borderTopLeftRadius: 28, borderTopRightRadius: 28, marginTop: -24, padding: 20, gap: 14 }}>
+      <View style={{ backgroundColor: theme.bg, borderTopLeftRadius: 28, borderTopRightRadius: 28, marginTop: -24, padding: 20, gap: 14 }}>
         {loading ? (
           <View style={{ alignItems: "center", paddingVertical: 40 }}>
             <ActivityIndicator size="large" color="#3b82f6" />

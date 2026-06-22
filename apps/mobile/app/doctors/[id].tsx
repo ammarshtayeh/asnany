@@ -12,6 +12,7 @@ import { ClinicMap } from "../../components/ClinicMap";
 import { openNativeMaps } from "../../lib/map-links";
 import { registerPushSubscription } from "../../lib/notifications";
 import { useAppToast } from "../../components/AppToast";
+import { theme } from "../../constants/theme";
 import { BookingDateField, BookingTimeField } from "../../components/BookingPickers";
 import { SITE_URL } from "../../lib/site-contact";
 
@@ -160,7 +161,7 @@ export default function DoctorProfileScreen() {
 
   if (loading) {
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "#f8fafc" }}>
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: theme.bg }}>
         <ActivityIndicator size="large" color="#0f172a" />
       </View>
     );
@@ -178,7 +179,7 @@ export default function DoctorProfileScreen() {
   const acceptsInsurance = Boolean(doctor.accepts_insurance || doctor.acceptsInsurance);
 
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: "#f8fafc" }} contentContainerStyle={{ padding: 16, paddingBottom: 120 }}>
+    <ScrollView style={{ flex: 1, backgroundColor: theme.bg }} contentContainerStyle={{ padding: 16, paddingBottom: 120 }}>
       <View style={{ flexDirection: "row-reverse", alignItems: "center", justifyContent: "space-between", marginBottom: 16, backgroundColor: "white", padding: 16, borderRadius: 24, borderWidth: 1, borderColor: "#e2e8f0" }}>
         <View style={{ alignItems: "flex-end", flex: 1 }}>
           <Text style={{ fontSize: 12, fontWeight: "900", color: "#64748b" }}>الملف الشخصي للأخصائي</Text>

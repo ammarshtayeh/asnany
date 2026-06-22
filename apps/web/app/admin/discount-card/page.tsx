@@ -98,7 +98,7 @@ export default function AdminDiscountCardPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 p-4 md:p-8" dir="rtl">
+    <div className="portal-page" dir="rtl">
       <header className="mb-6 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div>
           <p className="text-sm font-black text-blue-600">بطاقة الخصم</p>
@@ -130,7 +130,7 @@ export default function AdminDiscountCardPage() {
         <Stat label="مشترك فعال" value={stats.active} tone="emerald" />
       </div>
 
-      <section className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
+      <section className="bento-card overflow-hidden shadow-sm">
         <div className="border-b border-slate-100 px-5 py-4">
           <h2 className="text-xl font-black text-slate-950">سجل بطاقة الخصم</h2>
         </div>

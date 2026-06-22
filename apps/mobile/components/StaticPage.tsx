@@ -1,8 +1,7 @@
-import { ScrollView, Text, View } from "react-native";
-import { AppCard } from "./AppCard";
-import { AppButton } from "./Buttons";
-import { AppSubtitle, AppTitle } from "./AppText";
+import { Text, View } from "react-native";
 import { router } from "expo-router";
+import { StackCard, StackPageLayout, StackSecondaryButton } from "./ui/StackPageLayout";
+import { theme } from "../constants/theme";
 
 export function StaticPage({
   title,
@@ -14,29 +13,18 @@ export function StaticPage({
   points?: string[];
 }) {
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: "#f8fafc" }} contentContainerStyle={{ padding: 16, paddingBottom: 120 }}>
-      <AppCard>
-        <AppTitle>{title}</AppTitle>
-        <AppSubtitle>{subtitle}</AppSubtitle>
-        <View style={{ gap: 10, marginTop: 12 }}>
-          {points.map((point) => (
-            <View key={point} style={{ borderRadius: 18, backgroundColor: "#eff6ff", padding: 14 }}>
-              <Text style={{ textAlign: "right", fontWeight: "800", color: "#0f172a" }}>{point}</Text>
-            </View>
-          ))}
-        </View>
-        <AppButton
+    <StackPageLayout title={title} subtitle={subtitle}>
+      <StackCard>
+        {points.map((point) => (
+          <View key={point} style={{ borderRadius: 18, backgroundColor: theme.tealMuted, padding: 14, marginBottom: 10 }}>
+            <Text style={{ textAlign: "right", fontWeight: "800", color: theme.text }}>{point}</Text>
+          </View>
+        ))}
+        <StackSecondaryButton
           label="الرجوع"
-          onPress={() => {
-            if (router.canGoBack()) {
-              router.back();
-            } else {
-              router.push("/");
-            }
-          }}
-          style={{ marginTop: 12 }}
+          onPress={() => (router.canGoBack() ? router.back() : router.push("/"))}
         />
-      </AppCard>
-    </ScrollView>
+      </StackCard>
+    </StackPageLayout>
   );
 }

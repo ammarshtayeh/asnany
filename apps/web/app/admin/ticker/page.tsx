@@ -118,7 +118,7 @@ export default function AdminTickerPage() {
         </div>
       ) : null}
 
-      <div className="rounded-3xl border border-slate-200 bg-white p-6 space-y-3">
+      <div className="bento-card p-6 space-y-3">
         <h2 className="text-lg font-black">إضافة إعلان للشريط</h2>
         <input className="w-full rounded-xl border px-4 py-3 font-bold text-right" placeholder="العنوان الرئيسي *" value={form.title} onChange={(e) => setForm((c) => ({ ...c, title: e.target.value }))} />
         <input className="w-full rounded-xl border px-4 py-3 font-bold text-right" placeholder="نص فرعي (اختياري)" value={form.subtitle} onChange={(e) => setForm((c) => ({ ...c, subtitle: e.target.value }))} />

@@ -23,12 +23,12 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex" dir="rtl">
-      <div className="fixed top-0 left-0 right-0 z-40 flex h-16 items-center justify-between border-b border-slate-200 bg-white px-4 md:hidden">
+    <div className="min-h-screen mesh-bg flex" dir="rtl">
+      <div className="fixed top-0 left-0 right-0 z-40 flex h-16 items-center justify-between border-b border-slate-200/60 bg-white/85 px-4 backdrop-blur-xl md:hidden">
         <button
           type="button"
           onClick={() => setMobileOpen(true)}
-          className="rounded-xl border border-slate-200 bg-white p-2 text-slate-900"
+          className="rounded-xl border border-slate-200/80 bg-white/90 p-2 text-slate-900 shadow-sm"
           aria-label="فتح قائمة الإدارة"
         >
           <Menu className="h-5 w-5" />
@@ -46,7 +46,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
             aria-label="إغلاق القائمة"
             onClick={() => setMobileOpen(false)}
           />
-          <aside className="absolute right-0 top-0 flex h-full w-72 flex-col bg-slate-950 text-white shadow-2xl">
+          <aside className="absolute right-0 top-0 flex h-full w-72 flex-col bg-[#0a1628] text-white shadow-2xl">
             <div className="flex items-center justify-between border-b border-white/10 p-5">
               <div>
                 <h2 className="text-xl font-black">لوحة التحكم</h2>
@@ -102,7 +102,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
         </div>
       ) : null}
 
-      <aside className="w-64 bg-slate-900 text-white flex-shrink-0 hidden md:flex flex-col">
+      <aside className="w-64 flex-shrink-0 hidden md:flex flex-col bg-[#0a1628] text-white border-l border-white/5">
         <div className="p-6 border-b border-white/10">
           <h2 className="text-2xl font-black text-white">لوحة التحكم</h2>
           <p className="text-slate-400 text-sm mt-1">إدارة دليل ملامح</p>

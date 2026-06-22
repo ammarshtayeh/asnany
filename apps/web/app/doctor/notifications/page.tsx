@@ -70,7 +70,7 @@ export default function DoctorNotificationsPage() {
   };
 
   return (
-    <main className="min-h-screen bg-slate-50 p-4 md:p-8" dir="rtl">
+    <main className="portal-page" dir="rtl">
       <div className="mx-auto max-w-5xl">
         <header className="mb-6 rounded-3xl bg-slate-950 p-6 text-white shadow-xl">
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
@@ -104,7 +104,7 @@ export default function DoctorNotificationsPage() {
 
         {error ? <div className="mb-4 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-bold text-rose-700">{error}</div> : null}
 
-        <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+        <section className="bento-card p-5 shadow-sm">
           {loading ? (
             <div className="space-y-3">
               <div className="h-28 animate-pulse rounded-2xl bg-slate-100" />

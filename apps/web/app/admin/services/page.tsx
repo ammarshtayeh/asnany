@@ -267,7 +267,7 @@ export default function AdminServicesPage() {
 
       {modalOpen ? (
         <div className="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-[1000] flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-4xl w-full max-h-[92vh] overflow-y-auto p-6 md:p-8 shadow-2xl">
+          <div className="bento-card max-w-4xl w-full max-h-[92vh] overflow-y-auto p-6 md:p-8 shadow-2xl">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-black text-slate-900">{form.id ? "تعديل سجل" : "إضافة سجل جديد"}</h2>
               <button onClick={() => setModalOpen(false)} className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200">

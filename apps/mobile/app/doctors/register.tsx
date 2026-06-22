@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { ScrollView, Text, TextInput, View } from "react-native";
+import { Text, TextInput, View } from "react-native";
 import { router } from "expo-router";
 import { apiFetch } from "../../lib/api";
-import { AppButton } from "../../components/Buttons";
-import { AppCard } from "../../components/AppCard";
-import { AppSubtitle, AppTitle } from "../../components/AppText";
+import { StackCard, StackPageLayout, StackPrimaryButton, StackSecondaryButton } from "../../components/ui/StackPageLayout";
+import { theme } from "../../constants/theme";
 import { useAppToast } from "../../components/AppToast";
 
 export default function DoctorRegisterScreen() {
@@ -45,10 +44,8 @@ export default function DoctorRegisterScreen() {
   };
 
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: "#f8fafc" }} contentContainerStyle={{ padding: 16, paddingBottom: 120 }}>
-      <AppCard>
-        <AppTitle>تسجيل طبيب</AppTitle>
-        <AppSubtitle>النموذج داخل التطبيق نفسه، بدون أي صفحة خارجية.</AppSubtitle>
+    <StackPageLayout badge="🩺 انضم لملامح" title="تسجيل طبيب" subtitle="النموذج داخل التطبيق — بدون صفحة خارجية">
+      <StackCard>
         {[
           ["الاسم", "name"],
           ["البريد", "email"],
@@ -63,42 +60,35 @@ export default function DoctorRegisterScreen() {
           <Field key={key} label={label} value={form[key as keyof typeof form]} onChangeText={(value) => setForm((current) => ({ ...current, [key]: value }))} />
         ))}
         <Field label="نبذة" value={form.bio} onChangeText={(value) => setForm((current) => ({ ...current, bio: value }))} multiline />
-        <AppButton label={loading ? "جارٍ الحفظ..." : "إنشاء حساب الطبيب"} onPress={submit} style={{ marginTop: 12 }} />
-        <AppButton label="العودة" variant="secondary" onPress={() => router.back()} style={{ marginTop: 10 }} />
-      </AppCard>
-    </ScrollView>
+        <View style={{ marginTop: 12, gap: 10 }}>
+          <StackPrimaryButton label={loading ? "جارٍ الحفظ..." : "إنشاء حساب الطبيب"} onPress={submit} />
+          <StackSecondaryButton label="العودة" onPress={() => router.back()} />
+        </View>
+      </StackCard>
+    </StackPageLayout>
   );
 }
 
-function Field({
-  label,
-  value,
-  onChangeText,
-  multiline,
-}: {
-  label: string;
-  value: string;
-  onChangeText: (value: string) => void;
-  multiline?: boolean;
-}) {
+function Field({ label, value, onChangeText, multiline }: { label: string; value: string; onChangeText: (value: string) => void; multiline?: boolean }) {
   return (
     <View style={{ marginTop: 12 }}>
-      <Text style={{ textAlign: "right", fontWeight: "900", color: "#64748b", marginBottom: 6, fontSize: 12 }}>{label}</Text>
+      <Text style={{ textAlign: "right", fontWeight: "900", color: theme.textMuted, marginBottom: 6, fontSize: 12 }}>{label}</Text>
       <TextInput
         value={value}
         onChangeText={onChangeText}
         multiline={multiline}
+        placeholderTextColor={theme.textSoft}
         style={{
           minHeight: multiline ? 88 : 48,
           borderRadius: 16,
           borderWidth: 1,
-          borderColor: "#e2e8f0",
-          backgroundColor: "#f8fafc",
+          borderColor: theme.borderLight,
+          backgroundColor: theme.bg,
           paddingHorizontal: 14,
           paddingVertical: 12,
           textAlign: "right",
           fontWeight: "700",
-          color: "#0f172a",
+          color: theme.text,
         }}
       />
     </View>

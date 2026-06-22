@@ -50,7 +50,7 @@ export default async function AdminDashboard() {
       <div className="mb-10 grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
         <Link
           href="/admin/doctors"
-          className="group flex items-center gap-5 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-sky-300 hover:shadow-lg hover:shadow-sky-500/5"
+          className="group flex items-center gap-5 bento-card p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-sky-300 hover:shadow-lg hover:shadow-sky-500/5"
         >
           <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-sky-50 text-sky-600 group-hover:bg-sky-600 group-hover:text-white transition-all duration-300">
             <UserCheck className="h-8 w-8" />
@@ -62,7 +62,7 @@ export default async function AdminDashboard() {
         </Link>
         <Link
           href="/admin/doctor-accounts"
-          className="group flex items-center gap-5 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-emerald-300 hover:shadow-lg hover:shadow-emerald-500/5"
+          className="group flex items-center gap-5 bento-card p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-emerald-300 hover:shadow-lg hover:shadow-emerald-500/5"
         >
           <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition-all duration-300">
             <KeyRound className="h-8 w-8" />
@@ -74,7 +74,7 @@ export default async function AdminDashboard() {
         </Link>
         <Link
           href="/admin/discount-card"
-          className="group flex items-center gap-5 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-blue-300 hover:shadow-lg hover:shadow-blue-500/5"
+          className="group flex items-center gap-5 bento-card p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-blue-300 hover:shadow-lg hover:shadow-blue-500/5"
         >
           <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-blue-50 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300">
             <CreditCard className="h-8 w-8" />
@@ -87,7 +87,7 @@ export default async function AdminDashboard() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-        <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-200/80 flex items-center gap-5 transition hover:shadow-md">
+        <div className="bento-card p-6 shadow-sm border border-slate-200/80 flex items-center gap-5 transition hover:shadow-md">
           <div className="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center flex-shrink-0">
             <Users className="w-7 h-7" />
           </div>
@@ -97,7 +97,7 @@ export default async function AdminDashboard() {
           </div>
         </div>
 
-        <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-200/80 flex items-center gap-5 transition hover:shadow-md">
+        <div className="bento-card p-6 shadow-sm border border-slate-200/80 flex items-center gap-5 transition hover:shadow-md">
           <div className="w-14 h-14 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center flex-shrink-0">
             <Store className="w-7 h-7" />
           </div>
@@ -107,7 +107,7 @@ export default async function AdminDashboard() {
           </div>
         </div>
 
-        <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-200/80 flex items-center gap-5 transition hover:shadow-md">
+        <div className="bento-card p-6 shadow-sm border border-slate-200/80 flex items-center gap-5 transition hover:shadow-md">
           <div className="w-14 h-14 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center flex-shrink-0">
             <Megaphone className="w-7 h-7" />
           </div>
@@ -117,7 +117,7 @@ export default async function AdminDashboard() {
           </div>
         </div>
 
-        <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-200/80 flex items-center gap-5 transition hover:shadow-md">
+        <div className="bento-card p-6 shadow-sm border border-slate-200/80 flex items-center gap-5 transition hover:shadow-md">
           <div className="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0">
             <CheckCircle2 className="w-7 h-7" />
           </div>
@@ -129,7 +129,7 @@ export default async function AdminDashboard() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div className="bg-white rounded-3xl shadow-sm border border-slate-200/85 overflow-hidden flex flex-col">
+        <div className="bento-card shadow-sm border border-slate-200/85 overflow-hidden flex flex-col">
           <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
             <h2 className="text-lg font-black text-slate-950">آخر الأطباء المسجلين</h2>
             <Link href="/admin/doctors" className="text-sky-600 text-xs font-black hover:text-sky-700 transition">
@@ -181,7 +181,7 @@ export default async function AdminDashboard() {
           </div>
         </div>
 
-        <div className="bg-white rounded-3xl shadow-sm border border-slate-200/85 overflow-hidden flex flex-col">
+        <div className="bento-card shadow-sm border border-slate-200/85 overflow-hidden flex flex-col">
           <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
             <h2 className="text-lg font-black text-slate-950">المتاجر الطبية المسجلة</h2>
             <Link href="/admin/stores" className="text-sky-600 text-xs font-black hover:text-sky-700 transition">

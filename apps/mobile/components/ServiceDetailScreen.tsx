@@ -4,7 +4,8 @@ import { router, useLocalSearchParams } from "expo-router";
 import { Feather } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { supabase } from "../lib/supabase";
-import { MedicalService, MedicalServiceType } from "../types";
+import { theme } from "../constants/theme";
+import { StackCard, StackPageLayout, StackPrimaryButton } from "./ui/StackPageLayout";
 
 type ServiceDetailScreenProps = {
   type: Extract<MedicalServiceType, "beauty" | "lab">;
@@ -68,7 +69,7 @@ export function ServiceDetailScreen({
 
   if (loading) {
     return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: "#f8fafc" }}>
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: theme.bg }}>
         <ActivityIndicator size="large" color={accentColor} />
       </View>
     );
@@ -76,24 +77,22 @@ export function ServiceDetailScreen({
 
   if (!service) {
     return (
-      <View style={{ flex: 1, justifyContent: "center", backgroundColor: "#f8fafc", padding: 24 }}>
-        <View style={{ backgroundColor: "#fff", borderRadius: 24, padding: 24, borderWidth: 1, borderColor: "#e2e8f0", alignItems: "center" }}>
+      <View style={{ flex: 1, justifyContent: "center", backgroundColor: theme.bg, padding: 24 }}>
+        <StackCard style={{ alignItems: "center" }}>
           <Text style={{ fontSize: 36 }}>{fallbackEmoji}</Text>
           <Text style={{ marginTop: 10, color: "#0f172a", fontSize: 18, fontWeight: "900", textAlign: "center" }}>لم يتم العثور على الصفحة</Text>
           <Text style={{ marginTop: 6, color: "#64748b", fontSize: 13, fontWeight: "700", textAlign: "center", lineHeight: 21 }}>
             قد تكون الخدمة غير مفعلة حالياً أو تم تغيير الرابط.
           </Text>
-          <Pressable onPress={() => router.replace(backPath as any)} style={{ marginTop: 18, borderRadius: 16, backgroundColor: "#0f172a", paddingHorizontal: 18, paddingVertical: 12 }}>
-            <Text style={{ color: "#fff", fontWeight: "900" }}>العودة للقائمة</Text>
-          </Pressable>
-        </View>
+          <StackPrimaryButton label="العودة للقائمة" onPress={() => router.replace(backPath as never)} />
+        </StackCard>
       </View>
     );
   }
 
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: "#f8fafc" }} contentContainerStyle={{ paddingBottom: insets.bottom + 40 }} showsVerticalScrollIndicator={false}>
-      <View style={{ minHeight: 290, backgroundColor: "#0f172a", padding: 20, paddingTop: insets.top + 14, justifyContent: "flex-end", overflow: "hidden" }}>
+    <ScrollView style={{ flex: 1, backgroundColor: theme.bg }} contentContainerStyle={{ paddingBottom: insets.bottom + 40 }} showsVerticalScrollIndicator={false}>
+      <View style={{ minHeight: 290, backgroundColor: theme.navy, padding: 20, paddingTop: insets.top + 14, justifyContent: "flex-end", overflow: "hidden", borderBottomLeftRadius: theme.radius.xxl, borderBottomRightRadius: theme.radius.xxl }}>
         {service.image_url ? (
           <Image source={{ uri: service.image_url }} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.28 }} resizeMode="cover" />
         ) : null}

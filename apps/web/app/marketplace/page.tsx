@@ -289,7 +289,7 @@ export default function MarketplacePage() {
       {/* Dynamic Ad Publication Form Modal */}
       {showPublishForm && (
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl w-full max-w-xl p-8 relative shadow-2xl animate-in fade-in zoom-in-95 duration-200">
+          <div className="bento-card w-full max-w-xl p-8 relative shadow-2xl animate-in fade-in zoom-in-95 duration-200">
             <button 
               onClick={() => setShowPublishForm(false)}
               className="absolute top-6 left-6 text-slate-400 hover:text-slate-900 bg-slate-100 p-2 rounded-xl transition-all"

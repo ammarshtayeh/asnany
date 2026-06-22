@@ -1,13 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
-import { ScrollView, Text, TextInput, View, Pressable } from "react-native";
+import { Text, TextInput, View } from "react-native";
 import { useLocalSearchParams, router } from "expo-router";
-import { Feather } from "@expo/vector-icons";
 import { apiFetch } from "../lib/api";
 import { registerPushSubscription } from "../lib/notifications";
-import { AppCard } from "../components/AppCard";
-import { AppButton } from "../components/Buttons";
-import { AppSubtitle, AppTitle } from "../components/AppText";
 import { useAppToast } from "../components/AppToast";
+import { StackCard, StackPageLayout, StackPrimaryButton } from "../components/ui/StackPageLayout";
+import { theme } from "../constants/theme";
 import { BookingDateField, BookingTimeField } from "../components/BookingPickers";
 
 const WEEKDAY_AR = ["الأحد", "الإثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
@@ -149,36 +147,23 @@ export default function BookingScreen() {
   };
 
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: "#f8fafc" }} contentContainerStyle={{ padding: 16, paddingBottom: 120 }}>
-      <View style={{ flexDirection: "row-reverse", alignItems: "center", justifyContent: "space-between", marginBottom: 16, backgroundColor: "white", padding: 16, borderRadius: 24, borderWidth: 1, borderColor: "#e2e8f0" }}>
-        <View style={{ alignItems: "flex-end" }}>
-          <Text style={{ fontSize: 12, fontWeight: "900", color: "#64748b" }}>عيادات ملامح</Text>
-          <Text style={{ fontSize: 18, fontWeight: "900", color: "#0f172a", marginTop: 4 }}>حجز موعد جديد</Text>
-        </View>
-        <Pressable onPress={() => router.back()} style={{ height: 40, width: 40, borderRadius: 20, backgroundColor: "#f1f5f9", alignItems: "center", justifyContent: "center" }}>
-          <Feather name="arrow-right" size={20} color="#0f172a" />
-        </Pressable>
-      </View>
-
-      <AppCard>
-        <AppTitle>حجز موعد</AppTitle>
-        <AppSubtitle>املأ البيانات الأساسية فقط. بعد الإرسال تقدر تتابع حالة الحجز من صفحة حجوزاتي برقم الهاتف أو الاسم الرباعي.</AppSubtitle>
-
+    <StackPageLayout badge="📅 عيادات ملامح" title="حجز موعد جديد" subtitle="املأ البيانات الأساسية — تابع الحالة من صفحة حجوزاتي">
+      <StackCard>
         {doctorId ? (
-          <View style={{ marginTop: 12, borderRadius: 18, backgroundColor: "#eff6ff", padding: 14, borderWidth: 1, borderColor: "#dbeafe" }}>
-            <Text style={{ textAlign: "right", fontWeight: "900", color: "#0f172a", marginBottom: 4 }}>
+          <View style={{ marginBottom: 12, borderRadius: 18, backgroundColor: theme.skyMuted, padding: 14, borderWidth: 1, borderColor: theme.borderLight }}>
+            <Text style={{ textAlign: "right", fontWeight: "900", color: theme.text, marginBottom: 4 }}>
               {doctorLoading ? "جاري تحميل معلومات الطبيب..." : doctor?.name || "الطبيب المختار"}
             </Text>
-            <Text style={{ textAlign: "right", fontWeight: "700", color: "#475569", fontSize: 12, lineHeight: 18 }}>
+            <Text style={{ textAlign: "right", fontWeight: "700", color: theme.textMuted, fontSize: 12, lineHeight: 18 }}>
               {doctorLoading
                 ? "نتأكد من الدوام والحالة الحالية قبل إرسال الحجز."
                 : !canBookOnline
-                  ? "الحجز الإلكتروني غير مفعّل لهذا الطبيب. ارجع للدليل واختر طبيباً آخر أو تواصل مباشرة."
-                : doctor?.is_available === false
-                  ? "الطبيب معلن أنه غير متاح حالياً. اختر موعداً آخر."
-                  : isDoctorAvailableForSlot
-                    ? "الطبيب يظهر متاحاً لهذا الموعد مبدئياً."
-                    : `الوقت المختار يبدو خارج دوام ${selectedWeekday || "اليوم"}.`}
+                  ? "الحجز الإلكتروني غير مفعّل لهذا الطبيب."
+                  : doctor?.is_available === false
+                    ? "الطبيب غير متاح حالياً."
+                    : isDoctorAvailableForSlot
+                      ? "الطبيب يظهر متاحاً لهذا الموعد مبدئياً."
+                      : `الوقت المختار يبدو خارج دوام ${selectedWeekday || "اليوم"}.`}
             </Text>
           </View>
         ) : null}
@@ -192,9 +177,11 @@ export default function BookingScreen() {
         <BookingTimeField label="الوقت *" value={time} onChange={setTime} />
         <Field label="ملاحظات" value={notes} onChangeText={setNotes} multiline />
 
-        <AppButton label={loading ? "جارٍ الحجز..." : "تأكيد الحجز"} onPress={submit} disabled={!canSubmit || loading || doctorLoading} style={{ marginTop: 12 }} />
-      </AppCard>
-    </ScrollView>
+        <View style={{ marginTop: 12, opacity: !canSubmit || loading || doctorLoading ? 0.6 : 1 }}>
+          <StackPrimaryButton label={loading ? "جارٍ الحجز..." : "تأكيد الحجز"} onPress={submit} />
+        </View>
+      </StackCard>
+    </StackPageLayout>
   );
 }
 
@@ -215,27 +202,27 @@ function Field({
 }) {
   return (
     <View style={{ marginTop: 12 }}>
-      <Text style={{ textAlign: "right", fontWeight: "900", color: "#64748b", marginBottom: 6, fontSize: 12 }}>{label}</Text>
+      <Text style={{ textAlign: "right", fontWeight: "900", color: theme.textMuted, marginBottom: 6, fontSize: 12 }}>{label}</Text>
       <TextInput
         value={value}
         onChangeText={onChangeText}
         keyboardType={keyboardType}
         multiline={multiline}
         placeholder={placeholder}
-        placeholderTextColor="#94a3b8"
+        placeholderTextColor={theme.textSoft}
         autoCapitalize="none"
         autoCorrect={false}
         style={{
           minHeight: multiline ? 96 : 48,
           borderRadius: 16,
           borderWidth: 1,
-          borderColor: "#e2e8f0",
-          backgroundColor: "#f8fafc",
+          borderColor: theme.borderLight,
+          backgroundColor: theme.bg,
           paddingHorizontal: 14,
           paddingVertical: 12,
           textAlign: "right",
           fontWeight: "700",
-          color: "#0f172a",
+          color: theme.text,
         }}
       />
     </View>

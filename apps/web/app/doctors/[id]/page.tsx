@@ -51,9 +51,9 @@ export default async function DoctorPage({ params }: { params: Promise<{ id: str
   const canBookOnWebsite = await canBookOnline(resolvedParams.id);
 
   return (
-    <main className="bg-slate-50 min-h-screen relative font-sans selection:bg-primary/20 selection:text-primary">
-      {/* Decorative Header Background */}
-      <div className="h-[300px] md:h-[400px] w-full bg-slate-900 relative overflow-hidden">
+    <main className="animate-fade-in bg-transparent min-h-screen relative font-sans selection:bg-primary/20 selection:text-primary pb-24">
+      <div className="section-shell pt-4">
+      <div className="page-hero-dark relative h-[280px] md:h-[340px] w-full overflow-hidden">
         {/* Abstract shapes & gradients */}
         <div className="absolute inset-0 bg-gradient-to-br from-primary/80 via-slate-900 to-secondary/80" />
         <div className="absolute top-0 right-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10" />
@@ -61,15 +61,15 @@ export default async function DoctorPage({ params }: { params: Promise<{ id: str
         <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-secondary rounded-full blur-[100px] opacity-30 mix-blend-screen" />
         
         {/* Back Button */}
-        <div className="absolute top-8 right-4 md:right-8 z-50">
-          <Link href="/" className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white px-5 py-2.5 rounded-full text-sm font-bold transition-all hover:scale-105 shadow-lg">
+        <div className="absolute top-6 right-4 md:right-6 z-50">
+          <Link href="/" className="btn-malama-ghost px-4 py-2 text-xs sm:text-sm">
             <ArrowRight className="w-4 h-4" />
             العودة للرئيسية
           </Link>
         </div>
       </div>
+      </div>
 
-      {/* Main Content Rendered Client-side for Map/Distance functionality */}
       <DoctorProfileClient doctor={doctor} canBookOnWebsite={canBookOnWebsite} />
     </main>
   );

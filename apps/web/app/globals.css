@@ -104,6 +104,10 @@
   .nav-island {
     @apply rounded-2xl border border-slate-200/60 bg-white/75 shadow-float backdrop-blur-2xl;
   }
+
+  .portal-page {
+    @apply min-h-full animate-fade-in bg-transparent p-4 font-sans text-right md:p-8;
+  }
 }
 
 @layer base {

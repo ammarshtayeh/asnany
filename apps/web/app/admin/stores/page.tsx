@@ -250,7 +250,7 @@ export default function AdminStores() {
       {/* Add Store Modal */}
       {showAddModal && (
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-[999] flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-xl w-full p-6 md:p-8 shadow-2xl relative border border-slate-100">
+          <div className="bento-card max-w-xl w-full p-6 md:p-8 shadow-2xl relative border border-slate-100">
             <h2 className="text-2xl font-black text-slate-900 mb-6">إضافة شركة أو مستودع طبي جديد</h2>
 
             <form onSubmit={handleAddStore} className="space-y-4">

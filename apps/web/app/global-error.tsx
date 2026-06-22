@@ -17,7 +17,7 @@ export default function GlobalError({
 
   return (
     <html lang="ar" dir="rtl">
-      <body className="min-h-screen bg-slate-50 font-sans text-slate-900">
+      <body className="min-h-screen mesh-bg font-sans text-slate-900">
         <main className="mx-auto flex min-h-screen max-w-lg flex-col items-center justify-center px-6 text-center">
           <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-rose-50 text-rose-600">
             <RefreshCw className="h-8 w-8" />

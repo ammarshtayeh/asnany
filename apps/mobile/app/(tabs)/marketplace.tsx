@@ -6,6 +6,7 @@ import { supabase } from "../../lib/supabase";
 import { MarketplaceAd } from "../../types";
 import { FORM_PHONE_PLACEHOLDER, whatsappHref } from "../../lib/site-contact";
 import { EmptyStateCTA } from "../../components/EmptyStateCTA";
+import { theme } from "../../constants/theme";
 
 const SPECIALIZATIONS_EQUIP = ["أجهزة ليزر وتجميل", "كراسي وأجهزة عيادات", "أجهزة فحص نظر وبصريات", "أجهزة تصوير وأشعة", "مستلزمات ومواد استهلاكية"];
 const SPECIALIZATIONS_JOBS = ["أطباء (كل التخصصات)", "ممرضين وأخصائيي بشرة", "أخصائيي فحص وبصريات", "إداريين وسكرتاريا", "مساعدين وفنيي معمل"];
@@ -167,7 +168,7 @@ export default function MarketplaceScreen() {
       </View>
 
       {/* Tabs */}
-      <View style={{ backgroundColor: "#f8fafc", borderTopLeftRadius: 28, borderTopRightRadius: 28, marginTop: -24, padding: 20, gap: 14 }}>
+      <View style={{ backgroundColor: theme.bg, borderTopLeftRadius: 28, borderTopRightRadius: 28, marginTop: -24, padding: 20, gap: 14 }}>
         <View style={{ flexDirection: "row-reverse", backgroundColor: "#e2e8f0", padding: 4, borderRadius: 12 }}>
           <Pressable
             onPress={() => setActiveTab("all")}

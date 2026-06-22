@@ -79,7 +79,7 @@ export default function AdminAppointments() {
       </div>
 
       {/* Appointments List */}
-      <section className="rounded-3xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+      <section className="bento-card shadow-sm overflow-hidden">
         <div className="border-b border-slate-100 px-6 py-4">
           <h2 className="text-xl font-black text-slate-950">سجل الحجوزات</h2>
         </div>

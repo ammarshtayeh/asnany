@@ -147,7 +147,7 @@ export default function DoctorAccountsAdminPage() {
       </div>
 
       {/* Create Account Form */}
-      <form onSubmit={createAccount} className="mb-8 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+      <form onSubmit={createAccount} className="mb-8 bento-card p-6 shadow-sm">
         <h2 className="mb-5 flex items-center gap-2 text-xl font-black text-slate-950">
           <Plus className="h-5 w-5 text-sky-600" />
           إنشاء حساب طبيب جديد
@@ -214,7 +214,7 @@ export default function DoctorAccountsAdminPage() {
       </form>
 
       {/* Accounts List */}
-      <section className="rounded-3xl border border-slate-200 bg-white shadow-sm">
+      <section className="bento-card shadow-sm">
         <div className="border-b border-slate-100 px-6 py-4 flex items-center justify-between">
           <h2 className="text-xl font-black text-slate-950">الحسابات الحالية ({accounts.length})</h2>
         </div>
