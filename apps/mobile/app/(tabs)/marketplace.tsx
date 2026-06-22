@@ -5,6 +5,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { supabase } from "../../lib/supabase";
 import { MarketplaceAd } from "../../types";
 import { FORM_PHONE_PLACEHOLDER, whatsappHref } from "../../lib/site-contact";
+import { EmptyStateCTA } from "../../components/EmptyStateCTA";
 
 const SPECIALIZATIONS_EQUIP = ["أجهزة ليزر وتجميل", "كراسي وأجهزة عيادات", "أجهزة فحص نظر وبصريات", "أجهزة تصوير وأشعة", "مستلزمات ومواد استهلاكية"];
 const SPECIALIZATIONS_JOBS = ["أطباء (كل التخصصات)", "ممرضين وأخصائيي بشرة", "أخصائيي فحص وبصريات", "إداريين وسكرتاريا", "مساعدين وفنيي معمل"];
@@ -193,12 +194,16 @@ export default function MarketplaceScreen() {
             <ActivityIndicator size="large" color="#f59e0b" />
           </View>
         ) : filtered.length === 0 ? (
-          <View style={{ backgroundColor: "#fff", borderRadius: 20, padding: 32, alignItems: "center", borderWidth: 1.5, borderColor: "#f1f5f9", borderStyle: "dashed" }}>
-            <Text style={{ fontSize: 36, marginBottom: 10 }}>📦</Text>
-            <Text style={{ fontSize: 14, fontWeight: "700", color: "#94a3b8", textAlign: "center" }}>
-              {search ? "لا توجد إعلانات مطابقة للبحث" : "سيتم عرض الإعلانات والفرص قريباً."}
-            </Text>
-          </View>
+          <EmptyStateCTA
+            icon="package"
+            title={search ? "لا توجد إعلانات مطابقة" : "السوق الطبي قيد الانطلاق"}
+            description={search ? "جرّب كلمات بحث مختلفة أو تصفّح كل الإعلانات." : "انشر إعلانك أو سجّل فرصة عمل — كن من أوائل المعلنين على ملامح.ps."}
+            primaryLabel="انشر إعلاناً"
+            primaryHref="/advertise"
+            secondaryHref="/join"
+            secondaryLabel="انضم كشريك"
+            tips={["معدات طبية", "وظائف", "عروض B2B"]}
+          />
         ) : (
           filtered.map((ad) => (
             <View

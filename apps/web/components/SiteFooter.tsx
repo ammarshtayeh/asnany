@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Mail, Phone } from "lucide-react";
 import { SITE_NAV_MORE_SECTIONS, SITE_NAV_PRIMARY } from "@pal-dental/shared";
-import { SITE_SUPPORT_EMAIL, SITE_SUPPORT_WHATSAPP } from "@/lib/site-contact";
+import { SITE_SUPPORT_EMAIL, SITE_SUPPORT_WHATSAPP, SITE_SUPPORT_PHONE_DISPLAY } from "@/lib/site-contact";
 import { MalamihLogoMark } from "@/components/MalamihLogoMark";
 
 const ownerPhone = SITE_SUPPORT_WHATSAPP;
@@ -41,7 +41,7 @@ export default function SiteFooter() {
               </a>
               <a href={`https://wa.me/${ownerPhone}`} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 hover:text-emerald-400 transition-colors">
                 <Phone className="h-4 w-4 text-emerald-400" />
-                {ownerPhone}
+                {SITE_SUPPORT_PHONE_DISPLAY}
               </a>
             </div>
           </div>

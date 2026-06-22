@@ -13,6 +13,9 @@ export const SITE_SUPPORT_EMAIL = "ammar.shtayeh@gmail.com";
 /** WhatsApp support (digits only, no +) — used for wa.me links */
 export const SITE_SUPPORT_WHATSAPP = "9720595537190";
 
+/** Human-readable phone for UI (Palestine local format) */
+export const SITE_SUPPORT_PHONE_DISPLAY = "0595537190";
+
 /** Generic placeholders in forms — not real contact numbers */
 export const FORM_PHONE_PLACEHOLDER = "05XXXXXXXX";
 export const DOCTOR_LOGIN_EMAIL_PLACEHOLDER = "doctor@example.com";

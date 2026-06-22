@@ -51,6 +51,7 @@ module.exports = {
     resizeMode: "contain",
     backgroundColor: "#ffffff",
   },
+  plugins: [...(appJson.expo.plugins || []), "@react-native-community/datetimepicker"],
   android: {
     ...appJson.expo.android,
     usesCleartextTraffic: isLocalApi,
@@ -58,6 +59,22 @@ module.exports = {
       foregroundImage: "./assets/adaptive-icon.png",
       backgroundColor: "#ffffff",
     },
+    intentFilters: [
+      {
+        action: "VIEW",
+        autoVerify: true,
+        data: [
+          { scheme: "https", host: "www.malamih.ps", pathPrefix: "/doctors" },
+          { scheme: "https", host: "malamih.ps", pathPrefix: "/doctors" },
+          { scheme: "malamih" },
+        ],
+        category: ["BROWSABLE", "DEFAULT"],
+      },
+    ],
+  },
+  ios: {
+    ...appJson.expo.ios,
+    associatedDomains: ["applinks:www.malamih.ps", "applinks:malamih.ps"],
   },
   extra: {
     ...appJson.expo.extra,

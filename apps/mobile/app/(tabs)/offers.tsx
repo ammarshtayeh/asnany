@@ -5,7 +5,8 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { supabase } from "../../lib/supabase";
 import { Offer } from "../../types";
 import { theme } from "../../constants/theme";
-import { EmptyState, ScreenHero } from "../../components/ui/premium";
+import { ScreenHero } from "../../components/ui/premium";
+import { EmptyStateCTA } from "../../components/EmptyStateCTA";
 
 const OFFER_IMAGES = [
   "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=800&q=80",
@@ -91,7 +92,15 @@ export default function OffersScreen() {
             </Text>
           </View>
         ) : offers.length === 0 ? (
-          <EmptyState icon="tag" title="لا توجد عروض نشطة حالياً" description="تابعنا لاحقاً للاطلاع على أحدث الخصومات." />
+          <EmptyStateCTA
+            icon="tag"
+            title="لا توجد عروض نشطة حالياً"
+            description="تابعنا لاحقاً — أو سجّل عيادتك لتنشر عروضك على ملامح.ps."
+            primaryLabel="انضم كشريك"
+            secondaryHref="/(tabs)/doctors"
+            secondaryLabel="تصفح الأطباء"
+            tips={["خصومات موثقة", "حجز مباشر"]}
+          />
         ) : (
           <>
             {/* Featured Offer */}

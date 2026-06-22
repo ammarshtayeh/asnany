@@ -119,8 +119,14 @@ export default function DiscountCardPage() {
           {loading ? (
             <div className="p-10 text-center text-sm font-bold text-slate-400">جاري التحميل...</div>
           ) : participating.length === 0 ? (
-            <div className="rounded-3xl border border-dashed border-slate-200 p-8 text-center text-sm font-bold text-slate-500">
-              لا توجد عيادات مفعّلة حالياً. ستظهر هنا فور تفعيل الخصم من بيانات الطبيب.
+            <div className="rounded-3xl border border-dashed border-amber-200 bg-amber-50/50 p-8 text-center">
+              <p className="text-sm font-black text-slate-800">العيادات المشاركة تُفعّل تدريجياً</p>
+              <p className="mt-2 text-sm font-semibold text-slate-600">
+                اطلب بطاقتك الآن — ستظهر العيادات هنا فور تفعيل خصم البطاقة من بيانات الطبيب.
+              </p>
+              <Link href="/join" className="mt-4 inline-flex rounded-xl bg-slate-950 px-5 py-3 text-xs font-black text-white">
+                انضم كطبيب شريك
+              </Link>
             </div>
           ) : (
             <div className="grid gap-3 md:grid-cols-2">

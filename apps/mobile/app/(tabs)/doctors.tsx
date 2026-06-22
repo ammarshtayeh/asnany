@@ -1,13 +1,17 @@
 import { useEffect, useMemo, useState } from "react";
-import { ActivityIndicator, Image, Pressable, ScrollView, Text, View } from "react-native";
+import { ActivityIndicator, Image, Linking, Pressable, ScrollView, Text, View } from "react-native";
 import { router } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Feather } from "@expo/vector-icons";
+import * as Location from "expo-location";
 import { supabase } from "../../lib/supabase";
 import { formatSpecialty } from "../../lib/format";
 import { Doctor } from "../../types";
 import { apiFetch } from "../../lib/api";
 import { theme } from "../../constants/theme";
+import { getDistance, formatDistanceKm } from "../../lib/distance";
+import { doctorMapCoordinates } from "../../lib/map-links";
+import { EmptyStateCTA } from "../../components/EmptyStateCTA";
 import {
   DoctorListCard,
   EmptyState,
@@ -33,10 +37,25 @@ export default function DoctorsTabScreen() {
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState("");
   const [city, setCity] = useState("الكل");
+  const [sortNearest, setSortNearest] = useState(false);
+  const [userCoords, setUserCoords] = useState<{ lat: number; lng: number } | null>(null);
 
   useEffect(() => {
     void load();
   }, []);
+
+  useEffect(() => {
+    if (!sortNearest) return;
+    void (async () => {
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        setSortNearest(false);
+        return;
+      }
+      const pos = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced });
+      setUserCoords({ lat: pos.coords.latitude, lng: pos.coords.longitude });
+    })();
+  }, [sortNearest]);
 
   async function load() {
     setLoading(true);
@@ -60,12 +79,33 @@ export default function DoctorsTabScreen() {
 
   const filtered = useMemo(() => {
     const needle = query.trim().toLowerCase();
-    return doctors.filter((doctor) => {
+    const rows = doctors.filter((doctor) => {
       const cityOk = city === "الكل" || doctor.city === city;
       const text = `${doctor.name} ${formatSpecialty(doctor.specialty)} ${doctor.city || ""}`.toLowerCase();
       return cityOk && (!needle || text.includes(needle));
     });
-  }, [city, doctors, query]);
+
+    if (!sortNearest || !userCoords) return rows;
+
+    return [...rows].sort((a, b) => {
+      const aCoords = doctorMapCoordinates(a);
+      const bCoords = doctorMapCoordinates(b);
+      const aDist = getDistance(userCoords.lat, userCoords.lng, aCoords.latitude, aCoords.longitude);
+      const bDist = getDistance(userCoords.lat, userCoords.lng, bCoords.latitude, bCoords.longitude);
+      return aDist - bDist;
+    });
+  }, [city, doctors, query, sortNearest, userCoords]);
+
+  const distanceByDoctorId = useMemo(() => {
+    if (!userCoords) return new Map<string, string>();
+    const map = new Map<string, string>();
+    for (const doctor of filtered) {
+      const coords = doctorMapCoordinates(doctor);
+      const km = getDistance(userCoords.lat, userCoords.lng, coords.latitude, coords.longitude);
+      map.set(doctor.id, formatDistanceKm(km));
+    }
+    return map;
+  }, [filtered, userCoords]);
 
   return (
     <ScrollView
@@ -151,6 +191,28 @@ export default function DoctorsTabScreen() {
           ))}
         </ScrollView>
 
+        <Pressable
+          onPress={() => setSortNearest((v) => !v)}
+          style={{
+            flexDirection: "row-reverse",
+            alignItems: "center",
+            gap: 8,
+            alignSelf: "flex-end",
+            marginBottom: 12,
+            backgroundColor: sortNearest ? theme.tealMuted : theme.card,
+            borderRadius: 999,
+            paddingHorizontal: 14,
+            paddingVertical: 8,
+            borderWidth: 1,
+            borderColor: sortNearest ? theme.teal : theme.border,
+          }}
+        >
+          <Feather name="navigation" size={14} color={sortNearest ? theme.teal : theme.textSoft} />
+          <Text style={{ fontSize: 12, fontWeight: "900", color: sortNearest ? theme.teal : theme.textSoft }}>
+            {sortNearest ? "الأقرب إليك" : "ترتيب حسب القرب"}
+          </Text>
+        </Pressable>
+
         <SectionHeader title={`النتائج (${filtered.length})`} icon="users" />
 
         {loading ? (
@@ -158,6 +220,16 @@ export default function DoctorsTabScreen() {
             <ActivityIndicator size="large" color={theme.teal} />
             <Text style={{ color: theme.textSoft, fontWeight: "700", marginTop: 12 }}>جاري التحميل...</Text>
           </View>
+        ) : doctors.length === 0 ? (
+          <EmptyStateCTA
+            icon="users"
+            title="لا يوجد أطباء موثّقون بعد"
+            description="كن من أوائل الأطباء على ملامح.ps واحصل على ظهور مميز في الدليل."
+            primaryLabel="سجّل عيادتك"
+            secondaryHref="/advertise"
+            secondaryLabel="اعرف المزيد"
+            tips={["مجاني للمؤسسين", "حجز إلكتروني", "ظهور على الخريطة"]}
+          />
         ) : filtered.length === 0 ? (
           <EmptyState icon="search" title="لا توجد نتائج" description="جرّب مدينة أو تخصصاً مختلفاً" actionLabel="مسح البحث" onAction={() => { setQuery(""); setCity("الكل"); }} />
         ) : (
@@ -173,7 +245,9 @@ export default function DoctorsTabScreen() {
                 rating={doctor.rating}
                 verified={doctor.verified}
                 featured={doctor.is_featured}
+                distanceLabel={distanceByDoctorId.get(doctor.id)}
                 onPress={() => router.push(`/doctors/${doctor.id}`)}
+                onWhatsApp={doctor.whatsapp ? () => Linking.openURL(`https://wa.me/${doctor.whatsapp!.replace(/[^0-9]/g, "")}`) : undefined}
               />
             ))}
           </View>

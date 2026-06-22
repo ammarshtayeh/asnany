@@ -312,6 +312,27 @@ export default function Home() {
                   </span>
                 ))}
               </motion.div>
+              <motion.div
+                className="mt-6 flex flex-wrap gap-3"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.7, delay: 0.4 }}
+              >
+                <Link
+                  href="/doctors/search"
+                  className="inline-flex items-center gap-2 rounded-2xl bg-white px-6 py-3.5 text-sm font-black text-slate-900 shadow-lg transition hover:scale-[1.02]"
+                >
+                  <Search className="h-4 w-4 text-primary" />
+                  ابحث عن طبيب
+                </Link>
+                <Link
+                  href="/join"
+                  className="inline-flex items-center gap-2 rounded-2xl border border-[#d4af37]/40 bg-[#d4af37]/15 px-6 py-3.5 text-sm font-black text-[#fde68a] backdrop-blur-sm transition hover:bg-[#d4af37]/25"
+                >
+                  <Sparkles className="h-4 w-4" />
+                  انضم كطبيب شريك
+                </Link>
+              </motion.div>
 
               {(publicStats.verifiedProviders > 0 || publicStats.appointments > 0 || publicStats.cities > 0) && (
               <motion.div

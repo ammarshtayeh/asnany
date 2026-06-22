@@ -1,4 +1,5 @@
 import React, { ReactNode } from "react";
+import EmptyStateCTA from "@/components/EmptyStateCTA";
 import Link from "next/link";
 import { ArrowRight, CheckCircle2, Globe, MapPin, MessageCircle, Phone, Star, Sparkles } from "lucide-react";
 import { MedicalService } from "@/lib/types";
@@ -11,6 +12,16 @@ type ServiceLandingPageProps = {
   actions: Array<{ label: string; href: string }>;
   listings?: MedicalService[];
   emptyLabel?: string;
+  emptyCta?: {
+    title: string;
+    description: string;
+    primaryHref?: string;
+    primaryLabel?: string;
+    secondaryHref?: string;
+    secondaryLabel?: string;
+    whatsappMessage?: string;
+    tips?: string[];
+  };
   topSlot?: ReactNode;
   /** Base path for service detail pages, e.g. "/beauty" → "/beauty/[id]" */
   detailsBasePath?: string;
@@ -24,6 +35,7 @@ export default function ServiceLandingPage({
   actions,
   listings = [],
   emptyLabel = "سيتم إضافة مزودي الخدمة قريباً.",
+  emptyCta,
   topSlot,
   detailsBasePath,
 }: ServiceLandingPageProps) {
@@ -116,9 +128,13 @@ export default function ServiceLandingPage({
           </div>
 
           {listings.length === 0 ? (
-            <div className="rounded-3xl border border-dashed border-slate-300 bg-white/70 backdrop-blur-md p-12 text-center shadow-sm">
-              <p className="text-slate-500 font-bold text-base">{emptyLabel}</p>
-            </div>
+            emptyCta ? (
+              <EmptyStateCTA {...emptyCta} />
+            ) : (
+              <div className="rounded-3xl border border-dashed border-slate-300 bg-white/70 backdrop-blur-md p-12 text-center shadow-sm">
+                <p className="text-slate-500 font-bold text-base">{emptyLabel}</p>
+              </div>
+            )
           ) : (
             <div className="grid sm:grid-cols-2 gap-6">
               {listings.map((item) => {

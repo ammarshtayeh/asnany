@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { ActivityIndicator, Linking, Pressable, ScrollView, Text, TextInput, View } from "react-native";
+import { ActivityIndicator, Linking, Pressable, ScrollView, Share, Text, TextInput, View } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import { Feather } from "@expo/vector-icons";
 import { apiFetch } from "../../lib/api";
@@ -12,6 +12,10 @@ import { ClinicMap } from "../../components/ClinicMap";
 import { openNativeMaps } from "../../lib/map-links";
 import { registerPushSubscription } from "../../lib/notifications";
 import { useAppToast } from "../../components/AppToast";
+import { BookingDateField, BookingTimeField } from "../../components/BookingPickers";
+import { SITE_URL } from "../../lib/site-contact";
+
+type ReviewRow = { patient_name: string; rating: number; comment?: string | null; created_at: string };
 
 export default function DoctorProfileScreen() {
   const params = useLocalSearchParams<{ id: string | string[] }>();
@@ -27,6 +31,12 @@ export default function DoctorProfileScreen() {
   const [time, setTime] = useState("");
   const [notes, setNotes] = useState("");
   const [booking, setBooking] = useState(false);
+  const [reviewsList, setReviewsList] = useState<ReviewRow[]>([]);
+  const [reviewName, setReviewName] = useState("");
+  const [reviewRating, setReviewRating] = useState(5);
+  const [reviewComment, setReviewComment] = useState("");
+  const [reviewSubmitting, setReviewSubmitting] = useState(false);
+  const [reviewMessage, setReviewMessage] = useState("");
   const { showToast } = useAppToast();
 
   useEffect(() => {
@@ -52,6 +62,13 @@ export default function DoctorProfileScreen() {
         setLoading(false);
       }
     })();
+  }, [doctorId]);
+
+  useEffect(() => {
+    if (!doctorId) return;
+    void apiFetch<{ reviews?: ReviewRow[] }>(`/api/reviews?doctorId=${doctorId}`).then(({ data }) => {
+      setReviewsList(Array.isArray(data?.reviews) ? data.reviews : []);
+    });
   }, [doctorId]);
 
   const specialties = useMemo(() => asStringArray(doctor?.specialty), [doctor?.specialty]);
@@ -95,6 +112,47 @@ export default function DoctorProfileScreen() {
     router.push(`/appointments?phone=${encodeURIComponent(phone)}`);
   };
 
+  const shareProfile = async () => {
+    if (!doctor) return;
+    const url = `${SITE_URL}/doctors/${doctor.id}`;
+    try {
+      await Share.share({
+        message: `تعرّف على ${doctor.name} على ملامح.ps\n${url}`,
+        url,
+        title: doctor.name,
+      });
+    } catch {
+      // user dismissed
+    }
+  };
+
+  const submitReview = async () => {
+    if (!doctor || !reviewName.trim()) {
+      showToast({ type: "info", title: "الاسم مطلوب", message: "يرجى إدخال اسمك قبل إرسال التقييم." });
+      return;
+    }
+    setReviewSubmitting(true);
+    setReviewMessage("");
+    const { response, data } = await apiFetch("/api/reviews", {
+      method: "POST",
+      body: JSON.stringify({
+        doctor_id: doctor.id,
+        patient_name: reviewName.trim(),
+        rating: reviewRating,
+        comment: reviewComment.trim(),
+      }),
+    });
+    setReviewSubmitting(false);
+    if (!response.ok) {
+      showToast({ type: "error", title: "تعذر الإرسال", message: data?.error || "حاول لاحقاً" });
+      return;
+    }
+    setReviewMessage(data?.message || "شكراً! سيُراجع تقييمك قبل النشر.");
+    setReviewName("");
+    setReviewComment("");
+    setReviewRating(5);
+  };
+
   const goBack = () => {
     if (router.canGoBack()) router.back();
     else router.replace("/");
@@ -122,18 +180,30 @@ export default function DoctorProfileScreen() {
   return (
     <ScrollView style={{ flex: 1, backgroundColor: "#f8fafc" }} contentContainerStyle={{ padding: 16, paddingBottom: 120 }}>
       <View style={{ flexDirection: "row-reverse", alignItems: "center", justifyContent: "space-between", marginBottom: 16, backgroundColor: "white", padding: 16, borderRadius: 24, borderWidth: 1, borderColor: "#e2e8f0" }}>
-        <View style={{ alignItems: "flex-end" }}>
+        <View style={{ alignItems: "flex-end", flex: 1 }}>
           <Text style={{ fontSize: 12, fontWeight: "900", color: "#64748b" }}>الملف الشخصي للأخصائي</Text>
           <Text style={{ fontSize: 18, fontWeight: "900", color: "#0f172a", marginTop: 4 }}>{doctor.name}</Text>
         </View>
-        <Pressable onPress={goBack} style={{ height: 40, width: 40, borderRadius: 20, backgroundColor: "#f1f5f9", alignItems: "center", justifyContent: "center" }}>
-          <Feather name="arrow-right" size={20} color="#0f172a" />
-        </Pressable>
+        <View style={{ flexDirection: "row", gap: 8 }}>
+          <Pressable onPress={() => void shareProfile()} style={{ height: 40, width: 40, borderRadius: 20, backgroundColor: "#f1f5f9", alignItems: "center", justifyContent: "center" }}>
+            <Feather name="share-2" size={18} color="#0f172a" />
+          </Pressable>
+          <Pressable onPress={goBack} style={{ height: 40, width: 40, borderRadius: 20, backgroundColor: "#f1f5f9", alignItems: "center", justifyContent: "center" }}>
+            <Feather name="arrow-right" size={20} color="#0f172a" />
+          </Pressable>
+        </View>
       </View>
 
       <AppCard>
         <View style={{ flexDirection: "row-reverse", justifyContent: "space-between", alignItems: "center" }}>
-          <AppTitle style={{ flex: 1, textAlign: "right" }}>{doctor.name}</AppTitle>
+          <View style={{ flex: 1, alignItems: "flex-end" }}>
+            <AppTitle style={{ textAlign: "right" }}>{doctor.name}</AppTitle>
+            {doctor.is_featured ? (
+              <View style={{ marginTop: 6, backgroundColor: "#fffbeb", borderRadius: 999, paddingHorizontal: 10, paddingVertical: 4, borderWidth: 1, borderColor: "#fde68a" }}>
+                <Text style={{ color: "#b45309", fontWeight: "900", fontSize: 11 }}>⭐ طبيب مؤسّس</Text>
+              </View>
+            ) : null}
+          </View>
           <View style={{ flexDirection: "row", alignItems: "center", gap: 4, backgroundColor: "#fef3c7", paddingHorizontal: 10, paddingVertical: 5, borderRadius: 12 }}>
             <Feather name="star" size={14} color="#d97706" />
             <Text style={{ color: "#d97706", fontWeight: "900", fontSize: 12 }}>{formatRating(doctor.rating)}</Text>
@@ -224,18 +294,61 @@ export default function DoctorProfileScreen() {
         </Pressable>
       </View>
 
+      <AppCard>
+        <View style={{ flexDirection: "row-reverse", alignItems: "center", gap: 8, marginBottom: 10 }}>
+          <Feather name="message-square" size={18} color="#0f172a" />
+          <AppTitle style={{ fontSize: 16 }}>تقييمات المرضى</AppTitle>
+        </View>
+        {reviewsList.length > 0 ? (
+          <View style={{ gap: 10, marginBottom: 14 }}>
+            {reviewsList.map((rev, index) => (
+              <View key={`${rev.created_at}-${index}`} style={{ borderBottomWidth: 1, borderBottomColor: "#f1f5f9", paddingBottom: 10 }}>
+                <View style={{ flexDirection: "row-reverse", justifyContent: "space-between", alignItems: "center" }}>
+                  <Text style={{ fontWeight: "900", color: "#0f172a", fontSize: 13 }}>{rev.patient_name}</Text>
+                  <Text style={{ fontWeight: "800", color: "#d97706", fontSize: 12 }}>{"★".repeat(rev.rating)}</Text>
+                </View>
+                {rev.comment ? (
+                  <Text style={{ textAlign: "right", color: "#64748b", fontSize: 12, fontWeight: "600", marginTop: 4, lineHeight: 20 }}>{rev.comment}</Text>
+                ) : null}
+              </View>
+            ))}
+          </View>
+        ) : (
+          <Text style={{ textAlign: "right", color: "#64748b", fontSize: 12, fontWeight: "700", marginBottom: 12 }}>لا توجد تقييمات منشورة بعد — كن أول من يقيّم.</Text>
+        )}
+        <Field label="اسمك *" value={reviewName} onChangeText={setReviewName} />
+        <View style={{ marginTop: 12 }}>
+          <Text style={{ textAlign: "right", fontWeight: "900", color: "#64748b", marginBottom: 6, fontSize: 12 }}>التقييم</Text>
+          <View style={{ flexDirection: "row-reverse", gap: 6 }}>
+            {[1, 2, 3, 4, 5].map((star) => (
+              <Pressable key={star} onPress={() => setReviewRating(star)}>
+                <Text style={{ fontSize: 24, color: star <= reviewRating ? "#f59e0b" : "#cbd5e1" }}>★</Text>
+              </Pressable>
+            ))}
+          </View>
+        </View>
+        <Field label="تعليقك (اختياري)" value={reviewComment} onChangeText={setReviewComment} multiline />
+        {reviewMessage ? (
+          <Text style={{ textAlign: "right", color: "#166534", fontWeight: "800", fontSize: 12, marginTop: 10 }}>{reviewMessage}</Text>
+        ) : null}
+        <AppButton label={reviewSubmitting ? "جارٍ الإرسال..." : "إرسال التقييم"} onPress={() => void submitReview()} style={{ marginTop: 14 }} disabled={reviewSubmitting} />
+      </AppCard>
+
       {canBookOnline ? (
       <AppCard>
         <View style={{ flexDirection: "row-reverse", alignItems: "center", gap: 8, marginBottom: 8 }}>
           <Feather name="calendar" size={18} color="#0f172a" />
           <AppTitle style={{ fontSize: 18 }}>احجز موعد مباشرة</AppTitle>
         </View>
+        <Text style={{ textAlign: "right", color: "#166534", fontWeight: "800", fontSize: 12, marginBottom: 8, backgroundColor: "#ecfdf5", padding: 10, borderRadius: 12 }}>
+          لا حاجة لإنشاء حساب — أدخل بياناتك وأرسل طلب الحجز مباشرة.
+        </Text>
         <Field label="الاسم الرباعي للمريض *" value={fullName} onChangeText={setFullName} />
         <Field label="رقم الهاتف للتأكيد *" value={phone} onChangeText={setPhone} keyboardType="phone-pad" />
         <Field label="رقم الهوية الشخصية *" value={identity} onChangeText={setIdentity} keyboardType="number-pad" />
         <Field label="العنوان السكني الحالي *" value={address} onChangeText={setAddress} />
-        <Field label="التاريخ المطلوب للحجز *" value={date} onChangeText={setDate} placeholder="مثال: YYYY-MM-DD" />
-        <Field label="الوقت المفضل *" value={time} onChangeText={setTime} placeholder="مثال: 11:30 صباحاً" />
+        <BookingDateField label="التاريخ المطلوب للحجز *" value={date} onChange={setDate} />
+        <BookingTimeField label="الوقت المفضل *" value={time} onChange={setTime} />
         <Field label="ملاحظات أو الأعراض الطبية" value={notes} onChangeText={setNotes} multiline />
         <AppButton label={booking ? "جارٍ إرسال طلب الحجز..." : "تأكيد طلب الحجز الإلكتروني"} onPress={book} style={{ marginTop: 18 }} disabled={booking} />
       </AppCard>

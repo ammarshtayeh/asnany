@@ -5,6 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import { Suspense, useState, useEffect } from 'react';
 import { Doctor } from '@pal-dental/shared';
 import { ArrowRight, BadgeCheck, PhoneCall, Search, Star, Sparkles, MapPin } from 'lucide-react';
+import EmptyStateCTA from '@/components/EmptyStateCTA';
 import { CITIES, SPECIALTIES } from '@/lib/constants';
 
 function SearchPageContent() {
@@ -148,13 +149,16 @@ function SearchPageContent() {
         )}
 
         {!loading && !error && doctors.length === 0 && (
-          <div className="bg-white rounded-3xl p-16 text-center border border-slate-200/60 shadow-lg">
-            <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Search className="w-8 h-8 text-slate-400" />
-            </div>
-            <h3 className="text-xl font-black text-slate-800 mb-2">لا توجد نتائج مطابقة</h3>
-            <p className="text-slate-500 font-bold text-sm">جرب تعديل خيارات التصفية أو البحث بمدينة أخرى.</p>
-          </div>
+          <EmptyStateCTA
+            title="لا توجد نتائج مطابقة — لكن الدليل ينمو"
+            description="جرّب مدينة أو تخصصاً آخر. هل أنت طبيب؟ كن من أوائل المنضمين واحصل على أولوية ظهور في الدليل."
+            primaryHref="/join"
+            primaryLabel="انضم كطبيب شريك"
+            secondaryHref="/doctors/search"
+            secondaryLabel="عرض كل الأطباء"
+            whatsappMessage="مرحباً، أريد تسجيل عيادتي على ملامح.ps"
+            tips={["رام الله", "نابلس", "الخليل", "أسنان", "عيون", "جلدية"]}
+          />
         )}
 
         {!loading && !error && doctors.length > 0 && (

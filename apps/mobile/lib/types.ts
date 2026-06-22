@@ -12,6 +12,7 @@ export type Doctor = {
   bio?: string | null;
   image_url?: string | null;
   is_featured?: boolean | null;
+  verified?: boolean | null;
   is_available?: boolean | null;
   availability_note?: string | null;
   accepts_discount_card?: boolean | null;

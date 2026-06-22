@@ -155,10 +155,27 @@ export default function StoresPage() {
             <div className="w-12 h-12 rounded-full border-4 border-blue-500 border-t-transparent animate-spin" />
           </div>
         ) : filteredStores.length === 0 ? (
-          <div className="bg-white rounded-3xl p-12 text-center border border-slate-100 shadow-xl">
-            <Building2 className="w-16 h-16 text-slate-300 mx-auto mb-4" />
-            <h3 className="text-xl font-bold text-slate-800 mb-2">لا توجد شركات مطابقة للبحث</h3>
-            <p className="text-slate-500">جرب البحث بكلمات أخرى أو تصفح الأقسام العامة.</p>
+          <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-xl">
+            {stores.length === 0 ? (
+              <div className="text-center">
+                <Building2 className="w-16 h-16 text-slate-300 mx-auto mb-4" />
+                <h3 className="text-xl font-bold text-slate-800 mb-2">كن أول مورد معتمد على ملامح</h3>
+                <p className="text-slate-500 mb-6">سجّل شركتك الطبية لتظهر أمام الأطباء والعيادات الباحثين عن معدات ومواد.</p>
+                <button
+                  onClick={() => setIsModalOpen(true)}
+                  className="inline-flex items-center gap-2 rounded-2xl bg-blue-600 px-6 py-3 text-sm font-black text-white"
+                >
+                  <Plus className="w-4 h-4" />
+                  سجّل شركتك الآن
+                </button>
+              </div>
+            ) : (
+              <div className="text-center">
+                <Building2 className="w-16 h-16 text-slate-300 mx-auto mb-4" />
+                <h3 className="text-xl font-bold text-slate-800 mb-2">لا توجد شركات مطابقة للبحث</h3>
+                <p className="text-slate-500">جرب البحث بكلمات أخرى أو تصفح الأقسام العامة.</p>
+              </div>
+            )}
           </div>
         ) : (
           <div className="grid md:grid-cols-2 gap-6">

@@ -4,6 +4,7 @@ import { router } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { apiFetch } from "../lib/api";
 import { FORM_PHONE_PLACEHOLDER } from "../lib/site-contact";
+import { EmptyStateCTA } from "../components/EmptyStateCTA";
 
 type Store = {
   id: string;
@@ -137,12 +138,14 @@ export default function StoresScreen() {
             <ActivityIndicator size="large" color="#3b82f6" />
           </View>
         ) : filtered.length === 0 ? (
-          <View style={{ backgroundColor: "#fff", borderRadius: 20, padding: 32, alignItems: "center", borderWidth: 1.5, borderColor: "#f1f5f9", borderStyle: "dashed" }}>
-            <Text style={{ fontSize: 36, marginBottom: 10 }}>🏢</Text>
-            <Text style={{ fontSize: 14, fontWeight: "700", color: "#94a3b8", textAlign: "center" }}>
-              {search ? "لا توجد شركات مطابقة للبحث" : "سيتم عرض الشركات والموردين المعتمدين قريباً."}
-            </Text>
-          </View>
+          <EmptyStateCTA
+            icon="briefcase"
+            title={search ? "لا توجد شركات مطابقة" : "دليل الموردين قيد التوسّع"}
+            description={search ? "جرّب اسم شركة أو مدينة مختلفة." : "سجّل شركتك الطبية وتواصل مباشرة مع الأطباء والعيادات."}
+            primaryLabel="سجّل شركتك"
+            secondaryHref="/advertise"
+            secondaryLabel="اعرف المزيد"
+          />
         ) : (
           filtered.map((store) => {
             const name = store.storeName || store.store_name || "";

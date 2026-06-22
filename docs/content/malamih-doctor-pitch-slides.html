@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>ملامih.ps — عرض شامل للأطباء والعيادات</title>
+  <style>
+    @page { size: A4 landscape; margin: 9mm 11mm; }
+    * { box-sizing: border-box; }
+    body { font-family: "Segoe UI", Tahoma, Arial, sans-serif; color: #0f172a; line-height: 1.6; margin: 0; }
+    .slide { page-break-after: always; min-height: 188mm; padding: 4mm 2mm; display: flex; flex-direction: column; }
+    .slide:last-child { page-break-after: auto; }
+    .cover {
+      min-height: 188mm; display: flex; flex-direction: column; justify-content: center; align-items: center;
+      text-align: center; background: linear-gradient(135deg, #0a1628, #0c5e47 50%, #0a1628);
+      color: #fff; border-radius: 6mm; padding: 14mm;
+    }
+    h1 { font-size: 12mm; margin: 0 0 3mm; }
+    h2 { font-size: 6.5mm; color: #0c5e47; border-right: 4px solid #d4af37; padding-right: 4mm; margin: 0 0 3mm; }
+    h3 { font-size: 4.5mm; margin: 2mm 0 1.5mm; color: #1e293b; }
+    p, li { font-size: 3.5mm; margin: 1mm 0; }
+    .subtitle { font-size: 4.2mm; color: #cbd5e1; max-width: 170mm; }
+    .gold { color: #d4af37; }
+    .badge {
+      display: inline-block; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.22);
+      padding: 1.2mm 3.5mm; border-radius: 999px; font-size: 3.2mm; margin: 1mm;
+    }
+    .card { border: 1px solid #e2e8f0; border-radius: 3mm; padding: 3mm; background: #f8fafc; }
+    .highlight { background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 3mm; padding: 3mm 4mm; margin: 2mm 0; }
+    .app-banner {
+      background: #0a1628; color: #fff; border-radius: 3mm; padding: 4mm 5mm; margin: 2mm 0;
+      display: flex; align-items: center; justify-content: space-between; gap: 4mm;
+    }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 3mm; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 3mm; }
+    .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 2.5mm; }
+    table { width: 100%; border-collapse: collapse; font-size: 3.2mm; }
+    th, td { border: 1px solid #e2e8f0; padding: 2mm; text-align: right; vertical-align: top; }
+    th { background: #0a1628; color: #fff; }
+    ul { padding-right: 4mm; margin: 1mm 0; }
+    .price { font-size: 7mm; font-weight: 900; color: #059669; }
+    .steps { list-style: none; padding: 0; margin: 0; }
+    .steps li { padding: 2.5mm 5mm 2.5mm 0; margin: 1.5mm 0; border-right: 3px solid #0c5e47; }
+    .cta-box { background: linear-gradient(135deg, #0c5e47, #059669); color: #fff; border-radius: 4mm; padding: 5mm; text-align: center; margin-top: 3mm; }
+    .mini { font-size: 3mm; color: #64748b; }
+    .tag { background: #ede9fe; color: #5b21b6; padding: 0.5mm 2.5mm; border-radius: 999px; font-size: 2.8mm; font-weight: 700; }
+  </style>
+</head>
+<body>
+
+<!-- 1 -->
+<div class="slide">
+  <div class="cover">
+    <p style="font-size:3.2mm;color:#94a3b8">دليل فلسطين لصحة وجمال الوجه والأسنان</p>
+    <h1>ملامح<span class="gold">.ps</span></h1>
+    <p class="subtitle">منصة رقمية متكاملة — <strong>موقع ويب</strong> + <strong>تطبيق iOS و Android</strong> — تربط المريض بالطبيب والعيادة في مكان واحد</p>
+    <div style="margin-top:6mm">
+      <span class="badge">🌐 www.malamih.ps</span>
+      <span class="badge">📱 تطبيق موبايل</span>
+      <span class="badge">🗺️ خرائط</span>
+      <span class="badge">📅 حجز</span>
+      <span class="badge">🔔 إشعارات</span>
+    </div>
+    <p style="margin-top:10mm;font-size:3.8mm;color:#94a3b8">عرض للأطباء والعيادات والشركاء — 2026</p>
+  </div>
+</div>
+
+<!-- 2 -->
+<div class="slide">
+  <h2>ما هي منصة ملامih.ps؟</h2>
+  <div class="highlight">
+    <strong>ملامih.ps</strong> أول دليل رقمي فلسطيني متخصص في <strong>صحة وجمال الوجه</strong> — ليس مجرد موقع، بل <strong>نظام كامل</strong>: موقع ويب + تطبيق موبايل + حجز + خرائط + عروض + مجلة + سوق + لوحة تحكم للطبيب.
+  </div>
+  <div class="app-banner">
+    <div>
+      <strong style="font-size:4.2mm">🌐 الموقع: https://www.malamih.ps</strong>
+      <p style="margin:1mm 0;font-size:3.2mm;color:#cbd5e1">يعمل من أي متصفح — كمputer، تابلت، جوال — ويدعم PWA (تثبيت كتطبيق من المتصفح)</p>
+    </div>
+    <div style="text-align:left">
+      <strong style="font-size:4.2mm">📱 التطبيق</strong>
+      <p style="margin:1mm 0;font-size:3.2mm;color:#cbd5e1">iOS + Android — نفس المحتوى والحجز والبحث</p>
+    </div>
+  </div>
+  <div class="grid-3" style="margin-top:3mm">
+    <div class="card"><strong>للمريض</strong><br/>يبحث، يقارن، يحجز، يتابع، يستفيد من العروض — <strong>مجاناً</strong></div>
+    <div class="card"><strong>للطبيب/العيادة</strong><br/>صفحة موثّقة، ظهور، حجز أونلاين، لوحة تحكم — <strong>باقات اشتراك</strong></div>
+    <div class="card"><strong>للشركاء</strong><br/>مختبرات، متاجر طبية، مراكز تجميل — إعلانات وعروض</div>
+  </div>
+  <p class="mini" style="margin-top:2mm"><strong>التخصصات:</strong> أسنان • عيون • جلدية • تجميل • أنف وأذن وحنجرة • مختبرات • مستلزمات طبية</p>
+</div>
+
+<!-- 3 -->
+<div class="slide">
+  <h2>ماذا يجد المريض على الموقع والتطبيق؟</h2>
+  <div class="grid-2">
+    <div class="card">
+      <h3>🔍 البحث والاكتشاف</h3>
+      <ul>
+        <li><strong>دليل الأطباء</strong> — بحث حسب المدينة، التخصص، التقييم</li>
+        <li><strong>«الأقرب لي»</strong> — خريطة تفاعلية + اتجاهات Apple/Google Maps</li>
+        <li><strong>ملف الطبيب</strong> — صور، سيرة، ساعات، تأمين، واتساب</li>
+        <li><strong>التجميل</strong> — مراكز تجميل وابتسامة هولlywood</li>
+        <li><strong>المختبرات</strong> — معامل وتحاليل</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>📅 الحجز والمتابعة</h3>
+      <ul>
+        <li><strong>حجز موعد أونلاين</strong> — للأطباء المفعّلين</li>
+        <li><strong>حجوزاتي</strong> — متابعة المواعيد برقم الهاتف</li>
+        <li><strong>إشعارات</strong> — تأكيد، تذكير، تحديثات (ويب + موبايل)</li>
+        <li><strong>بطاقة الخصم</strong> — خصومات حصرية لدى شركاء المنصة</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>🏷️ العروض والمحتوى</h3>
+      <ul>
+        <li><strong>العروض</strong> — خصومات تبييض، تجميل، فحوصات، باقات</li>
+        <li><strong>المجلة الطبية</strong> — مقالات ونصائح مراجعة</li>
+        <li><strong>سوق ملامih</strong> — معدات، وظائف، مستلزمات</li>
+        <li><strong>الموردون</strong> — متاجر طبية ومعدات</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>🧠 مساعد ذكي + خدمات</h3>
+      <ul>
+        <li><strong>الحكيم اللبيب</strong> — مساعد AI يرشّد للتخصص والحجز</li>
+        <li><strong>استشارات</strong> — (للأطباء المشتركين بالباقة المميزة)</li>
+        <li><strong>شريط أخبار</strong> — تنبيهات وعروض على الرئيسية</li>
+        <li><strong>من نحن / الخصوصية / الشروط</strong> — شفافية وثقة</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- 4 -->
+<div class="slide">
+  <h2>جولة على أقسام الموقع — www.malamih.ps</h2>
+  <table>
+    <tr><th>القسم</th><th>الرابط</th><th>ماذا يفعل</th></tr>
+    <tr><td>الرئيسية</td><td>https://www.malamih.ps/</td><td>بحث سريع، تخصصات، خريطة، عروض، إحصائيات، أطباء مميزون</td></tr>
+    <tr><td>دليل الأطباء</td><td>https://www.malamih.ps/doctors/search</td><td>بحث + فلتر مدينة/تخصص + «الأقرب لي» + بطاقات أطباء</td></tr>
+    <tr><td>ملف الطبيب</td><td>https://www.malamih.ps/doctors/[id]</td><td>صور، خريطة، واتساب، حجز، تقييمات، تأمين</td></tr>
+    <tr><td>خريطة الطبيب</td><td>https://www.malamih.ps/doctors/[id]/map</td><td>موقع العيادة + اتجاهات</td></tr>
+    <tr><td>الحجز</td><td>https://www.malamih.ps/booking</td><td>حجز موعد مع طبيب مختار</td></tr>
+    <tr><td>حجوزاتي</td><td>https://www.malamih.ps/appointments</td><td>متابعة المواعيد بالهاتف + حالة الحجز</td></tr>
+    <tr><td>العروض</td><td>https://www.malamih.ps/offers</td><td>عروض وخصومات طبية وتجميلية</td></tr>
+    <tr><td>بطاقة الخصم</td><td>https://www.malamih.ps/discount-card</td><td>برنامج خصومات للمرضى</td></tr>
+    <tr><td>التجميل</td><td>https://www.malamih.ps/beauty</td><td>مراكز تجميل وخدمات</td></tr>
+    <tr><td>المختبرات</td><td>https://www.malamih.ps/labs</td><td>معامل وتحاليل</td></tr>
+    <tr><td>سوق ملامih</td><td>https://www.malamih.ps/marketplace</td><td>معدات، وظائف، مستلزمات</td></tr>
+    <tr><td>الموردون</td><td>https://www.malamih.ps/stores</td><td>متاجر طبية وموردون</td></tr>
+    <tr><td>المجلة</td><td>https://www.malamih.ps/blog</td><td>مقالات طبية ونصائح</td></tr>
+    <tr><td>باقات الاشتراك</td><td>https://www.malamih.ps/subscriptions</td><td>اختيار باقة + طلب اشتراك</td></tr>
+    <tr><td>انضم كطبيب</td><td>https://www.malamih.ps/join</td><td>بوابة انضمام — تسجيل أو واتساب</td></tr>
+    <tr><td>تسجيل عيادة</td><td>https://www.malamih.ps/doctors/register</td><td>استمارة + صور + GPS</td></tr>
+    <tr><td>أعلن معنا</td><td>https://www.malamih.ps/advertise</td><td>طلب إعلان أو حملة</td></tr>
+    <tr><td>من نحن</td><td>https://www.malamih.ps/about</td><td>رؤية المنصة ورسالتها</td></tr>
+    <tr><td>دخول الطبيب</td><td>https://www.malamih.ps/doctor/login</td><td>لوحة تحكم الطبيب</td></tr>
+  </table>
+  <p class="mini">كل هذه الأقسام متاحة على <strong>الموقع</strong> و<strong>التطبيق</strong> (iOS + Android)</p>
+</div>
+
+<!-- 5 -->
+<div class="slide">
+  <h2>📱 تطبيق ملامih — iOS و Android</h2>
+  <div class="highlight">
+    التطبيق <strong>نسخة كاملة</strong> من المنصة على الهاتف — ليس موقع مصغّر، بل تجربة موبايل أصلية مع نفس البيانات والحجز.
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <h3>ماذا يفعل التطبيق للمريض؟</h3>
+      <ul>
+        <li>بحث أطباء وتصفّح حسب التخصص والمدينة</li>
+        <li>عرض ملفات الأطباء + خرائط + واتساب</li>
+        <li>حجز موعد أونلاين</li>
+        <li>متابعة العروض والمتاجر والمختبرات</li>
+        <li>مساعد «الحكيم اللبيب» AI</li>
+        <li>إشعارات Push للحجوزات والعروض</li>
+        <li>تبويبات سفلية: رئيسية • أطباء • حجز • عروض • باقات</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>ماذا يفيد التطبيق العيادة؟</h3>
+      <ul>
+        <li>ظهور أمام مستخدمي الموبايل — أغلب المراجعين على الهاتف</li>
+        <li>حجوزات تصلكم كإشعار فوري</li>
+        <li>وصول أسهل من «شارك الرابط على إنستغرام»</li>
+        <li>أيقونة على شاشة المريض = تذكير دائم بعيادتكم</li>
+        <li>نفس صفحتكم الموثّقة على الويب والتطبيق</li>
+      </ul>
+    </div>
+  </div>
+  <div class="app-banner" style="margin-top:3mm">
+    <span>🌐 www.malamih.ps — الموقع</span>
+    <span style="font-size:5mm">+</span>
+    <span>📱 تطبيق iOS & Android</span>
+    <span style="font-size:5mm">=</span>
+    <span><strong>وصول مزدوج للمرضى</strong></span>
+  </div>
+</div>
+
+<!-- 6 -->
+<div class="slide">
+  <h2>ماذا تحصل عيادتكم كشريك؟</h2>
+  <div class="grid-3">
+    <div class="card">
+      <strong style="color:#0c5e47">صفحة عيادة احترافية</strong>
+      <ul>
+        <li>اسم، تخصص، صور العيادة والأجهزة</li>
+        <li>ساعات العمل، تأمين، سيرة</li>
+        <li>هاتف، واتساب، عنوان</li>
+        <li>موقع GPS + خريطة + اتجاهات</li>
+        <li>شارة «موثّق» بعد مراجعة الإدارة</li>
+      </ul>
+    </div>
+    <div class="card">
+      <strong style="color:#0c5e47">ظهور وبحث</strong>
+      <ul>
+        <li>دليل الأطباء — كل فلسطين</li>
+        <li>فلتر مدينة + تخصص</li>
+        <li>«الأقرب لي» على الخريطة</li>
+        <li>الصفحة الرئيسية (أطباء مميزون)</li>
+        <li>المجلة + العروض + السوق</li>
+      </ul>
+    </div>
+    <div class="card" style="background:#faf5ff;border-color:#c4b5fd">
+      <strong style="color:#5b21b6">لوحة الطبيب + حجز</strong>
+      <ul>
+        <li>دخول الطبيب: https://www.malamih.ps/doctor/login</li>
+        <li>لوحة تحكم — مواعيد، ملف، إشعارات</li>
+        <li>حجز أونلاين (الباقة المميزة)</li>
+        <li>تأكيد/إلغاء + إشعار للمريض</li>
+        <li>إشعارات Push ويب + موبايل</li>
+      </ul>
+    </div>
+  </div>
+  <div class="quote highlight" style="text-align:center;font-weight:700">
+    «إنستغرام يجيب متابعين — ملامih.ps (موقع + تطبيق) يجيب مراجعين يبحثون ويحجزون.»
+  </div>
+</div>
+
+<!-- 7 -->
+<div class="slide">
+  <h2>باقات الاشتراك — للأطباء والعيادات</h2>
+  <div class="grid-3">
+    <div class="card">
+      <h3>باقة الدليل</h3>
+      <div class="price">$100</div>
+      <p>/ سنوياً <span style="text-decoration:line-through;color:#94a3b8">$120</span></p>
+      <ul>
+        <li>صفحة تعريف كاملة (ويب + تطبيق)</li>
+        <li>ظهور في دليل الأطباء المعتمد</li>
+        <li>خريطة + تواصل + واتساب</li>
+        <li>إعلانات في المجلة الطبية</li>
+      </ul>
+    </div>
+    <div class="card" style="border:2px solid #7c3aed;background:#faf5ff">
+      <h3>الباقة المميزة <span class="tag">⭐ الأكثر طلباً</span></h3>
+      <div class="price">$300</div>
+      <p>/ سنوياً</p>
+      <ul>
+        <li>كل مزايا باقة الدليل</li>
+        <li><strong>حجوزات أونلاين</strong> (موقع + تطبيق)</li>
+        <li>لوحة طبيب + إشعارات فورية</li>
+        <li>استشارات كتابية ومتابعات</li>
+        <li>اتصالات ومتابعات عاجلة</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>عروض وإعلانات</h3>
+      <div class="price">$50</div>
+      <p>/ لكل إعلان</p>
+      <ul>
+        <li>إعلان في الصفحة الرئيسية</li>
+        <li>عروض مختبرات/تجميل</li>
+        <li>ظهور في المجلة والحملات</li>
+        <li>حجز مرتبط بالعرض</li>
+      </ul>
+    </div>
+  </div>
+  <p class="highlight"><strong>100$ بالسنة = أقل من 10$ بالشهر.</strong> موعد واحد جديد من المنصة يغطي تكلفة الباقة. اطلبوا الباقة: https://www.malamih.ps/subscriptions</p>
+</div>
+
+<!-- 8 -->
+<div class="slide">
+  <h2>لماذا تنضمون الآن؟</h2>
+  <div class="grid-4">
+    <div class="card"><strong>🇵🇸 فلسطيني</strong><br/>مصمّم للسوق المحلي — عربي — كل المدن</div>
+    <div class="card"><strong>✅ موثوق</strong><br/>مراجعة إدارة قبل الظهور — verified</div>
+    <div class="card"><strong>📱📲 مزدوج</strong><br/>موقع + تطبيق iOS/Android</div>
+    <div class="card"><strong>🗺️ خرائط</strong><br/>GPS + Apple/Google Maps</div>
+    <div class="card"><strong>📅 حجز</strong><br/>أونلاين + إشعارات + متابعة</div>
+    <div class="card"><strong>🏷️ عروض</strong><br/>إعلانات موسمية $50</div>
+    <div class="card"><strong>📖 مجلة</strong><br/>محتوى طبي + ظهور للعيادة</div>
+    <div class="card"><strong>🤝 دعم</strong><br/>فريق يساعدكم بالتسجيل</div>
+  </div>
+  <table style="margin-top:3mm">
+    <tr><th>سؤال شائع</th><th>الجواب</th></tr>
+    <tr><td>«عندي إنستغرام»</td><td>ملامih يكمّل السوشيال — بحث منظم + حجز + خريطة + ثقة</td></tr>
+    <tr><td>«غالي»</td><td>100$/سنة — موعد واحد جديد يغطي الباقة</td></tr>
+    <tr><td>«ما عندي وقت»</td><td>10 دقائق تسجيل — https://www.malamih.ps/doctors/register</td></tr>
+    <tr><td>«بدي أفكر»</td><td>ابدأوا بباقة الدليل — ترقّوا للمميزة لاحقاً</td></tr>
+  </table>
+</div>
+
+<!-- 9 -->
+<div class="slide">
+  <h2>كيف تنضمون؟ — 3 خطوات</h2>
+  <ol class="steps">
+    <li><strong>سجّلوا عيادتكم</strong> — https://www.malamih.ps/doctors/register (بيانات + صور + موقع GPS) — أو تواصلوا عبر https://www.malamih.ps/join</li>
+    <li><strong>اختاروا باقتكم</strong> — https://www.malamih.ps/subscriptions (دليل $100 / مميز $300 / إعلان $50)</li>
+    <li><strong>مراجعة وتفعيل</strong> — فريق ملامih.ps يراجع ويفعّل حسابكم خلال 24–48 ساعة — ثم تظهرون على الموقع والتطبيق</li>
+  </ol>
+  <div class="grid-2" style="margin-top:4mm">
+    <div class="card">
+      <h3>بعد التفعيل تحصلون على:</h3>
+      <ul>
+        <li>صفحة عيادة على https://www.malamih.ps</li>
+        <li>ظهور في تطبيق iOS و Android</li>
+        <li>حساب طبيب + لوحة تحكم (للباقة المميزة: حجز أونلاين)</li>
+        <li>إمكانية الإعلان والعروض</li>
+      </ul>
+    </div>
+    <div class="card" style="background:#ecfdf5">
+      <h3>تواصل معنا</h3>
+      <p><strong>🌐</strong> https://www.malamih.ps</p>
+      <p><strong>📧</strong> ammar.shtayeh@gmail.com</p>
+      <p><strong>📱 واتساب:</strong> 9720595537190</p>
+      <p class="mini">انضم: https://www.malamih.ps/join · باقات: https://www.malamih.ps/subscriptions · إعلان: https://www.malamih.ps/advertise</p>
+    </div>
+  </div>
+  <div class="cta-box">
+    <strong style="font-size:5mm">انضموا لملامih.ps — موقع + تطبيق — اليوم</strong>
+    https://www.malamih.ps/join
+  </div>
+  <p class="mini" style="margin-top:3mm;text-align:center">© ملامih.ps 2026 — https://www.malamih.ps</p>
+</div>
+
+</body>
+</html>

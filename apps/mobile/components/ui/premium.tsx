@@ -289,6 +289,7 @@ export function DoctorListCard({
   rating,
   verified,
   featured,
+  distanceLabel,
   onPress,
   onWhatsApp,
 }: {
@@ -300,6 +301,7 @@ export function DoctorListCard({
   rating?: number;
   verified?: boolean;
   featured?: boolean;
+  distanceLabel?: string;
   onPress: () => void;
   onWhatsApp?: () => void;
 }) {
@@ -331,6 +333,7 @@ export function DoctorListCard({
               <Text style={ui.caption}>
                 {city}
                 {area ? ` · ${area}` : ""}
+                {distanceLabel ? ` · ${distanceLabel}` : ""}
               </Text>
             </View>
           </View>

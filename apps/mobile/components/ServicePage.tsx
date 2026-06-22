@@ -3,6 +3,7 @@ import { ActivityIndicator, Image, ScrollView, Text, View, Pressable } from "rea
 import { router } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { supabase } from "../lib/supabase";
+import { EmptyStateCTA } from "../EmptyStateCTA";
 import { MedicalService, MedicalServiceType } from "../types";
 
 interface ServicePageProps {
@@ -146,17 +147,25 @@ export function ServicePage({
                 </Pressable>
               ))
             ) : (
-              <View style={{ backgroundColor: "#fff", borderRadius: 20, padding: 28, alignItems: "center", borderWidth: 1.5, borderColor: "#f1f5f9", borderStyle: "dashed" }}>
-                <Text style={{ fontSize: 36, marginBottom: 10 }}>{emoji}</Text>
-                <Text style={{ fontSize: 14, fontWeight: "700", color: "#94a3b8", textAlign: "center" }}>{emptyLabel}</Text>
-              </View>
+              <EmptyStateCTA
+                icon="activity"
+                title="القائمة قيد التوسّع"
+                description={emptyLabel}
+                primaryLabel="سجّل منشأتك"
+                secondaryHref="/advertise"
+                secondaryLabel="أعلن معنا"
+              />
             )}
           </View>
         ) : (
-          <View style={{ backgroundColor: "#fff", borderRadius: 20, padding: 28, alignItems: "center", borderWidth: 1.5, borderColor: "#f1f5f9", borderStyle: "dashed" }}>
-            <Text style={{ fontSize: 36, marginBottom: 10 }}>{emoji}</Text>
-            <Text style={{ fontSize: 14, fontWeight: "700", color: "#94a3b8", textAlign: "center" }}>{emptyLabel}</Text>
-          </View>
+          <EmptyStateCTA
+            icon="activity"
+            title="القائمة قيد التوسّع"
+            description={emptyLabel}
+            primaryLabel="سجّل منشأتك"
+            secondaryHref="/advertise"
+            secondaryLabel="أعلن معنا"
+          />
         )}
 
         <View style={{ gap: 10 }}>

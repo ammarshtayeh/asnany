@@ -269,9 +269,24 @@ export default function MarketplacePage() {
             ))}
 
             {filteredAds.length === 0 && (
-              <div className="bg-white/60 p-16 rounded-[2.5rem] border border-white text-center flex flex-col items-center justify-center shadow-sm col-span-2">
-                <h3 className="text-2xl font-black text-slate-800 mb-2">لا توجد إعلانات مطابقة</h3>
-                <p className="text-slate-500 font-medium text-base">استخدم خيارات تصفية أخرى أو ابحث بكلمات مختلفة.</p>
+              <div className="bg-white/60 p-10 rounded-[2.5rem] border border-white text-center flex flex-col items-center justify-center shadow-sm col-span-full">
+                {ads.length === 0 ? (
+                  <>
+                    <h3 className="text-2xl font-black text-slate-800 mb-2">كن أول من ينشر في سوق ملامح</h3>
+                    <p className="text-slate-500 font-medium text-base mb-6">معدات طبية، وظائف شاغرة، أو عروض B2B — انشر إعلانك واصل للأطباء والعيادات.</p>
+                    <button
+                      onClick={() => setShowPublishForm(true)}
+                      className="rounded-2xl bg-slate-950 px-6 py-3 text-sm font-black text-white"
+                    >
+                      انشر إعلانك الآن
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <h3 className="text-2xl font-black text-slate-800 mb-2">لا توجد إعلانات مطابقة</h3>
+                    <p className="text-slate-500 font-medium text-base">استخدم خيارات تصفية أخرى أو ابحث بكلمات مختلفة.</p>
+                  </>
+                )}
               </div>
             )}
           </div>

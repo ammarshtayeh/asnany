@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ArrowLeft, BookOpen, Calendar, Clock, UserCircle2 } from "lucide-react";
+import EmptyStateCTA from "@/components/EmptyStateCTA";
 import { Article } from "@/lib/types";
 import { getArticles } from "@/lib/data";
 
@@ -111,7 +112,16 @@ export default function BlogPage() {
             </div>
           </Link>
         ) : (
-          <Empty title="لا توجد مقالات حالياً" />
+          <EmptyStateCTA
+            title="المجلة الطبية تنمو معكم"
+            description="مقالات توعوية قصيرة عن الأسنان، البشرة، العيون، والتجميل — من فريق ملامح والأطباء الشركاء."
+            primaryHref="/join"
+            primaryLabel="انضم كطبيب وشارك محتوى"
+            secondaryHref="/"
+            secondaryLabel="العودة للرئيسية"
+            whatsappMessage="مرحباً، أريد المساهمة بمقال في مجلة ملامح.ps"
+            tips={["بسمتك وصحة فمك", "بشرتك ونضارتها", "رؤية واضحة"]}
+          />
         )}
       </section>
 
@@ -147,6 +157,3 @@ export default function BlogPage() {
   );
 }
 
-function Empty({ title }: { title: string }) {
-  return <div className="rounded-2xl border border-slate-200 bg-white p-12 text-center text-xl font-black text-slate-800 shadow-sm">{title}</div>;
-}

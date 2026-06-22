@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, ArrowLeft, BadgePercent, CalendarClock, Sparkles, Tag } from "lucide-react";
+import { ArrowRight, ArrowLeft, BadgePercent, CalendarCheck2, CalendarClock, Sparkles, Tag } from "lucide-react";
+import EmptyStateCTA from "@/components/EmptyStateCTA";
 import { Offer } from "@/lib/types";
 import { getOffers } from "@/lib/data";
 
@@ -107,7 +108,7 @@ export default function OffersPage() {
                     </p>
                     <h3 className="line-clamp-2 text-xl font-black leading-8 text-slate-950">{offer.title}</h3>
                     <p className="mt-2 line-clamp-3 text-sm font-semibold leading-7 text-slate-500">{offer.description}</p>
-                    <div className="mt-5 flex items-end justify-between border-t border-slate-100 pt-5">
+                    <div className="mt-5 flex items-end justify-between gap-3 border-t border-slate-100 pt-5">
                       <div>
                         {discount === 100 ? (
                           <span className="text-2xl font-black text-emerald-600">مجاناً</span>
@@ -118,11 +119,22 @@ export default function OffersPage() {
                           </>
                         )}
                       </div>
-                      {offer.doctor_id ? (
-                        <Link href={`/doctors/${offer.doctor_id}`} className="flex h-12 w-12 items-center justify-center rounded-xl bg-slate-950 text-white transition group-hover:bg-amber-500">
-                          <ArrowLeft className="h-5 w-5" />
-                        </Link>
-                      ) : null}
+                      <div className="flex gap-2">
+                        {offer.doctor_id ? (
+                          <Link
+                            href={`/doctors/${offer.doctor_id}#booking`}
+                            className="inline-flex items-center gap-1.5 rounded-xl bg-amber-500 px-4 py-3 text-xs font-black text-slate-950 transition hover:bg-amber-400"
+                          >
+                            <CalendarCheck2 className="h-4 w-4" />
+                            احجز العرض
+                          </Link>
+                        ) : null}
+                        {offer.doctor_id ? (
+                          <Link href={`/doctors/${offer.doctor_id}`} className="flex h-12 w-12 items-center justify-center rounded-xl bg-slate-950 text-white transition group-hover:bg-amber-500">
+                            <ArrowLeft className="h-5 w-5" />
+                          </Link>
+                        ) : null}
+                      </div>
                     </div>
                   </div>
                 </article>
@@ -130,7 +142,16 @@ export default function OffersPage() {
             })}
           </div>
         ) : (
-          <Empty title="لا توجد عروض نشطة حالياً" />
+          <EmptyStateCTA
+            title="كن أول من يعلن عرضاً على ملامح"
+            description="العروض تظهر هنا فور تفعيلها من العيادات الشريكة. أطباء ومختبرات ومراكز تجميل — اعرض خصمك أمام آلاف الباحثين."
+            primaryHref="/advertise"
+            primaryLabel="أعلن عن عرضك"
+            secondaryHref="/join"
+            secondaryLabel="انضم كطبيب"
+            whatsappMessage="مرحباً، أريد نشر عرض طبي على ملامح.ps"
+            tips={["خصم 20%", "فحص مجاني", "استشارة أولى", "باقة عائلية"]}
+          />
         )}
       </section>
     </main>
@@ -148,8 +169,4 @@ function Metric({ value, label }: { value: string | number; label: string }) {
 
 function LoadingGrid() {
   return <div className="grid gap-5 md:grid-cols-3">{[1, 2, 3].map((item) => <div key={item} className="h-96 animate-pulse rounded-2xl bg-white" />)}</div>;
-}
-
-function Empty({ title }: { title: string }) {
-  return <div className="rounded-2xl border border-slate-200 bg-white p-12 text-center text-xl font-black text-slate-800 shadow-sm">{title}</div>;
 }

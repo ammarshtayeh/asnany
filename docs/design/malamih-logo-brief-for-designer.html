@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>ملامih.ps — موجز تصميم اللوجو للمصمم</title>
+  <style>
+    @page { size: A4; margin: 12mm 14mm; }
+    * { box-sizing: border-box; }
+    body {
+      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+      color: #0f172a;
+      line-height: 1.7;
+      margin: 0;
+      background: #fff;
+    }
+    .page { page-break-after: always; padding: 2mm 0 6mm; }
+    .page:last-child { page-break-after: auto; }
+    .cover {
+      min-height: 255mm;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background: linear-gradient(145deg, #0a1628 0%, #0c5e47 50%, #0a1628 100%);
+      color: #fff;
+      border-radius: 6mm;
+      padding: 18mm;
+    }
+    .cover-badge {
+      display: inline-block;
+      background: rgba(255,255,255,.1);
+      border: 1px solid rgba(255,255,255,.22);
+      padding: 2mm 5mm;
+      border-radius: 999px;
+      font-size: 3.6mm;
+      margin: 2mm;
+    }
+    h1 { font-size: 14mm; margin: 0 0 3mm; line-height: 1.25; }
+    h2 {
+      font-size: 6.5mm;
+      color: #0c5e47;
+      border-right: 4px solid #d4af37;
+      padding-right: 4mm;
+      margin: 7mm 0 4mm;
+    }
+    h3 { font-size: 4.8mm; margin: 5mm 0 2mm; color: #1e293b; }
+    p, li { font-size: 4mm; }
+    .subtitle { font-size: 5mm; color: #cbd5e1; max-width: 145mm; margin: 0 auto; }
+    .gold { color: #d4af37; }
+    .card {
+      border: 1px solid #e2e8f0;
+      border-radius: 4mm;
+      padding: 4mm 5mm;
+      background: #f8fafc;
+      margin: 3mm 0;
+    }
+    .highlight {
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      border-radius: 4mm;
+      padding: 4mm 5mm;
+      margin: 3mm 0;
+    }
+    .warn {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 4mm;
+      padding: 4mm 5mm;
+      margin: 3mm 0;
+    }
+    .idea-box {
+      background: #0a1628;
+      color: #e2e8f0;
+      border-radius: 4mm;
+      padding: 5mm 6mm;
+      font-size: 4.2mm;
+      margin: 4mm 0;
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 3.8mm; margin: 3mm 0; }
+    th, td { border: 1px solid #e2e8f0; padding: 3mm; text-align: right; vertical-align: top; }
+    th { background: #0a1628; color: #fff; font-weight: 700; }
+    tr:nth-child(even) td { background: #f8fafc; }
+    ul { padding-right: 6mm; margin: 2mm 0; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; }
+    .color-swatch {
+      display: inline-block;
+      width: 8mm;
+      height: 8mm;
+      border-radius: 2mm;
+      vertical-align: middle;
+      margin-left: 2mm;
+      border: 1px solid rgba(0,0,0,.1);
+    }
+    .letter-demo {
+      display: flex;
+      align-items: center;
+      gap: 4mm;
+      padding: 3mm 0;
+      border-bottom: 1px dashed #e2e8f0;
+    }
+    .letter-demo:last-child { border-bottom: none; }
+    .letter-char {
+      width: 14mm;
+      height: 14mm;
+      border-radius: 3mm;
+      background: linear-gradient(135deg, #0c5e47, #10b981);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9mm;
+      font-weight: 900;
+      flex-shrink: 0;
+    }
+    .footer-note {
+      font-size: 3.2mm;
+      color: #64748b;
+      margin-top: 8mm;
+      border-top: 1px solid #e2e8f0;
+      padding-top: 3mm;
+    }
+    .checklist li { margin-bottom: 2mm; }
+  </style>
+</head>
+<body>
+
+<!-- صفحة الغلاف -->
+<div class="page">
+  <div class="cover">
+    <p style="font-size:4mm;color:#94a3b8;margin-bottom:6mm">موجز تصميم — Design Brief</p>
+    <h1>ملامح<span class="gold">.ps</span></h1>
+    <p class="subtitle">تصميم لوجو احترافي — الكلمة مبنية على تشكيلة الرأس والوجه</p>
+    <div style="margin-top:8mm">
+      <span class="cover-badge">دليل طبي فلسطيني</span>
+      <span class="cover-badge">أسنان • عيون • أنف وأذن • تجميل</span>
+      <span class="cover-badge">موقع + تطبيق موبايل</span>
+    </div>
+    <p style="margin-top:14mm;font-size:3.8mm;color:#94a3b8">malamih.ps — 2026</p>
+  </div>
+</div>
+
+<!-- صفحة 1: عن المشروع والفكرة -->
+<div class="page">
+  <h2>1. عن المشروع</h2>
+  <table>
+    <tr><th style="width:28%">البند</th><th>التفاصيل</th></tr>
+    <tr><td><strong>الاسم</strong></td><td>ملامح</td></tr>
+    <tr><td><strong>الدومين</strong></td><td>malamih.ps (بدون www)</td></tr>
+    <tr><td><strong>النوع</strong></td><td>منصة رقمية فلسطينية — دليل صحة وجمال الوجه</td></tr>
+    <tr><td><strong>التخصصات</strong></td><td>أسنان • عيون • أنف وأذن وحنجرة • تجميل • جلدية</td></tr>
+    <tr><td><strong>المنصات</strong></td><td>موقع ويب + تطبيق iOS و Android</td></tr>
+    <tr><td><strong>الجمهور</strong></td><td>مرضى + أطباء وعيادات</td></tr>
+  </table>
+
+  <h2>2. الفكرة الأساسية للوجو</h2>
+  <div class="idea-box">
+    <strong style="color:#d4af37">الفكرة المركزية:</strong><br />
+    اللوجو يكون <strong>الكلمة نفسها جزءاً من الشكل</strong> — مش نص منفصل تحت أيقونة.<br /><br />
+    الكلمة: <strong style="font-size:6mm;color:#fff">ملامح</strong><br /><br />
+    تُبنى من <strong>حروف عربية ذكية</strong>، بحيث كل حرف يحمل معنى بصري يخدم التخصصات الطبية (أسنان، عيون، وجه).
+  </div>
+
+  <h2>3. تشكيل الحروف — دليل المصمم</h2>
+  <p>كل حرف في كلمة «ملامح» يجب أن يُقرأ بصرياً كجزء من الوجه أو الجسم الطبي:</p>
+
+  <div class="card">
+    <div class="letter-demo">
+      <div class="letter-char">م</div>
+      <div><strong>الميم = عيون</strong><br />الحرف يُقرأ كعينين أو جزء من الوجه. يمكن أن تكون الميم الأولى عينين واضحتين، أو profile للوجه.</div>
+    </div>
+    <div class="letter-demo">
+      <div class="letter-char">ل</div>
+      <div><strong>اللام = وصل / خط</strong><br />خط يربط بين الوجه والفم، أو جزء من contour الوجه.</div>
+    </div>
+    <div class="letter-demo">
+      <div class="letter-char">ا</div>
+      <div><strong>الألف = جزء من الوجه</strong><br />يمكن أن يكون جزءاً من الجبهة أو الخط الأوسط للوجه.</div>
+    </div>
+    <div class="letter-demo">
+      <div class="letter-char">م</div>
+      <div><strong>الميم الثانية = تكملة الوجه</strong><br />تماثل أو تكملة للملامih — profile أو front view.</div>
+    </div>
+    <div class="letter-demo">
+      <div class="letter-char">ح</div>
+      <div><strong>الحاء = الحنك / الفك السفلي</strong><br /><span style="color:#dc2626;font-weight:700">مهم جداً: لا يكون شكله مثل طاحونة أو دولاب.</span> يجب أن يُقرأ كفك أو حنك طبي نظيف.</div>
+    </div>
+  </div>
+</div>
+
+<!-- صفحة 2: عناصر إضافية + أسلوب -->
+<div class="page">
+  <h2>4. عناصر إضافية مطلوبة</h2>
+  <ul class="checklist">
+    <li><strong>أسنان</strong> — واضحة لكن بأسلوب نظيف (minimal)، مو كرتوني</li>
+    <li><strong>عيون</strong> — مدمجة في الحروف (خصوصاً الميم)</li>
+    <li><strong>ملامih وجه</strong> — profile أو front view بشكل عام</li>
+    <li><strong>شكل دائري</strong> — للموقع والتطبيق والأيقونة (rounded-full)</li>
+    <li>يعمل بوضوح على <strong>خلفية بيضاء</strong> وعلى <strong>خلفية داكنة</strong></li>
+    <li>يظهر واضحاً بحجم صغير (favicon 32px + أيقونة موبايل 1024px)</li>
+  </ul>
+
+  <h2>5. الأسلوب المطلوب</h2>
+  <div class="grid-2">
+    <div class="card">
+      <strong>نريده</strong>
+      <ul>
+        <li>Minimal / Line art أو Flat modern</li>
+        <li>مظهر طبي موثوق — premium healthcare</li>
+        <li>RTL — الكلمة عربية واضحة ومقروءة</li>
+        <li>زوايا ناعمة / دائرية</li>
+        <li>يعمل كأيقونة standalone</li>
+      </ul>
+    </div>
+    <div class="card">
+      <strong>لا نريده</strong>
+      <ul>
+        <li>حرف ح يشبه طاحونة أو دولاب</li>
+        <li>أيقونة منفصلة عن النص بدون علاقة</li>
+        <li>زوايا مربعة حادة</li>
+        <li>تفاصيل كثيرة تختفي بحجم الأيقونة</li>
+        <li>Clipart أو stock icons</li>
+        <li>Playful / childish</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>6. الهوية اللونية</h2>
+  <table>
+    <tr><th>اللون</th><th>HEX</th><th>الاستخدام</th></tr>
+    <tr>
+      <td>Navy <span class="color-swatch" style="background:#0a1628"></span></td>
+      <td><code>#0a1628</code></td>
+      <td>خلفيات داكنة، نصوص رئيسية</td>
+    </tr>
+    <tr>
+      <td>Teal <span class="color-swatch" style="background:#0c5e47"></span></td>
+      <td><code>#0c5e47</code></td>
+      <td>اللون الأساسي، أزرار، عناصر الشعار</td>
+    </tr>
+    <tr>
+      <td>Teal فاتح <span class="color-swatch" style="background:#10b981"></span></td>
+      <td><code>#10b981</code></td>
+      <td>تدرجات، لمسات</td>
+    </tr>
+    <tr>
+      <td>Gold <span class="color-swatch" style="background:#d4af37"></span></td>
+      <td><code>#d4af37</code></td>
+      <td>«.ps» في اللوجو، لمسات فاخرة</td>
+    </tr>
+    <tr>
+      <td>أبيض <span class="color-swatch" style="background:#fff;border:1px solid #ccc"></span></td>
+      <td><code>#ffffff</code></td>
+      <td>خلفية اللوجو، بطاقات</td>
+    </tr>
+  </table>
+
+  <h3>الخط المقترح</h3>
+  <p><strong>Cairo</strong> (Google Fonts) — أو Tajawal / Almarai. أوزان Bold و Black للعناوين.</p>
+</div>
+
+<!-- صفحة 3: المخرجات + مرجع -->
+<div class="page">
+  <h2>7. المخرجات المطلوبة من المصمم</h2>
+  <table>
+    <tr><th>#</th><th>الملف</th><th>المواصفات</th></tr>
+    <tr><td>1</td><td><strong>Logo full</strong></td><td>اللوجو الكامل مع «دليل طبي» (اختياري) — PNG + SVG</td></tr>
+    <tr><td>2</td><td><strong>Logo mark</strong></td><td>الأيقونة الدائرية فقط — 512×512 px</td></tr>
+    <tr><td>3</td><td><strong>Favicon</strong></td><td>32×32 و 180×180 px</td></tr>
+    <tr><td>4</td><td><strong>App icon</strong></td><td>1024×1024 px (iOS + Android)</td></tr>
+    <tr><td>5</td><td><strong>ملفات المصدر</strong></td><td>SVG + PNG شفاف + PNG أبيض</td></tr>
+    <tr><td>6</td><td><strong>Dark & Light</strong></td><td>نسختان — للخلفية الداكنة والفاتحة</td></tr>
+  </table>
+
+  <h2>8. مرجع — اللوجو الحالي</h2>
+  <div class="highlight">
+    <p>اللوجo الحالي يحتوي على:</p>
+    <ul>
+      <li>رأس profile (وجه جانبي) بخط navy</li>
+      <li>قوس teal حول الوجه</li>
+      <li>كلمة «ملامح» + «دليل طبي» + تخصصات</li>
+    </ul>
+    <p><strong>المطلوب:</strong> تطوير الفكرة بحيث <strong>الحروف نفسها</strong> تبني الوجه — عيون من الميم، حنك من الحاء، أسنان مدمجة — وليس أيقونة منفصلة عن النص.</p>
+  </div>
+
+  <h2>9. ملخص سريع للواتساب</h2>
+  <div class="card" style="font-size:3.8mm">
+    <p>بدنا لوجo لـ <strong>malamih.ps</strong> — دليل طبي (أسنان، عيون، أنف، تجميل).</p>
+    <p>الفكرة: كلمة <strong>ملامح</strong> مبنية من الحروف على شكل وجه/رأس:</p>
+    <ul>
+      <li><strong>م = عيون</strong></li>
+      <li><strong>ح = حنك/فك</strong> (مو زي طاحونة)</li>
+      <li>أسنان مدمجة في التصميم</li>
+    </ul>
+    <p>أسلوب minimal طبي، ألوان navy + teal + gold، شكل <strong>دائري</strong> للموقع والتطبيق.</p>
+  </div>
+
+  <div class="warn">
+    <strong>تنبيه للمصمم:</strong> قبل التصميم النهائي، يُفضّل إرسال 2–3 sketches أولية للموافقة — خصوصاً على شكل حرف الحاء (الحنك) وحرف الميم (العيون).
+  </div>
+
+  <p class="footer-note">
+    malamih.ps — موجز تصميم اللوجo — 2026<br />
+    للاستفسارات: ammar.shtayeh@gmail.com
+  </p>
+</div>
+
+</body>
+</html>

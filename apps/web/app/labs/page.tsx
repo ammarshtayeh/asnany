@@ -25,7 +25,16 @@ export default async function LabsPage() {
         { label: "اطلب شراكة", href: "/advertise" },
       ]}
       listings={listings}
-      emptyLabel="سيتم عرض المختبرات الطبية المعتمدة قريباً."
+      emptyCta={{
+        title: "كن أول مختبر معتمد على ملامح",
+        description: "سجّل مختبرك ليظهر في دليل التحاليل — معلومات واضحة، تواصل مباشر، ووصول لمرضى يبحثون عن فحوصات موثوقة.",
+        primaryHref: "/join",
+        primaryLabel: "سجّل مختبرك",
+        secondaryHref: "/advertise",
+        secondaryLabel: "أعلن معنا",
+        whatsappMessage: "مرحباً، أريد تسجيل مختبر طبي على ملامح.ps",
+        tips: ["رام الله", "نابلس", "الخليل", "تحاليل منزلية"],
+      }}
       detailsBasePath="/labs"
     />
   );

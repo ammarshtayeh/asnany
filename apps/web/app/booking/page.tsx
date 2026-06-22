@@ -138,7 +138,15 @@ export default async function BookingPage({
         { label: "تابع حجوزاتك", href: "/appointments" },
       ]}
       listings={listings}
-      emptyLabel="سيتم عرض خدمات الحجز المتاحة قريباً."
+      emptyCta={{
+        title: "ابدأ الحجز من دليل الأطباء",
+        description: "اختر طبيباً موثّقاً واحجز موعدك خلال دقيقة — بدون إنشاء حساب، رقم هاتفك يكفي للمتابعة.",
+        primaryHref: "/doctors/search",
+        primaryLabel: "تصفّح الأطباء",
+        secondaryHref: "/appointments",
+        secondaryLabel: "حجوزاتي",
+        whatsappMessage: "مرحباً، أحتاج مساعدة في حجز موعد عبر ملامح.ps",
+      }}
       topSlot={selectedDoctor ? <BookingDoctorCard doctor={selectedDoctor} /> : undefined}
     />
   );

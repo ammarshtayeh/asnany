@@ -25,7 +25,16 @@ export default async function BeautyPage() {
         { label: "أعلن عن عرض", href: "/advertise" },
       ]}
       listings={listings}
-      emptyLabel="سيتم عرض مراكز التجميل المعتمدة قريباً."
+      emptyCta={{
+        title: "سجّل مركز التجميل الخاص بك",
+        description: "اعرض خدماتك — ليزر، فيلر، بشرة، ابتسامة — أمام جمهور يبحث عن عناية موثوقة في فلسطين.",
+        primaryHref: "/join",
+        primaryLabel: "انضم كشريك",
+        secondaryHref: "/advertise",
+        secondaryLabel: "أعلن عن عرض",
+        whatsappMessage: "مرحباً، أريد تسجيل مركز تجميل على ملامح.ps",
+        tips: ["ليزر", "فيلر وبوتوكس", "تبييض أسنان", "عناية بشرة"],
+      }}
       detailsBasePath="/beauty"
     />
   );

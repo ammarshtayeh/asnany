@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8"/>
+  <title>ملامح.ps — دليل المنصة الشامل</title>
+  <style>
+  @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap');
+  :root { --navy:#0a1628; --teal:#0c5e47; --gold:#d4af37; }
+  * { box-sizing:border-box; }
+  body {
+    font-family:'Cairo',sans-serif; font-size:10pt; line-height:1.72;
+    color:#0f172a; background:#fff; direction:rtl; text-align:right;
+    -webkit-print-color-adjust:exact; print-color-adjust:exact;
+  }
+  .cover {
+    min-height:100vh; display:flex; flex-direction:column; justify-content:center;
+    align-items:center; text-align:center; padding:56px 36px;
+    background:linear-gradient(145deg,var(--navy) 0%,var(--teal) 55%,var(--navy) 100%);
+    color:#fff; page-break-after:always;
+  }
+  .cover-logo {
+    width:88px;height:88px;border-radius:24px;
+    background:linear-gradient(135deg,var(--teal),var(--gold));
+    display:flex;align-items:center;justify-content:center;
+    font-size:44px;font-weight:900;color:#fff;margin-bottom:20px;
+  }
+  .cover h1 { font-size:28pt;font-weight:900;margin:0 0 6px; }
+  .cover .gold { color:var(--gold); }
+  .cover .sub { font-size:12pt;opacity:0.92;max-width:520px;line-height:1.85;margin:12px 0; }
+  .cover .badges { margin-top:20px; display:flex; flex-wrap:wrap; gap:8px; justify-content:center; }
+  .cover .badge {
+    background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.25);
+    padding:6px 14px; border-radius:999px; font-size:9pt; font-weight:700;
+  }
+  .cover .meta { margin-top:36px;font-size:9.5pt;opacity:0.78; }
+  .content { padding:28px 32px 40px; max-width:920px; margin:0 auto; }
+  h1 { color:var(--teal);font-size:16pt;font-weight:900;margin:28px 0 10px;
+    padding-bottom:6px;border-bottom:3px solid var(--gold); page-break-after:avoid; }
+  h2 { color:var(--navy);font-size:13pt;font-weight:900;margin:22px 0 8px; page-break-after:avoid; }
+  h3 { color:#334155;font-size:11pt;font-weight:800;margin:16px 0 6px; page-break-after:avoid; }
+  h4 { font-size:10pt;font-weight:800;margin:12px 0 5px; color:#475569; }
+  p { margin:0 0 8px; }
+  blockquote {
+    border-right:4px solid var(--gold); margin:12px 0; padding:10px 16px;
+    background:#fffbeb;border-radius:0 10px 10px 0;font-weight:600;color:var(--navy);
+  }
+  table { width:100%;border-collapse:collapse;margin:10px 0 16px;font-size:8.5pt; }
+  th { background:var(--navy);color:#fff;padding:7px 9px;text-align:right;font-weight:800; }
+  td { padding:6px 9px;border-bottom:1px solid #e2e8f0;vertical-align:top; }
+  tr:nth-child(even) td { background:#f8fafc; }
+  ul,ol { margin:6px 22px 12px 0; padding-right:4px; }
+  li { margin-bottom:4px; }
+  code, pre {
+    font-family:Consolas,monospace; background:#f1f5f9; border-radius:6px;
+    direction:ltr; text-align:left;
+  }
+  pre {
+    padding:10px 12px; overflow-x:auto; font-size:7.5pt; line-height:1.45;
+    white-space:pre-wrap; page-break-inside:avoid;
+  }
+  code { padding:2px 5px; font-size:8.5pt; }
+  pre code { padding:0;background:none; }
+  hr { border:none;border-top:2px solid #e2e8f0;margin:24px 0; }
+  strong { color:var(--navy); }
+  a { color:var(--teal); text-decoration:none; }
+  .intro-note {
+    background:#ecfdf5;border:1px solid #a7f3d0;border-radius:10px;
+    padding:12px 16px;margin:14px 0 20px;font-size:9.5pt;
+  }
+  @media print {
+    h1,h2,h3 { page-break-after:avoid; }
+    table,pre,blockquote { page-break-inside:avoid; }
+    tr { page-break-inside:avoid; }
+  }
+</style>
+</head>
+<body>
+  <section class="cover">
+    <div class="cover-logo">م</div>
+    <h1>ملامح<span class="gold">.ps</span></h1>
+    <p class="sub">دليل المنصة الشامل — للأطباء · المختبرات · مراكز التجميل · الموردين · المرضى · الشركاء</p>
+    <div class="badges">
+      <span class="badge">malamih.ps</span>
+      <span class="badge">موقع + تطبيق</span>
+      <span class="badge">B2B2C</span>
+      <span class="badge">فلسطين</span>
+    </div>
+    <p class="meta">https://www.malamih.ps · 2026<br/>ammar.shtayeh@gmail.com · wa.me/9720595537190</p>
+  </section>
+  <div class="content">
+    <div class="intro-note">
+      <strong>عن هذه الوثيقة:</strong> شرح كامل لمنصة ملامih — ما هي، مبدأ عملها، القنوات، تدفقات المستخدمين،
+      وكيف يستفيد كل جمهور مستهدف (مرضى · أطباء · مختبرات · تجميل · موردون · معلنون).
+    </div>
+    <h1>ملامح.ps — دليل المنصة الشامل</h1>
+<p><strong>الموقع:</strong> <a href="https://www.malamih.ps">https://www.malamih.ps</a><br><strong>التطبيق:</strong> iOS · Android · PWA (من المتصفح)<br><strong>التواصل:</strong> <a href="mailto:ammar.shtayeh@gmail.com">ammar.shtayeh@gmail.com</a> · <a href="https://wa.me/9720595537190">واتساب</a><br><strong>الإصدار:</strong> 2026</p>
+<hr>
+<h2>1. ما هي ملامح؟</h2>
+<p><strong>ملامح.ps</strong> أول منصة فلسطينية متكاملة لـ<strong>صحة وجمال الوجه</strong> — تجمع في مكان واحد:</p>
+<ul>
+<li>دليل أطباء وعيادات موثّق</li>
+<li>حجز مواعيد إلكتروني</li>
+<li>خرائط GPS و«الأقرب لي»</li>
+<li>عروض وخصومات</li>
+<li>مختبرات ومراكز تجميل</li>
+<li>مجلة طبية وسوق معدات ووظائف</li>
+<li>تطبيق موبايل متزامن مع الموقع</li>
+</ul>
+<p><strong>الشعار:</strong> <em>«ملامح — دليلك لصحة وجمال الوجه في فلسطين»</em></p>
+<p><strong>التخصصات المشمولة:</strong> أسنان · عيون · جلدية · تجميل · أنف وأذن وحنجرة · ومراكز ابتسامة وتجميل</p>
+<p><strong>المدن:</strong> رام الله · نابلس · الخليل · جنين · بيت لحم · غزة · طولكرم · قلقيلية · أريحا · القدس · سلفيت · طوباس — وجميع المحافظات</p>
+<hr>
+<h2>2. مبدأ العمل — كيف تشتغل المنصة؟</h2>
+<p>ملامح تعمل بنموذج <strong>B2B2C</strong>:</p>
+<pre><code>الشركاء (أطباء · مختبرات · تجميل · موردون)
+        ↓  يسجّلون ويشتركون
+    منصة ملامح (موقع + تطبيق)
+        ↓  تقدّم خدمة مجانية
+    المرضى والمراجعون
+        ↓  يبحثون · يحجزون · يستفيدون
+    حجوزات · عروض · ولاء · محتوى
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>الطرف</th>
+<th>ماذا يدفع؟</th>
+<th>ماذا يحصل؟</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>المريض</strong></td>
+<td>مجاناً</td>
+<td>بحث، حجز، عروض، بطاقة خصم، مجلة</td>
+</tr>
+<tr>
+<td><strong>الطبيب / الشريك</strong></td>
+<td>باقة اشتراك</td>
+<td>ظهور، حجوزات، إعلانات، لوحة تحكم</td>
+</tr>
+<tr>
+<td><strong>ملامح</strong></td>
+<td>—</td>
+<td>توثيق، إدارة، تسويق، تطوير</td>
+</tr>
+</tbody></table>
+<p><strong>مبدأ الثقة:</strong> لا يظهر أي طبيب أو عيادة للجمهور قبل <strong>مراجعة وتوثيق إداري</strong>. هذا يحمي المريض ويرفع قيمة الظهور للطبيب الموثّق.</p>
+<p><strong>مبدأ السهولة:</strong> المريض <strong>لا يحتاج حساب</strong> للحجز — اسم، هوية، هاتف، وتاريخ كافية. متابعة الحجوزات برقم الهاتف فقط.</p>
+<hr>
+<h2>3. القنوات — أين يوجد ملامح؟</h2>
+<table>
+<thead>
+<tr>
+<th>القناة</th>
+<th>الرابط / التفاصيل</th>
+<th>الجمهور</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>الموقع</strong></td>
+<td><a href="https://www.malamih.ps">www.malamih.ps</a></td>
+<td>الجميع</td>
+</tr>
+<tr>
+<td><strong>تطبيق iOS</strong></td>
+<td>App Store (قيد النشر)</td>
+<td>المرضى والأطباء</td>
+</tr>
+<tr>
+<td><strong>تطبيق Android</strong></td>
+<td>Google Play (قيد النشر)</td>
+<td>المرضى والأطباء</td>
+</tr>
+<tr>
+<td><strong>PWA</strong></td>
+<td>فتح الموقع من الجوال → «إضافة للشاشة الرئيسية»</td>
+<td>من لا يريد تحميل تطبيق</td>
+</tr>
+<tr>
+<td><strong>واتساب</strong></td>
+<td><a href="https://wa.me/9720595537190">wa.me/9720595537190</a></td>
+<td>انضمام · دعم · إعلانات</td>
+</tr>
+<tr>
+<td><strong>البريد</strong></td>
+<td><a href="mailto:ammar.shtayeh@gmail.com">ammar.shtayeh@gmail.com</a></td>
+<td>طلبات رسمية</td>
+</tr>
+</tbody></table>
+<p><strong>كل القنوات متزامنة:</strong> نفس الأطباء، نفس الحجوزات، نفس العروض.</p>
+<hr>
+<h2>4. خريطة المنصة — ماذا يوجد في الموقع؟</h2>
+<h3>4.1 للمريض (مجاني)</h3>
+<table>
+<thead>
+<tr>
+<th>القسم</th>
+<th>الرابط</th>
+<th>ماذا يفعل؟</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>الرئيسية</td>
+<td><code>/</code></td>
+<td>بحث سريع، تخصصات، خريطة، أطباء مميزون، عروض، إحصائيات</td>
+</tr>
+<tr>
+<td>دليل الأطباء</td>
+<td><code>/doctors/search</code></td>
+<td>فلترة: مدينة · تخصص · تقييم · دوام · تأمين</td>
+</tr>
+<tr>
+<td>ملف الطبيب</td>
+<td><code>/doctors/[id]</code></td>
+<td>صور، سيرة، تأمين، واتساب، حجز، خريطة</td>
+</tr>
+<tr>
+<td>الحجز</td>
+<td><code>/booking</code></td>
+<td>حجز موعد مباشر</td>
+</tr>
+<tr>
+<td>حجوزاتي</td>
+<td><code>/appointments</code></td>
+<td>متابعة المواعيد برقم الهاتف</td>
+</tr>
+<tr>
+<td>العروض</td>
+<td><code>/offers</code></td>
+<td>خصومات وعروض موسمية</td>
+</tr>
+<tr>
+<td>بطاقة الخصم</td>
+<td><code>/discount-card</code></td>
+<td>بطاقة ولاء بخصومات حصرية</td>
+</tr>
+<tr>
+<td>التجميل</td>
+<td><code>/beauty</code></td>
+<td>مراكز تجميل وابتسامة</td>
+</tr>
+<tr>
+<td>المختبرات</td>
+<td><code>/labs</code></td>
+<td>دليل معامل التحاليل</td>
+</tr>
+<tr>
+<td>المجلة</td>
+<td><code>/blog</code></td>
+<td>مقالات ونصائح طبية</td>
+</tr>
+<tr>
+<td>سوق ملامح</td>
+<td><code>/marketplace</code></td>
+<td>معدات طبية · وظائف · إعلانات</td>
+</tr>
+<tr>
+<td>الموردون</td>
+<td><code>/stores</code></td>
+<td>متاجر معدات ومواد طبية</td>
+</tr>
+<tr>
+<td>الاستشارات</td>
+<td><code>/consultations</code></td>
+<td>استشارات كتابية/صوتية/مرئية</td>
+</tr>
+<tr>
+<td>الشركاء</td>
+<td><code>/partners</code></td>
+<td>منتجات ورعاة</td>
+</tr>
+<tr>
+<td>ميديا</td>
+<td><code>/media</code></td>
+<td>أخبار · فيديو · دراسات</td>
+</tr>
+</tbody></table>
+<h3>4.2 للأطباء والشركاء (B2B)</h3>
+<table>
+<thead>
+<tr>
+<th>القسم</th>
+<th>الرابط</th>
+<th>ماذا يفعل؟</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>انضم كطبيب</td>
+<td><code>/join</code></td>
+<td>بوابة انضمام — تسجيل أو واتساب</td>
+</tr>
+<tr>
+<td>تسجيل عيادة</td>
+<td><code>/doctors/register</code></td>
+<td>استمارة: صور · GPS · تأمين · تخصص</td>
+</tr>
+<tr>
+<td>باقات الاشتراك</td>
+<td><code>/subscriptions</code></td>
+<td>اختيار باقة وطلب تفعيل</td>
+</tr>
+<tr>
+<td>أعلن معنا</td>
+<td><code>/advertise</code></td>
+<td>طلب حملة إعلانية</td>
+</tr>
+<tr>
+<td>دخول الطبيب</td>
+<td><code>/doctor/login</code></td>
+<td>لوحة تحكم الطبيب</td>
+</tr>
+<tr>
+<td>لوحة الطبيب</td>
+<td><code>/doctor/dashboard</code></td>
+<td>مواعيد · ملف · دوام · إشعارات</td>
+</tr>
+</tbody></table>
+<h3>4.3 تطبيق الموبايل — 5 تبويبات رئيسية</h3>
+<ol>
+<li><strong>الرئيسية</strong> — اكتشاف وبحث</li>
+<li><strong>الأطباء</strong> — دليل كامل</li>
+<li><strong>حجز</strong> — حجز سريع</li>
+<li><strong>عروض</strong> — خصومات</li>
+<li><strong>المزيد</strong> — سوق · مجلة · مختبرات · تجميل · انضمام · بطاقة خصم</li>
+</ol>
+<p><strong>ميزة إضافية:</strong> مساعد <strong>«الحكيم اللبيب»</strong> — AI يوجّه المريض للتخصص والحجز والعروض.</p>
+<hr>
+<h2>5. الجمهور المستهدف — من يستفيد وكيف؟</h2>
+<h3>5.1 المرضى والمراجعون 👤</h3>
+<p><strong>من هم؟</strong> أي شخص يبحث عن طبيب أسنان، عيون، جلدية، تجميل، أو أي خدمة صحة وجمال في فلسطين.</p>
+<p><strong>المشكلة التي نحلّها:</strong></p>
+<ul>
+<li>«من أطبّ عندنا في رام الله لتقويم؟»</li>
+<li>«أي عيادة تقبل التكافل؟»</li>
+<li>«وين أقرب طبيب جلدية؟»</li>
+<li>«كيف أحجز بدون ما أتصل 10 مرات؟»</li>
+</ul>
+<p><strong>كيف يستفيد من ملامح:</strong></p>
+<table>
+<thead>
+<tr>
+<th>الميزة</th>
+<th>الفائدة</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>دليل موثّق</td>
+<td>أطباء مراجعون — مو إعلانات عشوائية</td>
+</tr>
+<tr>
+<td>فلترة تأمين</td>
+<td>التكافل · ترست · المشرق · تمكين · المجموعة الأهلية</td>
+</tr>
+<tr>
+<td>«الأقرب لي» + GPS</td>
+<td>يجد العيادة الأقرب ويفتح اتجاهات Google/Apple Maps</td>
+</tr>
+<tr>
+<td>حجز بدون حساب</td>
+<td>أقل من دقيقة — اسم · هاتف · تاريخ</td>
+</tr>
+<tr>
+<td>حجوزاتي</td>
+<td>يتابع مواعيده برقم هاتفه</td>
+</tr>
+<tr>
+<td>العروض</td>
+<td>خصومات حقيقية بالشيكل</td>
+</tr>
+<tr>
+<td>بطاقة الخصم</td>
+<td>خصومات حصرية في عيادات مشاركة</td>
+</tr>
+<tr>
+<td>المجلة</td>
+<td>معلومة طبية موثوقة بالعربي</td>
+</tr>
+</tbody></table>
+<p><strong>مسار المريض (Flow):</strong></p>
+<pre><code>يفتح malamih.ps أو التطبيق
+    → يبحث (مدينة + تخصص + تأمين)
+    → يقارن الأطباء (تقييم · صور · موقع)
+    → يفتح ملف الطبيب
+    → يحجز أو يتواصل واتساب
+    → يتابع في «حجوزاتي»
+    → يستفيد من عروض / بطاقة خصم
+</code></pre>
+<p><strong>التكلفة:</strong> <strong>مجاني بالكامل</strong> للمريض.</p>
+<hr>
+<h3>5.2 الأطباء والعيادات 🩺</h3>
+<p><strong>من هم؟</strong> أطباء أسنان · عيون · جلدية · تجميل · ENT · عيادات متعددة التخصصات.</p>
+<p><strong>المشكلة التي نحلّها:</strong></p>
+<ul>
+<li>«مرضاي الجدد يجوني من واتساب ومجموعات — ما عندي حضور رقمي منظم»</li>
+<li>«أدفع على فيسبوك وما بعرف مين شاف الإعلان»</li>
+<li>«الحجوزات على واتساب — فوضى ومواعيد ضايعة»</li>
+<li>«المريض يسأل: هل تقبلون التكافل؟ — وأنا ما ظاهر online»</li>
+</ul>
+<p><strong>كيف يستفيد من ملامح:</strong></p>
+<table>
+<thead>
+<tr>
+<th>الميزة</th>
+<th>الفائدة</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>صفحة عيادة احترافية</td>
+<td>صور · سيرة · تخصص · تأمين · خريطة</td>
+</tr>
+<tr>
+<td>ظهور في دليل موثّق</td>
+<td>ثقة أعلى من منشور فيسبوك</td>
+</tr>
+<tr>
+<td>«الأقمر لي»</td>
+<td>مرضى من منطقتك يصلون لك تلقائياً</td>
+</tr>
+<tr>
+<td>حجز إلكتروني</td>
+<td>مواعيد منظمة + إشعار فوري</td>
+</tr>
+<tr>
+<td>لوحة تحكم</td>
+<td>إدارة مواعيد · ملف · دوام · توفر</td>
+</tr>
+<tr>
+<td>إشعارات Push</td>
+<td>كل حجز جديد يصلك فوراً (ويب + موبايل)</td>
+</tr>
+<tr>
+<td>باقات مرنة</td>
+<td>من $100/سنة للظهور → $300 للحجز الكامل</td>
+</tr>
+<tr>
+<td>إعلانات مستهدفة</td>
+<td>$50/إعلان — مدينة + تخصص</td>
+</tr>
+</tbody></table>
+<p><strong>مسار انضمام الطبيب (Flow):</strong></p>
+<pre><code>1. يختار باقة          →  malamih.ps/subscriptions
+2. يسجّل عيادته        →  malamih.ps/doctors/register
+   (أو يتواصل واتساب)  →  malamih.ps/join
+3. مراجعة إدارية       →  24–48 ساعة
+4. توثيق + تفعيل       →  يظهر على الويب والتطبيق
+5. يستقبل حجوزات       →  لوحة /doctor/dashboard
+6. يدير مواعيده        →  تأكيد · إلغاء · إكمال
+</code></pre>
+<p><strong>حجة ROI:</strong> <em>«موعد واحد جديد يغطي الاشتراك السنوي»</em></p>
+<p><strong>التأمينات المعروضة في ملف العيادة:</strong> التكافل · ترست · المشرق · تمكين · المجموعة الأهلية</p>
+<hr>
+<h3>5.3 المختبرات 🔬</h3>
+<p><strong>من هم؟</strong> معامل تحاليل طبية — دم · بول · هرمونات · PCR · وغيرها.</p>
+<p><strong>المشكلة التي نحلّها:</strong></p>
+<ul>
+<li>«المرضى ما يعرفونا إلا بالكلام الشفهي»</li>
+<li>«ما عندنا قناة رقمية للعروض الموسمية»</li>
+<li>«الأطباء يحتاجون يلاقونا بسهولة»</li>
+</ul>
+<p><strong>كيف يستفيد من ملامح:</strong></p>
+<table>
+<thead>
+<tr>
+<th>الميزة</th>
+<th>الفائدة</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>صفحة مختبر</td>
+<td><code>/labs/[id]</code> — موقع · خدمات · تواصل</td>
+</tr>
+<tr>
+<td>ظهور في قسم المختبرات</td>
+<td><code>/labs</code> — مرضى وأطباء يبحثون</td>
+</tr>
+<tr>
+<td>عروض مختبرات</td>
+<td>إعلانات وخصومات في <code>/offers</code></td>
+</tr>
+<tr>
+<td>باقة إعلانات</td>
+<td>$50 — إعلان مميز في الرئيسية أو العروض</td>
+</tr>
+<tr>
+<td>ربط بالحجز</td>
+<td>عروض مرتبطة بزيارة طبيب → تحليل</td>
+</tr>
+</tbody></table>
+<p><strong>مسار المختبر:</strong></p>
+<pre><code>يتواصل مع ملامح (واتساب / بريد)
+    → يسجّل كـ medical_service نوع lab
+    → مراجعة إدارية
+    → يظهر في /labs
+    → (اختياري) يعلن عرض في /offers
+</code></pre>
+<p><strong>الباقة المناسبة:</strong> باقة <strong>الدليل</strong> ($100/سنة) للظهور · أو <strong>إعلان</strong> ($50) لحملة محددة.</p>
+<hr>
+<h3>5.4 مراكز التجميل 💄</h3>
+<p><strong>من هم؟</strong> مراكز تجميل · ابتسامة هولlywood · ليزر · عناية بالبشرة · تبييض أسنان.</p>
+<p><strong>المشكلة التي نحلّها:</strong></p>
+<ul>
+<li>«جمهورنا يبحث على إنستغرام — بس ما يحجز»</li>
+<li>«نحتاج ظهور في مكان يجمع صحة + جمال الوجه»</li>
+<li>«العروض الموسمية ما توصل للكل»</li>
+</ul>
+<p><strong>كيف يستفيد من ملامح:</strong></p>
+<table>
+<thead>
+<tr>
+<th>الميزة</th>
+<th>الفائدة</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>قسم التجميل</td>
+<td><code>/beauty</code> — ظهور أمام جمهور مهتم</td>
+</tr>
+<tr>
+<td>صفحة مركز</td>
+<td><code>/beauty/[id]</code> — خدمات · صور · موقع</td>
+</tr>
+<tr>
+<td>عروض تجميل</td>
+<td><code>/offers</code> — خصومات بالشيكل</td>
+</tr>
+<tr>
+<td>إعلان مميز</td>
+<td>ظهور في الرئيسية أو شريط إخباري</td>
+</tr>
+<tr>
+<td>حجز مرتبط</td>
+<td>عرض + حجز في خطوة واحدة</td>
+</tr>
+</tbody></table>
+<p><strong>مسار مركز التجميل:</strong> نفس مسار المختبر — تسجيل كـ <code>beauty</code> → مراجعة → ظهور → (اختياري) إعلان.</p>
+<hr>
+<h3>5.5 الموردون والمتاجر الطبية 🏪</h3>
+<p><strong>من هم؟</strong> بائعو معدات طبية · مواد أسنان · أجهزة ليزر · مستلزمات عيادات.</p>
+<p><strong>المشكلة التي نحلّها:</strong></p>
+<ul>
+<li>«أطباء فلسطين ما يعرفونا»</li>
+<li>«ما عندنا منصة محلية للبيع B2B»</li>
+</ul>
+<p><strong>كيف يستفيد من ملامح:</strong></p>
+<table>
+<thead>
+<tr>
+<th>الميزة</th>
+<th>الفائدة</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>صفحة متجر</td>
+<td><code>/stores</code> — ظهور في دليل الموردين</td>
+</tr>
+<tr>
+<td>سوق ملامح</td>
+<td><code>/marketplace</code> — نشر إعلان معدات</td>
+</tr>
+<tr>
+<td>استهداف</td>
+<td>أطباء وعيادات — الجمهور المناسب</td>
+</tr>
+</tbody></table>
+<p><strong>مسار المورد:</strong></p>
+<pre><code>يسجّل متجره          →  تواصل مع ملامih / admin
+    → يظهر في /stores
+    → ينشر في /marketplace (معدات · أسعار · مدينة)
+    → أطباء يتواصلون مباشرة
+</code></pre>
+<hr>
+<h3>5.6 المعلنون والشركاء 📢</h3>
+<p><strong>من هم؟</strong> شركات أدوية · منتجات عناية · رعاة · وسائل إعلام طبية.</p>
+<p><strong>القنوات الإعلانية في ملامih:</strong></p>
+<table>
+<thead>
+<tr>
+<th>النوع</th>
+<th>الوصف</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>إعلان رئيسية (Featured)</td>
+<td>بانر في الصفحة الرئيسية</td>
+</tr>
+<tr>
+<td>إعلان جانبي (Sidebar)</td>
+<td>في صفحات الأطباء والمحتوى</td>
+</tr>
+<tr>
+<td>بانر (Banner)</td>
+<td>عرض عريض</td>
+</tr>
+<tr>
+<td>شريط إخباري (Ticker)</td>
+<td>رسالة متحركة تحت النافبار</td>
+</tr>
+<tr>
+<td>عروض</td>
+<td><code>/offers</code> — عرض موسمي بالشيكل</td>
+</tr>
+<tr>
+<td>مجلة</td>
+<td>مقال أو إعلان في <code>/blog</code></td>
+</tr>
+</tbody></table>
+<p><strong>مسار الإعلان:</strong></p>
+<pre><code>/advertise  أو  واتساب
+    → تحديد: نوع · مدينة · تخصص · مدة
+    → باقة إعلان $50 أو باقة مخصصة
+    → تصميم ونشر
+    → تقارير ظهور (قريباً)
+</code></pre>
+<hr>
+<h3>5.7 الباحثون عن عمل · بائعو معدات (السوق) 💼</h3>
+<p><strong>من هم؟</strong> فني أسنان · مساعد طبيب · بائع جهاز مستعمل · صاحب عيادة يبيع معدات.</p>
+<p><strong>كيف يستفيد من ملامih:</strong></p>
+<table>
+<thead>
+<tr>
+<th>الميزة</th>
+<th>الفائدة</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>سوق ملامih</td>
+<td><code>/marketplace</code></td>
+</tr>
+<tr>
+<td>تبويبات</td>
+<td>الكل · معدات · وظائف</td>
+</tr>
+<tr>
+<td>نشر مجاني/مدفوع</td>
+<td>عنوان · نوع · سعر/راتب · مدينة · هاتف</td>
+</tr>
+</tbody></table>
+<p><strong>مسار الناشر:</strong></p>
+<pre><code>/marketplace → «انشر إعلانك»
+    → يملأ: عنوان · فئة · سعر · وصف · هاتف
+    → يظهر في السوق
+    → مهتمون يتواصلون مباشرة
+</code></pre>
+<hr>
+<h2>6. تدفق الحجز — خطوة بخطوة</h2>
+<pre><code>المريض                          ملامih                         الطبيب
+   │                               │                               │
+   ├── يختار طبيباً ──────────────►│                               │
+   ├── يملأ النموذج ──────────────►│  (اسم · هوية · هاتف · تاريخ) │
+   │                               ├── يتحقق: طبيب موثّق؟ ────────►│
+   │                               ├── يرسل إشعار Push ───────────►│
+   │                               │                               ├── يؤكد / يلغي / يكمل
+   │◄── إشعار للمريض ──────────────┤                               │
+   ├── يتابع في /appointments ────►│                               │
+</code></pre>
+<p><strong>شروط قبول الحجز:</strong></p>
+<ul>
+<li>الطبيب <strong>موثّق</strong> (<code>verified</code>)</li>
+<li>حساب الطبيب <strong>مفعّل</strong> (<code>doctor_accounts.is_active</code>)</li>
+<li>الباقة <strong>المميزة</strong> ($300) للحجز الإلكتروني الكامل</li>
+</ul>
+<p><strong>حالات الحجز:</strong> <code>pending</code> → <code>confirmed</code> / <code>cancelled</code> / <code>completed</code></p>
+<hr>
+<h2>7. الباقات والأسعار (للشركاء)</h2>
+<table>
+<thead>
+<tr>
+<th>الباقة</th>
+<th>السعر</th>
+<th>الفترة</th>
+<th>ماذا تشمل؟</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>باقة الدليل</strong></td>
+<td><strong>$100</strong></td>
+<td>سنوياً</td>
+<td>صفحة تعريف · ظهور في الدليل · خريطة · تواصل · إعلان في المجلة</td>
+</tr>
+<tr>
+<td><strong>الباقة المميزة</strong> ⭐</td>
+<td><strong>$300</strong></td>
+<td>سنوياً</td>
+<td>كل الدليل + <strong>حجوزات إلكترونية</strong> + لوحة تحكم + إشعارات + استشارات ومتابعات</td>
+</tr>
+<tr>
+<td><strong>عروض وإعلانات</strong></td>
+<td><strong>$50</strong></td>
+<td>لكل إعلان</td>
+<td>إعلان رئيسية · عروض · مجلة · حجز مرتبط بالعرض</td>
+</tr>
+</tbody></table>
+<p><strong>طريقة الاشتراك:</strong> طلب من <a href="https://www.malamih.ps/subscriptions">malamih.ps/subscriptions</a> → تواصل فريق ملامih خلال 24–48 ساعة → تفعيل يدوي.</p>
+<p><strong>الباقة الموصى بها:</strong> <strong>المميزة</strong> — لأن الحجز الإلكتروني هو قلب قيمة المنصة.</p>
+<hr>
+<h2>8. بطاقة الخصم (للمرضى — منفصلة عن باقات الأطباء)</h2>
+<table>
+<thead>
+<tr>
+<th>الباقة</th>
+<th>السعر</th>
+<th>المدة</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>أسناني الأساسية</td>
+<td>49 ₪</td>
+<td>3 أشهر</td>
+</tr>
+<tr>
+<td>أسناني بلس (الأكثر طلباً)</td>
+<td>99 ₪</td>
+<td>12 شهر</td>
+</tr>
+<tr>
+<td>بطاقة العائلة</td>
+<td>179 ₪</td>
+<td>12 شهر (حتى 4 أفراد)</td>
+</tr>
+</tbody></table>
+<p><strong>الرابط:</strong> <a href="https://www.malamih.ps/discount-card">malamih.ps/discount-card</a></p>
+<hr>
+<h2>9. لماذا ملامih مختلف؟</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>التميّز</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td><strong>أول منصة فلسطينية</strong> متخصصة في صحة وجمال الوجه — ليست خرائط Google ولا مجموعة واتساب</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>موقع + تطبيق</strong> — iOS · Android · PWA — متزامن 100%</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>توثيق إداري</strong> — لا طبيب غير مراجع يظهر</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>حجز بدون حساب</strong> — أقل من 60 ثانية</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>فلترة تأمين</strong> — 5 شركات تأمين فلسطينية</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>GPS + «الأقرب لي»</strong> — اتجاهات مباشرة</td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>لوحة طبيب + Push</strong> — بديل منظم لفوضى واتسapp</td>
+</tr>
+<tr>
+<td>8</td>
+<td><strong>باقات واضحة</strong> — $100 · $300 · $50 — بدون غموض</td>
+</tr>
+<tr>
+<td>9</td>
+<td><strong>مجلة + سوق + عروض + بطاقة خصم</strong> — منظومة ولاء، مو دليل فقط</td>
+</tr>
+<tr>
+<td>10</td>
+<td><strong>عربي أولاً</strong> — مصمم للسوق الفلسطيني</td>
+</tr>
+<tr>
+<td>11</td>
+<td><strong>مساعد AI «الحكيم اللبيب»</strong> — توجيه ذكي (تطبيق)</td>
+</tr>
+<tr>
+<td>12</td>
+<td><strong>شريط إخباري</strong> — حملات وعروض فورية</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>10. مخطط الفلو الكامل للمنصة</h2>
+<pre><code>                    ┌─────────────────────────────────────┐
+                    │           ملامih.ps                  │
+                    │     (موقع + تطبيق + API)             │
+                    └──────────────┬──────────────────────┘
+                                   │
+          ┌────────────────────────┼────────────────────────┐
+          │                        │                        │
+    ┌─────▼─────┐           ┌─────▼─────┐           ┌─────▼─────┐
+    │  B2C      │           │  B2B      │           │  محتوى    │
+    │  مرضى     │           │  شركاء    │           │  وإعلام   │
+    └─────┬─────┘           └─────┬─────┘           └─────┬─────┘
+          │                        │                        │
+    · بحث أطباء              · أطباء/عيادات           · مجلة
+    · حجز موعد               · مختبرات                · ميديا
+    · حجوزاتي                · تجميل                  · عروض
+    · عروض                   · موردون                 · ticker
+    · بطاقة خصم              · معلنون                 · AI chatbot
+    · مجلة (قراءة)           · سوق (بيع/وظائف)
+          │                        │
+          └──────────┬─────────────┘
+                     │
+              ┌──────▼──────┐
+              │  Supabase   │
+              │  (قاعدة     │
+              │   البيانات) │
+              └──────┬──────┘
+                     │
+              ┌──────▼──────┐
+              │  Vercel     │
+              │  (استضافة)  │
+              └─────────────┘
+</code></pre>
+<hr>
+<h2>11. روابط سريعة — حسب الدور</h2>
+<h3>أنا مريض</h3>
+<ul>
+<li><a href="https://www.malamih.ps/doctors/search">ابحث عن طبيب</a></li>
+<li><a href="https://www.malamih.ps/booking">احجز موعد</a></li>
+<li><a href="https://www.malamih.ps/appointments">حجوزاتي</a></li>
+<li><a href="https://www.malamih.ps/offers">العروض</a></li>
+<li><a href="https://www.malamih.ps/discount-card">بطاقة الخصم</a></li>
+</ul>
+<h3>أنا طبيب / عيادة</h3>
+<ul>
+<li><a href="https://www.malamih.ps/join">انضم الآن</a></li>
+<li><a href="https://www.malamih.ps/doctors/register">سجّل عيادتك</a></li>
+<li><a href="https://www.malamih.ps/subscriptions">اختر باقتك</a></li>
+<li><a href="https://www.malamih.ps/doctor/login">دخول لوحة الطبيب</a></li>
+</ul>
+<h3>أنا مختبر / تجميل / مورد</h3>
+<ul>
+<li><a href="https://wa.me/9720595537190?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D9%84%D8%A7%D9%86%D8%B6%D9%85%D8%A7%D9%85%20%D9%84%D9%85%D9%84%D8%A7%D9%85ih%20%D9%83%D8%B4%D8%B1%D9%8A%D9%83">تواصل واتساب</a></li>
+<li><a href="https://www.malamih.ps/advertise">أعلن معنا</a></li>
+<li><a href="https://www.malamih.ps/subscriptions">الباقات</a></li>
+</ul>
+<h3>أنا معلن / شركة</h3>
+<ul>
+<li><a href="https://www.malamih.ps/advertise">طلب إعلان</a></li>
+<li><a href="https://www.malamih.ps/subscriptions?package=featured-ads">باقة إعلان $50</a></li>
+</ul>
+<hr>
+<h2>12. الأسئلة الشائعة</h2>
+<p><strong>هل ملامih مجاني للمرضى؟</strong><br>نعم — البحث والحجز والعروض مجانية.</p>
+<p><strong>هل أحتاج حساب للحجز؟</strong><br>لا — اسم · هوية · هاتف · تاريخ كافية.</p>
+<p><strong>كيف أتأكد أن الطبيب حقيقي؟</strong><br>كل طبيب يمر بمراجعة إدارية قبل الظهور. شارة «موثّق» على الملف.</p>
+<p><strong>كيف أدفع الاشتراك؟</strong><br>حالياً: طلب إلكتروني → تواصل فريق ملامih → تفعيل. (دفع إلكتروني قريباً)</p>
+<p><strong>هل ملامih بديل لواتسapp؟</strong><br>لا — <strong>يكمله</strong>. المريض يقدر يتواصل واتسapp من ملف الطبيب، والحجز يكون منظم.</p>
+<p><strong>هل يشتغل في غزة؟</strong><br>نعم — المنصة تغطي جميع المحافظات الفلسطينية.</p>
+<hr>
+<h2>13. تواصل</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>الموقع</strong></td>
+<td><a href="https://www.malamih.ps">https://www.malamih.ps</a></td>
+</tr>
+<tr>
+<td><strong>البريد</strong></td>
+<td><a href="mailto:ammar.shtayeh@gmail.com">ammar.shtayeh@gmail.com</a></td>
+</tr>
+<tr>
+<td><strong>واتساب</strong></td>
+<td><a href="https://wa.me/9720595537190">+972 59 553 7190</a></td>
+</tr>
+</tbody></table>
+<hr>
+<p><em>ملامih.ps — دليلك لصحة وجمال الوجه في فلسطين</em><br><em>وثيقة داخلية — للفريق · المبيعات · الشركاء · الأطباء · المختبرات · 2026</em></p>
+
+    <hr/>
+    <p style="text-align:center;color:#64748b;font-size:8.5pt;">
+      © 2026 ملامih.ps — دليلك لصحة وجمال الوجه في فلسطين
+    </p>
+  </div>
+</body>
+</html>

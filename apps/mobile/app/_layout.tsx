@@ -1,13 +1,18 @@
 import { router, Stack } from "expo-router";
 import { useEffect, useRef } from "react";
+import { Linking, View } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import * as ExpoLinking from "expo-linking";
 import {
   attachForegroundNotificationListener,
   configureNotifications,
   resolveNotificationRoute,
 } from "../lib/notifications";
 import { syncPushForCurrentUser } from "../lib/push-manager";
+import { resolveDeepLinkRoute } from "../lib/deep-links";
 import { AppToastProvider } from "../components/AppToast";
+import { ConnectivityBanner } from "../components/ConnectivityBanner";
+import { OnboardingModal } from "../components/OnboardingModal";
 
 export default function RootLayout() {
   const handledNotificationIds = useRef(new Set<string>());
@@ -45,17 +50,35 @@ export default function RootLayout() {
 
     void syncPushForCurrentUser().catch(() => null);
 
+    const openDeepLink = (url: string) => {
+      const route = resolveDeepLinkRoute(url);
+      if (!route) return;
+      setTimeout(() => router.push(route as any), 300);
+    };
+
+    const linkingSub = Linking.addEventListener("url", ({ url }) => openDeepLink(url));
+    void Linking.getInitialURL().then((url) => {
+      if (url) openDeepLink(url);
+    });
+    void ExpoLinking.getInitialURL().then((url) => {
+      if (url) openDeepLink(url);
+    });
+
     return () => {
       mounted = false;
       subscription?.remove();
       foreground.remove();
+      linkingSub.remove();
     };
   }, []);
 
   return (
     <SafeAreaProvider>
       <AppToastProvider>
-        <Stack screenOptions={{ headerShown: false }}>
+        <View style={{ flex: 1 }}>
+          <ConnectivityBanner />
+          <OnboardingModal />
+          <Stack screenOptions={{ headerShown: false }}>
           <Stack.Screen name="index" />
           <Stack.Screen name="(tabs)" />
           <Stack.Screen name="doctors/index" />
@@ -96,6 +119,7 @@ export default function RootLayout() {
           <Stack.Screen name="privacy" />
           <Stack.Screen name="terms" />
         </Stack>
+        </View>
       </AppToastProvider>
     </SafeAreaProvider>
   );

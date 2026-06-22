@@ -30,7 +30,12 @@ export default function DoctorProfileClient({ doctor, canBookOnWebsite }: { doct
   const [submittedPhone, setSubmittedPhone] = useState("");
   const [isSaved, setIsSaved] = useState(false);
 
-  const [reviewsList] = useState<Array<{ name: string; rating: number; date: string; text: string }>>([]);
+  const [reviewsList, setReviewsList] = useState<Array<{ name: string; rating: number; date: string; text: string }>>([]);
+  const [reviewName, setReviewName] = useState("");
+  const [reviewRating, setReviewRating] = useState(5);
+  const [reviewComment, setReviewComment] = useState("");
+  const [reviewSubmitting, setReviewSubmitting] = useState(false);
+  const [reviewMessage, setReviewMessage] = useState("");
 
   useEffect(() => {
     const saved = JSON.parse(localStorage.getItem("malamih_saved_doctors") || "[]") as string[];
@@ -41,6 +46,21 @@ export default function DoctorProfileClient({ doctor, canBookOnWebsite }: { doct
       const doctorCoords = doctorMapCoordinates(doctor);
       setDistance(getDistance(location.lat, location.lng, doctorCoords.latitude, doctorCoords.longitude));
     });
+
+    void fetch(`/api/reviews?doctorId=${doctor.id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        const rows = Array.isArray(data?.reviews) ? data.reviews : [];
+        setReviewsList(
+          rows.map((row: { patient_name: string; rating: number; comment?: string; created_at: string }) => ({
+            name: row.patient_name,
+            rating: row.rating,
+            date: new Date(row.created_at).toLocaleDateString("ar-EG"),
+            text: row.comment || "",
+          })),
+        );
+      })
+      .catch(() => undefined);
 
     return () => stopWatch();
   }, [doctor]);
@@ -120,6 +140,36 @@ export default function DoctorProfileClient({ doctor, canBookOnWebsite }: { doct
     setBookingNotes("");
   };
 
+  const handleReviewSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!reviewName.trim()) {
+      alert("يرجى إدخال اسمك");
+      return;
+    }
+    setReviewSubmitting(true);
+    setReviewMessage("");
+    const res = await fetch("/api/reviews", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        doctor_id: doctor.id,
+        patient_name: reviewName.trim(),
+        rating: reviewRating,
+        comment: reviewComment.trim(),
+      }),
+    });
+    const data = await res.json();
+    setReviewSubmitting(false);
+    if (!res.ok) {
+      alert(data.error || "تعذر إرسال التقييم");
+      return;
+    }
+    setReviewMessage(data.message || "شكراً! سيُراجع تقييمك قبل النشر.");
+    setReviewName("");
+    setReviewComment("");
+    setReviewRating(5);
+  };
+
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 relative -mt-32 pb-24 z-10">
       <div className="flex flex-col lg:flex-row gap-8">
@@ -160,6 +210,11 @@ export default function DoctorProfileClient({ doctor, canBookOnWebsite }: { doct
                           <CheckCircle2 className="w-6 h-6" />
                         </div>
                       )}
+                      {doctor.is_featured ? (
+                        <span className="rounded-full bg-amber-50 px-3 py-1 text-xs font-black text-amber-700 border border-amber-200">
+                          ⭐ طبيب مؤسّس
+                        </span>
+                      ) : null}
                       {doctor.accepts_discount_card ? (
                         <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-black text-emerald-700">
                           بطاقة الخصم
@@ -377,10 +432,47 @@ export default function DoctorProfileClient({ doctor, canBookOnWebsite }: { doct
                 ))}
               </div>
             ) : (
-              <p className="text-sm font-semibold text-slate-500 leading-7">
-                التقييمات المعتمدة ستظهر هنا قريباً بعد التحقق من الحجز. شاركنا تجربتك لاحقاً لمساعدة المرضى الآخرين.
+              <p className="text-sm font-semibold text-slate-500 leading-7 mb-6">
+                لا توجد تقييمات منشورة بعد. كن أول من يشارك تجربته بعد زيارة العيادة.
               </p>
             )}
+            <form onSubmit={handleReviewSubmit} className="rounded-2xl border border-slate-200 bg-slate-50/70 p-5 space-y-4">
+              <p className="text-sm font-black text-slate-800">أضف تقييمك</p>
+              <input
+                value={reviewName}
+                onChange={(e) => setReviewName(e.target.value)}
+                placeholder="اسمك (يظهر للعامة بعد الموافقة)"
+                className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold outline-none focus:border-primary"
+              />
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-black text-slate-500">التقييم:</span>
+                {[1, 2, 3, 4, 5].map((value) => (
+                  <button
+                    key={value}
+                    type="button"
+                    onClick={() => setReviewRating(value)}
+                    className={`rounded-lg px-2 py-1 text-sm font-black ${reviewRating >= value ? "text-amber-500" : "text-slate-300"}`}
+                  >
+                    ★
+                  </button>
+                ))}
+              </div>
+              <textarea
+                value={reviewComment}
+                onChange={(e) => setReviewComment(e.target.value)}
+                placeholder="شاركنا تجربتك باختصار..."
+                rows={3}
+                className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold outline-none focus:border-primary"
+              />
+              {reviewMessage ? <p className="text-xs font-bold text-emerald-600">{reviewMessage}</p> : null}
+              <button
+                type="submit"
+                disabled={reviewSubmitting}
+                className="rounded-xl bg-slate-950 px-5 py-3 text-sm font-black text-white disabled:opacity-60"
+              >
+                {reviewSubmitting ? "جاري الإرسال..." : "إرسال التقييم للمراجعة"}
+              </button>
+            </form>
           </div>
         </div>
 
@@ -442,7 +534,7 @@ export default function DoctorProfileClient({ doctor, canBookOnWebsite }: { doct
             <h2 className="mt-1 text-3xl font-black text-slate-950">أرسل طلب حجز للطبيب</h2>
             <p className="mt-2 text-sm font-bold text-slate-500">
               {canBookOnWebsite
-                ? "سيتم عرض بياناتك للطبيب داخل لوحة الطبيب لتأكيد الموعد أو تعديله."
+                ? "لا تحتاج حساب — اسمك ورقم هاتفك يكفيان. سيتم عرض بياناتك للطبيب لتأكيد الموعد."
                 : "الحجز عبر الموقع غير مفعّل لهذا الطبيب حالياً. استخدم التواصل المباشر لحين تفعيل الحساب."}
             </p>
           </div>

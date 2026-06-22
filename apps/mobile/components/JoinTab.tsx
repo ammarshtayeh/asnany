@@ -53,6 +53,10 @@ export default function JoinTab({
 }: JoinTabProps) {
   return (
     <View style={styles.tabContent}>
+      <View style={styles.founderBanner}>
+        <Text style={styles.founderTitle}>⭐ عرض الأطباء الأوائل</Text>
+        <Text style={styles.founderText}>سجّل عيادتك الآن واحصل على أولوية ظهور ومزايا حصرية على ملامح.ps</Text>
+      </View>
       <View style={styles.card}>
         <Text style={styles.sectionTitle}>📝 انضم كشريك في ملامح.ps</Text>
         <Text style={styles.bioText}>املأ الاستمارة أدناه لتسجيل عيادتك الطبية أو متجر المستلزمات الخاص بك مباشرة في البوابة الحية بانتظار توثيق وتفعيل الإدارة.</Text>
@@ -223,5 +227,27 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     gap: 10
-  }
+  },
+  founderBanner: {
+    backgroundColor: "#fffbeb",
+    borderColor: "#fcd34d",
+    borderWidth: 1,
+    borderRadius: 16,
+    padding: 14,
+    marginBottom: 12,
+  },
+  founderTitle: {
+    fontSize: 13,
+    fontWeight: "900",
+    color: "#b45309",
+    textAlign: "right",
+  },
+  founderText: {
+    marginTop: 4,
+    fontSize: 12,
+    fontWeight: "700",
+    color: "#78350f",
+    textAlign: "right",
+    lineHeight: 18,
+  },
 });

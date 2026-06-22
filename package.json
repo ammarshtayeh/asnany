@@ -30,6 +30,11 @@
     "generate:sales-pdf": "node scripts/generate-sales-pdf.mjs",
     "generate:doctor-brochure-pdf": "node scripts/generate-doctor-brochure-pdf.mjs",
     "generate:brand-icons": "node scripts/generate-brand-icons.mjs",
+    "generate:og-image": "node scripts/generate-og-image.mjs",
+    "generate:logo-brief-pdf": "node scripts/generate-logo-brief-pdf.mjs",
+    "generate:writer-slides-pdf": "node scripts/generate-writer-slides-pdf.mjs",
+    "generate:platform-guide-pdf": "node scripts/generate-platform-guide-pdf.mjs",
+    "generate:instagram-poster": "node scripts/generate-instagram-poster.mjs",
     "smoke:live": "node scripts/smoke-test-live.mjs",
     "smoke:live:extended": "node scripts/smoke-test-live-extended.mjs"
   },

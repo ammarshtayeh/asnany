@@ -8,6 +8,7 @@ import { AppCard } from "../components/AppCard";
 import { AppButton } from "../components/Buttons";
 import { AppSubtitle, AppTitle } from "../components/AppText";
 import { useAppToast } from "../components/AppToast";
+import { BookingDateField, BookingTimeField } from "../components/BookingPickers";
 
 const WEEKDAY_AR = ["الأحد", "الإثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
 
@@ -187,8 +188,8 @@ export default function BookingScreen() {
         <Field label="رقم الهاتف *" value={phone} onChangeText={setPhone} keyboardType="phone-pad" />
         <Field label="رقم الهوية *" value={identity} onChangeText={setIdentity} keyboardType="number-pad" />
         <Field label="العنوان *" value={address} onChangeText={setAddress} />
-        <Field label="التاريخ *" value={date} onChangeText={setDate} placeholder="2026-06-01" />
-        <Field label="الوقت *" value={time} onChangeText={setTime} placeholder="10:30" />
+        <BookingDateField label="التاريخ *" value={date} onChange={setDate} />
+        <BookingTimeField label="الوقت *" value={time} onChange={setTime} />
         <Field label="ملاحظات" value={notes} onChangeText={setNotes} multiline />
 
         <AppButton label={loading ? "جارٍ الحجز..." : "تأكيد الحجز"} onPress={submit} disabled={!canSubmit || loading || doctorLoading} style={{ marginTop: 12 }} />

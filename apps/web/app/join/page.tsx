@@ -33,6 +33,12 @@ export default function JoinAsDoctor() {
       </div>
 
       <div className="max-w-4xl mx-auto px-4 -mt-16 pb-24 relative z-10">
+        <div className="mb-8 rounded-3xl border border-amber-200 bg-gradient-to-l from-amber-50 to-white p-6 text-center shadow-lg">
+          <p className="text-xs font-black text-amber-700">⭐ عرض الأطباء الأوائل — لفترة محدودة</p>
+          <h2 className="mt-2 text-2xl font-black text-slate-900">سجّل الآن واحصل على أولوية ظهور + مزايا حصرية</h2>
+          <p className="mt-2 text-sm font-semibold text-slate-600">موعد واحد جديد يغطي اشتراكك السنوي — ابدأ من $100/سنة</p>
+        </div>
+
         <div className="grid md:grid-cols-2 gap-8">
 
           {/* Card 1: Self Registration Form */}
