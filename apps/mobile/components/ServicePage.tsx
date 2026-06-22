@@ -3,6 +3,7 @@ import { ActivityIndicator, Image, ScrollView, Text, View, Pressable } from "rea
 import { router } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { supabase } from "../lib/supabase";
+import { theme } from "../constants/theme";
 import { EmptyStateCTA } from "../EmptyStateCTA";
 import { MedicalService, MedicalServiceType } from "../types";
 
@@ -74,8 +75,9 @@ export function ServicePage({
       contentContainerStyle={{ paddingBottom: insets.bottom + 40 }}
       showsVerticalScrollIndicator={false}
     >
-      <View style={{ backgroundColor: "#0f172a", minHeight: 210, justifyContent: "flex-end", padding: 24, paddingTop: insets.top + 16 }}>
-        <View style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: accentColor, opacity: 0.15 }} />
+      <View style={{ backgroundColor: theme.navy, minHeight: 220, justifyContent: "flex-end", padding: 24, paddingTop: insets.top + 16, borderBottomLeftRadius: theme.radius.xxl, borderBottomRightRadius: theme.radius.xxl, overflow: "hidden", ...theme.shadow.float }}>
+        <View style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: accentColor, opacity: 0.12 }} />
+        <View style={{ position: "absolute", top: -40, right: -20, width: 140, height: 140, borderRadius: 70, backgroundColor: "rgba(255,255,255,0.06)" }} />
         <Pressable
           onPress={() => {
             if (router.canGoBack()) {

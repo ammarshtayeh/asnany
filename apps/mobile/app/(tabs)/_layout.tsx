@@ -11,12 +11,13 @@ function TabIcon({ name, color, size, focused }: { name: keyof typeof Feather.gl
   return (
     <View
       style={{
-        width: 44,
-        height: 32,
-        borderRadius: 12,
+        width: 48,
+        height: 34,
+        borderRadius: 14,
         alignItems: "center",
         justifyContent: "center",
         backgroundColor: focused ? theme.tealMuted : "transparent",
+        ...(focused ? theme.shadow.glow : {}),
       }}
     >
       <Feather name={name} size={focused ? size + 1 : size} color={color} />
@@ -26,7 +27,8 @@ function TabIcon({ name, color, size, focused }: { name: keyof typeof Feather.gl
 
 export default function TabsLayout() {
   const insets = useSafeAreaInsets();
-  const tabBarHeight = 64 + insets.bottom;
+  const bottomPad = Math.max(insets.bottom, 8);
+  const tabBarHeight = 62 + bottomPad;
 
   return (
     <View style={{ flex: 1, backgroundColor: theme.bg }}>
@@ -36,20 +38,23 @@ export default function TabsLayout() {
         screenOptions={{
           headerShown: false,
           tabBarStyle: {
-            height: tabBarHeight,
-            paddingTop: 8,
-            paddingBottom: insets.bottom + 8,
+            position: "absolute",
+            left: 12,
+            right: 12,
+            bottom: bottomPad,
+            height: tabBarHeight - bottomPad,
+            paddingTop: 6,
+            paddingBottom: 6,
             borderTopWidth: 0,
-            backgroundColor: theme.card,
-            shadowColor: theme.navy,
-            shadowOpacity: 0.08,
-            shadowOffset: { width: 0, height: -6 },
-            shadowRadius: 16,
-            elevation: 12,
+            borderRadius: theme.radius.xl,
+            backgroundColor: theme.cardGlass,
+            borderWidth: 1,
+            borderColor: "rgba(226,232,240,0.9)",
+            ...theme.shadow.float,
           },
           tabBarActiveTintColor: theme.teal,
           tabBarInactiveTintColor: theme.textSoft,
-          tabBarLabelStyle: { fontSize: 10, fontWeight: "800", marginTop: 2 },
+          tabBarLabelStyle: { fontSize: 10, fontWeight: "800", marginTop: 0 },
         }}
       >
         <Tabs.Screen

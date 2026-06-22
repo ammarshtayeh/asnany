@@ -4,45 +4,33 @@
 
 @layer base {
   :root {
-    --background: 210 40% 98%; /* #f8fafc */
+    --background: 210 40% 98%;
     --foreground: 222.2 84% 4.9%;
-
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
-
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-
-    /* Malamih teal — primary actions */
-    --primary: 162 78% 21%; /* #0c5e47 */
+    --primary: 162 78% 21%;
     --primary-foreground: 0 0% 100%;
-
-    /* Malamih gold — accents */
-    --secondary: 46 65% 52%; /* #d4af37 */
+    --secondary: 46 65% 52%;
     --secondary-foreground: 222.2 84% 4.9%;
-
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
-
     --accent: 162 76% 95%;
     --accent-foreground: 162 78% 18%;
-
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
     --ring: 162 78% 21%;
-
-    --radius: 1rem;
-
-    /* Brand extras */
-    --malamih-navy: 220 52% 10%; /* #0a1628 */
+    --radius: 1.25rem;
+    --malamih-navy: 220 52% 10%;
     --malamih-teal: 162 78% 21%;
     --malamih-gold: 46 65% 52%;
-
     --navbar-height: 72px;
     --ticker-height: 0px;
+    --page-gutter: clamp(1rem, 3vw, 2rem);
+    --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
   }
 }
 
@@ -64,15 +52,41 @@
   }
 
   .btn-malama {
-    @apply inline-flex items-center justify-center gap-2 rounded-full bg-primary px-5 py-2.5 text-xs font-black text-white shadow-[0_10px_24px_-8px_rgba(12,94,71,0.45)] transition-all duration-300 hover:bg-[#0a4d3a] hover:-translate-y-0.5;
+    @apply relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-2xl bg-primary px-6 py-3 text-sm font-black text-white shadow-glow transition-all duration-300 ease-spring hover:-translate-y-0.5 hover:bg-primary-dark hover:shadow-[0_12px_32px_-8px_rgba(12,94,71,0.5)] active:scale-[0.98];
   }
 
   .btn-malama-outline {
-    @apply inline-flex items-center justify-center gap-2 rounded-full border border-primary/25 bg-white px-5 py-2.5 text-xs font-black text-primary transition-all duration-300 hover:bg-primary/5;
+    @apply inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-200/80 bg-white/90 px-6 py-3 text-sm font-black text-slate-800 shadow-sm backdrop-blur-sm transition-all duration-300 ease-spring hover:-translate-y-0.5 hover:border-primary/30 hover:bg-white hover:shadow-float active:scale-[0.98];
+  }
+
+  .btn-malama-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-2xl border border-white/15 bg-white/10 px-6 py-3 text-sm font-black text-white backdrop-blur-md transition-all duration-300 hover:bg-white/20 hover:border-white/25 active:scale-[0.98];
   }
 
   .card-malama {
-    @apply rounded-2xl border border-slate-100 bg-white shadow-[0_8px_30px_-12px_rgba(10,22,40,0.12)] transition-shadow duration-300 hover:shadow-[0_16px_40px_-14px_rgba(10,22,40,0.16)];
+    @apply rounded-3xl border border-slate-200/60 bg-white/90 shadow-bento backdrop-blur-sm transition-all duration-300 ease-spring hover:-translate-y-1 hover:border-slate-200 hover:shadow-bento-hover;
+  }
+
+  .bento-card {
+    @apply relative overflow-hidden rounded-3xl border border-slate-200/50 bg-white shadow-bento transition-all duration-300 ease-spring hover:-translate-y-1 hover:shadow-bento-hover;
+  }
+
+  .bento-card::before {
+    content: "";
+    @apply pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300;
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.04) 0%, transparent 50%, rgba(212, 175, 55, 0.03) 100%);
+  }
+
+  .bento-card:hover::before {
+    @apply opacity-100;
+  }
+
+  .section-shell {
+    @apply mx-auto w-full max-w-[1400px] px-[var(--page-gutter)];
+  }
+
+  .page-hero-dark {
+    @apply relative isolate overflow-hidden rounded-4xl border border-white/10 bg-[#0a1628] shadow-[0_32px_64px_-24px_rgba(10,22,40,0.5)] sm:rounded-5xl;
   }
 
   .offer-card-gradient {
@@ -80,11 +94,15 @@
   }
 
   .hero-malama {
-    @apply relative overflow-hidden rounded-[2.5rem] bg-[#0a1628] shadow-2xl border border-slate-900/50 sm:rounded-[3rem];
+    @apply page-hero-dark;
   }
 
   .nav-active-mobile {
-    @apply bg-emerald-50 text-primary;
+    @apply bg-emerald-50 text-primary shadow-[inset_0_0_0_1px_rgba(12,94,71,0.12)];
+  }
+
+  .nav-island {
+    @apply rounded-2xl border border-slate-200/60 bg-white/75 shadow-float backdrop-blur-2xl;
   }
 }
 
@@ -94,45 +112,75 @@
   }
   body {
     @apply bg-background text-foreground selection:bg-primary/20 selection:text-primary antialiased overflow-x-hidden;
+    font-feature-settings: "kern" 1, "liga" 1;
+    text-rendering: optimizeLegibility;
   }
 }
 
 /* Custom Utilities for Malamih UI */
 @layer utilities {
   .mesh-bg {
-    background-color: #f8fafc;
+    background-color: #f4f7fb;
     background-image:
-      radial-gradient(at 0% 0%, rgba(12, 94, 71, 0.04) 0px, transparent 50%),
-      radial-gradient(at 50% 0%, rgba(16, 185, 129, 0.04) 0px, transparent 50%),
-      radial-gradient(at 100% 0%, rgba(212, 175, 55, 0.03) 0px, transparent 40%),
-      radial-gradient(at 100% 100%, rgba(10, 22, 40, 0.02) 0px, transparent 50%);
+      radial-gradient(at 0% 0%, rgba(12, 94, 71, 0.06) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, rgba(212, 175, 55, 0.05) 0px, transparent 45%),
+      radial-gradient(at 50% 100%, rgba(16, 185, 129, 0.04) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, rgba(10, 22, 40, 0.03) 0px, transparent 40%);
+  }
+
+  .aurora-bg {
+    background: linear-gradient(135deg, #f4f7fb 0%, #eef6f3 35%, #faf8f0 70%, #f4f7fb 100%);
+    background-size: 200% 200%;
+    animation: aurora 18s ease infinite;
   }
 
   .bg-grid-pattern {
-    background-size: 24px 24px;
+    background-size: 32px 32px;
     background-image:
-      linear-gradient(to right, rgba(148, 163, 184, 0.02) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(148, 163, 184, 0.02) 1px, transparent 1px);
+      linear-gradient(to right, rgba(148, 163, 184, 0.025) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(148, 163, 184, 0.025) 1px, transparent 1px);
   }
 
   .glass {
-    background: rgba(255, 255, 255, 0.82);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.65);
+    background: rgba(255, 255, 255, 0.78);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.72);
     box-shadow:
-      0 10px 30px -10px rgba(10, 22, 40, 0.06),
-      0 1px 1px 0 rgba(255, 255, 255, 0.85) inset;
+      0 4px 24px -4px rgba(10, 22, 40, 0.06),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.9);
   }
 
   .glass-dark {
-    background: rgba(10, 22, 40, 0.9);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(10, 22, 40, 0.82);
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow:
-      0 20px 40px -15px rgba(0, 0, 0, 0.35),
-      0 1px 0 0 rgba(255, 255, 255, 0.08) inset;
+      0 24px 48px -12px rgba(0, 0, 0, 0.4),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+  }
+
+  .glass-card {
+    @apply glass rounded-3xl;
+  }
+
+  .shine-border {
+    position: relative;
+  }
+
+  .shine-border::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.35), rgba(212, 175, 55, 0.2), transparent 60%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
   }
 
   .text-gradient-gold {
@@ -167,6 +215,11 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+}
+
+@keyframes aurora {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
 }
 
 @keyframes blob {

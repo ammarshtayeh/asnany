@@ -32,12 +32,13 @@ export function EmptyStateCTA({
     <View
       style={{
         backgroundColor: theme.card,
-        borderRadius: 24,
+        borderRadius: theme.radius.xxl,
         padding: 28,
         alignItems: "center",
         borderWidth: 1.5,
         borderColor: theme.border,
         borderStyle: "dashed",
+        ...theme.shadow.card,
       }}
     >
       <View

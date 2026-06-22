@@ -1,7 +1,8 @@
-/** Malamih brand theme — matches visual identity mockups */
+/** Malamih brand theme — 2026 design system */
 export const theme = {
   navy: "#0a1628",
   navySoft: "#0f172a",
+  navyGlass: "rgba(10, 22, 40, 0.88)",
   teal: "#0c5e47",
   tealLight: "#10b981",
   tealMuted: "#ecfdf5",
@@ -14,8 +15,10 @@ export const theme = {
   purpleMuted: "#f5f3ff",
   pink: "#db2777",
   pinkMuted: "#fdf2f8",
-  bg: "#f8fafc",
+  bg: "#f4f7fb",
+  bgElevated: "#eef6f3",
   card: "#ffffff",
+  cardGlass: "rgba(255,255,255,0.92)",
   border: "#e2e8f0",
   borderLight: "#f1f5f9",
   text: "#0f172a",
@@ -25,23 +28,39 @@ export const theme = {
   offerGradient: ["#7c3aed", "#db2777"] as const,
   promoGradient: ["#2563eb", "#7c3aed"] as const,
   radius: {
-    sm: 12,
-    md: 16,
-    lg: 20,
-    xl: 22,
+    sm: 14,
+    md: 18,
+    lg: 22,
+    xl: 26,
+    xxl: 32,
     pill: 999,
   },
   shadow: {
     card: {
       shadowColor: "#0a1628",
-      shadowOpacity: 0.06,
-      shadowRadius: 12,
-      elevation: 2,
+      shadowOpacity: 0.07,
+      shadowOffset: { width: 0, height: 8 },
+      shadowRadius: 24,
+      elevation: 4,
+    },
+    float: {
+      shadowColor: "#0a1628",
+      shadowOpacity: 0.12,
+      shadowOffset: { width: 0, height: 12 },
+      shadowRadius: 32,
+      elevation: 8,
+    },
+    glow: {
+      shadowColor: "#10b981",
+      shadowOpacity: 0.25,
+      shadowOffset: { width: 0, height: 4 },
+      shadowRadius: 16,
+      elevation: 3,
     },
   },
 } as const;
 
-/** @deprecated use `theme` — kept for legacy components */
+/** @deprecated use `theme` */
 export const colors = {
   ink: theme.navy,
   amber: theme.gold,

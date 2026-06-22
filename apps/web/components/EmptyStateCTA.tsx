@@ -24,7 +24,7 @@ export default function EmptyStateCTA({
   tips,
 }: EmptyStateCTAProps) {
   return (
-    <div className="rounded-3xl border border-dashed border-slate-300 bg-white/80 p-10 text-center shadow-sm backdrop-blur-md">
+    <div className="bento-card shine-border rounded-3xl border border-dashed border-slate-300/80 bg-white/90 p-10 text-center shadow-bento backdrop-blur-md">
       <h3 className="text-xl font-black text-slate-900">{title}</h3>
       <p className="mx-auto mt-3 max-w-lg text-sm font-semibold leading-7 text-slate-500">{description}</p>
       {tips?.length ? (
@@ -39,7 +39,7 @@ export default function EmptyStateCTA({
       <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
         <Link
           href={primaryHref}
-          className="inline-flex items-center gap-2 rounded-2xl bg-primary px-6 py-3.5 text-sm font-black text-white shadow-lg transition hover:scale-[1.02]"
+          className="btn-malama inline-flex items-center gap-2 px-6 py-3.5 text-sm"
         >
           {primaryLabel}
           <ArrowRight className="h-4 w-4" />

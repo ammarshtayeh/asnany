@@ -41,74 +41,62 @@ export default function ServiceLandingPage({
 }: ServiceLandingPageProps) {
   return (
     <main className="min-h-screen bg-transparent" dir="rtl">
-      {/* Premium Hero Banner */}
-      <section className="relative overflow-hidden bg-slate-950 px-4 pt-16 pb-28 text-white border-b border-slate-900 shadow-2xl">
-        {/* Glow Effects */}
-        <div className="absolute top-0 right-1/4 h-96 w-96 rounded-full bg-amber-500/5 blur-[120px]" />
-        <div className="absolute bottom-0 left-1/4 h-96 w-96 rounded-full bg-emerald-500/5 blur-[120px]" />
+      <section className="page-hero-dark relative px-4 pb-32 pt-20 sm:px-6 sm:pb-36 sm:pt-24">
+        <div className="pointer-events-none absolute -right-20 top-0 h-80 w-80 rounded-full bg-amber-500/10 blur-[120px]" />
+        <div className="pointer-events-none absolute -left-20 bottom-0 h-96 w-96 rounded-full bg-emerald-500/10 blur-[120px]" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(212,175,55,0.08),transparent_50%)]" />
 
-        <div className="relative z-10 max-w-5xl mx-auto">
-          {/* Breadcrumb Navigation */}
-          <div className="mb-8">
-            <Link
-              href="/"
-              className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-black text-slate-300 transition-all hover:border-amber-500/30 hover:bg-white/10 hover:text-white"
-            >
-              <ArrowRight className="w-3.5 h-3.5" />
-              الرئيسية
-            </Link>
-          </div>
+        <div className="relative z-10 mx-auto max-w-5xl">
+          <Link
+            href="/"
+            className="mb-8 inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-4 py-2 text-xs font-black text-slate-300 backdrop-blur-sm transition-all hover:border-amber-500/30 hover:bg-white/10 hover:text-white"
+          >
+            <ArrowRight className="h-3.5 w-3.5" />
+            الرئيسية
+          </Link>
 
+          <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#d4af37]/25 bg-[#d4af37]/10 px-4 py-1.5 text-xs font-black text-[#f5d76e] backdrop-blur-sm">
+            <Sparkles className="h-3.5 w-3.5" />
+            {badge}
+          </span>
 
-
-          {/* Heading */}
-          <h1 className="mt-6 text-3xl sm:text-5xl md:text-6xl font-black leading-tight tracking-tight">
+          <h1 className="mt-4 text-3xl font-black leading-[1.15] tracking-tight text-white sm:text-5xl md:text-6xl">
             {title.includes(" ") ? (
               <>
                 {title.split(" ").slice(0, -2).join(" ")}{" "}
-                <span className="text-gradient-gold text-amber-400">
-                  {title.split(" ").slice(-2).join(" ")}
-                </span>
+                <span className="text-gradient-gold">{title.split(" ").slice(-2).join(" ")}</span>
               </>
             ) : (
               title
             )}
           </h1>
 
-          {/* Description */}
-          <p className="mt-5 max-w-3xl text-slate-300 text-base md:text-lg leading-8 font-semibold">
-            {description}
-          </p>
+          <p className="mt-5 max-w-3xl text-base font-semibold leading-8 text-slate-300 md:text-lg">{description}</p>
 
-          {/* Action CTAs */}
           <div className="mt-8 flex flex-wrap gap-3">
-            {actions.map((action) => (
+            {actions.map((action, i) => (
               <Link
                 key={action.href}
                 href={action.href}
-                className="inline-flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-xl font-black hover:bg-primary/90 transition-all shadow-[0_4px_20px_rgba(12,94,71,0.25)] hover:scale-[1.02]"
+                className={i === 0 ? "btn-malama" : "btn-malama-ghost"}
               >
                 {action.label}
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="h-4 w-4" />
               </Link>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Main Content Area - Added relative z-10 to fix the stacking context bug */}
-      <section className="relative z-10 max-w-5xl mx-auto px-4 -mt-14 pb-24">
+      <section className="relative z-10 mx-auto max-w-5xl -mt-16 px-4 pb-24 sm:-mt-20">
         {topSlot ? <div className="mb-8">{topSlot}</div> : null}
 
         {/* Feature Grid */}
-        <div className="grid sm:grid-cols-2 gap-4">
+        <div className="grid gap-4 sm:grid-cols-2">
           {features.map((feature) => (
-            <div
-              key={feature}
-              className="bg-white/80 backdrop-blur-md rounded-2xl border border-slate-200/60 p-5 shadow-[0_8px_30px_rgb(0,0,0,0.02)] flex gap-4 transition-all hover:shadow-[0_8px_30px_rgb(0,0,0,0.05)] hover:-translate-y-0.5"
-            >
-              <CheckCircle2 className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-1" />
-              <p className="text-slate-700 font-bold leading-7 text-sm sm:text-base">{feature}</p>
+            <div key={feature} className="bento-card flex gap-4 p-5">
+              <CheckCircle2 className="mt-1 h-5 w-5 flex-shrink-0 text-emerald-500" />
+              <p className="text-sm font-bold leading-7 text-slate-700 sm:text-base">{feature}</p>
             </div>
           ))}
         </div>
@@ -148,9 +136,7 @@ export default function ServiceLandingPage({
 
                 return (
                   <CardWrapper key={item.id}>
-                    <article
-                      className="bg-white rounded-[2rem] border border-slate-200/70 shadow-[0_4px_30px_rgba(15,23,42,0.01)] hover:shadow-[0_15px_40px_rgba(15,23,42,0.05)] overflow-hidden transition-all duration-300 hover:-translate-y-1 h-full flex flex-col"
-                    >
+                    <article className="bento-card shine-border flex h-full flex-col overflow-hidden">
                       {item.image_url ? (
                         <div className="h-52 bg-slate-100 overflow-hidden relative flex-shrink-0">
                           <img

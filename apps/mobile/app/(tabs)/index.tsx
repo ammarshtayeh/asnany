@@ -105,10 +105,12 @@ export default function HomeScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: theme.bg }}>
-      <ScrollView contentContainerStyle={{ paddingBottom: 110 }} showsVerticalScrollIndicator={false}>
-        <Animated.View style={{ height: 300, opacity: heroOpacity, transform: [{ translateY: heroSlide }] }}>
+      <ScrollView contentContainerStyle={{ paddingBottom: 120 }} showsVerticalScrollIndicator={false}>
+        <Animated.View style={{ height: 320, opacity: heroOpacity, transform: [{ translateY: heroSlide }] }}>
           <Image source={{ uri: HERO_IMAGE }} style={{ width: "100%", height: "100%" }} resizeMode="cover" />
-          <View style={{ position: "absolute", inset: 0, backgroundColor: "rgba(10,22,40,0.72)" }} />
+          <View style={{ position: "absolute", inset: 0, backgroundColor: "rgba(10,22,40,0.55)" }} />
+          <View style={{ position: "absolute", top: -40, right: -20, width: 160, height: 160, borderRadius: 80, backgroundColor: "rgba(16,185,129,0.15)" }} />
+          <View style={{ position: "absolute", bottom: 40, left: -30, width: 120, height: 120, borderRadius: 60, backgroundColor: "rgba(212,175,55,0.12)" }} />
 
           <View style={{ position: "absolute", top: 10, left: 16, right: 16, flexDirection: "row-reverse", justifyContent: "space-between", alignItems: "center" }}>
             <MalamihLogo size="sm" />
@@ -125,10 +127,10 @@ export default function HomeScreen() {
             <View style={{ alignSelf: "flex-end", backgroundColor: "rgba(212,175,55,0.15)", borderWidth: 1, borderColor: "rgba(212,175,55,0.3)", borderRadius: 999, paddingHorizontal: 12, paddingVertical: 5, marginBottom: 10 }}>
               <Text style={{ color: "#fde68a", fontWeight: "900", fontSize: 11 }}>الأول من نوعه في فلسطين</Text>
             </View>
-            <Text style={{ fontSize: 26, fontWeight: "900", color: theme.white, textAlign: "right", lineHeight: 36 }}>
+            <Text style={{ fontSize: 28, fontWeight: "900", color: theme.white, textAlign: "right", lineHeight: 38, letterSpacing: -0.5 }}>
               كل ما تحتاجه لصحتك وجمالك
             </Text>
-            <Text style={{ fontSize: 26, fontWeight: "900", color: theme.gold, textAlign: "right", lineHeight: 36 }}>
+            <Text style={{ fontSize: 28, fontWeight: "900", color: theme.gold, textAlign: "right", lineHeight: 38, letterSpacing: -0.5 }}>
               في متناول يدك
             </Text>
             <View style={{ flexDirection: "row-reverse", gap: 8, marginTop: 12 }}>
@@ -141,7 +143,7 @@ export default function HomeScreen() {
           </View>
         </Animated.View>
 
-        <View style={{ marginHorizontal: 16, marginTop: -22, zIndex: 10 }}>
+        <View style={{ marginHorizontal: 16, marginTop: -28, zIndex: 10 }}>
           <SearchField value={query} onChangeText={setQuery} placeholder="ابحث عن طبيب، تخصص، أو مدينة..." />
         </View>
 

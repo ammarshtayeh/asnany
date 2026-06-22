@@ -14,19 +14,15 @@ export const ui = {
     ...theme.shadow.card,
   } as ViewStyle,
   cardElevated: {
-    backgroundColor: theme.card,
+    backgroundColor: theme.cardGlass,
     borderRadius: theme.radius.xl,
     borderWidth: 1,
-    borderColor: theme.borderLight,
-    shadowColor: theme.navy,
-    shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: 14 },
-    shadowRadius: 28,
-    elevation: 5,
+    borderColor: "rgba(226,232,240,0.8)",
+    ...theme.shadow.float,
   } as ViewStyle,
-  h1: { fontSize: 28, fontWeight: "900" as const, color: theme.text, textAlign: "right" as const },
-  h2: { fontSize: 18, fontWeight: "900" as const, color: theme.text, textAlign: "right" as const },
-  body: { fontSize: 13, fontWeight: "600" as const, color: theme.textMuted, textAlign: "right" as const, lineHeight: 20 },
+  h1: { fontSize: 30, fontWeight: "900" as const, color: theme.text, textAlign: "right" as const, letterSpacing: -0.5 },
+  h2: { fontSize: 19, fontWeight: "900" as const, color: theme.text, textAlign: "right" as const, letterSpacing: -0.3 },
+  body: { fontSize: 14, fontWeight: "600" as const, color: theme.textMuted, textAlign: "right" as const, lineHeight: 22 },
   caption: { fontSize: 11, fontWeight: "700" as const, color: theme.textSoft, textAlign: "right" as const },
 };
 
@@ -306,8 +302,8 @@ export function DoctorListCard({
   onWhatsApp?: () => void;
 }) {
   return (
-    <Pressable onPress={onPress} style={[ui.card, { overflow: "hidden", padding: 0 }]}>
-      <View style={{ height: 4, backgroundColor: featured ? theme.gold : theme.tealMuted }} />
+    <Pressable onPress={onPress} style={[ui.cardElevated, { overflow: "hidden", padding: 0 }]}>
+      <View style={{ height: 3, backgroundColor: featured ? theme.gold : theme.tealLight, opacity: featured ? 1 : 0.5 }} />
       <View style={{ padding: 16, gap: 12 }}>
         <View style={{ flexDirection: "row-reverse", alignItems: "center", gap: 12 }}>
           <View style={{ width: 58, height: 58, borderRadius: 18, backgroundColor: theme.borderLight, overflow: "hidden", alignItems: "center", justifyContent: "center" }}>
@@ -347,7 +343,7 @@ export function DoctorListCard({
         ) : null}
 
         <View style={{ flexDirection: "row-reverse", gap: 8 }}>
-          <Pressable onPress={onPress} style={{ flex: 1, backgroundColor: theme.teal, borderRadius: 12, paddingVertical: 11, alignItems: "center" }}>
+          <Pressable onPress={onPress} style={{ flex: 1, backgroundColor: theme.teal, borderRadius: theme.radius.md, paddingVertical: 12, alignItems: "center", ...theme.shadow.glow }}>
             <Text style={{ color: theme.white, fontWeight: "900", fontSize: 13 }}>عرض الملف</Text>
           </Pressable>
           {onWhatsApp ? (
@@ -375,16 +371,39 @@ export function ScreenHero({
   paddingTop?: number;
 }) {
   return (
-    <View style={{ backgroundColor: theme.navy, paddingTop, paddingHorizontal: 20, paddingBottom: 24, borderBottomLeftRadius: 28, borderBottomRightRadius: 28, overflow: "hidden" }}>
-      <View style={{ position: "absolute", top: -40, right: -20, width: 140, height: 140, borderRadius: 70, backgroundColor: "rgba(16,185,129,0.12)" }} />
-      <View style={{ position: "absolute", bottom: -30, left: -10, width: 100, height: 100, borderRadius: 50, backgroundColor: "rgba(212,175,55,0.08)" }} />
+    <View
+      style={{
+        backgroundColor: theme.navy,
+        paddingTop,
+        paddingHorizontal: 20,
+        paddingBottom: 28,
+        borderBottomLeftRadius: theme.radius.xxl,
+        borderBottomRightRadius: theme.radius.xxl,
+        overflow: "hidden",
+        ...theme.shadow.float,
+      }}
+    >
+      <View style={{ position: "absolute", top: -60, right: -30, width: 180, height: 180, borderRadius: 90, backgroundColor: "rgba(16,185,129,0.14)" }} />
+      <View style={{ position: "absolute", bottom: -40, left: -20, width: 140, height: 140, borderRadius: 70, backgroundColor: "rgba(212,175,55,0.1)" }} />
+      <View style={{ position: "absolute", inset: 0, backgroundColor: "rgba(10,22,40,0.15)" }} />
       {badge ? (
-        <View style={{ alignSelf: "flex-end", backgroundColor: "rgba(212,175,55,0.15)", borderWidth: 1, borderColor: "rgba(212,175,55,0.3)", borderRadius: 999, paddingHorizontal: 12, paddingVertical: 5, marginBottom: 10 }}>
+        <View
+          style={{
+            alignSelf: "flex-end",
+            backgroundColor: "rgba(212,175,55,0.12)",
+            borderWidth: 1,
+            borderColor: "rgba(212,175,55,0.35)",
+            borderRadius: theme.radius.pill,
+            paddingHorizontal: 14,
+            paddingVertical: 6,
+            marginBottom: 12,
+          }}
+        >
           <Text style={{ color: "#fde68a", fontWeight: "900", fontSize: 11 }}>{badge}</Text>
         </View>
       ) : null}
-      <Text style={{ fontSize: 26, fontWeight: "900", color: theme.white, textAlign: "right", lineHeight: 34 }}>{title}</Text>
-      {subtitle ? <Text style={[ui.body, { color: "#cbd5e1", marginTop: 8 }]}>{subtitle}</Text> : null}
+      <Text style={{ fontSize: 28, fontWeight: "900", color: theme.white, textAlign: "right", lineHeight: 36, letterSpacing: -0.5 }}>{title}</Text>
+      {subtitle ? <Text style={[ui.body, { color: "#cbd5e1", marginTop: 10, fontSize: 14 }]}>{subtitle}</Text> : null}
       {children}
     </View>
   );

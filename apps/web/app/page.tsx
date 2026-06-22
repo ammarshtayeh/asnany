@@ -251,7 +251,8 @@ export default function Home() {
 
   return (
     <div className="min-h-screen overflow-x-hidden font-sans">
-      <section className="relative isolate mb-10 overflow-hidden rounded-[2.5rem] bg-[#0a1628] px-4 py-8 sm:mb-14 sm:rounded-[3rem] sm:py-12 lg:px-8 shadow-2xl border border-slate-900/50">
+      <section className="section-shell relative isolate mb-10 mt-2 sm:mb-14">
+        <div className="page-hero-dark relative overflow-hidden px-4 py-8 sm:py-12 lg:px-8">
         <Image
           src={HERO_IMAGE_URL}
           alt="عيادة تجميل وجلدية ملامح الحديثة"
@@ -318,17 +319,11 @@ export default function Home() {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.7, delay: 0.4 }}
               >
-                <Link
-                  href="/doctors/search"
-                  className="inline-flex items-center gap-2 rounded-2xl bg-white px-6 py-3.5 text-sm font-black text-slate-900 shadow-lg transition hover:scale-[1.02]"
-                >
+                <Link href="/doctors/search" className="btn-malama-outline gap-2 bg-white px-6 py-3.5 text-sm shadow-float">
                   <Search className="h-4 w-4 text-primary" />
                   ابحث عن طبيب
                 </Link>
-                <Link
-                  href="/join"
-                  className="inline-flex items-center gap-2 rounded-2xl border border-[#d4af37]/40 bg-[#d4af37]/15 px-6 py-3.5 text-sm font-black text-[#fde68a] backdrop-blur-sm transition hover:bg-[#d4af37]/25"
-                >
+                <Link href="/join" className="btn-malama-ghost px-6 py-3.5 text-sm">
                   <Sparkles className="h-4 w-4" />
                   انضم كطبيب شريك
                 </Link>
@@ -455,6 +450,7 @@ export default function Home() {
               ) : null}
             </div>
           </div>
+        </div>
         </div>
       </section>
 
