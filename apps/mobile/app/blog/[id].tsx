@@ -3,7 +3,8 @@ import { ActivityIndicator, Image, ScrollView, Text, View, Pressable } from "rea
 import { router, useLocalSearchParams } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { supabase } from "../../lib/supabase";
-import { Article } from "../../types";
+import { theme } from "../../constants/theme";
+import { StackCard, StackPrimaryButton } from "../../components/ui/StackPageLayout";
 
 export default function ArticleDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -46,13 +47,11 @@ export default function ArticleDetailScreen() {
 
   if (!article) {
     return (
-      <View style={{ flex: 1, backgroundColor: "#f8fafc", justifyContent: "center", alignItems: "center", padding: 20 }}>
+      <View style={{ flex: 1, backgroundColor: theme.bg, justifyContent: "center", alignItems: "center", padding: 20 }}>
         <Text style={{ fontSize: 48, marginBottom: 12 }}>📓</Text>
         <Text style={{ fontSize: 18, fontWeight: "900", color: "#0f172a", textAlign: "center", marginBottom: 6 }}>المقال غير موجود</Text>
         <Text style={{ fontSize: 13, color: "#64748b", textAlign: "center", marginBottom: 20 }}>عذراً، لم نتمكن من العثور على المقال المطلوب.</Text>
-        <Pressable onPress={() => router.back()} style={{ backgroundColor: "#10b981", borderRadius: 12, paddingHorizontal: 20, paddingVertical: 12 }}>
-          <Text style={{ color: "#fff", fontWeight: "900" }}>العودة للمجلة</Text>
-        </Pressable>
+        <StackPrimaryButton label="العودة للمجلة" onPress={() => router.back()} />
       </View>
     );
   }
@@ -61,7 +60,7 @@ export default function ArticleDetailScreen() {
 
   return (
     <ScrollView
-      style={{ flex: 1, backgroundColor: "#fff" }}
+      style={{ flex: 1, backgroundColor: theme.bg }}
       contentContainerStyle={{ paddingBottom: insets.bottom + 40 }}
       showsVerticalScrollIndicator={false}
     >
@@ -94,7 +93,7 @@ export default function ArticleDetailScreen() {
       </View>
 
       {/* Info Bar */}
-      <View style={{ flexDirection: "row-reverse", justifyContent: "space-between", alignItems: "center", backgroundColor: "#f8fafc", paddingHorizontal: 20, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: "#f1f5f9" }}>
+      <View style={{ flexDirection: "row-reverse", justifyContent: "space-between", alignItems: "center", backgroundColor: theme.bgElevated, paddingHorizontal: 20, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: theme.borderLight }}>
         <Text style={{ fontSize: 12, color: "#64748b", fontWeight: "800" }}>✍️ كاتب المقال: {article.doctor_name || "إدارة ملامح"}</Text>
         <View style={{ flexDirection: "row-reverse", gap: 12 }}>
           <Text style={{ fontSize: 11, color: "#94a3b8", fontWeight: "700" }}>⏱️ {article.read_time || "قراءة سريعة"}</Text>
@@ -120,7 +119,7 @@ export default function ArticleDetailScreen() {
 
         {/* Doctor CTA Box */}
         {article.doctor_id ? (
-          <View style={{ backgroundColor: "#f8fafc", borderRadius: 24, padding: 20, borderWidth: 1, borderColor: "#e2e8f0", marginTop: 32, gap: 14 }}>
+          <StackCard style={{ marginTop: 32, gap: 14 }}>
             <View style={{ flexDirection: "row-reverse", alignItems: "center", gap: 10 }}>
               <Text style={{ fontSize: 24 }}>✨</Text>
               <View style={{ flex: 1 }}>
@@ -128,13 +127,8 @@ export default function ArticleDetailScreen() {
                 <Text style={{ fontSize: 12, color: "#64748b", textAlign: "right" }}>يمكنك حجز موعد للفحص المباشر أو الاستشارة.</Text>
               </View>
             </View>
-            <Pressable
-              onPress={() => router.push(`/doctors/${article.doctor_id}` as any)}
-              style={{ backgroundColor: "#0f172a", borderRadius: 16, paddingVertical: 14, alignItems: "center" }}
-            >
-              <Text style={{ color: "#fff", fontWeight: "900", fontSize: 13 }}>احجز موعداً مع {article.doctor_name}</Text>
-            </Pressable>
-          </View>
+            <StackPrimaryButton label={`احجز موعداً مع ${article.doctor_name}`} onPress={() => router.push(`/doctors/${article.doctor_id}` as never)} />
+          </StackCard>
         ) : null}
       </View>
     </ScrollView>

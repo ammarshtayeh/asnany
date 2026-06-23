@@ -4,6 +4,7 @@ import { router, useLocalSearchParams } from "expo-router";
 import { Feather } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { supabase } from "../lib/supabase";
+import { MedicalService, MedicalServiceType } from "../types";
 import { theme } from "../constants/theme";
 import { StackCard, StackPageLayout, StackPrimaryButton } from "./ui/StackPageLayout";
 
