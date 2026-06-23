@@ -199,11 +199,6 @@ export default function DoctorProfileScreen() {
         <View style={{ flexDirection: "row-reverse", justifyContent: "space-between", alignItems: "center" }}>
           <View style={{ flex: 1, alignItems: "flex-end" }}>
             <AppTitle style={{ textAlign: "right" }}>{doctor.name}</AppTitle>
-            {doctor.is_featured ? (
-              <View style={{ marginTop: 6, backgroundColor: "#fffbeb", borderRadius: 999, paddingHorizontal: 10, paddingVertical: 4, borderWidth: 1, borderColor: "#fde68a" }}>
-                <Text style={{ color: "#b45309", fontWeight: "900", fontSize: 11 }}>⭐ طبيب مؤسّس</Text>
-              </View>
-            ) : null}
           </View>
           <View style={{ flexDirection: "row", alignItems: "center", gap: 4, backgroundColor: "#fef3c7", paddingHorizontal: 10, paddingVertical: 5, borderRadius: 12 }}>
             <Feather name="star" size={14} color="#d97706" />

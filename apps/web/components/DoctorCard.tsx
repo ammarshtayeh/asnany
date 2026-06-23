@@ -6,13 +6,6 @@ import Image from "next/image";
 export default function DoctorCard({ doctor }: { doctor: Doctor }) {
   return (
     <div className="bento-card shine-border group flex flex-col gap-4 p-4 md:flex-row md:p-5">
-      {doctor.is_featured ? (
-        <div className="absolute left-4 top-4 z-10 flex items-center gap-1 rounded-full bg-gradient-to-r from-amber-400 to-yellow-500 px-3 py-1 text-[10px] font-black text-white shadow-glow-gold">
-          <Star className="h-3 w-3 fill-current" />
-          مميز
-        </div>
-      ) : null}
-
       <div className="relative h-44 w-full flex-shrink-0 overflow-hidden rounded-2xl bg-gradient-to-br from-slate-100 to-slate-50 md:h-36 md:w-36">
         {doctor.image_url ? (
           <Image

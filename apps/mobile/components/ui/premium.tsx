@@ -284,7 +284,6 @@ export function DoctorListCard({
   imageUrl,
   rating,
   verified,
-  featured,
   distanceLabel,
   onPress,
   onWhatsApp,
@@ -296,14 +295,13 @@ export function DoctorListCard({
   imageUrl?: string | null;
   rating?: number;
   verified?: boolean;
-  featured?: boolean;
   distanceLabel?: string;
   onPress: () => void;
   onWhatsApp?: () => void;
 }) {
   return (
     <Pressable onPress={onPress} style={[ui.cardElevated, { overflow: "hidden", padding: 0 }]}>
-      <View style={{ height: 3, backgroundColor: featured ? theme.gold : theme.tealLight, opacity: featured ? 1 : 0.5 }} />
+      <View style={{ height: 3, backgroundColor: theme.tealLight, opacity: 0.5 }} />
       <View style={{ padding: 16, gap: 12 }}>
         <View style={{ flexDirection: "row-reverse", alignItems: "center", gap: 12 }}>
           <View style={{ width: 58, height: 58, borderRadius: 18, backgroundColor: theme.borderLight, overflow: "hidden", alignItems: "center", justifyContent: "center" }}>
@@ -317,11 +315,6 @@ export function DoctorListCard({
             <View style={{ flexDirection: "row-reverse", alignItems: "center", gap: 6 }}>
               <Text style={{ fontSize: 16, fontWeight: "900", color: theme.text, textAlign: "right", flex: 1 }}>{name}</Text>
               {verified ? <Feather name="check-circle" size={16} color={theme.tealLight} /> : null}
-              {featured ? (
-                <View style={{ backgroundColor: theme.goldMuted, borderRadius: 999, paddingHorizontal: 8, paddingVertical: 3 }}>
-                  <Text style={{ fontSize: 9, fontWeight: "900", color: "#b45309" }}>مميز</Text>
-                </View>
-              ) : null}
             </View>
             <Text style={{ fontSize: 12, color: theme.teal, fontWeight: "800", textAlign: "right", marginTop: 2 }}>{specialty}</Text>
             <View style={{ flexDirection: "row-reverse", alignItems: "center", gap: 4, marginTop: 2 }}>

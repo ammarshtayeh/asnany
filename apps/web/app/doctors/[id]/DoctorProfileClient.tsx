@@ -192,11 +192,6 @@ export default function DoctorProfileClient({ doctor, canBookOnWebsite }: { doct
                     </div>
                   )}
                 </div>
-                {doctor.is_featured && (
-                  <div className="absolute -bottom-4 -left-4 bg-gradient-to-r from-yellow-400 to-amber-500 text-white p-2.5 rounded-full shadow-lg border-2 border-white">
-                    <Sparkles className="w-5 h-5" />
-                  </div>
-                )}
               </div>
 
               {/* Details */}
@@ -210,11 +205,6 @@ export default function DoctorProfileClient({ doctor, canBookOnWebsite }: { doct
                           <CheckCircle2 className="w-6 h-6" />
                         </div>
                       )}
-                      {doctor.is_featured ? (
-                        <span className="rounded-full bg-amber-50 px-3 py-1 text-xs font-black text-amber-700 border border-amber-200">
-                          ⭐ طبيب مؤسّس
-                        </span>
-                      ) : null}
                       {doctor.accepts_discount_card ? (
                         <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-black text-emerald-700">
                           بطاقة الخصم

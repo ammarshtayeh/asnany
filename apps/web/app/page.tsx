@@ -223,10 +223,7 @@ export default function Home() {
         return distanceA - distanceB;
       });
     } else {
-      result.sort((a, b) => {
-        if (a.is_featured === b.is_featured) return (b.rating || 0) - (a.rating || 0);
-        return a.is_featured ? -1 : 1;
-      });
+      result.sort((a, b) => (b.rating || 0) - (a.rating || 0));
     }
 
     return result;
@@ -644,12 +641,6 @@ function DoctorResult({ doctor }: { doctor: Doctor }) {
             <HeartPulse className="h-12 w-12" />
           </div>
         )}
-        {doctor.is_featured ? (
-          <span className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-lg bg-[#d4af37] px-3 py-1 text-[11px] font-black text-white shadow-sm">
-            <Star className="h-3 w-3 fill-current" />
-            مميز
-          </span>
-        ) : null}
       </div>
 
       {/* Info Column */}

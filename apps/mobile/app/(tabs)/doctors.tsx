@@ -61,7 +61,7 @@ export default function DoctorsTabScreen() {
     setLoading(true);
     try {
       const doctorsPromise = supabase
-        ? supabase.from("doctors").select("*").eq("verified", true).order("is_featured", { ascending: false })
+        ? supabase.from("doctors").select("*").eq("verified", true).order("rating", { ascending: false })
         : Promise.resolve({ data: [] as Doctor[] });
       const adsPromise = apiFetch<{ items?: Advertisement[] } | Advertisement[]>("/api/advertisements");
 
@@ -244,7 +244,6 @@ export default function DoctorsTabScreen() {
                 imageUrl={doctor.image_url}
                 rating={doctor.rating}
                 verified={doctor.verified}
-                featured={doctor.is_featured}
                 distanceLabel={distanceByDoctorId.get(doctor.id)}
                 onPress={() => router.push(`/doctors/${doctor.id}`)}
                 onWhatsApp={doctor.whatsapp ? () => Linking.openURL(`https://wa.me/${doctor.whatsapp!.replace(/[^0-9]/g, "")}`) : undefined}

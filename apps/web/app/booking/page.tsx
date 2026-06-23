@@ -37,9 +37,6 @@ function BookingDoctorCard({ doctor }: { doctor: SharedDoctor }) {
             {doctor.verified ? (
               <span className="rounded-full bg-slate-950 border border-slate-800 px-3 py-1.5 text-amber-400">موثق</span>
             ) : null}
-            {doctor.is_featured ? (
-              <span className="rounded-full bg-amber-50 border border-amber-200 px-3 py-1.5 text-amber-700">مميز</span>
-            ) : null}
             {doctor.accepts_insurance ? (
               <span className="rounded-full bg-sky-50 border border-sky-200/50 px-3 py-1.5 text-sky-700">يقبل التأمين</span>
             ) : null}

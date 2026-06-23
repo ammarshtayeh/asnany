@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Users, Plus, CheckCircle, XCircle, Search, Sparkles, MapPin, Phone, Edit3, Trash2, Star } from "lucide-react";
+import { Users, Plus, CheckCircle, XCircle, Search, MapPin, Phone, Edit3, Trash2 } from "lucide-react";
 import { Doctor } from "@/lib/types";
 import AdminImageUpload from "@/components/AdminImageUpload";
 
@@ -64,21 +64,6 @@ export default function AdminDoctors() {
       });
       if (res.ok) {
         setDoctors(doctors.map(d => d.id === id ? { ...d, verified: !currentStatus } : d));
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const handleToggleFeatured = async (id: string, currentStatus: boolean) => {
-    try {
-      const res = await fetch("/api/admin/doctors/toggle-featured", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id, is_featured: !currentStatus }),
-      });
-      if (res.ok) {
-        setDoctors(doctors.map(d => d.id === id ? { ...d, is_featured: !currentStatus } : d));
       }
     } catch (err) {
       console.error(err);
@@ -277,14 +262,12 @@ export default function AdminDoctors() {
                   <th className="px-6 py-4">المدينة والمنطقة</th>
                   <th className="px-6 py-4">القسم الرئيسي</th>
                   <th className="px-6 py-4">التخصص الفرعي</th>
-                  <th className="px-6 py-4">التمييز (VIP)</th>
                   <th className="px-6 py-4">التوثيق بالمنصة</th>
                   <th className="px-6 py-4 text-left pl-10">إجراءات إدارية</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
                 {filteredDoctors.map((doc) => {
-                  const isFeatured = !!doc.is_featured;
                   return (
                     <tr key={doc.id} className="hover:bg-slate-50/50 transition-colors">
                       <td className="px-6 py-4 font-bold text-slate-900 flex items-center gap-3">
@@ -321,15 +304,6 @@ export default function AdminDoctors() {
                         <span className="bg-slate-100 text-slate-700 px-3 py-1 rounded-full text-xs font-bold">
                           {doc.specialty?.[0] || "طب أسنان عام"}
                         </span>
-                      </td>
-                      <td className="px-6 py-4">
-                        <button
-                          onClick={() => handleToggleFeatured(doc.id, isFeatured)}
-                          className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${isFeatured ? 'bg-amber-50 text-amber-600 border border-amber-200' : 'bg-slate-50 text-slate-400 border border-slate-200'}`}
-                        >
-                          <Star className={`w-3.5 h-3.5 ${isFeatured ? 'fill-current text-amber-500' : ''}`} />
-                          {isFeatured ? "طبيب VIP" : "عادي"}
-                        </button>
                       </td>
                       <td className="px-6 py-4">
                         <button

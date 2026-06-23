@@ -169,9 +169,7 @@ function SearchPageContent() {
             <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
               {doctors.map((doctor: Doctor) => (
                 <article
-                  className={`bento-card shine-border overflow-hidden p-5 transition duration-300 hover:-translate-y-1 flex flex-col justify-between ${
-                    doctor.isFeatured || doctor.is_featured ? "ring-2 ring-amber-200" : ""
-                  }`}
+                  className="bento-card shine-border overflow-hidden p-5 transition duration-300 hover:-translate-y-1 flex flex-col justify-between"
                   key={doctor.id}
                 >
                   <div>
@@ -182,11 +180,6 @@ function SearchPageContent() {
                         className="object-cover w-full h-full"
                         loading="lazy"
                       />
-                      {(doctor.isFeatured || doctor.is_featured) && (
-                        <div className="absolute top-3 right-3 bg-gradient-to-r from-yellow-400 to-amber-500 text-white text-[10px] font-black px-3 py-1.5 rounded-xl shadow-md border border-white/20">
-                          ⭐️ مقترح ملامح
-                        </div>
-                      )}
                     </div>
 
                     <div className="mb-4">
