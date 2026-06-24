@@ -14,6 +14,7 @@ const tests = [
   { name: "appointments-page", url: `${base}/appointments`, expect: [200] },
   { name: "doctors-search", url: `${base}/doctors/search`, expect: [200] },
   { name: "manifest", url: `${base}/manifest.json`, expect: [200] },
+  { name: "ads-txt", url: `${base}/ads.txt`, expect: [200] },
   { name: "sw", url: `${base}/sw.js`, expect: [200] },
 ];
 
