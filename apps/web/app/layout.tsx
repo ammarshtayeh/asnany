@@ -57,6 +57,7 @@ import ConnectivityBanner from "@/components/ConnectivityBanner";
 import CookieBanner from "@/components/CookieBanner";
 import SiteBodyWrapper from "@/components/SiteBodyWrapper";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
+import GoogleAdSense from "@/components/GoogleAdSense";
 
 export default function RootLayout({
   children,
@@ -67,6 +68,7 @@ export default function RootLayout({
     <html lang="ar" dir="rtl">
       <body className={`${cairoFont.variable} font-sans aurora-bg bg-grid-pattern text-slate-900 min-h-screen flex flex-col pb-28 lg:pb-0`}>
         <GoogleAnalytics />
+        <GoogleAdSense />
         <Navbar />
         <NewsTicker />
         <ConnectivityBanner />
