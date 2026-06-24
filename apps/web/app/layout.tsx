@@ -39,6 +39,9 @@ export const metadata: Metadata = {
     description: "ابحث عن أطباء موثقين، احجز موعدك، وتابع العروض الطبية في فلسطين.",
     images: ["/brand/og-share.png"],
   },
+  other: {
+    "google-adsense-account": "ca-pub-9795267028504854",
+  },
 };
 
 export const viewport: Viewport = {
