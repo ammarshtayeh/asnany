@@ -270,7 +270,7 @@ export default function Navbar() {
                   isActive ? "nav-active-mobile shadow-sm" : "text-slate-500 active:bg-slate-100/80"
                 }`}
               >
-                <Icon className={`h-5 w-5 ${isActive ? "text-primary" : link.href === "/subscriptions" ? "text-violet-600" : "text-slate-500"}`} />
+                <Icon className={`h-5 w-5 ${isActive ? "text-primary" : "text-slate-500"}`} />
                 {link.label}
               </Link>
             );
