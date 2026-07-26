@@ -96,7 +96,7 @@ function getBotResponse(text: string): Omit<Message, "sender"> {
     return { text: "حجز موعدك سهل وسريع! 📅\n\n1️⃣ ابحث عن الطبيب حسب التخصص والمدينة\n2️⃣ افتح ملف الطبيب واطلع على المواعيد\n3️⃣ تواصل عبر الهاتف أو الواتساب\n4️⃣ أو استخدم نموذج الحجز الإلكتروني\n\nجميع الأطباء موثقون ومعتمدون.", ctaLink: "/booking", ctaLabel: "نظام الحجز الإلكتروني", ctaIcon: "booking" };
 
   if (/مرحبا|سلام|هلا|هلو|مساء|صباح/.test(t))
-    return { text: "أهلاً وسهلاً! أنا الحكيم اللبيب 🧠🩺\n\nمساعدك الطبي الذكي في منصة ملامح.ps\n\nيمكنني مساعدتك في:\n🦷 أسنان • 👁️ عيون • 🧴 جلدية\n✨ تجميل • 👂 أنف وأذن • 🔬 مختبرات\n🏷️ عروض • 📅 حجز موعد\n\nما الذي تحتاجه اليوم؟" };
+    return { text: "أهلاً وسهلاً! أنا مساعدة ملامح\n\nمساعدك في منصة ملامح.ps\n\nيمكنني مساعدتك في:\n🦷 أسنان • 👁️ عيون • 🧴 جلدية\n✨ تجميل • 👂 أنف وأذن • 🔬 مختبرات\n🏷️ عروض • 📅 حجز موعد\n\nما الذي تحتاجه اليوم؟" };
 
   return {
     text: "شكراً لاستفسارك! 🩺\n\nيمكنني مساعدتك في:\n🦷 أسنان • 👁️ عيون • 🧴 جلدية\n✨ تجميل • 👂 أنف وأذن • 🔬 مختبرات\n🏷️ عروض • 📅 حجز موعد\n\nاختر من الأزرار السريعة أو اكتب سؤالك.",
@@ -218,7 +218,7 @@ export default function AIChatbot() {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<Message[]>([{
     sender: "bot",
-    text: "أهلاً! أنا الحكيم اللبيب 🧠🩺\n\nمساعدك الطبي الذكي في منصة ملامح.ps\n\nيمكنني مساعدتك في:\n🦷 أسنان • 👁️ عيون • 🧴 جلدية\n✨ تجميل • 👂 أنف وأذن • 🔬 مختبرات\n🏷️ عروض • 📅 حجز موعد\n\nما الذي تحتاجه اليوم؟",
+    text: "أهلاً! أنا مساعدة ملامح\n\nمساعدك في منصة ملامح.ps\n\nيمكنني مساعدتك في:\n🦷 أسنان • 👁️ عيون • 🧴 جلدية\n✨ تجميل • 👂 أنف وأذن • 🔬 مختبرات\n🏷️ عروض • 📅 حجز موعد\n\nما الذي تحتاجه اليوم؟",
   }]);
   const [isTyping, setIsTyping] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
@@ -325,23 +325,14 @@ export default function AIChatbot() {
         {!isOpen && (
           <button
             onClick={() => setIsOpen(true)}
-            aria-label="افتح الحكيم اللبيب"
+            aria-label="افتح مساعدة ملامح"
             className="group relative flex h-[56px] w-[56px] items-center justify-center rounded-2xl bg-slate-950 text-white shadow-[0_8px_32px_rgba(15,23,42,0.4)] border border-white/10 transition-all duration-300 hover:scale-110 hover:shadow-[0_12px_40px_rgba(15,23,42,0.5)] hover:border-amber-500/30"
           >
-            {/* Ping badge */}
-            <span className="absolute -top-1.5 -right-1.5 flex h-[22px] w-[22px] items-center justify-center">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-50" />
-              <span className="relative flex h-[22px] w-[22px] items-center justify-center rounded-full bg-amber-400 shadow-md">
-                <span className="text-[9px] font-black text-slate-950 leading-none select-none">AI</span>
-              </span>
-            </span>
-
-            {/* Bot icon */}
             <Bot className="h-6 w-6 text-amber-400 transition-transform group-hover:rotate-6" />
 
             {/* Tooltip */}
             <span className="pointer-events-none absolute left-[calc(100%+12px)] top-1/2 -translate-y-1/2 whitespace-nowrap rounded-xl bg-slate-950 border border-white/10 px-3.5 py-2 text-xs font-black text-white opacity-0 shadow-2xl transition-all duration-300 group-hover:opacity-100 group-hover:-translate-y-1/2 group-hover:translate-x-0 translate-x-2">
-              الحكيم اللبيب 🧠
+              مساعدة ملامح
               <span className="absolute right-full top-1/2 -translate-y-1/2 border-4 border-transparent border-r-slate-950" />
             </span>
           </button>
@@ -368,14 +359,11 @@ export default function AIChatbot() {
                 </div>
 
                 <div className="text-right">
-                  <h4 className="flex items-center gap-2 font-black text-white text-sm leading-tight">
-                    الحكيم اللبيب
-                    <span className="rounded-full bg-emerald-500/20 border border-emerald-400/30 px-2 py-0.5 text-[10px] font-black text-emerald-400 tracking-wide">
-                      مجاني
-                    </span>
+                  <h4 className="font-black text-white text-sm leading-tight">
+                    مساعدة ملامح
                   </h4>
                   <p className="mt-0.5 text-[11px] text-slate-400 font-semibold">
-                    مستشارك الطبي الذكي • ملامح.ps
+                    دليل التخصصات والحجز • ملامح.ps
                   </p>
                 </div>
               </div>
@@ -438,7 +426,7 @@ export default function AIChatbot() {
                       <div className="flex h-[18px] w-[18px] items-center justify-center rounded-md bg-slate-950">
                         <Bot className="h-2.5 w-2.5 text-amber-400" />
                       </div>
-                      <span className="text-[10px] font-black text-slate-500">الحكيم اللبيب</span>
+                      <span className="text-[10px] font-black text-slate-500">مساعدة ملامح</span>
                     </div>
                   )}
 

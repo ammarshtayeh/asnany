@@ -408,12 +408,12 @@ export function AssistantPromoCard({ onPress }: { onPress: () => void }) {
       <View style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(16,185,129,0.08)" }} />
       <View style={{ flexDirection: "row-reverse", alignItems: "center", gap: 14 }}>
         <View style={{ width: 52, height: 52, borderRadius: 16, backgroundColor: "rgba(212,175,55,0.15)", borderWidth: 1, borderColor: "rgba(212,175,55,0.25)", alignItems: "center", justifyContent: "center" }}>
-          <Feather name="cpu" size={24} color={theme.gold} />
+          <Feather name="message-circle" size={24} color={theme.gold} />
         </View>
         <View style={{ flex: 1 }}>
-          <Text style={{ fontSize: 15, fontWeight: "900", color: theme.white, textAlign: "right" }}>الحكيم اللبيب</Text>
+          <Text style={{ fontSize: 15, fontWeight: "900", color: theme.white, textAlign: "right" }}>مساعدة ملامح</Text>
           <Text style={{ fontSize: 11, fontWeight: "600", color: "#94a3b8", textAlign: "right", marginTop: 3 }}>
-            مستشارك الطبي الذكي — اسأل عن أي تخصص
+            اسأل عن التخصصات، العروض، أو الحجز
           </Text>
         </View>
         <Feather name="chevron-left" size={20} color={theme.gold} />

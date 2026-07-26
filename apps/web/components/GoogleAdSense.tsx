@@ -14,7 +14,13 @@ function hasAdConsent() {
 }
 
 function isAdFreePath(pathname: string) {
-  return pathname.startsWith("/admin") || pathname.startsWith("/doctor");
+  return (
+    pathname.startsWith("/admin") ||
+    pathname.startsWith("/doctor") ||
+    pathname.startsWith("/booking") ||
+    pathname.startsWith("/appointments") ||
+    pathname.startsWith("/doctors/register")
+  );
 }
 
 export default function GoogleAdSense() {

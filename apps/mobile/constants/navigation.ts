@@ -29,6 +29,14 @@ export type HubSection = {
 /** Quick actions — patient journey first */
 export const QUICK_ACTIONS: HubItem[] = [
   {
+    id: "doctors",
+    label: "ابحث عن طبيب",
+    path: "/(tabs)/doctors",
+    icon: "search",
+    color: theme.teal,
+    bg: theme.tealMuted,
+  },
+  {
     id: "booking",
     label: "احجز الآن",
     path: "/(tabs)/booking",
@@ -41,16 +49,8 @@ export const QUICK_ACTIONS: HubItem[] = [
     label: "حجوزاتي",
     path: "/appointments",
     icon: "clipboard",
-    color: theme.teal,
-    bg: theme.tealMuted,
-  },
-  {
-    id: "packages",
-    label: "باقات الاشتراك",
-    path: "/subscriptions",
-    icon: "layers",
-    color: theme.purple,
-    bg: theme.purpleMuted,
+    color: theme.navy,
+    bg: theme.borderLight,
   },
   {
     id: "discount",
@@ -80,7 +80,7 @@ export const HUB_SECTIONS: HubSection[] = [
     subtitle: "مجلة، سوق، وموردون",
     items: [
       { id: "market", label: "سوق ملامح", desc: "معدات، وظائف، إعلانات", path: "/(tabs)/marketplace", icon: "grid", color: "#10b981", bg: "#ecfdf5" },
-      { id: "blog", label: "المجلة الطبية", desc: "مقالات ونصائح", path: "/blog", icon: "book-open", color: "#8b5cf6", bg: "#f5f3ff" },
+      { id: "blog", label: "المجلة الطبية", desc: "مقالات ونصائح", path: "/blog", icon: "book-open", color: theme.teal, bg: theme.tealMuted },
       { id: "stores", label: "الموردون", desc: "منتجات ومعدات طبية", path: "/stores", icon: "shopping-bag", color: "#059669", bg: "#ecfdf5" },
       { id: "consult", label: "استشارات", desc: "استشارات كتابية", path: "/consultations", icon: "message-circle", color: "#0ea5e9", bg: "#f0f9ff" },
     ],
@@ -90,10 +90,10 @@ export const HUB_SECTIONS: HubSection[] = [
     title: "للأطباء والشركاء",
     subtitle: "انضم، اشترك، وأعلن",
     items: [
-      { id: "packages", label: "باقات الاشتراك", desc: "الدليل · المميز · الإعلانات", path: "/subscriptions", icon: "layers", color: "#7c3aed", bg: "#f5f3ff" },
-      { id: "join", label: "انضم كطبيب", desc: "أضف عيادتك للشبكة", path: "/join", icon: "user-plus", color: "#0ea5e9", bg: "#f0f9ff" },
+      { id: "packages", label: "باقات الاشتراك", desc: "الدليل · المميز · الإعلانات", path: "/subscriptions", icon: "layers", color: theme.teal, bg: theme.tealMuted },
+      { id: "join", label: "انضم كطبيب", desc: "أضف عيادتك للشبكة", path: "/join", icon: "user-plus", color: theme.sky, bg: theme.skyMuted },
       { id: "register", label: "تسجيل عيادة", desc: "استمارة إلكترونية", path: "/doctors/register", icon: "file-text", color: "#0d9488", bg: "#ecfdf5" },
-      { id: "advertise", label: "أعلن معنا", desc: "حملات وإعلانات مميزة", path: "/advertise", icon: "volume-2", color: "#f59e0b", bg: "#fffbeb" },
+      { id: "advertise", label: "أعلن معنا", desc: "حملات وإعلانات مميزة", path: "/advertise", icon: "volume-2", color: theme.gold, bg: theme.goldMuted },
     ],
   },
   {

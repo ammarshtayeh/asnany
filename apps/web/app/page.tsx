@@ -45,7 +45,7 @@ const DoctorMap = dynamic(() => import("@/components/DoctorMap"), {
   ),
 });
 
-const HERO_IMAGE_URL = "https://images.unsplash.com/photo-1629909613654-28e377c37b94?q=80&w=1920&auto=format&fit=crop";
+const HERO_IMAGE_URL = "https://images.unsplash.com/photo-1629909613654-28e377c37b94?q=70&w=1600&auto=format&fit=crop";
 
 const QUICK_CATEGORIES = [
   { id: "dental", label: "أسنان", icon: Stethoscope, color: "text-emerald-600", bg: "bg-emerald-50" },
@@ -242,6 +242,7 @@ export default function Home() {
             fill
             priority
             sizes="100vw"
+            quality={70}
             className="object-cover object-[center_30%]"
           />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_20%,rgba(16,185,129,0.18),transparent_45%),linear-gradient(180deg,rgba(6,12,24,0.55)_0%,rgba(6,12,24,0.72)_45%,rgba(6,12,24,0.96)_100%)]" />
@@ -306,7 +307,7 @@ export default function Home() {
             >
               <div className="mb-4 flex items-end justify-between gap-3">
                 <div>
-                  <p className="text-[11px] font-black uppercase tracking-[0.18em] text-[#e8c86a]/90">بحث ذكي</p>
+                  <p className="text-[11px] font-black uppercase tracking-[0.18em] text-[#e8c86a]/90">بحث سريع</p>
                   <h2 className="mt-1 text-xl font-black text-white sm:text-2xl">من تبحث عنه اليوم؟</h2>
                 </div>
                 {(publicStats.verifiedProviders > 0) && (
@@ -419,6 +420,25 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <div className="section-shell relative z-20 -mt-5 mb-6" dir="rtl">
+        <div className="grid gap-3 rounded-[1.35rem] border border-slate-200/70 bg-white/95 p-3 shadow-[0_16px_40px_-24px_rgba(10,22,40,0.2)] backdrop-blur-md sm:grid-cols-3 sm:gap-0 sm:divide-x sm:divide-x-reverse sm:divide-slate-100 sm:p-1">
+          {[
+            { label: "أطباء موثّقون", desc: "تحقق قبل الظهور في الدليل", href: "/trust" },
+            { label: "حجز أوضح", desc: "من البحث إلى الموعد بخطوات قليلة", href: "/booking" },
+            { label: "تغطية المدن", desc: "ابحث حسب محافظتك وتخصصك", href: "/doctors/search" },
+          ].map((item) => (
+            <Link
+              key={item.label}
+              href={item.href}
+              className="rounded-2xl px-4 py-3 text-right transition hover:bg-slate-50"
+            >
+              <p className="text-sm font-black text-slate-900">{item.label}</p>
+              <p className="mt-0.5 text-xs font-semibold text-slate-500">{item.desc}</p>
+            </Link>
+          ))}
+        </div>
+      </div>
 
 
       <main className="mx-auto w-full max-w-[1400px] px-4 py-8 lg:px-8">
@@ -618,7 +638,7 @@ function DoctorResult({ doctor }: { doctor: Doctor }) {
 
           {/* Action Buttons arranged horizontally */}
           <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-            <Link href={`/doctors/${doctor.id}`} className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3 text-sm font-black text-white transition-all hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/15">
+            <Link href={`/doctors/${doctor.id}#booking`} className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3 text-sm font-black text-white transition-all hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/15">
               احجز
               <ArrowLeft className="h-4 w-4" />
             </Link>

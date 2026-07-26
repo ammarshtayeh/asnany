@@ -1,6 +1,7 @@
 "use client";
 
 import { Sparkles, ShieldCheck, Heart, Award, Users } from "lucide-react";
+import Link from "next/link";
 import PageShell, { ContentPanel, FeatureTile } from "@/components/ui/PageShell";
 
 export default function AboutUs() {
@@ -25,9 +26,9 @@ export default function AboutUs() {
             جميع بيانات العيادات والأطباء يتم التحقق منها قبل التفعيل.
           </FeatureTile>
           <FeatureTile icon={Heart} title="سهولة للمريض" tone="emerald">
-            خرائط ذكية وتوجيه جغرافي للوصول الفوري للعيادة.
+            خرائط واضحة وتوجيه جغرافي للوصول الفوري للعيادة.
           </FeatureTile>
-          <FeatureTile icon={Award} title="إعلام ذكي" tone="indigo">
+          <FeatureTile icon={Award} title="محتوى موثوق" tone="indigo">
             مجلة طبية، عروض، وحجوزات موثوقة لرفع الوعي الصحي.
           </FeatureTile>
         </div>
@@ -40,6 +41,9 @@ export default function AboutUs() {
           <p className="text-sm font-medium leading-relaxed text-slate-500">
             تضم منصة ملامح أطباء من شتى التخصصات في كافة المحافظات الفلسطينية — رام الله، نابلس، الخليل، جنين، بيت لحم، غزة، وغيرها.
           </p>
+          <Link href="/trust" className="btn-malama inline-flex px-5 py-3 text-sm">
+            كيف نختار الأطباء؟
+          </Link>
         </div>
       </ContentPanel>
     </PageShell>

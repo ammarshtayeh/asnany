@@ -32,8 +32,8 @@ export default function AboutScreen() {
       </StackCard>
 
       <Pillar icon="shield" title="دقة وموثوقية" body="جميع بيانات العيادات والأطباء يتم التحقق منها قبل التفعيل." color={theme.teal} bg={theme.tealMuted} />
-      <Pillar icon="heart" title="سهولة للمريض" body="خرائط ذكية وتوجيه جغرافي للوصول الفوري للعيادة." color={theme.tealLight} bg={theme.tealMuted} />
-      <Pillar icon="award" title="إعلام ذكي" body="مجلة طبية، عروض، وحجوزات موثوقة لرفع الوعي الصحي." color={theme.goldLight} bg={theme.goldMuted} />
+      <Pillar icon="heart" title="سهولة للمريض" body="خرائط واضحة وتوجيه جغرافي للوصول الفوري للعيادة." color={theme.tealLight} bg={theme.tealMuted} />
+      <Pillar icon="award" title="محتوى موثوق" body="مجلة طبية، عروض، وحجوزات موثوقة لرفع الوعي الصحي." color={theme.goldLight} bg={theme.goldMuted} />
 
       <StackCard>
         <View style={{ flexDirection: "row-reverse", alignItems: "center", gap: 8, marginBottom: 8 }}>

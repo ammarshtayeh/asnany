@@ -9,7 +9,7 @@ export default async function AdminDashboard() {
     getAdminRecentStores(5),
   ]);
 
-  const { totalDoctors, activeAds, activeStores, totalAppointments, totalServices } = stats;
+  const { totalDoctors, verifiedDoctors, pendingDoctors, activeAds, activeStores, totalAppointments, pendingAppointments, totalServices } = stats;
 
   return (
     <div className="p-4 md:p-8 font-sans bg-slate-50 min-h-screen text-right" dir="rtl">
@@ -86,44 +86,64 @@ export default async function AdminDashboard() {
         </Link>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-        <div className="bento-card p-6 shadow-sm border border-slate-200/80 flex items-center gap-5 transition hover:shadow-md">
-          <div className="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center flex-shrink-0">
-            <Users className="w-7 h-7" />
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 mb-10">
+        <div className="bento-card p-5 shadow-sm border border-slate-200/80 flex items-center gap-4 transition hover:shadow-md">
+          <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center flex-shrink-0">
+            <Users className="w-6 h-6" />
           </div>
           <div>
-            <p className="text-slate-500 font-bold text-xs md:text-sm">إجمالي الأطباء</p>
-            <h3 className="text-2xl md:text-3xl font-black text-slate-900 mt-1">{totalDoctors}</h3>
+            <p className="text-slate-500 font-bold text-xs">إجمالي الأطباء</p>
+            <h3 className="text-2xl font-black text-slate-900 mt-0.5">{totalDoctors}</h3>
           </div>
         </div>
 
-        <div className="bento-card p-6 shadow-sm border border-slate-200/80 flex items-center gap-5 transition hover:shadow-md">
-          <div className="w-14 h-14 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center flex-shrink-0">
-            <Store className="w-7 h-7" />
+        <div className="bento-card p-5 shadow-sm border border-slate-200/80 flex items-center gap-4 transition hover:shadow-md">
+          <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0">
+            <BadgeCheck className="w-6 h-6" />
           </div>
           <div>
-            <p className="text-slate-500 font-bold text-xs md:text-sm">المتاجر الطبية</p>
-            <h3 className="text-2xl md:text-3xl font-black text-slate-900 mt-1">{activeStores}</h3>
+            <p className="text-slate-500 font-bold text-xs">موثّقون</p>
+            <h3 className="text-2xl font-black text-slate-900 mt-0.5">{verifiedDoctors}</h3>
           </div>
         </div>
 
-        <div className="bento-card p-6 shadow-sm border border-slate-200/80 flex items-center gap-5 transition hover:shadow-md">
-          <div className="w-14 h-14 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center flex-shrink-0">
-            <Megaphone className="w-7 h-7" />
+        <div className="bento-card p-5 shadow-sm border border-slate-200/80 flex items-center gap-4 transition hover:shadow-md">
+          <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center flex-shrink-0">
+            <ShieldAlert className="w-6 h-6" />
           </div>
           <div>
-            <p className="text-slate-500 font-bold text-xs md:text-sm">إعلانات نشطة</p>
-            <h3 className="text-2xl md:text-3xl font-black text-slate-900 mt-1">{activeAds}</h3>
+            <p className="text-slate-500 font-bold text-xs">بانتظار التوثيق</p>
+            <h3 className="text-2xl font-black text-slate-900 mt-0.5">{pendingDoctors}</h3>
           </div>
         </div>
 
-        <div className="bento-card p-6 shadow-sm border border-slate-200/80 flex items-center gap-5 transition hover:shadow-md">
-          <div className="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0">
-            <CheckCircle2 className="w-7 h-7" />
+        <div className="bento-card p-5 shadow-sm border border-slate-200/80 flex items-center gap-4 transition hover:shadow-md">
+          <div className="w-12 h-12 rounded-2xl bg-teal-50 text-teal-600 flex items-center justify-center flex-shrink-0">
+            <CheckCircle2 className="w-6 h-6" />
           </div>
           <div>
-            <p className="text-slate-500 font-bold text-xs md:text-sm">الحجوزات السابقة</p>
-            <h3 className="text-2xl md:text-3xl font-black text-slate-900 mt-1">{totalAppointments}</h3>
+            <p className="text-slate-500 font-bold text-xs">إجمالي الحجوزات</p>
+            <h3 className="text-2xl font-black text-slate-900 mt-0.5">{totalAppointments}</h3>
+          </div>
+        </div>
+
+        <div className="bento-card p-5 shadow-sm border border-slate-200/80 flex items-center gap-4 transition hover:shadow-md">
+          <div className="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center flex-shrink-0">
+            <Sparkles className="w-6 h-6" />
+          </div>
+          <div>
+            <p className="text-slate-500 font-bold text-xs">حجوزات معلّقة</p>
+            <h3 className="text-2xl font-black text-slate-900 mt-0.5">{pendingAppointments}</h3>
+          </div>
+        </div>
+
+        <div className="bento-card p-5 shadow-sm border border-slate-200/80 flex items-center gap-4 transition hover:shadow-md">
+          <div className="w-12 h-12 rounded-2xl bg-sky-50 text-sky-600 flex items-center justify-center flex-shrink-0">
+            <Store className="w-6 h-6" />
+          </div>
+          <div>
+            <p className="text-slate-500 font-bold text-xs">متاجر + إعلانات</p>
+            <h3 className="text-2xl font-black text-slate-900 mt-0.5">{activeStores + activeAds}</h3>
           </div>
         </div>
       </div>

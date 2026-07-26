@@ -44,18 +44,18 @@ function BookingDoctorCard({ doctor }: { doctor: SharedDoctor }) {
 
           <div className="flex flex-wrap gap-3 pt-2">
             <Link
-              href={`/doctors/${doctor.id}`}
-              className="inline-flex items-center gap-2 rounded-2xl bg-slate-950 hover:bg-slate-900 px-5 py-3.5 text-xs sm:text-sm font-black text-white transition hover:scale-[1.02]"
-            >
-              <UserRound className="h-4 w-4" />
-              فتح ملف الطبيب
-            </Link>
-            <Link
               href={`/doctors/${doctor.id}#booking`}
-              className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-amber-400 to-amber-500 px-5 py-3.5 text-xs sm:text-sm font-black text-slate-950 transition hover:from-amber-300 hover:to-amber-400 hover:scale-[1.02]"
+              className="btn-malama px-5 py-3.5 text-xs sm:text-sm"
             >
               <CalendarCheck2 className="h-4 w-4" />
               الذهاب لنموذج الحجز
+            </Link>
+            <Link
+              href={`/doctors/${doctor.id}`}
+              className="btn-malama-outline px-5 py-3.5 text-xs sm:text-sm"
+            >
+              <UserRound className="h-4 w-4" />
+              فتح ملف الطبيب
             </Link>
           </div>
 
@@ -122,7 +122,7 @@ export default async function BookingPage({
   return (
     <ServiceLandingPage
       badge="الحجز الإلكتروني"
-      title="نظام حجز ذكي للمرضى والأطباء"
+      title="نظام حجز واضح للمرضى والأطباء"
       description="ابدأ رحلتك من هنا: اختر الطبيب أو الخدمة المناسبة، وواصل مباشرة مع الملف المختار أو مع قائمة الحجز المتاحة حسب التخصص والمدينة."
       features={[
         "اختيار الطبيب أو الخدمة أو المدينة مع مسار واضح للحجز.",

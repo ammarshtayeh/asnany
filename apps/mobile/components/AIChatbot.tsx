@@ -179,7 +179,7 @@ function getBotResponse(text: string): Omit<Message, "sender"> {
 
   if (/مرحبا|سلام|هلا|هلو|مساء|صباح/.test(t))
     return {
-      text: "أهلاً وسهلاً! أنا الحكيم اللبيب 🧠🩺\n\nمساعدك الطبي الذكي في منصة ملامح.ps\n\nيمكنني مساعدتك في:\n🦷 أسنان • 👁️ عيون • 🧴 جلدية\n✨ تجميل • 👂 أنف وأذن • 🔬 مختبرات\n🏷️ عروض • 📅 حجز موعد\n\nما الذي تحتاجه اليوم؟",
+      text: "أهلاً وسهلاً! أنا مساعدة ملامح.\n\nمساعدك في منصة ملامح.ps\n\nيمكنني مساعدتك في:\n🦷 أسنان • 👁️ عيون • 🧴 جلدية\n✨ تجميل • 👂 أنف وأذن • 🔬 مختبرات\n🏷️ عروض • 📅 حجز موعد\n\nما الذي تحتاجه اليوم؟",
     };
 
   return {
@@ -312,7 +312,7 @@ export function AIChatbot({ onNavigateTab }: AIChatbotProps) {
   const [messages, setMessages] = useState<Message[]>([
     {
       sender: "bot",
-      text: "أهلاً! أنا الحكيم اللبيب 🧠🩺\n\nمساعدك الطبي الذكي في منصة ملامح.ps\n\nيمكنني مساعدتك في:\n🦷 أسنان • 👁️ عيون • 🧴 جلدية\n✨ تجميل • 👂 أنف وأذن • 🔬 مختبرات\n🏷️ عروض • 📅 حجز موعد\n\nما الذي تحتاجه اليوم؟",
+      text: "أهلاً! أنا مساعدة ملامح.\n\nمساعدك في منصة ملامح.ps\n\nيمكنني مساعدتك في:\n🦷 أسنان • 👁️ عيون • 🧴 جلدية\n✨ تجميل • 👂 أنف وأذن • 🔬 مختبرات\n🏷️ عروض • 📅 حجز موعد\n\nما الذي تحتاجه اليوم؟",
     },
   ]);
   const [isTyping, setIsTyping] = useState(false);
@@ -479,9 +479,6 @@ export function AIChatbot({ onNavigateTab }: AIChatbotProps) {
 
           <View style={styles.floatingBtnContent}>
             <Ionicons name="chatbubble-ellipses" size={24} color="#fbbf24" />
-            <View style={styles.badge}>
-              <Text style={styles.badgeText}>AI</Text>
-            </View>
           </View>
         </Pressable>
       )}
@@ -521,12 +518,9 @@ export function AIChatbot({ onNavigateTab }: AIChatbotProps) {
 
                   <View style={styles.headerTextContainer}>
                     <View style={{ flexDirection: "row-reverse", alignItems: "center", gap: 6 }}>
-                      <Text style={styles.headerTitle}>الحكيم اللبيب</Text>
-                      <View style={styles.freeBadge}>
-                        <Text style={styles.freeBadgeText}>مجاني</Text>
-                      </View>
+                      <Text style={styles.headerTitle}>مساعدة ملامح</Text>
                     </View>
-                    <Text style={styles.headerSubtitle}>مستشارك الطبي الذكي • ملامح.ps</Text>
+                    <Text style={styles.headerSubtitle}>دليل التخصصات والحجز • ملامح.ps</Text>
                   </View>
                 </View>
 
@@ -577,7 +571,7 @@ export function AIChatbot({ onNavigateTab }: AIChatbotProps) {
                           <View style={styles.msgBotIconBg}>
                             <Ionicons name="chatbubble-ellipses-outline" size={10} color="#fbbf24" />
                           </View>
-                          <Text style={styles.msgBotLabel}>الحكيم اللبيب</Text>
+                          <Text style={styles.msgBotLabel}>مساعدة ملامح</Text>
                         </View>
                       )}
 
@@ -680,7 +674,7 @@ export function AIChatbot({ onNavigateTab }: AIChatbotProps) {
                       <View style={styles.msgBotIconBg}>
                         <Ionicons name="chatbubble-ellipses-outline" size={10} color="#fbbf24" />
                       </View>
-                      <Text style={styles.msgBotLabel}>الحكيم اللبيب يكتب...</Text>
+                      <Text style={styles.msgBotLabel}>جاري الكتابة...</Text>
                     </View>
                     <View style={[styles.messageBubble, styles.messageBubbleBot, styles.typingBubble]}>
                       <ActivityIndicator size="small" color="#94a3b8" />

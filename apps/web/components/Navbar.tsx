@@ -108,14 +108,12 @@ export default function Navbar() {
                     key={link.href}
                     href={link.href}
                     className={`flex items-center gap-1.5 whitespace-nowrap rounded-xl px-3.5 py-2 text-sm font-black transition-all duration-300 ease-spring ${
-                      link.highlight && !isActive
-                        ? "bg-violet-50 text-violet-700 hover:bg-violet-100"
-                        : isActive
-                          ? `${link.active} shadow-sm`
-                          : "text-slate-600 hover:bg-white hover:text-slate-900 hover:shadow-sm"
+                      isActive
+                        ? `${link.active} shadow-sm`
+                        : "text-slate-600 hover:bg-white hover:text-slate-900 hover:shadow-sm"
                     }`}
                   >
-                    <Icon className={`h-3.5 w-3.5 ${isActive || link.highlight ? "" : link.color}`} />
+                    <Icon className={`h-3.5 w-3.5 ${isActive ? "" : link.color}`} />
                     {link.label}
                   </Link>
                 );
@@ -173,8 +171,12 @@ export default function Navbar() {
               <UserCircle2 className="h-4 w-4 text-slate-400" />
               دخول الطبيب
             </Link>
-            <Link href="/booking" className="btn-malama px-5 py-2.5 text-xs">
-              احجز الآن
+            <Link href="/join" className="hidden items-center rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-xs font-black text-slate-800 transition hover:border-primary/30 hover:text-primary lg:inline-flex">
+              انضم كطبيب
+            </Link>
+            <Link href="/doctors/search" className="btn-malama gap-1.5 px-5 py-2.5 text-xs">
+              <Search className="h-3.5 w-3.5" />
+              ابحث عن طبيب
             </Link>
           </div>
 

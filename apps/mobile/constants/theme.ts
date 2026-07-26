@@ -25,8 +25,8 @@ export const theme = {
   textMuted: "#64748b",
   textSoft: "#94a3b8",
   white: "#ffffff",
-  offerGradient: ["#7c3aed", "#db2777"] as const,
-  promoGradient: ["#2563eb", "#7c3aed"] as const,
+  offerGradient: ["#0c5e47", "#10b981"] as const,
+  promoGradient: ["#0a1628", "#0c5e47"] as const,
   radius: {
     sm: 14,
     md: 18,

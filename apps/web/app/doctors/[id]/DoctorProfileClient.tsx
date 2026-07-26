@@ -171,7 +171,7 @@ export default function DoctorProfileClient({ doctor, canBookOnWebsite }: { doct
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 relative -mt-32 pb-24 z-10">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 relative -mt-32 pb-32 lg:pb-24 z-10">
       <div className="flex flex-col lg:flex-row gap-8">
         
         {/* Main Info Column */}
@@ -473,22 +473,20 @@ export default function DoctorProfileClient({ doctor, canBookOnWebsite }: { doct
           <div className="bento-card shine-border p-6 sticky top-6">
             <h3 className="font-black text-slate-900 text-lg mb-6">تواصل وحجز مباشر</h3>
             
+            {canBookOnWebsite ? (
+              <a href="#booking" className="btn-malama mb-3 w-full py-4 text-sm">
+                <Calendar className="h-5 w-5" />
+                احجز موعد عبر الموقع
+              </a>
+            ) : null}
             {doctor.whatsapp ? (
-              <a href={`https://wa.me/${doctor.whatsapp.replace(/\+/g, "")}`} target="_blank" rel="noreferrer" className="w-full mb-4 bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white font-black py-4 rounded-2xl shadow-lg shadow-emerald-500/30 transition-all flex justify-center items-center gap-3 hover:scale-[1.02]">
-                <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.101.824z"/></svg>
-                تواصل للحجز المباشر
+              <a href={`https://wa.me/${doctor.whatsapp.replace(/\+/g, "")}`} target="_blank" rel="noreferrer" className="mb-4 flex w-full items-center justify-center gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 py-4 text-sm font-black text-emerald-700 transition hover:bg-emerald-100">
+                واتساب مباشر
               </a>
             ) : null}
             
             <div className="flex gap-3">
-              {doctor.whatsapp && (
-                <a href={`https://wa.me/${doctor.whatsapp.replace(/\+/g, "")}`} target="_blank" rel="noreferrer" className="flex-1 bg-[#25D366]/10 hover:bg-[#25D366] text-[#25D366] hover:text-white font-bold py-3.5 rounded-2xl transition-all flex justify-center items-center gap-2 border border-[#25D366]/20">
-                  <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.101.824z"/></svg>
-                  واتساب
-                </a>
-              )}
-              
-              <Link href={doctorMapHref} className="flex-1 bg-slate-100 hover:bg-slate-800 text-slate-700 hover:text-white font-bold py-3.5 rounded-2xl transition-all flex justify-center items-center gap-2 border border-slate-200">
+              <Link href={doctorMapHref} className="btn-malama-outline flex-1 py-3.5 text-sm">
                 <MapPin className="w-5 h-5" />
                 الخريطة
               </Link>
@@ -517,10 +515,10 @@ export default function DoctorProfileClient({ doctor, canBookOnWebsite }: { doct
         </div>
       </div>
 
-      <div className="section-shell mt-8 bento-card shine-border p-6 scroll-mt-24" id="booking">
+      <div className="section-shell mt-8 bento-card shine-border p-6 scroll-mt-28" id="booking">
         <div className="mb-6 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
           <div>
-            <span className="text-sm font-black text-amber-600">حجز موعد</span>
+            <span className="text-sm font-black text-primary">حجز موعد</span>
             <h2 className="mt-1 text-3xl font-black text-slate-950">أرسل طلب حجز للطبيب</h2>
             <p className="mt-2 text-sm font-bold text-slate-500">
               {canBookOnWebsite
@@ -528,7 +526,7 @@ export default function DoctorProfileClient({ doctor, canBookOnWebsite }: { doct
                 : "الحجز عبر الموقع غير مفعّل لهذا الطبيب حالياً. استخدم التواصل المباشر لحين تفعيل الحساب."}
             </p>
           </div>
-          <Calendar className="h-10 w-10 text-amber-500" />
+          <Calendar className="h-10 w-10 text-primary" />
         </div>
 
         {canBookOnWebsite ? (
@@ -545,14 +543,14 @@ export default function DoctorProfileClient({ doctor, canBookOnWebsite }: { doct
               <textarea
                 value={bookingNotes}
                 onChange={(event) => setBookingNotes(event.target.value)}
-                className="min-h-28 w-full rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm font-bold outline-none focus:border-amber-300"
+                className="min-h-28 w-full rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm font-bold outline-none focus:border-primary/40"
                 placeholder="مثال: ألم شديد، حشوة، مراجعة تقويم..."
               />
             </label>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="md:col-span-2 min-h-14 rounded-2xl bg-slate-950 px-6 text-sm font-black text-white hover:bg-amber-600 disabled:opacity-60"
+              className="md:col-span-2 min-h-14 rounded-2xl bg-primary px-6 text-sm font-black text-white shadow-[0_12px_28px_-10px_rgba(12,94,71,0.45)] hover:bg-primary/90 disabled:opacity-60"
             >
             {isSubmitting ? "جاري إرسال الحجز..." : "إرسال طلب الحجز"}
           </button>
@@ -562,6 +560,29 @@ export default function DoctorProfileClient({ doctor, canBookOnWebsite }: { doct
             الطبيب ظاهر في الدليل لأنه موثق، لكن الحجز عبر الموقع يحتاج حساب طبيب مفعّل. يمكنك التواصل عبر واتساب أو الهاتف حالياً.
           </div>
         )}
+      </div>
+
+      {/* Sticky booking CTA — mobile */}
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200/80 bg-white/95 p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-[0_-12px_40px_-16px_rgba(10,22,40,0.25)] backdrop-blur-xl lg:hidden">
+        <div className="mx-auto flex max-w-lg gap-2">
+          <a
+            href="#booking"
+            className="flex flex-1 items-center justify-center gap-2 rounded-2xl bg-primary py-3.5 text-sm font-black text-white"
+          >
+            <Calendar className="h-4 w-4" />
+            {canBookOnWebsite ? "احجز الآن" : "طلب موعد"}
+          </a>
+          {doctor.whatsapp ? (
+            <a
+              href={`https://wa.me/${String(doctor.whatsapp).replace(/[^\d]/g, "")}`}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center justify-center rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3.5 text-sm font-black text-emerald-700"
+            >
+              واتساب
+            </a>
+          ) : null}
+        </div>
       </div>
 
       {showSuccessModal ? (
@@ -575,14 +596,14 @@ export default function DoctorProfileClient({ doctor, canBookOnWebsite }: { doct
             <div className="mt-5 grid gap-2 sm:grid-cols-2">
               <Link
                 href={`/appointments?phone=${encodeURIComponent(submittedPhone)}`}
-                className="min-h-12 rounded-2xl bg-slate-950 px-6 py-3 text-sm font-black text-white"
+                className="btn-malama min-h-12 px-6 py-3 text-sm"
               >
                 حجوزاتي
               </Link>
               <button
                 type="button"
                 onClick={() => setShowSuccessModal(false)}
-                className="min-h-12 rounded-2xl border border-slate-200 bg-white px-6 text-sm font-black text-slate-700"
+                className="btn-malama-outline min-h-12 px-6 text-sm"
               >
                 تمام
               </button>
@@ -600,26 +621,22 @@ export default function DoctorProfileClient({ doctor, canBookOnWebsite }: { doct
           <p className="text-slate-500 text-lg mb-8">تم تفعيل قنوات التواصل والاتصال المباشر لتسريع عملية الحجز وتأكيد المواعيد فورياً.</p>
 
           <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
+            {canBookOnWebsite ? (
+              <a href="#booking" className="btn-malama w-full sm:w-auto px-8 py-4 text-sm">
+                <Calendar className="w-5 h-5" />
+                نموذج الحجز داخل الموقع
+              </a>
+            ) : null}
             {doctor.whatsapp && (
               <a 
                 href={`https://wa.me/${doctor.whatsapp.replace(/\+/g, "")}`} 
                 target="_blank" 
                 rel="noreferrer" 
-                className="w-full sm:w-auto bg-[#25D366] hover:bg-[#20ba56] text-white px-8 py-4 rounded-2xl font-black transition-all flex items-center justify-center gap-3 shadow-lg shadow-[#25D366]/30 hover:scale-105"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 px-8 py-4 text-sm font-black text-emerald-700 transition hover:bg-emerald-100"
               >
-                <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.101.824z"/></svg>
-                محادثة واتساب الفورية
+                محادثة واتساب
               </a>
             )}
-            {canBookOnWebsite ? (
-              <a
-                href="#booking"
-                className="w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-white px-8 py-4 rounded-2xl font-black transition-all flex items-center justify-center gap-3 shadow-lg hover:scale-105"
-              >
-                <Calendar className="w-6 h-6" />
-                نموذج الحجز داخل الموقع
-              </a>
-            ) : null}
           </div>
         </div>
       </div>
@@ -628,7 +645,7 @@ export default function DoctorProfileClient({ doctor, canBookOnWebsite }: { doct
       <div className="mt-12 flex justify-center pb-12">
         <Link
           href="/"
-          className="inline-flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white px-8 py-4 rounded-2xl text-sm font-black shadow-xl transition-all hover:scale-[1.02]"
+          className="btn-malama-outline inline-flex px-8 py-4 text-sm"
         >
           <ArrowRight className="w-4 h-4" />
           العودة للرئيسية
