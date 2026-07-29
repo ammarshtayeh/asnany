@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ملامح — Pitch Deck | حديقة النجاح للابتكار</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@500;700;800;900&display=swap');
+    :root {
+      --navy: #0a1628;
+      --teal: #0c5e47;
+      --gold: #d4af37;
+      --gold-soft: #f5e6b8;
+      --muted: #64748b;
+      --line: #e2e8f0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: #eef2f7;
+      color: var(--navy);
+    }
+    .page {
+      width: 210mm;
+      min-height: 297mm;
+      margin: 16px auto;
+      background: white;
+      padding: 18mm 16mm;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 18px 50px rgba(10,22,40,0.12);
+      page-break-after: always;
+    }
+    .page:last-child { page-break-after: auto; }
+    .page::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 10px;
+      background: linear-gradient(180deg, var(--teal), var(--gold));
+    }
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 22px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--line);
+    }
+    .brand {
+      font-weight: 900;
+      font-size: 22px;
+      color: var(--navy);
+    }
+    .brand span { color: var(--gold); }
+    .chip {
+      background: #ecfdf5;
+      color: var(--teal);
+      border: 1px solid #a7f3d0;
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+    h1 {
+      font-size: 34px;
+      font-weight: 900;
+      line-height: 1.35;
+      margin-bottom: 12px;
+    }
+    h2 {
+      font-size: 24px;
+      font-weight: 900;
+      margin-bottom: 14px;
+      color: var(--navy);
+    }
+    h3 {
+      font-size: 15px;
+      font-weight: 900;
+      margin-bottom: 8px;
+      color: var(--teal);
+    }
+    p, li {
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.8;
+      color: #334155;
+    }
+    .lead {
+      font-size: 16px;
+      color: #475569;
+      max-width: 95%;
+      margin-bottom: 18px;
+    }
+    .gold { color: #b45309; }
+    .grid { display: grid; gap: 12px; }
+    .grid-2 { grid-template-columns: 1fr 1fr; }
+    .grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+    .card {
+      background: #f8fafc;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 14px 16px;
+    }
+    .card.dark {
+      background: linear-gradient(145deg, #0a1628, #0f2a24);
+      color: white;
+      border: none;
+    }
+    .card.dark h3 { color: var(--gold-soft); }
+    .card.dark p, .card.dark li { color: #e2e8f0; }
+    ul { list-style: none; display: grid; gap: 6px; }
+    li::before { content: "● "; color: var(--gold); font-size: 10px; }
+    .hero-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 18px;
+    }
+    .metric {
+      border-radius: 16px;
+      padding: 14px;
+      background: linear-gradient(160deg, #0a1628, #12352c);
+      color: white;
+    }
+    .metric strong {
+      display: block;
+      font-size: 18px;
+      color: var(--gold-soft);
+      margin-bottom: 4px;
+    }
+    .metric span { font-size: 12px; color: #cbd5e1; font-weight: 700; }
+    .ask {
+      background: linear-gradient(135deg, #ecfdf5, #fffbeb);
+      border: 1px solid #d1fae5;
+      border-radius: 18px;
+      padding: 16px;
+      margin-top: 8px;
+    }
+    .ask li { font-size: 15px; }
+    .footer {
+      position: absolute;
+      left: 16mm;
+      right: 16mm;
+      bottom: 12mm;
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 700;
+      border-top: 1px solid var(--line);
+      padding-top: 8px;
+    }
+    .cover {
+      background:
+        radial-gradient(ellipse at 90% 0%, rgba(212,175,55,0.18), transparent 40%),
+        linear-gradient(160deg, #06101c 0%, #0a1628 50%, #0c5e47 140%);
+      color: white;
+    }
+    .cover::before { background: linear-gradient(180deg, var(--gold), var(--teal)); }
+    .cover .brand, .cover h1, .cover p, .cover .footer { color: white; }
+    .cover .lead { color: #cbd5e1; }
+    .cover .chip {
+      background: rgba(232,200,106,0.12);
+      border-color: rgba(232,200,106,0.35);
+      color: var(--gold-soft);
+    }
+    .cover .footer { border-color: rgba(255,255,255,0.15); color: #94a3b8; }
+    .big-quote {
+      margin-top: 22px;
+      padding: 16px 18px;
+      border-right: 4px solid var(--gold);
+      background: rgba(255,255,255,0.06);
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 800;
+      line-height: 1.8;
+      color: #f8fafc;
+    }
+    @media print {
+      body { background: white; }
+      .page {
+        margin: 0;
+        box-shadow: none;
+        width: auto;
+        min-height: 100vh;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- COVER -->
+  <section class="page cover">
+    <div class="topbar">
+      <div class="brand">ملامح<span>.ps</span></div>
+      <div class="chip">Pitch Deck · حديقة النجاح للابتكار</div>
+    </div>
+    <h1>منصة فلسطينية تربط<br>المريض بالطبيب الموثوق<br><span style="color:#f5e6b8">في تخصصات صحة وجمال الوجه</span></h1>
+    <p class="lead">
+      ملامح دليل رقمي حيّ يسهّل البحث والحجز والتواصل مع عيادات الأسنان، العيون، الجلدية، التجميل، والأنف والأذن —
+      ويساعد العيادات على الظهور واستقبال مرضى جدد بطريقة احترافية.
+    </p>
+    <div class="hero-metrics">
+      <div class="metric"><strong>منتج منشور</strong><span>الموقع يعمل الآن</span></div>
+      <div class="metric"><strong>ويب + موبايل</strong><span>تجربة كاملة بالعربية</span></div>
+      <div class="metric"><strong>B2B + B2C</strong><span>نموذج إيراد واضح</span></div>
+    </div>
+    <div class="big-quote">
+      «مش فكرة على ورق — منصة شغّالة اليوم، ونحتاج شريك احتضان نحوّلها إلى نمو مستدام في فلسطين.»
+    </div>
+    <div class="footer">
+      <span>عمار اشتية · مؤسس ملامح</span>
+      <span>https://www.malamih.ps</span>
+    </div>
+  </section>
+
+  <!-- PROBLEM -->
+  <section class="page">
+    <div class="topbar">
+      <div class="brand">ملامح<span>.ps</span></div>
+      <div class="chip">01 · المشكلة</div>
+    </div>
+    <h2>البحث عن طبيب موثوق في فلسطين ما زال عشوائياً</h2>
+    <p class="lead">المريض يضيّع وقتاً بين توصيات فيسبوك وواتساب ومكالمات غير منظّمة — والطبيب يخسر فرص ظهور حقيقية.</p>
+    <div class="grid grid-2">
+      <div class="card">
+        <h3>ألم المريض</h3>
+        <ul>
+          <li>ما في دليل موحّد لتخصصات الوجه والأسنان</li>
+          <li>صعوبة معرفة المدينة، التقييم، والتوفر</li>
+          <li>الحجز غالباً عبر مكالمات وضياع وقت</li>
+          <li>ثقة منخفضة في التوصيات العشوائية</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>ألم العيادة</h3>
+        <ul>
+          <li>ضعف الحضور الرقمي المنظّم</li>
+          <li>صعوبة الوصول لمراجعين جدد باستمرار</li>
+          <li>اعتماد على إعلانات مكلفة وغير مستهدفة</li>
+          <li>لا قناة حجز رقمية بسيطة وواضحة</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card" style="margin-top:14px">
+      <h3>النتيجة</h3>
+      <p>سوق صحي كبير… لكن بدون بنية رقمية متخصصة تجمع الطرفين بكفاءة وثقة.</p>
+    </div>
+    <div class="footer"><span>ملامح · Pitch Deck</span><span>حديقة النجاح للابتكار</span></div>
+  </section>
+
+  <!-- SOLUTION -->
+  <section class="page">
+    <div class="topbar">
+      <div class="brand">ملامح<span>.ps</span></div>
+      <div class="chip">02 · الحل</div>
+    </div>
+    <h2>ملامح: دليل + حجز + تواصل في منصة واحدة</h2>
+    <p class="lead">نبني «محرك اكتشاف» موثوق لتخصصات صحة وجمال الوجه في فلسطين.</p>
+    <div class="grid grid-3">
+      <div class="card dark">
+        <h3>للمريض</h3>
+        <p>بحث حسب المدينة والتخصص، مقارنة الخيارات، حجز أو واتساب مباشرة.</p>
+      </div>
+      <div class="card dark">
+        <h3>للطبيب</h3>
+        <p>ملف احترافي موثّق، ظهور منظم، استقبال حجوزات، وباقات اشتراك.</p>
+      </div>
+      <div class="card dark">
+        <h3>للتخصصات</h3>
+        <p>أسنان · عيون · جلدية · تجميل · أنف وأذن · مختبرات.</p>
+      </div>
+    </div>
+    <div class="card" style="margin-top:14px">
+      <h3>ليش ملامح مختلفة؟</h3>
+      <ul>
+        <li>متخصصة بمجال الوجه والأسنان — مش دليل عام</li>
+        <li>توثيق إداري قبل الظهور العلني</li>
+        <li>تجربة عربية RTL كاملة ويب وموبايل</li>
+        <li>منتج حي قابل للعرض الآن على malamih.ps</li>
+      </ul>
+    </div>
+    <div class="footer"><span>ملامح · Pitch Deck</span><span>https://www.malamih.ps</span></div>
+  </section>
+
+  <!-- MARKET + PRODUCT -->
+  <section class="page">
+    <div class="topbar">
+      <div class="brand">ملامح<span>.ps</span></div>
+      <div class="chip">03 · السوق والمنتج</div>
+    </div>
+    <h2>فرصة واضحة… ومنتج جاهز للتنفيذ</h2>
+    <div class="grid grid-2">
+      <div class="card">
+        <h3>البدائل الحالية ضعيفة</h3>
+        <ul>
+          <li>فيسبوك/إنستغرام: غير منظم ولا حجز</li>
+          <li>خرائط جوجل: عام وغير طبي متخصص</li>
+          <li>جروبات واتساب: فوضى وثقة منخفضة</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>ما هو جاهز اليوم</h3>
+        <ul>
+          <li>موقع Next.js منشور</li>
+          <li>تطبيق موبايل (React Native/Expo)</li>
+          <li>بوابة طبيب + لوحة أدمن</li>
+          <li>عروض، حجوزات، محتوى، واشتراكات</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card" style="margin-top:14px">
+      <h3>نموذج الإيرادات (B2B أولاً)</h3>
+      <div class="grid grid-3" style="margin-top:8px">
+        <div>
+          <h3>اشتراكات العيادات</h3>
+          <p>دليل / مميز / إعلانات</p>
+        </div>
+        <div>
+          <h3>إعلانات ممولة</h3>
+          <p>بانرات وعروض داخل المنصة</p>
+        </div>
+        <div>
+          <h3>خدمات نمو</h3>
+          <p>ظهور، خصومات، حملات</p>
+        </div>
+      </div>
+      <p style="margin-top:10px">المريض يستخدم المنصة مجاناً — والإيراد من العيادات والشركاء.</p>
+    </div>
+    <div class="footer"><span>ملامح · Pitch Deck</span><span>منتج منشور · نموذج واضح</span></div>
+  </section>
+
+  <!-- TRACTION + ASK -->
+  <section class="page">
+    <div class="topbar">
+      <div class="brand">ملامح<span>.ps</span></div>
+      <div class="chip">04 · أين نحن؟ وماذا نطلب؟</div>
+    </div>
+    <h2>منتج عامل… نحتاج شريك احتضان للنمو</h2>
+    <div class="grid grid-2">
+      <div class="card">
+        <h3>ما أنجزناه</h3>
+        <ul>
+          <li>إطلاق المنصة فعلياً</li>
+          <li>رحلة المريض والطبيب مكتملة تقنياً</li>
+          <li>هوية وتجربة استخدام عربية قوية</li>
+          <li>أساس تقني قابل للتوسع</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>فجوة النمو الحالية</h3>
+        <ul>
+          <li>تسريع اكتساب العيادات والمرضى</li>
+          <li>بناء فريق تسويق وتشغيل</li>
+          <li>تمويل أولي للنمو أول 90 يوماً</li>
+          <li>شبكة علاقات وشراكات محلية</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ask">
+      <h3>طلبنا من حديقة النجاح للابتكار</h3>
+      <ul>
+        <li>احتضان وإرشاد استراتيجي (نمو، تمويل، حوكمة)</li>
+        <li>دعم مالي/أولي لتسويق المنصة وتشغيلها</li>
+        <li>مساعدة في بناء فريق تسويقي أو الوصول لخبراء نمو</li>
+        <li>دعم عيني: مساحة، خدمات، شبكات، وصول لشركاء ومستثمرين</li>
+      </ul>
+    </div>
+
+    <div class="card" style="margin-top:14px">
+      <h3>هدف 90 يوماً مع الاحتضان</h3>
+      <p>زيادة العيادات الموثّقة النشطة، رفع الحجوزات/التواصل الحقيقي، وبناء محرك تسويق قابل للتكرار داخل فلسطين.</p>
+    </div>
+    <div class="footer"><span>ملامح · Pitch Deck</span><span>الطلب واضح وقابل للتنفيذ</span></div>
+  </section>
+
+  <!-- CLOSING -->
+  <section class="page">
+    <div class="topbar">
+      <div class="brand">ملامح<span>.ps</span></div>
+      <div class="chip">05 · الأثر والختام</div>
+    </div>
+    <h2>أثر محلي… وشراكة تستحق البناء</h2>
+    <div class="grid grid-3">
+      <div class="card"><h3>للمريض</h3><p>وصول أسرع وأوضح لرعاية موثوقة.</p></div>
+      <div class="card"><h3>للعيادة</h3><p>قناة رقمية منظمة لمراجعين جدد.</p></div>
+      <div class="card"><h3>لفلسطين</h3><p>لبنة في بنية الصحة الرقمية المحلية.</p></div>
+    </div>
+
+    <div class="card dark" style="margin-top:16px">
+      <h3>لماذا حديقة النجاح؟</h3>
+      <p>
+        لأننا نحتاج شريكاً قريباً من النظام البيئي المحلي يفهم احتضان الشركات الناشئة،
+        ويساعدنا ننتقل من «منتج شغّال» إلى «نمو قابل للقياس».
+      </p>
+    </div>
+
+    <div class="card" style="margin-top:14px">
+      <h3>الخطوة التالية المقترحة</h3>
+      <ul>
+        <li>تجربة حية للمنصة خلال الجلسة</li>
+        <li>تحديد مسار الاحتضان المناسب</li>
+        <li>الاتفاق على دعم الـ 90 يوماً القادمة</li>
+      </ul>
+    </div>
+
+    <div style="margin-top:22px">
+      <h1 style="font-size:28px;margin-bottom:8px">خلّونا نبني ملامح معاً</h1>
+      <p class="lead" style="margin-bottom:6px"><strong>عمار اشتية</strong> · مؤسس ملامح</p>
+      <p><strong>https://www.malamih.ps</strong></p>
+    </div>
+    <div class="footer"><span>شكراً لوقتكم</span><span>جاهزون للنقاش والتنفيذ</span></div>
+  </section>
+
+</body>
+</html>
