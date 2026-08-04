@@ -264,7 +264,7 @@ export async function POST(request: Request) {
       }
 
       lastError = insert.error;
-      if (insert.error.code === "23505" && String(insert.error.message || "").includes("booking_ref")) {
+      if (insert.error?.code === "23505" && String(insert.error.message || "").includes("booking_ref")) {
         bookingRef = generateBookingRef();
         continue;
       }
