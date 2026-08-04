@@ -221,7 +221,17 @@ export async function POST(request: Request) {
       .join("\n");
 
     let bookingRef = generateBookingRef();
-    let data: Record<string, unknown> | null = null;
+    let data: {
+      id: string;
+      doctor_id?: string | null;
+      patient_full_name?: string | null;
+      patient_name?: string | null;
+      patient_phone?: string | null;
+      date?: string | null;
+      time?: string | null;
+      status?: string | null;
+      booking_ref?: string | null;
+    } | null = null;
     let lastError: any = null;
 
     for (let attempt = 0; attempt < 5; attempt += 1) {
@@ -247,8 +257,8 @@ export async function POST(request: Request) {
         .select()
         .single();
 
-      if (!insert.error) {
-        data = insert.data as Record<string, unknown>;
+      if (!insert.error && insert.data?.id) {
+        data = insert.data;
         lastError = null;
         break;
       }
