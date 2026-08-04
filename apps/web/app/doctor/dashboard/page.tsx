@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import { AppointmentRecord, Doctor } from "@/lib/types";
 import NotificationSoundBridge from "@/components/NotificationSoundBridge";
+import { hebronToday } from "@/lib/booking";
 
 const DAYS = ["السبت", "الأحد", "الإثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة"];
 const STATUS_LABELS: Record<string, string> = {
@@ -50,7 +51,7 @@ export default function DoctorDashboardPage() {
   });
 
   const stats = useMemo(() => {
-    const today = new Date().toISOString().slice(0, 10);
+    const today = hebronToday();
     return {
       pending: appointments.filter((item) => item.status === "pending").length,
       confirmed: appointments.filter((item) => item.status === "confirmed").length,
@@ -127,7 +128,7 @@ export default function DoctorDashboardPage() {
     setAppointments((current) => current.map((item) => (item.id === id ? data.appointment : item)));
   };
 
-  const todaysAppointments = appointments.filter((item) => item.date === new Date().toISOString().slice(0, 10));
+  const todaysAppointments = appointments.filter((item) => item.date === hebronToday());
   const nextPending = appointments.filter((item) => item.status === "pending").slice(0, 3);
 
   if (loading) {

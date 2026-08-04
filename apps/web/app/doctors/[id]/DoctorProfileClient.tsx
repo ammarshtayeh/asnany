@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, type HTMLAttributes } from "react";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import Link from "next/link";
@@ -9,6 +9,8 @@ import { getDistance } from "@/lib/distance";
 import { doctorMapCoordinates, openDoctorInExternalMaps } from "@/lib/map-links";
 import { startAccuratePositionWatch, type UserMapLocation } from "@/lib/geolocation";
 import { Star, MapPin, CheckCircle2, Clock, Calendar, Navigation, Route, Award, HeartPulse, Sparkles, Map, Heart, ArrowRight } from "lucide-react";
+import { buildWhatsAppBookingMessage, hebronToday, ageFromBirthDate, isIdentityRequiredForAge, whatsappHref } from "@/lib/booking";
+import { trackWhatsAppLead } from "@/lib/whatsapp-lead";
 
 const DoctorMap = dynamic(() => import("@/components/DoctorMap"), { ssr: false });
 
@@ -22,12 +24,14 @@ export default function DoctorProfileClient({ doctor, canBookOnWebsite }: { doct
   const [bookingPhone, setBookingPhone] = useState("");
   const [bookingIdentity, setBookingIdentity] = useState("");
   const [bookingAddress, setBookingAddress] = useState("");
+  const [bookingBirthDate, setBookingBirthDate] = useState("");
   const [bookingDate, setBookingDate] = useState("");
   const [bookingPeriod, setBookingPeriod] = useState("");
   const [bookingNotes, setBookingNotes] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [submittedPhone, setSubmittedPhone] = useState("");
+  const [submittedRef, setSubmittedRef] = useState("");
   const [isSaved, setIsSaved] = useState(false);
 
   const [reviewsList, setReviewsList] = useState<Array<{ name: string; rating: number; date: string; text: string }>>([]);
@@ -74,20 +78,17 @@ export default function DoctorProfileClient({ doctor, canBookOnWebsite }: { doct
     setIsSaved(next.includes(doctor.id));
   };
 
-  const handleBookingSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!bookingName || !bookingPhone || !bookingDate || !bookingPeriod) {
-      alert("يرجى ملء جميع الحقول المطلوبة");
-      return;
-    }
-    
-    setIsSubmitting(true);
-    // Simulate API call & WhatsApp Bot hook
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setShowSuccessModal(true);
-    }, 1500);
-  };
+  const readyWhatsAppHref = whatsappHref(
+    doctor.whatsapp,
+    buildWhatsAppBookingMessage({
+      doctorName: doctor.name,
+      patientName: bookingName || undefined,
+      phone: bookingPhone || undefined,
+      date: bookingDate || undefined,
+      time: bookingPeriod || undefined,
+      notes: bookingNotes || undefined,
+    })
+  );
 
   const handleSmartBookingSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -95,8 +96,22 @@ export default function DoctorProfileClient({ doctor, canBookOnWebsite }: { doct
       alert("الحجز عبر الموقع متاح فقط للأطباء الذين لديهم حساب مفعّل على المنصة.");
       return;
     }
-    if (!bookingName || !bookingPhone || !bookingIdentity || !bookingAddress || !bookingDate) {
-      alert("يرجى تعبئة الحقول الأساسية المطلوبة");
+    if (!bookingName || !bookingPhone || !bookingAddress || !bookingBirthDate || !bookingDate || !bookingPeriod) {
+      alert("يرجى تعبئة الاسم والهاتف والعنوان وتاريخ الميلاد والتاريخ والوقت");
+      return;
+    }
+
+    const age = ageFromBirthDate(bookingBirthDate);
+    if (age === null) {
+      alert("تاريخ الميلاد غير صالح");
+      return;
+    }
+    if (isIdentityRequiredForAge(age) && !bookingIdentity.trim()) {
+      alert("رقم الهوية إلزامي لمن عمرهم 17 سنة فأكثر");
+      return;
+    }
+    if (bookingIdentity.trim() && !/^\d{9}$/.test(bookingIdentity.trim())) {
+      alert("رقم الهوية يجب أن يكون 9 أرقام");
       return;
     }
 
@@ -115,11 +130,13 @@ export default function DoctorProfileClient({ doctor, canBookOnWebsite }: { doct
         patient_full_name: bookingName,
         patient_email: bookingEmail.trim() || null,
         patient_phone: bookingPhone,
-        patient_identity: bookingIdentity,
-        patient_address: bookingAddress,
+        patient_identity: bookingIdentity.trim() || null,
+        patient_address: bookingAddress.trim(),
+        patient_birth_date: bookingBirthDate,
         date: bookingDate,
         time: bookingPeriod,
         notes: bookingNotes,
+        website: "",
       }),
     });
     const data = await res.json();
@@ -129,12 +146,14 @@ export default function DoctorProfileClient({ doctor, canBookOnWebsite }: { doct
       return;
     }
     setSubmittedPhone(bookingPhone);
+    setSubmittedRef(String(data.booking_ref || data.appointment?.booking_ref || ""));
     setShowSuccessModal(true);
     setBookingName("");
     setBookingEmail("");
     setBookingPhone("");
     setBookingIdentity("");
     setBookingAddress("");
+    setBookingBirthDate("");
     setBookingDate("");
     setBookingPeriod("");
     setBookingNotes("");
@@ -201,9 +220,13 @@ export default function DoctorProfileClient({ doctor, canBookOnWebsite }: { doct
                     <div className="flex items-center gap-3 mb-3">
                       <h1 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight">{doctor.name}</h1>
                       {doctor.verified && (
-                        <div className="bg-emerald-50 text-emerald-500 p-1 rounded-full" title="موثق">
-                          <CheckCircle2 className="w-6 h-6" />
-                        </div>
+                        <span
+                          className="inline-flex items-center gap-1.5 rounded-full border border-emerald-100 bg-emerald-50 px-3 py-1 text-xs font-black text-emerald-700"
+                          title="راجعت الإدارة بيانات العيادة الأساسية قبل الظهور في الدليل"
+                        >
+                          <CheckCircle2 className="h-4 w-4" />
+                          موثّق
+                        </span>
                       )}
                       {doctor.accepts_discount_card ? (
                         <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-black text-emerald-700">
@@ -522,8 +545,8 @@ export default function DoctorProfileClient({ doctor, canBookOnWebsite }: { doct
             <h2 className="mt-1 text-3xl font-black text-slate-950">أرسل طلب حجز للطبيب</h2>
             <p className="mt-2 text-sm font-bold text-slate-500">
               {canBookOnWebsite
-                ? "لا تحتاج حساب — اسمك ورقم هاتفك يكفيان. سيتم عرض بياناتك للطبيب لتأكيد الموعد."
-                : "الحجز عبر الموقع غير مفعّل لهذا الطبيب حالياً. استخدم التواصل المباشر لحين تفعيل الحساب."}
+                ? "طلب موعد للمراجعة. العنوان إلزامي. رقم الهوية إلزامي لمن عمرهم 17 سنة فأكثر."
+                : "الحجز عبر الموقع غير مفعّل لهذا الطبيب حالياً. استخدم واتساب برسالة جاهزة لحين تفعيل الحساب."}
             </p>
           </div>
           <Calendar className="h-10 w-10 text-primary" />
@@ -531,13 +554,32 @@ export default function DoctorProfileClient({ doctor, canBookOnWebsite }: { doct
 
         {canBookOnWebsite ? (
           <form onSubmit={handleSmartBookingSubmit} className="grid gap-3 md:grid-cols-2">
+          <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
           <BookingInput label="الاسم الرباعي" value={bookingName} onChange={setBookingName} required />
           <BookingInput label="البريد الإلكتروني - اختياري" value={bookingEmail} onChange={setBookingEmail} type="email" />
           <BookingInput label="رقم الهاتف" value={bookingPhone} onChange={setBookingPhone} required inputMode="tel" />
-          <BookingInput label="رقم الهوية" value={bookingIdentity} onChange={setBookingIdentity} required />
+          <BookingInput
+            label="تاريخ الميلاد"
+            value={bookingBirthDate}
+            onChange={setBookingBirthDate}
+            required
+            type="date"
+            max={hebronToday()}
+          />
+          <BookingInput
+            label={
+              bookingBirthDate && isIdentityRequiredForAge(ageFromBirthDate(bookingBirthDate))
+                ? "رقم الهوية (إلزامي — 17 سنة فأكثر)"
+                : "رقم الهوية (إلزامي لمن عمرهم 17 فأكثر)"
+            }
+            value={bookingIdentity}
+            onChange={setBookingIdentity}
+            required={Boolean(bookingBirthDate && isIdentityRequiredForAge(ageFromBirthDate(bookingBirthDate)))}
+            inputMode="numeric"
+          />
           <BookingInput label="عنوان السكن" value={bookingAddress} onChange={setBookingAddress} required />
-          <BookingInput label="تاريخ الموعد" value={bookingDate} onChange={setBookingDate} required type="date" />
-          <BookingInput label="الوقت المفضل" value={bookingPeriod} onChange={setBookingPeriod} type="time" />
+          <BookingInput label="تاريخ الموعد" value={bookingDate} onChange={setBookingDate} required type="date" min={hebronToday()} />
+          <BookingInput label="الوقت المفضل" value={bookingPeriod} onChange={setBookingPeriod} required type="time" />
           <label className="md:col-span-2">
               <span className="mb-1 block text-xs font-black text-slate-500">ملاحظات للحالة</span>
               <textarea
@@ -557,7 +599,20 @@ export default function DoctorProfileClient({ doctor, canBookOnWebsite }: { doct
           </form>
         ) : (
           <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-5 text-right text-sm font-bold text-amber-800">
-            الطبيب ظاهر في الدليل لأنه موثق، لكن الحجز عبر الموقع يحتاج حساب طبيب مفعّل. يمكنك التواصل عبر واتساب أو الهاتف حالياً.
+            <p className="mb-3">الطبيب ظاهر في الدليل، لكن الحجز عبر الموقع يحتاج حساب مفعّل. تواصل مباشرة عبر واتساب:</p>
+            {readyWhatsAppHref ? (
+              <a
+                href={readyWhatsAppHref}
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => trackWhatsAppLead({ doctorId: doctor.id, doctorName: doctor.name, source: "profile_disabled_booking" })}
+                className="inline-flex rounded-xl bg-emerald-600 px-4 py-2.5 text-white hover:bg-emerald-700"
+              >
+                واتساب برسالة جاهزة
+              </a>
+            ) : (
+              <span>لا يوجد رقم واتساب مسجّل لهذه العيادة.</span>
+            )}
           </div>
         )}
       </div>
@@ -572,16 +627,17 @@ export default function DoctorProfileClient({ doctor, canBookOnWebsite }: { doct
             <Calendar className="h-4 w-4" />
             {canBookOnWebsite ? "احجز الآن" : "طلب موعد"}
           </a>
-          {doctor.whatsapp ? (
-            <a
-              href={`https://wa.me/${String(doctor.whatsapp).replace(/[^\d]/g, "")}`}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center justify-center rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3.5 text-sm font-black text-emerald-700"
-            >
-              واتساب
-            </a>
-          ) : null}
+            {readyWhatsAppHref ? (
+              <a
+                href={readyWhatsAppHref}
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => trackWhatsAppLead({ doctorId: doctor.id, doctorName: doctor.name, source: "profile_sticky" })}
+                className="inline-flex items-center justify-center rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3.5 text-sm font-black text-emerald-700"
+              >
+                واتساب
+              </a>
+            ) : null}
         </div>
       </div>
 
@@ -589,13 +645,18 @@ export default function DoctorProfileClient({ doctor, canBookOnWebsite }: { doct
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/60 p-4">
           <div className="max-w-md rounded-3xl bg-white p-7 text-center shadow-2xl">
             <CheckCircle2 className="mx-auto mb-4 h-14 w-14 text-emerald-500" />
-            <h3 className="text-2xl font-black text-slate-950">تم إرسال الحجز</h3>
+            <h3 className="text-2xl font-black text-slate-950">تم إرسال طلب الحجز</h3>
             <p className="mt-2 text-sm font-bold leading-7 text-slate-500">
-              سيظهر الطلب للطبيب داخل لوحة العيادة، وسيتم التواصل معك لتأكيد الموعد.
+              احفظ رمز الحجز لمتابعة حالتك. سيظهر الطلب للطبيب لتأكيده.
             </p>
+            {submittedRef ? (
+              <p className="mt-4 rounded-2xl bg-slate-950 px-4 py-3 font-black tracking-wider text-amber-300">
+                {submittedRef}
+              </p>
+            ) : null}
             <div className="mt-5 grid gap-2 sm:grid-cols-2">
               <Link
-                href={`/appointments?phone=${encodeURIComponent(submittedPhone)}`}
+                href={`/appointments?phone=${encodeURIComponent(submittedPhone)}&ref=${encodeURIComponent(submittedRef)}`}
                 className="btn-malama min-h-12 px-6 py-3 text-sm"
               >
                 حجوزاتي
@@ -662,13 +723,17 @@ function BookingInput({
   required,
   type = "text",
   inputMode,
+  min,
+  max,
 }: {
   label: string;
   value: string;
   onChange: (value: string) => void;
   required?: boolean;
   type?: string;
-  inputMode?: React.HTMLAttributes<HTMLInputElement>["inputMode"];
+  inputMode?: HTMLAttributes<HTMLInputElement>["inputMode"];
+  min?: string;
+  max?: string;
 }) {
   return (
     <label>
@@ -677,6 +742,8 @@ function BookingInput({
         type={type}
         required={required}
         value={value}
+        min={min}
+        max={max}
         inputMode={inputMode}
         onChange={(event) => onChange(event.target.value)}
         className="min-h-12 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 text-sm font-bold outline-none focus:border-amber-300"

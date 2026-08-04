@@ -45,7 +45,7 @@ export async function POST(request: Request) {
       is_featured: false,
       accepts_insurance: accepts_insurance !== undefined ? !!accepts_insurance : true,
       insurance_list: Array.isArray(insurance_list) ? insurance_list : [],
-      rating: 5.0,
+      rating: 0,
       image_url: image_url || "https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=800&auto=format&fit=crop", // fallback
       clinic_photos: Array.isArray(clinic_photos) ? clinic_photos : [],
       working_hours: {

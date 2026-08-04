@@ -4,9 +4,9 @@ export function formatSpecialty(value?: string[] | string | null) {
   return String(value);
 }
 
-export function formatRating(value?: number | string | null, fallback = "5.0") {
+export function formatRating(value?: number | string | null, fallback = "—") {
   const numeric = typeof value === "number" ? value : Number(value);
-  if (!Number.isFinite(numeric)) return fallback;
+  if (!Number.isFinite(numeric) || numeric <= 0) return fallback;
   return numeric.toFixed(1);
 }
 

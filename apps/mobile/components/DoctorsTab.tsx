@@ -15,8 +15,8 @@ import { Doctor, Advertisement } from "../types";
 
 const { width } = Dimensions.get("window");
 
-const CITIES = ["الكل", "رام الله", "نابلس", "الخليل", "جنين", "بيت Bethlehem", "طولكرم", "قلقيلية", "أريحا", "غزة"];
-const CITIES_AR = ["الكل", "رام الله", "نابلس", "الخليل", "جنين", "بيت لحم", "طولكرم", "قلقيلية", "أريحا", "غزة"];
+const CITIES = ["الكل", "رام الله", "نابلس", "الخليل", "جنين", "بيت لحم", "طولكرم", "قلقيلية", "أريحا", "غزة", "القدس"];
+const CITIES_AR = CITIES;
 const SPECIALTIES = ["الكل", "زراعة الأسنان", "تقويم الأسنان", "تجميل الأسنان", "علاج العصب", "أسنان الأطفال", "طب أسنان عام"];
 
 interface DoctorsTabProps {
@@ -89,10 +89,9 @@ export default function DoctorsTab({
         <Text style={styles.sectionLabel}>📍 اختر المدينة الفلسطينية:</Text>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.chipRow}>
           {CITIES_AR.map((c) => {
-            const val = c === "بيت لحم" ? "بيت Bethlehem" : c;
-            const isSelected = selectedCity === val || (selectedCity === "الكل" && c === "الكل");
+            const isSelected = selectedCity === c;
             return (
-              <Pressable key={c} onPress={() => setSelectedCity(val)} style={[styles.chip, isSelected && styles.chipActive]}>
+              <Pressable key={c} onPress={() => setSelectedCity(c)} style={[styles.chip, isSelected && styles.chipActive]}>
                 <Text style={[styles.chipText, isSelected && styles.chipTextActive]}>{c}</Text>
               </Pressable>
             );
@@ -170,7 +169,7 @@ export default function DoctorsTab({
                       <Text style={[styles.statusText, isOpen ? styles.statusTextOpen : styles.statusTextClosed]}>{isOpen ? "مفتوح الآن" : "مغلق حالياً"}</Text>
                     </View>
                     <View style={styles.ratingBadge}>
-                      <Text style={styles.ratingText}>⭐ {doc.rating || 5.0}</Text>
+                      <Text style={styles.ratingText}>⭐ {doc.rating && Number(doc.rating) > 0 ? doc.rating : "جديد"}</Text>
                     </View>
                   </View>
                 </Pressable>

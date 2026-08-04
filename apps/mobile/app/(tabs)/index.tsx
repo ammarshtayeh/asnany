@@ -17,7 +17,6 @@ import { formatSpecialty } from "../../lib/format";
 import { theme } from "../../constants/theme";
 import { SubscriptionPackagesPreview } from "../../components/SubscriptionPackagesPreview";
 import {
-  AssistantPromoCard,
   CategoryPill,
   DoctorListCard,
   EmptyState,
@@ -127,14 +126,20 @@ export default function HomeScreen() {
             <View style={{ alignSelf: "flex-end", backgroundColor: "rgba(212,175,55,0.15)", borderWidth: 1, borderColor: "rgba(212,175,55,0.3)", borderRadius: 999, paddingHorizontal: 12, paddingVertical: 5, marginBottom: 10 }}>
               <Text style={{ color: "#fde68a", fontWeight: "900", fontSize: 11 }}>الأول من نوعه في فلسطين</Text>
             </View>
-            <Text style={{ fontSize: 28, fontWeight: "900", color: theme.white, textAlign: "right", lineHeight: 38, letterSpacing: -0.5 }}>
-              كل ما تحتاجه لصحتك وجمالك
+            <Text style={{ fontSize: 26, fontWeight: "900", color: theme.white, textAlign: "right", lineHeight: 36 }}>
+              ابحث عن الطبيب المناسب
             </Text>
-            <Text style={{ fontSize: 28, fontWeight: "900", color: theme.gold, textAlign: "right", lineHeight: 38, letterSpacing: -0.5 }}>
-              في متناول يدك
-            </Text>
+            <View style={{ flexDirection: "row-reverse", flexWrap: "wrap", gap: 8, marginTop: 10, justifyContent: "flex-end" }}>
+              <View style={{ backgroundColor: theme.gold, borderRadius: 14, paddingHorizontal: 12, paddingVertical: 6 }}>
+                <Text style={{ color: theme.navy, fontWeight: "900", fontSize: 18 }}>لوجهك</Text>
+              </View>
+              <Text style={{ color: theme.white, fontWeight: "900", fontSize: 18, alignSelf: "center" }}>و</Text>
+              <View style={{ borderWidth: 2, borderColor: theme.gold, backgroundColor: "rgba(212,175,55,0.15)", borderRadius: 14, paddingHorizontal: 12, paddingVertical: 6 }}>
+                <Text style={{ color: "#fde68a", fontWeight: "900", fontSize: 18 }}>أسنانك</Text>
+              </View>
+            </View>
             <View style={{ flexDirection: "row-reverse", gap: 8, marginTop: 12 }}>
-              {["أطباء موثقون", "حجز مباشر", "عروض حصرية"].map((tag) => (
+              {["أطباء موثقون", "حجز أوضح", "كل المدن"].map((tag) => (
                 <View key={tag} style={{ backgroundColor: "rgba(255,255,255,0.08)", borderRadius: 999, paddingHorizontal: 10, paddingVertical: 5, borderWidth: 1, borderColor: "rgba(255,255,255,0.1)" }}>
                   <Text style={{ color: "#e2e8f0", fontSize: 10, fontWeight: "800" }}>{tag}</Text>
                 </View>
@@ -148,7 +153,7 @@ export default function HomeScreen() {
         </View>
 
         <Animated.View style={{ padding: 16, gap: 28, opacity: contentOpacity, transform: [{ translateY: contentSlide }] }}>
-          <AssistantPromoCard onPress={() => router.push("/(tabs)/booking")} />
+          {/* <AssistantPromoCard onPress={() => router.push("/(tabs)/booking")} /> */}
 
           <View>
             <SectionHeader title="ابحث حسب التخصص" icon="layers" />

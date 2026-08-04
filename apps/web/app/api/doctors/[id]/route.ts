@@ -10,7 +10,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ id:
 
     const { data: doctor, error } = await supabase
       .from("doctors")
-      .select("id, name, category, specialty, city, area, address, phone, whatsapp, bio, lat, lng, image_url, clinic_photos, rating, verified, is_featured, accepts_insurance, insurance_list, working_hours, is_available, availability_note, accepts_discount_card")
+      .select("id, name, category, specialty, city, area, address, phone, whatsapp, bio, lat, lng, image_url, clinic_photos, rating, verified, is_featured, accepts_insurance, insurance_list, working_hours, is_available, availability_note, accepts_discount_card, active_package_slug")
       .eq("id", id)
       .eq("verified", true)
       .single();
@@ -28,7 +28,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ id:
 
     return NextResponse.json({
       doctor,
-      can_book_online: Boolean(account),
+      can_book_online: Boolean(account) || doctor.active_package_slug === "premium",
     });
   } catch (err: any) {
     console.error("GET /api/doctors/[id] error:", err);

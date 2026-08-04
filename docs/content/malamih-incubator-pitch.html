@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ملامح — Pitch Deck | حديقة النجاح للابتكار</title>
+  <title>ملامح — Pitch Deck الشامل (15 صفحة) | حديقة النجاح للابتكار</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@500;700;800;900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@500;600;700;800;900&display=swap');
     :root {
       --navy: #0a1628;
       --teal: #0c5e47;
@@ -13,406 +13,873 @@
       --gold-soft: #f5e6b8;
       --muted: #64748b;
       --line: #e2e8f0;
+      --soft: #f8fafc;
+      --text: #334155;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: 'Cairo', sans-serif;
-      background: #eef2f7;
-      color: var(--navy);
-    }
+    body { font-family: 'Cairo', sans-serif; background: #e8eef5; color: var(--navy); }
     .page {
-      width: 210mm;
-      min-height: 297mm;
-      margin: 16px auto;
-      background: white;
-      padding: 18mm 16mm;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 18px 50px rgba(10,22,40,0.12);
-      page-break-after: always;
+      width: 210mm; min-height: 297mm; margin: 10px auto; background: #fff;
+      padding: 11mm 11mm 14mm; position: relative; overflow: hidden;
+      box-shadow: 0 12px 32px rgba(10,22,40,.1); page-break-after: always;
     }
     .page:last-child { page-break-after: auto; }
     .page::before {
-      content: "";
-      position: absolute;
-      inset: 0 auto 0 0;
-      width: 10px;
+      content: ""; position: absolute; inset: 0 auto 0 0; width: 6px;
       background: linear-gradient(180deg, var(--teal), var(--gold));
     }
     .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 22px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid var(--line);
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px solid var(--line);
     }
-    .brand {
-      font-weight: 900;
-      font-size: 22px;
-      color: var(--navy);
-    }
+    .brand { font-weight: 900; font-size: 15px; }
     .brand span { color: var(--gold); }
     .chip {
-      background: #ecfdf5;
-      color: var(--teal);
-      border: 1px solid #a7f3d0;
-      border-radius: 999px;
-      padding: 6px 12px;
-      font-size: 12px;
-      font-weight: 800;
+      background: #ecfdf5; color: var(--teal); border: 1px solid #a7f3d0;
+      border-radius: 999px; padding: 3px 9px; font-size: 10px; font-weight: 800;
     }
-    h1 {
-      font-size: 34px;
-      font-weight: 900;
-      line-height: 1.35;
-      margin-bottom: 12px;
+    h1 { font-size: 22px; font-weight: 900; line-height: 1.35; margin-bottom: 6px; }
+    h2 { font-size: 17px; font-weight: 900; margin-bottom: 5px; }
+    h3 { font-size: 12px; font-weight: 900; margin-bottom: 3px; color: var(--teal); }
+    h4 { font-size: 11px; font-weight: 900; margin: 5px 0 3px; color: #0f172a; }
+    p, li { font-size: 11px; font-weight: 600; line-height: 1.55; color: var(--text); }
+    .lead { font-size: 12px; color: #475569; margin-bottom: 7px; line-height: 1.65; }
+    .explain {
+      background: #f1f5f9; border-radius: 9px; padding: 7px 9px;
+      font-size: 11px; font-weight: 600; color: #475569; margin-bottom: 7px; line-height: 1.6;
     }
-    h2 {
-      font-size: 24px;
-      font-weight: 900;
-      margin-bottom: 14px;
-      color: var(--navy);
-    }
-    h3 {
-      font-size: 15px;
-      font-weight: 900;
-      margin-bottom: 8px;
-      color: var(--teal);
-    }
-    p, li {
-      font-size: 14px;
-      font-weight: 600;
-      line-height: 1.8;
-      color: #334155;
-    }
-    .lead {
-      font-size: 16px;
-      color: #475569;
-      max-width: 95%;
-      margin-bottom: 18px;
-    }
-    .gold { color: #b45309; }
-    .grid { display: grid; gap: 12px; }
+    .explain strong { color: var(--navy); }
+    .grid { display: grid; gap: 6px; }
     .grid-2 { grid-template-columns: 1fr 1fr; }
     .grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+    .grid-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
     .card {
-      background: #f8fafc;
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      padding: 14px 16px;
+      background: var(--soft); border: 1px solid var(--line);
+      border-radius: 9px; padding: 7px 8px;
     }
     .card.dark {
       background: linear-gradient(145deg, #0a1628, #0f2a24);
-      color: white;
-      border: none;
+      border: none; color: #fff;
     }
-    .card.dark h3 { color: var(--gold-soft); }
+    .card.dark h3, .card.dark h4 { color: var(--gold-soft); }
     .card.dark p, .card.dark li { color: #e2e8f0; }
-    ul { list-style: none; display: grid; gap: 6px; }
-    li::before { content: "● "; color: var(--gold); font-size: 10px; }
-    .hero-metrics {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin-top: 18px;
+    .card.goldish { background: linear-gradient(135deg, #fffbeb, #ecfdf5); border-color: #d1fae5; }
+    ul { list-style: none; display: grid; gap: 1.5px; }
+    li::before { content: "● "; color: var(--gold); font-size: 6.5px; }
+    .mini li, .mini p { font-size: 10.3px; line-height: 1.48; }
+    .tiny li, .tiny p { font-size: 9.8px; line-height: 1.45; }
+    .tagrow { display: flex; flex-wrap: wrap; gap: 4px; margin: 5px 0; }
+    .tag {
+      background: #0a1628; color: #f5e6b8; border-radius: 999px;
+      padding: 2px 7px; font-size: 9.5px; font-weight: 800;
     }
+    .tag.soft { background: #ecfdf5; color: var(--teal); }
     .metric {
-      border-radius: 16px;
-      padding: 14px;
-      background: linear-gradient(160deg, #0a1628, #12352c);
-      color: white;
+      border-radius: 9px; padding: 7px; text-align: center;
+      background: linear-gradient(160deg, #0a1628, #12352c); color: #fff;
     }
-    .metric strong {
-      display: block;
-      font-size: 18px;
-      color: var(--gold-soft);
-      margin-bottom: 4px;
-    }
-    .metric span { font-size: 12px; color: #cbd5e1; font-weight: 700; }
-    .ask {
-      background: linear-gradient(135deg, #ecfdf5, #fffbeb);
-      border: 1px solid #d1fae5;
-      border-radius: 18px;
-      padding: 16px;
-      margin-top: 8px;
-    }
-    .ask li { font-size: 15px; }
+    .metric strong { display: block; font-size: 12px; color: var(--gold-soft); }
+    .metric span { font-size: 9px; color: #cbd5e1; font-weight: 700; }
     .footer {
-      position: absolute;
-      left: 16mm;
-      right: 16mm;
-      bottom: 12mm;
-      display: flex;
-      justify-content: space-between;
-      font-size: 11px;
-      color: var(--muted);
-      font-weight: 700;
-      border-top: 1px solid var(--line);
-      padding-top: 8px;
+      position: absolute; left: 11mm; right: 11mm; bottom: 7mm;
+      display: flex; justify-content: space-between; font-size: 9px;
+      color: var(--muted); font-weight: 700; border-top: 1px solid var(--line); padding-top: 4px;
     }
     .cover {
       background:
-        radial-gradient(ellipse at 90% 0%, rgba(212,175,55,0.18), transparent 40%),
-        linear-gradient(160deg, #06101c 0%, #0a1628 50%, #0c5e47 140%);
-      color: white;
+        radial-gradient(ellipse at 90% 0%, rgba(212,175,55,.18), transparent 42%),
+        linear-gradient(160deg, #06101c 0%, #0a1628 48%, #0c5e47 145%);
+      color: #fff;
     }
     .cover::before { background: linear-gradient(180deg, var(--gold), var(--teal)); }
-    .cover .brand, .cover h1, .cover p, .cover .footer { color: white; }
-    .cover .lead { color: #cbd5e1; }
-    .cover .chip {
-      background: rgba(232,200,106,0.12);
-      border-color: rgba(232,200,106,0.35);
-      color: var(--gold-soft);
+    .cover .brand, .cover h1, .cover p, .cover .footer, .cover .lead { color: #fff; }
+    .cover .lead, .cover .explain { color: #cbd5e1; background: rgba(255,255,255,.06); }
+    .cover .chip { background: rgba(232,200,106,.12); border-color: rgba(232,200,106,.35); color: var(--gold-soft); }
+    .cover .footer { border-color: rgba(255,255,255,.15); color: #94a3b8; }
+    .quote {
+      margin-top: 8px; padding: 9px 11px; border-right: 4px solid var(--gold);
+      background: rgba(255,255,255,.07); border-radius: 9px;
+      font-size: 11.5px; font-weight: 800; line-height: 1.65; color: #f8fafc;
     }
-    .cover .footer { border-color: rgba(255,255,255,0.15); color: #94a3b8; }
-    .big-quote {
-      margin-top: 22px;
-      padding: 16px 18px;
-      border-right: 4px solid var(--gold);
-      background: rgba(255,255,255,0.06);
-      border-radius: 12px;
-      font-size: 15px;
-      font-weight: 800;
-      line-height: 1.8;
-      color: #f8fafc;
+    .num {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 17px; height: 17px; border-radius: 50%; background: var(--teal);
+      color: #fff; font-size: 9.5px; font-weight: 900; margin-left: 5px;
     }
+    table { width: 100%; border-collapse: collapse; font-size: 10px; margin-top: 4px; }
+    th, td { border: 1px solid var(--line); padding: 4px 5px; text-align: right; font-weight: 700; vertical-align: top; }
+    th { background: #0a1628; color: #f5e6b8; }
+    td { background: #fff; color: #334155; }
+    .flow { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin: 6px 0; }
+    .flow .step {
+      background: #0a1628; color: #fff; border-radius: 9px; padding: 7px 5px; text-align: center;
+    }
+    .flow .step strong { display: block; color: var(--gold-soft); font-size: 10.5px; margin-bottom: 2px; }
+    .flow .step span { font-size: 9px; color: #cbd5e1; font-weight: 700; }
+    .cols-21 { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 7px; }
+    .toc li { font-size: 11px; margin-bottom: 2px; }
+    .toc li::before { content: ""; }
+    .toc .pg { color: var(--teal); font-weight: 900; margin-left: 6px; }
     @media print {
-      body { background: white; }
-      .page {
-        margin: 0;
-        box-shadow: none;
-        width: auto;
-        min-height: 100vh;
-      }
+      body { background: #fff; }
+      .page { margin: 0; box-shadow: none; width: auto; min-height: 100vh; }
     }
   </style>
 </head>
 <body>
 
-  <!-- COVER -->
-  <section class="page cover">
-    <div class="topbar">
-      <div class="brand">ملامح<span>.ps</span></div>
-      <div class="chip">Pitch Deck · حديقة النجاح للابتكار</div>
-    </div>
-    <h1>منصة فلسطينية تربط<br>المريض بالطبيب الموثوق<br><span style="color:#f5e6b8">في تخصصات صحة وجمال الوجه</span></h1>
-    <p class="lead">
-      ملامح دليل رقمي حيّ يسهّل البحث والحجز والتواصل مع عيادات الأسنان، العيون، الجلدية، التجميل، والأنف والأذن —
-      ويساعد العيادات على الظهور واستقبال مرضى جدد بطريقة احترافية.
-    </p>
-    <div class="hero-metrics">
-      <div class="metric"><strong>منتج منشور</strong><span>الموقع يعمل الآن</span></div>
-      <div class="metric"><strong>ويب + موبايل</strong><span>تجربة كاملة بالعربية</span></div>
-      <div class="metric"><strong>B2B + B2C</strong><span>نموذج إيراد واضح</span></div>
-    </div>
-    <div class="big-quote">
-      «مش فكرة على ورق — منصة شغّالة اليوم، ونحتاج شريك احتضان نحوّلها إلى نمو مستدام في فلسطين.»
-    </div>
-    <div class="footer">
-      <span>عمار اشتية · مؤسس ملامح</span>
-      <span>https://www.malamih.ps</span>
-    </div>
-  </section>
+<!-- ===================== 1 COVER ===================== -->
+<section class="page cover">
+  <div class="topbar">
+    <div class="brand">ملامح<span>.ps</span></div>
+    <div class="chip">Pitch Deck الشامل · 15 صفحة · حديقة النجاح للابتكار</div>
+  </div>
+  <p style="font-size:10px;font-weight:800;color:#f5e6b8;letter-spacing:.08em;margin-bottom:5px">HEALTHTECH · PALESTINE · LIVE PRODUCT · WEB + MOBILE</p>
+  <h1 style="font-size:25px">ملامح: منصة رقمية فلسطينية متكاملة<br>لدليل الأطباء · الحجز · العروض · المختبرات · التجميل · والسوق الطبي</h1>
+  <p class="lead">
+    ملامح ليست صفحة تعريف — هي <strong>نظام تشغيل رقمي</strong> يربط المريض بعيادات موثّقة في تخصصات صحة وجمال الوجه،
+    ويمنح الطبيب قناة ظهور وحجوزات واشتراكات، عبر <strong>موقع + تطبيق + بوابة طبيب + لوحة أدمن</strong> منشورة الآن على <strong>malamih.ps</strong>.
+  </p>
+  <div class="explain">
+    <strong>الفكرة بجملة واحدة:</strong> بناء «محرك اكتشاف صحي» فلسطيني متخصص — بدل البحث العشوائي على فيسبوك وواتساب —
+    عبر دليل موثّق، حجز رقمي، عروض، محتوى، سوق، وبطاقة خصم… بإيراد من العيادات والشركاء، واستخدام مجاني للمريض.
+  </div>
+  <div class="grid grid-4" style="margin-top:6px">
+    <div class="metric"><strong>منتج Live</strong><span>منشور على الإنتاج</span></div>
+    <div class="metric"><strong>ويب + App</strong><span>تجربة عربية RTL كاملة</span></div>
+    <div class="metric"><strong>4 طبقات</strong><span>مريض · طبيب · أدمن · إيراد</span></div>
+    <div class="metric"><strong>B2B إيراد</strong><span>اشتراكات + إعلانات + سوق</span></div>
+  </div>
+  <div class="tagrow" style="margin-top:8px">
+    <span class="tag">أسنان</span><span class="tag">زراعة وتقويم</span><span class="tag">عيون وليزر</span>
+    <span class="tag">جلدية</span><span class="tag">تجميل وفيلر</span><span class="tag">أنف وأذن</span>
+    <span class="tag">مختبرات</span><span class="tag">سوق طبي</span><span class="tag">بطاقة خصم</span>
+  </div>
+  <div class="quote">
+    «ملامح مش فكرة مستقبلية — منصة شغّالة بكل مساراتها اليوم، ونحتاج شريك احتضان يساعدنا نحوّلها من تشغيل تقني ناجح إلى نمو سوقي مستدام.»
+  </div>
+  <div style="margin-top:10px;font-size:11px;font-weight:800;color:#e2e8f0">
+    مقدّم إلى: حديقة النجاح للابتكار — جامعة النجاح الوطنية<br>
+    من: عمار اشتية · مؤسس ملامح · https://www.malamih.ps
+  </div>
+  <div class="footer"><span>Pitch Deck الشامل · 15 صفحة</span><span>سريّ للاحتضان والمناقشة</span></div>
+</section>
 
-  <!-- PROBLEM -->
-  <section class="page">
-    <div class="topbar">
-      <div class="brand">ملامح<span>.ps</span></div>
-      <div class="chip">01 · المشكلة</div>
+<!-- ===================== 2 TOC + IDEA ===================== -->
+<section class="page">
+  <div class="topbar">
+    <div class="brand">ملامح<span>.ps</span></div>
+    <div class="chip">01 · فهرس العرض + شرح الفكرة بعمق</div>
+  </div>
+  <h2>لماذا ملامح؟ وماذا نقدّم في هذا العرض؟</h2>
+  <div class="explain">
+    <strong>شرح الفكرة:</strong> في فلسطين، قرار اختيار طبيب أسنان أو جلدية أو تجميل غالباً يعتمد على منشور فيسبوك أو توصية واتساب.
+    هذا يخلق فوضى للمريض وضعف ظهور للعيادة الجيدة. ملامح تبني بديلاً منظماً: منصة واحدة يكتشف فيها المريض، ويقارن، ويحجز —
+    ويظهر فيها الطبيب بشكل مهني قابل للقياس، وتديرها لوحة تشغيل كاملة.
+  </div>
+  <div class="grid grid-2">
+    <div class="card">
+      <h3>الرؤية</h3>
+      <p class="mini">أن تصبح ملامح المرجع الرقمي الأول في فلسطين لاكتشاف رعاية صحة وجمال الوجه — بثقة، وضوح، وسهولة حجز.</p>
+      <h3 style="margin-top:6px">الرسالة</h3>
+      <p class="mini">نربط المرضى بعيادات موثّقة، ونمنح العيادات قناة نمو رقمية عادلة، عبر منتج عربي محلي قابل للتشغيل اليومي.</p>
     </div>
-    <h2>البحث عن طبيب موثوق في فلسطين ما زال عشوائياً</h2>
-    <p class="lead">المريض يضيّع وقتاً بين توصيات فيسبوك وواتساب ومكالمات غير منظّمة — والطبيب يخسر فرص ظهور حقيقية.</p>
-    <div class="grid grid-2">
-      <div class="card">
-        <h3>ألم المريض</h3>
-        <ul>
-          <li>ما في دليل موحّد لتخصصات الوجه والأسنان</li>
-          <li>صعوبة معرفة المدينة، التقييم، والتوفر</li>
-          <li>الحجز غالباً عبر مكالمات وضياع وقت</li>
-          <li>ثقة منخفضة في التوصيات العشوائية</li>
-        </ul>
-      </div>
-      <div class="card">
-        <h3>ألم العيادة</h3>
-        <ul>
-          <li>ضعف الحضور الرقمي المنظّم</li>
-          <li>صعوبة الوصول لمراجعين جدد باستمرار</li>
-          <li>اعتماد على إعلانات مكلفة وغير مستهدفة</li>
-          <li>لا قناة حجز رقمية بسيطة وواضحة</li>
-        </ul>
-      </div>
-    </div>
-    <div class="card" style="margin-top:14px">
-      <h3>النتيجة</h3>
-      <p>سوق صحي كبير… لكن بدون بنية رقمية متخصصة تجمع الطرفين بكفاءة وثقة.</p>
-    </div>
-    <div class="footer"><span>ملامح · Pitch Deck</span><span>حديقة النجاح للابتكار</span></div>
-  </section>
-
-  <!-- SOLUTION -->
-  <section class="page">
-    <div class="topbar">
-      <div class="brand">ملامح<span>.ps</span></div>
-      <div class="chip">02 · الحل</div>
-    </div>
-    <h2>ملامح: دليل + حجز + تواصل في منصة واحدة</h2>
-    <p class="lead">نبني «محرك اكتشاف» موثوق لتخصصات صحة وجمال الوجه في فلسطين.</p>
-    <div class="grid grid-3">
-      <div class="card dark">
-        <h3>للمريض</h3>
-        <p>بحث حسب المدينة والتخصص، مقارنة الخيارات، حجز أو واتساب مباشرة.</p>
-      </div>
-      <div class="card dark">
-        <h3>للطبيب</h3>
-        <p>ملف احترافي موثّق، ظهور منظم، استقبال حجوزات، وباقات اشتراك.</p>
-      </div>
-      <div class="card dark">
-        <h3>للتخصصات</h3>
-        <p>أسنان · عيون · جلدية · تجميل · أنف وأذن · مختبرات.</p>
-      </div>
-    </div>
-    <div class="card" style="margin-top:14px">
-      <h3>ليش ملامح مختلفة؟</h3>
-      <ul>
-        <li>متخصصة بمجال الوجه والأسنان — مش دليل عام</li>
-        <li>توثيق إداري قبل الظهور العلني</li>
-        <li>تجربة عربية RTL كاملة ويب وموبايل</li>
-        <li>منتج حي قابل للعرض الآن على malamih.ps</li>
+    <div class="card goldish">
+      <h3>ما الذي يجعل الفكرة مختلفة؟</h3>
+      <ul class="mini">
+        <li>تخصص دقيق: صحة وجمال الوجه (ليست دليلاً طبياً عاماً فضفاضاً)</li>
+        <li>منتج متعدد القنوات: ويب + موبايل + طبيب + أدمن</li>
+        <li>إيراد واضح من العيادة (B2B) لا من المريض</li>
+        <li>تشغيل محلي: مدن فلسطين، تأمينات، واتساب، RTL عربي</li>
+        <li>جاهز الآن: Live وليس نموذجاً أولياً فقط</li>
       </ul>
     </div>
-    <div class="footer"><span>ملامح · Pitch Deck</span><span>https://www.malamih.ps</span></div>
-  </section>
+  </div>
+  <h4>فهرس الـ 15 صفحة</h4>
+  <div class="grid grid-2 toc">
+    <ul>
+      <li><span class="pg">01</span> الغلاف والمقدمة</li>
+      <li><span class="pg">02</span> الفكرة والرؤية (هذه الصفحة)</li>
+      <li><span class="pg">03</span> المشكلة بعمق</li>
+      <li><span class="pg">04</span> الفرصة والمنافسون</li>
+      <li><span class="pg">05</span> الحل ورحلات المستخدم</li>
+      <li><span class="pg">06</span> مزايا الموقع (اكتشاف وملف)</li>
+      <li><span class="pg">07</span> مزايا الموقع (حجز وخدمات)</li>
+      <li><span class="pg">08</span> مزايا التطبيق كاملة</li>
+    </ul>
+    <ul>
+      <li><span class="pg">09</span> بوابة الطبيب</li>
+      <li><span class="pg">10</span> لوحة الإدارة</li>
+      <li><span class="pg">11</span> الثقة · المحتوى · النظام البيئي</li>
+      <li><span class="pg">12</span> التقنية والبنية</li>
+      <li><span class="pg">13</span> نموذج الإيرادات والتسعير</li>
+      <li><span class="pg">14</span> خطة 90 يوماً والنمو</li>
+      <li><span class="pg">15</span> طلب الاحتضان والختام</li>
+    </ul>
+  </div>
+  <div class="footer"><span>ملامح · Pitch الشامل</span><span>صفحة 2 / 15</span></div>
+</section>
 
-  <!-- MARKET + PRODUCT -->
-  <section class="page">
-    <div class="topbar">
-      <div class="brand">ملامح<span>.ps</span></div>
-      <div class="chip">03 · السوق والمنتج</div>
-    </div>
-    <h2>فرصة واضحة… ومنتج جاهز للتنفيذ</h2>
-    <div class="grid grid-2">
-      <div class="card">
-        <h3>البدائل الحالية ضعيفة</h3>
-        <ul>
-          <li>فيسبوك/إنستغرام: غير منظم ولا حجز</li>
-          <li>خرائط جوجل: عام وغير طبي متخصص</li>
-          <li>جروبات واتساب: فوضى وثقة منخفضة</li>
-        </ul>
-      </div>
-      <div class="card">
-        <h3>ما هو جاهز اليوم</h3>
-        <ul>
-          <li>موقع Next.js منشور</li>
-          <li>تطبيق موبايل (React Native/Expo)</li>
-          <li>بوابة طبيب + لوحة أدمن</li>
-          <li>عروض، حجوزات، محتوى، واشتراكات</li>
-        </ul>
-      </div>
-    </div>
-    <div class="card" style="margin-top:14px">
-      <h3>نموذج الإيرادات (B2B أولاً)</h3>
-      <div class="grid grid-3" style="margin-top:8px">
-        <div>
-          <h3>اشتراكات العيادات</h3>
-          <p>دليل / مميز / إعلانات</p>
-        </div>
-        <div>
-          <h3>إعلانات ممولة</h3>
-          <p>بانرات وعروض داخل المنصة</p>
-        </div>
-        <div>
-          <h3>خدمات نمو</h3>
-          <p>ظهور، خصومات، حملات</p>
-        </div>
-      </div>
-      <p style="margin-top:10px">المريض يستخدم المنصة مجاناً — والإيراد من العيادات والشركاء.</p>
-    </div>
-    <div class="footer"><span>ملامح · Pitch Deck</span><span>منتج منشور · نموذج واضح</span></div>
-  </section>
-
-  <!-- TRACTION + ASK -->
-  <section class="page">
-    <div class="topbar">
-      <div class="brand">ملامح<span>.ps</span></div>
-      <div class="chip">04 · أين نحن؟ وماذا نطلب؟</div>
-    </div>
-    <h2>منتج عامل… نحتاج شريك احتضان للنمو</h2>
-    <div class="grid grid-2">
-      <div class="card">
-        <h3>ما أنجزناه</h3>
-        <ul>
-          <li>إطلاق المنصة فعلياً</li>
-          <li>رحلة المريض والطبيب مكتملة تقنياً</li>
-          <li>هوية وتجربة استخدام عربية قوية</li>
-          <li>أساس تقني قابل للتوسع</li>
-        </ul>
-      </div>
-      <div class="card">
-        <h3>فجوة النمو الحالية</h3>
-        <ul>
-          <li>تسريع اكتساب العيادات والمرضى</li>
-          <li>بناء فريق تسويق وتشغيل</li>
-          <li>تمويل أولي للنمو أول 90 يوماً</li>
-          <li>شبكة علاقات وشراكات محلية</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="ask">
-      <h3>طلبنا من حديقة النجاح للابتكار</h3>
-      <ul>
-        <li>احتضان وإرشاد استراتيجي (نمو، تمويل، حوكمة)</li>
-        <li>دعم مالي/أولي لتسويق المنصة وتشغيلها</li>
-        <li>مساعدة في بناء فريق تسويقي أو الوصول لخبراء نمو</li>
-        <li>دعم عيني: مساحة، خدمات، شبكات، وصول لشركاء ومستثمرين</li>
+<!-- ===================== 3 PROBLEM ===================== -->
+<section class="page">
+  <div class="topbar">
+    <div class="brand">ملامح<span>.ps</span></div>
+    <div class="chip">02 · المشكلة — لماذا يستحق الحل؟</div>
+  </div>
+  <h2>البحث عن طبيب موثوق في فلسطين ما زال عشوائياً ومكلفاً بالوقت والثقة</h2>
+  <div class="explain">
+    <strong>شرح أعمق:</strong> المريض لا يعاني من «قلة أطباء» بقدر ما يعاني من <em>فوضى المعلومات</em>.
+    العيادة لا تعاني من «قلة مرضى محتملين» بقدر ما تعاني من <em>غياب قناة ظهور منظمة قابلة للقياس</em>.
+    بين الطرفين فراغ رقمي كبير تملؤه المنشورات العشوائية والإعلانات غير المستهدفة.
+  </div>
+  <div class="grid grid-2">
+    <div class="card">
+      <h3>ماذا يعاني المريض بالتفصيل؟</h3>
+      <ul class="mini">
+        <li>لا دليل موحّد متخصص لصحة وجمال الوجه في فلسطين</li>
+        <li>صعوبة معرفة التخصص الدقيق (زراعة؟ تقويم؟ ليزر؟ فيلر؟)</li>
+        <li>صعوبة المقارنة: تقييم، دوام، مدينة، تأمين، خصم</li>
+        <li>الحجز غالباً عبر مكالمات متكررة وانتظار رد واتساب</li>
+        <li>ضعف وضوح ساعات الدوام و«مفتوح الآن»</li>
+        <li>لا مكان واحد لمتابعة مواعيده وعروضه وخصوماته</li>
+        <li>ثقة متذبذبة: من منشور مدفوع؟ من توصية؟ من عيادة حقيقية؟</li>
       </ul>
     </div>
-
-    <div class="card" style="margin-top:14px">
-      <h3>هدف 90 يوماً مع الاحتضان</h3>
-      <p>زيادة العيادات الموثّقة النشطة، رفع الحجوزات/التواصل الحقيقي، وبناء محرك تسويق قابل للتكرار داخل فلسطين.</p>
-    </div>
-    <div class="footer"><span>ملامح · Pitch Deck</span><span>الطلب واضح وقابل للتنفيذ</span></div>
-  </section>
-
-  <!-- CLOSING -->
-  <section class="page">
-    <div class="topbar">
-      <div class="brand">ملامح<span>.ps</span></div>
-      <div class="chip">05 · الأثر والختام</div>
-    </div>
-    <h2>أثر محلي… وشراكة تستحق البناء</h2>
-    <div class="grid grid-3">
-      <div class="card"><h3>للمريض</h3><p>وصول أسرع وأوضح لرعاية موثوقة.</p></div>
-      <div class="card"><h3>للعيادة</h3><p>قناة رقمية منظمة لمراجعين جدد.</p></div>
-      <div class="card"><h3>لفلسطين</h3><p>لبنة في بنية الصحة الرقمية المحلية.</p></div>
-    </div>
-
-    <div class="card dark" style="margin-top:16px">
-      <h3>لماذا حديقة النجاح؟</h3>
-      <p>
-        لأننا نحتاج شريكاً قريباً من النظام البيئي المحلي يفهم احتضان الشركات الناشئة،
-        ويساعدنا ننتقل من «منتج شغّال» إلى «نمو قابل للقياس».
-      </p>
-    </div>
-
-    <div class="card" style="margin-top:14px">
-      <h3>الخطوة التالية المقترحة</h3>
-      <ul>
-        <li>تجربة حية للمنصة خلال الجلسة</li>
-        <li>تحديد مسار الاحتضان المناسب</li>
-        <li>الاتفاق على دعم الـ 90 يوماً القادمة</li>
+    <div class="card">
+      <h3>ماذا تعاني العيادة بالتفصيل؟</h3>
+      <ul class="mini">
+        <li>ظهور رقمي مبعثر على السوشال بلا هيكل مهني</li>
+        <li>خسارة مراجعين لصالح من يدفع إعلاناً أكثر لا من هو الأنسب</li>
+        <li>إعلانات مكلفة وغير مستهدفة جغرافياً/تخصصياً بدقة</li>
+        <li>لا قناة حجوزات رقمية بسيطة مربوطة بملف العيادة</li>
+        <li>صعوبة إدارة طلبات المواعيد رقمياً في مكان واحد</li>
+        <li>لا قياس واضح: كم شخص شاهد؟ كم تواصل؟ كم حجز؟</li>
+        <li>المنافسة مع «الضجيج» بدل المنافسة على الجودة والثقة</li>
       </ul>
     </div>
+  </div>
+  <div class="card dark" style="margin-top:7px">
+    <h3>التكلفة الخفية لهذه الفوضى</h3>
+    <p class="mini">وقت ضائع للمريض · قرارات طبية/تجميلية أقل اطمئناناً · تسويق عشوائي للعيادة · ضعف بناء سمعة رقمية مستدامة · صعوبة بناء بيانات سوق صحي فلسطيني يمكن البناء عليها.</p>
+  </div>
+  <div class="footer"><span>ملامح · Pitch الشامل</span><span>صفحة 3 / 15</span></div>
+</section>
 
-    <div style="margin-top:22px">
-      <h1 style="font-size:28px;margin-bottom:8px">خلّونا نبني ملامح معاً</h1>
-      <p class="lead" style="margin-bottom:6px"><strong>عمار اشتية</strong> · مؤسس ملامح</p>
-      <p><strong>https://www.malamih.ps</strong></p>
+<!-- ===================== 4 OPPORTUNITY ===================== -->
+<section class="page">
+  <div class="topbar">
+    <div class="brand">ملامح<span>.ps</span></div>
+    <div class="chip">03 · الفرصة والمنافسون</div>
+  </div>
+  <h2>فرصة سوقية واضحة في فجوة غير مخدومة كفاية</h2>
+  <div class="explain">
+    <strong>شرح الفرصة:</strong> الطلب على خدمات الأسنان والتجميل والجلدية والعيون مرتفع ومتكرر.
+    لكن البنية الرقمية المحلية المتخصصة ضعيفة. من يبني «محرك اكتشاف» موثوقاً أولاً يملك علاقة طويلة مع المريض والعيادة معاً.
+  </div>
+  <h4>البدائل الحالية — ولماذا لا تكفي؟</h4>
+  <table>
+    <tr><th style="width:20%">البديل</th><th style="width:40%">المشكلة الجوهرية</th><th>كيف تعالجها ملامح؟</th></tr>
+    <tr><td>فيسبوك / إنستغرام</td><td>فوضى، خوارزمية، لا حجز منظم، ثقة متذبذبة</td><td>دليل موثّق + ملف واضح + حجز وتتبع</td></tr>
+    <tr><td>خرائط جوجل</td><td>عام وغير متخصص طبياً لتفاصيل الوجه والتخصصات الدقيقة</td><td>فلاتر طبية دقيقة + باقات ظهور + محتوى</td></tr>
+    <tr><td>جروبات واتساب</td><td>غير قابل للقياس ولا للإدارة ولا للتوثيق</td><td>منصة واحدة قابلة للتشغيل والتحليل</td></tr>
+    <tr><td>إعلان تقليدي / راديو</td><td>مكلف وأثره قصير وغير مستهدف بدقة</td><td>ظهور دائم عبر اشتراك سنوي + حملات داخل المنصة</td></tr>
+    <tr><td>مواقع عيادات منفردة</td><td>تكلفة بناء وصيانة عالية، ولا اكتشاف جماعي</td><td>ملف جاهز داخل شبكة اكتشاف أكبر</td></tr>
+  </table>
+  <div class="grid grid-3" style="margin-top:8px">
+    <div class="card">
+      <h3>لماذا الآن؟</h3>
+      <ul class="tiny">
+        <li>انتشار الهاتف والبحث الرقمي محلياً</li>
+        <li>اعتماد الناس على واتساب كقناة تواصل</li>
+        <li>رغبة العيادات بقناة أرخص من الإعلان العشوائي</li>
+        <li>حاجة لثقة أعلى في قرارات التجميل والأسنان</li>
+      </ul>
     </div>
-    <div class="footer"><span>شكراً لوقتكم</span><span>جاهزون للنقاش والتنفيذ</span></div>
-  </section>
+    <div class="card">
+      <h3>لماذا نحن؟</h3>
+      <ul class="tiny">
+        <li>منتج Live متعدد الطبقات جاهز</li>
+        <li>فهم محلي للمدن والتأمين واللغة</li>
+        <li>تكامل واتساب + GPS + توثيق أدمن</li>
+        <li>نموذج إيراد واضح من اليوم الأول</li>
+      </ul>
+    </div>
+    <div class="card goldish">
+      <h3>الفرصة المختصرة</h3>
+      <p class="mini">بناء منصة Marketplace صحية فلسطينية متخصصة: دليل + حجز + عروض + محتوى + سوق — بإيراد B2B واستخدام مجاني للمريض.</p>
+    </div>
+  </div>
+  <div class="footer"><span>ملامح · Pitch الشامل</span><span>صفحة 4 / 15</span></div>
+</section>
+
+<!-- ===================== 5 SOLUTION ===================== -->
+<section class="page">
+  <div class="topbar">
+    <div class="brand">ملامح<span>.ps</span></div>
+    <div class="chip">04 · الحل ورحلات المستخدم</div>
+  </div>
+  <h2>ملامح = نظام تشغيل رقمي لصحة وجمال الوجه</h2>
+  <div class="explain">
+    <strong>كيف نحل المشكلة؟</strong> نضع المريض والطبيب والإدارة على منصة واحدة.
+    المريض يكتشف ويقارن ويحجز بسهولة. الطبيب يظهر ويستقبل الطلبات ويدير ملفه.
+    الإدارة توثّق وتشغّل المحتوى والإيرادات. النتيجة: ثقة أعلى، وقت أقل، وقناة نمو قابلة للقياس.
+  </div>
+  <div class="grid grid-4">
+    <div class="card dark"><h3>1. المريض</h3><p class="tiny">بحث · مقارنة · حجز · عروض · خصم</p></div>
+    <div class="card dark"><h3>2. الطبيب</h3><p class="tiny">ملف · مواعيد · توفر · اشتراك</p></div>
+    <div class="card dark"><h3>3. الأدمن</h3><p class="tiny">توثيق · محتوى · إعلانات · تشغيل</p></div>
+    <div class="card dark"><h3>4. الشريك</h3><p class="tiny">إعلان · سوق · موردون · حملات</p></div>
+  </div>
+  <h4>رحلة المريض (5 خطوات)</h4>
+  <div class="flow">
+    <div class="step"><strong>1. يدخل</strong><span>موقع أو تطبيق</span></div>
+    <div class="step"><strong>2. يبحث</strong><span>مدينة + تخصص</span></div>
+    <div class="step"><strong>3. يقارن</strong><span>ملف · تقييم · دوام</span></div>
+    <div class="step"><strong>4. يحجز</strong><span>نموذج أو واتساب</span></div>
+    <div class="step"><strong>5. يتابع</strong><span>حجوزاتي + عروض</span></div>
+  </div>
+  <h4>رحلة الطبيب (مختصرة)</h4>
+  <div class="grid grid-4">
+    <div class="card"><h3>ينضم</h3><p class="tiny">انضم / تسجيل عيادة / واتساب</p></div>
+    <div class="card"><h3>يُوثَّق</h3><p class="tiny">مراجعة أدمن وتفعيل</p></div>
+    <div class="card"><h3>يشترك</h3><p class="tiny">دليل أو مميز أو إعلان</p></div>
+    <div class="card"><h3>يشغّل</h3><p class="tiny">مواعيد + ملف + توفر</p></div>
+  </div>
+  <div class="tagrow" style="margin-top:6px">
+    <span class="tag soft">أسنان عام</span><span class="tag soft">زراعة</span><span class="tag soft">تقويم</span>
+    <span class="tag soft">تجميل أسنان</span><span class="tag soft">جلدية</span><span class="tag soft">ليزر</span>
+    <span class="tag soft">فيلر وتجميل</span><span class="tag soft">عيون</span><span class="tag soft">ليزك</span>
+    <span class="tag soft">أنف وأذن</span><span class="tag soft">مختبرات</span><span class="tag soft">مراكز تجميل</span>
+  </div>
+  <div class="card goldish" style="margin-top:6px">
+    <h3>نطاق جغرافي مدمج في المنتج</h3>
+    <p class="mini">رام الله · نابلس · الخليل · بيت لحم · جنين · طولكرم · قلقيلية · أريحا · القدس · سلفيت · طوباس · أخرى — مع ترتيب بالأقرب عبر GPS.</p>
+  </div>
+  <div class="footer"><span>ملامح · Pitch الشامل</span><span>صفحة 5 / 15</span></div>
+</section>
+
+<!-- ===================== 6 WEB DISCOVERY ===================== -->
+<section class="page">
+  <div class="topbar">
+    <div class="brand">ملامح<span>.ps</span></div>
+    <div class="chip">05 · مزايا الموقع (1) — الاكتشاف وملف الطبيب</div>
+  </div>
+  <h2>الموقع منتج اكتشاف كامل — ليس صفحة تعريف</h2>
+  <div class="explain">
+    <strong>شرح:</strong> الصفحة الرئيسية وصفحة البحث وملف الطبيب هي قلب تجربة المريض.
+    هنا يبدأ قرار الثقة: هل العيادة واضحة؟ موثّقة؟ قريبة؟ متاحة للحجز؟
+  </div>
+  <div class="grid grid-2">
+    <div class="card">
+      <h3>الرئيسية `/`</h3>
+      <ul class="tiny">
+        <li>Hero بحث مع فلاتر التخصص / المدينة / التأمين / الدوام</li>
+        <li>أزرار تخصصات سريعة (أسنان، جلدية، تجميل، عيون، أنف وأذن)</li>
+        <li>تحديد موقع GPS وترتيب النتائج بالأقرب</li>
+        <li>عرض بالقائمة أو الخريطة (Leaflet)</li>
+        <li>بطاقات أطباء: تقييم، توثيق، «مفتوح الآن»، حجز، خريطة</li>
+        <li>شريط أخبار/إعلانات متحرك (NewsTicker)</li>
+        <li>سلايدر إعلانات المنصة (AdSlider)</li>
+        <li>قسم قبل/بعد للتحولات التجميلية</li>
+        <li>معاينة باقات الاشتراك + إحصاءات حية</li>
+        <li>روابط انضم كطبيب / اشترك / أعلن</li>
+        <li>مساعدة ملامح (محادثة توجيه داخل الموقع)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>البحث `/doctors/search`</h3>
+      <ul class="tiny">
+        <li>بحث نصي بالاسم أو الكلمة المفتاحية</li>
+        <li>فلاتر: مدينة + تخصص + تأمين</li>
+        <li>بطاقات مع تقييم / توثيق / حجز / اتصال</li>
+        <li>تجربة موحّدة مع الرئيسية لتقليل التشتيت</li>
+      </ul>
+      <h3 style="margin-top:6px">ملف الطبيب `/doctors/[id]`</h3>
+      <ul class="tiny">
+        <li>ملف موثّق مع شارة توثيق</li>
+        <li>تخصصات، تقييم، تأمين، دوام، عنوان، منطقة</li>
+        <li>معرض صور العيادة</li>
+        <li>مسافة GPS + خريطة داخلية</li>
+        <li>صفحة خريطة تفصيلية `/doctors/[id]/map`</li>
+        <li>واتساب / اتصال / حفظ الطبيب محلياً</li>
+        <li>تقييمات المرضى (بمراجعة الإدارة)</li>
+        <li>حالة التوفر وملاحظات العيادة</li>
+        <li>قبول بطاقة الخصم وقيمة الخصم إن وُجدت</li>
+        <li>حجز أونلاين عند تفعيل الباقة المناسبة</li>
+        <li>CTA ثابت على الموبايل: احجز أو واتساب</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer"><span>ملامح · Pitch الشامل</span><span>صفحة 6 / 15</span></div>
+</section>
+
+<!-- ===================== 7 WEB SERVICES ===================== -->
+<section class="page">
+  <div class="topbar">
+    <div class="brand">ملامح<span>.ps</span></div>
+    <div class="chip">06 · مزايا الموقع (2) — الحجز والخدمات والمنظومة</div>
+  </div>
+  <h2>من الحجز إلى السوق: كل مسارات المريض والشركاء</h2>
+  <div class="explain">
+    <strong>شرح:</strong> بعد الاكتشاف، المنصة تكمل الرحلة: حجز ومتابعة، عروض وخصومات، تجميل ومختبرات، محتوى، سوق، ومتاجر —
+    بالإضافة لمسارات تحويل العيادة إلى عميل مدفوع.
+  </div>
+  <div class="grid grid-2">
+    <div class="card">
+      <h3>الحجز والمتابعة</h3>
+      <ul class="tiny">
+        <li>`/booking` حجز مرتبط بطبيب أو صفحة خدمات حجز</li>
+        <li>نموذج مبسّط بدون تعقيد حساب للمريض</li>
+        <li>`/appointments` حجوزاتي عبر رقم الهاتف</li>
+        <li>حالات: معلّق / مؤكد / مكتمل / ملغي</li>
+        <li>إمكانية Web Push لمتابعة المواعيد</li>
+      </ul>
+      <h3 style="margin-top:5px">عروض وبطاقة خصم</h3>
+      <ul class="tiny">
+        <li>`/offers` عروض وخصومات العيادات (نسبة/سعر/مدة)</li>
+        <li>`/discount-card` طلب بطاقة خصم + عيادات مشاركة</li>
+        <li>ظهور حالة المشترك للطبيب عند الحجز</li>
+      </ul>
+      <h3 style="margin-top:5px">ثقة ومحتوى</h3>
+      <ul class="tiny">
+        <li>`/trust` منهجية التوثيق وكيف نختار الأطباء</li>
+        <li>`/blog` المجلة الطبية + مقالات تفصيلية</li>
+        <li>`/media` ميديا طبية (أخبار/فيديو/دراسات)</li>
+        <li>`/about` · `/privacy` · `/terms`</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>خدمات وتخصصات إضافية</h3>
+      <ul class="tiny">
+        <li>`/beauty` + `/beauty/[id]` مراكز تجميل وخدمات وأسعار</li>
+        <li>`/labs` + `/labs/[id]` مختبرات وفحوصات (منزلي عند التوفر)</li>
+        <li>`/consultations` استشارات كتابية/صوتية/مرئية</li>
+        <li>`/partners` شركات ومنتجات طبية</li>
+      </ul>
+      <h3 style="margin-top:5px">سوق ومتاجر</h3>
+      <ul class="tiny">
+        <li>`/marketplace` معدات ووظائف + نشر إعلان (50/120₪)</li>
+        <li>`/stores` موردون ومتاجر طبية + تسجيل متجر</li>
+      </ul>
+      <h3 style="margin-top:5px">للأطباء والشركاء (تحويل إيراد)</h3>
+      <ul class="tiny">
+        <li>`/join` انضم كطبيب (استمارة أو واتساب)</li>
+        <li>`/doctors/register` تسجيل عيادة كامل + صور + GPS</li>
+        <li>`/doctors/set-location` تحديث موقع العيادة</li>
+        <li>`/subscriptions` باقات الدليل/المميز/الإعلانات</li>
+        <li>`/advertise` أعلن معنا + رفع صورة + واتساب جاهز</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card dark" style="margin-top:6px">
+    <h3>طبقات عامة على كل الموقع</h3>
+    <p class="tiny">Navbar عربي RTL + قائمة المزيد + شريط سفلي موبايل · مساعدة ملامح · شريط إخباري · Cookie/Connectivity · PWA · Google Analytics · Google AdSense (مع استثناء صفحات حساسة مثل الحجز/الأدمن).</p>
+  </div>
+  <div class="footer"><span>ملامح · Pitch الشامل</span><span>صفحة 7 / 15</span></div>
+</section>
+
+<!-- ===================== 8 MOBILE ===================== -->
+<section class="page">
+  <div class="topbar">
+    <div class="brand">ملامح<span>.ps</span></div>
+    <div class="chip">07 · مزايا التطبيق — شاملة</div>
+  </div>
+  <h2>التطبيق: نفس المنصة في جيب المستخدم — قناة نمو أساسية</h2>
+  <div class="explain">
+    <strong>شرح:</strong> التطبيق مبني بـ React Native/Expo، ويعيد استخدام منطق المنصة المشترك ليقدّم تجربة عربية كاملة على الجوال.
+    وجود التطبيق يثبت أن ملامح منتج استهلاكي متعدد القنوات — وليس موقعاً تعريفياً فقط.
+  </div>
+  <h4>التبويبات الرئيسية</h4>
+  <div class="grid grid-5" style="grid-template-columns:repeat(5,1fr);gap:5px;margin-bottom:6px">
+    <div class="card dark" style="text-align:center"><h3>الرئيسية</h3><p class="tiny">اكتشاف ووصول سريع</p></div>
+    <div class="card dark" style="text-align:center"><h3>الأطباء</h3><p class="tiny">دليل وبحث</p></div>
+    <div class="card dark" style="text-align:center"><h3>الحجز</h3><p class="tiny">بدء موعد</p></div>
+    <div class="card dark" style="text-align:center"><h3>العروض</h3><p class="tiny">خصومات حالية</p></div>
+    <div class="card dark" style="text-align:center"><h3>المزيد</h3><p class="tiny">كل الخدمات</p></div>
+  </div>
+  <div class="grid grid-2">
+    <div class="card">
+      <h3>ما يشمله للمريض</h3>
+      <ul class="tiny">
+        <li>بحث الأطباء والفلاتر والمسافة</li>
+        <li>ملفات الأطباء + خرائط تفصيلية</li>
+        <li>الحجز ومتابعة المواعيد</li>
+        <li>العروض وبطاقة الخصم</li>
+        <li>التجميل · المختبرات · الاستشارات</li>
+        <li>المجلة · السوق · المتاجر · الشركاء</li>
+        <li>ميديا طبية · عن ملامح · خصوصية وشروط</li>
+        <li>مساعدة داخل التطبيق للتوجيه</li>
+        <li>إشعارات وتنبيهات (Notification Bridge)</li>
+        <li>شريط إخباري متحرك</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>قائمة «المزيد» — Hub كامل</h3>
+      <ul class="tiny">
+        <li><strong>اكتشف:</strong> أطباء، عروض، تجميل، مختبرات</li>
+        <li><strong>محتوى وسوق:</strong> سوق، مجلة، موردون، استشارات</li>
+        <li><strong>شركاء:</strong> باقات، انضم، تسجيل عيادة، أعلن معنا</li>
+        <li><strong>حسابات:</strong> دخول طبيب، دخول إدارة</li>
+        <li><strong>عن التطبيق:</strong> من نحن، خصوصية، شروط</li>
+      </ul>
+      <h3 style="margin-top:5px">للتطبيب والإدارة من الجوال</h3>
+      <ul class="tiny">
+        <li>بوابة طبيب: دخول · لوحة · إشعارات · توفر · حجوزات</li>
+        <li>أدمن: دخول + أقسام أصلية + فتح باقي اللوحة عبر الويب</li>
+        <li>إشعارات الطبيب للمواعيد الجديدة (Push)</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card goldish" style="margin-top:6px">
+    <h3>لماذا التطبيق مهم لقرار الاحتضان؟</h3>
+    <p class="mini">يزيد الاستبقاء، يسهّل الإشعارات، يفتح قناة توزيع على Android/iOS، ويثبت جاهزية المنتج للانتشار الاستهلاكي الحقيقي — لا مجرد عرض ويب.</p>
+  </div>
+  <div class="footer"><span>ملامح · Pitch الشامل</span><span>صفحة 8 / 15</span></div>
+</section>
+
+<!-- ===================== 9 DOCTOR ===================== -->
+<section class="page">
+  <div class="topbar">
+    <div class="brand">ملامح<span>.ps</span></div>
+    <div class="chip">08 · بوابة الطبيب — تشغيل العيادة رقمياً</div>
+  </div>
+  <h2>الطبيب لا يظهر فقط — يدير عمله اليومي من داخل ملامح</h2>
+  <div class="explain">
+    <strong>شرح:</strong> كثير من الأدلة تتوقف عند «بطاقة تعريف». ملامح تذهب أبعد: حساب دخول، لوحة مواعيد، توفر، ساعات دوام، موقع GPS، وإشعارات —
+    على الويب والتطبيق معاً. هذا ما يحوّل الاشتراك من إعلان إلى أداة تشغيل.
+  </div>
+  <div class="grid grid-2">
+    <div class="card">
+      <h3>مسار الانضمام قبل الدخول</h3>
+      <ul class="mini">
+        <li>انضم كطبيب `/join` (استمارة أو واتساب)</li>
+        <li>تسجيل عيادة كامل `/doctors/register` مع صور وGPS وتأمينات</li>
+        <li>مراجعة الأدمن والتوثيق</li>
+        <li>إنشاء حساب دخول من لوحة الإدارة</li>
+        <li>اختيار باقة وتفعيلها</li>
+      </ul>
+      <h3 style="margin-top:6px">تسجيل الدخول</h3>
+      <ul class="mini">
+        <li>`/doctor/login` على الويب والتطبيق</li>
+        <li>جلسات آمنة عبر APIs مخصصة للطبيب</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>لوحة الطبيب `/doctor/dashboard`</h3>
+      <ul class="tiny">
+        <li>إحصاءات: معلّق · مؤكد · اليوم · الإجمالي</li>
+        <li>أقرب المواعيد مع تفاصيل المريض</li>
+        <li>تأكيد / إلغاء / إكمال الموعد</li>
+        <li>إظهار إن كان المريض مشتركاً ببطاقة الخصم</li>
+        <li>تعديل ملف العيادة: هاتف، واتساب، مدينة، منطقة، عنوان، نبذة</li>
+        <li>تفعيل/إيقاف التوفر + ملاحظة للمرضى</li>
+        <li>ساعات الدوام لكل يوم (سبت–جمعة)</li>
+        <li>قبول بطاقة الخصم وقيمة/ملاحظة الخصم</li>
+        <li>تحديد موقع العيادة GPS/إحداثيات</li>
+        <li>إشعارات صوتية/قائمة للمواعيد الجديدة</li>
+        <li>`/doctor/notifications` إدارة غير المقروء</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card dark" style="margin-top:7px">
+    <h3>القيمة التجارية لهذه البوابة</h3>
+    <p class="mini">الاشتراك لا يشتري «ذكراً» فقط — يشتري أداة يومية لاستقبال المرضى وإدارة الحضور الرقمي. هذا يزيد الاحتفاظ بالعيادات المدفوعة (Retention) ويجعل التسعير السنوي منطقياً.</p>
+  </div>
+  <div class="footer"><span>ملامح · Pitch الشامل</span><span>صفحة 9 / 15</span></div>
+</section>
+
+<!-- ===================== 10 ADMIN ===================== -->
+<section class="page">
+  <div class="topbar">
+    <div class="brand">ملامح<span>.ps</span></div>
+    <div class="chip">09 · لوحة الإدارة — غرفة تشغيل المنصة</div>
+  </div>
+  <h2>كل شيء قابل للإدارة: توثيق · محتوى · إعلانات · إيرادات</h2>
+  <div class="explain">
+    <strong>شرح:</strong> بدون لوحة أدمن قوية تبقى المنصة «واجهة جميلة». ملامح تملك غرفة تشغيل كاملة تمكّن فريقاً صغيراً من إدارة آلاف التفاعلات يومياً لاحقاً.
+  </div>
+  <div class="grid grid-2">
+    <div class="card">
+      <h3>التشغيل الأساسي</h3>
+      <ul class="tiny">
+        <li>`/admin` Dashboard بإحصاءات حية (أطباء، موثّقون، حجوزات، متاجر…)</li>
+        <li>`/admin/doctors` CRUD أطباء + توثيق + صور + إضافة سريعة</li>
+        <li>`/admin/doctor-accounts` حسابات دخول الأطباء (كلمات مرور/تفعيل)</li>
+        <li>`/admin/appointments` كل المواعيد + تغيير حالة + بطاقة خصم</li>
+        <li>`/admin/reviews` موافقة/رفض/حذف تقييمات المرضى</li>
+        <li>`/admin/notifications` مركز إشعارات الإدارة</li>
+      </ul>
+      <h3 style="margin-top:5px">المحتوى والواجهة</h3>
+      <ul class="tiny">
+        <li>`/admin/content` عروض + مقالات + إعلانات سوق</li>
+        <li>`/admin/ticker` الشريط الإخباري (نص، صورة، رابط، ألوان، ترتيب)</li>
+        <li>`/admin/services` خدمات: تجميل · مختبر · استشارة · حجز · ميديا · شركاء</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>الإيرادات والشركاء</h3>
+      <ul class="tiny">
+        <li>`/admin/subscriptions` طلبات الاشتراك: تفعيل / إلغاء</li>
+        <li>`/admin/ads` إعلانات featured/banner/sidebar + تفعيل وأولوية</li>
+        <li>`/admin/discount-card` طلبات البطاقة: تفعيل/رفض/انتهاء + إحصاءات</li>
+        <li>`/admin/stores` متاجر وموردون: إضافة/توثيق/حذف</li>
+      </ul>
+      <h3 style="margin-top:5px">من الجوال أيضاً</h3>
+      <ul class="tiny">
+        <li>دخول أدمن من التطبيق</li>
+        <li>أقسام أصلية: إشعارات، بطاقة خصم، حسابات أطباء</li>
+        <li>باقي الأقسام تفتح نسخة الويب داخل/عبر المنصة</li>
+      </ul>
+      <h3 style="margin-top:5px">ماذا يعني عملياً؟</h3>
+      <p class="tiny">يمكن تشغيل دورة كاملة يومياً: توثيق عيادة → تفعيل اشتراك → نشر عرض → مراجعة تقييم → إدارة حجز → تفعيل بطاقة خصم — دون أدوات خارجية مبعثرة.</p>
+    </div>
+  </div>
+  <div class="card goldish" style="margin-top:6px">
+    <h3>جاهزية التشغيل = جاهزية الاحتضان</h3>
+    <p class="mini">الحاضنة لا تحتاج أن تنتظر بناء الـ Backend التشغيلي. المطلوب تسريع الاكتساب والتسويق والحوكمة — والمنصة جاهزة لاستقبال هذا النمو.</p>
+  </div>
+  <div class="footer"><span>ملامح · Pitch الشامل</span><span>صفحة 10 / 15</span></div>
+</section>
+
+<!-- ===================== 11 TRUST ECOSYSTEM ===================== -->
+<section class="page">
+  <div class="topbar">
+    <div class="brand">ملامح<span>.ps</span></div>
+    <div class="chip">10 · الثقة · المحتوى · النظام البيئي</div>
+  </div>
+  <h2>أكثر من دليل: منظومة ثقة ومحتوى وشراكات</h2>
+  <div class="explain">
+    <strong>شرح:</strong> النجاح طويل الأمد في الصحة الرقمية لا يأتي من قائمة أطباء فقط.
+    يأتي من ثقة قابلة للشرح، ومحتوى يبني Habit، وخدمات محيطة (تجميل، مختبرات، سوق) تزيد قيمة الزيارة الواحدة.
+  </div>
+  <div class="grid grid-3">
+    <div class="card">
+      <h3>طبقة الثقة</h3>
+      <ul class="tiny">
+        <li>توثيق أدمن قبل الظهور الكامل</li>
+        <li>صفحة `/trust` تشرح المنهجية</li>
+        <li>شارات توثيق على الملفات</li>
+        <li>مراجعة التقييمات قبل النشر</li>
+        <li>سياسات خصوصية وشروط واضحة</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>طبقة المحتوى</h3>
+      <ul class="tiny">
+        <li>مجلة طبية توعوية</li>
+        <li>ميديا وأخبار ودراسات</li>
+        <li>عروض موسمية تزيد الزيارات</li>
+        <li>شريط إخباري للمنصة</li>
+        <li>مساعدة داخلية لتوجيه المستخدم</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>طبقة الخدمات المحيطة</h3>
+      <ul class="tiny">
+        <li>مراكز تجميل</li>
+        <li>مختبرات وتحاليل</li>
+        <li>استشارات عن بُعد</li>
+        <li>سوق معدات ووظائف</li>
+        <li>موردون ومتاجر طبية</li>
+        <li>بطاقة خصم لولاء المريض</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card dark" style="margin-top:8px">
+    <h3>أثر النظام البيئي على الإيراد والنمو</h3>
+    <p class="mini">كل طبقة تضيف سبباً جديداً لزيارة المنصة، وتفتح خطاً إيرادياً إضافياً (إعلان عرض، إعلان سوق، بطاقة خصم، مورد)، وتزيد Stickiness للعيادة والمريض معاً — وهذا أساس Marketplace صحي ناجح.</p>
+  </div>
+  <div class="grid grid-2" style="margin-top:7px">
+    <div class="card goldish">
+      <h3>جانب المريض</h3>
+      <p class="mini">مكان واحد للاكتشاف والحجز والعروض والخصم والمحتوى — بدل التشتت بين 5 تطبيقات ومجموعات.</p>
+    </div>
+    <div class="card goldish">
+      <h3>جانب العيادة/الشريك</h3>
+      <p class="mini">ظهور + حجوزات + عروض + إعلانات + سوق — قنوات متعددة داخل نفس العلامة «ملامح».</p>
+    </div>
+  </div>
+  <div class="footer"><span>ملامح · Pitch الشامل</span><span>صفحة 11 / 15</span></div>
+</section>
+
+<!-- ===================== 12 TECH ===================== -->
+<section class="page">
+  <div class="topbar">
+    <div class="brand">ملامح<span>.ps</span></div>
+    <div class="chip">11 · التقنية والبنية</div>
+  </div>
+  <h2>أساس تقني حديث… منشور على الإنتاج</h2>
+  <div class="explain">
+    <strong>شرح:</strong> الاستثمار في البناء الأساسي تم. المكدس حديث، عربي RTL، مشترك بين الويب والموبايل، وقابل للتوسع.
+    هذا يقلل مخاطر الاحتضان التقنية ويرفع احتمالية نجاح النمو.
+  </div>
+  <div class="cols-21">
+    <div class="card">
+      <h3>المكدس</h3>
+      <ul class="mini">
+        <li><strong>Web:</strong> Next.js 15 · React 19 · TypeScript · Tailwind · Framer Motion</li>
+        <li><strong>Mobile:</strong> Expo ~54 · Expo Router · React Native · EAS Build</li>
+        <li><strong>Backend/DB:</strong> Supabase (Postgres + RLS + Storage)</li>
+        <li><strong>Shared package:</strong> أنواع وبيانات وتنقل مشترك بين المنصتين</li>
+        <li><strong>Maps:</strong> Leaflet + روابط Google/Apple Maps + GPS</li>
+        <li><strong>Push:</strong> Web Push (VAPID) + Expo Notifications</li>
+        <li><strong>Analytics/Ads:</strong> Google Analytics + AdSense</li>
+        <li><strong>Hosting/Domain:</strong> Vercel · malamih.ps</li>
+        <li><strong>Integrations:</strong> واتساب deep links · PWA</li>
+      </ul>
+    </div>
+    <div>
+      <div class="card dark">
+        <h3>هيكل المنتج</h3>
+        <ul class="tiny">
+          <li>Monorepo: web + mobile + shared</li>
+          <li>API Routes للطبيب/الأدمن/الحجوزات</li>
+          <li>جلسات وصلاحيات منفصلة لكل بوابة</li>
+          <li>Migrations وStorage للصور</li>
+        </ul>
+      </div>
+      <div class="card" style="margin-top:6px">
+        <h3>طريقة التفعيل المالي حالياً</h3>
+        <p class="tiny">طلب اشتراك/إعلان عبر نموذج → مراجعة أدمن أو واتساب → تفعيل يدوي. مناسب لمرحلة الإطلاق المحلي وبناء العلاقات مع العيادات قبل أتمتة الدفع الإلكتروني لاحقاً.</p>
+      </div>
+      <div class="card goldish" style="margin-top:6px">
+        <h3>جاهزية التوسع</h3>
+        <p class="tiny">البنية تدعم إضافة مدن/تخصصات/باقات/حملات بسرعة دون إعادة بناء المنتج من الصفر.</p>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>ملامح · Pitch الشامل</span><span>صفحة 12 / 15</span></div>
+</section>
+
+<!-- ===================== 13 REVENUE ===================== -->
+<section class="page">
+  <div class="topbar">
+    <div class="brand">ملامح<span>.ps</span></div>
+    <div class="chip">12 · نموذج الإيرادات والتسعير</div>
+  </div>
+  <h2>المريض مجاناً… والإيراد من العيادة والشركاء</h2>
+  <div class="explain">
+    <strong>شرح النموذج:</strong> نبني قاعدة مستخدمين مجانية على جانب الطلب (المرضى)، ونحقق إيراداً من جانب العرض (العيادات والمعلنون والموردون).
+    هذا يقلل احتكاك الاكتساب للمريض ويجعل القيمة واضحة للعيادة: ظهور + أدوات تشغيل مقابل اشتراك سنوي أو حملة.
+  </div>
+  <table>
+    <tr><th style="width:22%">المنتج</th><th style="width:18%">السعر</th><th>ماذا يشمل؟</th></tr>
+    <tr><td>باقة الدليل</td><td><strong>$100 / سنة</strong></td><td>صفحة تعريف + ظهور بالدليل + مجلة + خريطة</td></tr>
+    <tr><td>الباقة المميزة</td><td><strong>$300 / سنة</strong></td><td>كل مزايا الدليل + حجوزات ويب/موبايل + تتبع + استشارات/متابعات</td></tr>
+    <tr><td>إعلان مميز</td><td><strong>من $50 / إعلان</strong></td><td>بنر رئيسي + عروض + حملات مرتبطة</td></tr>
+    <tr><td>إعلان سوق عادي</td><td><strong>50₪ / 30 يوم</strong></td><td>نشر معدات/وظائف في سوق ملامح</td></tr>
+    <tr><td>إعلان سوق ممول</td><td><strong>120₪ / 30 يوم</strong></td><td>أعلى النتائج + تمييز</td></tr>
+    <tr><td>بطاقة خصم</td><td><strong>49 / 99 / 179₪</strong></td><td>أساسية 3 أشهر · بلس سنة · عائلة حتى 4 أفراد</td></tr>
+  </table>
+  <div class="grid grid-3" style="margin-top:8px">
+    <div class="metric"><strong>هدف 12 شهر</strong><span>500+ عيادة مسجّلة</span></div>
+    <div class="metric"><strong>50K+</strong><span>زيارة شهرية مستهدفة</span></div>
+    <div class="metric"><strong>$3K–8K</strong><span>إيراد شهري مستهدف</span></div>
+  </div>
+  <div class="card" style="margin-top:7px">
+    <h3>خطوط إيراد مستقبلية (بعد تثبيت الاكتساب)</h3>
+    <ul class="mini">
+      <li>عمولة على حجز/عميل محتمل مؤهل</li>
+      <li>باقات إعلانات جغرافية/تخصصية متقدمة</li>
+      <li>شراكات تأمين وموردين</li>
+      <li>أتمتة الدفع الإلكتروني داخل المنصة</li>
+    </ul>
+  </div>
+  <div class="footer"><span>ملامح · Pitch الشامل</span><span>صفحة 13 / 15</span></div>
+</section>
+
+<!-- ===================== 14 ROADMAP ===================== -->
+<section class="page">
+  <div class="topbar">
+    <div class="brand">ملامح<span>.ps</span></div>
+    <div class="chip">13 · أين نحن؟ وخطة 90 يوماً</div>
+  </div>
+  <h2>الإنجاز التقني تم… والفجوة الآن نمو سوقي منظم</h2>
+  <div class="explain">
+    <strong>الوضع الحالي بصراحة:</strong> المنتج منشور ومساراته الأساسية مكتملة (مريض/طبيب/أدمن/إيراد).
+    الفجوة ليست «هل نستطيع البناء؟» بل «كيف نسرّع اكتساب العيادات والمرضى ونثبت إيراداً شهرياً قابلاً للقياس؟»
+  </div>
+  <div class="grid grid-2">
+    <div class="card">
+      <h3>ما أنجزناه</h3>
+      <ul class="mini">
+        <li>إطلاق Live للويب على malamih.ps</li>
+        <li>تطبيق موبايل بتبويبات وHub كامل</li>
+        <li>بوابة طبيب + لوحة أدمن تشغيلية</li>
+        <li>باقات واشتراكات وإعلانات داخل النظام</li>
+        <li>سوق · بطاقة خصم · تجميل · مختبرات · مجلة</li>
+        <li>هوية وتجربة عربية قوية RTL</li>
+        <li>تحليلات وإعلانات جوجل جاهزة</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>فجوة النمو (لماذا نحتاج الحاضنة)</h3>
+      <ul class="mini">
+        <li>تسريع تسجيل العيادات الموثّقة</li>
+        <li>تحويل العيادات لاشتراكات مدفوعة</li>
+        <li>زيادة الحجوزات والتواصل الحقيقي</li>
+        <li>بناء قدرة تسويقية منتظمة (محتوى + حملات)</li>
+        <li>تمويل أولي لأول 90 يوماً من التشغيل البيعي</li>
+        <li>إرشاد تسعير وحوكمة واستعداد تمويلي</li>
+      </ul>
+    </div>
+  </div>
+  <h4>خطة 90 يوماً مع الاحتضان</h4>
+  <table>
+    <tr><th style="width:14%">الشهر</th><th style="width:28%">التركيز</th><th>المخرجات المتوقعة</th></tr>
+    <tr><td>الشهر 1</td><td>تأسيس النمو</td><td>عيادات موثّقة أكثر · محتوى أسبوعي · أولى الحملات · ضبط رسائل البيع</td></tr>
+    <tr><td>الشهر 2</td><td>تسريع الاكتساب</td><td>اشتراكات مدفوعة · عروض حية · تحسين تحويل البحث→حجز · شراكات أولية</td></tr>
+    <tr><td>الشهر 3</td><td>تثبيت القياس</td><td>KPIs شهرية ثابتة · نواة فريق تسويق/مبيعات · جاهزية تمويل/مرحلة تالية</td></tr>
+  </table>
+  <div class="card dark" style="margin-top:7px">
+    <h3>KPIs سنراقبها معاً</h3>
+    <p class="tiny">عدد العيادات الموثّقة · عدد الاشتراكات المدفوعة · عدد الحجوزات/التواصلات · زيارات شهرية · معدل تحويل البحث→ملف→حجز · إيراد شهري متكرر.</p>
+  </div>
+  <div class="footer"><span>ملامح · Pitch الشامل</span><span>صفحة 14 / 15</span></div>
+</section>
+
+<!-- ===================== 15 ASK + CLOSE ===================== -->
+<section class="page">
+  <div class="topbar">
+    <div class="brand">ملامح<span>.ps</span></div>
+    <div class="chip">14–15 · طلب الاحتضان · الملخص · الختام</div>
+  </div>
+  <h2>طلبنا من حديقة النجاح… ولماذا الآن؟</h2>
+  <div class="card goldish">
+    <h3>نطلب تحديداً</h3>
+    <ul>
+      <li><strong>احتضان وإرشاد:</strong> نمو، تسعير، حوكمة، استعداد تمويلي، نموذج عمل</li>
+      <li><strong>دعم مالي/أولي:</strong> تسويق وتشغيل ومحتوى ومبيعات لأول 90 يوماً</li>
+      <li><strong>قدرة تسويقية:</strong> إرشاد أو مساعدة في بناء فريق اكتساب منظم</li>
+      <li><strong>دعم عيني وشبكات:</strong> مساحة، خدمات، علاقات، شركاء، مستثمرون، عيادات</li>
+    </ul>
+  </div>
+  <h4 style="margin-top:7px">ملخص تنفيذي سريع</h4>
+  <table>
+    <tr><th style="width:26%">البند</th><th>الوضع</th></tr>
+    <tr><td>المنتج</td><td>Live على malamih.ps — ويب + موبايل + بوابة طبيب + أدمن + منظومة خدمات</td></tr>
+    <tr><td>المشكلة</td><td>اكتشاف طبيب موثوق في فلسطين عشوائي وغير منظم ويُضعف ثقة المريض وظهور العيادة</td></tr>
+    <tr><td>الحل</td><td>محرك اكتشاف متخصص + حجز + عروض + محتوى + سوق + تشغيل داخلي كامل</td></tr>
+    <tr><td>الإيراد</td><td>دليل $100 · مميز $300 · إعلان من $50 · سوق 50/120₪ · بطاقة خصم 49/99/179₪</td></tr>
+    <tr><td>المرحلة</td><td>تشغيل تقني ناجح · بحاجة احتضان للنمو التجاري والقياس</td></tr>
+    <tr><td>الطلب</td><td>إرشاد + تمويل أولي + تسويق + شبكات ودعم عيني</td></tr>
+  </table>
+  <div class="card dark" style="margin-top:7px">
+    <h3>الخطوة التالية المقترحة في جلسة اليوم</h3>
+    <ul class="mini">
+      <li><span class="num">1</span> تجربة حية: بحث → ملف طبيب → حجز على malamih.ps</li>
+      <li><span class="num">2</span> تحديد مسار الاحتضان الأنسب لملامح</li>
+      <li><span class="num">3</span> الاتفاق على دعم وخطة متابعة لأول 90 يوماً</li>
+    </ul>
+  </div>
+  <div style="margin-top:10px">
+    <h1 style="font-size:20px;margin-bottom:3px">خلّونا نبني ملامح معاً</h1>
+    <p class="lead" style="margin-bottom:2px"><strong>عمار اشتية</strong> · مؤسس ملامح</p>
+    <p><strong>https://www.malamih.ps</strong></p>
+    <p class="mini" style="margin-top:4px">أثر للمريض · قناة نمو للعيادة · لبنة عملية في الصحة الرقمية الفلسطينية.</p>
+  </div>
+  <div class="footer"><span>شكراً لوقتكم وثقتكم</span><span>صفحة 15 / 15 · جاهزون للتنفيذ فوراً</span></div>
+</section>
 
 </body>
 </html>

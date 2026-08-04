@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Platform, Pressable, Text, View } from "react-native";
 import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
+import { displayTimeLabel, toHHMM, toLocalDateString } from "../lib/booking";
 
 function FieldShell({ label, value, placeholder, onPress }: { label: string; value: string; placeholder: string; onPress: () => void }) {
   return (
@@ -25,22 +26,40 @@ function FieldShell({ label, value, placeholder, onPress }: { label: string; val
   );
 }
 
-export function BookingDateField({ label, value, onChange }: { label: string; value: string; onChange: (value: string) => void }) {
+export function BookingDateField({
+  label,
+  value,
+  onChange,
+  minimumDate,
+  maximumDate,
+}: {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  minimumDate?: Date | null;
+  maximumDate?: Date | null;
+}) {
   const [show, setShow] = useState(false);
   const selected = value ? new Date(`${value}T12:00:00`) : new Date();
 
   const onPick = (event: DateTimePickerEvent, date?: Date) => {
     if (Platform.OS === "android") setShow(false);
     if (event.type === "dismissed" || !date) return;
-    const iso = date.toISOString().split("T")[0];
-    onChange(iso);
+    onChange(toLocalDateString(date));
   };
 
   return (
     <>
       <FieldShell label={label} value={value} placeholder="اختر التاريخ" onPress={() => setShow(true)} />
       {show ? (
-        <DateTimePicker value={selected} mode="date" minimumDate={new Date()} display={Platform.OS === "ios" ? "spinner" : "default"} onChange={onPick} />
+        <DateTimePicker
+          value={selected}
+          mode="date"
+          minimumDate={minimumDate === null ? undefined : minimumDate ?? new Date()}
+          maximumDate={maximumDate ?? undefined}
+          display={Platform.OS === "ios" ? "spinner" : "default"}
+          onChange={onPick}
+        />
       ) : null}
     </>
   );
@@ -59,18 +78,16 @@ export function BookingTimeField({ label, value, onChange }: { label: string; va
   const onPick = (event: DateTimePickerEvent, date?: Date) => {
     if (Platform.OS === "android") setShow(false);
     if (event.type === "dismissed" || !date) return;
-    const hours = date.getHours();
-    const minutes = date.getMinutes().toString().padStart(2, "0");
-    const period = hours >= 12 ? "مساءً" : "صباحاً";
-    const hour12 = hours % 12 || 12;
-    onChange(`${hour12}:${minutes} ${period}`);
+    onChange(toHHMM(date));
   };
+
+  const display = value ? displayTimeLabel(value) : "";
 
   return (
     <>
-      <FieldShell label={label} value={value} placeholder="اختر الوقت" onPress={() => setShow(true)} />
+      <FieldShell label={label} value={display} placeholder="اختر الوقت" onPress={() => setShow(true)} />
       {show ? (
-        <DateTimePicker value={selected} mode="time" is24Hour={false} display={Platform.OS === "ios" ? "spinner" : "default"} onChange={onPick} />
+        <DateTimePicker value={selected} mode="time" is24Hour display={Platform.OS === "ios" ? "spinner" : "default"} onChange={onPick} />
       ) : null}
     </>
   );

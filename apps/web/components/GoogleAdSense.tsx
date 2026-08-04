@@ -19,7 +19,15 @@ function isAdFreePath(pathname: string) {
     pathname.startsWith("/doctor") ||
     pathname.startsWith("/booking") ||
     pathname.startsWith("/appointments") ||
-    pathname.startsWith("/doctors/register")
+    pathname.startsWith("/doctors/register") ||
+    pathname.startsWith("/doctors/") ||
+    pathname.startsWith("/doctors/search") ||
+    pathname === "/doctors/search" ||
+    pathname.startsWith("/beauty") ||
+    pathname.startsWith("/labs") ||
+    pathname.startsWith("/consultations") ||
+    pathname.startsWith("/discount-card") ||
+    pathname.startsWith("/trust")
   );
 }
 

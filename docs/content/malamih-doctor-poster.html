@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>ملامح — بوستر انضم كطبيب</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&display=swap');
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background: #1a1f2e;
+      font-family: 'Cairo', sans-serif;
+      padding: 24px;
+    }
+    .poster {
+      width: 1080px;
+      height: 1350px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+      box-shadow: 0 40px 100px rgba(0,0,0,.45);
+      background:
+        radial-gradient(ellipse 80% 50% at 15% 20%, rgba(12,94,71,.35), transparent 55%),
+        radial-gradient(ellipse 70% 45% at 90% 10%, rgba(212,175,55,.18), transparent 50%),
+        linear-gradient(155deg, #06101c 0%, #0a1628 42%, #0c3d32 100%);
+      color: #fff;
+    }
+    .poster::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, transparent 0%, transparent 48%, rgba(255,255,255,.03) 49%, transparent 51%),
+        repeating-linear-gradient(
+          -12deg,
+          transparent,
+          transparent 80px,
+          rgba(255,255,255,.015) 80px,
+          rgba(255,255,255,.015) 81px
+        );
+      pointer-events: none;
+    }
+    .gold-line {
+      position: absolute;
+      top: 0; right: 0; left: 0;
+      height: 6px;
+      background: linear-gradient(90deg, #0c5e47, #d4af37, #0c5e47);
+    }
+    .frame {
+      position: absolute;
+      inset: 28px;
+      border: 1px solid rgba(232,200,106,.28);
+      pointer-events: none;
+    }
+    .inner {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      padding: 64px 68px 56px;
+      display: flex;
+      flex-direction: column;
+    }
+    .brand-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .brand {
+      font-size: 42px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+    .brand span { color: #e8c86a; }
+    .badge {
+      border: 1px solid rgba(232,200,106,.45);
+      color: #f5d76e;
+      font-size: 14px;
+      font-weight: 800;
+      padding: 8px 16px;
+      border-radius: 999px;
+      background: rgba(232,200,106,.08);
+    }
+    .eyebrow {
+      margin-top: 56px;
+      color: #e8c86a;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+    }
+    h1 {
+      margin-top: 18px;
+      font-size: 64px;
+      font-weight: 900;
+      line-height: 1.22;
+      max-width: 920px;
+    }
+    h1 .line2 {
+      display: block;
+      margin-top: 10px;
+      color: #f5d76e;
+    }
+    .pills {
+      display: flex;
+      gap: 12px;
+      margin-top: 28px;
+      flex-wrap: wrap;
+    }
+    .pill {
+      font-size: 28px;
+      font-weight: 900;
+      padding: 10px 22px;
+      border-radius: 18px;
+    }
+    .pill.solid {
+      background: #e8c86a;
+      color: #0a1628;
+      box-shadow: 0 16px 40px -12px rgba(232,200,106,.55);
+    }
+    .pill.outline {
+      border: 2px solid #e8c86a;
+      color: #f5d76e;
+      background: rgba(232,200,106,.12);
+    }
+    .support {
+      margin-top: 28px;
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 1.7;
+      color: #cbd5e1;
+      max-width: 860px;
+    }
+    .features {
+      margin-top: auto;
+      display: grid;
+      gap: 0;
+      border-top: 1px solid rgba(255,255,255,.12);
+      padding-top: 28px;
+    }
+    .feat {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 16px;
+      align-items: center;
+      padding: 16px 0;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      font-size: 22px;
+      font-weight: 800;
+    }
+    .feat i {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #d4af37;
+      display: block;
+      margin-right: 8px;
+      box-shadow: 0 0 0 4px rgba(212,175,55,.2);
+    }
+    .cta-block {
+      margin-top: 36px;
+      background: linear-gradient(135deg, #0c5e47, #0a4a38);
+      border-radius: 22px;
+      padding: 28px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 24px 48px -20px rgba(12,94,71,.7);
+      border: 1px solid rgba(232,200,106,.25);
+    }
+    .cta-block strong {
+      display: block;
+      font-size: 30px;
+      font-weight: 900;
+    }
+    .cta-block span {
+      display: block;
+      margin-top: 6px;
+      font-size: 18px;
+      font-weight: 700;
+      color: #a7f3d0;
+    }
+    .cta-url {
+      background: #e8c86a;
+      color: #0a1628;
+      font-size: 22px;
+      font-weight: 900;
+      padding: 16px 26px;
+      border-radius: 14px;
+      white-space: nowrap;
+    }
+    .footer {
+      margin-top: 22px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 15px;
+      font-weight: 700;
+      color: #64748b;
+    }
+    @media print {
+      body { background: #fff; padding: 0; }
+      .poster { border-radius: 0; box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+  <article class="poster" id="poster">
+    <div class="gold-line"></div>
+    <div class="frame"></div>
+    <div class="inner">
+      <div class="brand-row">
+        <div class="brand">ملامح<span>.ps</span></div>
+        <div class="badge">للأطباء والعيادات</div>
+      </div>
+
+      <p class="eyebrow">قناة مرضى… مو مجرد إعلان</p>
+      <h1>
+        عيادتك موجودة
+        <span class="line2">بس المريض ما بلقاك</span>
+      </h1>
+
+      <div class="pills">
+        <span class="pill solid">لوجهك</span>
+        <span class="pill outline">أسنانك</span>
+      </div>
+
+      <p class="support">
+        منصة فلسطينية لدليل صحة وجمال الوجه — ظهور حسب المدينة والتخصص،
+        ملف احترافي، وطلبات حجز أو واتساب من ناس بتدور علاج وتجميل فعلاً.
+      </p>
+
+      <div class="features">
+        <div class="feat"><i></i><div>ظهور منظم في مدينتك وتخصصك</div></div>
+        <div class="feat"><i></i><div>ملف عيادة + صور + خريطة + دوام</div></div>
+        <div class="feat"><i></i><div>طلبات حجز وواتساب بدل ضياع على السوشال</div></div>
+      </div>
+
+      <div class="cta-block">
+        <div>
+          <strong>انضم كطبيب الآن</strong>
+          <span>سجّل عيادتك خلال دقايق</span>
+        </div>
+        <div class="cta-url">malamih.ps/join</div>
+      </div>
+
+      <div class="footer">
+        <span>صحة وجمال الوجه · فلسطين</span>
+        <span>www.malamih.ps</span>
+      </div>
+    </div>
+  </article>
+</body>
+</html>

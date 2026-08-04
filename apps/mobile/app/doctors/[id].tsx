@@ -14,6 +14,7 @@ import { registerPushSubscription } from "../../lib/notifications";
 import { useAppToast } from "../../components/AppToast";
 import { theme } from "../../constants/theme";
 import { BookingDateField, BookingTimeField } from "../../components/BookingPickers";
+import { ageFromBirthDate, isIdentityRequiredForAge } from "../../lib/booking";
 import { SITE_URL } from "../../lib/site-contact";
 
 type ReviewRow = { patient_name: string; rating: number; comment?: string | null; created_at: string };
@@ -28,6 +29,7 @@ export default function DoctorProfileScreen() {
   const [phone, setPhone] = useState("");
   const [identity, setIdentity] = useState("");
   const [address, setAddress] = useState("");
+  const [birthDate, setBirthDate] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [notes, setNotes] = useState("");
@@ -85,8 +87,21 @@ export default function DoctorProfileScreen() {
 
   const book = async () => {
     if (!doctor) return;
-    if (!fullName || !phone || !identity || !address || !date || !time) {
-      showToast({ type: "info", title: "حقول ناقصة", message: "يرجى تعبئة بيانات الحجز المطلوبة." });
+    const age = ageFromBirthDate(birthDate);
+    if (!fullName || !phone || !address || !birthDate || !date || !time) {
+      showToast({ type: "info", title: "حقول ناقصة", message: "يرجى تعبئة الاسم والجوال والعنوان وتاريخ الميلاد والتاريخ والوقت." });
+      return;
+    }
+    if (age === null) {
+      showToast({ type: "error", title: "تاريخ ميلاد غير صالح", message: "تحقق من التاريخ." });
+      return;
+    }
+    if (isIdentityRequiredForAge(age) && !identity.trim()) {
+      showToast({ type: "error", title: "الهوية مطلوبة", message: "رقم الهوية إلزامي لمن عمرهم 17 سنة فأكثر." });
+      return;
+    }
+    if (identity.trim() && !/^\d{9}$/.test(identity.trim())) {
+      showToast({ type: "error", title: "هوية غير صحيحة", message: "رقم الهوية يجب أن يكون 9 أرقام." });
       return;
     }
     setBooking(true);
@@ -96,11 +111,13 @@ export default function DoctorProfileScreen() {
         doctor_id: doctor.id,
         patient_full_name: fullName,
         patient_phone: phone,
-        patient_identity: identity,
-        patient_address: address,
+        patient_identity: identity.trim() || null,
+        patient_address: address.trim(),
+        patient_birth_date: birthDate,
         date,
         time,
         notes,
+        website: "",
       }),
     });
     setBooking(false);
@@ -108,9 +125,14 @@ export default function DoctorProfileScreen() {
       showToast({ type: "error", title: "تعذر الحجز", message: data?.error || "حاول لاحقاً" });
       return;
     }
+    const bookingRef = String((data as any)?.booking_ref || (data as any)?.appointment?.booking_ref || "");
     void registerPushSubscription({ role: "patient", patientPhone: phone }).catch(() => null);
-    showToast({ type: "success", title: "تم الحجز بنجاح", message: "تم إرسال طلب الموعد للطبيب." });
-    router.push(`/appointments?phone=${encodeURIComponent(phone)}`);
+    showToast({
+      type: "success",
+      title: "تم الحجز بنجاح",
+      message: bookingRef ? `رمز الحجز: ${bookingRef}` : "تم إرسال طلب الموعد للطبيب.",
+    });
+    router.push(`/appointments?phone=${encodeURIComponent(phone)}&ref=${encodeURIComponent(bookingRef)}`);
   };
 
   const shareProfile = async () => {
@@ -341,8 +363,14 @@ export default function DoctorProfileScreen() {
         </Text>
         <Field label="الاسم الرباعي للمريض *" value={fullName} onChangeText={setFullName} />
         <Field label="رقم الهاتف للتأكيد *" value={phone} onChangeText={setPhone} keyboardType="phone-pad" />
-        <Field label="رقم الهوية الشخصية *" value={identity} onChangeText={setIdentity} keyboardType="number-pad" />
-        <Field label="العنوان السكني الحالي *" value={address} onChangeText={setAddress} />
+        <BookingDateField label="تاريخ الميلاد *" value={birthDate} onChange={setBirthDate} minimumDate={null} maximumDate={new Date()} />
+        <Field
+          label={isIdentityRequiredForAge(ageFromBirthDate(birthDate)) ? "رقم الهوية * (17 سنة فأكثر)" : "رقم الهوية (إلزامي لمن عمرهم 17 فأكثر)"}
+          value={identity}
+          onChangeText={setIdentity}
+          keyboardType="number-pad"
+        />
+        <Field label="العنوان السكني *" value={address} onChangeText={setAddress} />
         <BookingDateField label="التاريخ المطلوب للحجز *" value={date} onChange={setDate} />
         <BookingTimeField label="الوقت المفضل *" value={time} onChange={setTime} />
         <Field label="ملاحظات أو الأعراض الطبية" value={notes} onChangeText={setNotes} multiline />

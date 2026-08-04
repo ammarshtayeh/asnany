@@ -10,35 +10,36 @@ export default function TrustPage() {
       badge="ثقة وشفافية"
       badgeIcon={ShieldCheck}
       title="كيف نختار الأطباء على ملامح؟"
-      description="منهجية واضحة قبل ظهور أي عيادة في الدليل — عشان تاخد قرارك وأنت مطمئن."
+      description="نشرح بصراحة ماذا يعني التوثيق اليوم — وما الذي ما زلنا نبنيه لتقوية الثقة."
       useBackButton
     >
       <ContentPanel>
         <div className="mx-auto max-w-2xl space-y-3 text-center">
-          <h2 className="text-2xl font-black text-slate-900 md:text-3xl">موثوقية قبل الظهور</h2>
+          <h2 className="text-2xl font-black text-slate-900 md:text-3xl">موثوقية عملية… بصراحة</h2>
           <p className="text-sm font-medium leading-relaxed text-slate-500 md:text-base">
-            ملامح مش مجرد قائمة أسماء. كل مزود خدمة يمر بخطوات تحقق قبل التفعيل العلني في الدليل.
+            شارة «موثّق» تعني أن الإدارة راجعت بيانات العيادة الأساسية وفعّلت ظهورها في الدليل.
+            لا تعني حالياً تحققاً حكومياً آلياً من الرخصة أو النقابة — ونعمل على تقوية هذه الطبقة تدريجياً.
           </p>
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <FeatureTile icon={ClipboardCheck} title="مراجعة البيانات" tone="primary">
-            نراجع الاسم، التخصص، المدينة، العنوان، ووسائل التواصل قبل النشر.
+            نراجع الاسم، التخصص، المدينة، العنوان، ووسائل التواصل قبل النشر العلني.
           </FeatureTile>
           <FeatureTile icon={BadgeCheck} title="شارة التوثيق" tone="emerald">
-            الأطباء الموثّقون يظهرون بشارة واضحة بعد اكتمال التحقق.
+            تظهر بعد موافقة الإدارة. التقييم يظهر فقط عند وجود مراجعات حقيقية معتمدة.
           </FeatureTile>
           <FeatureTile icon={MapPin} title="موقع واضح" tone="indigo">
             نخلي العنوان والخريطة متاحة عشان توصل بسهولة للعيادة.
           </FeatureTile>
-          <FeatureTile icon={Users} title="تجربة المريض أولاً" tone="primary">
-            الحجز والتواصل مصممين ليكونوا بسيطين وبدون تعقيد.
+          <FeatureTile icon={Users} title="طلب حجز للمراجعة" tone="primary">
+            الحجز الإلكتروني طلب يراجعه الطبيب — مش تأكيد فوري إلا بعد رد العيادة.
           </FeatureTile>
-          <FeatureTile icon={ShieldCheck} title="خصوصية" tone="emerald">
-            بياناتك للحجز تُستخدم لتأكيد الموعد مع العيادة وفق سياسة الخصوصية.
+          <FeatureTile icon={ShieldCheck} title="خصوصية أفضل" tone="emerald">
+            متابعة الحجوزات تتم برقم الهاتف + رمز حجز، لتقليل اطلاع الغير على مواعيدك.
           </FeatureTile>
-          <FeatureTile icon={Sparkles} title="تحديث مستمر" tone="indigo">
-            نحدّث العروض والمعلومات باستمرار لتحسين جودة الدليل.
+          <FeatureTile icon={Sparkles} title="تحسين مستمر" tone="indigo">
+            نضيف لاحقاً تحقق أقوى للمستندات وOTP واتساب وجدول مواعيد أدق من العيادة.
           </FeatureTile>
         </div>
 

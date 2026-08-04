@@ -10,7 +10,7 @@ import { theme } from "../../constants/theme";
 
 const SPECIALIZATIONS_EQUIP = ["أجهزة ليزر وتجميل", "كراسي وأجهزة عيادات", "أجهزة فحص نظر وبصريات", "أجهزة تصوير وأشعة", "مستلزمات ومواد استهلاكية"];
 const SPECIALIZATIONS_JOBS = ["أطباء (كل التخصصات)", "ممرضين وأخصائيي بشرة", "أخصائيي فحص وبصريات", "إداريين وسكرتاريا", "مساعدين وفنيي معمل"];
-const CITIES = ["رام الله", "نابلس", "الخليل", "القدس", "بيت لحم", "جنين"];
+const CITIES = ["رام الله", "نابلس", "الخليل", "القدس", "بيت لحم", "جنين", "غزة", "خان يونس"];
 
 export default function MarketplaceScreen() {
   const insets = useSafeAreaInsets();

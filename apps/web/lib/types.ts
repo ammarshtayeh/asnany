@@ -126,6 +126,7 @@ export type DoctorAccount = {
 export type AppointmentRecord = {
   id: string;
   doctor_id: string;
+  booking_ref?: string;
   patient_name: string;
   patient_full_name?: string;
   patient_email?: string;

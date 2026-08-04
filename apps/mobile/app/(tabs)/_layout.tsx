@@ -2,7 +2,7 @@ import { Tabs, router } from "expo-router";
 import { Feather } from "@expo/vector-icons";
 import { View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { AIChatbot } from "../../components/AIChatbot";
+// import { AIChatbot } from "../../components/AIChatbot"; // مخفي مؤقتاً
 import { NewsTicker } from "../../components/NewsTicker";
 import { MobileNotificationBridge } from "../../components/MobileNotificationBridge";
 import { theme } from "../../constants/theme";
@@ -94,13 +94,14 @@ export default function TabsLayout() {
         />
         <Tabs.Screen name="marketplace" options={{ href: null }} />
       </Tabs>
-      <AIChatbot
+      {/* مساعدة ملامح مخفية مؤقتاً */}
+      {/* <AIChatbot
         onNavigateTab={(tab, section) => {
           if (tab === "doctors") router.push("/(tabs)/doctors");
           else if (tab === "more") router.push(section ? "/(tabs)/more" : "/(tabs)/offers");
           else if (tab === "services") router.push("/(tabs)/marketplace");
         }}
-      />
+      /> */}
     </View>
   );
 }

@@ -191,7 +191,15 @@ function SearchPageContent() {
                     </div>
                     <div className="mb-1 flex items-center gap-1.5">
                       <h3 className="text-lg font-black tracking-tight text-slate-900">{doctor.name}</h3>
-                      {doctor.verified ? <BadgeCheck className="h-5 w-5 text-sky-500" /> : null}
+                      {doctor.verified ? (
+                        <span
+                          className="inline-flex items-center gap-1 rounded-full border border-sky-100 bg-sky-50 px-2 py-0.5 text-[10px] font-black text-sky-700"
+                          title="راجعت الإدارة بيانات العيادة الأساسية"
+                        >
+                          <BadgeCheck className="h-3.5 w-3.5" />
+                          موثّق
+                        </span>
+                      ) : null}
                     </div>
                     <div className="mt-2 flex flex-wrap gap-1.5">
                       {(Array.isArray(doctor.specialty) ? doctor.specialty : [doctor.specialty || doctor.category]).filter(Boolean).map((s) => (
@@ -210,7 +218,7 @@ function SearchPageContent() {
                     <div className="mb-3 flex items-center justify-between text-xs font-black">
                       <span className="inline-flex items-center gap-1 text-slate-800">
                         <Star className="h-4 w-4 fill-amber-500 text-amber-500" />
-                        {doctor.rating || '—'}
+                        {(doctor.rating && Number(doctor.rating) > 0) ? doctor.rating : '—'}
                       </span>
                       <span className={`rounded-lg border px-2.5 py-1 ${(doctor.acceptsInsurance || doctor.accepts_insurance) ? 'border-emerald-100 bg-emerald-50 text-emerald-700' : 'border-slate-100 bg-slate-50 text-slate-500'}`}>
                         {(doctor.acceptsInsurance || doctor.accepts_insurance) ? 'يقبل التأمين' : 'دفع شخصي'}

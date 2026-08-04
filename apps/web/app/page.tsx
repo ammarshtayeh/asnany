@@ -25,15 +25,20 @@ import {
 } from "lucide-react";
 import AdSlider from "@/components/AdSlider";
 import { CITIES } from "@/lib/constants";
+import { cityMatchesFilter } from "@/lib/city-match";
 import { getDistance } from "@/lib/distance";
 import { doctorMapCoordinates } from "@/lib/map-links";
 import { requestAccuratePosition, type UserMapLocation } from "@/lib/geolocation";
 import { Advertisement, Doctor } from "@/lib/types";
 import { AnimatedCounter } from "@/components/AnimatedCounter";
+import { trackWhatsAppLead } from "@/lib/whatsapp-lead";
 
 const FloatingParticles = dynamic(() => import("@/components/FloatingParticles"), { ssr: false });
 const TransformationsSection = dynamic(() => import("@/components/TransformationsSection"), { ssr: false });
 const SubscriptionPackagesSection = dynamic(() => import("@/components/SubscriptionPackagesSection"), { ssr: false });
+
+// TransformationsSection hidden until real before/after content exists
+const SHOW_TRANSFORMATIONS = false;
 
 const DoctorMap = dynamic(() => import("@/components/DoctorMap"), {
   ssr: false,
@@ -177,7 +182,11 @@ export default function Home() {
           .includes(needle)
       );
     }
-    if (selectedCity) result = result.filter((doc) => doc.city === selectedCity);
+    if (selectedCity) {
+      result = result.filter(
+        (doc) => cityMatchesFilter(doc.city, selectedCity) || cityMatchesFilter(doc.area, selectedCity)
+      );
+    }
     if (selectedSpecialty) {
       result = result.filter((doc) =>
         (Array.isArray(doc.specialty) && doc.specialty.some((specialty) => specialty === selectedSpecialty)) ||
@@ -235,7 +244,7 @@ export default function Home() {
   return (
     <div className="min-h-screen overflow-x-hidden font-sans">
       <section className="relative isolate mb-8 sm:mb-12">
-        <div className="relative min-h-[min(92vh,820px)] overflow-hidden">
+        <div className="relative min-h-[min(88vh,760px)] overflow-hidden">
           <Image
             src={HERO_IMAGE_URL}
             alt="ملامح — دليل صحة وجمال الوجه في فلسطين"
@@ -249,29 +258,36 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-l from-[#060c18]/90 via-[#060c18]/45 to-transparent" />
           <FloatingParticles count={28} className="opacity-40" />
 
-          <div className="relative z-10 mx-auto flex min-h-[min(92vh,820px)] w-full max-w-[1400px] flex-col justify-end gap-8 px-[var(--page-gutter)] pb-10 pt-28 lg:grid lg:grid-cols-[1.05fr_0.95fr] lg:items-end lg:gap-12 lg:pb-14 lg:pt-32">
-            <div className="max-w-2xl text-right text-white" dir="rtl">
-              <motion.p
-                className="text-sm font-black tracking-[0.2em] text-[#e8c86a] sm:text-base"
+          <div className="relative z-10 mx-auto flex min-h-[min(88vh,760px)] w-full max-w-[1400px] flex-col justify-end gap-6 px-[var(--page-gutter)] pb-10 pt-24 lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(320px,440px)] lg:items-end lg:gap-10 lg:pb-12 lg:pt-28">
+            <div className="max-w-xl text-right text-white lg:pb-4" dir="rtl">
+              <motion.div
+                className="inline-flex items-center gap-2 rounded-full border border-[#e8c86a]/35 bg-[#e8c86a]/10 px-4 py-1.5"
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.55 }}
               >
-                ملامح
-              </motion.p>
+                <span className="text-base font-black tracking-wide text-[#f5d76e] sm:text-lg">ملامح</span>
+                <span className="text-[10px] font-bold text-slate-300">.ps</span>
+              </motion.div>
               <motion.h1
-                className="mt-3 text-4xl font-black leading-[1.12] tracking-tight sm:text-5xl lg:text-[3.6rem]"
+                className="mt-5 text-4xl font-black leading-[1.15] tracking-tight sm:text-5xl lg:text-[3.35rem]"
                 initial={{ opacity: 0, y: 28 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.08 }}
               >
-                ابحث عن الطبيب المناسب
-                <span className="mt-2 block bg-gradient-to-l from-[#e8c86a] via-[#f5d76e] to-[#fff4c2] bg-clip-text text-transparent">
-                  لوجهك وأسنانك
+                <span className="block text-white">ابحث عن الطبيب المناسب</span>
+                <span className="mt-3 flex flex-wrap items-center justify-end gap-2">
+                  <span className="relative inline-block rounded-2xl bg-[#e8c86a] px-4 py-1.5 text-[#0a1628] shadow-[0_12px_32px_-10px_rgba(232,200,106,0.55)]">
+                    لوجهك
+                  </span>
+                  <span className="text-white/90">و</span>
+                  <span className="relative inline-block rounded-2xl border-2 border-[#e8c86a] bg-[#e8c86a]/15 px-4 py-1.5 text-[#f5d76e]">
+                    أسنانك
+                  </span>
                 </span>
               </motion.h1>
               <motion.p
-                className="mt-5 max-w-xl text-base font-semibold leading-8 text-slate-200/90 sm:text-lg"
+                className="mt-5 max-w-lg text-base font-semibold leading-8 text-slate-200/90 sm:text-lg"
                 initial={{ opacity: 0, y: 18 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.65, delay: 0.16 }}
@@ -299,7 +315,7 @@ export default function Home() {
             </div>
 
             <motion.div
-              className="w-full rounded-[1.75rem] border border-white/15 bg-[#0b1526]/75 p-5 text-right shadow-[0_40px_80px_-28px_rgba(0,0,0,0.65)] backdrop-blur-2xl sm:p-6"
+              className="w-full rounded-[1.75rem] border border-white/15 bg-[#0b1526]/80 p-5 text-right shadow-[0_40px_80px_-28px_rgba(0,0,0,0.65)] backdrop-blur-2xl sm:p-6"
               dir="rtl"
               initial={{ opacity: 0, y: 32 }}
               animate={{ opacity: 1, y: 0 }}
@@ -528,7 +544,7 @@ export default function Home() {
         </section>
 
         {/* Before / After Transformations Section */}
-        <TransformationsSection />
+        {SHOW_TRANSFORMATIONS ? <TransformationsSection /> : null}
 
         <SubscriptionPackagesSection />
 
@@ -597,7 +613,15 @@ function DoctorResult({ doctor }: { doctor: Doctor }) {
               <Link href={`/doctors/${doctor.id}`} className="text-xl font-black text-slate-950 hover:text-primary transition-colors">
                 {doctor.name}
               </Link>
-              {doctor.verified ? <CheckCircle2 className="h-5 w-5 text-emerald-500 fill-emerald-50/50" /> : null}
+              {doctor.verified ? (
+                <span
+                  className="inline-flex items-center gap-1 rounded-full border border-emerald-100 bg-emerald-50 px-2 py-0.5 text-[10px] font-black text-emerald-700"
+                  title="راجعت الإدارة بيانات العيادة الأساسية قبل الظهور"
+                >
+                  <CheckCircle2 className="h-3.5 w-3.5" />
+                  موثّق
+                </span>
+              ) : null}
               {doctor.accepts_discount_card ? (
                 <span className="inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-1 text-[11px] font-black text-emerald-700 border border-emerald-100">
                   بطاقة الخصم
@@ -639,11 +663,23 @@ function DoctorResult({ doctor }: { doctor: Doctor }) {
           {/* Action Buttons arranged horizontally */}
           <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
             <Link href={`/doctors/${doctor.id}#booking`} className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3 text-sm font-black text-white transition-all hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/15">
-              احجز
+              {(doctor as any).can_book_online ? "احجز" : "طلب موعد"}
               <ArrowLeft className="h-4 w-4" />
             </Link>
             {whatsappHref ? (
-              <a href={whatsappHref} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-black text-emerald-700 hover:bg-emerald-100 transition-all">
+              <a
+                href={whatsappHref}
+                target="_blank"
+                rel="noreferrer"
+                onClick={() =>
+                  trackWhatsAppLead({
+                    doctorId: doctor.id,
+                    doctorName: doctor.name,
+                    source: "home_card",
+                  })
+                }
+                className="inline-flex items-center justify-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-black text-emerald-700 hover:bg-emerald-100 transition-all"
+              >
                 <MessageCircle className="h-4 w-4" />
                 واتساب
               </a>

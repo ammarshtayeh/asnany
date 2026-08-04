@@ -52,7 +52,9 @@ export default function DoctorCard({ doctor }: { doctor: Doctor }) {
         <div className="mt-2 flex items-center justify-between border-t border-slate-100 pt-3">
           <div className="flex items-center gap-1 rounded-lg bg-amber-50 px-2 py-1">
             <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
-            <span className="text-sm font-black text-slate-800">{doctor.rating}</span>
+            <span className="text-sm font-black text-slate-800">
+              {doctor.rating && Number(doctor.rating) > 0 ? doctor.rating : "جديد"}
+            </span>
           </div>
 
           <Link href={`/doctors/${doctor.id}`} className="btn-malama gap-1.5 px-5 py-2.5 text-xs">

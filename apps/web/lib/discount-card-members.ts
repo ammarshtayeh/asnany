@@ -42,11 +42,9 @@ export function attachDiscountCardStatus<T extends Record<string, any>>(appointm
   const activeMembers = members.filter(isActiveDiscountMember);
   return appointments.map((appointment) => {
     const appointmentPhone = normalizePhone(appointment.patient_phone);
-    const appointmentName = normalizeName(appointment.patient_full_name || appointment.patient_name);
     const member = activeMembers.find((item) => {
-      const samePhone = appointmentPhone && normalizePhone(item.phone) === appointmentPhone;
-      const sameName = appointmentName && normalizeName(item.full_name) === appointmentName;
-      return samePhone || sameName;
+      // Phone-only match — never name-only (shared Arabic names caused false discounts)
+      return Boolean(appointmentPhone) && normalizePhone(item.phone) === appointmentPhone;
     });
 
     return {

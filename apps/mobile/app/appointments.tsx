@@ -9,6 +9,7 @@ import { theme } from "../constants/theme";
 
 type Appointment = {
   id: string;
+  booking_ref?: string | null;
   date?: string;
   time?: string | null;
   status?: "pending" | "confirmed" | "cancelled" | "completed" | string;
@@ -30,23 +31,26 @@ const statusStyle: Record<string, { label: string; bg: string; text: string }> =
 };
 
 export default function PatientAppointmentsScreen() {
-  const params = useLocalSearchParams<{ phone?: string; query?: string }>();
+  const params = useLocalSearchParams<{ phone?: string; query?: string; ref?: string; booking_ref?: string }>();
   const [phoneValue, setPhoneValue] = useState(params.phone || params.query || "");
+  const [refValue, setRefValue] = useState(params.ref || params.booking_ref || "");
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [loading, setLoading] = useState(false);
   const [searched, setSearched] = useState(false);
   const [error, setError] = useState("");
   const cleanPhone = useMemo(() => phoneValue.replace(/[^0-9]/g, ""), [phoneValue]);
-  const canSearch = cleanPhone.length >= 9;
+  const cleanRef = useMemo(() => refValue.trim().toUpperCase().replace(/\s+/g, ""), [refValue]);
+  const canSearch = cleanPhone.length >= 9 && cleanRef.length >= 6;
 
-  const loadAppointments = useCallback(async (phoneOverride?: string) => {
+  const loadAppointments = useCallback(async (phoneOverride?: string, refOverride?: string) => {
     const phone = (phoneOverride ?? phoneValue).replace(/[^0-9]/g, "");
-    if (phone.length < 9) return;
+    const ref = (refOverride ?? refValue).trim().toUpperCase().replace(/\s+/g, "");
+    if (phone.length < 9 || ref.length < 6) return;
 
     setLoading(true);
     setSearched(true);
     setError("");
-    const query = new URLSearchParams({ phone });
+    const query = new URLSearchParams({ phone, ref });
     const { response, data } = await apiFetch<{ success?: boolean; appointments?: Appointment[]; error?: string }>(
       `/api/appointments?${query.toString()}`
     );
@@ -63,19 +67,22 @@ export default function PatientAppointmentsScreen() {
 
     await setStoredPatientPhone(phone);
     void registerPushSubscription({ role: "patient", patientPhone: phone }).catch(() => null);
-  }, [phoneValue]);
+  }, [phoneValue, refValue]);
 
   useEffect(() => {
     const initialPhone = params.phone || params.query || "";
+    const initialRef = params.ref || params.booking_ref || "";
     const normalizedPhone = initialPhone.replace(/[^0-9]/g, "");
-    if (normalizedPhone.length >= 9) {
+    const normalizedRef = String(initialRef).trim().toUpperCase().replace(/\s+/g, "");
+    if (normalizedPhone.length >= 9 && normalizedRef.length >= 6) {
       setPhoneValue(initialPhone);
-      void loadAppointments(normalizedPhone);
+      setRefValue(String(initialRef));
+      void loadAppointments(normalizedPhone, normalizedRef);
     }
-  }, [params.phone, params.query, loadAppointments]);
+  }, [params.phone, params.query, params.ref, params.booking_ref, loadAppointments]);
 
   return (
-    <StackPageLayout badge="📅 متابعة آمنة" title="حجوزاتي" subtitle="أدخل رقم الهاتف المستخدم في الحجز لعرض مواعيدك فقط">
+    <StackPageLayout badge="📅 متابعة آمنة" title="حجوزاتي" subtitle="أدخل رقم الهاتف ورمز الحجز (MLH-XXXXXX) لمتابعة موعدك">
       <StackCard>
         <TextInput
           value={phoneValue}
@@ -85,8 +92,16 @@ export default function PatientAppointmentsScreen() {
           placeholderTextColor={theme.textSoft}
           style={{ borderWidth: 1, borderColor: theme.borderLight, borderRadius: 14, padding: 14, textAlign: "right", fontWeight: "700", backgroundColor: theme.bg, color: theme.text }}
         />
-        <View style={{ marginTop: 12 }}>
-          <StackPrimaryButton label={loading ? "جاري البحث..." : "عرض الحجوزات"} onPress={() => void loadAppointments()} />
+        <TextInput
+          value={refValue}
+          onChangeText={setRefValue}
+          placeholder="رمز الحجز — MLH-XXXXXX"
+          autoCapitalize="characters"
+          placeholderTextColor={theme.textSoft}
+          style={{ marginTop: 10, borderWidth: 1, borderColor: theme.borderLight, borderRadius: 14, padding: 14, textAlign: "right", fontWeight: "800", backgroundColor: theme.bg, color: theme.text, letterSpacing: 1 }}
+        />
+        <View style={{ marginTop: 12, opacity: !canSearch || loading ? 0.6 : 1 }}>
+          <StackPrimaryButton label={loading ? "جاري البحث..." : "عرض الحجز"} onPress={() => void loadAppointments()} />
         </View>
         {error ? <Text style={{ color: "#b91c1c", fontWeight: "700", textAlign: "right", marginTop: 10 }}>{error}</Text> : null}
       </StackCard>
@@ -94,26 +109,29 @@ export default function PatientAppointmentsScreen() {
       {loading ? <ActivityIndicator style={{ marginTop: 8 }} color={theme.teal} /> : null}
 
       {!searched ? (
-        <Text style={{ textAlign: "center", color: theme.textMuted, fontWeight: "600" }}>حجوزاتك ستظهر هنا بعد التحقق.</Text>
+        <Text style={{ textAlign: "center", color: theme.textMuted, fontWeight: "600" }}>رمز الحجز يظهر بعد إرسال طلب الموعد.</Text>
       ) : appointments.length === 0 && !loading ? (
         <StackCard>
-          <Text style={{ textAlign: "center", color: theme.textMuted, fontWeight: "700" }}>لا توجد حجوزات لهذا الرقم.</Text>
+          <Text style={{ textAlign: "center", color: theme.textMuted, fontWeight: "700" }}>لا يوجد حجز مطابق لهذا الرقم والرمز.</Text>
         </StackCard>
       ) : (
-        appointments.map((appointment) => {
-          const status = statusStyle[appointment.status || "pending"] || statusStyle.pending;
+        appointments.map((item) => {
+          const status = statusStyle[item.status || "pending"] || statusStyle.pending;
           return (
-            <StackCard key={appointment.id}>
-              <Text style={{ fontWeight: "900", fontSize: 16, textAlign: "right", color: theme.text }}>{appointment.doctors?.name || "الطبيب"}</Text>
-              <Text style={{ marginTop: 4, color: theme.textMuted, fontWeight: "600", textAlign: "right" }}>
-                {[appointment.doctors?.city, appointment.doctors?.area].filter(Boolean).join(" - ")}
-              </Text>
-              <View style={{ marginTop: 8, alignSelf: "flex-end", backgroundColor: status.bg, paddingHorizontal: 10, paddingVertical: 4, borderRadius: 999 }}>
-                <Text style={{ color: status.text, fontWeight: "800", fontSize: 12 }}>{status.label}</Text>
+            <StackCard key={item.id}>
+              <View style={{ flexDirection: "row-reverse", justifyContent: "space-between", alignItems: "flex-start" }}>
+                <View style={{ flex: 1 }}>
+                  <Text style={{ textAlign: "right", fontWeight: "900", color: theme.text, fontSize: 16 }}>{item.doctors?.name || "عيادة ملامح"}</Text>
+                  {item.booking_ref ? <Text style={{ textAlign: "right", fontWeight: "900", color: "#b45309", marginTop: 4 }}>{item.booking_ref}</Text> : null}
+                </View>
+                <View style={{ backgroundColor: status.bg, borderRadius: 999, paddingHorizontal: 10, paddingVertical: 4 }}>
+                  <Text style={{ color: status.text, fontWeight: "900", fontSize: 11 }}>{status.label}</Text>
+                </View>
               </View>
-              <Text style={{ marginTop: 8, fontWeight: "700", textAlign: "right", color: theme.text }}>
-                {appointment.date} {appointment.time ? `— ${appointment.time}` : ""}
+              <Text style={{ textAlign: "right", color: theme.textMuted, fontWeight: "700", marginTop: 10 }}>
+                {item.date || "—"} · {item.time || "—"}
               </Text>
+              {item.notes ? <Text style={{ textAlign: "right", color: theme.textSoft, marginTop: 6 }}>{item.notes}</Text> : null}
             </StackCard>
           );
         })

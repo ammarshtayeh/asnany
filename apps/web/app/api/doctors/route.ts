@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { isSupabaseConfigured, supabase, supabaseAdmin } from "@/lib/supabase";
+import { cityMatchesFilter } from "@/lib/city-match";
 
 async function activeBookableDoctorIds() {
   const { data, error } = await supabaseAdmin
@@ -20,14 +21,12 @@ export async function GET(request: Request) {
     const city = searchParams.get("city");
     const specialty = searchParams.get("specialty");
 
-    let query = supabase
+    const query = supabase
       .from("doctors")
-      .select("id, name, category, specialty, city, area, address, phone, whatsapp, bio, lat, lng, image_url, clinic_photos, rating, verified, is_featured, accepts_insurance, insurance_list, working_hours, is_available, availability_note")
+      .select(
+        "id, name, category, specialty, city, area, address, phone, whatsapp, bio, lat, lng, image_url, clinic_photos, rating, verified, is_featured, accepts_insurance, insurance_list, working_hours, is_available, availability_note, active_package_slug"
+      )
       .eq("verified", true);
-
-    if (city) {
-      query = query.eq("city", city);
-    }
 
     const [{ data, error }, bookableIds] = await Promise.all([query, activeBookableDoctorIds()]);
 
@@ -35,15 +34,23 @@ export async function GET(request: Request) {
 
     let doctors = (data || []).map((doc: any) => ({
       ...doc,
-      can_book_online: bookableIds.has(doc.id),
+      can_book_online: bookableIds.has(doc.id) || doc.active_package_slug === "premium",
     }));
+
+    if (city) {
+      doctors = doctors.filter(
+        (doc: any) => cityMatchesFilter(doc.city, city) || cityMatchesFilter(doc.area, city)
+      );
+    }
 
     if (specialty) {
       doctors = doctors.filter((doc: any) => {
         if (Array.isArray(doc.specialty)) {
-          return doc.specialty.some((s: string) => s.toLowerCase() === specialty.toLowerCase());
+          return doc.specialty.some(
+            (s: string) => s.toLowerCase() === specialty.toLowerCase() || s.includes(specialty)
+          );
         }
-        return false;
+        return String(doc.category || "").includes(specialty);
       });
     }
 

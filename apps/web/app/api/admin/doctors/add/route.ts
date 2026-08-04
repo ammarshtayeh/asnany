@@ -23,7 +23,7 @@ export async function POST(request: Request) {
       accepts_insurance: !!accepts_insurance,
       verified: true, // Admin created doctors are verified by default
       is_featured: false,
-      rating: 5.0,
+      rating: 0,
       image_url: image_url || "https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=800&auto=format&fit=crop", 
       clinic_photos: Array.isArray(clinic_photos) ? clinic_photos : [],
       working_hours: {

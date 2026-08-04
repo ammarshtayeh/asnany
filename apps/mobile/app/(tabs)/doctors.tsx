@@ -11,6 +11,7 @@ import { apiFetch } from "../../lib/api";
 import { theme } from "../../constants/theme";
 import { getDistance, formatDistanceKm } from "../../lib/distance";
 import { doctorMapCoordinates } from "../../lib/map-links";
+import { cityMatchesFilter } from "../../lib/city-match";
 import { EmptyStateCTA } from "../../components/EmptyStateCTA";
 import {
   DoctorListCard,
@@ -28,7 +29,7 @@ type Advertisement = {
   display_priority?: number;
 };
 
-const CITIES = ["الكل", "رام الله", "نابلس", "الخليل", "بيت لحم", "غزة"];
+const CITIES = ["الكل", "رام الله", "نابلس", "الخليل", "بيت لحم", "جنين", "غزة", "القدس", "طولكرم"];
 
 export default function DoctorsTabScreen() {
   const insets = useSafeAreaInsets();
@@ -80,7 +81,7 @@ export default function DoctorsTabScreen() {
   const filtered = useMemo(() => {
     const needle = query.trim().toLowerCase();
     const rows = doctors.filter((doctor) => {
-      const cityOk = city === "الكل" || doctor.city === city;
+      const cityOk = cityMatchesFilter(doctor.city, city) || cityMatchesFilter(doctor.area, city);
       const text = `${doctor.name} ${formatSpecialty(doctor.specialty)} ${doctor.city || ""}`.toLowerCase();
       return cityOk && (!needle || text.includes(needle));
     });

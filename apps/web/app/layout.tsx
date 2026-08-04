@@ -50,7 +50,7 @@ export const viewport: Viewport = {
 
 import Navbar from "@/components/Navbar";
 import NewsTicker from "@/components/NewsTicker";
-import AIChatbot from "@/components/AIChatbot";
+// import AIChatbot from "@/components/AIChatbot"; // مخفي مؤقتاً
 import SiteFooter from "@/components/SiteFooter";
 import PWARegister from "@/components/PWARegister";
 import ConnectivityBanner from "@/components/ConnectivityBanner";
@@ -76,7 +76,8 @@ export default function RootLayout({
           {children}
         </SiteBodyWrapper>
         <SiteFooter />
-        <AIChatbot />
+        {/* مساعدة ملامح مخفية مؤقتاً — أعد تفعيل <AIChatbot /> عند الحاجة */}
+        {/* <AIChatbot /> */}
         <CookieBanner />
         <PWARegister />
       </body>

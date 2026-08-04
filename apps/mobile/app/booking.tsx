@@ -7,6 +7,7 @@ import { useAppToast } from "../components/AppToast";
 import { StackCard, StackPageLayout, StackPrimaryButton } from "../components/ui/StackPageLayout";
 import { theme } from "../constants/theme";
 import { BookingDateField, BookingTimeField } from "../components/BookingPickers";
+import { ageFromBirthDate, isIdentityRequiredForAge } from "../lib/booking";
 
 const WEEKDAY_AR = ["الأحد", "الإثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
 
@@ -31,11 +32,15 @@ export default function BookingScreen() {
   const [phone, setPhone] = useState("");
   const [identity, setIdentity] = useState("");
   const [address, setAddress] = useState("");
+  const [birthDate, setBirthDate] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [notes, setNotes] = useState("");
   const [loading, setLoading] = useState(false);
   const { showToast } = useAppToast();
+
+  const patientAge = useMemo(() => ageFromBirthDate(birthDate), [birthDate]);
+  const identityRequired = isIdentityRequiredForAge(patientAge);
 
   useEffect(() => {
     let cancelled = false;
@@ -86,8 +91,19 @@ export default function BookingScreen() {
   }, [doctor, selectedWeekday]);
 
   const canSubmit = useMemo(
-    () => Boolean(fullName && phone && identity && address && date && time && doctorId && canBookOnline),
-    [fullName, phone, identity, address, date, time, doctorId, canBookOnline]
+    () =>
+      Boolean(
+        fullName &&
+          phone &&
+          address &&
+          birthDate &&
+          date &&
+          time &&
+          doctorId &&
+          canBookOnline &&
+          (!identityRequired || identity.trim())
+      ),
+    [fullName, phone, address, birthDate, date, time, doctorId, canBookOnline, identityRequired, identity]
   );
 
   const submit = async () => {
@@ -111,6 +127,27 @@ export default function BookingScreen() {
       return;
     }
 
+    if (!address.trim()) {
+      showToast({ type: "error", title: "العنوان مطلوب", message: "يرجى إدخال عنوان السكن." });
+      return;
+    }
+    if (!birthDate) {
+      showToast({ type: "error", title: "تاريخ الميلاد مطلوب", message: "نحتاجه لمعرفة إن كانت الهوية إلزامية." });
+      return;
+    }
+    if (patientAge === null) {
+      showToast({ type: "error", title: "تاريخ ميلاد غير صالح", message: "تحقق من التاريخ." });
+      return;
+    }
+    if (identityRequired && !identity.trim()) {
+      showToast({ type: "error", title: "الهوية مطلوبة", message: "رقم الهوية إلزامي لمن عمرهم 17 سنة فأكثر." });
+      return;
+    }
+    if (identity.trim() && !/^\d{9}$/.test(identity.trim())) {
+      showToast({ type: "error", title: "هوية غير صحيحة", message: "رقم الهوية يجب أن يكون 9 أرقام." });
+      return;
+    }
+
     setLoading(true);
     const { response, data } = await apiFetch("/api/appointments", {
       method: "POST",
@@ -119,11 +156,13 @@ export default function BookingScreen() {
         patient_full_name: fullName,
         patient_email: email.trim() || null,
         patient_phone: phone,
-        patient_identity: identity,
-        patient_address: address,
+        patient_identity: identity.trim() || null,
+        patient_address: address.trim(),
+        patient_birth_date: birthDate,
         date,
         time,
         notes,
+        website: "",
       }),
     });
     setLoading(false);
@@ -137,13 +176,19 @@ export default function BookingScreen() {
       return;
     }
 
+    const bookingRef = String((data as any)?.booking_ref || (data as any)?.appointment?.booking_ref || "");
+
     void registerPushSubscription({
       role: "patient",
       patientPhone: phone,
     }).catch(() => null);
 
-    showToast({ type: "success", title: "تم إرسال طلب الحجز", message: "يمكنك متابعة الحالة من صفحة حجوزاتي." });
-    router.replace({ pathname: "/appointments", params: { phone } } as any);
+    showToast({
+      type: "success",
+      title: "تم إرسال طلب الحجز",
+      message: bookingRef ? `رمز الحجز: ${bookingRef}` : "يمكنك متابعة الحالة من صفحة حجوزاتي.",
+    });
+    router.replace({ pathname: "/appointments", params: { phone, ref: bookingRef } } as any);
   };
 
   return (
@@ -171,7 +216,13 @@ export default function BookingScreen() {
         <Field label="الاسم الرباعي *" value={fullName} onChangeText={setFullName} />
         <Field label="البريد الإلكتروني - اختياري" value={email} onChangeText={setEmail} keyboardType="email-address" placeholder="example@domain.com" />
         <Field label="رقم الهاتف *" value={phone} onChangeText={setPhone} keyboardType="phone-pad" />
-        <Field label="رقم الهوية *" value={identity} onChangeText={setIdentity} keyboardType="number-pad" />
+        <BookingDateField label="تاريخ الميلاد *" value={birthDate} onChange={setBirthDate} minimumDate={null} maximumDate={new Date()} />
+        <Field
+          label={identityRequired ? "رقم الهوية * (17 سنة فأكثر)" : "رقم الهوية (إلزامي لمن عمرهم 17 فأكثر)"}
+          value={identity}
+          onChangeText={setIdentity}
+          keyboardType="number-pad"
+        />
         <Field label="العنوان *" value={address} onChangeText={setAddress} />
         <BookingDateField label="التاريخ *" value={date} onChange={setDate} />
         <BookingTimeField label="الوقت *" value={time} onChange={setTime} />

@@ -44,8 +44,12 @@ export async function PATCH(request: Request) {
 
     const { id, appointment_id, status } = await request.json();
     const appointmentId = id || appointment_id;
+    const allowed = new Set(["pending", "confirmed", "cancelled", "completed"]);
     if (!appointmentId || !status) {
       return NextResponse.json({ error: "معرف الموعد والحالة مطلوبان" }, { status: 400 });
+    }
+    if (!allowed.has(String(status))) {
+      return NextResponse.json({ error: "حالة الموعد غير صالحة" }, { status: 400 });
     }
 
     const { data, error } = await supabaseAdmin

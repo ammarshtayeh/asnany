@@ -50,10 +50,9 @@ export default function StoresTab({
         <Text style={styles.sectionLabel}>📍 تصفية حسب المدينة الرئيسية:</Text>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.chipRow}>
           {CITIES_AR.map((c) => {
-            const val = c === "بيت لحم" ? "بيت Bethlehem" : c;
-            const isSelected = selectedCity === val || (selectedCity === "الكل" && c === "الكل");
+            const isSelected = selectedCity === c;
             return (
-              <Pressable key={c} onPress={() => setSelectedCity(val)} style={[styles.chip, isSelected && styles.chipActive]}>
+              <Pressable key={c} onPress={() => setSelectedCity(c)} style={[styles.chip, isSelected && styles.chipActive]}>
                 <Text style={[styles.chipText, isSelected && styles.chipTextActive]}>{c}</Text>
               </Pressable>
             );
