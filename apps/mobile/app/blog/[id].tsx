@@ -4,6 +4,7 @@ import { router, useLocalSearchParams } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { supabase } from "../../lib/supabase";
 import { theme } from "../../constants/theme";
+import { Article } from "../../types";
 import { StackCard, StackPrimaryButton } from "../../components/ui/StackPageLayout";
 
 export default function ArticleDetailScreen() {
@@ -110,7 +111,7 @@ export default function ArticleDetailScreen() {
         ) : null}
 
         <View style={{ gap: 16 }}>
-          {paragraphs.map((p, idx) => (
+          {paragraphs.map((p: string, idx: number) => (
             <Text key={idx} style={{ fontSize: 14, color: "#334155", fontWeight: "600", textAlign: "right", lineHeight: 24 }}>
               {p.trim()}
             </Text>

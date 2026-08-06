@@ -258,7 +258,17 @@ export async function POST(request: Request) {
         .single();
 
       if (!insert.error && insert.data?.id) {
-        data = insert.data;
+        data = {
+          id: String(insert.data.id),
+          doctor_id: insert.data.doctor_id ?? doctorId,
+          patient_full_name: insert.data.patient_full_name ?? patientFullName,
+          patient_name: insert.data.patient_name ?? patientFullName,
+          patient_phone: insert.data.patient_phone ?? patientPhone,
+          date: insert.data.date ?? date,
+          time: insert.data.time ?? time,
+          status: insert.data.status ?? "pending",
+          booking_ref: insert.data.booking_ref ?? bookingRef,
+        };
         lastError = null;
         break;
       }
@@ -272,9 +282,18 @@ export async function POST(request: Request) {
     }
 
     if (lastError) throw lastError;
-    if (!data) throw new Error("تعذر إنشاء الحجز");
+    if (!data?.id) throw new Error("تعذر إنشاء الحجز");
 
-    await notifyDoctorAboutAppointment(data);
+    await notifyDoctorAboutAppointment({
+      id: data.id,
+      doctor_id: data.doctor_id,
+      patient_full_name: data.patient_full_name,
+      patient_name: data.patient_name,
+      patient_phone: data.patient_phone,
+      date: data.date,
+      time: data.time,
+      status: data.status,
+    });
     return NextResponse.json({
       success: true,
       appointment: data,

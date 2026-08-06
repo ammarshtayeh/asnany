@@ -52,7 +52,7 @@ const ADMIN_SECTIONS = [
     webPath: "/appointments",
   },
   {
-    icon: "megaphone" as const,
+    icon: "radio" as const,
     title: "الإعلانات",
     subtitle: "إدارة الإعلانات والحملات",
     color: "#ec4899",
