@@ -5,22 +5,21 @@ import Image from "next/image";
 
 export default function DoctorCard({ doctor }: { doctor: Doctor }) {
   return (
-    <div className="bento-card shine-border group flex flex-col gap-4 p-4 md:flex-row md:p-5">
-      <div className="relative h-44 w-full flex-shrink-0 overflow-hidden rounded-2xl bg-gradient-to-br from-slate-100 to-slate-50 md:h-36 md:w-36">
+    <div className="bento-card group flex flex-col gap-4 p-4 md:flex-row md:p-5">
+      <div className="relative aspect-[4/3] w-full flex-shrink-0 overflow-hidden rounded-2xl bg-[#e8f0ef] md:aspect-auto md:h-40 md:w-40">
         {doctor.image_url ? (
           <Image
             src={doctor.image_url}
             alt={doctor.name}
             fill
-            sizes="(max-width: 768px) 100vw, 144px"
-            className="object-cover transition-transform duration-500 ease-spring group-hover:scale-105"
+            sizes="(max-width: 768px) 100vw, 160px"
+            className="object-cover object-[center_18%] transition-transform duration-500 ease-spring group-hover:scale-[1.03]"
           />
         ) : (
-          <div className="flex h-full w-full items-center justify-center text-slate-300">
+          <div className="flex h-full w-full items-center justify-center text-[#265F59]/35">
             <Award className="h-10 w-10" />
           </div>
         )}
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-900/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
       </div>
 
       <div className="flex flex-grow flex-col justify-between">
@@ -50,7 +49,7 @@ export default function DoctorCard({ doctor }: { doctor: Doctor }) {
         </div>
 
         <div className="mt-2 flex items-center justify-between border-t border-slate-100 pt-3">
-          <div className="flex items-center gap-1 rounded-lg bg-amber-50 px-2 py-1">
+          <div className="flex items-center gap-1 rounded-lg bg-[#f7f1e0] px-2 py-1">
             <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
             <span className="text-sm font-black text-slate-800">
               {doctor.rating && Number(doctor.rating) > 0 ? doctor.rating : "جديد"}

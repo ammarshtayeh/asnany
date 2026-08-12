@@ -174,21 +174,23 @@ function SearchPageContent() {
               </Link>
             </div>
 
-            <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+            <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
               {visibleDoctors.map((doctor: Doctor) => (
                 <article
-                  className="group flex flex-col justify-between overflow-hidden rounded-[1.5rem] border border-slate-200/70 bg-white p-4 shadow-[0_12px_36px_-18px_rgba(10,22,40,0.12)] transition duration-300 hover:-translate-y-1 hover:border-primary/20 hover:shadow-[0_22px_48px_-18px_rgba(10,22,40,0.16)]"
+                  className="group flex flex-col justify-between overflow-hidden rounded-[1.5rem] border border-[#e5e0d8] bg-white shadow-[0_12px_36px_-18px_rgba(10,22,40,0.12)] transition duration-300 hover:-translate-y-0.5 hover:border-primary/25 hover:shadow-[0_22px_48px_-18px_rgba(10,22,40,0.16)]"
                   key={doctor.id}
                 >
                   <div>
-                    <div className="relative mb-4 h-44 w-full overflow-hidden rounded-2xl bg-slate-100">
+                    <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#e8f0ef]">
                       <img
                         alt={doctor.name}
                         src={doctor.imageUrl || doctor.image_url || 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=70&w=640&auto=format&fit=crop'}
-                        className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                        className="h-full w-full object-cover object-[center_18%] transition duration-500 group-hover:scale-[1.03]"
                         loading="lazy"
+                        decoding="async"
                       />
                     </div>
+                    <div className="p-4 pb-0">
                     <div className="mb-1 flex items-center gap-1.5">
                       <h3 className="text-lg font-black tracking-tight text-slate-900">{doctor.name}</h3>
                       {doctor.verified ? (
@@ -212,9 +214,10 @@ function SearchPageContent() {
                       <MapPin className="h-4 w-4 text-slate-400" />
                       <span>{doctor.city}{doctor.area ? ` • ${doctor.area}` : ''}</span>
                     </div>
+                    </div>
                   </div>
 
-                  <div className="mt-4 border-t border-slate-100 pt-4">
+                  <div className="mt-4 border-t border-slate-100 p-4 pt-4">
                     <div className="mb-3 flex items-center justify-between text-xs font-black">
                       <span className="inline-flex items-center gap-1 text-slate-800">
                         <Star className="h-4 w-4 fill-amber-500 text-amber-500" />

@@ -108,7 +108,7 @@
   }
 
   .nav-island {
-    @apply rounded-2xl border border-slate-200/60 bg-white/75 shadow-float backdrop-blur-2xl;
+    @apply rounded-2xl border border-[#e5e0d8] bg-white shadow-float;
   }
 
   .portal-page {

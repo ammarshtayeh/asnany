@@ -584,7 +584,7 @@ function DoctorResult({ doctor }: { doctor: Doctor }) {
   const whatsappHref = doctor.whatsapp ? `https://wa.me/${doctor.whatsapp.replace(/[^\d]/g, "")}` : undefined;
 
   return (
-    <article className="relative group flex flex-col gap-5 overflow-hidden rounded-[1.6rem] border border-slate-200/60 bg-white p-5 shadow-[0_12px_36px_-16px_rgba(10,22,40,0.12)] transition-all duration-300 ease-spring hover:-translate-y-1 hover:border-primary/20 hover:shadow-[0_22px_48px_-18px_rgba(10,22,40,0.16)] sm:flex-row" dir="rtl">
+    <article className="relative group flex flex-col gap-5 overflow-hidden rounded-[1.6rem] border border-[#e5e0d8] bg-white p-4 shadow-[0_12px_36px_-16px_rgba(10,22,40,0.12)] transition-all duration-300 ease-spring hover:-translate-y-0.5 hover:border-primary/25 hover:shadow-[0_22px_48px_-18px_rgba(10,22,40,0.16)] sm:flex-row sm:p-5" dir="rtl">
       
       {/* Top Left Absolute Rating Badge */}
       {(doctor.rating || 0) > 0 ? (
@@ -594,12 +594,18 @@ function DoctorResult({ doctor }: { doctor: Doctor }) {
         </span>
       ) : null}
 
-      {/* Image Column */}
-      <div className="relative h-52 w-full overflow-hidden rounded-2xl bg-slate-100 sm:h-auto sm:w-44">
+      {/* Image Column — clear portrait crop, no dark overlay */}
+      <div className="relative aspect-[4/3] w-full shrink-0 overflow-hidden rounded-2xl bg-[#e8f0ef] sm:aspect-auto sm:h-auto sm:min-h-[11.5rem] sm:w-48 sm:self-stretch">
         {doctor.image_url ? (
-          <Image src={doctor.image_url} alt={doctor.name} fill className="object-cover transition duration-500 group-hover:scale-105" />
+          <Image
+            src={doctor.image_url}
+            alt={doctor.name}
+            fill
+            sizes="(max-width: 640px) 100vw, 192px"
+            className="object-cover object-[center_18%] transition duration-500 group-hover:scale-[1.03]"
+          />
         ) : (
-          <div className="flex h-full w-full items-center justify-center text-amber-200">
+          <div className="flex h-full min-h-[11.5rem] w-full items-center justify-center text-[#265F59]/30">
             <HeartPulse className="h-12 w-12" />
           </div>
         )}
@@ -661,8 +667,8 @@ function DoctorResult({ doctor }: { doctor: Doctor }) {
           </div>
 
           {/* Action Buttons arranged horizontally */}
-          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-            <Link href={`/doctors/${doctor.id}#booking`} className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3 text-sm font-black text-white transition-all hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/15">
+          <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+            <Link href={`/doctors/${doctor.id}#booking`} className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#265F59] px-4 py-3 text-sm font-black text-white transition-all hover:bg-[#1a433e] hover:shadow-lg hover:shadow-[#265F59]/20">
               {(doctor as any).can_book_online ? "احجز" : "طلب موعد"}
               <ArrowLeft className="h-4 w-4" />
             </Link>
@@ -678,13 +684,13 @@ function DoctorResult({ doctor }: { doctor: Doctor }) {
                     source: "home_card",
                   })
                 }
-                className="inline-flex items-center justify-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-black text-emerald-700 hover:bg-emerald-100 transition-all"
+                className="inline-flex items-center justify-center gap-2 rounded-xl border border-[#d5e8e1] bg-[#e8f0ef] px-4 py-3 text-sm font-black text-[#265F59] hover:bg-[#dceae7] transition-all"
               >
                 <MessageCircle className="h-4 w-4" />
                 واتساب
               </a>
             ) : null}
-            <Link href={`/doctors/${doctor.id}/map`} className="inline-flex items-center justify-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-black text-primary hover:bg-emerald-100 transition-all">
+            <Link href={`/doctors/${doctor.id}/map`} className="inline-flex items-center justify-center gap-2 rounded-xl border border-[#e5e0d8] bg-[#f7f5f0] px-4 py-3 text-sm font-black text-slate-800 hover:bg-white transition-all">
               <MapPin className="h-4 w-4" />
               الخريطة
             </Link>

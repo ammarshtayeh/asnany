@@ -97,7 +97,7 @@ export default function Navbar() {
           </Link>
 
           <div className="hidden min-w-0 flex-1 justify-center lg:flex">
-            <div className="flex items-center gap-1 rounded-2xl border border-slate-200/50 bg-slate-50/80 p-1 backdrop-blur-md">
+            <div className="flex items-center gap-1 rounded-2xl border border-[#e5e0d8] bg-white p-1 shadow-sm">
               {SITE_NAV_PRIMARY.map((link) => {
                 const isActive =
                   currentPath === link.href || (link.href !== "/" && currentPath.startsWith(link.href));
@@ -134,22 +134,25 @@ export default function Navbar() {
                 </button>
 
                 {moreOpen ? (
-                  <div className="glass absolute left-0 top-full z-50 mt-2 w-[min(520px,calc(100vw-2rem))] rounded-3xl p-5 shadow-bento-hover">
+                  <div
+                    className="absolute left-0 top-full z-50 mt-2 w-[min(540px,calc(100vw-1.5rem))] max-h-[min(70vh,560px)] overflow-y-auto rounded-3xl border border-[#e5e0d8] bg-white p-5 shadow-[0_24px_48px_-16px_rgba(10,22,40,0.28)]"
+                    dir="rtl"
+                  >
                     <div className="grid gap-5 sm:grid-cols-2">
                       {SITE_NAV_MORE_SECTIONS.map((section) => (
                         <div key={section.id}>
-                          <p className="mb-2 text-[10px] font-black uppercase tracking-wider text-slate-400">{section.title}</p>
+                          <p className="mb-2 text-[10px] font-black uppercase tracking-wider text-[#265F59]/70">{section.title}</p>
                           <div className="space-y-1">
                             {section.links.map((link) => (
                               <Link
                                 key={link.href}
                                 href={link.href}
                                 onClick={() => setMoreOpen(false)}
-                                className="block rounded-2xl px-3 py-2.5 transition-colors hover:bg-slate-50/80"
+                                className="block rounded-2xl px-3 py-2.5 transition-colors hover:bg-[#e8f0ef]"
                               >
                                 <p className="text-sm font-black text-slate-900">{link.label}</p>
                                 {link.description ? (
-                                  <p className="text-[11px] font-semibold text-slate-500">{link.description}</p>
+                                  <p className="text-[11px] font-semibold leading-5 text-slate-500">{link.description}</p>
                                 ) : null}
                               </Link>
                             ))}
@@ -191,11 +194,11 @@ export default function Navbar() {
         </nav>
 
         {menuOpen ? (
-          <div className="glass mx-auto mt-2 max-h-[72vh] max-w-[1600px] overflow-y-auto rounded-3xl border border-slate-200/60 p-4 shadow-bento-hover lg:hidden" dir="rtl">
+          <div className="mx-auto mt-2 max-h-[min(78vh,640px)] max-w-[1600px] overflow-y-auto rounded-3xl border border-[#e5e0d8] bg-white p-4 shadow-[0_24px_48px_-16px_rgba(10,22,40,0.28)] lg:hidden" dir="rtl">
             <div className="space-y-4">
               <div>
-                <p className="mb-2 text-[10px] font-black uppercase tracking-wider text-slate-400">التصفح الرئيسي</p>
-                <div className="grid grid-cols-2 gap-2">
+                <p className="mb-2 text-[10px] font-black uppercase tracking-wider text-[#265F59]/70">التصفح الرئيسي</p>
+                <div className="grid grid-cols-1 gap-2 xs:grid-cols-2 sm:grid-cols-2">
                   {SITE_NAV_PRIMARY.map((link) => {
                     const Icon = ICON_MAP[link.icon] || Sparkles;
                     const isActive = currentPath === link.href || currentPath.startsWith(link.href);
@@ -204,11 +207,11 @@ export default function Navbar() {
                         key={link.href}
                         href={link.href}
                         onClick={() => setMenuOpen(false)}
-                        className={`flex items-center gap-2 rounded-2xl border p-3 text-sm font-black transition ${
-                          isActive ? link.active : "border-slate-100 bg-white/80 text-slate-700"
+                        className={`flex min-h-12 items-center gap-2 rounded-2xl border p-3 text-sm font-black transition ${
+                          isActive ? link.active : "border-slate-100 bg-[#f7f5f0] text-slate-700"
                         }`}
                       >
-                        <Icon className={`h-5 w-5 ${link.color}`} />
+                        <Icon className={`h-5 w-5 shrink-0 ${link.color}`} />
                         {link.label}
                       </Link>
                     );
@@ -218,23 +221,26 @@ export default function Navbar() {
 
               {SITE_NAV_MORE_SECTIONS.map((section) => (
                 <div key={section.id}>
-                  <p className="mb-2 text-[10px] font-black uppercase tracking-wider text-slate-400">{section.title}</p>
-                  <div className="grid grid-cols-2 gap-2">
+                  <p className="mb-2 text-[10px] font-black uppercase tracking-wider text-[#265F59]/70">{section.title}</p>
+                  <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                     {section.links.map((link) => (
                       <Link
                         key={link.href}
                         href={link.href}
                         onClick={() => setMenuOpen(false)}
-                        className="rounded-2xl border border-slate-100 bg-white/80 p-3 text-sm font-black text-slate-700"
+                        className="rounded-2xl border border-slate-100 bg-[#f7f5f0] p-3 text-sm font-black text-slate-700"
                       >
-                        {link.label}
+                        <span className="block">{link.label}</span>
+                        {link.description ? (
+                          <span className="mt-0.5 block text-[11px] font-semibold text-slate-500">{link.description}</span>
+                        ) : null}
                       </Link>
                     ))}
                   </div>
                 </div>
               ))}
 
-              <div className="grid grid-cols-2 gap-2 pt-1">
+              <div className="grid grid-cols-1 gap-2 pt-1 sm:grid-cols-2">
                 <Link href="/booking" onClick={() => setMenuOpen(false)} className="btn-malama justify-center py-3 text-sm">
                   احجز الآن
                 </Link>
@@ -255,7 +261,7 @@ export default function Navbar() {
         className="fixed bottom-3 left-3 right-3 z-50 lg:hidden"
         dir="rtl"
       >
-        <div className="glass mx-auto grid max-w-md grid-cols-5 gap-0.5 rounded-2xl border border-slate-200/60 p-1.5 shadow-float">
+        <div className="mx-auto grid max-w-md grid-cols-5 gap-0.5 rounded-2xl border border-[#e5e0d8] bg-white p-1.5 shadow-float">
           {SITE_NAV_MOBILE_BOTTOM.map((link) => {
             const isActive =
               currentPath === link.href ||
