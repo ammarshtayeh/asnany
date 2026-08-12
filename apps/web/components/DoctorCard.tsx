@@ -16,7 +16,7 @@ export default function DoctorCard({ doctor }: { doctor: Doctor }) {
             className="object-cover object-[center_18%] transition-transform duration-500 ease-spring group-hover:scale-[1.03]"
           />
         ) : (
-          <div className="flex h-full w-full items-center justify-center text-[#265F59]/35">
+          <div className="flex h-full w-full items-center justify-center text-[#295f59]/35">
             <Award className="h-10 w-10" />
           </div>
         )}

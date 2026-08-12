@@ -34,7 +34,7 @@ export default function CookieBanner() {
       <button
         type="button"
         onClick={accept}
-        className="mt-3 rounded-xl bg-[#265F59] px-4 py-2 text-sm font-black text-white transition hover:bg-[#2f6f68]"
+        className="mt-3 rounded-xl bg-[#295f59] px-4 py-2 text-sm font-black text-white transition hover:bg-[#2f6f68]"
       >
         موافق
       </button>

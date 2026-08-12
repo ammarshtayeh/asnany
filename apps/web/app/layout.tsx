@@ -52,7 +52,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#265F59",
+  themeColor: "#295f59",
 };
 
 import Navbar from "@/components/Navbar";

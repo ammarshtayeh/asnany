@@ -21,7 +21,7 @@ module.exports = {
         },
         malamih: {
           navy: "#0a1628",
-          teal: "#265F59",
+          teal: "#295f59",
           "teal-light": "#3d7a73",
           gold: "#d4af37",
           "gold-light": "#e8c86a",
@@ -61,7 +61,7 @@ module.exports = {
         "5xl": "2.5rem",
       },
       boxShadow: {
-        glow: "0 0 40px -8px rgba(38, 95, 89, 0.35)",
+        glow: "0 0 40px -8px rgba(41, 95, 89, 0.35)",
         "glow-gold": "0 0 40px -8px rgba(212, 175, 55, 0.35)",
         bento: "0 1px 2px rgba(10,22,40,0.04), 0 8px 24px -6px rgba(10,22,40,0.08), 0 24px 48px -12px rgba(10,22,40,0.06)",
         "bento-hover": "0 2px 4px rgba(10,22,40,0.04), 0 16px 32px -8px rgba(10,22,40,0.12), 0 32px 64px -16px rgba(10,22,40,0.08)",

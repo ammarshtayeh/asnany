@@ -4,14 +4,14 @@
 
 @layer base {
   :root {
-    /* Brand primary #265F59 — warm cream canvas */
+    /* Brand primary #295f59 — warm cream canvas */
     --background: 40 33% 96%;
     --foreground: 220 52% 10%;
     --card: 40 40% 99%;
     --card-foreground: 220 52% 10%;
     --popover: 40 40% 99%;
     --popover-foreground: 220 52% 10%;
-    --primary: 174 43% 26%;
+    --primary: 173 45% 27%;
     --primary-foreground: 0 0% 100%;
     --secondary: 46 65% 52%;
     --secondary-foreground: 220 52% 10%;
@@ -23,10 +23,10 @@
     --destructive-foreground: 210 40% 98%;
     --border: 40 18% 88%;
     --input: 40 18% 88%;
-    --ring: 174 43% 26%;
+    --ring: 173 45% 27%;
     --radius: 1.25rem;
     --malamih-navy: 220 52% 10%;
-    --malamih-teal: 174 43% 26%;
+    --malamih-teal: 173 45% 27%;
     --malamih-gold: 46 65% 52%;
     --malamih-cream: 40 33% 96%;
     --navbar-height: 72px;
@@ -54,7 +54,7 @@
   }
 
   .btn-malama {
-    @apply relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-2xl bg-primary px-6 py-3 text-sm font-black text-white shadow-glow transition-all duration-300 ease-spring hover:-translate-y-0.5 hover:bg-primary-dark hover:shadow-[0_12px_32px_-8px_rgba(38,95,89,0.5)] active:scale-[0.98];
+    @apply relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-2xl bg-primary px-6 py-3 text-sm font-black text-white shadow-glow transition-all duration-300 ease-spring hover:-translate-y-0.5 hover:bg-primary-dark hover:shadow-[0_12px_32px_-8px_rgba(41,95,89,0.5)] active:scale-[0.98];
   }
 
   .btn-malama-outline {
@@ -92,7 +92,7 @@
   }
 
   .offer-card-gradient {
-    @apply bg-gradient-to-br from-[#0a1628] via-[#265F59] to-[#1a433e] text-white;
+    @apply bg-gradient-to-br from-[#0a1628] via-[#295f59] to-[#1a433e] text-white;
   }
 
   .font-display {
@@ -104,7 +104,7 @@
   }
 
   .nav-active-mobile {
-    @apply bg-[#e8f0ef] text-primary shadow-[inset_0_0_0_1px_rgba(38,95,89,0.12)];
+    @apply bg-[#e8f0ef] text-primary shadow-[inset_0_0_0_1px_rgba(41,95,89,0.12)];
   }
 
   .nav-island {
@@ -132,9 +132,9 @@
   .mesh-bg {
     background-color: #f7f5f0;
     background-image:
-      radial-gradient(at 0% 0%, rgba(38, 95, 89, 0.08) 0px, transparent 50%),
+      radial-gradient(at 0% 0%, rgba(41, 95, 89, 0.08) 0px, transparent 50%),
       radial-gradient(at 100% 0%, rgba(212, 175, 55, 0.04) 0px, transparent 45%),
-      radial-gradient(at 50% 100%, rgba(38, 95, 89, 0.05) 0px, transparent 50%),
+      radial-gradient(at 50% 100%, rgba(41, 95, 89, 0.05) 0px, transparent 50%),
       radial-gradient(at 100% 100%, rgba(10, 22, 40, 0.03) 0px, transparent 40%);
   }
 
@@ -142,16 +142,16 @@
   .aurora-bg {
     background-color: #f7f5f0;
     background-image:
-      radial-gradient(ellipse 80% 50% at 10% -10%, rgba(38, 95, 89, 0.09), transparent 55%),
+      radial-gradient(ellipse 80% 50% at 10% -10%, rgba(41, 95, 89, 0.09), transparent 55%),
       radial-gradient(ellipse 60% 40% at 100% 0%, rgba(212, 175, 55, 0.05), transparent 50%),
-      radial-gradient(ellipse 70% 50% at 50% 110%, rgba(38, 95, 89, 0.05), transparent 55%);
+      radial-gradient(ellipse 70% 50% at 50% 110%, rgba(41, 95, 89, 0.05), transparent 55%);
   }
 
   .bg-grid-pattern {
     background-size: 40px 40px;
     background-image:
-      linear-gradient(to right, rgba(38, 95, 89, 0.035) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(38, 95, 89, 0.035) 1px, transparent 1px);
+      linear-gradient(to right, rgba(41, 95, 89, 0.035) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(41, 95, 89, 0.035) 1px, transparent 1px);
   }
 
   /* Quiet teal topographic wash for dark heroes / section shells */
@@ -206,7 +206,7 @@
   }
 
   .text-gradient-primary {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#265F59] via-[#3d7a73] to-[#265F59];
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#295f59] via-[#3d7a73] to-[#295f59];
   }
 
   .text-gradient-teal-gold {

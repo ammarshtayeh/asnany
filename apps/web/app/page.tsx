@@ -244,7 +244,7 @@ export default function Home() {
     <div className="min-h-screen overflow-x-hidden font-sans">
       <section className="relative isolate mb-8 sm:mb-12">
         {/* Brand teal base always visible — avoids broken-image alt text flash */}
-        <div className="relative min-h-[min(88vh,760px)] overflow-hidden bg-[#265F59]">
+        <div className="relative min-h-[min(88vh,760px)] overflow-hidden bg-[#295f59]">
           <Image
             src={HERO_IMAGE_URL}
             alt=""
@@ -255,7 +255,7 @@ export default function Home() {
             className="object-cover object-[center_28%] opacity-[0.45]"
           />
           <div className="pointer-events-none absolute inset-0 topo-teal opacity-60" />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#265F59]/55 via-[#1a433e]/70 to-[#0a1628]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#295f59]/55 via-[#1a433e]/70 to-[#0a1628]" />
           <div className="absolute inset-0 bg-gradient-to-l from-[#0a1628]/75 via-transparent to-transparent" />
 
           <div className="relative z-10 mx-auto flex min-h-[min(88vh,760px)] w-full max-w-[1400px] flex-col justify-end gap-8 px-[var(--page-gutter)] pb-10 pt-24 lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(320px,420px)] lg:items-end lg:gap-12 lg:pb-14 lg:pt-28">
@@ -277,7 +277,7 @@ export default function Home() {
               >
                 <span className="block text-white">ابحث عن الطبيب المناسب</span>
                 <span className="mt-4 flex flex-wrap items-center justify-end gap-2.5">
-                  <span className="inline-block rounded-xl bg-[#f7f5f0] px-4 py-1.5 text-[#265F59] shadow-[0_8px_24px_-8px_rgba(0,0,0,0.35)]">
+                  <span className="inline-block rounded-xl bg-[#f7f5f0] px-4 py-1.5 text-[#295f59] shadow-[0_8px_24px_-8px_rgba(0,0,0,0.35)]">
                     لوجهك
                   </span>
                   <span className="text-white/75">و</span>
@@ -303,7 +303,7 @@ export default function Home() {
                 <button
                   type="button"
                   onClick={() => document.getElementById("doctors")?.scrollIntoView({ behavior: "smooth", block: "start" })}
-                  className="inline-flex items-center gap-2 rounded-2xl bg-[#f7f5f0] px-6 py-3.5 text-sm font-black text-[#265F59] shadow-[0_12px_40px_-12px_rgba(0,0,0,0.4)] transition hover:-translate-y-0.5 hover:bg-white"
+                  className="inline-flex items-center gap-2 rounded-2xl bg-[#f7f5f0] px-6 py-3.5 text-sm font-black text-[#295f59] shadow-[0_12px_40px_-12px_rgba(0,0,0,0.4)] transition hover:-translate-y-0.5 hover:bg-white"
                 >
                   <Search className="h-4 w-4" />
                   ابدأ البحث
@@ -402,8 +402,8 @@ export default function Home() {
                     onClick={handleLocationSearch}
                     className={`flex items-center justify-center gap-2 rounded-2xl px-5 py-3.5 text-sm font-black text-white transition duration-300 ${
                       userLoc
-                        ? "bg-[#3d7a73] shadow-[0_10px_28px_rgba(38,95,89,0.4)]"
-                        : "bg-[#265F59] hover:-translate-y-0.5 hover:bg-[#2f6f68] hover:shadow-[0_10px_28px_rgba(38,95,89,0.45)]"
+                        ? "bg-[#3d7a73] shadow-[0_10px_28px_rgba(41,95,89,0.4)]"
+                        : "bg-[#295f59] hover:-translate-y-0.5 hover:bg-[#2f6f68] hover:shadow-[0_10px_28px_rgba(41,95,89,0.45)]"
                     }`}
                   >
                     <Navigation className={`h-5 w-5 -rotate-45 ${userLoc ? "animate-pulse" : ""}`} />
@@ -499,7 +499,7 @@ export default function Home() {
             ))}
             {!loading && !filteredDoctors.length ? <EmptyResults onReset={resetFilters} /> : null}
 
-            <div className="relative overflow-hidden rounded-[1.75rem] bg-[#265F59] p-8 text-center text-white topo-teal">
+            <div className="relative overflow-hidden rounded-[1.75rem] bg-[#295f59] p-8 text-center text-white topo-teal">
               <div className="pointer-events-none absolute -left-16 top-0 h-40 w-40 rounded-full bg-white/10 blur-3xl" />
               <div className="pointer-events-none absolute -right-10 bottom-0 h-36 w-36 rounded-full bg-[#d4af37]/15 blur-3xl" />
               <h3 className="relative font-display text-2xl font-bold tracking-tight sm:text-3xl">هل أنت طبيب أو أخصائي رعاية؟</h3>
@@ -605,7 +605,7 @@ function DoctorResult({ doctor }: { doctor: Doctor }) {
             className="object-cover object-[center_18%] transition duration-500 group-hover:scale-[1.03]"
           />
         ) : (
-          <div className="flex h-full min-h-[11.5rem] w-full items-center justify-center text-[#265F59]/30">
+          <div className="flex h-full min-h-[11.5rem] w-full items-center justify-center text-[#295f59]/30">
             <HeartPulse className="h-12 w-12" />
           </div>
         )}
@@ -668,7 +668,7 @@ function DoctorResult({ doctor }: { doctor: Doctor }) {
 
           {/* Action Buttons arranged horizontally */}
           <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
-            <Link href={`/doctors/${doctor.id}#booking`} className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#265F59] px-4 py-3 text-sm font-black text-white transition-all hover:bg-[#1a433e] hover:shadow-lg hover:shadow-[#265F59]/20">
+            <Link href={`/doctors/${doctor.id}#booking`} className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#295f59] px-4 py-3 text-sm font-black text-white transition-all hover:bg-[#1a433e] hover:shadow-lg hover:shadow-[#295f59]/20">
               {(doctor as any).can_book_online ? "احجز" : "طلب موعد"}
               <ArrowLeft className="h-4 w-4" />
             </Link>
@@ -684,7 +684,7 @@ function DoctorResult({ doctor }: { doctor: Doctor }) {
                     source: "home_card",
                   })
                 }
-                className="inline-flex items-center justify-center gap-2 rounded-xl border border-[#d5e8e1] bg-[#e8f0ef] px-4 py-3 text-sm font-black text-[#265F59] hover:bg-[#dceae7] transition-all"
+                className="inline-flex items-center justify-center gap-2 rounded-xl border border-[#d5e8e1] bg-[#e8f0ef] px-4 py-3 text-sm font-black text-[#295f59] hover:bg-[#dceae7] transition-all"
               >
                 <MessageCircle className="h-4 w-4" />
                 واتساب

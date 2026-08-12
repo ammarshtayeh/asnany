@@ -3,7 +3,7 @@ export const theme = {
   navy: "#0a1628",
   navySoft: "#0f172a",
   navyGlass: "rgba(10, 22, 40, 0.88)",
-  teal: "#265F59",
+  teal: "#295f59",
   tealLight: "#3d7a73",
   tealMuted: "#e8f0ef",
   gold: "#d4af37",
@@ -12,7 +12,7 @@ export const theme = {
   /** Legacy aliases → brand teal/gold (no purple/sky chrome) */
   sky: "#3d7a73",
   skyMuted: "#e8f0ef",
-  purple: "#265F59",
+  purple: "#295f59",
   purpleMuted: "#e8f0ef",
   pink: "#1a433e",
   pinkMuted: "#eef4f3",
@@ -26,8 +26,8 @@ export const theme = {
   textMuted: "#5c6570",
   textSoft: "#8a929c",
   white: "#ffffff",
-  offerGradient: ["#0a1628", "#265F59"] as const,
-  promoGradient: ["#0a1628", "#265F59"] as const,
+  offerGradient: ["#0a1628", "#295f59"] as const,
+  promoGradient: ["#0a1628", "#295f59"] as const,
   radius: {
     sm: 14,
     md: 18,
@@ -52,7 +52,7 @@ export const theme = {
       elevation: 8,
     },
     glow: {
-      shadowColor: "#265F59",
+      shadowColor: "#295f59",
       shadowOpacity: 0.22,
       shadowOffset: { width: 0, height: 4 },
       shadowRadius: 16,

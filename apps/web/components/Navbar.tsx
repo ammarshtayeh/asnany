@@ -141,7 +141,7 @@ export default function Navbar() {
                     <div className="grid gap-5 sm:grid-cols-2">
                       {SITE_NAV_MORE_SECTIONS.map((section) => (
                         <div key={section.id}>
-                          <p className="mb-2 text-[10px] font-black uppercase tracking-wider text-[#265F59]/70">{section.title}</p>
+                          <p className="mb-2 text-[10px] font-black uppercase tracking-wider text-[#295f59]/70">{section.title}</p>
                           <div className="space-y-1">
                             {section.links.map((link) => (
                               <Link
@@ -197,7 +197,7 @@ export default function Navbar() {
           <div className="mx-auto mt-2 max-h-[min(78vh,640px)] max-w-[1600px] overflow-y-auto rounded-3xl border border-[#e5e0d8] bg-white p-4 shadow-[0_24px_48px_-16px_rgba(10,22,40,0.28)] lg:hidden" dir="rtl">
             <div className="space-y-4">
               <div>
-                <p className="mb-2 text-[10px] font-black uppercase tracking-wider text-[#265F59]/70">التصفح الرئيسي</p>
+                <p className="mb-2 text-[10px] font-black uppercase tracking-wider text-[#295f59]/70">التصفح الرئيسي</p>
                 <div className="grid grid-cols-1 gap-2 xs:grid-cols-2 sm:grid-cols-2">
                   {SITE_NAV_PRIMARY.map((link) => {
                     const Icon = ICON_MAP[link.icon] || Sparkles;
@@ -221,7 +221,7 @@ export default function Navbar() {
 
               {SITE_NAV_MORE_SECTIONS.map((section) => (
                 <div key={section.id}>
-                  <p className="mb-2 text-[10px] font-black uppercase tracking-wider text-[#265F59]/70">{section.title}</p>
+                  <p className="mb-2 text-[10px] font-black uppercase tracking-wider text-[#295f59]/70">{section.title}</p>
                   <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                     {section.links.map((link) => (
                       <Link
