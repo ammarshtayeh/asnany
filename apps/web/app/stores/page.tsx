@@ -133,7 +133,7 @@ export default function StoresPage() {
             {/* B2B Register Button */}
             <button
               onClick={() => setIsModalOpen(true)}
-              className="w-full sm:w-auto bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white px-6 py-4 rounded-2xl font-black transition-all flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20"
+              className="w-full sm:w-auto bg-primary hover:bg-primary-dark text-white px-6 py-4 rounded-2xl font-black transition-all flex items-center justify-center gap-2 shadow-lg shadow-primary/20"
             >
               <Plus className="w-5 h-5" />
               سجل شركتك الطبية
@@ -392,7 +392,7 @@ export default function StoresPage() {
                 <button 
                   type="submit" 
                   disabled={isSubmitting}
-                  className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-black py-4 rounded-xl transition-all shadow-lg disabled:opacity-50"
+                  className="w-full bg-primary hover:bg-primary-dark text-white font-black py-4 rounded-xl transition-all shadow-lg disabled:opacity-50"
                 >
                   {isSubmitting ? "جاري الحفظ..." : "تسجيل وإرسال الطلب"}
                 </button>

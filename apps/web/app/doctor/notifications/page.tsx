@@ -90,7 +90,7 @@ export default function DoctorNotificationsPage() {
                 <RefreshCw className={`h-4 w-4 ${refreshing ? "animate-spin" : ""}`} />
                 تحديث
               </button>
-              <Link href="/doctor/dashboard" className="inline-flex items-center gap-2 rounded-2xl bg-sky-500 px-5 py-3 text-sm font-black text-white hover:bg-sky-400">
+              <Link href="/doctor/dashboard" className="inline-flex items-center gap-2 rounded-2xl bg-primary/50 px-5 py-3 text-sm font-black text-white hover:bg-primary-dark">
                 <ArrowRight className="h-4 w-4" />
                 العودة للوحة
               </Link>
@@ -118,12 +118,12 @@ export default function DoctorNotificationsPage() {
               {notifications.map((item) => (
                 <article
                   key={item.id}
-                  className={`rounded-2xl border p-4 transition ${item.read_at ? "border-slate-200 bg-white" : "border-sky-200 bg-sky-50/70"}`}
+                  className={`rounded-2xl border p-4 transition ${item.read_at ? "border-slate-200 bg-white" : "border-sky-200 bg-primary/5/70"}`}
                 >
                   <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
                     <div className="space-y-2">
                       <div className="flex items-center gap-2">
-                        {!item.read_at ? <span className="h-2.5 w-2.5 rounded-full bg-sky-500" /> : null}
+                        {!item.read_at ? <span className="h-2.5 w-2.5 rounded-full bg-primary/50" /> : null}
                         <h2 className="text-lg font-black text-slate-950">{item.title}</h2>
                       </div>
                       <p className="text-sm font-semibold leading-6 text-slate-600">{item.body}</p>
@@ -133,7 +133,7 @@ export default function DoctorNotificationsPage() {
                       <button
                         type="button"
                         onClick={() => markAsRead(item.id)}
-                        className="inline-flex items-center gap-2 rounded-2xl bg-slate-950 px-4 py-2 text-sm font-black text-white hover:bg-sky-600"
+                        className="inline-flex items-center gap-2 rounded-2xl bg-slate-950 px-4 py-2 text-sm font-black text-white hover:bg-primary"
                       >
                         <CheckCheck className="h-4 w-4" />
                         تعليم كمقروء

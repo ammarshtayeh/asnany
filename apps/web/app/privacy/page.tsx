@@ -13,7 +13,7 @@ export default function PrivacyPolicyPage() {
     >
       <ContentPanel>
         <div className="flex items-center gap-3 border-b border-slate-100 pb-4">
-          <ShieldCheck className="h-8 w-8 text-sky-600" />
+          <ShieldCheck className="h-8 w-8 text-primary" />
           <h2 className="text-2xl font-black text-slate-900">Privacy Policy</h2>
         </div>
 
@@ -23,9 +23,9 @@ export default function PrivacyPolicyPage() {
 
         <div className="grid gap-4 md:grid-cols-2">
           {[
-            { icon: Lock, color: "text-sky-600", title: "البيانات التي نجمعها", body: "الاسم، الهاتف، الهوية، العنوان، بيانات الحجز، ومعلومات الطبيب/الأدمن." },
+            { icon: Lock, color: "text-primary", title: "البيانات التي نجمعها", body: "الاسم، الهاتف، الهوية، العنوان، بيانات الحجز، ومعلومات الطبيب/الأدمن." },
             { icon: UserCheck, color: "text-emerald-600", title: "كيف نستخدمها", body: "لإرسال طلبات الحجز، إدارة جدول الطبيب، تحسين البحث، وتسهيل التواصل." },
-            { icon: Database, color: "text-violet-600", title: "حفظ البيانات", body: "تُحفظ في قاعدة بيانات المنصة وفق صلاحيات المريض والطبيب والأدمن." },
+            { icon: Database, color: "text-primary", title: "حفظ البيانات", body: "تُحفظ في قاعدة بيانات المنصة وفق صلاحيات المريض والطبيب والأدمن." },
             { icon: HeartHandshake, color: "text-rose-500", title: "مشاركة البيانات", body: "لا نبيع بيانات المستخدمين. تُستخدم ضمن نطاق الخدمة فقط." },
           ].map(({ icon: Icon, color, title, body }) => (
             <div key={title} className="bento-card p-5">

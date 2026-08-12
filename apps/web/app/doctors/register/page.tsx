@@ -378,7 +378,7 @@ export default function DoctorRegister() {
                             key={ins}
                             className={`flex items-center gap-2 p-2.5 rounded-xl border text-xs font-bold cursor-pointer transition-all ${
                               isChecked
-                                ? "bg-sky-50/50 border-sky-200 text-sky-700"
+                                ? "bg-primary/5/50 border-sky-200 text-primary"
                                 : "bg-white border-slate-200 text-slate-600 hover:bg-slate-50"
                             }`}
                           >
@@ -392,7 +392,7 @@ export default function DoctorRegister() {
                                   setSelectedInsurances([...selectedInsurances, ins]);
                                 }
                               }}
-                              className="w-4 h-4 text-sky-500 border-slate-300 rounded focus:ring-sky-400"
+                              className="w-4 h-4 text-primary border-slate-300 rounded focus:ring-sky-400"
                             />
                             {ins}
                           </label>

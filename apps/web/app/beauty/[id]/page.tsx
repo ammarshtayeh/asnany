@@ -174,7 +174,7 @@ export default async function BeautyDetailPage({ params }: { params: Promise<{ i
                 {service.phone && (
                   <a
                     href={`tel:${service.phone}`}
-                    className="flex items-center gap-3 bg-sky-50 border border-sky-100 hover:bg-sky-100 text-sky-700 rounded-2xl px-4 py-3 font-black text-sm transition-colors"
+                    className="flex items-center gap-3 bg-primary/5 border border-primary/15 hover:bg-primary/10 text-primary rounded-2xl px-4 py-3 font-black text-sm transition-colors"
                   >
                     <Phone className="w-4 h-4" />
                     {service.phone}

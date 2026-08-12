@@ -122,7 +122,7 @@ export default function DoctorAccountsAdminPage() {
     <div className="p-6 md:p-10" dir="rtl">
       <header className="mb-8">
         <h1 className="flex items-center gap-3 text-3xl font-black text-slate-950">
-          <KeyRound className="h-8 w-8 text-sky-600" />
+          <KeyRound className="h-8 w-8 text-primary" />
           إدارة حسابات دخول الأطباء
         </h1>
         <p className="mt-2 text-sm font-bold text-slate-500">
@@ -149,7 +149,7 @@ export default function DoctorAccountsAdminPage() {
       {/* Create Account Form */}
       <form onSubmit={createAccount} className="mb-8 bento-card p-6 shadow-sm">
         <h2 className="mb-5 flex items-center gap-2 text-xl font-black text-slate-950">
-          <Plus className="h-5 w-5 text-sky-600" />
+          <Plus className="h-5 w-5 text-primary" />
           إنشاء حساب طبيب جديد
         </h2>
         <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
@@ -205,7 +205,7 @@ export default function DoctorAccountsAdminPage() {
             <button
               type="submit"
               disabled={submitting}
-              className="w-full min-h-12 rounded-xl bg-slate-950 px-5 text-sm font-black text-white hover:bg-sky-600 disabled:opacity-60 transition"
+              className="w-full min-h-12 rounded-xl bg-slate-950 px-5 text-sm font-black text-white hover:bg-primary disabled:opacity-60 transition"
             >
               {submitting ? "جاري الحفظ..." : "إنشاء الحساب"}
             </button>
@@ -236,14 +236,14 @@ export default function DoctorAccountsAdminPage() {
               <article key={account.id} className="p-5">
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                   <div className="flex items-start gap-4">
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-sky-50">
-                      <User className="h-6 w-6 text-sky-600" />
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-primary/5">
+                      <User className="h-6 w-6 text-primary" />
                     </div>
                     <div>
                       <h3 className="text-lg font-black text-slate-950">
                         د. {account.doctors?.name || "—"}
                       </h3>
-                      <p className="mt-0.5 text-sm font-bold text-sky-600" dir="ltr">{account.email}</p>
+                      <p className="mt-0.5 text-sm font-bold text-primary" dir="ltr">{account.email}</p>
                       <p className="mt-0.5 text-xs font-bold text-slate-400">
                         {account.doctors?.city} {account.doctors?.phone ? `· ${account.doctors.phone}` : ""}
                       </p>
@@ -271,7 +271,7 @@ export default function DoctorAccountsAdminPage() {
                         setEditingId(editingId === account.id ? null : account.id);
                         setEditPassword("");
                       }}
-                      className="min-h-10 rounded-xl border border-slate-200 bg-white px-4 text-sm font-black text-slate-700 hover:border-sky-200 hover:text-sky-700 transition flex items-center gap-2"
+                      className="min-h-10 rounded-xl border border-slate-200 bg-white px-4 text-sm font-black text-slate-700 hover:border-sky-200 hover:text-primary transition flex items-center gap-2"
                     >
                       <RefreshCw className="h-4 w-4" />
                       كلمة المرور
@@ -291,7 +291,7 @@ export default function DoctorAccountsAdminPage() {
 
                 {/* Password change panel */}
                 {editingId === account.id ? (
-                  <div className="mt-4 flex items-center gap-3 rounded-2xl border border-sky-100 bg-sky-50 p-4">
+                  <div className="mt-4 flex items-center gap-3 rounded-2xl border border-primary/15 bg-primary/5 p-4">
                     <label className="flex flex-1 items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 focus-within:border-sky-300">
                       <input
                         type={showEditPassword ? "text" : "password"}
@@ -307,7 +307,7 @@ export default function DoctorAccountsAdminPage() {
                     <button
                       type="button"
                       onClick={() => updatePassword(account.id)}
-                      className="min-h-12 rounded-xl bg-sky-600 px-5 text-sm font-black text-white hover:bg-sky-700 transition"
+                      className="min-h-12 rounded-xl bg-primary px-5 text-sm font-black text-white hover:bg-primary-dark transition"
                     >
                       حفظ
                     </button>

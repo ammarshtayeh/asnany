@@ -15,7 +15,7 @@ export default function AboutUs() {
     >
       <ContentPanel>
         <div className="mx-auto max-w-2xl space-y-4 text-center">
-          <h2 className="text-2xl font-black text-slate-900 md:text-3xl">رؤيتنا ورسالتنا الجوهرية</h2>
+          <h2 className="font-display text-2xl font-bold text-slate-900 md:text-3xl">رؤيتنا ورسالتنا الجوهرية</h2>
           <p className="text-sm font-medium leading-relaxed text-slate-500 md:text-base">
             تأسست منصة <strong>ملامح.ps</strong> لتكون المرجع الأول لصحة وجمال الوجه في فلسطين — سهولة، سرعة، وثقة مبنية على تقييمات حقيقية.
           </p>
@@ -28,7 +28,7 @@ export default function AboutUs() {
           <FeatureTile icon={Heart} title="سهولة للمريض" tone="emerald">
             خرائط واضحة وتوجيه جغرافي للوصول الفوري للعيادة.
           </FeatureTile>
-          <FeatureTile icon={Award} title="محتوى موثوق" tone="indigo">
+          <FeatureTile icon={Award} title="محتوى موثوق" tone="amber">
             مجلة طبية، عروض، وحجوزات موثوقة لرفع الوعي الصحي.
           </FeatureTile>
         </div>

@@ -42,12 +42,12 @@ const QUICK_CHIPS = [
 ];
 
 const CTA_STYLES: Record<string, string> = {
-  offer:       "from-amber-400 to-orange-400 text-slate-950",
-  booking:     "from-slate-800 to-slate-950 text-white",
-  beauty:      "from-fuchsia-500 to-violet-500 text-white",
-  labs:        "from-sky-500 to-indigo-500 text-white",
-  marketplace: "from-emerald-500 to-teal-500 text-white",
-  blog:        "from-violet-500 to-purple-600 text-white",
+  offer:       "from-[#d4af37] to-[#e8c86a] text-slate-950",
+  booking:     "from-[#0a1628] to-[#0c5e47] text-white",
+  beauty:      "from-[#0c5e47] to-[#1a7a64] text-white",
+  labs:        "from-[#0a4d3a] to-[#0c5e47] text-white",
+  marketplace: "from-[#0c5e47] to-[#1a7a64] text-white",
+  blog:        "from-[#0a1628] to-[#0c5e47] text-white",
 };
 
 function getBotResponse(text: string): Omit<Message, "sender"> {

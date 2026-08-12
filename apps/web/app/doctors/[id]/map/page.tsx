@@ -61,7 +61,7 @@ export default function DoctorMapPage() {
     <main className="min-h-screen animate-fade-in bg-transparent pb-24 pt-4" dir="rtl">
       <div className="section-shell mx-auto max-w-5xl space-y-5">
         <section className="bento-card p-5">
-          <p className="text-sm font-black text-sky-600">خريطة العيادة</p>
+          <p className="text-sm font-black text-primary">خريطة العيادة</p>
           <h1 className="mt-2 text-3xl font-black text-slate-950">
             {doctor?.name || "جاري التحميل..."}
           </h1>
@@ -71,7 +71,7 @@ export default function DoctorMapPage() {
         </section>
 
         <section className="bento-card shine-border overflow-hidden p-4">
-          <div className="rounded-[1.6rem] border border-sky-100 bg-sky-50 p-4">
+          <div className="rounded-[1.6rem] border border-primary/15 bg-primary/5 p-4">
             
             {/* Live Location Alert Status */}
             {userLoc ? (
@@ -102,7 +102,7 @@ export default function DoctorMapPage() {
                 </button>
               </div>
             ) : locating ? (
-              <div className="mb-4 flex items-center gap-3 rounded-2xl border border-sky-200 bg-sky-50 p-4 text-sky-800">
+              <div className="mb-4 flex items-center gap-3 rounded-2xl border border-sky-200 bg-primary/5 p-4 text-sky-800">
                 <div className="w-4 h-4 border-2 border-sky-600 border-t-transparent rounded-full animate-spin shrink-0" />
                 <p className="text-sm font-black">جاري الاتصال بالأقمار الاصطناعية لتحديد موقعك ورسم الاتجاهات...</p>
               </div>
@@ -110,7 +110,7 @@ export default function DoctorMapPage() {
 
             <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
               <div>
-                <p className="text-xs font-black uppercase tracking-[0.2em] text-sky-600">الموقع على الخريطة</p>
+                <p className="text-xs font-black uppercase tracking-[0.2em] text-primary">الموقع على الخريطة</p>
                 <p className="mt-1 text-sm font-bold text-slate-600">
                   {doctor ? doctorMapLabel(doctor) : "جاري التحميل..."}
                 </p>
@@ -121,7 +121,7 @@ export default function DoctorMapPage() {
                   type="button"
                   onClick={() => doctor && openDoctorInExternalMaps(doctor)}
                   disabled={!doctor}
-                  className={`inline-flex min-h-11 items-center gap-2 rounded-full bg-slate-950 px-4 text-sm font-black text-white hover:bg-sky-600 transition ${
+                  className={`inline-flex min-h-11 items-center gap-2 rounded-full bg-slate-950 px-4 text-sm font-black text-white hover:bg-primary transition ${
                     doctor ? "" : "pointer-events-none opacity-50"
                   }`}
                 >

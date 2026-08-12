@@ -15,10 +15,10 @@ interface Particle {
 }
 
 const COLORS = [
-  "rgba(251, 191, 36,", // amber
-  "rgba(16, 185, 129,", // emerald
-  "rgba(99, 102, 241,", // indigo
+  "rgba(212, 175, 55,", // gold
+  "rgba(12, 94, 71,", // teal
   "rgba(255, 255, 255,", // white
+  "rgba(232, 200, 106,", // soft gold
 ];
 
 export default function FloatingParticles({

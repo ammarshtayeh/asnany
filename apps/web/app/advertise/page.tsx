@@ -69,7 +69,7 @@ export default function AdvertiseWithUs() {
 
         <form onSubmit={handleSubmit} className="bento-card shine-border p-5 text-right md:p-7">
           <div className="mb-5">
-            <p className="text-sm font-black text-sky-600">استمارة الإعلان</p>
+            <p className="text-sm font-black text-primary">استمارة الإعلان</p>
             <h2 className="mt-1 text-2xl font-black text-slate-950">احكيلنا شو الإعلان وطبيعته</h2>
           </div>
 
@@ -136,7 +136,7 @@ export default function AdvertiseWithUs() {
           ) : null}
 
           <div className="mt-6 grid gap-3 sm:grid-cols-2">
-            <button type="submit" className="flex items-center justify-center gap-2 rounded-xl bg-slate-950 px-5 py-4 text-sm font-black text-white hover:bg-sky-600">
+            <button type="submit" className="flex items-center justify-center gap-2 rounded-xl bg-slate-950 px-5 py-4 text-sm font-black text-white hover:bg-primary">
               <Send className="h-4 w-4" />
               إرسال الاستمارة عبر واتساب
             </button>
@@ -185,7 +185,7 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 function Value({ icon: Icon, title }: { icon: React.ComponentType<{ className?: string }>; title: string }) {
   return (
     <div className="rounded-2xl border border-slate-200 bg-white p-4 text-center shadow-sm">
-      <Icon className="mx-auto mb-2 h-6 w-6 text-sky-600" />
+      <Icon className="mx-auto mb-2 h-6 w-6 text-primary" />
       <p className="text-sm font-black text-slate-800">{title}</p>
     </div>
   );

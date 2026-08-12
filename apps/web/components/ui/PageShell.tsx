@@ -94,11 +94,11 @@ export function FeatureTile({
   tone?: "primary" | "emerald" | "indigo" | "amber" | "sky";
 }) {
   const tones = {
-    primary: "bg-primary/10 text-primary",
-    emerald: "bg-emerald-50 text-emerald-600 border border-emerald-100",
-    indigo: "bg-indigo-50 text-indigo-600 border border-indigo-100",
-    amber: "bg-amber-50 text-amber-700 border border-amber-100",
-    sky: "bg-sky-50 text-sky-600 border border-sky-100",
+    primary: "bg-primary/10 text-primary border border-primary/10",
+    emerald: "bg-[#e8f2ee] text-[#0c5e47] border border-[#d5e8e1]",
+    indigo: "bg-[#f0ebe3] text-[#0a1628] border border-[#e5e0d8]",
+    amber: "bg-[#f7f1e0] text-[#8a7020] border border-[#efe4c4]",
+    sky: "bg-[#eef6f3] text-[#1a7a64] border border-[#d5e8e1]",
   };
 
   return (
@@ -114,9 +114,9 @@ export function FeatureTile({
 
 export function PromoBanner({ eyebrow, title, children }: { eyebrow?: string; title: string; children?: React.ReactNode }) {
   return (
-    <div className="shine-border mb-8 rounded-3xl border border-amber-200/80 bg-gradient-to-l from-amber-50 via-white to-white p-6 text-center shadow-bento md:p-8">
-      {eyebrow ? <p className="text-xs font-black text-amber-700">{eyebrow}</p> : null}
-      <h2 className="mt-2 text-2xl font-black text-slate-900">{title}</h2>
+    <div className="shine-border mb-8 rounded-3xl border border-[#efe4c4]/80 bg-gradient-to-l from-[#f7f1e0] via-white to-white p-6 text-center shadow-bento md:p-8">
+      {eyebrow ? <p className="text-xs font-black text-[#8a7020]">{eyebrow}</p> : null}
+      <h2 className="mt-2 font-display text-2xl font-bold text-slate-900">{title}</h2>
       {children}
     </div>
   );

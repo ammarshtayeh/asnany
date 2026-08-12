@@ -38,7 +38,7 @@ function BookingDoctorCard({ doctor }: { doctor: SharedDoctor }) {
               <span className="rounded-full bg-slate-950 border border-slate-800 px-3 py-1.5 text-amber-400">موثق</span>
             ) : null}
             {doctor.accepts_insurance ? (
-              <span className="rounded-full bg-sky-50 border border-sky-200/50 px-3 py-1.5 text-sky-700">يقبل التأمين</span>
+              <span className="rounded-full bg-primary/5 border border-sky-200/50 px-3 py-1.5 text-primary">يقبل التأمين</span>
             ) : null}
           </div>
 

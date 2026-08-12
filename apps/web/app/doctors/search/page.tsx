@@ -193,7 +193,7 @@ function SearchPageContent() {
                       <h3 className="text-lg font-black tracking-tight text-slate-900">{doctor.name}</h3>
                       {doctor.verified ? (
                         <span
-                          className="inline-flex items-center gap-1 rounded-full border border-sky-100 bg-sky-50 px-2 py-0.5 text-[10px] font-black text-sky-700"
+                          className="inline-flex items-center gap-1 rounded-full border border-primary/15 bg-primary/5 px-2 py-0.5 text-[10px] font-black text-primary"
                           title="راجعت الإدارة بيانات العيادة الأساسية"
                         >
                           <BadgeCheck className="h-3.5 w-3.5" />

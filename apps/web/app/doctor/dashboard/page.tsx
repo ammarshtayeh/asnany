@@ -134,7 +134,7 @@ export default function DoctorDashboardPage() {
   if (loading) {
     return (
       <main className="min-h-screen animate-fade-in bg-transparent p-6 flex flex-col justify-center items-center" dir="rtl">
-        <div className="w-10 h-10 rounded-full border-4 border-sky-500 border-t-transparent animate-spin mb-4" />
+        <div className="w-10 h-10 rounded-full border-4 border-primary border-t-transparent animate-spin mb-4" />
         <p className="text-slate-500 font-bold text-sm">جاري تحميل لوحة التحكم الخاصة بك...</p>
       </main>
     );
@@ -146,11 +146,11 @@ export default function DoctorDashboardPage() {
         
         {/* Header Welcome Card */}
         <header className="overflow-hidden rounded-3xl bg-slate-950 text-white shadow-xl border border-slate-900">
-          <div className="bg-gradient-to-l from-sky-500/10 via-transparent to-emerald-500/10 px-6 py-8 relative">
+          <div className="bg-gradient-to-l from-primary/10 via-transparent to-primary/5 px-6 py-8 relative">
             <div className="absolute top-0 right-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10 pointer-events-none" />
             <div className="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
               <div className="space-y-3">
-                <div className="inline-flex items-center gap-1.5 rounded-full border border-sky-500/30 bg-sky-500/10 px-3.5 py-1.5 text-xs font-black text-sky-400">
+                <div className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3.5 py-1.5 text-xs font-black text-primary">
                   <Sparkles className="h-3.5 w-3.5" />
                   لوحة الأخصائي المعتمد
                 </div>
@@ -175,7 +175,7 @@ export default function DoctorDashboardPage() {
 
               <div className="flex flex-wrap gap-3">
                 <Link href="/doctor/notifications" className="inline-flex items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 px-5 py-3 rounded-2xl text-xs md:text-sm font-black text-white transition-all">
-                  <Bell className="h-4 w-4 text-sky-400" />
+                  <Bell className="h-4 w-4 text-primary" />
                   الإشعارات
                 </Link>
                 <form action="/api/doctor/logout" method="POST">
@@ -193,8 +193,8 @@ export default function DoctorDashboardPage() {
         <section className="grid gap-4 grid-cols-2 lg:grid-cols-4">
           <Stat icon={Clock} label="حجوزات قيد المراجعة" value={stats.pending} color="text-amber-500" bg="bg-amber-50" />
           <Stat icon={CalendarCheck2} label="حجوزات مؤكدة" value={stats.confirmed} color="text-emerald-500" bg="bg-emerald-50" />
-          <Stat icon={UserRoundCheck} label="مواعيد اليوم" value={stats.today} color="text-sky-500" bg="bg-sky-50" />
-          <Stat icon={Users} label="إجمالي الحجوزات" value={stats.total} color="text-violet-500" bg="bg-violet-50" />
+          <Stat icon={UserRoundCheck} label="مواعيد اليوم" value={stats.today} color="text-primary" bg="bg-primary/5" />
+          <Stat icon={Users} label="إجمالي الحجوزات" value={stats.total} color="text-[#0a4d3a]" bg="bg-[#e8f2ee]" />
         </section>
 
         {/* Quick Summary Cards (Upcoming) */}
@@ -237,7 +237,7 @@ export default function DoctorDashboardPage() {
                     </span>
                   </div>
                   <div className="mt-4 pt-3 border-t border-slate-200/50">
-                    <span className="text-[10px] font-black text-sky-600 bg-sky-50 px-2 py-1 rounded-md">
+                    <span className="text-[10px] font-black text-primary bg-primary/5 px-2 py-1 rounded-md">
                       {STATUS_LABELS[item.status] || item.status}
                     </span>
                   </div>
@@ -272,14 +272,14 @@ export default function DoctorDashboardPage() {
               ) : (
                 <div className="space-y-4">
                   {appointments.map((item) => (
-                    <article key={item.id} className="rounded-2xl border border-slate-200 p-5 transition hover:shadow-md hover:border-sky-200">
+                    <article key={item.id} className="rounded-2xl border border-slate-200 p-5 transition hover:shadow-md hover:border-primary/30">
                       <div className="mb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-slate-50 p-3 rounded-xl">
                         <div className="flex items-center gap-2">
                           <span className={`rounded-lg px-2.5 py-1 text-xs font-black ${
                             item.status === "confirmed"
                               ? "bg-emerald-50 text-emerald-700 border border-emerald-100"
                               : item.status === "completed"
-                              ? "bg-sky-50 text-sky-700 border border-sky-100"
+                              ? "bg-primary/5 text-primary border border-primary/15"
                               : item.status === "cancelled"
                               ? "bg-rose-50 text-rose-700 border border-rose-100"
                               : "bg-amber-50 text-amber-700 border border-amber-100"
@@ -291,7 +291,7 @@ export default function DoctorDashboardPage() {
                         <select
                           value={item.status}
                           onChange={(event) => updateAppointment(item.id, event.target.value)}
-                          className="min-h-10 rounded-xl border border-slate-200 bg-white px-3 text-xs font-black text-slate-800 outline-none focus:border-sky-500"
+                          className="min-h-10 rounded-xl border border-slate-200 bg-white px-3 text-xs font-black text-slate-800 outline-none focus:border-primary"
                         >
                           {Object.entries(STATUS_LABELS).map(([value, label]) => (
                             <option key={value} value={value}>{label}</option>
@@ -346,14 +346,14 @@ export default function DoctorDashboardPage() {
                   type="checkbox"
                   checked={form.is_available}
                   onChange={(event) => setForm((current) => ({ ...current, is_available: event.target.checked }))}
-                  className="h-5 w-5 rounded-md accent-sky-600"
+                  className="h-5 w-5 rounded-md accent-primary"
                 />
               </label>
               <textarea
                 value={form.availability_note}
                 onChange={(event) => setForm((current) => ({ ...current, availability_note: event.target.value }))}
                 placeholder="مثال: متواجدون حالياً لاستقبال الحالات الطارئة وجلسات الليزر والأسنان."
-                className="mt-3 min-h-[90px] w-full rounded-2xl border border-slate-200 bg-slate-50 p-4 text-xs font-bold outline-none focus:border-sky-300 focus:bg-white transition"
+                className="mt-3 min-h-[90px] w-full rounded-2xl border border-slate-200 bg-slate-50 p-4 text-xs font-bold outline-none focus:border-primary focus:bg-white transition"
               />
             </section>
 
@@ -380,7 +380,7 @@ export default function DoctorDashboardPage() {
             {/* Clinic Details Form */}
             <section className="bento-card p-5 shadow-sm">
               <h2 className="text-lg font-black text-slate-900 mb-4 flex items-center gap-1.5 justify-start">
-                <FileText className="w-5 h-5 text-sky-500" />
+                <FileText className="w-5 h-5 text-primary" />
                 <span>بيانات الاتصال والعنوان</span>
               </h2>
               <div className="grid gap-4">
@@ -395,7 +395,7 @@ export default function DoctorDashboardPage() {
             {/* Weekly Working Hours */}
             <section className="bento-card p-5 shadow-sm">
               <h2 className="text-lg font-black text-slate-900 mb-4 flex items-center gap-1.5 justify-start">
-                <Clock className="w-5 h-5 text-violet-500" />
+                <Clock className="w-5 h-5 text-primary" />
                 <span>ساعات العمل الأسبوعية</span>
               </h2>
               <div className="space-y-3">
@@ -411,7 +411,7 @@ export default function DoctorDashboardPage() {
                         }))
                       }
                       placeholder="09:00 ص - 05:00 م أو مغلق"
-                      className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-xs font-bold outline-none focus:border-sky-300 focus:bg-white transition"
+                      className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-xs font-bold outline-none focus:border-primary focus:bg-white transition"
                     />
                   </label>
                 ))}
@@ -420,7 +420,7 @@ export default function DoctorDashboardPage() {
                 type="button"
                 onClick={updateProfile}
                 disabled={saving}
-                className="mt-6 inline-flex min-h-[48px] w-full items-center justify-center gap-2 rounded-2xl bg-slate-950 px-5 text-xs font-black text-white hover:bg-sky-600 disabled:opacity-60 transition shadow-lg cursor-pointer"
+                className="mt-6 inline-flex min-h-[48px] w-full items-center justify-center gap-2 rounded-2xl bg-slate-950 px-5 text-xs font-black text-white hover:bg-primary disabled:opacity-60 transition shadow-lg cursor-pointer"
               >
                 <Save className="h-4 w-4" />
                 {saving ? "جاري الحفظ والرفع..." : "حفظ وتحديث العيادة"}
@@ -456,7 +456,7 @@ function Field({ label, value, onChange }: { label: string; value: string; onCha
       <input
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="min-h-[48px] w-full rounded-xl border border-slate-200 bg-slate-50 px-4 text-xs font-bold outline-none focus:border-sky-300 focus:bg-white transition"
+        className="min-h-[48px] w-full rounded-xl border border-slate-200 bg-slate-50 px-4 text-xs font-bold outline-none focus:border-primary focus:bg-white transition"
       />
     </label>
   );

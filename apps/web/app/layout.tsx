@@ -1,12 +1,19 @@
 import "./globals.css";
 import type { Metadata, Viewport } from "next";
-import { Cairo } from "next/font/google";
+import { Amiri, Cairo } from "next/font/google";
 
 const cairoFont = Cairo({
   subsets: ["arabic"],
   weight: ["400", "600", "700", "800", "900"],
   display: "swap",
   variable: "--font-cairo",
+});
+
+const amiriFont = Amiri({
+  subsets: ["arabic", "latin"],
+  weight: ["400", "700"],
+  display: "swap",
+  variable: "--font-amiri",
 });
 
 function siteBaseUrl() {
@@ -66,7 +73,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ar" dir="rtl">
-      <body className={`${cairoFont.variable} font-sans aurora-bg bg-grid-pattern text-slate-900 min-h-screen flex flex-col pb-28 lg:pb-0`}>
+      <body className={`${cairoFont.variable} ${amiriFont.variable} font-sans aurora-bg bg-grid-pattern text-slate-900 min-h-screen flex flex-col pb-28 lg:pb-0`}>
         <GoogleAnalytics />
         <GoogleAdSense />
         <Navbar />

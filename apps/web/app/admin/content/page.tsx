@@ -31,21 +31,21 @@ const sections: Array<{
     label: "العروض",
     hint: "خصومات وأسعار وحملات محدودة",
     icon: BadgePercent,
-    color: "bg-amber-50 text-amber-700 border-amber-100",
+    color: "bg-[#f7f1e0] text-[#8a7020] border-[#efe4c4]",
   },
   {
     value: "articles",
     label: "المقالات والأخبار",
     hint: "المدونة الطبية والدراسات والتوعية",
     icon: BookOpenText,
-    color: "bg-violet-50 text-violet-700 border-violet-100",
+    color: "bg-primary/5 text-primary border-primary/15",
   },
   {
     value: "marketplace_ads",
     label: "سوق ملامح",
     hint: "معدات، وظائف، وإعلانات الموردين",
     icon: BriefcaseBusiness,
-    color: "bg-emerald-50 text-emerald-700 border-emerald-100",
+    color: "bg-[#e8f2ee] text-[#0c5e47] border-[#d5e8e1]",
   },
 ];
 
@@ -189,7 +189,7 @@ export default function AdminContentPage() {
     <div className="p-4 md:p-10 font-sans" dir="rtl">
       <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div>
-          <p className="mb-2 text-sm font-black text-sky-600">مركز المحتوى</p>
+          <p className="mb-2 text-sm font-black text-primary">مركز المحتوى</p>
           <h1 className="text-2xl md:text-3xl font-black text-slate-950">
             إدارة العروض، الأخبار، وسوق ملامح
           </h1>
@@ -199,7 +199,7 @@ export default function AdminContentPage() {
         </div>
         <button
           onClick={openAdd}
-          className="inline-flex items-center justify-center gap-2 rounded-2xl bg-slate-950 px-5 py-3 text-sm font-black text-white shadow-lg shadow-slate-900/10 transition-colors hover:bg-sky-600"
+          className="inline-flex items-center justify-center gap-2 rounded-2xl bg-slate-950 px-5 py-3 text-sm font-black text-white shadow-lg shadow-slate-900/10 transition-colors hover:bg-primary"
         >
           <Plus className="h-5 w-5" />
           إضافة محتوى
@@ -237,7 +237,7 @@ export default function AdminContentPage() {
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder={`ابحث داخل ${activeSection.label}...`}
-            className="w-full rounded-xl border border-slate-200 bg-slate-50 py-3 pr-12 pl-4 text-sm font-bold outline-none focus:ring-2 focus:ring-sky-500"
+            className="w-full rounded-xl border border-slate-200 bg-slate-50 py-3 pr-12 pl-4 text-sm font-bold outline-none focus:ring-2 focus:ring-primary"
           />
         </div>
       </div>
@@ -245,7 +245,7 @@ export default function AdminContentPage() {
       <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
         {loading ? (
           <div className="flex justify-center py-20">
-            <div className="h-12 w-12 animate-spin rounded-full border-4 border-sky-500 border-t-transparent" />
+            <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent" />
           </div>
         ) : filtered.length === 0 ? (
           <div className="p-12 text-center font-bold text-slate-500">
@@ -300,14 +300,14 @@ export default function AdminContentPage() {
                           {item.is_active ? "ظاهر" : "مخفي"}
                         </span>
                       ) : (
-                        <span className="rounded-lg border border-sky-100 bg-sky-50 px-3 py-1.5 text-xs font-black text-sky-700">
+                        <span className="rounded-lg border border-primary/15 bg-primary/5 px-3 py-1.5 text-xs font-black text-primary">
                           منشور
                         </span>
                       )}
                     </td>
                     <td className="px-5 py-4">
                       <div className="flex gap-2">
-                        <button onClick={() => openEdit(item)} className="rounded-lg border border-slate-200 p-2 text-slate-600 hover:bg-sky-50 hover:text-sky-700">
+                        <button onClick={() => openEdit(item)} className="rounded-lg border border-slate-200 p-2 text-slate-600 hover:bg-primary/5 hover:text-primary">
                           <Edit3 className="h-4 w-4" />
                         </button>
                         <button onClick={() => remove(item)} className="rounded-lg border border-red-100 p-2 text-red-500 hover:bg-red-50">
@@ -344,7 +344,7 @@ export default function AdminContentPage() {
                 <button type="button" onClick={() => setModalOpen(false)} className="rounded-xl bg-slate-100 px-5 py-3 font-black text-slate-700">
                   إلغاء
                 </button>
-                <button disabled={saving} className="rounded-xl bg-slate-950 px-5 py-3 font-black text-white hover:bg-sky-600 disabled:opacity-50">
+                <button disabled={saving} className="rounded-xl bg-slate-950 px-5 py-3 font-black text-white hover:bg-primary disabled:opacity-50">
                   {saving ? "جار الحفظ..." : "حفظ"}
                 </button>
               </div>
@@ -379,7 +379,7 @@ function Field({
         required={required}
         value={form[name] ?? ""}
         onChange={(event) => setForm({ ...form, [name]: event.target.value })}
-        className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-bold outline-none focus:ring-2 focus:ring-sky-500"
+        className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-bold outline-none focus:ring-2 focus:ring-primary"
       />
     </label>
   );
@@ -406,7 +406,7 @@ function TextArea({
         rows={4}
         value={form[name] ?? ""}
         onChange={(event) => setForm({ ...form, [name]: event.target.value })}
-        className="w-full resize-none rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-bold outline-none focus:ring-2 focus:ring-sky-500"
+        className="w-full resize-none rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-bold outline-none focus:ring-2 focus:ring-primary"
       />
     </label>
   );
@@ -442,7 +442,7 @@ function ArticleFields({ form, setForm }: { form: Record<string, any>; setForm: 
         <select
           value={form.category || "بسمتك وصحة فمك"}
           onChange={(event) => setForm({ ...form, category: event.target.value })}
-          className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-bold outline-none focus:ring-2 focus:ring-sky-500"
+          className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-bold outline-none focus:ring-2 focus:ring-primary"
         >
           <option value="بسمتك وصحة فمك">بسمتك وصحة فمك (الأسنان)</option>
           <option value="بشرتك ونضارتها">بشرتك ونضارتها (الجلدية والليزر)</option>
@@ -476,7 +476,7 @@ function MarketplaceFields({ form, setForm }: { form: Record<string, any>; setFo
         <select
           value={form.type}
           onChange={(event) => setForm({ ...form, type: event.target.value })}
-          className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-bold outline-none focus:ring-2 focus:ring-sky-500"
+          className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-bold outline-none focus:ring-2 focus:ring-primary"
         >
           <option value="equipment">معدات للبيع</option>
           <option value="job">وظيفة شاغرة</option>

@@ -25,7 +25,7 @@ const statusCopy: Record<string, { label: string; className: string }> = {
   pending: { label: "قيد المراجعة", className: "bg-amber-50 text-amber-700 border-amber-100" },
   confirmed: { label: "مؤكد", className: "bg-emerald-50 text-emerald-700 border-emerald-100" },
   cancelled: { label: "ملغي", className: "bg-rose-50 text-rose-700 border-rose-100" },
-  completed: { label: "مكتمل", className: "bg-sky-50 text-sky-700 border-sky-100" },
+  completed: { label: "مكتمل", className: "bg-primary/5 text-primary border-primary/15" },
 };
 
 export default function AppointmentsPage() {
@@ -85,11 +85,11 @@ export default function AppointmentsPage() {
 
         <div className="bento-card shine-border mt-6 p-5 sm:p-7">
           <div className="flex items-start gap-4">
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-sky-50 text-sky-600">
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-primary/5 text-primary">
               <CalendarCheck2 className="h-6 w-6" />
             </div>
             <div>
-              <p className="text-xs font-black text-sky-600">متابعة آمنة</p>
+              <p className="text-xs font-black text-primary">متابعة آمنة</p>
               <h1 className="mt-1 text-3xl font-black text-slate-950">حجوزاتي</h1>
               <p className="mt-2 max-w-xl text-sm font-semibold leading-7 text-slate-500">
                 أدخل رقم الهاتف ورمز الحجز (مثل MLH-AB12CD) الذي ظهر بعد إرسال الطلب.
@@ -120,7 +120,7 @@ export default function AppointmentsPage() {
             type="button"
             onClick={() => loadAppointments()}
             disabled={!canSearch || loading}
-            className="mt-4 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl bg-slate-950 px-5 text-sm font-black text-white transition hover:bg-sky-600 disabled:opacity-50 sm:w-auto"
+            className="mt-4 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl bg-slate-950 px-5 text-sm font-black text-white transition hover:bg-primary disabled:opacity-50 sm:w-auto"
           >
             <Search className="h-4 w-4" />
             {loading ? "جاري البحث..." : "عرض الحجز"}
@@ -162,11 +162,11 @@ export default function AppointmentsPage() {
                 </div>
                 <div className="mt-4 flex flex-wrap gap-3 text-sm font-bold text-slate-600">
                   <span className="inline-flex items-center gap-1.5 rounded-xl bg-slate-50 px-3 py-2">
-                    <CalendarCheck2 className="h-4 w-4 text-sky-600" />
+                    <CalendarCheck2 className="h-4 w-4 text-primary" />
                     {item.date || "—"}
                   </span>
                   <span className="inline-flex items-center gap-1.5 rounded-xl bg-slate-50 px-3 py-2">
-                    <Clock className="h-4 w-4 text-sky-600" />
+                    <Clock className="h-4 w-4 text-primary" />
                     {item.time || "—"}
                   </span>
                 </div>

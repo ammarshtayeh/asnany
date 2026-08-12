@@ -63,7 +63,7 @@ export default function DiscountCardPage() {
               <ArrowRight className="h-4 w-4" />
               الرئيسية
             </Link>
-            <div className="inline-flex items-center gap-2 rounded-full border border-sky-200 bg-sky-50 px-4 py-2 text-sm font-black text-sky-700">
+            <div className="inline-flex items-center gap-2 rounded-full border border-sky-200 bg-primary/5 px-4 py-2 text-sm font-black text-primary">
               <CreditCard className="h-4 w-4" />
               بطاقة خصم أسناني
             </div>
@@ -141,7 +141,7 @@ export default function DiscountCardPage() {
                     {doctor.discount_value || "خصم خاص"} {doctor.discount_note ? `- ${doctor.discount_note}` : ""}
                   </p>
                   <div className="mt-3">
-                    <Link href={`/doctors/${doctor.id}`} className="text-xs font-black text-sky-700 underline underline-offset-4">
+                    <Link href={`/doctors/${doctor.id}`} className="text-xs font-black text-primary underline underline-offset-4">
                       عرض ملف الطبيب
                     </Link>
                   </div>

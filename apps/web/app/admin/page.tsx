@@ -26,12 +26,12 @@ export default async function AdminDashboard() {
 
       <div className="mb-10 bg-slate-950 rounded-3xl p-6 md:p-8 text-white relative overflow-hidden shadow-xl border border-slate-800">
         <div className="absolute top-0 right-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10 pointer-events-none" />
-        <div className="absolute -top-32 -left-32 w-64 h-64 bg-sky-500 rounded-full blur-[100px] opacity-20 pointer-events-none" />
+        <div className="absolute -top-32 -left-32 w-64 h-64 bg-primary/50 rounded-full blur-[100px] opacity-20 pointer-events-none" />
         <div className="absolute -bottom-32 -right-32 w-64 h-64 bg-emerald-500 rounded-full blur-[100px] opacity-10 pointer-events-none" />
 
         <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
           <div>
-            <p className="text-sky-400 font-black text-xs uppercase tracking-wider mb-2">تحديث المنصة الشامل</p>
+            <p className="text-primary font-black text-xs uppercase tracking-wider mb-2">تحديث المنصة الشامل</p>
             <h2 className="text-xl md:text-2xl font-black leading-snug">إدارة الأقسام والخدمات مربوطة بالكامل</h2>
             <p className="text-slate-400 mt-2 font-medium text-sm md:text-base max-w-2xl leading-relaxed">
               عيادات التجميل، أخصائيي الجلدية، البصريات والعيون، ومراكز الأنف والأذن والحنجرة أصبحت مفعلة وجاهزة للتحكم.
@@ -50,13 +50,13 @@ export default async function AdminDashboard() {
       <div className="mb-10 grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
         <Link
           href="/admin/doctors"
-          className="group flex items-center gap-5 bento-card p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-sky-300 hover:shadow-lg hover:shadow-sky-500/5"
+          className="group flex items-center gap-5 bento-card p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/10"
         >
-          <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-sky-50 text-sky-600 group-hover:bg-sky-600 group-hover:text-white transition-all duration-300">
+          <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-primary/5 text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300">
             <UserCheck className="h-8 w-8" />
           </div>
           <div>
-            <h3 className="text-lg font-black text-slate-950 group-hover:text-sky-600 transition-colors">إدارة الأطباء والعيادات</h3>
+            <h3 className="text-lg font-black text-slate-950 group-hover:text-primary transition-colors">إدارة الأطباء والعيادات</h3>
             <p className="mt-1 text-xs md:text-sm font-semibold text-slate-500">مراجعة بيانات الأطباء، الصور والتخصصات — {totalDoctors} طبيب مسجل</p>
           </div>
         </Link>
@@ -138,7 +138,7 @@ export default async function AdminDashboard() {
         </div>
 
         <div className="bento-card p-5 shadow-sm border border-slate-200/80 flex items-center gap-4 transition hover:shadow-md">
-          <div className="w-12 h-12 rounded-2xl bg-sky-50 text-sky-600 flex items-center justify-center flex-shrink-0">
+          <div className="w-12 h-12 rounded-2xl bg-primary/5 text-primary flex items-center justify-center flex-shrink-0">
             <Store className="w-6 h-6" />
           </div>
           <div>
@@ -152,7 +152,7 @@ export default async function AdminDashboard() {
         <div className="bento-card shadow-sm border border-slate-200/85 overflow-hidden flex flex-col">
           <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
             <h2 className="text-lg font-black text-slate-950">آخر الأطباء المسجلين</h2>
-            <Link href="/admin/doctors" className="text-sky-600 text-xs font-black hover:text-sky-700 transition">
+            <Link href="/admin/doctors" className="text-primary text-xs font-black hover:text-primary transition">
               إدارة الأطباء
             </Link>
           </div>
@@ -204,7 +204,7 @@ export default async function AdminDashboard() {
         <div className="bento-card shadow-sm border border-slate-200/85 overflow-hidden flex flex-col">
           <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
             <h2 className="text-lg font-black text-slate-950">المتاجر الطبية المسجلة</h2>
-            <Link href="/admin/stores" className="text-sky-600 text-xs font-black hover:text-sky-700 transition">
+            <Link href="/admin/stores" className="text-primary text-xs font-black hover:text-primary transition">
               إدارة المتاجر
             </Link>
           </div>

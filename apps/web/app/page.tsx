@@ -53,11 +53,11 @@ const DoctorMap = dynamic(() => import("@/components/DoctorMap"), {
 const HERO_IMAGE_URL = "https://images.unsplash.com/photo-1629909613654-28e377c37b94?q=70&w=1600&auto=format&fit=crop";
 
 const QUICK_CATEGORIES = [
-  { id: "dental", label: "أسنان", icon: Stethoscope, color: "text-emerald-600", bg: "bg-emerald-50" },
-  { id: "derma", label: "جلدية", icon: ShieldCheck, color: "text-amber-600", bg: "bg-amber-50" },
-  { id: "beauty", label: "تجميل", icon: Sparkles, color: "text-violet-600", bg: "bg-violet-50" },
-  { id: "eyes", label: "عيون", icon: Eye, color: "text-teal-600", bg: "bg-teal-50" },
-  { id: "ent", label: "أنف وأذن وحنجرة", icon: Ear, color: "text-orange-600", bg: "bg-orange-50" },
+  { id: "dental", label: "أسنان", icon: Stethoscope, color: "text-primary", bg: "bg-primary/10" },
+  { id: "derma", label: "جلدية", icon: ShieldCheck, color: "text-[#0a4d3a]", bg: "bg-[#e8f2ee]" },
+  { id: "beauty", label: "تجميل", icon: Sparkles, color: "text-[#b8962e]", bg: "bg-[#f7f1e0]" },
+  { id: "eyes", label: "عيون", icon: Eye, color: "text-primary", bg: "bg-primary/10" },
+  { id: "ent", label: "أنف وأذن وحنجرة", icon: Ear, color: "text-[#1a7a64]", bg: "bg-[#eef6f3]" },
 ];
 
 const PALESTINIAN_INSURANCES = ["التكافل", "ترست", "المشرق", "تمكين", "المجموعة الأهلية"];
@@ -256,7 +256,7 @@ export default function Home() {
           />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_20%,rgba(16,185,129,0.18),transparent_45%),linear-gradient(180deg,rgba(6,12,24,0.55)_0%,rgba(6,12,24,0.72)_45%,rgba(6,12,24,0.96)_100%)]" />
           <div className="absolute inset-0 bg-gradient-to-l from-[#060c18]/90 via-[#060c18]/45 to-transparent" />
-          <FloatingParticles count={28} className="opacity-40" />
+          <FloatingParticles count={10} className="opacity-25" />
 
           <div className="relative z-10 mx-auto flex min-h-[min(88vh,760px)] w-full max-w-[1400px] flex-col justify-end gap-6 px-[var(--page-gutter)] pb-10 pt-24 lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(320px,440px)] lg:items-end lg:gap-10 lg:pb-12 lg:pt-28">
             <div className="max-w-xl text-right text-white lg:pb-4" dir="rtl">
@@ -270,7 +270,7 @@ export default function Home() {
                 <span className="text-[10px] font-bold text-slate-300">.ps</span>
               </motion.div>
               <motion.h1
-                className="mt-5 text-4xl font-black leading-[1.15] tracking-tight sm:text-5xl lg:text-[3.35rem]"
+                className="mt-5 font-display text-4xl font-bold leading-[1.15] tracking-tight sm:text-5xl lg:text-[3.35rem]"
                 initial={{ opacity: 0, y: 28 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.08 }}
@@ -324,7 +324,7 @@ export default function Home() {
               <div className="mb-4 flex items-end justify-between gap-3">
                 <div>
                   <p className="text-[11px] font-black uppercase tracking-[0.18em] text-[#e8c86a]/90">بحث سريع</p>
-                  <h2 className="mt-1 text-xl font-black text-white sm:text-2xl">من تبحث عنه اليوم؟</h2>
+                  <h2 className="mt-1 font-display text-xl font-bold text-white sm:text-2xl">من تبحث عنه اليوم؟</h2>
                 </div>
                 {(publicStats.verifiedProviders > 0) && (
                   <p className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] font-black text-slate-200">
@@ -469,7 +469,7 @@ export default function Home() {
           <div className={`flex flex-col gap-5 ${showMap ? "lg:w-[58%]" : "w-full"}`}>
             <div className="flex flex-col gap-3 rounded-3xl border border-slate-200/70 bg-white/90 p-5 shadow-[0_16px_40px_-24px_rgba(10,22,40,0.18)] backdrop-blur-sm sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <h2 className="text-2xl font-black tracking-tight text-slate-950">
+                <h2 className="font-display text-2xl font-bold tracking-tight text-slate-950">
                   {loading ? "جاري تحميل الأطباء" : filteredDoctors.length ? "الأطباء المتاحون" : "لم نجد نتائج مطابقة"}
                 </h2>
                 <p className="mt-1 text-sm font-bold text-slate-500">
@@ -499,10 +499,10 @@ export default function Home() {
             ))}
             {!loading && !filteredDoctors.length ? <EmptyResults onReset={resetFilters} /> : null}
 
-            <div className="relative overflow-hidden rounded-[1.75rem] bg-[#0a1628] p-8 text-center text-white">
-              <div className="pointer-events-none absolute -left-16 top-0 h-40 w-40 rounded-full bg-emerald-500/15 blur-3xl" />
-              <div className="pointer-events-none absolute -right-10 bottom-0 h-36 w-36 rounded-full bg-amber-400/10 blur-3xl" />
-              <h3 className="relative text-2xl font-black tracking-tight sm:text-3xl">هل أنت طبيب أو أخصائي رعاية؟</h3>
+            <div className="relative overflow-hidden rounded-[1.75rem] bg-[#0a1628] p-8 text-center text-white topo-teal">
+              <div className="pointer-events-none absolute -left-16 top-0 h-40 w-40 rounded-full bg-primary/20 blur-3xl" />
+              <div className="pointer-events-none absolute -right-10 bottom-0 h-36 w-36 rounded-full bg-[#d4af37]/10 blur-3xl" />
+              <h3 className="relative font-display text-2xl font-bold tracking-tight sm:text-3xl">هل أنت طبيب أو أخصائي رعاية؟</h3>
               <p className="relative mx-auto mt-3 max-w-2xl text-sm font-semibold leading-7 text-slate-300">
                 انضم إلى شبكة ملامح، اعرض خدماتك الطبية والتجميلية، واستقبل طلبات المراجعين من مكان واحد.
               </p>
@@ -521,7 +521,7 @@ export default function Home() {
         <section className="mt-8 overflow-hidden rounded-[1.75rem] border border-slate-200/70 bg-gradient-to-br from-white via-white to-emerald-50/40 p-6 shadow-[0_20px_50px_-28px_rgba(10,22,40,0.2)] sm:p-8" dir="rtl">
           <div className="mb-6 text-right">
             <p className="text-xs font-black tracking-[0.16em] text-primary">كيف تعمل ملامح</p>
-            <h3 className="mt-1 text-2xl font-black text-slate-950">ثلاث خطوات للوصول للعيادة المناسبة</h3>
+            <h3 className="mt-1 font-display text-2xl font-bold text-slate-950">ثلاث خطوات للوصول للعيادة المناسبة</h3>
           </div>
           <div className="grid gap-5 md:grid-cols-3">
             {HOW_IT_WORKS.map((step, i) => (

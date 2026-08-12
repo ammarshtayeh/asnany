@@ -7,7 +7,7 @@ import { AppointmentRecord } from "@/lib/types";
 const STATUS_LABELS: Record<string, { label: string; style: string }> = {
   pending:   { label: "قيد المراجعة", style: "bg-amber-50 text-amber-700 border-amber-200" },
   confirmed: { label: "مؤكد",         style: "bg-emerald-50 text-emerald-700 border-emerald-200" },
-  completed: { label: "مكتمل",        style: "bg-sky-50 text-sky-700 border-sky-200" },
+  completed: { label: "مكتمل",        style: "bg-primary/5 text-primary border-sky-200" },
   cancelled: { label: "ملغي",         style: "bg-rose-50 text-rose-700 border-rose-200" },
 };
 
@@ -54,7 +54,7 @@ export default function AdminAppointments() {
     <div className="p-6 md:p-10" dir="rtl">
       <header className="mb-8">
         <h1 className="flex items-center gap-3 text-3xl font-black text-slate-900">
-          <Calendar className="h-8 w-8 text-sky-600" />
+          <Calendar className="h-8 w-8 text-primary" />
           إدارة الحجوزات
         </h1>
         <p className="mt-1 text-sm font-bold text-slate-500">كل حجوزات الأطباء من قاعدة البيانات في مكان واحد</p>
@@ -86,7 +86,7 @@ export default function AdminAppointments() {
 
         {loading ? (
           <div className="flex justify-center items-center py-20">
-            <div className="h-12 w-12 animate-spin rounded-full border-4 border-sky-500 border-t-transparent" />
+            <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent" />
           </div>
         ) : appointments.length === 0 ? (
           <div className="p-12 text-center">
@@ -127,7 +127,7 @@ export default function AdminAppointments() {
                         {app.patient_email ? (
                           <a
                             href={`mailto:${app.patient_email}`}
-                            className="flex items-center gap-1.5 text-sky-600 hover:underline"
+                            className="flex items-center gap-1.5 text-primary hover:underline"
                           >
                             <Mail className="h-3.5 w-3.5" />
                             {app.patient_email}

@@ -86,10 +86,10 @@ export default function WebPushOptIn({ patientPhone }: WebPushOptInProps) {
   if (!supported || patientPhone.replace(/[^0-9]/g, "").length < 9) return null;
 
   return (
-    <div className="mt-4 rounded-2xl border border-sky-100 bg-sky-50 px-4 py-4">
+    <div className="mt-4 rounded-2xl border border-primary/15 bg-primary/5 px-4 py-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-start gap-3">
-          {enabled ? <Bell className="mt-0.5 h-5 w-5 text-sky-600" /> : <BellOff className="mt-0.5 h-5 w-5 text-sky-600" />}
+          {enabled ? <Bell className="mt-0.5 h-5 w-5 text-primary" /> : <BellOff className="mt-0.5 h-5 w-5 text-primary" />}
           <div>
             <p className="text-sm font-black text-slate-900">تنبيهات تحديث الحجز</p>
             <p className="mt-1 text-xs font-semibold leading-6 text-slate-600">
@@ -102,7 +102,7 @@ export default function WebPushOptIn({ patientPhone }: WebPushOptInProps) {
             type="button"
             onClick={() => void enable()}
             disabled={loading}
-            className="rounded-xl bg-sky-600 px-4 py-2 text-xs font-black text-white disabled:opacity-60"
+            className="rounded-xl bg-primary px-4 py-2 text-xs font-black text-white disabled:opacity-60"
           >
             {loading ? "جاري التفعيل..." : "تفعيل الإشعارات"}
           </button>

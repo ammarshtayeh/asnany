@@ -4,29 +4,31 @@
 
 @layer base {
   :root {
-    --background: 210 40% 98%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    /* Warm cream canvas — Malameh board (not cold gray-blue) */
+    --background: 40 33% 96%;
+    --foreground: 220 52% 10%;
+    --card: 40 40% 99%;
+    --card-foreground: 220 52% 10%;
+    --popover: 40 40% 99%;
+    --popover-foreground: 220 52% 10%;
     --primary: 162 78% 21%;
     --primary-foreground: 0 0% 100%;
     --secondary: 46 65% 52%;
-    --secondary-foreground: 222.2 84% 4.9%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 162 76% 95%;
+    --secondary-foreground: 220 52% 10%;
+    --muted: 40 20% 92%;
+    --muted-foreground: 215 16% 40%;
+    --accent: 162 35% 92%;
     --accent-foreground: 162 78% 18%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
+    --border: 40 18% 88%;
+    --input: 40 18% 88%;
     --ring: 162 78% 21%;
     --radius: 1.25rem;
     --malamih-navy: 220 52% 10%;
     --malamih-teal: 162 78% 21%;
     --malamih-gold: 46 65% 52%;
+    --malamih-cream: 40 33% 96%;
     --navbar-height: 72px;
     --ticker-height: 0px;
     --page-gutter: clamp(1rem, 3vw, 2rem);
@@ -64,17 +66,17 @@
   }
 
   .card-malama {
-    @apply rounded-3xl border border-slate-200/60 bg-white/90 shadow-bento backdrop-blur-sm transition-all duration-300 ease-spring hover:-translate-y-1 hover:border-slate-200 hover:shadow-bento-hover;
+    @apply rounded-3xl border border-[#e5e0d8]/80 bg-white/90 shadow-bento backdrop-blur-sm transition-all duration-300 ease-spring hover:-translate-y-0.5 hover:border-[#d5e8e1] hover:shadow-bento-hover;
   }
 
   .bento-card {
-    @apply relative overflow-hidden rounded-3xl border border-slate-200/50 bg-white shadow-bento transition-all duration-300 ease-spring hover:-translate-y-1 hover:shadow-bento-hover;
+    @apply relative overflow-hidden rounded-3xl border border-[#e5e0d8]/70 bg-white shadow-bento transition-all duration-300 ease-spring hover:-translate-y-0.5 hover:shadow-bento-hover;
   }
 
   .bento-card::before {
     content: "";
     @apply pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300;
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.04) 0%, transparent 50%, rgba(212, 175, 55, 0.03) 100%);
+    background: linear-gradient(135deg, rgba(12, 94, 71, 0.04) 0%, transparent 50%, rgba(212, 175, 55, 0.03) 100%);
   }
 
   .bento-card:hover::before {
@@ -90,7 +92,11 @@
   }
 
   .offer-card-gradient {
-    @apply bg-gradient-to-br from-violet-600 via-fuchsia-600 to-rose-500 text-white;
+    @apply bg-gradient-to-br from-[#0a1628] via-[#0c5e47] to-[#0a4d3a] text-white;
+  }
+
+  .font-display {
+    font-family: var(--font-amiri), var(--font-cairo), serif;
   }
 
   .hero-malama {
@@ -124,25 +130,33 @@
 /* Custom Utilities for Malamih UI */
 @layer utilities {
   .mesh-bg {
-    background-color: #f4f7fb;
+    background-color: #f7f5f0;
     background-image:
-      radial-gradient(at 0% 0%, rgba(12, 94, 71, 0.06) 0px, transparent 50%),
-      radial-gradient(at 100% 0%, rgba(212, 175, 55, 0.05) 0px, transparent 45%),
-      radial-gradient(at 50% 100%, rgba(16, 185, 129, 0.04) 0px, transparent 50%),
+      radial-gradient(at 0% 0%, rgba(12, 94, 71, 0.07) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, rgba(212, 175, 55, 0.04) 0px, transparent 45%),
+      radial-gradient(at 50% 100%, rgba(12, 94, 71, 0.05) 0px, transparent 50%),
       radial-gradient(at 100% 100%, rgba(10, 22, 40, 0.03) 0px, transparent 40%);
   }
 
+  /* Static cream atmosphere — no looping aurora */
   .aurora-bg {
-    background: linear-gradient(135deg, #f4f7fb 0%, #eef6f3 35%, #faf8f0 70%, #f4f7fb 100%);
-    background-size: 200% 200%;
-    animation: aurora 18s ease infinite;
+    background-color: #f7f5f0;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 10% -10%, rgba(12, 94, 71, 0.08), transparent 55%),
+      radial-gradient(ellipse 60% 40% at 100% 0%, rgba(212, 175, 55, 0.05), transparent 50%),
+      radial-gradient(ellipse 70% 50% at 50% 110%, rgba(12, 94, 71, 0.04), transparent 55%);
   }
 
   .bg-grid-pattern {
-    background-size: 32px 32px;
+    background-size: 40px 40px;
     background-image:
-      linear-gradient(to right, rgba(148, 163, 184, 0.025) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(148, 163, 184, 0.025) 1px, transparent 1px);
+      linear-gradient(to right, rgba(12, 94, 71, 0.03) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(12, 94, 71, 0.03) 1px, transparent 1px);
+  }
+
+  /* Quiet teal topographic wash for dark heroes / section shells */
+  .topo-teal {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cpath fill='none' stroke='%23ffffff' stroke-opacity='0.06' stroke-width='1' d='M0 60c20-20 40-20 60 0s40 20 60 0M0 30c20-20 40-20 60 0s40 20 60 0M0 90c20-20 40-20 60 0s40 20 60 0'/%3E%3C/svg%3E");
   }
 
   .glass {

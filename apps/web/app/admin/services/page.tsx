@@ -167,14 +167,14 @@ export default function AdminServicesPage() {
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-8">
         <div>
           <h1 className="text-3xl font-black text-slate-900 flex items-center gap-3">
-            <Sparkles className="w-8 h-8 text-sky-600" />
+            <Sparkles className="w-8 h-8 text-primary" />
             إدارة خدمات المنصة
           </h1>
           <p className="text-slate-500 mt-2 font-medium">
             تحكم كامل CRUD بمراكز التجميل، المختبرات، الاستشارات، الحجز، الميديا، والشركات الداعمة.
           </p>
         </div>
-        <button onClick={openAdd} className="inline-flex items-center justify-center gap-2 bg-slate-950 text-white px-5 py-3 rounded-xl font-black hover:bg-sky-600 transition-colors">
+        <button onClick={openAdd} className="inline-flex items-center justify-center gap-2 bg-slate-950 text-white px-5 py-3 rounded-xl font-black hover:bg-primary transition-colors">
           <Plus className="w-5 h-5" />
           إضافة سجل جديد
         </button>
@@ -187,13 +187,13 @@ export default function AdminServicesPage() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="ابحث بالاسم أو المدينة أو التصنيف..."
-            className="w-full pr-12 pl-4 py-3 rounded-xl border border-slate-200 bg-slate-50 outline-none focus:ring-2 focus:ring-sky-500 font-bold"
+            className="w-full pr-12 pl-4 py-3 rounded-xl border border-slate-200 bg-slate-50 outline-none focus:ring-2 focus:ring-primary font-bold"
           />
         </div>
         <select
           value={typeFilter}
           onChange={(e) => setTypeFilter(e.target.value as "all" | MedicalServiceType)}
-          className="px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 outline-none focus:ring-2 focus:ring-sky-500 font-bold"
+          className="px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 outline-none focus:ring-2 focus:ring-primary font-bold"
         >
           <option value="all">كل الأقسام</option>
           {serviceTypes.map((type) => (
@@ -205,7 +205,7 @@ export default function AdminServicesPage() {
       <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden">
         {loading ? (
           <div className="py-20 flex justify-center">
-            <div className="w-12 h-12 rounded-full border-4 border-sky-500 border-t-transparent animate-spin" />
+            <div className="w-12 h-12 rounded-full border-4 border-primary border-t-transparent animate-spin" />
           </div>
         ) : filtered.length === 0 ? (
           <div className="p-12 text-center text-slate-500 font-bold">لا توجد سجلات مطابقة.</div>
@@ -226,7 +226,7 @@ export default function AdminServicesPage() {
                   <tr key={service.id} className="hover:bg-slate-50">
                     <td className="px-5 py-4">
                       <div className="flex items-center gap-3">
-                        {service.image_url ? <img src={service.image_url} alt={service.name} className="w-12 h-12 rounded-xl object-cover" /> : <div className="w-12 h-12 rounded-xl bg-sky-50" />}
+                        {service.image_url ? <img src={service.image_url} alt={service.name} className="w-12 h-12 rounded-xl object-cover" /> : <div className="w-12 h-12 rounded-xl bg-primary/5" />}
                         <div>
                           <p className="font-black text-slate-900">{service.name}</p>
                           <p className="text-xs text-slate-500 font-bold">{service.category || "بدون تصنيف"}</p>
@@ -249,7 +249,7 @@ export default function AdminServicesPage() {
                     </td>
                     <td className="px-5 py-4">
                       <div className="flex gap-2">
-                        <button onClick={() => openEdit(service)} className="p-2 rounded-lg border border-slate-200 text-slate-600 hover:bg-sky-50 hover:text-sky-700">
+                        <button onClick={() => openEdit(service)} className="p-2 rounded-lg border border-slate-200 text-slate-600 hover:bg-primary/5 hover:text-primary">
                           <Edit3 className="w-4 h-4" />
                         </button>
                         <button onClick={() => remove(service)} className="p-2 rounded-lg border border-red-100 text-red-500 hover:bg-red-50">
@@ -321,7 +321,7 @@ export default function AdminServicesPage() {
               </div>
               <div className="md:col-span-2 flex justify-end gap-3 pt-4 border-t border-slate-100">
                 <button type="button" onClick={() => setModalOpen(false)} className="px-5 py-3 rounded-xl bg-slate-100 font-black text-slate-700">إلغاء</button>
-                <button disabled={saving} className="px-5 py-3 rounded-xl bg-slate-950 text-white font-black hover:bg-sky-600 disabled:opacity-50">
+                <button disabled={saving} className="px-5 py-3 rounded-xl bg-slate-950 text-white font-black hover:bg-primary disabled:opacity-50">
                   {saving ? "جار الحفظ..." : "حفظ"}
                 </button>
               </div>
@@ -357,7 +357,7 @@ function Field({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 font-bold outline-none focus:ring-2 focus:ring-sky-500"
+        className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 font-bold outline-none focus:ring-2 focus:ring-primary"
       />
     </label>
   );

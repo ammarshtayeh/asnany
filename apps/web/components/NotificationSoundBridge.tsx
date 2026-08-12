@@ -182,7 +182,7 @@ export default function NotificationSoundBridge({ href, pollMs = 15000 }: Notifi
     <div className="fixed bottom-[calc(env(safe-area-inset-bottom)+5.5rem)] left-4 z-[70] w-[min(360px,calc(100vw-2rem))] lg:bottom-4" dir="rtl" aria-live="polite">
       <div className="rounded-2xl border border-sky-200 bg-white p-4 text-right shadow-2xl shadow-slate-950/15">
         <div className="flex items-start gap-3">
-          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-sky-50 text-sky-600">
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-primary/5 text-primary">
             <Bell className="h-5 w-5" />
           </div>
           <button
@@ -190,7 +190,7 @@ export default function NotificationSoundBridge({ href, pollMs = 15000 }: Notifi
             onClick={() => router.push(href)}
             className="min-w-0 flex-1 text-right"
           >
-            <p className="text-xs font-black text-sky-600">إشعار جديد</p>
+            <p className="text-xs font-black text-primary">إشعار جديد</p>
             <p className="mt-1 truncate text-sm font-black text-slate-950">{toast.title}</p>
             <p className="mt-1 line-clamp-2 text-xs font-semibold leading-5 text-slate-500">{toast.body}</p>
           </button>

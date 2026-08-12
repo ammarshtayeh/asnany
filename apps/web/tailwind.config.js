@@ -22,9 +22,10 @@ module.exports = {
         malamih: {
           navy: "#0a1628",
           teal: "#0c5e47",
-          "teal-light": "#10b981",
+          "teal-light": "#1a7a64",
           gold: "#d4af37",
-          "gold-light": "#f59e0b",
+          "gold-light": "#e8c86a",
+          cream: "#f7f5f0",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
@@ -52,7 +53,8 @@ module.exports = {
         },
       },
       fontFamily: {
-        sans: ["var(--font-cairo)"],
+        sans: ["var(--font-cairo)", "sans-serif"],
+        display: ["var(--font-amiri)", "var(--font-cairo)", "serif"],
       },
       borderRadius: {
         "4xl": "2rem",

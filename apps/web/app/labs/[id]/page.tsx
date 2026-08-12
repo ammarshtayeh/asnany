@@ -48,7 +48,7 @@ export default async function LabDetailPage({ params }: { params: Promise<{ id: 
         )}
 
         {/* Glow effects */}
-        <div className="absolute top-0 right-1/4 h-80 w-80 rounded-full bg-sky-500/10 blur-[100px]" />
+        <div className="absolute top-0 right-1/4 h-80 w-80 rounded-full bg-primary/10 blur-[100px]" />
         <div className="absolute bottom-0 left-1/4 h-80 w-80 rounded-full bg-emerald-500/8 blur-[100px]" />
 
         <div className="relative z-10 max-w-4xl mx-auto px-4 pt-12 pb-20">
@@ -64,7 +64,7 @@ export default async function LabDetailPage({ params }: { params: Promise<{ id: 
           {/* Back button */}
           <Link
             href="/labs"
-            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-black text-slate-300 transition-all hover:border-sky-500/30 hover:bg-white/10 hover:text-white mb-8"
+            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-black text-slate-300 transition-all hover:border-primary/30 hover:bg-white/10 hover:text-white mb-8"
           >
             <ArrowRight className="w-3.5 h-3.5" />
             العودة إلى المختبرات
@@ -74,7 +74,7 @@ export default async function LabDetailPage({ params }: { params: Promise<{ id: 
           <div className="flex flex-col sm:flex-row sm:items-start gap-6">
             <div className="flex-1">
               {service.category && (
-                <span className="inline-block mb-3 bg-sky-500/10 border border-sky-500/20 text-sky-300 text-xs font-black px-3 py-1 rounded-full">
+                <span className="inline-block mb-3 bg-primary/10 border border-primary/20 text-sky-300 text-xs font-black px-3 py-1 rounded-full">
                   {service.category}
                 </span>
               )}
@@ -121,7 +121,7 @@ export default async function LabDetailPage({ params }: { params: Promise<{ id: 
             {service.description && (
               <div className="bento-card p-7">
                 <div className="flex items-center gap-2 mb-4">
-                  <FlaskConical className="w-5 h-5 text-sky-500" />
+                  <FlaskConical className="w-5 h-5 text-primary" />
                   <h2 className="text-lg font-black text-slate-950">نبذة عن المختبر</h2>
                 </div>
                 <p className="text-slate-700 leading-8 font-semibold text-sm sm:text-base">
@@ -140,7 +140,7 @@ export default async function LabDetailPage({ params }: { params: Promise<{ id: 
                 <div className="grid sm:grid-cols-2 gap-3">
                   {service.services.map((s) => (
                     <div key={s} className="flex items-center gap-2.5 bg-slate-50 rounded-xl px-4 py-3 border border-slate-100">
-                      <div className="w-1.5 h-1.5 rounded-full bg-sky-500 flex-shrink-0" />
+                      <div className="w-1.5 h-1.5 rounded-full bg-primary/50 flex-shrink-0" />
                       <span className="text-slate-700 text-sm font-bold">{s}</span>
                     </div>
                   ))}
@@ -172,7 +172,7 @@ export default async function LabDetailPage({ params }: { params: Promise<{ id: 
                 {service.phone && (
                   <a
                     href={`tel:${service.phone}`}
-                    className="flex items-center gap-3 bg-sky-50 border border-sky-100 hover:bg-sky-100 text-sky-700 rounded-2xl px-4 py-3 font-black text-sm transition-colors"
+                    className="flex items-center gap-3 bg-primary/5 border border-primary/15 hover:bg-primary/10 text-primary rounded-2xl px-4 py-3 font-black text-sm transition-colors"
                   >
                     <Phone className="w-4 h-4" />
                     {service.phone}

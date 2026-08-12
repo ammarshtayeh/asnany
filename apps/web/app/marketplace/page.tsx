@@ -180,7 +180,7 @@ export default function MarketplacePage() {
             <input
               type="text"
               placeholder="ابحث بالاسم أو القسم..."
-              className="w-full rounded-xl border border-slate-200 bg-slate-50 py-3 pl-4 pr-12 text-right text-sm font-bold text-slate-800 outline-none transition focus:border-sky-300 focus:bg-white"
+              className="w-full rounded-xl border border-slate-200 bg-slate-50 py-3 pl-4 pr-12 text-right text-sm font-bold text-slate-800 outline-none transition focus:border-primary/30 focus:bg-white"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -485,7 +485,7 @@ export default function MarketplacePage() {
                 <button 
                   type="submit" 
                   disabled={isSubmitting}
-                  className="w-full bg-gradient-to-r from-primary to-indigo-600 hover:from-primary/95 hover:to-indigo-700 text-white font-black py-4 rounded-xl transition-all shadow-lg disabled:opacity-50"
+                  className="w-full bg-primary hover:bg-primary-dark text-white font-black py-4 rounded-xl transition-all shadow-lg disabled:opacity-50"
                 >
                   {isSubmitting ? "جاري النشر..." : "انشر إعلانك الآن مجاناً"}
                 </button>
@@ -567,7 +567,7 @@ function MarketMetric({
 }) {
   return (
     <div className="flex items-center gap-4 bento-card p-5 text-right">
-      <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-sky-50 text-sky-600">
+      <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/5 text-primary">
         <Icon className="h-6 w-6" />
       </span>
       <span>

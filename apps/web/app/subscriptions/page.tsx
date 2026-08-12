@@ -64,7 +64,7 @@ export default function SubscriptionsPage() {
     <main className="min-h-screen animate-fade-in bg-transparent pb-24" dir="rtl">
       <div className="section-shell pb-2 pt-3 sm:pt-4">
         <section className="page-hero-dark relative overflow-hidden px-6 py-14 text-right text-white sm:px-10 sm:py-16">
-          <div className="pointer-events-none absolute -right-16 top-0 h-64 w-64 rounded-full bg-violet-500/15 blur-[100px]" />
+          <div className="pointer-events-none absolute -right-16 top-0 h-64 w-64 rounded-full bg-primary/15 blur-[100px]" />
           <div className="pointer-events-none absolute -left-16 bottom-0 h-72 w-72 rounded-full bg-emerald-500/10 blur-[100px]" />
           <div className="relative z-10 mx-auto max-w-5xl">
           <Link href="/join" className="btn-malama-ghost mb-6 inline-flex px-4 py-2 text-xs sm:text-sm">
@@ -90,11 +90,11 @@ export default function SubscriptionsPage() {
             <article
               key={pkg.id}
               className={`bento-card shine-border relative p-6 transition hover:-translate-y-1 ${
-                selected ? "ring-2 ring-slate-950" : recommended ? "border-violet-200" : ""
+                selected ? "ring-2 ring-slate-950" : recommended ? "border-primary/30" : ""
               }`}
             >
               {recommended ? (
-                <span className="absolute -top-3 right-4 inline-flex items-center gap-1 rounded-full bg-violet-600 px-3 py-1 text-[10px] font-black text-white">
+                <span className="absolute -top-3 right-4 inline-flex items-center gap-1 rounded-full bg-primary px-3 py-1 text-[10px] font-black text-white">
                   <Star className="h-3 w-3 fill-current" /> الأكثر طلباً
                 </span>
               ) : null}
@@ -119,7 +119,7 @@ export default function SubscriptionsPage() {
                 type="button"
                 onClick={() => setForm((current) => ({ ...current, package_id: pkg.id }))}
                 className={`mt-6 w-full rounded-2xl py-3 font-black transition ${
-                  selected ? "bg-slate-950 text-white" : recommended ? "bg-violet-600 text-white hover:bg-violet-700" : "bg-slate-100 text-slate-900 hover:bg-slate-200"
+                  selected ? "bg-slate-950 text-white" : recommended ? "bg-primary text-white hover:bg-primary-dark" : "bg-slate-100 text-slate-900 hover:bg-slate-200"
                 }`}
               >
                 {selected ? "✓ الباقة المختارة" : "اختيار هذه الباقة"}

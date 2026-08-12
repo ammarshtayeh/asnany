@@ -206,9 +206,9 @@ export default function ServiceLandingPage({
                           {!detailsBasePath && item.phone ? (
                             <a
                               href={`tel:${item.phone}`}
-                              className="inline-flex items-center gap-1.5 bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-100 hover:bg-sky-50 hover:text-sky-700 transition-colors"
+                              className="inline-flex items-center gap-1.5 bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-100 hover:bg-primary/5 hover:text-primary transition-colors"
                             >
-                              <Phone className="w-4 h-4 text-sky-600" />
+                              <Phone className="w-4 h-4 text-primary" />
                               اتصال
                             </a>
                           ) : null}
@@ -226,9 +226,9 @@ export default function ServiceLandingPage({
                               href={item.website}
                               target="_blank"
                               rel="noreferrer"
-                              className="inline-flex items-center gap-1.5 bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-100 hover:bg-indigo-50 hover:text-indigo-700 transition-colors"
+                              className="inline-flex items-center gap-1.5 bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-100 hover:bg-primary/5 hover:text-primary transition-colors"
                             >
-                              <Globe className="w-4 h-4 text-indigo-600" />
+                              <Globe className="w-4 h-4 text-primary" />
                               موقع
                             </a>
                           ) : null}

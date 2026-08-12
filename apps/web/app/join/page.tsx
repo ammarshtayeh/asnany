@@ -71,7 +71,7 @@ export default function JoinAsDoctor() {
               href={`https://wa.me/${adminWhatsapp}?text=${encodeURIComponent("مرحباً ملامح، أنا طبيب/أخصائي وأرغب في الانضمام وإعلان عيادتي على منصتكم.")}`}
               target="_blank"
               rel="noreferrer"
-              className="btn-malama flex w-full justify-center bg-gradient-to-r from-emerald-500 to-green-600 py-3.5 hover:from-emerald-600 hover:to-green-700"
+              className="btn-malama flex w-full justify-center py-3.5"
             >
               <MessageSquare className="h-5 w-5" />
               تواصل مع الإدارة عبر الواتساب

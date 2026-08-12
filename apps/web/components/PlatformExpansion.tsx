@@ -24,32 +24,32 @@ const platformPillars = [
     text: "بحث منظم عن الأطباء والعيادات والمراكز حسب المدينة والتخصص والتقييم والخدمات المتاحة.",
     icon: Hospital,
     href: "#smart-directory",
-    tone: "bg-sky-50 text-sky-700 border-sky-100 group-hover:bg-sky-600",
-    shadow: "hover:shadow-sky-100/70",
+    tone: "bg-[#e8f2ee] text-[#0c5e47] border-[#d5e8e1] group-hover:bg-[#0c5e47]",
+    shadow: "hover:shadow-[0_12px_32px_-12px_rgba(12,94,71,0.25)]",
   },
   {
     title: "الحجز والاستشارات",
     text: "تجربة واضحة تبدأ باختيار مقدم الخدمة ثم إرسال الطلب وتأكيد الموعد بأبسط شكل.",
     icon: CalendarCheck2,
     href: "/booking",
-    tone: "bg-emerald-50 text-emerald-700 border-emerald-100 group-hover:bg-emerald-600",
-    shadow: "hover:shadow-emerald-100/70",
+    tone: "bg-[#eef6f3] text-[#0a4d3a] border-[#d5e8e1] group-hover:bg-[#0a4d3a]",
+    shadow: "hover:shadow-[0_12px_32px_-12px_rgba(10,77,58,0.25)]",
   },
   {
     title: "الميديا الطبية",
     text: "مقالات وأخبار وفيديوهات توعوية تساعد الزائر على اتخاذ قرار صحي أكثر وعيًا.",
     icon: BookOpenCheck,
     href: "/media",
-    tone: "bg-indigo-50 text-indigo-700 border-indigo-100 group-hover:bg-indigo-600",
-    shadow: "hover:shadow-indigo-100/70",
+    tone: "bg-[#f0ebe3] text-[#0a1628] border-[#e5e0d8] group-hover:bg-[#0a1628]",
+    shadow: "hover:shadow-[0_12px_32px_-12px_rgba(10,22,40,0.25)]",
   },
   {
     title: "التسويق الطبي",
     text: "مساحات رعاية وإعلانات وعروض للشركات والعيادات ضمن بيئة طبية موثوقة.",
     icon: Megaphone,
     href: "/advertise",
-    tone: "bg-amber-50 text-amber-700 border-amber-100 group-hover:bg-amber-500",
-    shadow: "hover:shadow-amber-100/70",
+    tone: "bg-[#f7f1e0] text-[#8a7020] border-[#efe4c4] group-hover:bg-[#d4af37]",
+    shadow: "hover:shadow-[0_12px_32px_-12px_rgba(212,175,55,0.3)]",
   },
 ];
 
@@ -59,28 +59,28 @@ const serviceHubs = [
     icon: Stethoscope,
     href: "#doctors",
     meta: "تخصصات، تقييمات، صور، دوام، وحجز",
-    tone: "bg-sky-50 text-sky-700",
+    tone: "bg-[#e8f2ee] text-[#0c5e47]",
   },
   {
     title: "مراكز التجميل",
     icon: Sparkles,
     href: "/beauty",
     meta: "بشرة، ليزر، فيلر، بوتوكس، وعروض",
-    tone: "bg-fuchsia-50 text-fuchsia-700",
+    tone: "bg-[#f7f1e0] text-[#8a7020]",
   },
   {
     title: "المختبرات الطبية",
     icon: Microscope,
     href: "/labs",
     meta: "تحاليل، فحوصات، أسعار، وخدمات منزلية",
-    tone: "bg-emerald-50 text-emerald-700",
+    tone: "bg-[#eef6f3] text-[#0a4d3a]",
   },
   {
     title: "الشركات والمنتجات",
     icon: Store,
     href: "/partners",
     meta: "أجهزة، مواد طبية، مستحضرات، ورعايات",
-    tone: "bg-amber-50 text-amber-700",
+    tone: "bg-[#f0ebe3] text-[#0a1628]",
   },
 ];
 
@@ -106,9 +106,9 @@ const experienceSteps = [
 ];
 
 const educationItems = [
-  { title: "نصائح صحية للوجه والأسنان", text: "عادات صحية، تغذية سليمة، منتجات موثوقة، وفحوصات دورية للوجه والأسنان.", tone: "bg-emerald-50 text-emerald-700 border-emerald-100" },
-  { title: "الممارسات الضارة", text: "التدخين، السلوكيات الخاطئة للبشرة والأسنان، والمنتجات غير المعتمدة.", tone: "bg-rose-50 text-rose-700 border-rose-100" },
-  { title: "اختبارات تفاعلية", text: "أسئلة قصيرة تساعد الزائر على فهم عاداته ومتى يحتاج مراجعة طبيب.", tone: "bg-sky-50 text-sky-700 border-sky-100" },
+  { title: "نصائح صحية للوجه والأسنان", text: "عادات صحية، تغذية سليمة، منتجات موثوقة، وفحوصات دورية للوجه والأسنان.", tone: "bg-[#e8f2ee] text-[#0c5e47] border-[#d5e8e1]" },
+  { title: "الممارسات الضارة", text: "التدخين، السلوكيات الخاطئة للبشرة والأسنان، والمنتجات غير المعتمدة.", tone: "bg-[#f7f1e0] text-[#8a7020] border-[#efe4c4]" },
+  { title: "اختبارات تفاعلية", text: "أسئلة قصيرة تساعد الزائر على فهم عاداته ومتى يحتاج مراجعة طبيب.", tone: "bg-[#eef6f3] text-[#0a4d3a] border-[#d5e8e1]" },
 ];
 
 
@@ -122,7 +122,7 @@ export default function PlatformExpansion() {
               <ShieldCheck className="w-4 h-4 text-amber-600" />
               مرجع طبي رقمي لفلسطين
             </span>
-            <h2 className="mt-5 text-3xl md:text-5xl font-black text-slate-950 leading-tight">
+            <h2 className="mt-5 text-3xl md:text-5xl font-display font-bold text-slate-950 leading-tight">
               تجربة واحدة تجمع الرعاية، المعرفة، والحجز في مكان موثوق.
             </h2>
             <p className="mt-5 text-slate-600 text-lg leading-8 font-medium">
@@ -149,7 +149,7 @@ export default function PlatformExpansion() {
               <h2 className="text-3xl font-black text-slate-950">أقسام تخدم احتياجك مباشرة</h2>
               <p className="text-slate-500 mt-2 font-medium">اختر القسم المناسب وابدأ البحث أو التواصل بخطوات قليلة.</p>
             </div>
-            <Link href="/join" className="inline-flex items-center justify-center gap-2 bg-slate-950 text-white px-5 py-3 rounded-xl font-black hover:bg-sky-600 transition-colors">
+            <Link href="/join" className="inline-flex items-center justify-center gap-2 bg-primary text-white px-5 py-3 rounded-xl font-black hover:bg-primary-dark transition-colors">
               انضم كمقدم خدمة
               <ChevronLeft className="w-4 h-4" />
             </Link>
@@ -168,27 +168,27 @@ export default function PlatformExpansion() {
         </div>
 
         <div className="grid lg:grid-cols-2 gap-6">
-          <div className="rounded-3xl bg-slate-950 text-white p-7 md:p-10 overflow-hidden relative">
-            <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-l from-sky-400 via-emerald-300 to-amber-300" />
-            <HeartHandshake className="w-9 h-9 text-emerald-300 mb-4" />
-            <h3 className="text-2xl font-black mb-4">القيمة للزائر</h3>
+          <div className="rounded-3xl bg-[#0a1628] text-white p-7 md:p-10 overflow-hidden relative topo-teal">
+            <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-l from-[#0c5e47] via-[#1a7a64] to-[#d4af37]" />
+            <HeartHandshake className="w-9 h-9 text-[#e8c86a] mb-4" />
+            <h3 className="text-2xl font-display font-bold mb-4">القيمة للزائر</h3>
             <ul className="space-y-3">
               {patientValue.map((item) => (
                 <li key={item} className="flex gap-3 text-slate-200 font-semibold leading-7">
-                  <span className="mt-2 w-2 h-2 rounded-full bg-emerald-300 flex-shrink-0" />
+                  <span className="mt-2 w-2 h-2 rounded-full bg-[#d4af37] flex-shrink-0" />
                   {item}
                 </li>
               ))}
             </ul>
           </div>
 
-          <div className="rounded-3xl border border-slate-200 bg-slate-50 p-7 md:p-10">
-            <Activity className="w-9 h-9 text-sky-600 mb-4" />
-            <h3 className="text-2xl font-black text-slate-950 mb-4">القيمة لمقدمي الخدمات</h3>
+          <div className="rounded-3xl border border-[#e5e0d8] bg-[#f7f5f0] p-7 md:p-10">
+            <Activity className="w-9 h-9 text-primary mb-4" />
+            <h3 className="text-2xl font-display font-bold text-slate-950 mb-4">القيمة لمقدمي الخدمات</h3>
             <ul className="space-y-3">
               {providerValue.map((item) => (
                 <li key={item} className="flex gap-3 text-slate-700 font-semibold leading-7">
-                  <span className="mt-2 w-2 h-2 rounded-full bg-sky-500 flex-shrink-0" />
+                  <span className="mt-2 w-2 h-2 rounded-full bg-primary flex-shrink-0" />
                   {item}
                 </li>
               ))}
@@ -198,11 +198,11 @@ export default function PlatformExpansion() {
 
 
         <div className="space-y-6">
-          <h2 className="text-3xl font-black text-slate-950">رحلة استخدام بسيطة</h2>
+          <h2 className="text-3xl font-display font-bold text-slate-950">رحلة استخدام بسيطة</h2>
           <div className="grid md:grid-cols-4 gap-4">
             {experienceSteps.map((step) => (
-              <div key={step.phase} className="rounded-2xl border border-slate-200 bg-white p-5">
-                <span className="text-sky-600 font-black text-sm">{step.phase}</span>
+              <div key={step.phase} className="rounded-2xl border border-[#e5e0d8] bg-white p-5">
+                <span className="text-primary font-black text-sm">{step.phase}</span>
                 <h3 className="font-black text-slate-950 mt-2 mb-2">{step.title}</h3>
                 <p className="text-sm text-slate-600 leading-7 font-medium">{step.text}</p>
               </div>
