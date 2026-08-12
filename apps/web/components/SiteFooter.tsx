@@ -22,8 +22,9 @@ export default function SiteFooter() {
 
   return (
     <footer className="relative z-30 mt-16 overflow-hidden border-t border-white/10 bg-[#0a1628] px-4 py-16 lg:px-8" dir="rtl">
-      <div className="pointer-events-none absolute -left-32 top-0 h-64 w-64 rounded-full bg-emerald-500/10 blur-[100px]" />
-      <div className="pointer-events-none absolute -right-32 bottom-0 h-64 w-64 rounded-full bg-amber-500/8 blur-[100px]" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-[#265F59]" />
+      <div className="pointer-events-none absolute -left-32 top-0 h-64 w-64 rounded-full bg-[#265F59]/20 blur-[100px]" />
+      <div className="pointer-events-none absolute -right-32 bottom-0 h-64 w-64 rounded-full bg-[#d4af37]/10 blur-[100px]" />
 
       <div className="relative mx-auto max-w-[1400px]">
         <div className="mb-10 grid gap-8 md:grid-cols-2 lg:grid-cols-4 lg:gap-10">
@@ -46,9 +47,9 @@ export default function SiteFooter() {
                 href={`https://wa.me/${ownerPhone}`}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 text-slate-400 transition-colors hover:text-emerald-400"
+                className="inline-flex items-center gap-2 text-slate-400 transition-colors hover:text-[#3d7a73]"
               >
-                <Phone className="h-4 w-4 text-emerald-400" />
+                <Phone className="h-4 w-4 text-[#3d7a73]" />
                 {SITE_SUPPORT_PHONE_DISPLAY}
               </a>
             </div>

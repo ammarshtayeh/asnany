@@ -24,17 +24,17 @@ export default function CookieBanner() {
   };
 
   return (
-    <div className="fixed bottom-20 left-4 right-4 z-[90] mx-auto max-w-2xl rounded-2xl border border-slate-200 bg-white p-4 shadow-2xl lg:bottom-6">
-      <p className="text-sm font-semibold leading-7 text-slate-600">
+    <div className="fixed bottom-20 left-4 right-4 z-[90] mx-auto max-w-2xl rounded-2xl border border-white/15 bg-[#0a1628]/92 p-4 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.55)] backdrop-blur-xl lg:bottom-6">
+      <p className="text-sm font-semibold leading-7 text-white/80">
         نستخدم ملفات تعريف الارتباط والتخزين المحلي لتحسين تجربتك وإدارة الجلسات والإشعارات.{" "}
-        <Link href="/privacy" className="font-black text-primary underline-offset-2 hover:underline">
+        <Link href="/privacy" className="font-black text-[#e8c86a] underline-offset-2 hover:underline">
           سياسة الخصوصية
         </Link>
       </p>
       <button
         type="button"
         onClick={accept}
-        className="mt-3 rounded-xl bg-slate-950 px-4 py-2 text-sm font-black text-white hover:bg-primary"
+        className="mt-3 rounded-xl bg-[#265F59] px-4 py-2 text-sm font-black text-white transition hover:bg-[#2f6f68]"
       >
         موافق
       </button>

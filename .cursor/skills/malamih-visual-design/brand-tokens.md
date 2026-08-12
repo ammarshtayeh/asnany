@@ -7,7 +7,7 @@ Read this when aligning CSS/Tailwind/React Native theme values. Prefer existing 
 | Token | Hex (approx) | CSS / notes |
 |-------|--------------|-------------|
 | Navy | `#0a1628` | `--malamih-navy` · `theme.navy` |
-| Teal (primary) | `#0c5e47` | `--malamih-teal` / `--primary` · board ≈ `#1F5E55` |
+| Teal (primary) | `#265F59` | `--malamih-teal` / `--primary` · brand HEX |
 | Teal light (sparingly) | `#10b981` | accents/gradients only — not neon chrome |
 | Gold (optional metal) | `#d4af37` | `--malamih-gold` · CTAs/highlights |
 | Cream / off-white | `#f7f5f0` | `--background` / `--malamih-cream` · `theme.bg` |

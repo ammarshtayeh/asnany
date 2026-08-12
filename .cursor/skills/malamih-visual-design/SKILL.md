@@ -40,7 +40,7 @@ Premium medical / organic / trustworthy. Not purple SaaS, not neon, not cream+te
 
 | Role | Direction | Prefer tokens |
 |------|-----------|---------------|
-| Primary | Deep teal / forest | `--malamih-teal` / `#0c5e47` (board ≈ `#1F5E55`) |
+| Primary | Deep teal / forest | `#265F59` (`--malamih-teal` / `--primary`) |
 | Deep surface | Near-black teal / navy | `--malamih-navy` / `#0a1628` |
 | Secondary surface | Warm off-white / soft cream | `#f7f5f0`–`#faf8f5`, not flat gray-only |
 | Accent on dark | White / soft ivory | text & logo on teal |

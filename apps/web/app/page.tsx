@@ -33,7 +33,6 @@ import { Advertisement, Doctor } from "@/lib/types";
 import { AnimatedCounter } from "@/components/AnimatedCounter";
 import { trackWhatsAppLead } from "@/lib/whatsapp-lead";
 
-const FloatingParticles = dynamic(() => import("@/components/FloatingParticles"), { ssr: false });
 const TransformationsSection = dynamic(() => import("@/components/TransformationsSection"), { ssr: false });
 const SubscriptionPackagesSection = dynamic(() => import("@/components/SubscriptionPackagesSection"), { ssr: false });
 
@@ -244,50 +243,51 @@ export default function Home() {
   return (
     <div className="min-h-screen overflow-x-hidden font-sans">
       <section className="relative isolate mb-8 sm:mb-12">
-        <div className="relative min-h-[min(88vh,760px)] overflow-hidden">
+        {/* Brand teal base always visible — avoids broken-image alt text flash */}
+        <div className="relative min-h-[min(88vh,760px)] overflow-hidden bg-[#265F59]">
           <Image
             src={HERO_IMAGE_URL}
-            alt="ملامح — دليل صحة وجمال الوجه في فلسطين"
+            alt=""
             fill
             priority
             sizes="100vw"
             quality={70}
-            className="object-cover object-[center_30%]"
+            className="object-cover object-[center_28%] opacity-[0.45]"
           />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_20%,rgba(16,185,129,0.18),transparent_45%),linear-gradient(180deg,rgba(6,12,24,0.55)_0%,rgba(6,12,24,0.72)_45%,rgba(6,12,24,0.96)_100%)]" />
-          <div className="absolute inset-0 bg-gradient-to-l from-[#060c18]/90 via-[#060c18]/45 to-transparent" />
-          <FloatingParticles count={10} className="opacity-25" />
+          <div className="pointer-events-none absolute inset-0 topo-teal opacity-60" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#265F59]/55 via-[#1a433e]/70 to-[#0a1628]" />
+          <div className="absolute inset-0 bg-gradient-to-l from-[#0a1628]/75 via-transparent to-transparent" />
 
-          <div className="relative z-10 mx-auto flex min-h-[min(88vh,760px)] w-full max-w-[1400px] flex-col justify-end gap-6 px-[var(--page-gutter)] pb-10 pt-24 lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(320px,440px)] lg:items-end lg:gap-10 lg:pb-12 lg:pt-28">
+          <div className="relative z-10 mx-auto flex min-h-[min(88vh,760px)] w-full max-w-[1400px] flex-col justify-end gap-8 px-[var(--page-gutter)] pb-10 pt-24 lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(320px,420px)] lg:items-end lg:gap-12 lg:pb-14 lg:pt-28">
             <div className="max-w-xl text-right text-white lg:pb-4" dir="rtl">
               <motion.div
-                className="inline-flex items-center gap-2 rounded-full border border-[#e8c86a]/35 bg-[#e8c86a]/10 px-4 py-1.5"
+                className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 backdrop-blur-sm"
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.55 }}
               >
-                <span className="text-base font-black tracking-wide text-[#f5d76e] sm:text-lg">ملامح</span>
-                <span className="text-[10px] font-bold text-slate-300">.ps</span>
+                <span className="font-display text-lg font-bold tracking-wide text-white sm:text-xl">ملامح</span>
+                <span className="text-[10px] font-bold text-white/70">.ps</span>
               </motion.div>
               <motion.h1
-                className="mt-5 font-display text-4xl font-bold leading-[1.15] tracking-tight sm:text-5xl lg:text-[3.35rem]"
+                className="mt-5 font-display text-4xl font-bold leading-[1.2] tracking-tight sm:text-5xl lg:text-[3.25rem]"
                 initial={{ opacity: 0, y: 28 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.08 }}
               >
                 <span className="block text-white">ابحث عن الطبيب المناسب</span>
-                <span className="mt-3 flex flex-wrap items-center justify-end gap-2">
-                  <span className="relative inline-block rounded-2xl bg-[#e8c86a] px-4 py-1.5 text-[#0a1628] shadow-[0_12px_32px_-10px_rgba(232,200,106,0.55)]">
+                <span className="mt-4 flex flex-wrap items-center justify-end gap-2.5">
+                  <span className="inline-block rounded-xl bg-[#f7f5f0] px-4 py-1.5 text-[#265F59] shadow-[0_8px_24px_-8px_rgba(0,0,0,0.35)]">
                     لوجهك
                   </span>
-                  <span className="text-white/90">و</span>
-                  <span className="relative inline-block rounded-2xl border-2 border-[#e8c86a] bg-[#e8c86a]/15 px-4 py-1.5 text-[#f5d76e]">
+                  <span className="text-white/75">و</span>
+                  <span className="inline-block rounded-xl border border-[#e8c86a]/50 bg-[#e8c86a]/15 px-4 py-1.5 text-[#f5d76e]">
                     أسنانك
                   </span>
                 </span>
               </motion.h1>
               <motion.p
-                className="mt-5 max-w-lg text-base font-semibold leading-8 text-slate-200/90 sm:text-lg"
+                className="mt-5 max-w-lg text-base font-semibold leading-8 text-white/85 sm:text-lg"
                 initial={{ opacity: 0, y: 18 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.65, delay: 0.16 }}
@@ -303,19 +303,19 @@ export default function Home() {
                 <button
                   type="button"
                   onClick={() => document.getElementById("doctors")?.scrollIntoView({ behavior: "smooth", block: "start" })}
-                  className="inline-flex items-center gap-2 rounded-2xl bg-white px-6 py-3.5 text-sm font-black text-slate-950 shadow-[0_12px_40px_-12px_rgba(255,255,255,0.45)] transition hover:-translate-y-0.5"
+                  className="inline-flex items-center gap-2 rounded-2xl bg-[#f7f5f0] px-6 py-3.5 text-sm font-black text-[#265F59] shadow-[0_12px_40px_-12px_rgba(0,0,0,0.4)] transition hover:-translate-y-0.5 hover:bg-white"
                 >
-                  <Search className="h-4 w-4 text-primary" />
+                  <Search className="h-4 w-4" />
                   ابدأ البحث
                 </button>
-                <Link href="/join" className="inline-flex items-center gap-2 rounded-2xl border border-white/20 bg-white/5 px-6 py-3.5 text-sm font-black text-white backdrop-blur-md transition hover:bg-white/12">
+                <Link href="/join" className="inline-flex items-center gap-2 rounded-2xl border border-white/25 bg-white/5 px-6 py-3.5 text-sm font-black text-white backdrop-blur-md transition hover:bg-white/12">
                   انضم كطبيب
                 </Link>
               </motion.div>
             </div>
 
             <motion.div
-              className="w-full rounded-[1.75rem] border border-white/15 bg-[#0b1526]/80 p-5 text-right shadow-[0_40px_80px_-28px_rgba(0,0,0,0.65)] backdrop-blur-2xl sm:p-6"
+              className="w-full rounded-[1.75rem] border border-white/15 bg-[#0a1628]/55 p-5 text-right shadow-[0_40px_80px_-28px_rgba(0,0,0,0.5)] backdrop-blur-xl sm:p-6"
               dir="rtl"
               initial={{ opacity: 0, y: 32 }}
               animate={{ opacity: 1, y: 0 }}
@@ -323,11 +323,11 @@ export default function Home() {
             >
               <div className="mb-4 flex items-end justify-between gap-3">
                 <div>
-                  <p className="text-[11px] font-black uppercase tracking-[0.18em] text-[#e8c86a]/90">بحث سريع</p>
+                  <p className="text-[11px] font-black uppercase tracking-[0.18em] text-[#e8c86a]">بحث سريع</p>
                   <h2 className="mt-1 font-display text-xl font-bold text-white sm:text-2xl">من تبحث عنه اليوم؟</h2>
                 </div>
                 {(publicStats.verifiedProviders > 0) && (
-                  <p className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] font-black text-slate-200">
+                  <p className="rounded-full border border-white/15 bg-white/10 px-3 py-1 text-[11px] font-black text-white/90">
                     <AnimatedCounter target={publicStats.verifiedProviders} duration={1800} />+ مزود موثّق
                   </p>
                 )}
@@ -343,11 +343,11 @@ export default function Home() {
                       onClick={() => selectSpecialty(active ? "" : category.label)}
                       className={`group flex items-center gap-2 rounded-xl border px-3 py-2.5 text-right transition duration-300 ${
                         active
-                          ? "border-[#e8c86a]/50 bg-[#e8c86a]/15 text-white"
-                          : "border-white/10 bg-white/5 text-slate-200 hover:border-white/25 hover:bg-white/10"
+                          ? "border-[#e8c86a]/45 bg-[#e8c86a]/15 text-white"
+                          : "border-white/12 bg-white/5 text-white/85 hover:border-white/25 hover:bg-white/10"
                       }`}
                     >
-                      <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${active ? "bg-[#e8c86a]/25 text-[#f5d76e]" : "bg-white/10 text-slate-300 group-hover:text-white"}`}>
+                      <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${active ? "bg-[#e8c86a]/25 text-[#f5d76e]" : "bg-white/10 text-white/70 group-hover:text-white"}`}>
                         <category.icon className="h-4 w-4" />
                       </span>
                       <span className="text-xs font-black leading-tight">{category.label}</span>
@@ -357,12 +357,12 @@ export default function Home() {
               </div>
 
               <div className="space-y-3">
-                <label className="flex min-h-12 items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.06] px-4 transition focus-within:border-[#e8c86a]/40 focus-within:bg-white/10">
+                <label className="flex min-h-12 items-center gap-3 rounded-2xl border border-white/12 bg-white/[0.07] px-4 transition focus-within:border-[#e8c86a]/40 focus-within:bg-white/10">
                   <Search className="h-5 w-5 text-[#e8c86a]" />
                   <input
                     value={searchQuery}
                     onChange={(event) => setSearchQuery(event.target.value)}
-                    className="w-full bg-transparent py-3 text-sm font-bold text-white outline-none placeholder:text-slate-400"
+                    className="w-full bg-transparent py-3 text-sm font-bold text-white outline-none placeholder:text-white/45"
                     placeholder="اسم الطبيب، المنطقة، أو التخصص"
                   />
                 </label>
@@ -402,8 +402,8 @@ export default function Home() {
                     onClick={handleLocationSearch}
                     className={`flex items-center justify-center gap-2 rounded-2xl px-5 py-3.5 text-sm font-black text-white transition duration-300 ${
                       userLoc
-                        ? "bg-emerald-600 shadow-[0_10px_28px_rgba(16,185,129,0.35)]"
-                        : "bg-primary hover:-translate-y-0.5 hover:bg-primary/90 hover:shadow-[0_10px_28px_rgba(12,94,71,0.4)]"
+                        ? "bg-[#3d7a73] shadow-[0_10px_28px_rgba(38,95,89,0.4)]"
+                        : "bg-[#265F59] hover:-translate-y-0.5 hover:bg-[#2f6f68] hover:shadow-[0_10px_28px_rgba(38,95,89,0.45)]"
                     }`}
                   >
                     <Navigation className={`h-5 w-5 -rotate-45 ${userLoc ? "animate-pulse" : ""}`} />
@@ -412,7 +412,7 @@ export default function Home() {
                   <button
                     type="button"
                     onClick={() => document.getElementById("doctors")?.scrollIntoView({ behavior: "smooth", block: "start" })}
-                    className="flex items-center justify-center gap-2 rounded-2xl border border-white/15 bg-white/10 px-5 py-3.5 text-sm font-black text-white transition hover:bg-white/16"
+                    className="flex items-center justify-center gap-2 rounded-2xl border border-white/20 bg-white/10 px-5 py-3.5 text-sm font-black text-white transition hover:bg-white/16"
                   >
                     عرض النتائج
                     <ArrowLeft className="h-4 w-4" />
@@ -426,7 +426,7 @@ export default function Home() {
                     {selectedWorkStatus !== "any" ? (
                       <FilterChipDark label={selectedWorkStatus === "open" ? "مفتوح الآن" : "مغلق حاليا"} onClear={() => setSelectedWorkStatus("any")} />
                     ) : null}
-                    <button type="button" onClick={resetFilters} className="text-xs font-black text-slate-400 hover:text-[#e8c86a]">
+                    <button type="button" onClick={resetFilters} className="text-xs font-black text-white/50 hover:text-[#e8c86a]">
                       مسح الكل
                     </button>
                   </div>
@@ -499,9 +499,9 @@ export default function Home() {
             ))}
             {!loading && !filteredDoctors.length ? <EmptyResults onReset={resetFilters} /> : null}
 
-            <div className="relative overflow-hidden rounded-[1.75rem] bg-[#0a1628] p-8 text-center text-white topo-teal">
-              <div className="pointer-events-none absolute -left-16 top-0 h-40 w-40 rounded-full bg-primary/20 blur-3xl" />
-              <div className="pointer-events-none absolute -right-10 bottom-0 h-36 w-36 rounded-full bg-[#d4af37]/10 blur-3xl" />
+            <div className="relative overflow-hidden rounded-[1.75rem] bg-[#265F59] p-8 text-center text-white topo-teal">
+              <div className="pointer-events-none absolute -left-16 top-0 h-40 w-40 rounded-full bg-white/10 blur-3xl" />
+              <div className="pointer-events-none absolute -right-10 bottom-0 h-36 w-36 rounded-full bg-[#d4af37]/15 blur-3xl" />
               <h3 className="relative font-display text-2xl font-bold tracking-tight sm:text-3xl">هل أنت طبيب أو أخصائي رعاية؟</h3>
               <p className="relative mx-auto mt-3 max-w-2xl text-sm font-semibold leading-7 text-slate-300">
                 انضم إلى شبكة ملامح، اعرض خدماتك الطبية والتجميلية، واستقبل طلبات المراجعين من مكان واحد.
