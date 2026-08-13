@@ -82,23 +82,27 @@ export default function Navbar() {
         }`}
       >
         <nav
-          className={`mx-auto flex max-w-[1600px] items-center gap-2 border transition-all duration-500 ease-spring ${
+          className={`mx-auto flex max-w-[1600px] items-center justify-between gap-2 border transition-all duration-500 ease-spring ${
             scrolled
               ? "nav-island h-[88px] px-3 shadow-float sm:px-4"
               : "h-[96px] rounded-3xl border-transparent bg-transparent px-1 sm:h-[100px]"
           }`}
         >
-          <Link href="/" className="group flex h-full flex-shrink-0 items-center gap-3 py-1" aria-label="ملامح — الصفحة الرئيسية">
+          <Link
+            href="/"
+            className="group flex h-full shrink-0 items-center gap-2 py-1 sm:gap-3"
+            aria-label="ملامح — الصفحة الرئيسية"
+          >
             <MalamihLogoMark
-              size={160}
-              className="h-[68px] w-[68px] shadow-[0_8px_20px_-8px_rgba(41,95,89,0.4)] sm:h-[76px] sm:w-[76px]"
+              size={180}
+              className="h-14 w-14 shrink-0 shadow-[0_8px_20px_-8px_rgba(41,95,89,0.4)] sm:h-[72px] sm:w-[72px]"
               priority
             />
-            <span className="hidden select-none sm:flex sm:flex-col sm:items-start">
-              <span className="font-display text-[1.35rem] font-bold leading-none tracking-[0.28em] text-[#295f59]">
+            <span className="flex flex-col items-start justify-center leading-none">
+              <span className="whitespace-nowrap font-display text-[15px] font-bold tracking-[0.16em] text-[#295f59] sm:text-[1.35rem] sm:tracking-[0.28em]">
                 MALAMIH
               </span>
-              <span className="mt-1 text-[10px] font-bold tracking-[0.18em] text-[#295f59]/65">
+              <span className="mt-1 text-[9px] font-bold tracking-[0.18em] text-[#295f59]/65 sm:text-[10px]">
                 .ps
               </span>
             </span>
@@ -194,7 +198,7 @@ export default function Navbar() {
           <button
             type="button"
             onClick={() => setMenuOpen((open) => !open)}
-            className="mr-auto inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200/80 bg-white/90 text-slate-900 shadow-sm backdrop-blur-sm transition active:scale-95 lg:hidden"
+            className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-slate-200/80 bg-white/90 text-slate-900 shadow-sm backdrop-blur-sm transition active:scale-95 lg:hidden"
             aria-label={menuOpen ? "إغلاق القائمة" : "فتح القائمة"}
           >
             {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}

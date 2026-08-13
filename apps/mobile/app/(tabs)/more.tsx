@@ -117,7 +117,9 @@ export default function MoreScreen() {
             backgroundColor: "rgba(16,185,129,0.18)",
           }}
         />
-        <MalamihLogo size="md" />
+        <View style={{ alignSelf: "flex-end" }}>
+          <MalamihLogo size="md" />
+        </View>
         <Text style={{ color: theme.textSoft, marginTop: 10, fontWeight: "700", textAlign: "right", fontSize: 13 }}>
           {APP_META.tagline}
         </Text>

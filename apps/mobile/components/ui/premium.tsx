@@ -31,7 +31,7 @@ export function MalamihLogo({ size = "md", showText = true }: { size?: "sm" | "m
   const title = size === "sm" ? 18 : size === "lg" ? 26 : 22;
 
   return (
-    <View style={{ flexDirection: "row-reverse", alignItems: "center", gap: 10 }}>
+    <View style={{ flexDirection: "row", alignItems: "center", gap: 8, alignSelf: "flex-start" }}>
       <Image
         source={require("../../assets/logo-mark.png")}
         style={{
@@ -40,10 +40,18 @@ export function MalamihLogo({ size = "md", showText = true }: { size?: "sm" | "m
           borderRadius: box / 2,
           backgroundColor: theme.teal,
         }}
-        resizeMode="cover"
+        resizeMode="contain"
       />
       {showText ? (
-        <Text style={{ fontSize: title, fontWeight: "800", color: theme.white, letterSpacing: 4 }}>
+        <Text
+          numberOfLines={1}
+          style={{
+            fontSize: title,
+            fontWeight: "800",
+            color: theme.white,
+            letterSpacing: 2.5,
+          }}
+        >
           MALAMIH
         </Text>
       ) : null}

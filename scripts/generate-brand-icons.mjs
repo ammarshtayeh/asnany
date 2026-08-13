@@ -6,52 +6,129 @@ const ROOT = path.resolve(import.meta.dirname, "..");
 const SRC = path.join(ROOT, "apps/web/public/IMG_6744.PNG");
 const BRAND = "#295f59";
 const CREAM = "#f7f5f0";
+const BRAND_RGB = { r: 41, g: 95, b: 89, alpha: 1 };
 
 const { width, height } = await sharp(SRC).metadata();
 if (!width || !height) throw new Error("Could not read IMG_6744.PNG");
 
-/** Square crop of the teal disc (portrait source). */
-async function discSquare(size) {
-  const w = width;
-  const h = height;
-  const cropSize = Math.round(Math.min(w, h) * 0.52);
-  return sharp(SRC)
-    .extract({
-      left: Math.round((w - cropSize) / 2),
-      top: Math.round((h - cropSize) / 2),
-      width: cropSize,
-      height: cropSize,
-    })
-    .resize(size, size, { fit: "cover", kernel: "lanczos3" })
-    .ensureAlpha()
-    .png()
-    .toBuffer();
+/**
+ * Downsample, find non-black pixels (teal disc + white M), then crop a
+ * padded square so the left M serif stays inside the circle.
+ */
+async function discSquare() {
+  const probeW = 256;
+  const { data, info } = await sharp(SRC)
+    .resize(probeW, null, { fit: "inside", kernel: "nearest" })
+    .removeAlpha()
+    .raw()
+    .toBuffer({ resolveWithObject: true });
+
+  const sw = info.width;
+  const sh = info.height;
+  const ch = info.channels;
+  let minX = sw;
+  let minY = sh;
+  let maxX = 0;
+  let maxY = 0;
+  let hits = 0;
+
+  for (let y = 0; y < sh; y++) {
+    for (let x = 0; x < sw; x++) {
+      const i = (y * sw + x) * ch;
+      const r = data[i];
+      const g = data[i + 1];
+      const b = data[i + 2];
+      if (r + g + b > 70) {
+        hits++;
+        if (x < minX) minX = x;
+        if (y < minY) minY = y;
+        if (x > maxX) maxX = x;
+        if (y > maxY) maxY = y;
+      }
+    }
+  }
+
+  if (!hits) {
+    const crop = Math.min(width, height);
+    return {
+      left: 0,
+      top: Math.round((height - crop) / 2),
+      width: crop,
+      height: crop,
+      detected: { hits: 0 },
+    };
+  }
+
+  const scaleX = width / sw;
+  const scaleY = height / sh;
+  const bx = minX * scaleX;
+  const by = minY * scaleY;
+  const bw = (maxX - minX + 1) * scaleX;
+  const bh = (maxY - minY + 1) * scaleY;
+  const cx = bx + bw / 2;
+  const cy = by + bh / 2;
+  const side = Math.min(width, height, Math.ceil(Math.max(bw, bh) * 1.03));
+
+  let left = Math.round(cx - side / 2);
+  let top = Math.round(cy - side / 2);
+  left = Math.max(0, Math.min(left, width - side));
+  top = Math.max(0, Math.min(top, height - side));
+
+  return {
+    left,
+    top,
+    width: side,
+    height: side,
+    detected: { minX, minY, maxX, maxY, hits, bx, by, bw, bh, cx, cy, side },
+  };
 }
 
+const crop = await discSquare();
+
 async function circularMark(size) {
-  const square = await discSquare(size);
+  const { data, info } = await sharp(SRC)
+    .extract(crop)
+    .resize(size, size, { fit: "cover", kernel: "lanczos3" })
+    .ensureAlpha()
+    .raw()
+    .toBuffer({ resolveWithObject: true });
+
+  for (let i = 0; i < data.length; i += 4) {
+    if (data[i] + data[i + 1] + data[i + 2] < 48) {
+      data[i] = BRAND_RGB.r;
+      data[i + 1] = BRAND_RGB.g;
+      data[i + 2] = BRAND_RGB.b;
+      data[i + 3] = 255;
+    }
+  }
+
+  const filled = await sharp(data, {
+    raw: { width: info.width, height: info.height, channels: 4 },
+  })
+    .png()
+    .toBuffer();
+
   const circle = Buffer.from(
     `<svg width="${size}" height="${size}" xmlns="http://www.w3.org/2000/svg">
       <circle cx="${size / 2}" cy="${size / 2}" r="${size / 2}" fill="#fff"/>
     </svg>`,
   );
-  return sharp(square)
+
+  return sharp(filled)
     .composite([{ input: circle, blend: "dest-in" }])
     .png()
     .toBuffer();
 }
 
 async function appIcon(size, radius = Math.round(size * 0.22)) {
-  const pad = Math.round(size * 0.02);
-  const inner = size - pad * 2;
-  const mark = await circularMark(inner);
+  const mark = await circularMark(size);
   const svg = Buffer.from(
     `<svg width="${size}" height="${size}" xmlns="http://www.w3.org/2000/svg">
       <rect width="${size}" height="${size}" rx="${radius}" fill="${BRAND}"/>
     </svg>`,
   );
   return sharp(svg)
-    .composite([{ input: mark, left: pad, top: pad }])
+    .composite([{ input: mark, left: 0, top: 0 }])
     .png()
     .toBuffer();
 }
@@ -90,4 +167,4 @@ const og = await sharp(ogSvg)
 writeFileSync(path.join(ROOT, "apps/web/public/brand/og-share.png"), og);
 writeFileSync(path.join(ROOT, "apps/web/app/favicon.ico"), favicon64);
 
-console.log("brand icons generated from IMG_6744.PNG", { width, height });
+console.log("brand icons generated from IMG_6744.PNG", { width, height, crop });

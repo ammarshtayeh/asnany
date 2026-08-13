@@ -30,8 +30,8 @@ export default function SiteFooter() {
         <div className="mb-10 grid gap-8 md:grid-cols-2 lg:grid-cols-4 lg:gap-10">
           <div className="text-right lg:col-span-1">
             <div className="mb-5 flex items-center gap-3">
-              <MalamihLogoMark size={140} className="h-[72px] w-[72px] shadow-md" />
-              <span className="font-display text-2xl font-bold tracking-[0.28em] text-white">MALAMIH</span>
+              <MalamihLogoMark size={140} className="h-[72px] w-[72px] shrink-0 shadow-md" />
+              <span className="whitespace-nowrap font-display text-2xl font-bold tracking-[0.28em] text-white">MALAMIH</span>
             </div>
             <p className="text-sm font-semibold leading-7 text-slate-400">
               دليل فلسطين لصحة وجمال الوجه — أطباء موثّقون، حجز، عروض، وباقات للعيادات.

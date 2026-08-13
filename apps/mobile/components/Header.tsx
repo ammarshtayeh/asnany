@@ -14,9 +14,9 @@ export default function Header() {
           <Image
             source={require("../assets/logo-mark.png")}
             style={styles.logo}
-            resizeMode="cover"
+            resizeMode="contain"
           />
-          <View>
+          <View style={styles.brandText}>
             <Text style={styles.brand}>MALAMIH</Text>
             <Text style={styles.country}>دليل صحة وجمال الوجه في فلسطين</Text>
           </View>
@@ -72,8 +72,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   brandRow: {
-    width: "100%",
-    flexDirection: "row-reverse",
+    alignSelf: "flex-end",
+    flexDirection: "row",
     alignItems: "center",
     gap: 10,
   },
@@ -83,18 +83,21 @@ const styles = StyleSheet.create({
     borderRadius: 36,
     backgroundColor: "#295f59",
   },
+  brandText: {
+    alignItems: "flex-start",
+  },
   brand: {
     color: "#fff",
     fontSize: 20,
     fontWeight: "800",
-    letterSpacing: 4,
-    textAlign: "right",
+    letterSpacing: 3,
+    textAlign: "left",
   },
   country: {
     color: "#bae6fd",
     fontSize: 11,
     fontWeight: "800",
-    textAlign: "right",
+    textAlign: "left",
   },
   title: {
     color: "#fff",
