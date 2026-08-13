@@ -159,66 +159,26 @@
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cpath fill='none' stroke='%23ffffff' stroke-opacity='0.06' stroke-width='1' d='M0 60c20-20 40-20 60 0s40 20 60 0M0 30c20-20 40-20 60 0s40 20 60 0M0 90c20-20 40-20 60 0s40 20 60 0'/%3E%3C/svg%3E");
   }
 
-  /* Homepage clinic hero — art-direct crop per viewport so logo + scene stay in frame */
+  /* Homepage clinic hero — full frame always visible (letterbox on teal, never crop) */
   .hero-clinic-photo {
-    object-fit: cover;
-    object-position: 62% 42%;
-    opacity: 0.6;
-  }
-
-  @media (min-width: 480px) {
-    .hero-clinic-photo {
-      object-position: 66% 40%;
-      opacity: 0.62;
-    }
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    object-position: center center;
+    opacity: 0.78;
   }
 
   @media (min-width: 640px) {
     .hero-clinic-photo {
-      object-position: 70% 40%;
-      opacity: 0.64;
-    }
-  }
-
-  @media (min-width: 768px) {
-    .hero-clinic-photo {
-      object-position: 72% 38%;
-      opacity: 0.66;
+      opacity: 0.82;
     }
   }
 
   @media (min-width: 1024px) {
     .hero-clinic-photo {
-      object-position: 74% 40%;
-      opacity: 0.68;
-    }
-  }
-
-  @media (min-width: 1280px) {
-    .hero-clinic-photo {
-      object-position: 76% 42%;
-      opacity: 0.7;
-    }
-  }
-
-  @media (min-width: 1536px) {
-    .hero-clinic-photo {
-      object-position: 72% 40%;
-      opacity: 0.72;
-    }
-  }
-
-  @media (max-width: 639px) and (orientation: portrait) {
-    .hero-clinic-photo {
-      /* Prefer logo wall + keep consultation edge in tall phones */
-      object-position: 68% 36%;
-    }
-  }
-
-  @media (max-height: 700px) and (orientation: landscape) {
-    .hero-clinic-photo {
-      object-position: 70% 45%;
-      opacity: 0.58;
+      opacity: 0.86;
     }
   }
 
