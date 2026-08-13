@@ -30,9 +30,9 @@ export default function SiteFooter() {
         <div className="mb-10 grid gap-8 md:grid-cols-2 lg:grid-cols-4 lg:gap-10">
           <div className="text-right lg:col-span-1">
             <div className="mb-5 flex items-center gap-3">
-              <MalamihLogoMark variant="mark" size={52} className="rounded-2xl bg-white p-1" />
-              <h2 className="font-display text-2xl font-bold text-white">
-                ملامح<span className="text-[#e8c86a]">.ps</span>
+              <MalamihLogoMark size={56} className="bg-[#f7f5f0] p-0.5 shadow-md" />
+              <h2 className="font-display text-2xl font-bold tracking-[0.18em] text-white">
+                MALAMIH
               </h2>
             </div>
             <p className="text-sm font-semibold leading-7 text-slate-400">

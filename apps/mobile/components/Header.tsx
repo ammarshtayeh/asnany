@@ -12,9 +12,9 @@ export default function Header() {
       <View style={styles.content}>
         <View style={styles.brandRow}>
           <Image
-            source={require("../assets/logo-full.png")}
+            source={require("../assets/logo-mark.png")}
             style={styles.logo}
-            resizeMode="contain"
+            resizeMode="cover"
           />
           <View>
             <Text style={styles.brand}>ملامح.ps</Text>
@@ -78,9 +78,10 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   logo: {
-    width: 58,
-    height: 90,
-    backgroundColor: "transparent",
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: "#f7f5f0",
   },
   brand: {
     color: "#fff",

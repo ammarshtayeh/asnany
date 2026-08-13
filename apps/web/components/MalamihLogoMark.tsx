@@ -7,29 +7,25 @@ type MalamihLogoMarkProps = {
   size?: number;
   className?: string;
   priority?: boolean;
-  /** Compact face mark for tight UI (tab-like). Default: full vertical lockup. */
   variant?: "full" | "mark";
 };
 
 export function MalamihLogoMark({
-  size = 52,
+  size = 56,
   className = "",
   priority = false,
-  variant = "full",
+  variant = "mark",
 }: MalamihLogoMarkProps) {
-  const isMark = variant === "mark";
-  const src = isMark ? MALAMIH_LOGO_MARK_SRC : MALAMIH_LOGO_SRC;
-  const width = size;
-  const height = isMark ? size : Math.round(size * 1.55);
+  const src = variant === "full" ? MALAMIH_LOGO_SRC : MALAMIH_LOGO_MARK_SRC;
 
   return (
     <Image
       src={src}
-      alt="ملامح — دليل طبي"
-      width={width}
-      height={height}
+      alt="ملامح"
+      width={size}
+      height={size}
       priority={priority}
-      className={`object-contain select-none ${isMark ? "rounded-2xl" : ""} ${className}`}
+      className={`rounded-full object-contain select-none ${className}`}
     />
   );
 }

@@ -88,12 +88,15 @@ export default function Navbar() {
               : "h-[72px] rounded-3xl border-transparent bg-transparent px-1 sm:h-[76px]"
           }`}
         >
-          <Link href="/" className="group flex h-full flex-shrink-0 items-center py-1" aria-label="ملامح — الصفحة الرئيسية">
+          <Link href="/" className="group flex h-full flex-shrink-0 items-center gap-2.5 py-1" aria-label="ملامح — الصفحة الرئيسية">
             <MalamihLogoMark
-              size={scrolled ? 56 : 64}
-              className="h-[52px] w-auto drop-shadow-sm sm:h-[60px]"
+              size={scrolled ? 48 : 56}
+              className="h-11 w-11 shadow-[0_4px_16px_-6px_rgba(41,95,89,0.35)] sm:h-14 sm:w-14"
               priority
             />
+            <span className="hidden select-none font-display text-lg font-bold tracking-[0.22em] text-[#295f59] sm:inline">
+              MALAMIH
+            </span>
           </Link>
 
           <div className="hidden min-w-0 flex-1 justify-center lg:flex">

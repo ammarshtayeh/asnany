@@ -27,9 +27,12 @@ Read this when aligning CSS/Tailwind/React Native theme values. Prefer existing 
 
 ## Logo usage
 
-- Full lockup: `apps/web/public/brand/logo-full.png` — face mark + «ملامح» + دليل طبي. Use in navbar/footer without cropping to a circle.
-- Tab / app icon: `apps/web/public/icon-512.png` and `logo-mark.png` — face line on `#295f59`.
-- Do not crop the full lockup into a circle; that hides the wordmark.
+Official lockup only (circular cream + serif M with face profile + spaced MALAMIH). No previous vertical Arabic lockup.
+
+- Source: `apps/web/public/brand/logo-full.png`
+- Circular cutout: `apps/web/public/brand/logo-mark.png` — navbar, footer, mobile
+- Tab / app icon: `apps/web/public/icon-512.png` — same circle on `#295f59`
+- Display as a circle; do not squash or recrop into a square that clips the M.
 
 ## Typography
 

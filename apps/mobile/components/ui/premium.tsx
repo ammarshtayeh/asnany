@@ -33,13 +33,14 @@ export function MalamihLogo({ size = "md", showText = true }: { size?: "sm" | "m
   return (
     <View style={{ flexDirection: "row-reverse", alignItems: "center", gap: 10 }}>
       <Image
-        source={require("../../assets/logo-full.png")}
+        source={require("../../assets/logo-mark.png")}
         style={{
           width: box,
-          height: Math.round(box * 1.55),
-          backgroundColor: "transparent",
+          height: box,
+          borderRadius: box / 2,
+          backgroundColor: "#f7f5f0",
         }}
-        resizeMode="contain"
+        resizeMode="cover"
       />
       {showText ? (
         <Text style={{ fontSize: title, fontWeight: "900", color: theme.white }}>
