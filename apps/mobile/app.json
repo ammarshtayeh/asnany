@@ -6,8 +6,9 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
+    "icon": "./assets/icon.png",
     "description": "دليل فلسطين لصحة وجمال الوجه — ابحث عن أطباء، احجز مواعيد، وتابع العروض والإعلانات الطبية.",
-    "primaryColor": "#0c5e47",
+    "primaryColor": "#295f59",
     "platforms": [
       "ios",
       "android",
@@ -52,7 +53,7 @@
         "expo-notifications",
         {
           "icon": "./assets/icon.png",
-          "color": "#0f172a",
+          "color": "#295f59",
           "sounds": []
         }
       ]

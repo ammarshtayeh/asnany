@@ -27,7 +27,7 @@ export const ui = {
 };
 
 export function MalamihLogo({ size = "md", showText = true }: { size?: "sm" | "md" | "lg"; showText?: boolean }) {
-  const box = size === "sm" ? 38 : size === "lg" ? 56 : 46;
+  const box = size === "sm" ? 56 : size === "lg" ? 88 : 72;
   const title = size === "sm" ? 18 : size === "lg" ? 26 : 22;
 
   return (
@@ -37,7 +37,7 @@ export function MalamihLogo({ size = "md", showText = true }: { size?: "sm" | "m
         style={{
           width: box,
           height: box,
-          borderRadius: box / 2,
+          borderRadius: Math.round(box * 0.22),
           backgroundColor: "#f7f5f0",
         }}
         resizeMode="cover"

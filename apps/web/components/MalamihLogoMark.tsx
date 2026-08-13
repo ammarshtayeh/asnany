@@ -11,7 +11,7 @@ type MalamihLogoMarkProps = {
 };
 
 export function MalamihLogoMark({
-  size = 56,
+  size = 160,
   className = "",
   priority = false,
   variant = "mark",
@@ -24,8 +24,10 @@ export function MalamihLogoMark({
       alt="ملامح"
       width={size}
       height={size}
+      sizes="(max-width: 640px) 88px, 112px"
+      quality={100}
       priority={priority}
-      className={`rounded-full object-contain select-none ${className}`}
+      className={`rounded-[22%] object-cover select-none ${className}`}
     />
   );
 }

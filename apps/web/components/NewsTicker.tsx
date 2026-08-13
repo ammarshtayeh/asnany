@@ -9,7 +9,7 @@ import type { NewsTickerItem } from "@pal-dental/shared";
 import { TICKER_ROTATE_MS, filterActiveTickerItems, getTickerPresentation } from "@pal-dental/shared";
 
 const TICKER_HEIGHT_PX = 68;
-const NAVBAR_HEIGHT_PX = 72;
+const NAVBAR_HEIGHT_PX = 112;
 
 export default function NewsTicker() {
   const pathname = usePathname() || "";

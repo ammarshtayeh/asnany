@@ -29,7 +29,7 @@
     --malamih-teal: 173 45% 27%;
     --malamih-gold: 46 65% 52%;
     --malamih-cream: 40 33% 96%;
-    --navbar-height: 72px;
+    --navbar-height: 112px;
     --ticker-height: 0px;
     --page-gutter: clamp(1rem, 3vw, 2rem);
     --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
