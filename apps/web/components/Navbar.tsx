@@ -41,7 +41,7 @@ export default function Navbar() {
     const onScroll = () => {
       const next = window.scrollY > 16;
       setScrolled(next);
-      document.documentElement.style.setProperty("--navbar-height", next ? "64px" : "76px");
+      document.documentElement.style.setProperty("--navbar-height", next ? "72px" : "88px");
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -84,16 +84,16 @@ export default function Navbar() {
         <nav
           className={`mx-auto flex max-w-[1600px] items-center gap-2 border transition-all duration-500 ease-spring ${
             scrolled
-              ? "nav-island h-[56px] px-3 shadow-float sm:px-4"
-              : "h-[64px] rounded-3xl border-transparent bg-transparent px-1 sm:h-[68px]"
+              ? "nav-island h-[64px] px-3 shadow-float sm:px-4"
+              : "h-[72px] rounded-3xl border-transparent bg-transparent px-1 sm:h-[76px]"
           }`}
         >
-          <Link href="/" className="group flex flex-shrink-0 items-center gap-2.5">
-            <MalamihLogoMark size={scrolled ? 48 : 54} className="transition-transform duration-300 group-hover:scale-105" priority />
-            <div className="hidden select-none items-center sm:flex">
-              <span className="malamih-logo-text text-xl">ملامح</span>
-              <span className="malamih-logo-dot text-xl">.ps</span>
-            </div>
+          <Link href="/" className="group flex h-full flex-shrink-0 items-center py-1" aria-label="ملامح — الصفحة الرئيسية">
+            <MalamihLogoMark
+              size={scrolled ? 56 : 64}
+              className="h-[52px] w-auto drop-shadow-sm sm:h-[60px]"
+              priority
+            />
           </Link>
 
           <div className="hidden min-w-0 flex-1 justify-center lg:flex">

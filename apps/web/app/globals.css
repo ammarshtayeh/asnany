@@ -42,11 +42,11 @@
   }
 
   .malamih-logo-mark {
-    @apply rounded-full overflow-hidden bg-white border border-slate-200/80 shadow-sm object-contain select-none;
+    @apply object-contain select-none;
   }
 
   .malamih-logo-text {
-    @apply text-lg font-black tracking-tight text-slate-900;
+    @apply font-display text-lg font-bold tracking-tight text-slate-900;
   }
 
   .malamih-logo-dot {

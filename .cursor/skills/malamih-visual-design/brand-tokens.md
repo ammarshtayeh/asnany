@@ -25,6 +25,12 @@ Read this when aligning CSS/Tailwind/React Native theme values. Prefer existing 
 - `apps/mobile/constants/theme.ts` — single source for RN colors/radius/shadow
 - **Do not expand** `purple` / `pink` / `sky` for new product chrome; treat as legacy. Prefer navy/teal/gold/cream/white.
 
+## Logo usage
+
+- Full lockup: `apps/web/public/brand/logo-full.png` — face mark + «ملامح» + دليل طبي. Use in navbar/footer without cropping to a circle.
+- Tab / app icon: `apps/web/public/icon-512.png` and `logo-mark.png` — face line on `#295f59`.
+- Do not crop the full lockup into a circle; that hides the wordmark.
+
 ## Typography
 
 - Web: keep established Arabic/Latin stack already loaded (e.g. Cairo / project fonts in layout)—strengthen **heading vs body** roles via weight/size/tracking, don’t add random third families.

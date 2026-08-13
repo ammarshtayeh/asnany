@@ -78,12 +78,9 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   logo: {
-    width: 54,
-    height: 54,
-    borderRadius: 27,
-    backgroundColor: "#fff",
-    borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.35)",
+    width: 58,
+    height: 90,
+    backgroundColor: "transparent",
   },
   brand: {
     color: "#fff",

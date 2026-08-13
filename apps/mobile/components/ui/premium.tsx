@@ -36,11 +36,8 @@ export function MalamihLogo({ size = "md", showText = true }: { size?: "sm" | "m
         source={require("../../assets/logo-full.png")}
         style={{
           width: box,
-          height: box,
-          borderRadius: box / 2,
-          backgroundColor: "#fff",
-          borderWidth: 1,
-          borderColor: theme.borderLight,
+          height: Math.round(box * 1.55),
+          backgroundColor: "transparent",
         }}
         resizeMode="contain"
       />
