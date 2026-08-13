@@ -17,7 +17,7 @@ export default function Header() {
             resizeMode="cover"
           />
           <View>
-            <Text style={styles.brand}>ملامح.ps</Text>
+            <Text style={styles.brand}>MALAMIH</Text>
             <Text style={styles.country}>دليل صحة وجمال الوجه في فلسطين</Text>
           </View>
         </View>
@@ -78,15 +78,16 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   logo: {
-    width: 88,
-    height: 88,
-    borderRadius: 20,
-    backgroundColor: "#f7f5f0",
+    width: 72,
+    height: 72,
+    borderRadius: 36,
+    backgroundColor: "#295f59",
   },
   brand: {
     color: "#fff",
     fontSize: 20,
-    fontWeight: "900",
+    fontWeight: "800",
+    letterSpacing: 4,
     textAlign: "right",
   },
   country: {

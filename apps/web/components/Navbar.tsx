@@ -88,12 +88,20 @@ export default function Navbar() {
               : "h-[96px] rounded-3xl border-transparent bg-transparent px-1 sm:h-[100px]"
           }`}
         >
-          <Link href="/" className="group flex h-full flex-shrink-0 items-center py-1" aria-label="ملامح — الصفحة الرئيسية">
+          <Link href="/" className="group flex h-full flex-shrink-0 items-center gap-3 py-1" aria-label="ملامح — الصفحة الرئيسية">
             <MalamihLogoMark
               size={160}
-              className="h-[80px] w-[80px] rounded-[22%] shadow-[0_8px_22px_-8px_rgba(41,95,89,0.45)] sm:h-[88px] sm:w-[88px]"
+              className="h-[68px] w-[68px] shadow-[0_8px_20px_-8px_rgba(41,95,89,0.4)] sm:h-[76px] sm:w-[76px]"
               priority
             />
+            <span className="hidden select-none sm:flex sm:flex-col sm:items-start">
+              <span className="font-display text-[1.35rem] font-bold leading-none tracking-[0.28em] text-[#295f59]">
+                MALAMIH
+              </span>
+              <span className="mt-1 text-[10px] font-bold tracking-[0.18em] text-[#295f59]/65">
+                .ps
+              </span>
+            </span>
           </Link>
 
           <div className="hidden min-w-0 flex-1 justify-center lg:flex">

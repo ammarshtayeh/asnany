@@ -27,12 +27,11 @@ Read this when aligning CSS/Tailwind/React Native theme values. Prefer existing 
 
 ## Logo usage
 
-Official lockup only (circular cream + serif M with face profile + spaced MALAMIH). No previous vertical Arabic lockup.
+Official lockup only (circular cream + serif M with face profile + spaced MALAMIH). Source file: `apps/mobile/assets/IMG_6739.PNG`.
 
-- Source: `apps/web/public/brand/logo-full.png`
-- Circular cutout: `apps/web/public/brand/logo-mark.png` — navbar, footer, mobile
-- Tab / app icon: `apps/web/public/icon-512.png` — same circle on `#295f59`
-- Display as a circle; do not squash or recrop into a square that clips the M.
+- Navbar/footer: `apps/web/public/brand/logo-mark.png` — large circle, no extra wordmark beside it
+- Tab / app icon: `apps/web/public/icon-512.png` and `favicon-64.png`
+- Display large and sharp (`quality={100}`, intrinsic size ≥ 160px)
 
 ## Typography
 

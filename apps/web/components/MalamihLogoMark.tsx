@@ -24,10 +24,10 @@ export function MalamihLogoMark({
       alt="ملامح"
       width={size}
       height={size}
-      sizes="(max-width: 640px) 88px, 112px"
+      sizes="(max-width: 640px) 72px, 88px"
       quality={100}
       priority={priority}
-      className={`rounded-[22%] object-cover select-none ${className}`}
+      className={`rounded-full object-cover select-none ${className}`}
     />
   );
 }

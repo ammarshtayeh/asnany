@@ -37,14 +37,14 @@ export function MalamihLogo({ size = "md", showText = true }: { size?: "sm" | "m
         style={{
           width: box,
           height: box,
-          borderRadius: Math.round(box * 0.22),
-          backgroundColor: "#f7f5f0",
+          borderRadius: box / 2,
+          backgroundColor: theme.teal,
         }}
         resizeMode="cover"
       />
       {showText ? (
-        <Text style={{ fontSize: title, fontWeight: "900", color: theme.white }}>
-          ملامح<Text style={{ color: theme.gold }}>.ps</Text>
+        <Text style={{ fontSize: title, fontWeight: "800", color: theme.white, letterSpacing: 4 }}>
+          MALAMIH
         </Text>
       ) : null}
     </View>
