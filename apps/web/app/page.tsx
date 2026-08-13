@@ -252,12 +252,12 @@ export default function Home() {
             priority
             sizes="100vw"
             quality={85}
-            className="pointer-events-none object-cover object-[78%_42%] opacity-[0.28] sm:object-[72%_40%] sm:opacity-[0.32]"
+            className="pointer-events-none object-cover object-[78%_42%] opacity-[0.58] sm:object-[72%_40%] sm:opacity-[0.66]"
           />
-          <div className="pointer-events-none absolute inset-0 bg-[#295f59]/55" />
-          <div className="pointer-events-none absolute inset-0 topo-teal opacity-35" />
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#295f59]/50 via-[#1a433e]/72 to-[#0a1628]" />
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-l from-[#0a1628]/45 via-transparent to-[#0a1628]/40" />
+          <div className="pointer-events-none absolute inset-0 bg-[#295f59]/18" />
+          <div className="pointer-events-none absolute inset-0 topo-teal opacity-20" />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#295f59]/20 via-[#1a433e]/35 to-[#0a1628]/78" />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-l from-[#0a1628]/30 via-transparent to-[#0a1628]/25" />
 
           <div className="relative z-10 mx-auto flex min-h-[min(88vh,760px)] w-full max-w-[1400px] flex-col justify-end gap-8 px-[var(--page-gutter)] pb-10 pt-24 lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(320px,420px)] lg:items-end lg:gap-12 lg:pb-14 lg:pt-28">
             <div className="max-w-xl text-right text-white lg:pb-4" dir="rtl">
