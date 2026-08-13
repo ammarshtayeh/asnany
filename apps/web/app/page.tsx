@@ -244,7 +244,7 @@ export default function Home() {
     <div className="min-h-screen overflow-x-hidden font-sans">
       <section className="relative isolate mb-8 sm:mb-12">
         {/* Brand teal base always visible — avoids broken-image alt text flash */}
-        <div className="relative min-h-[min(88vh,760px)] overflow-hidden bg-[#295f59]">
+        <div className="hero-clinic relative min-h-[min(100svh,720px)] overflow-hidden bg-[#295f59] sm:min-h-[min(88vh,760px)] lg:min-h-[min(86vh,820px)]">
           <Image
             src={HERO_IMAGE_URL}
             alt=""
@@ -252,14 +252,14 @@ export default function Home() {
             priority
             sizes="100vw"
             quality={85}
-            className="pointer-events-none object-cover object-[78%_42%] opacity-[0.58] sm:object-[72%_40%] sm:opacity-[0.66]"
+            className="hero-clinic-photo pointer-events-none select-none"
           />
           <div className="pointer-events-none absolute inset-0 bg-[#295f59]/18" />
           <div className="pointer-events-none absolute inset-0 topo-teal opacity-20" />
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#295f59]/20 via-[#1a433e]/35 to-[#0a1628]/78" />
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-l from-[#0a1628]/30 via-transparent to-[#0a1628]/25" />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#295f59]/25 via-[#1a433e]/30 to-[#0a1628]/82 sm:from-[#295f59]/20 sm:via-[#1a433e]/35 sm:to-[#0a1628]/78" />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-l from-[#0a1628]/35 via-transparent to-[#0a1628]/30 sm:from-[#0a1628]/30 sm:to-[#0a1628]/25" />
 
-          <div className="relative z-10 mx-auto flex min-h-[min(88vh,760px)] w-full max-w-[1400px] flex-col justify-end gap-8 px-[var(--page-gutter)] pb-10 pt-24 lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(320px,420px)] lg:items-end lg:gap-12 lg:pb-14 lg:pt-28">
+          <div className="relative z-10 mx-auto flex min-h-[min(100svh,720px)] w-full max-w-[1400px] flex-col justify-end gap-8 px-[var(--page-gutter)] pb-10 pt-24 sm:min-h-[min(88vh,760px)] lg:grid lg:min-h-[min(86vh,820px)] lg:grid-cols-[minmax(0,1fr)_minmax(320px,420px)] lg:items-end lg:gap-12 lg:pb-14 lg:pt-28">
             <div className="max-w-xl text-right text-white lg:pb-4" dir="rtl">
               <motion.div
                 className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 backdrop-blur-sm"
