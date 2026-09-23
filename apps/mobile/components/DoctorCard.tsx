@@ -1,5 +1,6 @@
 import { Pressable, Text, View } from "react-native";
 import { Doctor } from "../lib/types";
+import { asStringArray } from "../lib/format";
 import { AppCard } from "./AppCard";
 import { AppButton } from "./Buttons";
 
@@ -14,6 +15,8 @@ export function DoctorCard({
   onBook?: () => void;
   onWhatsApp?: () => void;
 }) {
+  const specialties = asStringArray(doctor.specialty);
+
   return (
     <Pressable onPress={onPress}>
       <AppCard>
@@ -26,7 +29,7 @@ export function DoctorCard({
         </Text>
 
         <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8, marginTop: 12, justifyContent: "flex-end" }}>
-          {doctor.specialty?.slice(0, 3).map((item) => (
+          {specialties.slice(0, 3).map((item) => (
             <View key={item} style={{ backgroundColor: "#eff6ff", borderRadius: 999, paddingHorizontal: 10, paddingVertical: 6 }}>
               <Text style={{ color: "#2563eb", fontSize: 12, fontWeight: "900" }}>{item}</Text>
             </View>

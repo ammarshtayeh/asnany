@@ -1,16 +1,19 @@
 import { Doctor } from "@/lib/types";
+import { asStringArray } from "@/lib/http";
 import { Star, MapPin, Award, CheckCircle2, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 
 export default function DoctorCard({ doctor }: { doctor: Doctor }) {
+  const specialties = asStringArray(doctor.specialty);
+
   return (
     <div className="bento-card group flex flex-col gap-4 p-4 md:flex-row md:p-5">
       <div className="relative aspect-[4/3] w-full flex-shrink-0 overflow-hidden rounded-2xl bg-[#e8f0ef] md:aspect-auto md:h-40 md:w-40">
         {doctor.image_url ? (
           <Image
             src={doctor.image_url}
-            alt={doctor.name}
+            alt={doctor.name || "طبيب"}
             fill
             sizes="(max-width: 768px) 100vw, 160px"
             className="object-cover object-[center_18%] transition-transform duration-500 ease-spring group-hover:scale-[1.03]"
@@ -30,9 +33,9 @@ export default function DoctorCard({ doctor }: { doctor: Doctor }) {
           </div>
 
           <div className="mb-2 flex flex-wrap gap-1.5">
-            {doctor.specialty.map((spec, idx) => (
+            {specialties.map((spec, idx) => (
               <span
-                key={idx}
+                key={`${spec}-${idx}`}
                 className="rounded-lg bg-primary/8 px-2.5 py-1 text-xs font-bold text-primary"
               >
                 {spec}

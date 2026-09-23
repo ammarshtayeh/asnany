@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useEffect } from "react";
-import { RefreshCw, Home } from "lucide-react";
 
 export default function GlobalError({
   error,
@@ -17,29 +16,62 @@ export default function GlobalError({
 
   return (
     <html lang="ar" dir="rtl">
-      <body className="min-h-screen mesh-bg font-sans text-slate-900">
-        <main className="mx-auto flex min-h-screen max-w-lg flex-col items-center justify-center px-6 text-center">
-          <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-rose-50 text-rose-600">
-            <RefreshCw className="h-8 w-8" />
-          </div>
-          <h1 className="text-2xl font-black">حدث خطأ غير متوقع</h1>
-          <p className="mt-3 text-sm font-bold leading-7 text-slate-500">
+      <body
+        style={{
+          margin: 0,
+          minHeight: "100vh",
+          fontFamily: "Tahoma, Arial, sans-serif",
+          background: "#f7f5f0",
+          color: "#0a1628",
+        }}
+      >
+        <main
+          style={{
+            margin: "0 auto",
+            minHeight: "100vh",
+            maxWidth: 480,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: 24,
+            textAlign: "center",
+          }}
+        >
+          <h1 style={{ fontSize: 24, fontWeight: 900, margin: 0 }}>حدث خطأ غير متوقع</h1>
+          <p style={{ marginTop: 12, fontSize: 14, lineHeight: 1.7, color: "#64748b", fontWeight: 700 }}>
             نعتذر، واجهت المنصة مشكلة مؤقتة. جرّب إعادة تحميل الصفحة أو العودة للرئيسية.
           </p>
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
+          <div style={{ marginTop: 28, display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 12 }}>
             <button
               type="button"
               onClick={reset}
-              className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-black text-white"
+              style={{
+                border: 0,
+                borderRadius: 12,
+                background: "#295f59",
+                color: "#fff",
+                padding: "12px 20px",
+                fontWeight: 900,
+                fontSize: 14,
+                cursor: "pointer",
+              }}
             >
-              <RefreshCw className="h-4 w-4" />
               إعادة المحاولة
             </button>
             <Link
               href="/"
-              className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-black text-slate-800"
+              style={{
+                borderRadius: 12,
+                border: "1px solid #e2e8f0",
+                background: "#fff",
+                color: "#0a1628",
+                padding: "12px 20px",
+                fontWeight: 900,
+                fontSize: 14,
+                textDecoration: "none",
+              }}
             >
-              <Home className="h-4 w-4" />
               الرئيسية
             </Link>
           </div>

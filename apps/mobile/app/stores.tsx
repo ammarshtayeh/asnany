@@ -62,10 +62,15 @@ export default function StoresScreen() {
     if (!form.storeName || !form.phone || !form.description) return;
     setSubmitting(true);
     try {
-      await apiFetch("/api/stores", {
+      const { response, data } = await apiFetch("/api/stores", {
         method: "POST",
         body: JSON.stringify(form),
       });
+      if (!response.ok) {
+        // Keep form open — do not fake success
+        console.warn("store submit failed", data?.error || response.status);
+        return;
+      }
       setSubmitted(true);
       loadStores();
       setTimeout(() => {
@@ -74,7 +79,7 @@ export default function StoresScreen() {
         setForm({ storeName: "", specialization: SPECIALIZATIONS[0], city: CITIES[0], description: "", phone: "", whatsapp: "", website: "" });
       }, 2000);
     } catch {
-      // handle error silently
+      // network already handled by apiFetch; keep form open
     } finally {
       setSubmitting(false);
     }

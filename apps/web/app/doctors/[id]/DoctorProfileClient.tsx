@@ -42,8 +42,13 @@ export default function DoctorProfileClient({ doctor, canBookOnWebsite }: { doct
   const [reviewMessage, setReviewMessage] = useState("");
 
   useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem("malamih_saved_doctors") || "[]") as string[];
-    setIsSaved(saved.includes(doctor.id));
+    try {
+      const raw = localStorage.getItem("malamih_saved_doctors");
+      const saved = raw ? (JSON.parse(raw) as unknown) : [];
+      setIsSaved(Array.isArray(saved) && saved.includes(doctor.id));
+    } catch {
+      setIsSaved(false);
+    }
 
     const stopWatch = startAccuratePositionWatch((location) => {
       setUserLoc(location);
@@ -51,9 +56,10 @@ export default function DoctorProfileClient({ doctor, canBookOnWebsite }: { doct
       setDistance(getDistance(location.lat, location.lng, doctorCoords.latitude, doctorCoords.longitude));
     });
 
-    void fetch(`/api/reviews?doctorId=${doctor.id}`)
-      .then((res) => res.json())
-      .then((data) => {
+    void fetch(`/api/reviews?doctorId=${encodeURIComponent(doctor.id)}`)
+      .then(async (res) => {
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) return;
         const rows = Array.isArray(data?.reviews) ? data.reviews : [];
         setReviewsList(
           rows.map((row: { patient_name: string; rating: number; comment?: string; created_at: string }) => ({
@@ -72,10 +78,16 @@ export default function DoctorProfileClient({ doctor, canBookOnWebsite }: { doct
   const doctorMapHref = `/doctors/${doctor.id}/map`;
 
   const toggleSaved = () => {
-    const saved = JSON.parse(localStorage.getItem("malamih_saved_doctors") || "[]") as string[];
-    const next = saved.includes(doctor.id) ? saved.filter((id) => id !== doctor.id) : [...saved, doctor.id];
-    localStorage.setItem("malamih_saved_doctors", JSON.stringify(next));
-    setIsSaved(next.includes(doctor.id));
+    try {
+      const raw = localStorage.getItem("malamih_saved_doctors");
+      const saved = raw ? (JSON.parse(raw) as unknown) : [];
+      const list = Array.isArray(saved) ? (saved as string[]) : [];
+      const next = list.includes(doctor.id) ? list.filter((id) => id !== doctor.id) : [...list, doctor.id];
+      localStorage.setItem("malamih_saved_doctors", JSON.stringify(next));
+      setIsSaved(next.includes(doctor.id));
+    } catch {
+      setIsSaved(false);
+    }
   };
 
   const readyWhatsAppHref = whatsappHref(

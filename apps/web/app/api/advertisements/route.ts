@@ -22,6 +22,6 @@ export async function GET() {
     return NextResponse.json(data || []);
   } catch (err: any) {
     console.error("GET /api/advertisements error:", err);
-    return NextResponse.json({ error: err.message || "Failed to fetch advertisements" }, { status: 500 });
+    return NextResponse.json([], { status: 503, headers: { "Cache-Control": "no-store" } });
   }
 }

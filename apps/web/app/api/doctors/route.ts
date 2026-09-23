@@ -57,6 +57,10 @@ export async function GET(request: Request) {
     return NextResponse.json(doctors);
   } catch (err: any) {
     console.error("GET /api/doctors error:", err);
-    return NextResponse.json({ error: err.message || "Failed to fetch doctors" }, { status: 500 });
+    // Soft-fail: keep public site usable with an empty list instead of a hard 500 body shape mismatch
+    return NextResponse.json([], {
+      status: 503,
+      headers: { "Cache-Control": "no-store" },
+    });
   }
 }

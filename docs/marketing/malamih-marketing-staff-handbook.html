@@ -1,0 +1,1615 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>دليل موظف الماركتنغ — ملامح.ps 2026 | سري للاستخدام الداخلي</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap');
+
+    :root {
+      --teal: #295f59;
+      --navy: #0a1628;
+      --gold: #d4af37;
+      --cream: #f7f5f0;
+      --teal-soft: #e8f2f0;
+      --gold-soft: #faf6e9;
+      --danger: #9b1c1c;
+      --ok: #166534;
+      --muted: #475569;
+      --line: #e2e8f0;
+    }
+
+    @page {
+      size: A4 portrait;
+      margin: 16mm 14mm 18mm 14mm;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Cairo', sans-serif;
+      font-size: 10pt;
+      line-height: 1.75;
+      color: var(--navy);
+      background: #fff;
+      direction: rtl;
+      text-align: right;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .page {
+      position: relative;
+      page-break-after: always;
+      break-after: page;
+    }
+    .page:last-child { page-break-after: auto; break-after: auto; }
+
+    /* —— Cover —— */
+    .cover {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 48px 40px 36px;
+      background:
+        radial-gradient(ellipse at 20% 10%, rgba(212,175,55,0.18), transparent 50%),
+        radial-gradient(ellipse at 85% 80%, rgba(41,95,89,0.35), transparent 45%),
+        linear-gradient(160deg, var(--navy) 0%, #0f2744 45%, var(--teal) 100%);
+      color: #fff;
+    }
+    .cover-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      font-size: 9pt;
+      letter-spacing: 0.04em;
+      opacity: 0.85;
+    }
+    .badge-secret {
+      border: 1px solid rgba(212,175,55,0.7);
+      color: var(--gold);
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 8.5pt;
+    }
+    .cover-main {
+      text-align: center;
+      padding: 40px 12px 24px;
+    }
+    .cover-mark {
+      width: 92px;
+      height: 92px;
+      margin: 0 auto 22px;
+      border-radius: 26px;
+      background: linear-gradient(145deg, var(--gold), #c9a227);
+      color: var(--navy);
+      font-size: 42pt;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+    }
+    .cover h1 {
+      font-size: 28pt;
+      font-weight: 900;
+      margin: 0 0 10px;
+      line-height: 1.35;
+      border: none;
+      color: #fff;
+      padding: 0;
+    }
+    .cover .brand {
+      font-size: 20pt;
+      font-weight: 800;
+      color: var(--gold);
+      margin: 0 0 18px;
+      letter-spacing: 0.08em;
+    }
+    .cover .tagline {
+      max-width: 520px;
+      margin: 0 auto;
+      font-size: 12pt;
+      opacity: 0.92;
+      line-height: 1.85;
+    }
+    .cover-meta {
+      border-top: 1px solid rgba(255,255,55,0.25);
+      padding-top: 18px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 16px;
+      font-size: 9pt;
+      opacity: 0.88;
+    }
+    .cover-meta strong { color: var(--gold); font-weight: 800; }
+
+    /* —— Content chrome —— */
+    .content {
+      padding: 8px 4px 28px;
+      background: #fff;
+    }
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid var(--teal);
+      padding-bottom: 8px;
+      margin-bottom: 18px;
+      font-size: 8.5pt;
+      color: var(--muted);
+    }
+    .page-header .logo-text {
+      font-weight: 900;
+      color: var(--teal);
+      letter-spacing: 0.12em;
+    }
+    .page-footer {
+      margin-top: 28px;
+      padding-top: 10px;
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      font-size: 8pt;
+      color: var(--muted);
+    }
+
+    h1.section-title {
+      font-size: 16pt;
+      font-weight: 900;
+      color: var(--teal);
+      margin: 0 0 14px;
+      padding: 10px 14px;
+      background: linear-gradient(90deg, var(--teal-soft), transparent);
+      border-right: 5px solid var(--gold);
+      page-break-after: avoid;
+    }
+    h2 {
+      font-size: 12.5pt;
+      font-weight: 900;
+      color: var(--navy);
+      margin: 22px 0 8px;
+      page-break-after: avoid;
+    }
+    h3 {
+      font-size: 11pt;
+      font-weight: 800;
+      color: var(--teal);
+      margin: 16px 0 6px;
+      page-break-after: avoid;
+    }
+    h4 {
+      font-size: 10pt;
+      font-weight: 800;
+      margin: 12px 0 4px;
+      color: var(--navy);
+    }
+    p { margin: 0 0 9px; }
+    ul, ol { margin: 6px 22px 12px 0; padding: 0; }
+    li { margin-bottom: 5px; }
+    strong { color: var(--navy); }
+
+    .lead {
+      font-size: 10.5pt;
+      background: var(--cream);
+      border: 1px solid #ebe6dc;
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin: 0 0 14px;
+    }
+    .callout {
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin: 12px 0;
+      page-break-inside: avoid;
+    }
+    .callout-info { background: var(--teal-soft); border: 1px solid #b7d4cf; }
+    .callout-warn { background: #fff7ed; border: 1px solid #fdba74; }
+    .callout-danger { background: #fef2f2; border: 1px solid #fca5a5; }
+    .callout-gold { background: var(--gold-soft); border: 1px solid #e8d48a; }
+    .callout-title {
+      font-weight: 900;
+      margin-bottom: 4px;
+      color: var(--navy);
+    }
+
+    blockquote.script {
+      margin: 10px 0 14px;
+      padding: 12px 14px;
+      background: var(--cream);
+      border-right: 4px solid var(--teal);
+      border-radius: 0 10px 10px 0;
+      font-size: 9.5pt;
+      white-space: pre-wrap;
+      page-break-inside: avoid;
+    }
+    .script-label {
+      display: inline-block;
+      background: var(--navy);
+      color: #fff;
+      font-size: 8pt;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 6px;
+      margin-bottom: 8px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0 16px;
+      font-size: 8.5pt;
+      page-break-inside: auto;
+    }
+    th {
+      background: var(--navy);
+      color: #fff;
+      padding: 7px 8px;
+      text-align: right;
+      font-weight: 800;
+    }
+    td {
+      padding: 7px 8px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+    tr:nth-child(even) td { background: #f8fafc; }
+    tr { page-break-inside: avoid; }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 10px 0 14px;
+    }
+    .card {
+      background: var(--cream);
+      border: 1px solid #ebe6dc;
+      border-radius: 10px;
+      padding: 12px;
+      page-break-inside: avoid;
+    }
+    .card h3 { margin-top: 0; }
+    .card.teal { background: var(--teal-soft); border-color: #b7d4cf; }
+    .card.gold { background: var(--gold-soft); border-color: #e8d48a; }
+
+    .price-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 8px;
+      border-bottom: 1px dashed #d6d3d1;
+      padding: 4px 0;
+      font-size: 9pt;
+    }
+    .price-tag {
+      font-weight: 900;
+      color: var(--teal);
+      white-space: nowrap;
+    }
+
+    .checklist li { list-style: none; position: relative; padding-right: 22px; }
+    .checklist li::before {
+      content: "☐";
+      position: absolute;
+      right: 0;
+      font-weight: 700;
+      color: var(--teal);
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 7.5pt;
+      font-weight: 800;
+      padding: 1px 7px;
+      border-radius: 999px;
+      background: var(--teal);
+      color: #fff;
+      margin-left: 4px;
+    }
+    .tag-gold { background: var(--gold); color: var(--navy); }
+    .tag-navy { background: var(--navy); }
+    .tag-danger { background: var(--danger); }
+    .tag-ok { background: var(--ok); }
+
+    a { color: var(--teal); font-weight: 700; text-decoration: none; }
+    code, .ltr {
+      direction: ltr;
+      unicode-bidi: embed;
+      font-family: Consolas, 'Courier New', monospace;
+      font-size: 8.5pt;
+    }
+    .url {
+      direction: ltr;
+      unicode-bidi: embed;
+      font-weight: 700;
+      color: var(--teal);
+      word-break: break-all;
+    }
+
+    .toc ol { margin-right: 28px; }
+    .toc li { margin-bottom: 6px; font-weight: 600; }
+
+    .faq-cat {
+      background: var(--navy);
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 8px;
+      margin: 18px 0 10px;
+      font-weight: 900;
+      font-size: 10.5pt;
+      page-break-after: avoid;
+    }
+    .faq-item {
+      margin: 0 0 10px;
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      page-break-inside: avoid;
+      background: #fff;
+    }
+    .faq-q {
+      font-weight: 900;
+      color: var(--teal);
+      margin-bottom: 3px;
+    }
+    .faq-a { margin: 0; color: #1e293b; }
+
+    .allow-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .allow { border-right: 4px solid var(--ok); }
+    .deny { border-right: 4px solid var(--danger); }
+
+    .dict dt {
+      font-weight: 900;
+      color: var(--teal);
+      margin-top: 8px;
+    }
+    .dict dd {
+      margin: 2px 0 8px;
+      color: #334155;
+    }
+
+    @media print {
+      body { background: #fff; }
+      .cover { min-height: 100vh; }
+      a { color: inherit; }
+      .no-print { display: none !important; }
+      h1, h2, h3, .faq-cat { page-break-after: avoid; }
+      table, .callout, .card, blockquote.script, .faq-item { page-break-inside: avoid; }
+    }
+
+    @media screen {
+      body { background: #cbd5e1; }
+      .cover, .sheet {
+        width: 210mm;
+        min-height: 297mm;
+        margin: 16px auto;
+        box-shadow: 0 8px 32px rgba(15,23,42,0.18);
+        background: #fff;
+      }
+      .sheet { padding: 16mm 14mm 18mm; }
+      .print-hint {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: var(--navy);
+        color: #fff;
+        text-align: center;
+        padding: 8px;
+        font-size: 9pt;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="print-hint no-print">
+    دليل موظف الماركتنغ — ملامح.ps · للطباعة: Ctrl+P → حجم الورق A4 · فعّل «خلفيات الرسومات»
+  </div>
+
+  <!-- ===================== 1. COVER ===================== -->
+  <section class="cover page">
+    <div class="cover-top">
+      <div>malamih.ps · Marketing Ops</div>
+      <div class="badge-secret">سري — للاستخدام الداخلي فقط</div>
+    </div>
+    <div class="cover-main">
+      <div class="cover-mark">م</div>
+      <h1>دليل موظف الماركتنغ</h1>
+      <p class="brand">ملامح.ps · 2026</p>
+      <p class="tagline">
+        دليل عملي شامل للتواصل مع الأطباء والعيادات:<br/>
+        الهوية · المنتج · الأسعار · سكربتات الاتصال والواتساب والزيارات ·
+        الاعتراضات · الأسئلة الشائعة · التسجيل · قواعد الوعود · التصعيد
+      </p>
+    </div>
+    <div class="cover-meta">
+      <div><strong>الجمهور:</strong> فريق المبيعات والتسويق الميداني</div>
+      <div><strong>الإصدار:</strong> 1.0 — 2026</div>
+      <div><strong>التصنيف:</strong> داخلي / سري</div>
+      <div><strong>المالك:</strong> إدارة ملامح</div>
+      <div><strong>الموقع:</strong> <span class="ltr">https://www.malamih.ps</span></div>
+      <div><strong>الدعم:</strong> 0595537190</div>
+    </div>
+  </section>
+
+  <!-- ===================== 2. MESSAGE + HOW TO USE ===================== -->
+  <section class="sheet page">
+    <div class="page-header">
+      <span class="logo-text">ملامح · MALAMIH</span>
+      <span>دليل موظف الماركتنغ · سري</span>
+    </div>
+    <div class="content">
+      <h1 class="section-title">2. رسالة من الإدارة + كيف تستخدم هذا الدليل</h1>
+
+      <div class="callout callout-gold">
+        <div class="callout-title">رسالة من الإدارة</div>
+        <p style="margin:0">
+          أنت وجه ملامح أمام الطبيب. كل اتصال أو رسالة أو زيارة تبني ثقة أو تهدمها.
+          هدفك ليس «بيع اشتراك بأي طريقة» — هدفك مساعدة العيادة على الظهور الصحيح للمرضى
+          في فلسطين عبر منصة متخصصة، بأسعار واضحة ووعود صادقة فقط.
+          هذا الدليل هو مرجعك التشغيلي: احفظ السكربتات، راجع الاعتراضات قبل كل يوم ميداني،
+          ولا تَعِد بما لم يُفعَّل بعد.
+        </p>
+      </div>
+
+      <h2>كيف تستخدم هذا الدليل</h2>
+      <ol>
+        <li><strong>قبل أول اتصال:</strong> اقرأ الأقسام 3–5 (الهوية، المنتج، الباقات) ثم 13 (ممنوع/مسموح).</li>
+        <li><strong>قبل كل يوم عمل:</strong> راجع القسم 12 (قائمة التحقق) والقسم 6 أو 7 حسب القناة.</li>
+        <li><strong>عند اعتراض:</strong> افتح القسم 9 مباشرة — أجب من الجدول، لا ترتجل وعوداً.</li>
+        <li><strong>عند سؤال تقني/قانوني:</strong> القسم 10 (FAQ) ثم صعّد للإدارة إن لزم (قسم 15).</li>
+        <li><strong>بعد موافقة الطبيب:</strong> اتبع القسم 11 حرفياً (جمع البيانات → إرسال للإدارة).</li>
+      </ol>
+
+      <div class="grid-2">
+        <div class="card teal">
+          <h3>متى ترجع لهذا الملف؟</h3>
+          <ul>
+            <li>صباح كل يوم ميداني (5 دقائق)</li>
+            <li>قبل عرض سعري جديد</li>
+            <li>بعد اعتراض صعب — سجّل ما نجح</li>
+            <li>عند انضمام زميل جديد</li>
+          </ul>
+        </div>
+        <div class="card gold">
+          <h3>مبادئ ثابتة</h3>
+          <ul>
+            <li>وضوح السعر دائماً بالدولار أو الشيكل كما هو مكتوب</li>
+            <li>لا وعد بميزة غير مفعّلة (مثل الشات بوت حالياً)</li>
+            <li>الحجز = طلب مراجعة، ليس تأكيداً نهائياً تلقائياً</li>
+            <li>شارة التحقق ≠ ترخيص حكومي تلقائي</li>
+          </ul>
+        </div>
+      </div>
+
+      <h2>فهرس سريع</h2>
+      <div class="toc">
+        <ol>
+          <li>الغلاف</li>
+          <li>رسالة الإدارة + طريقة الاستخدام</li>
+          <li>ما هي ملامح؟ الهوية والرؤية والجمهور</li>
+          <li>خريطة المنتج الكاملة + الروابط</li>
+          <li>الباقات والأسعار بالتفصيل</li>
+          <li>سكربت اتصال هاتفي</li>
+          <li>سكربت واتساب جاهز للنسخ</li>
+          <li>سكربت زيارة عيادة / عرض حضوري</li>
+          <li>اعتراضات شائعة + إجابات</li>
+          <li>FAQ ضخم مصنّف</li>
+          <li>عملية تسجيل الطبيب خطوة بخطوة</li>
+          <li>قائمة تحقق يومية</li>
+          <li>ممنوع / مسموح في الوعود</li>
+          <li>قاموس مصطلحات</li>
+          <li>تصعيد وبيانات التواصل</li>
+          <li>ملحق: روابط سريعة + نصوص جاهزة</li>
+        </ol>
+      </div>
+    </div>
+    <div class="page-footer">
+      <span>ملامح.ps — داخلي</span>
+      <span>القسم 2</span>
+    </div>
+  </section>
+
+  <!-- ===================== 3. WHAT IS MALAMIH ===================== -->
+  <section class="sheet page">
+    <div class="page-header">
+      <span class="logo-text">ملامح · MALAMIH</span>
+      <span>دليل موظف الماركتنغ · سري</span>
+    </div>
+    <div class="content">
+      <h1 class="section-title">3. ما هي ملامح؟ الهوية والرؤية والجمهور</h1>
+
+      <p class="lead">
+        <strong>ملامح</strong> منصة فلسطينية متخصصة في صحة وجمال الوجه:
+        دليل أطباء + حجز مواعيد + عروض + بطاقة خصم + إعلانات —
+        عبر الموقع <span class="url">https://www.malamih.ps</span> والتطبيق.
+      </p>
+
+      <h2>الهوية في جملة واحدة (احفظها)</h2>
+      <blockquote class="script" style="white-space:normal">
+        «ملامح — دليلك لصحة وجمال الوجه في فلسطين. نجمع المرضى بالعيادات المناسبة في تخصصات الوجه، بملف واضح وحجز منظم.»
+      </blockquote>
+
+      <h2>الرؤية</h2>
+      <p>أن تصبح «ملامح» الكلمة الأولى عندما يبحث الفلسطيني عن طبيب أسنان، جلدية، تجميل، عيون، أو أنف وأذن وحنجرة — بثقة وتنظيم بدلاً من فوضى فيسبوك وواتساب.</p>
+
+      <h2>التخصصات الأساسية</h2>
+      <table>
+        <thead><tr><th>التخصص</th><th>أمثلة خدمات يذكرها المريض</th><th>ملاحظة للموظف</th></tr></thead>
+        <tbody>
+          <tr><td>أسنان</td><td>تبييض، زراعة، تقويم، علاج جذور</td><td>طلب عالٍ — ابدأ به غالباً</td></tr>
+          <tr><td>جلدية</td><td>حبوب، ليزر، تصبغات</td><td>مناسب للعروض والصور</td></tr>
+          <tr><td>تجميل</td><td>فيلر، بوتوكس، مراكز تجميل</td><td>حساس للإعلانات والظهور</td></tr>
+          <tr><td>عيون</td><td>فحص نظر، عمليات، عدسات</td><td>يؤكد الاحترافية والثقة</td></tr>
+          <tr><td>أنف وأذن وحنجرة</td><td>جيوب، لوز، سمع</td><td>أقل ضجيجاً على السوشيال — فرصة ملامح أكبر</td></tr>
+        </tbody>
+      </table>
+
+      <h2>التغطية الجغرافية</h2>
+      <p>مدن وبلدات <strong>الضفة الغربية وقطاع غزة</strong>. عند الحديث مع الطبيب: لا تقل «نغطي كل فلسطين بنفس الكثافة اليوم» — قل «المنصة مفتوحة لجميع المدن، والظهور ينمو مع تسجيل العيادات والمرضى في منطقتكم».</p>
+
+      <h2>الجمهور الثلاثة</h2>
+      <div class="grid-2">
+        <div class="card">
+          <h3>1) المريض / المراجع</h3>
+          <ul>
+            <li>يبحث عن طبيب موثوق قريب</li>
+            <li>يريد مقارنة سريعة (مدينة + تخصص)</li>
+            <li>يحجز أو يطلب موعداً</li>
+            <li>يتابع عروضاً وبطاقة خصم</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>2) الطبيب / العيادة</h3>
+          <ul>
+            <li>يريد ظهور منظم غير عشوائي</li>
+            <li>ملف احترافي + حجوزات</li>
+            <li>باقات وإعلانات مدفوعة</li>
+            <li>بوابة طبيب لإدارة الطلبات</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card teal" style="margin-top:4px">
+        <h3>3) الشريك (سوق / متجر / إعلان)</h3>
+        <p style="margin:0">مورّدو مستلزمات، متاجر، حملات إعلانية داخل المنصة والسوق — قنوات إيراد موازية لا تخلطها مع اشتراك الطبيب إلا إذا سأل.</p>
+      </div>
+
+      <h2>لماذا يختار الطبيب ملامح وليس فيسبوك فقط؟</h2>
+      <ul>
+        <li><strong>تخصص دقيق:</strong> المريض يدخل يبحث عن تخصص الوجه — ليس منشوراً ضائعاً.</li>
+        <li><strong>ملف ثابت:</strong> عنوان، دوام، واتساب، صور، خدمات — يبقى ظاهراً.</li>
+        <li><strong>قناة حجز منظمة:</strong> طلبات تصل العيادة للمراجعة.</li>
+        <li><strong>ثقة المنصة:</strong> مراجعة إدارية للبيانات قبل شارة التحقق (عند الاستحقاق).</li>
+      </ul>
+
+      <div class="callout callout-warn">
+        <div class="callout-title">تحذير تموضع</div>
+        لا تصف ملامح كـ«بديل عن عيادتك على فيسبوك». صفها كـ<strong>قناة اكتشاف وحجز مكمّلة</strong> تزيد المرضى الجادّين وتنظّم الطلبات.
+      </div>
+    </div>
+    <div class="page-footer">
+      <span>ملامح.ps — داخلي</span>
+      <span>القسم 3</span>
+    </div>
+  </section>
+
+  <!-- ===================== 4. PRODUCT MAP ===================== -->
+  <section class="sheet page">
+    <div class="page-header">
+      <span class="logo-text">ملامح · MALAMIH</span>
+      <span>دليل موظف الماركتنغ · سري</span>
+    </div>
+    <div class="content">
+      <h1 class="section-title">4. خريطة المنتج الكاملة (مريض / طبيب / شريك)</h1>
+
+      <p class="lead">استخدم الروابط التالية كما هي. الأساس دائماً: <span class="url">https://www.malamih.ps</span></p>
+
+      <h2>أ) مسار المريض</h2>
+      <table>
+        <thead><tr><th>الاحتياج</th><th>ماذا يجد</th><th>رابط / مكان</th></tr></thead>
+        <tbody>
+          <tr><td>البحث عن طبيب</td><td>بحث حسب تخصص ومدينة</td><td>الموقع / التطبيق — قسم الأطباء</td></tr>
+          <tr><td>ملف الطبيب</td><td>معلومات، دوام، تواصل، حجز</td><td>صفحة الطبيب</td></tr>
+          <tr><td>طلب موعد</td><td>نموذج حجز = طلب قيد المراجعة</td><td>من ملف الطبيب</td></tr>
+          <tr><td>عروض</td><td>عروض العيادات والإعلانات</td><td>قسم العروض / الإعلانات</td></tr>
+          <tr><td>بطاقة الخصم</td><td>طلب بطاقة → تفعيل إداري</td><td>منصة بطاقة الخصم</td></tr>
+          <tr><td>محتوى تثقيفي</td><td>مجلة / مقالات</td><td>الموقع</td></tr>
+        </tbody>
+      </table>
+
+      <h2>ب) مسار الطبيب / العيادة</h2>
+      <table>
+        <thead><tr><th>الخطوة</th><th>الرابط</th><th>الغرض</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>الانضمام كشريك / عيادة</td>
+            <td><span class="url">https://www.malamih.ps/join</span></td>
+            <td>نموذج انضمام أولي</td>
+          </tr>
+          <tr>
+            <td>تسجيل طبيب</td>
+            <td><span class="url">https://www.malamih.ps/doctors/register</span></td>
+            <td>إنشاء حساب/طلب تسجيل</td>
+          </tr>
+          <tr>
+            <td>الباقات والأسعار</td>
+            <td><span class="url">https://www.malamih.ps/subscriptions</span></td>
+            <td>عرض الباقات وطلب اشتراك</td>
+          </tr>
+          <tr>
+            <td>الإعلان</td>
+            <td><span class="url">https://www.malamih.ps/advertise</span></td>
+            <td>طلب إعلان مميز / حملة</td>
+          </tr>
+          <tr>
+            <td>دخول بوابة الطبيب</td>
+            <td><span class="url">https://www.malamih.ps/doctor/login</span></td>
+            <td>إدارة الملف والحجوزات</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>ج) مسار الشريك / السوق</h2>
+      <ul>
+        <li>إعلانات السوق: باقة عادية <strong>50₪</strong> · ممولة <strong>120₪</strong>.</li>
+        <li>وجّه الاستفسارات التجارية غير الطبية للإدارة مع بيانات المعلن.</li>
+        <li>لا تخلط سعر إعلان السوق مع «إعلان مميز» للعيادة ($50) إلا بعد توضيح الفرق.</li>
+      </ul>
+
+      <h2>خريطة القدرات — ماذا يعمل الآن؟</h2>
+      <table>
+        <thead><tr><th>الميزة</th><th>الحالة</th><th>ماذا تقول للطبيب</th></tr></thead>
+        <tbody>
+          <tr><td>دليل الأطباء والملفات</td><td><span class="tag tag-ok">مفعّل</span></td><td>نعم — أساس المنصة</td></tr>
+          <tr><td>طلب حجز أونلاين</td><td><span class="tag tag-ok">مفعّل</span></td><td>نعم — كطلب مراجعة للعيادة (يتطلب باقة مميزة أو حساب بوابة)</td></tr>
+          <tr><td>بوابة الطبيب</td><td><span class="tag tag-ok">مفعّل</span></td><td>نعم — عبر /doctor/login</td></tr>
+          <tr><td>باقات اشتراك</td><td><span class="tag tag-ok">مفعّل</span></td><td>طلب من الموقع → تفعيل إداري</td></tr>
+          <tr><td>إعلانات وعروض</td><td><span class="tag tag-ok">مفعّل</span></td><td>نعم — عبر /advertise والإدارة</td></tr>
+          <tr><td>بطاقة الخصم</td><td><span class="tag tag-ok">مفعّل</span></td><td>المريض يطلب · الأدمن يفعّل · تظهر عند الحجز</td></tr>
+          <tr><td>تطبيق موبايل</td><td><span class="tag tag-ok">مفعّل</span></td><td>موجود — موجّه للمريض والطبيب</td></tr>
+          <tr><td>شات بوت ذكاء اصطناعي</td><td><span class="tag tag-danger">مخفي حالياً</span></td><td><strong>لا تعد به</strong> إلا إذا طلبت الإدارة ذلك صراحة</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout callout-info">
+        <div class="callout-title">جملة منتج جاهزة (30 ثانية)</div>
+        «ملامح منصة فلسطينية للأطباء في تخصصات الوجه: ملفكم يظهر للمرضى حسب المدينة والتخصص، مع إمكانية استقبال طلبات حجز منظمة عبر البوابة، وعروض وإعلانات عند الحاجة — الأسعار على صفحة الاشتراكات.»
+      </div>
+    </div>
+    <div class="page-footer">
+      <span>ملامح.ps — داخلي</span>
+      <span>القسم 4</span>
+    </div>
+  </section>
+
+  <!-- ===================== 5. PACKAGES ===================== -->
+  <section class="sheet page">
+    <div class="page-header">
+      <span class="logo-text">ملامح · MALAMIH</span>
+      <span>دليل موظف الماركتنغ · سري</span>
+    </div>
+    <div class="content">
+      <h1 class="section-title">5. الباقات والأسعار بالتفصيل + ماذا تفعّل كل باقة</h1>
+
+      <div class="callout callout-gold">
+        <div class="callout-title">قاعدة تسعير</div>
+        انطق الأسعار كما هي. لا تخصم ولا تضف «عرضاً» إلا بموافقة إدارة مكتوبة/واضحة لذلك اليوم.
+        الدفع الإلكتروني غير مدمج كمسار تلقائي للموظف: العميل يطلب → الإدارة تفعّل بعد الاتفاق.
+      </div>
+
+      <h2>باقات اشتراك الطبيب (سنوية / إعلان)</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>الباقة</th>
+            <th>السعر</th>
+            <th>المدة</th>
+            <th>ماذا تفعّل عملياً</th>
+            <th>لمن تناسب؟</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>الدليل</strong></td>
+            <td class="price-tag">$100 / سنة</td>
+            <td>سنوي</td>
+            <td>
+              ظهور في الدليل ضمن التخصص/المدينة، ملف أساسي قابل للاكتشاف.
+              مناسبة للبدء والحضور الرقمي المنظم.
+            </td>
+            <td>طبيب يريد حضوراً أساسياً دون كامل مزايا الحجز المتقدمة</td>
+          </tr>
+          <tr>
+            <td><strong>المميزة</strong></td>
+            <td class="price-tag">$300 / سنة</td>
+            <td>سنوي</td>
+            <td>
+              مزايا أعلى في الظهور والتمييز، وتفعيل مسار الحجز الأونلاين ضمن شروط المنتج
+              (الباقة المميزة <em>أو</em> حساب بوابة الطبيب حسب حالة الحساب).
+              الأنسب للعيادات التي تريد طلبات مواعيد منظمة.
+            </td>
+            <td>عيادة تريد حجوزات وتميزاً أوضح</td>
+          </tr>
+          <tr>
+            <td><strong>إعلان مميز</strong></td>
+            <td class="price-tag">$50 / إعلان</td>
+            <td>حسب الحملة/الإعلان</td>
+            <td>
+              إعلان مميز منفصل أو مكمّل للاشتراك — لزيادة الظهور لفترة/حملة.
+              يُدار عبر صفحة الإعلان والإدارة.
+            </td>
+            <td>عيادة لديها عرض موسمي أو افتتاح</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>إعلانات السوق (Marketplace)</h2>
+      <div class="grid-2">
+        <div class="card">
+          <h3>إعلان عادي</h3>
+          <div class="price-row"><span>السعر</span><span class="price-tag">50₪</span></div>
+          <p style="margin-top:8px;margin-bottom:0">ظهور أساسي داخل قناة السوق/الإعلانات حسب ترتيب المنصة.</p>
+        </div>
+        <div class="card gold">
+          <h3>إعلان ممول</h3>
+          <div class="price-row"><span>السعر</span><span class="price-tag">120₪</span></div>
+          <p style="margin-top:8px;margin-bottom:0">أولوية/دعم ظهور أعلى من العادي ضمن سياسات العرض الحالية.</p>
+        </div>
+      </div>
+
+      <h2>مقارنة سريعة تُعرض شفهياً</h2>
+      <table>
+        <thead><tr><th>السؤال</th><th>الدليل $100</th><th>المميزة $300</th><th>+ إعلان $50</th></tr></thead>
+        <tbody>
+          <tr><td>الظهور في الدليل</td><td>نعم</td><td>نعم + تمييز أعلى</td><td>دفعة ظهور إضافية</td></tr>
+          <tr><td>استقبال حجوزات أونلاين</td><td>حسب حالة الحساب/البوابة</td><td>مسار مدعوم بالباقة المميزة</td><td>لا يغني عن الاشتراك</td></tr>
+          <tr><td>عرض موسمي سريع</td><td>محدود</td><td>أفضل مع الملف الكامل</td><td>الأنسب للحملة القصيرة</td></tr>
+        </tbody>
+      </table>
+
+      <h2>كيف تتم عملية الاشتراك؟ (اشرحها للطبيب)</h2>
+      <ol>
+        <li>يطلع على الأسعار من <span class="url">/subscriptions</span>.</li>
+        <li>يقدّم طلب اشتراك من الصفحة أو عبرك (الموظف).</li>
+        <li>تتفقون على الباقة ووسيلة الدفع مع الإدارة.</li>
+        <li>الإدارة تفعّل الاشتراك من لوحة التحكم.</li>
+        <li>تتأكد أن الملف مكتمل (صورة، عنوان، تخصص، تواصل، دوام).</li>
+      </ol>
+
+      <div class="callout callout-info">
+        <div class="callout-title">جملة إغلاق سعري</div>
+        «باقة الدليل مئة دولار سنوياً للظهور المنظم، والمميزة ثلاثمئة دولار سنوياً إذا كنتم تريدون مساراً أقوى للحجوزات والتميّز. والإعلان المميز خمسون دولاراً للحملة. أرسل لكم رابط الصفحة الآن وتختارون الأنسب.»
+      </div>
+
+      <h2>ملاحظات تشغيلية للموظف</h2>
+      <ul>
+        <li>لا تقل «مجاني للأبد» أو «مجاني ثم ندفع لاحقاً» إلا ضمن حملة رسمية محددة المدة من الإدارة.</li>
+        <li>عند المقارنة مع فيسبوك: قارن <em>قيمة القناة المنظمة</em> لا عدد المتابعين.</li>
+        <li>إذا سأل عن أقساط/خصم مؤسسي: سجّل الطلب وصعّد — لا تبتكر سعراً.</li>
+      </ul>
+    </div>
+    <div class="page-footer">
+      <span>ملامح.ps — داخلي</span>
+      <span>القسم 5</span>
+    </div>
+  </section>
+
+  <!-- ===================== 6. PHONE SCRIPT ===================== -->
+  <section class="sheet page">
+    <div class="page-header">
+      <span class="logo-text">ملامح · MALAMIH</span>
+      <span>دليل موظف الماركتنغ · سري</span>
+    </div>
+    <div class="content">
+      <h1 class="section-title">6. سكربت اتصال هاتفي (افتتاح · عرض قيمة · إغلاق)</h1>
+
+      <p class="lead">المكالمة الناجحة: 60–120 ثانية للتعريف + سؤالين تشخيصيين + عرض باقة واحدة مناسبة + خطوة تالية واضحة. لا تقرأ كروبوت — تكيّف مع رد الطبيب مع الحفاظ على الحقائق.</p>
+
+      <h2>قبل الاتصال (30 ثانية)</h2>
+      <ul class="checklist">
+        <li>اسم العيادة / الطبيب / التخصص / المدينة</li>
+        <li>هل لديه ملف على ملامح مسبقاً؟</li>
+        <li>الباقة المقترحة الابتدائية (دليل أو مميزة)</li>
+        <li>رابط /subscriptions جاهز للإرسال على واتساب</li>
+      </ul>
+
+      <h3><span class="script-label">1) الافتتاح</span></h3>
+      <blockquote class="script">السلام عليكم دكتور/ة [الاسم]، معك [اسمك] من منصة ملامح.ps.
+باتصل بشكل مختصر بخصوص ظهور عيادتكم للمرضى اللي بيدوروا على [التخصص] في [المدينة].
+معك دقيقة؟</blockquote>
+
+      <h3><span class="script-label">إذا مشغول</span></h3>
+      <blockquote class="script">تمام، ببعتلكم رسالة واتساب فيها الفكرة والرابط، وبنتابع بوقت يناسبكم. أي وقت أفضل؟</blockquote>
+
+      <h3><span class="script-label">2) سؤالان تشخيصيان</span></h3>
+      <blockquote class="script">سؤال سريع: حالياً أغلب مرضاكم بيوصلوا كيف؟ فيسبوك، توصية، ولا بحث؟
+وهل بتستقبلوا طلبات مواعيد أونلاين ولا كله على الهاتف؟</blockquote>
+
+      <h3><span class="script-label">3) عرض القيمة (حسب الرد)</span></h3>
+      <blockquote class="script">ملامح دليل فلسطيني متخصص لصحة وجمال الوجه — أسنان، جلدية، تجميل، عيون، وأنف وأذن.
+الملف بيظهر حسب المدينة والتخصص، وفي مسار منظم لطلبات الحجز يراجعها طاقم العيادة.
+مو بديل عن صفحتكم — قناة إضافية مرتبة للمرضى الجادّين.</blockquote>
+
+      <h3><span class="script-label">4) ربط بالباقة</span></h3>
+      <blockquote class="script">للبدء المنظم: باقة الدليل 100 دولار سنوياً.
+إذا بدكم مسار حجوزات أقوى وتميّز أوضح: الباقة المميزة 300 دولار سنوياً.
+وفي إعلان مميز بـ 50 دولار للحملات.
+التفاصيل على صفحة الاشتراكات، والتفعيل بعد الاتفاق مع الإدارة.</blockquote>
+
+      <h3><span class="script-label">5) الإغلاق + الخطوة التالية</span></h3>
+      <blockquote class="script">خلينا نعمل خطوة بسيطة اليوم:
+1) ببعت رابط الاشتراكات والتسجيل على واتساب.
+2) بتختاروا الباقة المناسبة.
+3) بنجهّز الملف (صورة، عنوان، دوام، رقم) ونفعّل مع الإدارة.
+يناسبكم أرسل الآن؟</blockquote>
+
+      <h3><span class="script-label">إغلاق بعد اهتمام ناعم</span></h3>
+      <blockquote class="script">ممتاز. برسل الآن الملخص والروابط. إذا حابب نزور العيادة أو نعمل مكالمة قصيرة مع المدير/ة الإداري، حدّدولي يوم.</blockquote>
+
+      <h3><span class="script-label">إغلاق بعد رفض مؤقت</span></h3>
+      <blockquote class="script">تمام أحترم وقتكم. ببعت رسالة تعريفية قصيرة للمرجع، وإذا احتجتوا ظهور مرتب للمرضى نحن جاهزين. يومكم سعيد.</blockquote>
+
+      <h2>أخطاء شائعة في المكالمة</h2>
+      <ul>
+        <li>الكلام عن الشات بوت أو ميزات غير مفعّلة.</li>
+        <li>القول إن شارة التحقق = ترخيص وزارة الصحة تلقائياً.</li>
+        <li>القول إن الحجز يتأكد لوحده بدون مراجعة العيادة.</li>
+        <li>مقاطعة الطبيب أو الضغط الزائد في أول مكالمة.</li>
+      </ul>
+    </div>
+    <div class="page-footer">
+      <span>ملامح.ps — داخلي</span>
+      <span>القسم 6</span>
+    </div>
+  </section>
+
+  <!-- ===================== 7. WHATSAPP SCRIPTS ===================== -->
+  <section class="sheet page">
+    <div class="page-header">
+      <span class="logo-text">ملامح · MALAMIH</span>
+      <span>دليل موظف الماركتنغ · سري</span>
+    </div>
+    <div class="content">
+      <h1 class="section-title">7. سكربت واتساب جاهز للنسخ</h1>
+      <p class="lead">انسخ كما هو ثم استبدل الحقول بين أقواس. أرسل أول رسالة قصيرة. لا ترسل فقرات طويلة دفعة واحدة.</p>
+
+      <h3><span class="script-label">أول رسالة — بعد اتصال أو بدون اتصال</span></h3>
+      <blockquote class="script">السلام عليكم دكتور/ة [الاسم] 👋
+معكم [اسمك] من منصة ملامح.ps
+دليل فلسطيني متخصص لتخصصات صحة وجمال الوجه (أسنان · جلدية · تجميل · عيون · أنف وأذن).
+
+هدفنا ظهور مرتب لعيادتكم للمرضى حسب المدينة والتخصص، مع مسار طلبات حجز منظمة.
+
+روابط سريعة:
+• المنصة: https://www.malamih.ps
+• الباقات: https://www.malamih.ps/subscriptions
+• الانضمام: https://www.malamih.ps/join
+• تسجيل طبيب: https://www.malamih.ps/doctors/register
+
+الباقات:
+• الدليل: 100$ / سنة
+• المميزة: 300$ / سنة
+• إعلان مميز: 50$ / إعلان
+
+إذا ناسبكم، نبدأ بتجهيز الملف خلال دقائق.</blockquote>
+
+      <h3><span class="script-label">متابعة — بعد 48–72 ساعة بدون رد</span></h3>
+      <blockquote class="script">دكتور/ة [الاسم]، متابعة لطيفة من ملامح 🌿
+حابين نتأكد وصلكم الملخص.
+إذا الوقت مش مناسب هالأيام، خبرونا أنسب وقت لمكالمة دقيقتين أو زيارة قصيرة للعيادة.
+رابط الباقات: https://www.malamih.ps/subscriptions</blockquote>
+
+      <h3><span class="script-label">بعد إبداء الاهتمام</span></h3>
+      <blockquote class="script">ممتاز دكتور/ة [الاسم]
+عشان نفعّل بسرعة، نحتاج:
+1) الاسم الثلاثي كما سيظهر
+2) التخصص + المدينة/العنوان
+3) رقم واتساب العيادة
+4) ساعات الدوام
+5) صورة شخصية أو شعار العيادة (إن توفر)
+6) الباقة المختارة: دليل 100$ أو مميزة 300$
+
+بعدها نجهّز الطلب مع الإدارة للتفعيل.
+دخول البوابة لاحقاً: https://www.malamih.ps/doctor/login</blockquote>
+
+      <h3><span class="script-label">بعد اختيار الباقة المميزة</span></h3>
+      <blockquote class="script">تم — الباقة المميزة 300$ سنوياً.
+الخطوة التالية: إكمال بيانات الملف + الاتفاق على التفعيل مع الإدارة.
+ملاحظة مهمة للمرضى: طلب الحجز الأونلاين يصل كـ«طلب» لمراجعة العيادة، مش تأكيد نهائي تلقائي.
+أي سؤال قبل الإرسال؟</blockquote>
+
+      <h3><span class="script-label">عرض إعلان مميز</span></h3>
+      <blockquote class="script">إذا عندكم عرض/افتتاح قريب، في خيار إعلان مميز بـ 50$.
+التفاصيل وطلب الإعلان:
+https://www.malamih.ps/advertise
+نبعتلكم متطلبات الصورة والنص بعد التأكيد.</blockquote>
+
+      <h3><span class="script-label">رسالة بعد الرفض المهذب</span></h3>
+      <blockquote class="script">شكراً لوقتكم دكتور/ة [الاسم].
+إذا حابين لاحقاً ظهور منظم لمرضى يدوروا على [التخصص] في [المدينة]، نحن جاهزين.
+المنصة: https://www.malamih.ps
+يومكم سعيد.</blockquote>
+
+      <h3><span class="script-label">رسالة تأكيد داخلية لنفسك (بعد الاتفاق)</span></h3>
+      <blockquote class="script">ملخص اتفاق — أرسل للإدارة:
+الطبيب: …
+العيادة: …
+المدينة/التخصص: …
+الباقة: دليل 100$ / مميزة 300$ / إعلان 50$
+رقم التواصل: …
+ملاحظات: …
+الموظف: … | التاريخ: …</blockquote>
+    </div>
+    <div class="page-footer">
+      <span>ملامح.ps — داخلي</span>
+      <span>القسم 7</span>
+    </div>
+  </section>
+
+  <!-- ===================== 8. CLINIC VISIT ===================== -->
+  <section class="sheet page">
+    <div class="page-header">
+      <span class="logo-text">ملامح · MALAMIH</span>
+      <span>دليل موظف الماركتنغ · سري</span>
+    </div>
+    <div class="content">
+      <h1 class="section-title">8. سكربت زيارة عيادة / عرض حضوري مختصر</h1>
+
+      <h2>هدف الزيارة (اختر واحداً)</h2>
+      <ul>
+        <li>تعريف + جمع بيانات لتسجيل أولي، أو</li>
+        <li>إغلاق باقة محددة، أو</li>
+        <li>حل اعتراض بعد مكالمة سابقة.</li>
+      </ul>
+
+      <h2>عدة الميدان</h2>
+      <ul class="checklist">
+        <li>هاتف فيه الموقع والتطبيق يعملان</li>
+        <li>رابط /subscriptions و /join جاهزان</li>
+        <li>بطاقة عمل / QR للمنصة إن توفر</li>
+        <li>دفتر ملاحظات لحقول التسجيل</li>
+        <li>معرفة أسعار السوق (50₪ / 120₪) إن سُئلت</li>
+      </ul>
+
+      <h3><span class="script-label">هيكل العرض (7–10 دقائق)</span></h3>
+      <ol>
+        <li><strong>دقيقة 0–1:</strong> تقديم + سبب الزيارة (ظهور مرضى التخصص في المدينة).</li>
+        <li><strong>دقيقة 1–3:</strong> اعرض الموقع على الهاتف: بحث تخصص → مدينة → ملف طبيب مشابه.</li>
+        <li><strong>دقيقة 3–5:</strong> اشرح الحجز كطلب مراجعة + بوابة الطبيب.</li>
+        <li><strong>دقيقة 5–7:</strong> الأسعار الثلاثة بوضوح + صفحة الاشتراكات.</li>
+        <li><strong>دقيقة 7–10:</strong> اسأل قراراً صغيراً: «نبدأ بالدليل أم المميزة؟» ثم اجمع البيانات.</li>
+      </ol>
+
+      <blockquote class="script">دكتور/ة، بجولة سريعة على الموبايل:
+المريض يختار التخصص والمدينة → يشوف الملف → يبعت طلب موعد.
+الطلب يوصلكم للمراجعة قبل التأكيد.
+هذا فرقنا عن منشور فيسبوك يضيع خلال ساعات.</blockquote>
+
+      <h2>إن حضر المدير الإداري وليس الطبيب</h2>
+      <ul>
+        <li>قدّم نفس العرض باختصار تشغيلي (تنظيم المواعيد + الظهور).</li>
+        <li>اترك ملخص واتساب + اطلب موعد قرار مع الطبيب خلال 48 ساعة.</li>
+        <li>لا تضغط على توقيع فوري من شخص غير مخوّل.</li>
+      </ul>
+
+      <h2>بعد الزيارة (نفس اليوم)</h2>
+      <ol>
+        <li>أرسل ملخص واتساب بما اتفقتم عليه.</li>
+        <li>أدخل البيانات في نموذجك الداخلي.</li>
+        <li>إن وُجد اتفاق: صعّد للإدارة للتفعيل (قسم 11 و15).</li>
+        <li>سجّل موعد المتابعة في قائمتك اليومية.</li>
+      </ol>
+
+      <div class="callout callout-warn">
+        <div class="callout-title">آداب العيادة</div>
+        لا تصوّر المرضى أو داخل العيادة دون إذن. لا تنتقد منافساً بالاسم. اخفض الصوت في غرفة الانتظار. إن كان الطبيب مع مريض — انتظر أو أعد الجدولة.
+      </div>
+    </div>
+    <div class="page-footer">
+      <span>ملامح.ps — داخلي</span>
+      <span>القسم 8</span>
+    </div>
+  </section>
+
+  <!-- ===================== 9. OBJECTIONS ===================== -->
+  <section class="sheet page">
+    <div class="page-header">
+      <span class="logo-text">ملامح · MALAMIH</span>
+      <span>دليل موظف الماركتنغ · سري</span>
+    </div>
+    <div class="content">
+      <h1 class="section-title">9. اعتراضات شائعة + إجابات جاهزة</h1>
+      <p class="lead">الصيغة: اعترف → أعد صياغة الحاجة → أجب بحقيقة المنتج → اسأل سؤالاً صغيراً للإبقاء على الحوار.</p>
+
+      <table>
+        <thead><tr><th>الاعتراض</th><th>إجابة جاهزة</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>غالي</strong></td>
+            <td>أقدّر ملاحظة السعر. الدليل 100$ سنوياً — أقل من تكلفة إعلان عشوائي قصير أحياناً، مقابل ملف ثابت طوال السنة. نقدر نبدأ بالدليل ونرقّي للمميزة لاحقاً إذا احتجتوا حجوزات أقوى. أي جزء بالتحديد شايفينه مرتفع؟</td>
+          </tr>
+          <tr>
+            <td><strong>عندي صفحة فيسبوك</strong></td>
+            <td>ممتاز، خلّوها. ملامح مش بديل؛ هي قناة بحث مرتبة حسب تخصص ومدينة. المريض اللي بدور «طبيب جلدية في نابلس» بلاقي ملف ثابت، مش منشور يختفي. نكمّل بعض.</td>
+          </tr>
+          <tr>
+            <td><strong>مش محتاج حجز أونلاين</strong></td>
+            <td>ممكن تبدأوا بباقة الدليل للظهور فقط. وإذا تغيّر الاحتياج، المميزة تضيف مساراً أقوى للطلبات. كثير عيادات تبقى على الهاتف لكن تحب تستلم طلباً مكتوباً خارج ساعات الذروة.</td>
+          </tr>
+          <tr>
+            <td><strong>بدي مجاني</strong></td>
+            <td>ما في اشتراك سنوي مجاني مفتوح حالياً إلا ضمن حملة رسمية تحددها الإدارة. بقدر أسجّل اهتمامكم وأي عرض مؤقت إن وجد، لكن السعر المعتمد: 100$ / 300$ / إعلان 50$.</td>
+          </tr>
+          <tr>
+            <td><strong>مين يشوف المنصة؟</strong></td>
+            <td>المنصة موجهة لمرضى يبحثون عن تخصصات الوجه في فلسطين عبر الموقع والتطبيق. الظهور ينمو مع اكتمال الملفات والمحتوى والحملات. نركز على جودة الملف في مدينتكم وتخصصكم.</td>
+          </tr>
+          <tr>
+            <td><strong>بيانات المرضى؟ خصوصية؟</strong></td>
+            <td>طلبات الحجز تصل لغرض التنسيق مع العيادة. لا نطلب منكم مشاركة ملفات طبية سريرية كاملة على المنصة. أي تفاصيل تشغيلية إضافية تُدار وفق سياسة المنصة — وإن لزم نربطكم بالإدارة.</td>
+          </tr>
+          <tr>
+            <td><strong>في منافسة / في أدلة ثانية</strong></td>
+            <td>صحيح في قنوات عامة. تميز ملامح: تخصص صحة وجمال الوجه + حجز منظم + باقات وإعلانات موجهة لعيادتكم. القرار مش «مين الأكبر عالمياً» بل «وين مريض تخصصكم بيدور محلياً».</td>
+          </tr>
+          <tr>
+            <td><strong>غزة / الضفة — التغطية ضعيفة؟</strong></td>
+            <td>المنصة مفتوحة للضفة وغزة. الكثافة تختلف حسب تسجيل العيادات والنشاط. وجودكم المبكر يعطي أولوية محلية مع نمو المنطقة. نسجّلكم بشكل صحيح ونكمّل الملف.</td>
+          </tr>
+          <tr>
+            <td><strong>متى أظهر بعد الدفع؟</strong></td>
+            <td>بعد الاتفاق واستلام الطلب واكتمال البيانات، الإدارة تفعّل الاشتراك. سرعة الظهور تعتمد على اكتمال الملف والمراجعة. عشان هيك نجهّز الصورة والعنوان والدوام من أول يوم.</td>
+          </tr>
+          <tr>
+            <td><strong>أقدر أوقف الاشتراك؟</strong></td>
+            <td>الاشتراك سنوي حسب الباقة المتفق عليها. إيقاف التجديد أو حالات خاصة تُناقش مع الإدارة حسب الاتفاق. بقدر أحيل طلبكم للإدارة للرد الرسمي.</td>
+          </tr>
+          <tr>
+            <td><strong>مش واثق من المنصة الجديدة</strong></td>
+            <td>منطقي. عشان هيك في صفحة باقات واضحة وتسجيل منظم ومراجعة إدارية للملفات. نقدر نبدأ بخطوة صغيرة (الدليل أو إعلان) بدل التزام كبير، مع شفافية كاملة باللي شغال اليوم.</td>
+          </tr>
+          <tr>
+            <td><strong>بدي ضمان عدد مرضى</strong></td>
+            <td>ما بنقدر نضمن رقم مرضى ثابت — أي وعد من هذا النوع غير مسموح. بنقدر نلتزم بوضوح الظهور، اكتمال الملف، ومسار الطلبات، ودعم التفعيل. النتائج تعتمد أيضاً على تردد العيادة والعرض والمدينة.</td>
+          </tr>
+          <tr>
+            <td><strong>عندي تطبيق/موقع خاص</strong></td>
+            <td>ممتاز. ملامح قناة اكتشاف إضافية تجيب مريضاً يبحث ضمن دليل متخصص، ثم يكمل عندكم. مش شرط تلغوا قنواتكم.</td>
+          </tr>
+          <tr>
+            <td><strong>التحقق يعني مرخّص رسمياً؟</strong></td>
+            <td>لا. شارة التحقق تعني أن الإدارة راجعت بيانات الملف على المنصة. ليست معادلاً تلقائياً لترخيص حكومي. الرخص الرسمية تبقى مسؤولية العيادة/الطبيب.</td>
+          </tr>
+          <tr>
+            <td><strong>الحجز يتأكد لحاله؟</strong></td>
+            <td>لا. الحجز من المريض هو طلب بانتظار مراجعة العيادة/الطاقم. هذا يحمي جدولكم من مواعيد غير مناسبة.</td>
+          </tr>
+          <tr>
+            <td><strong>ليش أدفع وإعلانات فيسبوك أرخص؟</strong></td>
+            <td>إعلان فيسبوك يتوقف مع توقف الميزانية والمنشور. ملف الدليل يبقى سنة كاملة كقناة بحث. ممكن تستخدموا الاثنين: فيسبوك للحملة وملامح للأساس.</td>
+          </tr>
+          <tr>
+            <td><strong>بدي بس إعلان بدون اشتراك</strong></td>
+            <td>ممكن مناقشة إعلان مميز بـ 50$ عبر /advertise. أنسبكم حسب الهدف: حملة قصيرة ولا حضور سنوي؟ نوجهكم للخيار الأدق.</td>
+          </tr>
+          <tr>
+            <td><strong>السوق الطبي مش نفس العيادة</strong></td>
+            <td>صحيح. إعلانات السوق (50₪ / 120₪) قناة مختلفة عن باقات الطبيب. إذا كنتم مورّد/متجر نحول الطلب لمسار السوق مع الإدارة.</td>
+          </tr>
+          <tr>
+            <td><strong>أرسلوا لي عرضاً مكتوباً</strong></td>
+            <td>حاضر — برسل واتساب فيه الباقات والروابط وملخص التفعيل. أي بند تحتاجون تعديله للعرض الرسمي أصعّده للإدارة.</td>
+          </tr>
+          <tr>
+            <td><strong>كلموني لاحقاً / بعد الموسم</strong></td>
+            <td>تمام. أحدد معكم تاريخ متابعة واضح [يوم/أسبوع]. وببعت الملخص الآن عشان يبقى مرجع عندكم.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="page-footer">
+      <span>ملامح.ps — داخلي</span>
+      <span>القسم 9</span>
+    </div>
+  </section>
+
+  <!-- ===================== 10. FAQ ===================== -->
+  <section class="sheet page">
+    <div class="page-header">
+      <span class="logo-text">ملامح · MALAMIH</span>
+      <span>دليل موظف الماركتنغ · سري</span>
+    </div>
+    <div class="content">
+      <h1 class="section-title">10. الأسئلة الشائعة (FAQ) — مرجع ضخم</h1>
+      <p class="lead">أكثر من 40 سؤالاً مصنّفة. إن لم تجد الجواب أو طُلب التزام قانوني/مالي خاص: صعّد للإدارة.</p>
+
+      <div class="faq-cat">أ) عن المنصة</div>
+      <div class="faq-item"><div class="faq-q">1. ما هي ملامح؟</div><p class="faq-a">منصة فلسطينية لدليل أطباء تخصصات صحة وجمال الوجه، مع حجز وعروض وإعلانات وبطاقة خصم عبر الموقع والتطبيق.</p></div>
+      <div class="faq-item"><div class="faq-q">2. ما التخصصات المغطاة؟</div><p class="faq-a">أسنان، جلدية، تجميل، عيون، أنف وأذن وحنجرة.</p></div>
+      <div class="faq-item"><div class="faq-q">3. هل تغطي الضفة وغزة؟</div><p class="faq-a">نعم، المنصة مفتوحة لمدن الضفة وقطاع غزة.</p></div>
+      <div class="faq-item"><div class="faq-q">4. ما رابط الموقع؟</div><p class="faq-a"><span class="url">https://www.malamih.ps</span></p></div>
+      <div class="faq-item"><div class="faq-q">5. هل ملامح بديل عن فيسبوك؟</div><p class="faq-a">لا — قناة مكمّلة منظمة للبحث والحجز.</p></div>
+      <div class="faq-item"><div class="faq-q">6. هل يوجد تطبيق؟</div><p class="faq-a">نعم، تطبيق موبايل موجه للمستخدمين والأطباء حسب الدور.</p></div>
+
+      <div class="faq-cat">ب) عن الباقات والأسعار</div>
+      <div class="faq-item"><div class="faq-q">7. ما سعر باقة الدليل؟</div><p class="faq-a">100 دولار سنوياً.</p></div>
+      <div class="faq-item"><div class="faq-q">8. ما سعر الباقة المميزة؟</div><p class="faq-a">300 دولار سنوياً.</p></div>
+      <div class="faq-item"><div class="faq-q">9. ما سعر الإعلان المميز؟</div><p class="faq-a">50 دولاراً لكل إعلان.</p></div>
+      <div class="faq-item"><div class="faq-q">10. أين يرى الطبيب الأسعار؟</div><p class="faq-a"><span class="url">https://www.malamih.ps/subscriptions</span></p></div>
+      <div class="faq-item"><div class="faq-q">11. كيف يُفعَّل الاشتراك؟</div><p class="faq-a">طلب من الصفحة أو عبر الموظف → اتفاق → تفعيل إداري.</p></div>
+      <div class="faq-item"><div class="faq-q">12. هل يمكن خصم خاص؟</div><p class="faq-a">فقط بموافقة الإدارة. الموظف لا يبتكر أسعاراً.</p></div>
+      <div class="faq-item"><div class="faq-q">13. ما أسعار إعلانات السوق؟</div><p class="faq-a">عادي 50₪ · ممول 120₪.</p></div>
+
+      <div class="faq-cat">ج) عن الحجز</div>
+      <div class="faq-item"><div class="faq-q">14. هل الحجز تأكيد فوري؟</div><p class="faq-a">لا — طلب من المريض بانتظار مراجعة العيادة.</p></div>
+      <div class="faq-item"><div class="faq-q">15. متى يتوفر الحجز الأونلاين؟</div><p class="faq-a">يتطلب الباقة المميزة أو حساب بوابة الطبيب وفق إعدادات المنتج.</p></div>
+      <div class="faq-item"><div class="faq-q">16. أين يدخل الطبيب لإدارة الطلبات؟</div><p class="faq-a"><span class="url">https://www.malamih.ps/doctor/login</span></p></div>
+      <div class="faq-item"><div class="faq-q">17. هل يمكن رفض طلب حجز؟</div><p class="faq-a">نعم ضمن صلاحيات العيادة/البوابة — الهدف حماية الجدول.</p></div>
+      <div class="faq-item"><div class="faq-q">18. ماذا لو العيادة لا تريد حجوزات؟</div><p class="faq-a">يمكن التركيز على باقة الدليل للظهور، مع توضيح الحدود.</p></div>
+    </div>
+    <div class="page-footer">
+      <span>ملامح.ps — داخلي</span>
+      <span>القسم 10أ</span>
+    </div>
+  </section>
+
+  <section class="sheet page">
+    <div class="page-header">
+      <span class="logo-text">ملامح · MALAMIH</span>
+      <span>دليل موظف الماركتنغ · سري</span>
+    </div>
+    <div class="content">
+      <h1 class="section-title">10. FAQ (تابع)</h1>
+
+      <div class="faq-cat">د) عن التحقق (Verified)</div>
+      <div class="faq-item"><div class="faq-q">19. ماذا تعني شارة التحقق؟</div><p class="faq-a">أن الإدارة راجعت بيانات الملف على المنصة.</p></div>
+      <div class="faq-item"><div class="faq-q">20. هل التحقق = ترخيص حكومي؟</div><p class="faq-a">لا. ليس تحققاً تلقائياً من ترخيص رسمي حكومي.</p></div>
+      <div class="faq-item"><div class="faq-q">21. من يمنح الشارة؟</div><p class="faq-a">الإدارة بعد المراجعة — ليست تلقائية بمجرد التسجيل.</p></div>
+      <div class="faq-item"><div class="faq-q">22. ماذا أقول إن طلب الطبيب «وثقوني اليوم»؟</div><p class="faq-a">نرسل البيانات للمراجعة الإدارية؛ القرار للإدارة وفق اكتمال الملف.</p></div>
+
+      <div class="faq-cat">هـ) عن بطاقة الخصم</div>
+      <div class="faq-item"><div class="faq-q">23. كيف تعمل بطاقة الخصم؟</div><p class="faq-a">المريض يطلب البطاقة → الإدارة تفعّل → تظهر للطبيب عند الحجز/الطلب وفق النظام.</p></div>
+      <div class="faq-item"><div class="faq-q">24. هل الطبيب ملزم بخصم معيّن؟</div><p class="faq-a">الالتزامات تتم حسب الاتفاق المعتمد مع الإدارة/الشراكة — لا تخترع نسبة.</p></div>
+      <div class="faq-item"><div class="faq-q">25. هل البطاقة بديل عن الاشتراك؟</div><p class="faq-a">لا — مسار ولاء مرضى مكمل، منفصل عن تسعير باقات الظهور.</p></div>
+      <div class="faq-item"><div class="faq-q">26. ماذا أفعل إذا سأل المريض عن البطاقة أثناء زيارة ميدانية؟</div><p class="faq-a">وجّهه للمنصة/التطبيق لطلب البطاقة، ولا تجمع بياناته الطبية.</p></div>
+
+      <div class="faq-cat">و) عن الإعلانات</div>
+      <div class="faq-item"><div class="faq-q">27. أين طلب الإعلان؟</div><p class="faq-a"><span class="url">https://www.malamih.ps/advertise</span></p></div>
+      <div class="faq-item"><div class="faq-q">28. ما الفرق بين إعلان مميز $50 وإعلان سوق؟</div><p class="faq-a">$50 مسار إعلان مميز مرتبط بعرض العيادة/المنصة. السوق: 50₪ عادي أو 120₪ ممول لقناة السوق.</p></div>
+      <div class="faq-item"><div class="faq-q">29. هل الإعلان يغني عن الاشتراك؟</div><p class="faq-a">قد يدعم حملة قصيرة، لكنه لا يعادل حضوراً سنوياً في الدليل.</p></div>
+      <div class="faq-item"><div class="faq-q">30. من يصمم صورة الإعلان؟</div><p class="faq-a">حسب الاتفاق؛ غالباً يزوّد العميل المواد وتراجعها الإدارة قبل النشر.</p></div>
+
+      <div class="faq-cat">ز) عن التطبيق والتجربة</div>
+      <div class="faq-item"><div class="faq-q">31. هل لازم الطبيب يحمّل التطبيق؟</div><p class="faq-a">مفيد لإدارة التنبيهات، ويمكن استخدام البوابة عبر الويب /doctor/login.</p></div>
+      <div class="faq-item"><div class="faq-q">32. هل يوجد شات بوت ذكي للمرضى الآن؟</div><p class="faq-a">الميزة مخفية حالياً — <strong>لا تعد بها في البيع</strong> إلا بتعليمات إدارة صريحة.</p></div>
+      <div class="faq-item"><div class="faq-q">33. هل المنصة تدعم العربية؟</div><p class="faq-a">نعم، التجربة عربية وموجهة للسوق المحلي.</p></div>
+
+      <div class="faq-cat">ح) تقني</div>
+      <div class="faq-item"><div class="faq-q">34. الطبيب نسي كلمة المرور؟</div><p class="faq-a">وجّهه لمسار استعادة الدخول إن وجد، أو صعّد للإدارة مع رقم/إيميل الحساب.</p></div>
+      <div class="faq-item"><div class="faq-q">35. الملف لا يظهر بعد التسجيل؟</div><p class="faq-a">غالباً بانتظار مراجعة/تفعيل أو نقص بيانات. أرسل للإدارة: الاسم + رقم + وقت التسجيل.</p></div>
+      <div class="faq-item"><div class="faq-q">36. خطأ في التخصص أو المدينة؟</div><p class="faq-a">اجمع التصحيح الدقيق وأرسله للإدارة للتعديل — لا تعدّل وعوداً على هواك.</p></div>
+      <div class="faq-item"><div class="faq-q">37. هل يوجد دفع إلكتروني تلقائي للموظف؟</div><p class="faq-a">مسار الموظف: طلب واتفاق ثم تفعيل إداري. لا تخترع بوابة دفع غير معتمدة.</p></div>
+
+      <div class="faq-cat">ط) قانوني / ثقة</div>
+      <div class="faq-item"><div class="faq-q">38. من المسؤول عن صحة الترخيص الطبي؟</div><p class="faq-a">الطبيب/العيادة. المنصة تراجع بيانات الملف ولا تستبدل الجهات الرسمية.</p></div>
+      <div class="faq-item"><div class="faq-q">39. هل ننشر قبل/بعد تجميل دون موافقة؟</div><p class="faq-a">لا. أي صور مرضى تحتاج موافقة واضحة وفق سياسة المحتوى.</p></div>
+      <div class="faq-item"><div class="faq-q">40. هل نضمن نتائج علاجية؟</div><p class="faq-a">ممنوع تماماً. ملامح قناة ظهور وتنظيم مواعيد — ليست جهة طبية علاجية.</p></div>
+      <div class="faq-item"><div class="faq-q">41. بيانات التواصل الرسمية؟</div><p class="faq-a">هاتف/واتساب: 0595537190 · إيميل: ammar.shtayeh@gmail.com · موقع: malamih.ps</p></div>
+
+      <div class="faq-cat">ي) تشغيل داخلي للموظف</div>
+      <div class="faq-item"><div class="faq-q">42. ماذا أكتب في تقرير اليوم؟</div><p class="faq-a">عدد الاتصالات/الزيارات، المهتمون، الاعتراضات، الاتفاقات، وما يحتاج تصعيداً.</p></div>
+      <div class="faq-item"><div class="faq-q">43. متى أصعّد فوراً؟</div><p class="faq-a">طلب خصم غير مصرح، شكوى خصوصية، مشكلة دفع، ادعاء قانوني، أو عطل تقني يمنع التفعيل.</p></div>
+      <div class="faq-item"><div class="faq-q">44. ما الحد الأدنى لبيانات تسجيل طبيب؟</div><p class="faq-a">اسم، تخصص، مدينة/عنوان، هاتف، واتساب، دوام، الباقة المطلوبة، وصورة إن أمكن.</p></div>
+      <div class="faq-item"><div class="faq-q">45. هل أعد بزمن ظهور ثابت (مثلاً خلال ساعة)؟</div><p class="faq-a">لا تضمن زمناً إلا إذا أكدته الإدارة لنفس الحالة.</p></div>
+      <div class="faq-item"><div class="faq-q">46. كيف أرسل للإدارة بشكل صحيح؟</div><p class="faq-a">استخدم قالب ملخص الاتفاق (قسم 7 و16) عبر واتساب/إيميل المعتمد.</p></div>
+      <div class="faq-item"><div class="faq-q">47. رابط واتساب مباشر للمنصة؟</div><p class="faq-a"><span class="url">https://wa.me/9720595537190</span> (الرقم 0595537190).</p></div>
+      <div class="faq-item"><div class="faq-q">48. أين يسجّل الطبيب؟</div><p class="faq-a"><span class="url">/join</span> و <span class="url">/doctors/register</span>.</p></div>
+    </div>
+    <div class="page-footer">
+      <span>ملامح.ps — داخلي</span>
+      <span>القسم 10ب</span>
+    </div>
+  </section>
+
+  <!-- ===================== 11. DOCTOR REGISTRATION ===================== -->
+  <section class="sheet page">
+    <div class="page-header">
+      <span class="logo-text">ملامح · MALAMIH</span>
+      <span>دليل موظف الماركتنغ · سري</span>
+    </div>
+    <div class="content">
+      <h1 class="section-title">11. عملية تسجيل الطبيب خطوة بخطوة</h1>
+
+      <div class="callout callout-info">
+        <div class="callout-title">المبدأ</div>
+        الموظف يجمع بيانات كاملة ودقيقة ويُسهّل الطلب. الإدارة تراجع وتفعّل الحساب/الاشتراك/التحقق عند الاستحقاق.
+      </div>
+
+      <h2>المرحلة أ — تأهيل سريع</h2>
+      <ol>
+        <li>أكد التخصص ضمن نطاق ملامح.</li>
+        <li>أكد المدينة (ضفة/غزة) ورقم تواصل فعّال.</li>
+        <li>حدد الباقة المرغوبة (دليل / مميزة / إعلان).</li>
+        <li>اشرح أن الحجز طلب مراجعة، وأن التحقق إداري وليس ترخيصاً حكومياً.</li>
+      </ol>
+
+      <h2>المرحلة ب — ماذا يجمع الموظف؟ (إلزامي)</h2>
+      <table>
+        <thead><tr><th>الحقل</th><th>مثال / ملاحظة</th><th>إلزامي؟</th></tr></thead>
+        <tbody>
+          <tr><td>الاسم للظهور</td><td>د. … كما سيظهر للمرضى</td><td>نعم</td></tr>
+          <tr><td>اسم العيادة</td><td>إن وجد</td><td>مفضل</td></tr>
+          <tr><td>التخصص</td><td>واحد أساسي على الأقل</td><td>نعم</td></tr>
+          <tr><td>المدينة / العنوان</td><td>تفصيلي قدر الإمكان</td><td>نعم</td></tr>
+          <tr><td>هاتف + واتساب</td><td>رقم يرد فعلياً</td><td>نعم</td></tr>
+          <tr><td>ساعات الدوام</td><td>أيام + فترات</td><td>نعم</td></tr>
+          <tr><td>صورة شخصية/شعار</td><td>وضوح جيد</td><td>مفضل جداً</td></tr>
+          <tr><td>الباقة المطلوبة</td><td>100$ / 300$ / إعلان 50$</td><td>نعم عند الإغلاق</td></tr>
+          <tr><td>ملاحظات</td><td>عروض، فرع ثانٍ، لغة…</td><td>حسب الحاجة</td></tr>
+          <tr><td>موافقة التواصل</td><td>يعلم أنه سيُسجَّل على المنصة</td><td>نعم</td></tr>
+        </tbody>
+      </table>
+
+      <h2>المرحلة ج — ماذا يفعل الطبيب على الروابط؟</h2>
+      <ol>
+        <li>الانضمام: <span class="url">https://www.malamih.ps/join</span></li>
+        <li>التسجيل: <span class="url">https://www.malamih.ps/doctors/register</span></li>
+        <li>طلب الباقة: <span class="url">https://www.malamih.ps/subscriptions</span></li>
+        <li>لاحقاً الدخول: <span class="url">https://www.malamih.ps/doctor/login</span></li>
+      </ol>
+      <p>يمكنك إكمال النماذج معه حضوريًا أو إرسال الروابط ومتابعة الإكمال خلال 24 ساعة.</p>
+
+      <h2>المرحلة د — ماذا يرسل الموظف للإدارة؟</h2>
+      <blockquote class="script">موضوع: طلب تفعيل طبيب — [المدينة] — [التخصص]
+
+1) الاسم الظاهر:
+2) العيادة:
+3) التخصص:
+4) المدينة/العنوان:
+5) هاتف/واتساب:
+6) الدوام:
+7) الباقة: دليل 100$ | مميزة 300$ | إعلان 50$
+8) هل أتم التسجيل على الموقع؟ نعم/لا + وقت تقريبي
+9) مرفقات: صورة / ملاحظات الاتفاق
+10) اسم الموظف + تاريخ الزيارة/الاتصال
+11) درجة الأولوية: عادي / مستعجل (مع السبب)</blockquote>
+
+      <h2>المرحلة هـ — بعد التفعيل</h2>
+      <ul class="checklist">
+        <li>تأكد مع الطبيب أنه يصل لبوابة الدخول</li>
+        <li>راجع ظهور الاسم والتخصص والمدينة</li>
+        <li>ذكّر أن طلبات الحجز تحتاج مراجعة العيادة</li>
+        <li>لا تعد بشارة تحقق فورية</li>
+        <li>حدد متابعة بعد 7 أيام لجودة الملف</li>
+      </ul>
+
+      <div class="callout callout-danger">
+        <div class="callout-title">ممنوع أثناء التسجيل</div>
+        لا تجمع ملفات مرضى. لا تطلب كلمات مرور شخصية لحسابات أخرى. لا تنشر بيانات الطبيب في مجموعات عامة دون إذنه.
+      </div>
+    </div>
+    <div class="page-footer">
+      <span>ملامح.ps — داخلي</span>
+      <span>القسم 11</span>
+    </div>
+  </section>
+
+  <!-- ===================== 12. DAILY CHECKLIST ===================== -->
+  <section class="sheet page">
+    <div class="page-header">
+      <span class="logo-text">ملامح · MALAMIH</span>
+      <span>دليل موظف الماركتنغ · سري</span>
+    </div>
+    <div class="content">
+      <h1 class="section-title">12. قائمة تحقق يومية للموظف</h1>
+
+      <h2>صباحاً (قبل أول اتصال)</h2>
+      <ul class="checklist">
+        <li>مراجعة أهداف اليوم: عدد مكالمات / زيارات / متابعات</li>
+        <li>تحديث قائمة العيادات (مدينة + تخصص + حالة: جديد/متابعة/اتفاق)</li>
+        <li>التأكد من عمل روابط الموقع والواتساب</li>
+        <li>مراجعة سريعة للقسم 13 (ممنوع/مسموح) إن وُجد عرض جديد</li>
+        <li>تحضير 3 أسماء أولوية عالية للإغلاق</li>
+      </ul>
+
+      <h2>خلال اليوم</h2>
+      <ul class="checklist">
+        <li>تسجيل نتيجة كل تواصل فوراً (مهتم / لاحقاً / رفض / لا يرد)</li>
+        <li>إرسال واتساب ملخص بعد كل مكالمة مهمة خلال 10 دقائق</li>
+        <li>عدم وعد ميزات مخفية (شات بوت) أو تحقق حكومي</li>
+        <li>تصعيد أي طلب خصم/قانوني/عطل في نفس اليوم</li>
+        <li>إن زرت عيادة: التقط بيانات التسجيل الناقصة قبل المغادرة</li>
+      </ul>
+
+      <h2>مساءً (قبل الإغلاق)</h2>
+      <ul class="checklist">
+        <li>إرسال كل اتفاقات التفعيل للإدارة بالقالب المعتمد</li>
+        <li>جدولة متابعات الغد (أسماء + ساعة مقترحة)</li>
+        <li>تحديث أرقام اليوم: محاولات، ردود، زيارات، إغلاقات</li>
+        <li>كتابة اعتراض واحد تعلمت الرد عليه اليوم</li>
+        <li>شحن الهاتف / تجهيز مسارات المواصلات ليوم غد إن ميداني</li>
+      </ul>
+
+      <h2>أهداف إرشادية أسبوعية (قابلة لتعديل الإدارة)</h2>
+      <table>
+        <thead><tr><th>النشاط</th><th>حد أدنى مقترح</th><th>ملاحظة</th></tr></thead>
+        <tbody>
+          <tr><td>مكالمات تواصل فعّال</td><td>حسب خطة الفريق</td><td>الجودة أهم من الرقم الأجوف</td></tr>
+          <tr><td>رسائل واتساب أولى</td><td>لكل اتصال جاد</td><td>نفس اليوم</td></tr>
+          <tr><td>زيارات ميدانية</td><td>حسب المنطقة</td><td>سجّل العنوان والدوام</td></tr>
+          <tr><td>طلبات تفعيل مرسلة للإدارة</td><td>كل اتفاق</td><td>نفس اليوم أو صباح اليوم التالي كحد أقصى</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout callout-gold">
+        <div class="callout-title">سؤال نهاية اليوم لنفسك</div>
+        «هل وعدت اليوم بشيء غير موجود في هذا الدليل؟» إن نعم — صحح للعميل فوراً وأبلغ الإدارة.
+      </div>
+    </div>
+    <div class="page-footer">
+      <span>ملامح.ps — داخلي</span>
+      <span>القسم 12</span>
+    </div>
+  </section>
+
+  <!-- ===================== 13. ALLOW / DENY ===================== -->
+  <section class="sheet page">
+    <div class="page-header">
+      <span class="logo-text">ملامح · MALAMIH</span>
+      <span>دليل موظف الماركتنغ · سري</span>
+    </div>
+    <div class="content">
+      <h1 class="section-title">13. ممنوع / مسموح في الوعود للطبيب</h1>
+
+      <div class="allow-grid">
+        <div class="card allow">
+          <h3><span class="tag tag-ok">مسموح</span></h3>
+          <ul>
+            <li>وصف ملامح كدليل متخصص لصحة وجمال الوجه في فلسطين</li>
+            <li>ذكر التخصصات الخمس المعتمدة</li>
+            <li>ذكر الأسعار الرسمية كما في الدليل</li>
+            <li>شرح أن الحجز = طلب بانتظار مراجعة العيادة</li>
+            <li>شرح أن التحقق = مراجعة إدارية للبيانات</li>
+            <li>توجيه الروابط الرسمية (/join /subscriptions /advertise /doctor/login)</li>
+            <li>القول إن التفعيل يتم عبر الإدارة بعد الاتفاق</li>
+            <li>عرض إعلان السوق 50₪ / 120₪ عند السؤال الصحيح</li>
+            <li>القول إن التغطية تشمل مدن الضفة وغزة مع تباين الكثافة</li>
+            <li>وعد بمتابعة ودعم تسجيل الملف</li>
+          </ul>
+        </div>
+        <div class="card deny">
+          <h3><span class="tag tag-danger">ممنوع</span></h3>
+          <ul>
+            <li>وعد بعدد مرضى أو إيراد مضمون</li>
+            <li>القول إن شارة التحقق = ترخيص وزارة الصحة تلقائياً</li>
+            <li>القول إن الموعد يتأكد تلقائياً دون مراجعة العيادة</li>
+            <li>الوعد بالشات بوت/الذكاء الاصطناعي حالياً</li>
+            <li>اختراع خصومات أو باقات غير معتمدة</li>
+            <li>ادعاء تغطية إعلانية مدفوعة مجانية دون حملة رسمية</li>
+            <li>وعد بنتائج طبية أو تفوق على طبيب منافس بالاسم</li>
+            <li>جمع أو تداول بيانات مرضى</li>
+            <li>نشر معلومات داخلية عن إيرادات/عقود/أسرار تشغيل</li>
+            <li>التهديد أو الضغط المسيء لإغلاق الصفقة</li>
+          </ul>
+        </div>
+      </div>
+
+      <h2>جمل تصحيح سريع إذا أخطأت</h2>
+      <blockquote class="script">أعتذر عن عدم الدقة في نقطتي السابقة. التصحيح المعتمد:
+[الحقيقة من الدليل].
+شكراً لتفهمكم، وبأي سؤال إضافي بحوّلكم للإدارة للتأكيد الرسمي.</blockquote>
+
+      <div class="callout callout-danger">
+        <div class="callout-title">خط أحمر</div>
+        أي وعد مالي أو قانوني غير مكتوب في هذا الدليل = يجب تصحيحه فوراً وتصعيده. سمعة ملامح أهم من إغلاق اليوم.
+      </div>
+    </div>
+    <div class="page-footer">
+      <span>ملامح.ps — داخلي</span>
+      <span>القسم 13</span>
+    </div>
+  </section>
+
+  <!-- ===================== 14. GLOSSARY ===================== -->
+  <section class="sheet page">
+    <div class="page-header">
+      <span class="logo-text">ملامح · MALAMIH</span>
+      <span>دليل موظف الماركتنغ · سري</span>
+    </div>
+    <div class="content">
+      <h1 class="section-title">14. قاموس مصطلحات</h1>
+      <dl class="dict">
+        <dt>ملامح / Malamih</dt>
+        <dd>المنصة الفلسطينية لدليل وتسويق عيادات تخصصات الوجه.</dd>
+        <dt>باقة الدليل</dt>
+        <dd>اشتراك سنوي $100 للظهور الأساسي في الدليل.</dd>
+        <dt>الباقة المميزة</dt>
+        <dd>اشتراك سنوي $300 بتميّز أعلى ودعم مسار الحجوزات وفق المنتج.</dd>
+        <dt>إعلان مميز</dt>
+        <dd>إعلان مدفوع $50/إعلان عبر مسار /advertise.</dd>
+        <dt>إعلان سوق عادي / ممول</dt>
+        <dd>تسعير السوق: 50₪ عادي · 120₪ ممول.</dd>
+        <dt>بوابة الطبيب</dt>
+        <dd>لوحة دخول الطبيب على /doctor/login لإدارة الملف والطلبات.</dd>
+        <dt>طلب حجز</dt>
+        <dd>طلب موعد من مريض يحتاج موافقة/مراجعة العيادة — ليس تأكيداً نهائياً تلقائياً.</dd>
+        <dt>شارة التحقق (Verified)</dt>
+        <dd>علامة مراجعة إدارية لبيانات الملف — ليست ترخيصاً حكومياً تلقائياً.</dd>
+        <dt>بطاقة الخصم</dt>
+        <dd>مسار ولاء: المريض يطلب → الأدمن يفعّل → تظهر عند الحجز للطبيب.</dd>
+        <dt>تفعيل إداري</dt>
+        <dd>قيام الإدارة بتفعيل اشتراك/حساب/إعلان بعد الاتفاق واستكمال البيانات.</dd>
+        <dt>انضمام / تسجيل</dt>
+        <dd>مسارات /join و /doctors/register لبدء وجود العيادة على المنصة.</dd>
+        <dt>تصعيد</dt>
+        <dd>تحويل حالة تتجاوز صلاحية الموظف إلى الإدارة مع ملخص كامل.</dd>
+        <dt>عرض قيمة</dt>
+        <dd>الجملة التي توضح فائدة ملامح للعيادة دون مبالغة.</dd>
+        <dt>اعتراض</dt>
+        <dd>ممانعة شائعة (سعر، فيسبوك، ثقة…) تُجاب من جدول القسم 9.</dd>
+        <dt>شات بوت</dt>
+        <dd>ميزة مساعدة محادثة — حالياً مخفية؛ لا تُوعد في البيع.</dd>
+      </dl>
+    </div>
+    <div class="page-footer">
+      <span>ملامح.ps — داخلي</span>
+      <span>القسم 14</span>
+    </div>
+  </section>
+
+  <!-- ===================== 15. ESCALATION ===================== -->
+  <section class="sheet page">
+    <div class="page-header">
+      <span class="logo-text">ملامح · MALAMIH</span>
+      <span>دليل موظف الماركتنغ · سري</span>
+    </div>
+    <div class="content">
+      <h1 class="section-title">15. تصعيد: متى تحوّل للإدارة + بيانات التواصل</h1>
+
+      <h2>صعّد فوراً عندما</h2>
+      <ul>
+        <li>طلب خصم، مقايضة، أو باقة غير موجودة في الدليل.</li>
+        <li>شكوى تتعلق بخصوصية بيانات أو تهديد قانوني.</li>
+        <li>عطل تقني يمنع التسجيل/الدخول/ظهور الملف بعد الاتفاق.</li>
+        <li>خلاف على دفع أو مطالبة باسترجاع.</li>
+        <li>طلب شراكة مؤسسية (سلسلة عيادات، تأمين، جهة رسمية).</li>
+        <li>أي سؤال عن الشات بوت أو ميزات مستقبلية غير معلنة.</li>
+        <li>طبيب يطلب تعديلاً على سياسة التحقق أو صياغة قانونية للشهادات.</li>
+      </ul>
+
+      <h2>لا تصعّد فوراً (حلّه بنفسك أولاً)</h2>
+      <ul>
+        <li>أسئلة FAQ الموجودة في القسم 10.</li>
+        <li>اعتراضات الجدول في القسم 9.</li>
+        <li>إعادة إرسال الروابط أو شرح الباقات.</li>
+        <li>متابعة «كلّموني لاحقاً» ضمن موعد محدد.</li>
+      </ul>
+
+      <h2>قالب تصعيد</h2>
+      <blockquote class="script">تصعيد عاجل/عادي — ملامح ماركتنغ
+
+الموظف:
+التاريخ/الوقت:
+اسم الطبيب/العيادة:
+المدينة + التخصص:
+رقم التواصل:
+ملخص الطلب:
+ماذا وعد الموظف حتى الآن:
+المطلوب من الإدارة:
+المرفقات/الروابط:</blockquote>
+
+      <h2>بيانات التواصل الرسمية</h2>
+      <table>
+        <thead><tr><th>القناة</th><th>القيمة</th></tr></thead>
+        <tbody>
+          <tr><td>الموقع</td><td><span class="url">https://www.malamih.ps</span></td></tr>
+          <tr><td>هاتف / واتساب</td><td><strong>0595537190</strong></td></tr>
+          <tr><td>رابط واتساب</td><td><span class="url">https://wa.me/9720595537190</span></td></tr>
+          <tr><td>البريد</td><td><span class="ltr">ammar.shtayeh@gmail.com</span></td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout callout-info">
+        <div class="callout-title">قاعدة الرد للعميل أثناء التصعيد</div>
+        «سأنقل طلبكم للإدارة مع كل التفاصيل وأعود إليكم برد رسمي.» — ثم التزم بزمن متابعة واقعي (مثلاً خلال يوم عمل) دون وعد بنتيجة محددة.
+      </div>
+    </div>
+    <div class="page-footer">
+      <span>ملامح.ps — داخلي</span>
+      <span>القسم 15</span>
+    </div>
+  </section>
+
+  <!-- ===================== 16. APPENDIX ===================== -->
+  <section class="sheet page">
+    <div class="page-header">
+      <span class="logo-text">ملامح · MALAMIH</span>
+      <span>دليل موظف الماركتنغ · سري</span>
+    </div>
+    <div class="content">
+      <h1 class="section-title">16. ملحق: روابط سريعة + نصوص جاهزة</h1>
+
+      <h2>روابط سريعة (انسخ)</h2>
+      <table>
+        <thead><tr><th>الوصف</th><th>الرابط</th></tr></thead>
+        <tbody>
+          <tr><td>الرئيسية</td><td><span class="url">https://www.malamih.ps</span></td></tr>
+          <tr><td>انضمام</td><td><span class="url">https://www.malamih.ps/join</span></td></tr>
+          <tr><td>تسجيل طبيب</td><td><span class="url">https://www.malamih.ps/doctors/register</span></td></tr>
+          <tr><td>الاشتراكات</td><td><span class="url">https://www.malamih.ps/subscriptions</span></td></tr>
+          <tr><td>أعلن</td><td><span class="url">https://www.malamih.ps/advertise</span></td></tr>
+          <tr><td>دخول طبيب</td><td><span class="url">https://www.malamih.ps/doctor/login</span></td></tr>
+          <tr><td>واتساب</td><td><span class="url">https://wa.me/9720595537190</span></td></tr>
+        </tbody>
+      </table>
+
+      <h2>بطاقة أسعار جيب</h2>
+      <div class="grid-2">
+        <div class="card teal">
+          <h3>باقات الطبيب</h3>
+          <div class="price-row"><span>الدليل</span><span class="price-tag">$100 / سنة</span></div>
+          <div class="price-row"><span>المميزة</span><span class="price-tag">$300 / سنة</span></div>
+          <div class="price-row"><span>إعلان مميز</span><span class="price-tag">$50 / إعلان</span></div>
+        </div>
+        <div class="card gold">
+          <h3>إعلانات السوق</h3>
+          <div class="price-row"><span>عادي</span><span class="price-tag">50₪</span></div>
+          <div class="price-row"><span>ممول</span><span class="price-tag">120₪</span></div>
+          <div class="price-row"><span>تواصل</span><span class="price-tag">0595537190</span></div>
+        </div>
+      </div>
+
+      <h2>نص جاهز — تعريف في 20 ثانية</h2>
+      <blockquote class="script">ملامح.ps دليل فلسطيني لتخصصات صحة وجمال الوجه. بنظهر عيادتكم للمرضى حسب المدينة والتخصص، مع طلبات حجز منظمة عبر البوابة. الأسعار من 100$ سنوياً للدليل و300$ للمميزة.</blockquote>
+
+      <h2>نص جاهز — تذكير حقائق حساسة</h2>
+      <blockquote class="script">تذكير داخلي قبل أي عرض:
+1) الحجز = طلب مراجعة
+2) التحقق = مراجعة أدمن للبيانات ≠ ترخيص حكومي تلقائي
+3) الشات بوت مخفي — لا وعد
+4) الأسعار: 100 / 300 / 50$ · سوق 50/120₪
+5) التفعيل إداري بعد الاتفاق</blockquote>
+
+      <h2>نص جاهز — إغلاق واتساب بعد موافقة</h2>
+      <blockquote class="script">تم الاتفاق مبدئياً على باقة [الدليل/المميزة/إعلان].
+برفع الطلب للإدارة اليوم مع بيانات الملف.
+أي نقص بالصورة أو العنوان أو الدوام خبروني الآن لننجز التفعيل أسرع.
+شكراً لثقتكم بملامح.</blockquote>
+
+      <h2>نص جاهز — رد خارج أوقات العمل</h2>
+      <blockquote class="script">استلمنا رسالتكم، شكراً لكم.
+فريق ملامح بيردكم في أقرب وقت عمل على 0595537190 أو عبر المنصة.
+https://www.malamih.ps</blockquote>
+
+      <div class="callout callout-gold" style="margin-top:18px">
+        <div class="callout-title">خاتمة الدليل</div>
+        <p style="margin:0">
+          هذا الدليل سري للاستخدام الداخلي لموظفي ماركتنغ ملامح.ps لعام 2026.
+          حدّث نسختك عند صدور تعميم إداري جديد عن الأسعار أو الميزات.
+          نجاحك = وضوح + صدق + متابعة منظّمة.
+        </p>
+      </div>
+
+      <p style="margin-top:22px;text-align:center;color:var(--muted);font-size:9pt">
+        © ملامح.ps · دليل موظف الماركتنغ · إصدار 1.0 · 2026<br/>
+        <span class="ltr">ammar.shtayeh@gmail.com</span> · 0595537190
+      </p>
+    </div>
+    <div class="page-footer">
+      <span>ملامح.ps — داخلي · نهاية الدليل</span>
+      <span>القسم 16</span>
+    </div>
+  </section>
+
+</body>
+</html>

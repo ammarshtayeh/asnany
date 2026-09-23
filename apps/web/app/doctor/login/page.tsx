@@ -17,20 +17,25 @@ export default function DoctorLoginPage() {
     setError("");
     setLoading(true);
 
-    const res = await fetch("/api/doctor/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
-    const data = await res.json();
-    setLoading(false);
+    try {
+      const res = await fetch("/api/doctor/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await res.json().catch(() => ({}));
 
-    if (!res.ok) {
-      setError(data.error || "تعذر تسجيل الدخول");
-      return;
+      if (!res.ok) {
+        setError(data.error || "تعذر تسجيل الدخول");
+        return;
+      }
+
+      router.push("/doctor/dashboard");
+    } catch {
+      setError("تعذر الاتصال بالخادم. تحقق من الإنترنت وحاول مرة أخرى.");
+    } finally {
+      setLoading(false);
     }
-
-    router.push("/doctor/dashboard");
   };
 
   return (

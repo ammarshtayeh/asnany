@@ -100,7 +100,7 @@ export default function DoctorDashboardScreen() {
       const nextProfile: DoctorProfile = profileData?.doctor || profileData?.profile || profileData || {};
       setProfile(nextProfile);
       setHoursText(formatHours(nextProfile.working_hours));
-      setAppointments(Array.isArray(appointmentsData?.appointments) ? appointmentsData.appointments : appointmentsData || []);
+      setAppointments(Array.isArray(appointmentsData?.appointments) ? appointmentsData.appointments : []);
     } catch (error) {
       const message = error instanceof Error ? error.message : "تعذر تحميل لوحة الطبيب";
       showToast({ type: "error", title: "لوحة الطبيب", message });

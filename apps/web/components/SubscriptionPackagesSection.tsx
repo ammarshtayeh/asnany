@@ -19,10 +19,26 @@ export default function SubscriptionPackagesSection({ compact = false, showCta =
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let cancelled = false;
     fetch("/api/subscriptions/packages")
-      .then((res) => res.json())
-      .then((data) => setPackages(Array.isArray(data?.packages) ? data.packages : []))
-      .finally(() => setLoading(false));
+      .then(async (res) => {
+        const data = await res.json().catch(() => ({}));
+        if (cancelled) return;
+        if (!res.ok) {
+          setPackages([]);
+          return;
+        }
+        setPackages(Array.isArray(data?.packages) ? data.packages : []);
+      })
+      .catch(() => {
+        if (!cancelled) setPackages([]);
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   if (loading) {

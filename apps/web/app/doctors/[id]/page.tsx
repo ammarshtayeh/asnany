@@ -5,6 +5,8 @@ import { ArrowRight } from "lucide-react";
 import { Doctor } from "@/lib/types";
 import DoctorProfileClient from "./DoctorProfileClient";
 import { supabase, supabaseAdmin } from "@/lib/supabase";
+import { asStringArray } from "@/lib/http";
+import { formatSpecialty } from "@/lib/format";
 
 async function getDoctor(id: string): Promise<Doctor | null> {
   const { data, error } = await supabase
@@ -37,9 +39,10 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
     return { title: "طبيب غير موجود | ملامح" };
   }
   const doctorName = doctor.name.trim().startsWith("د.") ? doctor.name.trim() : `د. ${doctor.name}`;
+  const specialtyLabel = formatSpecialty(asStringArray(doctor.specialty));
   return {
     title: `${doctorName} — ${doctor.city} | ملامح`,
-    description: `احجز موعد مع ${doctorName}، طبيب ${doctor.specialty.join('، ')} في ${doctor.city}`,
+    description: `احجز موعد مع ${doctorName}، طبيب ${specialtyLabel} في ${doctor.city}`,
     openGraph: { images: doctor.image_url ? [doctor.image_url] : [] }
   };
 }

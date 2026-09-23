@@ -33,6 +33,8 @@
     "generate:og-image": "node scripts/generate-og-image.mjs",
     "generate:logo-brief-pdf": "node scripts/generate-logo-brief-pdf.mjs",
     "generate:writer-slides-pdf": "node scripts/generate-writer-slides-pdf.mjs",
+    "generate:doctor-pitch-pdf": "node scripts/generate-doctor-pitch-pdf.mjs",
+    "generate:marketing-handbook-pdf": "node scripts/generate-marketing-handbook-pdf.mjs",
     "generate:platform-guide-pdf": "node scripts/generate-platform-guide-pdf.mjs",
     "generate:instagram-poster": "node scripts/generate-instagram-poster.mjs",
     "smoke:live": "node scripts/smoke-test-live.mjs",

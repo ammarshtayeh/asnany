@@ -73,24 +73,33 @@ export default function DoctorDashboardPage() {
 
   const load = async () => {
     setLoading(true);
-    const res = await fetch("/api/doctor/me");
-    const data = await res.json();
-    if (res.ok) {
-      setDoctor(data.doctor);
-      setAppointments(data.appointments || []);
-      setForm({
-        phone: data.doctor?.phone || "",
-        whatsapp: data.doctor?.whatsapp || "",
-        city: data.doctor?.city || "",
-        area: data.doctor?.area || "",
-        address: data.doctor?.address || "",
-        bio: data.doctor?.bio || "",
-        is_available: data.doctor?.is_available !== false,
-        availability_note: data.doctor?.availability_note || "",
-        working_hours: data.doctor?.working_hours || {},
-      });
+    try {
+      const res = await fetch("/api/doctor/me");
+      const data = await res.json().catch(() => ({}));
+      if (res.ok) {
+        setDoctor(data.doctor || null);
+        setAppointments(Array.isArray(data.appointments) ? data.appointments : []);
+        setForm({
+          phone: data.doctor?.phone || "",
+          whatsapp: data.doctor?.whatsapp || "",
+          city: data.doctor?.city || "",
+          area: data.doctor?.area || "",
+          address: data.doctor?.address || "",
+          bio: data.doctor?.bio || "",
+          is_available: data.doctor?.is_available !== false,
+          availability_note: data.doctor?.availability_note || "",
+          working_hours: data.doctor?.working_hours || {},
+        });
+      } else {
+        setDoctor(null);
+        setAppointments([]);
+      }
+    } catch {
+      setDoctor(null);
+      setAppointments([]);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   useEffect(() => {
@@ -99,19 +108,24 @@ export default function DoctorDashboardPage() {
 
   const updateProfile = async () => {
     setSaving(true);
-    const res = await fetch("/api/doctor/profile", {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
-    });
-    const data = await res.json();
-    setSaving(false);
-    if (!res.ok) {
-      alert(data.error || "تعذر الحفظ");
-      return;
+    try {
+      const res = await fetch("/api/doctor/profile", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        alert(data.error || "تعذر الحفظ");
+        return;
+      }
+      setDoctor(data.doctor);
+      alert("تم حفظ بيانات العيادة بنجاح!");
+    } catch {
+      alert("تعذر الاتصال بالخادم. حاول مرة أخرى.");
+    } finally {
+      setSaving(false);
     }
-    setDoctor(data.doctor);
-    alert("تم حفظ بيانات العيادة بنجاح!");
   };
 
   const updateAppointment = async (id: string, status: string) => {

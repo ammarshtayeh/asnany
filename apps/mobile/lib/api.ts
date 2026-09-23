@@ -60,28 +60,42 @@ export function apiUrl(path: string) {
   return `${API_BASE_URL}${path}`;
 }
 
-export async function apiFetch<T>(path: string, init: RequestInit = {}) {
+type ApiResult<T> = {
+  response: { ok: boolean; status: number };
+  data: (T & { error?: string; message?: string }) | null;
+};
+
+/**
+ * Safe fetch wrapper — never throws.
+ * Always keeps Content-Type even when Authorization headers are passed.
+ */
+export async function apiFetch<T>(path: string, init: RequestInit = {}): Promise<ApiResult<T>> {
   try {
+    const { headers: initHeaders, ...rest } = init;
     const response = await fetch(apiUrl(path), {
       credentials: "include",
+      ...rest,
       headers: {
         "Content-Type": "application/json",
-        ...(init.headers || {}),
+        Accept: "application/json",
+        ...(initHeaders || {}),
       },
-      ...init,
     });
 
-    let data: T & { error?: string; message?: string } | null = null;
+    let data: (T & { error?: string; message?: string }) | null = null;
     try {
       data = (await response.json()) as T & { error?: string; message?: string };
     } catch {
       data = null;
     }
 
-    return { response, data };
+    return {
+      response: { ok: response.ok, status: response.status },
+      data,
+    };
   } catch (error: any) {
     return {
-      response: { ok: false, status: 0 } as Response,
+      response: { ok: false, status: 0 },
       data: { error: error?.message || "Network error" } as T & { error?: string; message?: string },
     };
   }

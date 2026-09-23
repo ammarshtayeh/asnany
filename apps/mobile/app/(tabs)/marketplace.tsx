@@ -111,11 +111,12 @@ export default function MarketplaceScreen() {
 
   const filtered = ads.filter((ad) => {
     const matchesTab = activeTab === "all" || ad.type === activeTab;
+    const q = search.toLowerCase();
     const matchesSearch =
-      ad.title.toLowerCase().includes(search.toLowerCase()) ||
-      ad.description.toLowerCase().includes(search.toLowerCase()) ||
-      (ad.category || "").toLowerCase().includes(search.toLowerCase()) ||
-      (ad.publisher || "").toLowerCase().includes(search.toLowerCase());
+      String(ad.title || "").toLowerCase().includes(q) ||
+      String(ad.description || "").toLowerCase().includes(q) ||
+      String(ad.category || "").toLowerCase().includes(q) ||
+      String(ad.publisher || "").toLowerCase().includes(q);
     return matchesTab && matchesSearch;
   });
 

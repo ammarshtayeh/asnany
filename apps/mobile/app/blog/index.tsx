@@ -32,9 +32,10 @@ export default function BlogListScreen() {
 
   const categories = Array.from(new Set(articles.map((a) => a.category).filter(Boolean))) as string[];
   const filtered = articles.filter((a) => {
+    const q = search.toLowerCase();
     const matchesSearch =
-      a.title.toLowerCase().includes(search.toLowerCase()) ||
-      (a.excerpt || "").toLowerCase().includes(search.toLowerCase());
+      String(a.title || "").toLowerCase().includes(q) ||
+      String(a.excerpt || "").toLowerCase().includes(q);
     const matchesCategory = selectedCategory ? a.category === selectedCategory : true;
     return matchesSearch && matchesCategory;
   });

@@ -2,339 +2,1345 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <title>ملامih.ps — عرض شامل للأطباء والعيادات</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ملامح.ps — عرض شراكة للأطباء والعيادات 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;600;700;800;900&display=swap" rel="stylesheet" />
   <style>
-    @page { size: A4 landscape; margin: 9mm 11mm; }
-    * { box-sizing: border-box; }
-    body { font-family: "Segoe UI", Tahoma, Arial, sans-serif; color: #0f172a; line-height: 1.6; margin: 0; }
-    .slide { page-break-after: always; min-height: 188mm; padding: 4mm 2mm; display: flex; flex-direction: column; }
-    .slide:last-child { page-break-after: auto; }
+    @page {
+      size: A4 landscape;
+      margin: 8mm 10mm;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --teal: #295f59;
+      --teal-deep: #1e4a45;
+      --navy: #0a1628;
+      --gold: #d4af37;
+      --gold-soft: #e8c86a;
+      --cream: #f7f5f0;
+      --cream-dark: #efeae0;
+      --ink: #152033;
+      --muted: #5c6b7a;
+      --line: rgba(10, 22, 40, 0.10);
+      --ok: #1e6b5c;
+    }
+
+    html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+    body {
+      font-family: "Cairo", Tahoma, sans-serif;
+      color: var(--ink);
+      background: #dfe6e4;
+      line-height: 1.55;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .slide {
+      width: 277mm;
+      min-height: 185mm;
+      max-width: 100%;
+      margin: 0 auto 10mm;
+      padding: 9mm 11mm 8mm;
+      background:
+        radial-gradient(ellipse 70% 55% at 100% 0%, rgba(41, 95, 89, 0.07), transparent 55%),
+        radial-gradient(ellipse 50% 40% at 0% 100%, rgba(212, 175, 55, 0.06), transparent 50%),
+        var(--cream);
+      page-break-after: always;
+      break-after: page;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 28px rgba(10, 22, 40, 0.12);
+    }
+
+    .slide:last-child { page-break-after: auto; break-after: auto; }
+
+    .slide::before {
+      content: "";
+      position: absolute;
+      top: 0; right: 0; left: 0;
+      height: 3.5px;
+      background: linear-gradient(90deg, var(--teal), var(--gold), var(--teal));
+    }
+
+    .slide-footer {
+      margin-top: auto;
+      padding-top: 3.5mm;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--line);
+      font-size: 10px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .slide-footer .brand { color: var(--teal); font-weight: 800; }
+    .slide-footer .brand span { color: var(--gold); }
+
+    /* Typography */
+    h1 {
+      font-size: 34px;
+      font-weight: 900;
+      line-height: 1.25;
+      color: var(--navy);
+      letter-spacing: -0.02em;
+    }
+
+    h2 {
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--navy);
+      margin-bottom: 4mm;
+      display: flex;
+      align-items: center;
+      gap: 3mm;
+    }
+
+    h2::before {
+      content: "";
+      width: 4px;
+      height: 22px;
+      border-radius: 2px;
+      background: linear-gradient(180deg, var(--gold), var(--teal));
+      flex-shrink: 0;
+    }
+
+    h3 {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 1.5mm;
+    }
+
+    p, li { font-size: 12.5px; }
+    .lead { font-size: 14px; color: var(--muted); max-width: 220mm; margin-bottom: 4mm; }
+    .mini { font-size: 11px; color: var(--muted); font-weight: 600; }
+    .gold { color: var(--gold); }
+    .teal { color: var(--teal); }
+
+    /* Logo */
+    .logo-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      object-fit: contain;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+    }
+
+    .logo-fallback {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(145deg, var(--teal), var(--navy));
+      color: var(--gold);
+      font-size: 22px;
+      font-weight: 900;
+      border: 1px solid rgba(212, 175, 55, 0.45);
+    }
+
+    .brand-lockup {
+      display: flex;
+      align-items: center;
+      gap: 3mm;
+    }
+
+    .brand-name {
+      font-size: 20px;
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.1;
+    }
+
+    .brand-name span { color: var(--gold-soft); }
+
+    /* Layout helpers */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 3.5mm; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 3.5mm; }
+    .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 3mm; }
+    .grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2.5mm; }
+    .stack { display: flex; flex-direction: column; gap: 3mm; flex: 1; }
+
+    .card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 3mm;
+      padding: 3.5mm 4mm;
+      box-shadow: 0 1px 0 rgba(255,255,255,0.8) inset;
+    }
+
+    .card.soft {
+      background: rgba(255,255,255,0.72);
+      backdrop-filter: blur(2px);
+    }
+
+    .card.teal {
+      background: linear-gradient(160deg, #f0f7f5, #fff);
+      border-color: rgba(41, 95, 89, 0.22);
+    }
+
+    .card.navy {
+      background: var(--navy);
+      color: #e8eef4;
+      border-color: transparent;
+    }
+
+    .card.navy h3 { color: #fff; }
+    .card.navy .mini { color: #94a3b8; }
+    .card.navy li { color: #cbd5e1; }
+
+    .card.featured {
+      border: 1.5px solid var(--gold);
+      background:
+        linear-gradient(180deg, rgba(212,175,55,0.10), transparent 40%),
+        #fff;
+      position: relative;
+      box-shadow: 0 6px 18px rgba(10, 22, 40, 0.08);
+    }
+
+    .card ul {
+      list-style: none;
+      padding: 0;
+      margin: 1mm 0 0;
+    }
+
+    .card li {
+      position: relative;
+      padding-right: 4.5mm;
+      margin: 1.2mm 0;
+      color: #334155;
+      font-size: 12px;
+    }
+
+    .card li::before {
+      content: "";
+      position: absolute;
+      right: 0;
+      top: 7px;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--teal);
+    }
+
+    .card.featured li::before { background: var(--gold); }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 1.5mm;
+      padding: 1mm 3mm;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 800;
+      border: 1px solid rgba(212, 175, 55, 0.45);
+      color: #8a7020;
+      background: rgba(212, 175, 55, 0.12);
+    }
+
+    .pill.teal {
+      border-color: rgba(41, 95, 89, 0.3);
+      color: var(--teal);
+      background: rgba(41, 95, 89, 0.08);
+    }
+
+    .pill.dark {
+      border-color: rgba(255,255,255,0.2);
+      color: #e8eef4;
+      background: rgba(255,255,255,0.08);
+    }
+
+    .callout {
+      background: linear-gradient(135deg, rgba(41,95,89,0.08), rgba(212,175,55,0.10));
+      border: 1px solid rgba(41, 95, 89, 0.18);
+      border-radius: 3mm;
+      padding: 3.5mm 4.5mm;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .callout.strong {
+      background: linear-gradient(120deg, var(--teal), var(--teal-deep));
+      color: #fff;
+      border: none;
+      text-align: center;
+    }
+
+    .callout.strong a { color: var(--gold-soft); }
+
+    .price {
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--teal);
+      line-height: 1;
+      margin: 1.5mm 0 0.5mm;
+    }
+
+    .price small {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+    }
+
+    .price-strike {
+      font-size: 12px;
+      color: #94a3b8;
+      text-decoration: line-through;
+      font-weight: 700;
+    }
+
+    .badge-hot {
+      position: absolute;
+      top: -2.2mm;
+      left: 3mm;
+      background: var(--navy);
+      color: var(--gold-soft);
+      font-size: 10px;
+      font-weight: 800;
+      padding: 1mm 2.5mm;
+      border-radius: 999px;
+      border: 1px solid rgba(212,175,55,0.4);
+    }
+
+    table.compare {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-size: 12px;
+      overflow: hidden;
+      border-radius: 3mm;
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+
+    table.compare th,
+    table.compare td {
+      padding: 2.4mm 3mm;
+      text-align: center;
+      border-bottom: 1px solid var(--line);
+      vertical-align: middle;
+    }
+
+    table.compare th:first-child,
+    table.compare td:first-child {
+      text-align: right;
+      font-weight: 800;
+      color: var(--navy);
+      width: 34%;
+    }
+
+    table.compare thead th {
+      background: var(--navy);
+      color: #fff;
+      font-weight: 800;
+      border-bottom: none;
+    }
+
+    table.compare thead th.featured-col {
+      background: var(--teal);
+      color: #fff;
+    }
+
+    table.compare tbody tr:nth-child(even) { background: rgba(41, 95, 89, 0.04); }
+    table.compare tbody tr:last-child td { border-bottom: none; }
+
+    .yes { color: var(--ok); font-weight: 900; }
+    .no { color: #94a3b8; font-weight: 700; }
+
+    .step-row {
+      display: grid;
+      grid-template-columns: 14mm 1fr;
+      gap: 3mm;
+      align-items: start;
+      padding: 2.5mm 0;
+    }
+
+    .step-num {
+      width: 12mm;
+      height: 12mm;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--navy);
+      color: var(--gold-soft);
+      font-weight: 900;
+      font-size: 16px;
+      border: 1.5px solid rgba(212,175,55,0.45);
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2mm;
+    }
+
+    .chip {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 1.4mm 3.2mm;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .chip.city {
+      background: rgba(41, 95, 89, 0.07);
+      border-color: rgba(41, 95, 89, 0.18);
+      color: var(--teal-deep);
+    }
+
+    .qa {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 2mm 4mm;
+      padding: 2.8mm 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .qa:last-child { border-bottom: none; }
+    .qa .q { font-weight: 800; color: var(--navy); font-size: 12.5px; }
+    .qa .a { color: #3d4f63; font-size: 12px; }
+
+    .icon-tile {
+      text-align: center;
+      padding: 3.5mm 2.5mm;
+    }
+
+    .icon-tile .glyph {
+      width: 11mm;
+      height: 11mm;
+      margin: 0 auto 2mm;
+      border-radius: 2.5mm;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(145deg, var(--teal), var(--navy));
+      color: var(--gold-soft);
+      font-size: 15px;
+      font-weight: 900;
+    }
+
+    .icon-tile strong {
+      display: block;
+      font-size: 12.5px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 0.8mm;
+    }
+
+    .icon-tile span {
+      display: block;
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    /* Cover */
     .cover {
-      min-height: 188mm; display: flex; flex-direction: column; justify-content: center; align-items: center;
-      text-align: center; background: linear-gradient(135deg, #0a1628, #0c5e47 50%, #0a1628);
-      color: #fff; border-radius: 6mm; padding: 14mm;
+      background:
+        radial-gradient(ellipse 80% 60% at 85% 15%, rgba(41, 95, 89, 0.45), transparent 55%),
+        radial-gradient(ellipse 55% 50% at 10% 90%, rgba(212, 175, 55, 0.18), transparent 50%),
+        linear-gradient(155deg, #06101c 0%, var(--navy) 45%, #0f2f2c 100%);
+      color: #fff;
+      justify-content: center;
+      padding: 14mm 16mm;
     }
-    h1 { font-size: 12mm; margin: 0 0 3mm; }
-    h2 { font-size: 6.5mm; color: #0c5e47; border-right: 4px solid #d4af37; padding-right: 4mm; margin: 0 0 3mm; }
-    h3 { font-size: 4.5mm; margin: 2mm 0 1.5mm; color: #1e293b; }
-    p, li { font-size: 3.5mm; margin: 1mm 0; }
-    .subtitle { font-size: 4.2mm; color: #cbd5e1; max-width: 170mm; }
-    .gold { color: #d4af37; }
-    .badge {
-      display: inline-block; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.22);
-      padding: 1.2mm 3.5mm; border-radius: 999px; font-size: 3.2mm; margin: 1mm;
+
+    .cover::before {
+      height: 4px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
     }
-    .card { border: 1px solid #e2e8f0; border-radius: 3mm; padding: 3mm; background: #f8fafc; }
-    .highlight { background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 3mm; padding: 3mm 4mm; margin: 2mm 0; }
-    .app-banner {
-      background: #0a1628; color: #fff; border-radius: 3mm; padding: 4mm 5mm; margin: 2mm 0;
-      display: flex; align-items: center; justify-content: space-between; gap: 4mm;
+
+    .cover-frame {
+      position: absolute;
+      inset: 7mm;
+      border: 1px solid rgba(212, 175, 55, 0.28);
+      pointer-events: none;
+      border-radius: 2mm;
     }
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 3mm; }
-    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 3mm; }
-    .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 2.5mm; }
-    table { width: 100%; border-collapse: collapse; font-size: 3.2mm; }
-    th, td { border: 1px solid #e2e8f0; padding: 2mm; text-align: right; vertical-align: top; }
-    th { background: #0a1628; color: #fff; }
-    ul { padding-right: 4mm; margin: 1mm 0; }
-    .price { font-size: 7mm; font-weight: 900; color: #059669; }
-    .steps { list-style: none; padding: 0; margin: 0; }
-    .steps li { padding: 2.5mm 5mm 2.5mm 0; margin: 1.5mm 0; border-right: 3px solid #0c5e47; }
-    .cta-box { background: linear-gradient(135deg, #0c5e47, #059669); color: #fff; border-radius: 4mm; padding: 5mm; text-align: center; margin-top: 3mm; }
-    .mini { font-size: 3mm; color: #64748b; }
-    .tag { background: #ede9fe; color: #5b21b6; padding: 0.5mm 2.5mm; border-radius: 999px; font-size: 2.8mm; font-weight: 700; }
+
+    .cover h1 {
+      color: #fff;
+      font-size: 42px;
+      margin: 4mm 0 3mm;
+    }
+
+    .cover h1 span { color: var(--gold-soft); }
+
+    .cover .subtitle {
+      font-size: 16px;
+      font-weight: 700;
+      color: #c5d0db;
+      max-width: 200mm;
+      line-height: 1.6;
+    }
+
+    .cover .meta {
+      margin-top: 8mm;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2.5mm;
+    }
+
+    .cover .bottom-bar {
+      margin-top: 12mm;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 4mm;
+      width: 100%;
+      max-width: 230mm;
+      border-top: 1px solid rgba(255,255,255,0.12);
+      padding-top: 4mm;
+      font-size: 12px;
+      color: #94a3b8;
+    }
+
+    /* Closing */
+    .closing {
+      background:
+        radial-gradient(ellipse 70% 55% at 50% 0%, rgba(41, 95, 89, 0.35), transparent 60%),
+        linear-gradient(160deg, var(--navy), #0f2a28);
+      color: #fff;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .closing::before {
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    .closing h1 { color: #fff; font-size: 32px; margin: 3mm 0; }
+    .closing h1 span { color: var(--gold-soft); }
+    .closing p { color: #c5d0db; font-size: 14px; }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3mm;
+      margin-top: 6mm;
+      width: 100%;
+      max-width: 200mm;
+      text-align: right;
+    }
+
+    .contact-item {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 3mm;
+      padding: 3.5mm 4mm;
+    }
+
+    .contact-item .label {
+      font-size: 10px;
+      color: var(--gold-soft);
+      font-weight: 800;
+      margin-bottom: 1mm;
+      letter-spacing: 0.02em;
+    }
+
+    .contact-item a,
+    .contact-item .val {
+      color: #fff;
+      font-size: 13px;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    a { color: var(--teal); }
+
+    @media print {
+      body { background: #fff; }
+      .slide {
+        margin: 0;
+        box-shadow: none;
+        width: auto;
+        min-height: 190mm;
+      }
+    }
+
+    @media screen {
+      body { padding: 8mm 0; }
+    }
   </style>
 </head>
 <body>
 
-<!-- 1 -->
-<div class="slide">
-  <div class="cover">
-    <p style="font-size:3.2mm;color:#94a3b8">دليل فلسطين لصحة وجمال الوجه والأسنان</p>
-    <h1>ملامح<span class="gold">.ps</span></h1>
-    <p class="subtitle">منصة رقمية متكاملة — <strong>موقع ويب</strong> + <strong>تطبيق iOS و Android</strong> — تربط المريض بالطبيب والعيادة في مكان واحد</p>
-    <div style="margin-top:6mm">
-      <span class="badge">🌐 www.malamih.ps</span>
-      <span class="badge">📱 تطبيق موبايل</span>
-      <span class="badge">🗺️ خرائط</span>
-      <span class="badge">📅 حجز</span>
-      <span class="badge">🔔 إشعارات</span>
-    </div>
-    <p style="margin-top:10mm;font-size:3.8mm;color:#94a3b8">عرض للأطباء والعيادات والشركاء — 2026</p>
-  </div>
-</div>
-
-<!-- 2 -->
-<div class="slide">
-  <h2>ما هي منصة ملامih.ps؟</h2>
-  <div class="highlight">
-    <strong>ملامih.ps</strong> أول دليل رقمي فلسطيني متخصص في <strong>صحة وجمال الوجه</strong> — ليس مجرد موقع، بل <strong>نظام كامل</strong>: موقع ويب + تطبيق موبايل + حجز + خرائط + عروض + مجلة + سوق + لوحة تحكم للطبيب.
-  </div>
-  <div class="app-banner">
+<!-- 1. COVER -->
+<section class="slide cover">
+  <div class="cover-frame" aria-hidden="true"></div>
+  <div class="brand-lockup">
+    <img
+      class="logo-mark"
+      src="../../apps/web/public/brand/logo-mark.png"
+      alt="ملامح"
+      onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
+    />
+    <span class="logo-fallback" aria-hidden="true">م</span>
     <div>
-      <strong style="font-size:4.2mm">🌐 الموقع: https://www.malamih.ps</strong>
-      <p style="margin:1mm 0;font-size:3.2mm;color:#cbd5e1">يعمل من أي متصفح — كمputer، تابلت، جوال — ويدعم PWA (تثبيت كتطبيق من المتصفح)</p>
-    </div>
-    <div style="text-align:left">
-      <strong style="font-size:4.2mm">📱 التطبيق</strong>
-      <p style="margin:1mm 0;font-size:3.2mm;color:#cbd5e1">iOS + Android — نفس المحتوى والحجز والبحث</p>
+      <div class="brand-name">ملامح<span>.ps</span></div>
+      <div class="mini" style="color:#94a3b8">دليل فلسطين لصحة وجمال الوجه</div>
     </div>
   </div>
-  <div class="grid-3" style="margin-top:3mm">
-    <div class="card"><strong>للمريض</strong><br/>يبحث، يقارن، يحجز، يتابع، يستفيد من العروض — <strong>مجاناً</strong></div>
-    <div class="card"><strong>للطبيب/العيادة</strong><br/>صفحة موثّقة، ظهور، حجز أونلاين، لوحة تحكم — <strong>باقات اشتراك</strong></div>
-    <div class="card"><strong>للشركاء</strong><br/>مختبرات، متاجر طبية، مراكز تجميل — إعلانات وعروض</div>
-  </div>
-  <p class="mini" style="margin-top:2mm"><strong>التخصصات:</strong> أسنان • عيون • جلدية • تجميل • أنف وأذن وحنجرة • مختبرات • مستلزمات طبية</p>
-</div>
 
-<!-- 3 -->
-<div class="slide">
-  <h2>ماذا يجد المريض على الموقع والتطبيق؟</h2>
-  <div class="grid-2">
-    <div class="card">
-      <h3>🔍 البحث والاكتشاف</h3>
-      <ul>
-        <li><strong>دليل الأطباء</strong> — بحث حسب المدينة، التخصص، التقييم</li>
-        <li><strong>«الأقرب لي»</strong> — خريطة تفاعلية + اتجاهات Apple/Google Maps</li>
-        <li><strong>ملف الطبيب</strong> — صور، سيرة، ساعات، تأمين، واتساب</li>
-        <li><strong>التجميل</strong> — مراكز تجميل وابتسامة هولlywood</li>
-        <li><strong>المختبرات</strong> — معامل وتحاليل</li>
-      </ul>
-    </div>
-    <div class="card">
-      <h3>📅 الحجز والمتابعة</h3>
-      <ul>
-        <li><strong>حجز موعد أونلاين</strong> — للأطباء المفعّلين</li>
-        <li><strong>حجوزاتي</strong> — متابعة المواعيد برقم الهاتف</li>
-        <li><strong>إشعارات</strong> — تأكيد، تذكير، تحديثات (ويب + موبايل)</li>
-        <li><strong>بطاقة الخصم</strong> — خصومات حصرية لدى شركاء المنصة</li>
-      </ul>
-    </div>
-    <div class="card">
-      <h3>🏷️ العروض والمحتوى</h3>
-      <ul>
-        <li><strong>العروض</strong> — خصومات تبييض، تجميل، فحوصات، باقات</li>
-        <li><strong>المجلة الطبية</strong> — مقالات ونصائح مراجعة</li>
-        <li><strong>سوق ملامih</strong> — معدات، وظائف، مستلزمات</li>
-        <li><strong>الموردون</strong> — متاجر طبية ومعدات</li>
-      </ul>
-    </div>
-    <div class="card">
-      <h3>🧠 مساعد ذكي + خدمات</h3>
-      <ul>
-        <li><strong>الحكيم اللبيب</strong> — مساعد AI يرشّد للتخصص والحجز</li>
-        <li><strong>استشارات</strong> — (للأطباء المشتركين بالباقة المميزة)</li>
-        <li><strong>شريط أخبار</strong> — تنبيهات وعروض على الرئيسية</li>
-        <li><strong>من نحن / الخصوصية / الشروط</strong> — شفافية وثقة</li>
-      </ul>
-    </div>
-  </div>
-</div>
+  <h1>ملامح<span>.ps</span></h1>
+  <p class="subtitle">
+    دليل فلسطين لصحة وجمال الوجه<br />
+    <strong style="color:#fff">عرض شراكة للأطباء والعيادات — 2026</strong>
+  </p>
 
-<!-- 4 -->
-<div class="slide">
-  <h2>جولة على أقسام الموقع — www.malamih.ps</h2>
-  <table>
-    <tr><th>القسم</th><th>الرابط</th><th>ماذا يفعل</th></tr>
-    <tr><td>الرئيسية</td><td>https://www.malamih.ps/</td><td>بحث سريع، تخصصات، خريطة، عروض، إحصائيات، أطباء مميزون</td></tr>
-    <tr><td>دليل الأطباء</td><td>https://www.malamih.ps/doctors/search</td><td>بحث + فلتر مدينة/تخصص + «الأقرب لي» + بطاقات أطباء</td></tr>
-    <tr><td>ملف الطبيب</td><td>https://www.malamih.ps/doctors/[id]</td><td>صور، خريطة، واتساب، حجز، تقييمات، تأمين</td></tr>
-    <tr><td>خريطة الطبيب</td><td>https://www.malamih.ps/doctors/[id]/map</td><td>موقع العيادة + اتجاهات</td></tr>
-    <tr><td>الحجز</td><td>https://www.malamih.ps/booking</td><td>حجز موعد مع طبيب مختار</td></tr>
-    <tr><td>حجوزاتي</td><td>https://www.malamih.ps/appointments</td><td>متابعة المواعيد بالهاتف + حالة الحجز</td></tr>
-    <tr><td>العروض</td><td>https://www.malamih.ps/offers</td><td>عروض وخصومات طبية وتجميلية</td></tr>
-    <tr><td>بطاقة الخصم</td><td>https://www.malamih.ps/discount-card</td><td>برنامج خصومات للمرضى</td></tr>
-    <tr><td>التجميل</td><td>https://www.malamih.ps/beauty</td><td>مراكز تجميل وخدمات</td></tr>
-    <tr><td>المختبرات</td><td>https://www.malamih.ps/labs</td><td>معامل وتحاليل</td></tr>
-    <tr><td>سوق ملامih</td><td>https://www.malamih.ps/marketplace</td><td>معدات، وظائف، مستلزمات</td></tr>
-    <tr><td>الموردون</td><td>https://www.malamih.ps/stores</td><td>متاجر طبية وموردون</td></tr>
-    <tr><td>المجلة</td><td>https://www.malamih.ps/blog</td><td>مقالات طبية ونصائح</td></tr>
-    <tr><td>باقات الاشتراك</td><td>https://www.malamih.ps/subscriptions</td><td>اختيار باقة + طلب اشتراك</td></tr>
-    <tr><td>انضم كطبيب</td><td>https://www.malamih.ps/join</td><td>بوابة انضمام — تسجيل أو واتساب</td></tr>
-    <tr><td>تسجيل عيادة</td><td>https://www.malamih.ps/doctors/register</td><td>استمارة + صور + GPS</td></tr>
-    <tr><td>أعلن معنا</td><td>https://www.malamih.ps/advertise</td><td>طلب إعلان أو حملة</td></tr>
-    <tr><td>من نحن</td><td>https://www.malamih.ps/about</td><td>رؤية المنصة ورسالتها</td></tr>
-    <tr><td>دخول الطبيب</td><td>https://www.malamih.ps/doctor/login</td><td>لوحة تحكم الطبيب</td></tr>
-  </table>
-  <p class="mini">كل هذه الأقسام متاحة على <strong>الموقع</strong> و<strong>التطبيق</strong> (iOS + Android)</p>
-</div>
+  <div class="meta">
+    <span class="pill dark">موقع ويب</span>
+    <span class="pill dark">تطبيق iOS و Android</span>
+    <span class="pill dark">حجز أونلاين</span>
+    <span class="pill dark">خرائط واتجاهات</span>
+    <span class="pill dark">لوحة طبيب</span>
+  </div>
 
-<!-- 5 -->
-<div class="slide">
-  <h2>📱 تطبيق ملامih — iOS و Android</h2>
-  <div class="highlight">
-    التطبيق <strong>نسخة كاملة</strong> من المنصة على الهاتف — ليس موقع مصغّر، بل تجربة موبايل أصلية مع نفس البيانات والحجز.
-  </div>
-  <div class="grid-2">
-    <div class="card">
-      <h3>ماذا يفعل التطبيق للمريض؟</h3>
-      <ul>
-        <li>بحث أطباء وتصفّح حسب التخصص والمدينة</li>
-        <li>عرض ملفات الأطباء + خرائط + واتساب</li>
-        <li>حجز موعد أونلاين</li>
-        <li>متابعة العروض والمتاجر والمختبرات</li>
-        <li>مساعد «الحكيم اللبيب» AI</li>
-        <li>إشعارات Push للحجوزات والعروض</li>
-        <li>تبويبات سفلية: رئيسية • أطباء • حجز • عروض • باقات</li>
-      </ul>
+  <div class="bottom-bar">
+    <div>
+      <div style="color:var(--gold-soft);font-weight:800;margin-bottom:1mm">شراكة نمو — لا مجرد إعلان</div>
+      ظهور موثّق · مراجعين يبحثون ويحجزون · تفعيل خلال 24–48 ساعة
     </div>
-    <div class="card">
-      <h3>ماذا يفيد التطبيق العيادة؟</h3>
-      <ul>
-        <li>ظهور أمام مستخدمي الموبايل — أغلب المراجعين على الهاتف</li>
-        <li>حجوزات تصلكم كإشعار فوري</li>
-        <li>وصول أسهل من «شارك الرابط على إنستغرام»</li>
-        <li>أيقونة على شاشة المريض = تذكير دائم بعيادتكم</li>
-        <li>نفس صفحتكم الموثّقة على الويب والتطبيق</li>
-      </ul>
+    <div style="text-align:left;font-weight:700;line-height:1.7">
+      www.malamih.ps<br />
+      0595537190
     </div>
   </div>
-  <div class="app-banner" style="margin-top:3mm">
-    <span>🌐 www.malamih.ps — الموقع</span>
-    <span style="font-size:5mm">+</span>
-    <span>📱 تطبيق iOS & Android</span>
-    <span style="font-size:5mm">=</span>
-    <span><strong>وصول مزدوج للمرضى</strong></span>
-  </div>
-</div>
+</section>
 
-<!-- 6 -->
-<div class="slide">
-  <h2>ماذا تحصل عيادتكم كشريك؟</h2>
-  <div class="grid-3">
-    <div class="card">
-      <strong style="color:#0c5e47">صفحة عيادة احترافية</strong>
+<!-- 2. المشكلة -->
+<section class="slide">
+  <h2>المشكلة: كيف يصل المريض للعيادة اليوم؟</h2>
+  <p class="lead">المريض يحتاج قراراً طبياً سريعاً… والقنوات المتاحة غالباً عشوائية، مشتّتة، وغير قابلة للقياس.</p>
+  <div class="grid-3 stack" style="flex:1">
+    <div class="grid-3">
+      <div class="card">
+        <h3>واتساب عشوائي</h3>
+        <ul>
+          <li>أسئلة متكررة في كل ساعة</li>
+          <li>لا سجل منظّم للمواعيد</li>
+          <li>ضياع رسائل وضغط على الاستقبال</li>
+          <li>صعوبة متابعة «من حجز ومن لا»</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>توصيات شفهية</h3>
+        <ul>
+          <li>تعتمد على من يعرف من</li>
+          <li>لا تصل لمريض جديد خارج الشبكة</li>
+          <li>صعب قياس أثرها على العيادة</li>
+          <li>لا ملف واضح يبني الثقة فوراً</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>بحث مشتّت</h3>
+        <ul>
+          <li>فيسبوك وإنستغرام = ضوضاء</li>
+          <li>خرائط عامة بلا تفاصيل طبية دقيقة</li>
+          <li>مقارنة صعبة بين العيادات</li>
+          <li>لا حجز موحّد ولا متابعة</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout">
+      النتيجة للعيادة: مراجعين أقل من القنوات الرقمية، وقت ضائع على الاستفسارات، وصعوبة بناء حضور موثوق خارج الدائرة الاجتماعية.
+    </div>
+    <div class="grid-2">
+      <div class="card soft">
+        <h3>ما يريده المريض</h3>
+        <ul>
+          <li>يعرف التخصص الصحيح بسرعة</li>
+          <li>يرى عيادة قريبة وموثوقة</li>
+          <li>يتواصل أو يحجز بدون تعقيد</li>
+        </ul>
+      </div>
+      <div class="card soft">
+        <h3>ما يحتاجه الطبيب</h3>
+        <ul>
+          <li>قناة منظمة بدل فوضى الرسائل</li>
+          <li>ظهور أمام باحثين جادّين</li>
+          <li>حجوزات قابلة للإدارة والمتابعة</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">
+    <span class="brand">ملامح<span>.ps</span></span>
+    <span>عرض شراكة للأطباء · 2026</span>
+    <span>2</span>
+  </div>
+</section>
+
+<!-- 3. الحل -->
+<section class="slide">
+  <h2>الحل: ملامح — نظام متكامل</h2>
+  <p class="lead">ملامح.ps ليست صفحة تعريف. هي منظومة رقمية فلسطينية تربط المريض بالعيادة عبر موقع وتطبيق وخرائط وحجز ولوحة تحكم.</p>
+  <div class="grid-4" style="margin-bottom:4mm">
+    <div class="card icon-tile">
+      <div class="glyph">و</div>
+      <strong>موقع ويب</strong>
+      <span>www.malamih.ps<br />يعمل من أي جهاز</span>
+    </div>
+    <div class="card icon-tile">
+      <div class="glyph">ت</div>
+      <strong>تطبيق موبايل</strong>
+      <span>iOS و Android<br />نفس البيانات والحجز</span>
+    </div>
+    <div class="card icon-tile">
+      <div class="glyph">ح</div>
+      <strong>حجز منظّم</strong>
+      <span>طلبات واضحة<br />+ إشعارات فورية</span>
+    </div>
+    <div class="card icon-tile">
+      <div class="glyph">خ</div>
+      <strong>خرائط واتجاهات</strong>
+      <span>«الأقرب لي»<br />Apple / Google Maps</span>
+    </div>
+  </div>
+  <div class="grid-3" style="flex:1">
+    <div class="card teal">
+      <h3>للمريض — مجاناً</h3>
       <ul>
-        <li>اسم، تخصص، صور العيادة والأجهزة</li>
-        <li>ساعات العمل، تأمين، سيرة</li>
-        <li>هاتف، واتساب، عنوان</li>
-        <li>موقع GPS + خريطة + اتجاهات</li>
-        <li>شارة «موثّق» بعد مراجعة الإدارة</li>
+        <li>يبحث ويقارن ويحجز</li>
+        <li>يتابع العروض وبطاقة الخصم</li>
+        <li>يصل للعيادة بخريطة واضحة</li>
       </ul>
     </div>
-    <div class="card">
-      <strong style="color:#0c5e47">ظهور وبحث</strong>
+    <div class="card teal">
+      <h3>للطبيب / العيادة</h3>
       <ul>
-        <li>دليل الأطباء — كل فلسطين</li>
-        <li>فلتر مدينة + تخصص</li>
+        <li>صفحة موثّقة واحترافية</li>
+        <li>ظهور في الدليل + الحجوزات</li>
+        <li>لوحة تحكم وإشعارات</li>
+      </ul>
+    </div>
+    <div class="card teal">
+      <h3>للشركاء</h3>
+      <ul>
+        <li>مختبرات ومراكز تجميل</li>
+        <li>عروض وإعلانات مستهدفة</li>
+        <li>سوق ومستلزمات طبية</li>
+      </ul>
+    </div>
+  </div>
+  <div class="callout" style="margin-top:3.5mm">
+    عربي أولاً · مصمّم للسوق الفلسطيني · مراجعة إدارية قبل الظهور · باقات واضحة بدون غموض.
+  </div>
+  <div class="slide-footer">
+    <span class="brand">ملامح<span>.ps</span></span>
+    <span>نظام متكامل — موقع + تطبيق + حجز + خرائط</span>
+    <span>3</span>
+  </div>
+</section>
+
+<!-- 4. ماذا يرى المريض -->
+<section class="slide">
+  <h2>ماذا يرى المريض؟</h2>
+  <p class="lead">تجربة واحدة على الموقع والتطبيق — من البحث حتى الحجز والمتابعة.</p>
+  <div class="grid-3" style="flex:1">
+    <div class="card">
+      <h3>بحث ودليل</h3>
+      <ul>
+        <li>بحث حسب المدينة والتخصص</li>
+        <li>فلاتر: دوام، تأمين، مفتوح الآن</li>
         <li>«الأقرب لي» على الخريطة</li>
-        <li>الصفحة الرئيسية (أطباء مميزون)</li>
-        <li>المجلة + العروض + السوق</li>
+        <li>ملف طبيب واضح وصور العيادة</li>
       </ul>
     </div>
-    <div class="card" style="background:#faf5ff;border-color:#c4b5fd">
-      <strong style="color:#5b21b6">لوحة الطبيب + حجز</strong>
-      <ul>
-        <li>دخول الطبيب: https://www.malamih.ps/doctor/login</li>
-        <li>لوحة تحكم — مواعيد، ملف، إشعارات</li>
-        <li>حجز أونلاين (الباقة المميزة)</li>
-        <li>تأكيد/إلغاء + إشعار للمريض</li>
-        <li>إشعارات Push ويب + موبايل</li>
-      </ul>
-    </div>
-  </div>
-  <div class="quote highlight" style="text-align:center;font-weight:700">
-    «إنستغرام يجيب متابعين — ملامih.ps (موقع + تطبيق) يجيب مراجعين يبحثون ويحجزون.»
-  </div>
-</div>
-
-<!-- 7 -->
-<div class="slide">
-  <h2>باقات الاشتراك — للأطباء والعيادات</h2>
-  <div class="grid-3">
     <div class="card">
-      <h3>باقة الدليل</h3>
-      <div class="price">$100</div>
-      <p>/ سنوياً <span style="text-decoration:line-through;color:#94a3b8">$120</span></p>
+      <h3>تواصل وحجز</h3>
+      <ul>
+        <li>واتساب وهاتف من الملف مباشرة</li>
+        <li>حجز موعد أونلاين (للأطباء المفعّلين)</li>
+        <li>متابعة الحجوزات برقم الهاتف</li>
+        <li>إشعارات تأكيد وتحديث الموعد</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>عروض وولاء</h3>
+      <ul>
+        <li>عروض وخصومات موسمية</li>
+        <li>بطاقة خصم لدى الشركاء</li>
+        <li>مجلة طبية ونصائح مراجعة</li>
+        <li>سوق ملامح: مستلزمات وخدمات</li>
+      </ul>
+    </div>
+    <div class="card soft" style="grid-column:1/-1">
+      <div class="chip-row" style="justify-content:center">
+        <span class="chip">بحث</span>
+        <span class="chip">الأقرب لي</span>
+        <span class="chip">ملف الطبيب</span>
+        <span class="chip">واتساب</span>
+        <span class="chip">حجز</span>
+        <span class="chip">عروض</span>
+        <span class="chip">بطاقة خصم</span>
+        <span class="chip">مجلة</span>
+        <span class="chip">سوق</span>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">
+    <span class="brand">ملامح<span>.ps</span></span>
+    <span>المريض يستخدم المنصة مجاناً — أنتم تحصلون على المراجعين</span>
+    <span>4</span>
+  </div>
+</section>
+
+<!-- 5. ماذا يحصل الطبيب -->
+<section class="slide">
+  <h2>ماذا يحصل الطبيب؟</h2>
+  <p class="lead">حضور رقمي مهني يجلب مراجعين، لا مجرد متابعين.</p>
+  <div class="grid-3" style="flex:1">
+    <div class="card teal">
+      <h3>صفحة موثّقة</h3>
+      <ul>
+        <li>اسم، تخصص، مدينة، سيرة</li>
+        <li>صور العيادة والأجهزة</li>
+        <li>ساعات العمل والتأمينات</li>
+        <li>هاتف · واتساب · GPS · اتجاهات</li>
+        <li>شارة «موثّق» بعد المراجعة</li>
+      </ul>
+    </div>
+    <div class="card teal">
+      <h3>ظهور ونمو</h3>
+      <ul>
+        <li>ظهور في دليل الأطباء</li>
+        <li>فلاتر المدينة والتخصص</li>
+        <li>«الأقرب لي» يجلب مرضى المنطقة</li>
+        <li>أطباء مميزون على الرئيسية</li>
+        <li>ظهور على الويب والتطبيق معاً</li>
+      </ul>
+    </div>
+    <div class="card featured">
+      <span class="badge-hot">الباقة المميزة</span>
+      <h3>حجوزات ولوحة تحكم</h3>
+      <ul>
+        <li>حجوزات أونلاين منظمة</li>
+        <li>لوحة طبيب: مواعيد وملف ودوام</li>
+        <li>إشعارات فورية لكل طلب</li>
+        <li>تأكيد / إلغاء / إكمال الموعد</li>
+        <li>عروض وإعلانات عند الحاجة</li>
+      </ul>
+    </div>
+  </div>
+  <div class="callout" style="margin-top:3.5mm;text-align:center">
+    «إنستغرام يجلب متابعين — ملامح.ps يجلب مراجعين يبحثون ويحجزون.»
+  </div>
+  <div class="slide-footer">
+    <span class="brand">ملامح<span>.ps</span></span>
+    <span>صفحة · ظهور · حجوزات · لوحة · إشعارات · عروض</span>
+    <span>5</span>
+  </div>
+</section>
+
+<!-- 6. التخصصات والمدن -->
+<section class="slide">
+  <h2>التخصصات والمدن المغطاة</h2>
+  <p class="lead">منصة متخصصة في صحة وجمال الوجه — بتغطية جغرافية واسعة في فلسطين.</p>
+  <div class="grid-2" style="flex:1;align-items:stretch">
+    <div class="card">
+      <h3>التخصصات</h3>
+      <div class="chip-row" style="margin-top:3mm">
+        <span class="chip">أسنان عام</span>
+        <span class="chip">أسنان أطفال</span>
+        <span class="chip">زراعة أسنان</span>
+        <span class="chip">تقويم</span>
+        <span class="chip">عيون</span>
+        <span class="chip">جلدية</span>
+        <span class="chip">تجميل</span>
+        <span class="chip">أنف وأذن وحنجرة</span>
+        <span class="chip">مراكز ابتسامة</span>
+        <span class="chip">مختبرات</span>
+        <span class="chip">مستلزمات طبية</span>
+      </div>
+      <p class="mini" style="margin-top:4mm">التأمينات المعروضة في الملف: التكافل · ترست · المشرق · تمكين · المجموعة الأهلية</p>
+    </div>
+    <div class="card">
+      <h3>المدن والمحافظات</h3>
+      <div class="chip-row" style="margin-top:3mm">
+        <span class="chip city">رام الله</span>
+        <span class="chip city">نابلس</span>
+        <span class="chip city">الخليل</span>
+        <span class="chip city">جنين</span>
+        <span class="chip city">بيت لحم</span>
+        <span class="chip city">القدس</span>
+        <span class="chip city">طولكرم</span>
+        <span class="chip city">قلقيلية</span>
+        <span class="chip city">أريحا</span>
+        <span class="chip city">سلفيت</span>
+        <span class="chip city">طوباس</span>
+        <span class="chip city">غزة</span>
+      </div>
+      <p class="mini" style="margin-top:4mm">وتغطية أوسع حسب توسّع شبكة العيادات الشريكة.</p>
+    </div>
+  </div>
+  <div class="grid-3" style="margin-top:3.5mm">
+    <div class="card soft" style="text-align:center"><strong class="teal">متخصص</strong><br /><span class="mini">ليس دليلاً عاماً عشوائياً</span></div>
+    <div class="card soft" style="text-align:center"><strong class="teal">محلي</strong><br /><span class="mini">عربي · فلسطيني · للسوق الحقيقي</span></div>
+    <div class="card soft" style="text-align:center"><strong class="teal">قابل للتوسع</strong><br /><span class="mini">مدن وتخصصات إضافية باستمرار</span></div>
+  </div>
+  <div class="slide-footer">
+    <span class="brand">ملامح<span>.ps</span></span>
+    <span>تغطية تخصصية وجغرافية لعيادتكم</span>
+    <span>6</span>
+  </div>
+</section>
+
+<!-- 7. الباقات -->
+<section class="slide">
+  <h2>الباقات الثلاثة بالتفصيل</h2>
+  <p class="lead">أسعار واضحة بالدولار الأمريكي. التفعيل يدوي خلال 24–48 ساعة بعد الطلب.</p>
+  <div class="grid-3" style="flex:1">
+    <div class="card">
+      <span class="pill teal">حضور أساسي</span>
+      <h3 style="margin-top:2.5mm">باقة الدليل</h3>
+      <div class="price">$100 <small>/ سنة</small></div>
+      <div class="price-strike">$120</div>
       <ul>
         <li>صفحة تعريف كاملة (ويب + تطبيق)</li>
         <li>ظهور في دليل الأطباء المعتمد</li>
         <li>خريطة + تواصل + واتساب</li>
-        <li>إعلانات في المجلة الطبية</li>
+        <li>ظهور مناسب في المجلة الطبية</li>
+        <li>مناسبة لبداية حضور رقمي موثوق</li>
       </ul>
+      <p class="mini" style="margin-top:2mm">≈ أقل من 10$ شهرياً للظهور أمام الباحثين</p>
     </div>
-    <div class="card" style="border:2px solid #7c3aed;background:#faf5ff">
-      <h3>الباقة المميزة <span class="tag">⭐ الأكثر طلباً</span></h3>
-      <div class="price">$300</div>
-      <p>/ سنوياً</p>
+    <div class="card featured">
+      <span class="badge-hot">الأكثر طلباً</span>
+      <span class="pill">موصى بها</span>
+      <h3 style="margin-top:2.5mm">الباقة المميزة</h3>
+      <div class="price">$300 <small>/ سنة</small></div>
+      <p class="mini" style="margin:1mm 0 0">كل مزايا الدليل + قلب القيمة</p>
       <ul>
-        <li>كل مزايا باقة الدليل</li>
-        <li><strong>حجوزات أونلاين</strong> (موقع + تطبيق)</li>
-        <li>لوحة طبيب + إشعارات فورية</li>
-        <li>استشارات كتابية ومتابعات</li>
-        <li>اتصالات ومتابعات عاجلة</li>
+        <li><strong>حجوزات أونلاين</strong> عبر الموقع والتطبيق</li>
+        <li>لوحة تحكم الطبيب كاملة</li>
+        <li>إشعارات فورية لكل طلب حجز</li>
+        <li>إدارة المواعيد: تأكيد / إلغاء / إكمال</li>
+        <li>استشارات ومتابعات ضمن المنصة</li>
       </ul>
+      <p class="mini" style="margin-top:2mm">الأنسب للعيادات النشطة التي تريد مراجعين يحجزون</p>
     </div>
     <div class="card">
-      <h3>عروض وإعلانات</h3>
-      <div class="price">$50</div>
-      <p>/ لكل إعلان</p>
+      <span class="pill teal">تسويق إضافي</span>
+      <h3 style="margin-top:2.5mm">العروض والإعلانات</h3>
+      <div class="price">$50 <small>/ إعلان</small></div>
+      <p class="mini" style="margin:1mm 0 0">حملة مستقلة أو مرافقة للاشتراك</p>
       <ul>
         <li>إعلان في الصفحة الرئيسية</li>
-        <li>عروض مختبرات/تجميل</li>
-        <li>ظهور في المجلة والحملات</li>
-        <li>حجز مرتبط بالعرض</li>
+        <li>ظهور في قسم العروض</li>
+        <li>دعم الحملات الموسمية</li>
+        <li>إمكانية ربط العرض بالحجز</li>
+        <li>مناسب للمختبرات والتجميل والعروض</li>
       </ul>
+      <p class="mini" style="margin-top:2mm">يُضاف فوق أي باقة عند الحاجة</p>
     </div>
   </div>
-  <p class="highlight"><strong>100$ بالسنة = أقل من 10$ بالشهر.</strong> موعد واحد جديد من المنصة يغطي تكلفة الباقة. اطلبوا الباقة: https://www.malamih.ps/subscriptions</p>
-</div>
-
-<!-- 8 -->
-<div class="slide">
-  <h2>لماذا تنضمون الآن؟</h2>
-  <div class="grid-4">
-    <div class="card"><strong>🇵🇸 فلسطيني</strong><br/>مصمّم للسوق المحلي — عربي — كل المدن</div>
-    <div class="card"><strong>✅ موثوق</strong><br/>مراجعة إدارة قبل الظهور — verified</div>
-    <div class="card"><strong>📱📲 مزدوج</strong><br/>موقع + تطبيق iOS/Android</div>
-    <div class="card"><strong>🗺️ خرائط</strong><br/>GPS + Apple/Google Maps</div>
-    <div class="card"><strong>📅 حجز</strong><br/>أونلاين + إشعارات + متابعة</div>
-    <div class="card"><strong>🏷️ عروض</strong><br/>إعلانات موسمية $50</div>
-    <div class="card"><strong>📖 مجلة</strong><br/>محتوى طبي + ظهور للعيادة</div>
-    <div class="card"><strong>🤝 دعم</strong><br/>فريق يساعدكم بالتسجيل</div>
+  <div class="slide-footer">
+    <span class="brand">ملامح<span>.ps</span></span>
+    <span>malamih.ps/subscriptions</span>
+    <span>7</span>
   </div>
-  <table style="margin-top:3mm">
-    <tr><th>سؤال شائع</th><th>الجواب</th></tr>
-    <tr><td>«عندي إنستغرام»</td><td>ملامih يكمّل السوشيال — بحث منظم + حجز + خريطة + ثقة</td></tr>
-    <tr><td>«غالي»</td><td>100$/سنة — موعد واحد جديد يغطي الباقة</td></tr>
-    <tr><td>«ما عندي وقت»</td><td>10 دقائق تسجيل — https://www.malamih.ps/doctors/register</td></tr>
-    <tr><td>«بدي أفكر»</td><td>ابدأوا بباقة الدليل — ترقّوا للمميزة لاحقاً</td></tr>
+</section>
+
+<!-- 8. مقارنة الباقات -->
+<section class="slide">
+  <h2>مقارنة الباقات</h2>
+  <p class="lead">اختروا ما يناسب مرحلة عيادتكم — ويمكن الترقية لاحقاً بسهولة.</p>
+  <table class="compare">
+    <thead>
+      <tr>
+        <th>الميزة</th>
+        <th>باقة الدليل<br /><span style="font-weight:600;opacity:.85">$100 / سنة</span></th>
+        <th class="featured-col">الباقة المميزة ⭐<br /><span style="font-weight:600;opacity:.9">$300 / سنة</span></th>
+        <th>عروض وإعلانات<br /><span style="font-weight:600;opacity:.85">$50 / إعلان</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>صفحة عيادة احترافية</td>
+        <td class="yes">✓</td>
+        <td class="yes">✓</td>
+        <td class="no">—</td>
+      </tr>
+      <tr>
+        <td>ظهور في الدليل + خريطة</td>
+        <td class="yes">✓</td>
+        <td class="yes">✓</td>
+        <td class="no">—</td>
+      </tr>
+      <tr>
+        <td>واتساب / هاتف / ساعات العمل</td>
+        <td class="yes">✓</td>
+        <td class="yes">✓</td>
+        <td class="no">—</td>
+      </tr>
+      <tr>
+        <td>شارة موثّق بعد المراجعة</td>
+        <td class="yes">✓</td>
+        <td class="yes">✓</td>
+        <td class="no">—</td>
+      </tr>
+      <tr>
+        <td>حجز أونلاين (موقع + تطبيق)</td>
+        <td class="no">—</td>
+        <td class="yes">✓</td>
+        <td class="mini" style="color:var(--muted)">إن رُبط بالعرض</td>
+      </tr>
+      <tr>
+        <td>لوحة تحكم + إشعارات</td>
+        <td class="no">—</td>
+        <td class="yes">✓</td>
+        <td class="no">—</td>
+      </tr>
+      <tr>
+        <td>إعلان مميز / عرض موسمي</td>
+        <td class="no">إضافة</td>
+        <td class="no">إضافة</td>
+        <td class="yes">✓</td>
+      </tr>
+      <tr>
+        <td>الأنسب لـ</td>
+        <td>بداية حضور رقمي</td>
+        <td><strong>عيادات تريد حجوزات</strong></td>
+        <td>حملات وعروض</td>
+      </tr>
+    </tbody>
   </table>
-</div>
+  <div class="callout" style="margin-top:4mm">
+    توصيتنا: ابدأوا بـ <strong>الباقة المميزة</strong> إذا كنتم تريدون تحويل الظهور إلى مواعيد فعلية. الدليل مناسب كخطوة أولى، والإعلان يُستخدم لتعزيز حملة محددة.
+  </div>
+  <div class="slide-footer">
+    <span class="brand">ملامح<span>.ps</span></span>
+    <span>مقارنة واضحة — بدون بنود مخفية</span>
+    <span>8</span>
+  </div>
+</section>
 
-<!-- 9 -->
-<div class="slide">
-  <h2>كيف تنضمون؟ — 3 خطوات</h2>
-  <ol class="steps">
-    <li><strong>سجّلوا عيادتكم</strong> — https://www.malamih.ps/doctors/register (بيانات + صور + موقع GPS) — أو تواصلوا عبر https://www.malamih.ps/join</li>
-    <li><strong>اختاروا باقتكم</strong> — https://www.malamih.ps/subscriptions (دليل $100 / مميز $300 / إعلان $50)</li>
-    <li><strong>مراجعة وتفعيل</strong> — فريق ملامih.ps يراجع ويفعّل حسابكم خلال 24–48 ساعة — ثم تظهرون على الموقع والتطبيق</li>
-  </ol>
-  <div class="grid-2" style="margin-top:4mm">
-    <div class="card">
-      <h3>بعد التفعيل تحصلون على:</h3>
+<!-- 9. عرض الأطباء الأوائل -->
+<section class="slide">
+  <h2>عرض الأطباء الأوائل</h2>
+  <p class="lead">الانضمام المبكر يعني حضوراً أقوى في مرحلة بناء الشبكة — وعائداً يغطي الاشتراك بسرعة.</p>
+  <div class="grid-2" style="flex:1">
+    <div class="card navy">
+      <span class="pill dark">عرض التأسيس 2026</span>
+      <h3 style="margin-top:3mm;font-size:18px">لماذا الآن؟</h3>
       <ul>
-        <li>صفحة عيادة على https://www.malamih.ps</li>
-        <li>ظهور في تطبيق iOS و Android</li>
-        <li>حساب طبيب + لوحة تحكم (للباقة المميزة: حجز أونلاين)</li>
-        <li>إمكانية الإعلان والعروض</li>
+        <li>ظهور مبكر أمام المرضى أثناء توسّع الدليل</li>
+        <li>فرصة تميّز أعلى قبل امتلاء التخصص/المدينة</li>
+        <li>دعم مباشر من الفريق في إعداد الصفحة</li>
+        <li>أولوية في الحملات التعريفية للمنصة</li>
+      </ul>
+      <p class="mini" style="margin-top:3mm">العرض موجّه للأطباء والعيادات الجادّين بالانضمام خلال مرحلة الإطلاق الموسّع.</p>
+    </div>
+    <div class="stack">
+      <div class="card featured" style="flex:1;display:flex;flex-direction:column;justify-content:center;text-align:center;padding:6mm">
+        <div class="pill" style="align-self:center;margin-bottom:3mm">حجة العائد</div>
+        <div style="font-size:22px;font-weight:900;color:var(--navy);line-height:1.45">
+          «موعد واحد يغطي اشتراكك»
+        </div>
+        <p class="mini" style="margin-top:3mm;max-width:140mm;margin-right:auto;margin-left:auto">
+          باقة الدليل $100/سنة ≈ أقل من $10 شهرياً. موعد مريض جديد واحد من المنصة قد يغطي الاشتراك السنوي — والباقي ربح للعيادة.
+        </p>
+      </div>
+      <div class="grid-2">
+        <div class="card soft" style="text-align:center">
+          <strong class="teal" style="font-size:16px">$100</strong>
+          <div class="mini">دليل / سنة</div>
+        </div>
+        <div class="card soft" style="text-align:center">
+          <strong class="teal" style="font-size:16px">$300</strong>
+          <div class="mini">مميز / سنة — حجوزات</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">
+    <span class="brand">ملامح<span>.ps</span></span>
+    <span>انضموا مبكراً — وابنوا حضوراً قبل المنافسين</span>
+    <span>9</span>
+  </div>
+</section>
+
+<!-- 10. رحلة الانضمام -->
+<section class="slide">
+  <h2>رحلة الانضمام — خطوة بخطوة</h2>
+  <p class="lead">مسار بسيط: طلب → مراجعة → تفعيل. يمكنكم البدء بالاستمارة أو واتساب.</p>
+  <div class="stack" style="flex:1">
+    <div class="card">
+      <div class="step-row">
+        <div class="step-num">1</div>
+        <div>
+          <h3>اطلبوا الانضمام</h3>
+          <p>عبّئوا استمارة التسجيل مع صور العيادة وموقع GPS، أو راسلونا عبر واتساب / صفحة الانضمام.</p>
+          <p class="mini" style="margin-top:1mm">malamih.ps/doctors/register · malamih.ps/join · malamih.ps/subscriptions</p>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="step-row">
+        <div class="step-num">2</div>
+        <div>
+          <h3>مراجعة إدارية</h3>
+          <p>فريق ملامح يراجع البيانات للتأكد من صحة المعلومات وجودة الصفحة — حفاظاً على ثقة المرضى وجودة الدليل.</p>
+          <p class="mini" style="margin-top:1mm">المدة المعتادة: 24–48 ساعة</p>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="step-row">
+        <div class="step-num">3</div>
+        <div>
+          <h3>تفعيل وظهور</h3>
+          <p>نفعّل الباقة، نضيف شارة «موثّق»، ونفتح لوحة الطبيب. تظهر عيادتكم على الموقع والتطبيق، وتبدأون استقبال التواصل والحجوزات حسب باقتكم.</p>
+        </div>
+      </div>
+    </div>
+    <div class="callout strong">
+      لا تحتاجون فريقاً تقنياً — نحن نساعدكم بإعداد الصفحة حتى تصبح جاهزة للمرضى.
+    </div>
+  </div>
+  <div class="slide-footer">
+    <span class="brand">ملامح<span>.ps</span></span>
+    <span>استمارة / واتساب → مراجعة → تفعيل</span>
+    <span>10</span>
+  </div>
+</section>
+
+<!-- 11. لوحة الطبيب -->
+<section class="slide">
+  <h2>لوحة الطبيب — ماذا تفعل؟</h2>
+  <p class="lead">بديل منظم لفوضى واتساب: مواعيد واضحة، ملف قابل للتحديث، وإشعارات فورية.</p>
+  <div class="grid-2" style="flex:1">
+    <div class="card teal">
+      <h3>إدارة المواعيد</h3>
+      <ul>
+        <li>استقبال طلبات الحجز (اسم، هاتف، تاريخ)</li>
+        <li>تأكيد أو إلغاء أو إكمال الموعد</li>
+        <li>إشعار يصل للمريض عند التحديث</li>
+        <li>تقليل الرسائل المتكررة على الاستقبال</li>
       </ul>
     </div>
-    <div class="card" style="background:#ecfdf5">
-      <h3>تواصل معنا</h3>
-      <p><strong>🌐</strong> https://www.malamih.ps</p>
-      <p><strong>📧</strong> ammar.shtayeh@gmail.com</p>
-      <p><strong>📱 واتساب:</strong> 9720595537190</p>
-      <p class="mini">انضم: https://www.malamih.ps/join · باقات: https://www.malamih.ps/subscriptions · إعلان: https://www.malamih.ps/advertise</p>
+    <div class="card teal">
+      <h3>إدارة الملف والدوام</h3>
+      <ul>
+        <li>تحديث الصور والسيرة والخدمات</li>
+        <li>ضبط ساعات العمل والتوفر</li>
+        <li>عرض التأمينات المقبولة</li>
+        <li>الحفاظ على صفحة حديثة ومهنية</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>الإشعارات</h3>
+      <ul>
+        <li>تنبيه فوري عند حجز جديد</li>
+        <li>يعمل على الويب والتطبيق</li>
+        <li>لا تفوّتوا طلباً أثناء الدوام</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>الدخول</h3>
+      <ul>
+        <li>رابط الدخول: malamih.ps/doctor/login</li>
+        <li>لوحة التحكم: /doctor/dashboard</li>
+        <li>حساب يُفعَّل مع الباقة المناسبة</li>
+      </ul>
     </div>
   </div>
-  <div class="cta-box">
-    <strong style="font-size:5mm">انضموا لملامih.ps — موقع + تطبيق — اليوم</strong>
-    https://www.malamih.ps/join
+  <div class="callout" style="margin-top:3.5mm">
+    الحجز الإلكتروني الكامل مرتبط بـ <strong>الباقة المميزة ($300)</strong> بعد التوثيق وتفعيل الحساب.
   </div>
-  <p class="mini" style="margin-top:3mm;text-align:center">© ملامih.ps 2026 — https://www.malamih.ps</p>
-</div>
+  <div class="slide-footer">
+    <span class="brand">ملامح<span>.ps</span></span>
+    <span>مواعيد · ملف · دوام · إشعارات</span>
+    <span>11</span>
+  </div>
+</section>
+
+<!-- 12. الثقة والتحقق -->
+<section class="slide">
+  <h2>الثقة والتحقق</h2>
+  <p class="lead">ثقة المريض هي رأس مال المنصة — لذلك لا يظهر أي طبيب للجمهور قبل مراجعة إدارية.</p>
+  <div class="grid-2" style="flex:1">
+    <div class="card featured">
+      <h3>ماذا تعني شارة «موثّق»؟</h3>
+      <ul>
+        <li>مراجعة بيانات العيادة والملف من فريق ملامح</li>
+        <li>التأكد من اكتمال المعلومات الأساسية وجودتها</li>
+        <li>حماية المريض من صفحات ناقصة أو مضلّلة</li>
+        <li>رفع قيمة ظهور الطبيب الموثّق أمام الباحثين</li>
+      </ul>
+      <div class="callout" style="margin-top:3.5mm;background:#fff;border-color:rgba(212,175,55,0.35)">
+        <strong>مهم:</strong> شارة «موثّق» تعني مراجعة بيانات داخل المنصة — <strong>وليست ترخيصاً حكومياً آلياً</strong> ولا بديلاً عن التراخيص الرسمية للعيادة.
+      </div>
+    </div>
+    <div class="stack">
+      <div class="card">
+        <h3>لماذا يهمكم هذا؟</h3>
+        <ul>
+          <li>المريض يثق أكثر بملف مراجع</li>
+          <li>عيادتكم تظهر ضمن دليل بجودة عالية</li>
+          <li>المنافسون غير المكتملين لا يضعفون الثقة العامة</li>
+        </ul>
+      </div>
+      <div class="card navy">
+        <h3>التزامنا</h3>
+        <ul>
+          <li>لا نشر قبل المراجعة</li>
+          <li>تحديث الصفحة عند الحاجة</li>
+          <li>دعمكم للحفاظ على ملف مهني ودقيق</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">
+    <span class="brand">ملامح<span>.ps</span></span>
+    <span>موثّق = مراجعة بيانات · ليس ترخيصاً حكومياً آلياً</span>
+    <span>12</span>
+  </div>
+</section>
+
+<!-- 13. أسئلة شائعة -->
+<section class="slide">
+  <h2>أسئلة شائعة من الأطباء</h2>
+  <p class="lead">اعتراضات نسمعها كثيراً — وإجابات مختصرة وواضحة.</p>
+  <div class="card" style="flex:1">
+    <div class="qa">
+      <div class="q">«عندي إنستغرام وفيسبوك»</div>
+      <div class="a">ممتاز — ملامح يكمّل السوشيال: بحث منظم، ملف موثوق، خريطة، وحجز. المتابعون لا يساوون دائماً مراجعين.</div>
+    </div>
+    <div class="qa">
+      <div class="q">«غالي»</div>
+      <div class="a">باقة الدليل $100/سنة ≈ أقل من $10 شهرياً. موعد واحد جديد من المنصة قد يغطي الاشتراك السنوي.</div>
+    </div>
+    <div class="qa">
+      <div class="q">«ما عندي وقت»</div>
+      <div class="a">التسجيل يستغرق دقائق، ونساعدكم بإكمال الصفحة. بعدها تديرون المواعيد من اللوحة بدل الرد على كل رسالة يدوياً.</div>
+    </div>
+    <div class="qa">
+      <div class="q">«بدي أفكر / أجرب أولاً»</div>
+      <div class="a">ابدأوا بباقة الدليل للظهور، ثم رقّوا للمميزة عند الحاجة للحجز. أو ابدأوا بالمميزة مباشرة إن كنتم تريدون مواعيد من اليوم الأول.</div>
+    </div>
+    <div class="qa">
+      <div class="q">«هل الشارة ترخيص رسمي؟»</div>
+      <div class="a">لا. «موثّق» تعني مراجعة بيانات داخل ملامح. التراخيص الحكومية تبقى مسؤوليتكم الرسمية كما هي.</div>
+    </div>
+    <div class="qa">
+      <div class="q">«كيف أدفع وأُفعَّل؟»</div>
+      <div class="a">اطلبوا الباقة من صفحة الاشتراكات أو واتساب، ثم نفعّل يدوياً خلال 24–48 ساعة بعد التنسيق معكم.</div>
+    </div>
+  </div>
+  <div class="slide-footer">
+    <span class="brand">ملامح<span>.ps</span></span>
+    <span>إجابات عملية — بدون مبالغة</span>
+    <span>13</span>
+  </div>
+</section>
+
+<!-- 14. كيف نبدأ اليوم -->
+<section class="slide">
+  <h2>كيف نبدأ اليوم؟</h2>
+  <p class="lead">ثلاث نقاط دخول — اختاروا الأسهل لكم وسنتولى الباقي.</p>
+  <div class="grid-3" style="margin-bottom:4mm">
+    <div class="card teal" style="text-align:center">
+      <div class="pill teal" style="margin-bottom:2mm">1</div>
+      <h3>انضم كطبيب</h3>
+      <p class="mini">بوابة الانضمام والتواصل</p>
+      <p style="margin-top:2mm;font-weight:800;color:var(--teal)">malamih.ps/join</p>
+    </div>
+    <div class="card featured" style="text-align:center">
+      <div class="pill" style="margin-bottom:2mm">2</div>
+      <h3>سجّل العيادة</h3>
+      <p class="mini">استمارة + صور + GPS</p>
+      <p style="margin-top:2mm;font-weight:800;color:var(--teal)">malamih.ps/doctors/register</p>
+    </div>
+    <div class="card teal" style="text-align:center">
+      <div class="pill teal" style="margin-bottom:2mm">3</div>
+      <h3>اختر الباقة</h3>
+      <p class="mini">دليل · مميز · إعلان</p>
+      <p style="margin-top:2mm;font-weight:800;color:var(--teal)">malamih.ps/subscriptions</p>
+    </div>
+  </div>
+  <div class="grid-2" style="flex:1">
+    <div class="card navy" style="display:flex;flex-direction:column;justify-content:center">
+      <h3 style="font-size:16px">تواصل واتساب الآن</h3>
+      <p style="margin:2mm 0 3mm;color:#cbd5e1">راسلونا باسم العيادة والتخصص والمدينة — نرسل لكم خطوات التفعيل فوراً.</p>
+      <a href="https://wa.me/9720595537190" style="color:var(--gold-soft);font-size:15px;font-weight:900;text-decoration:none">
+        wa.me/9720595537190
+      </a>
+      <p class="mini" style="margin-top:2mm">أو اتصلوا: 0595537190</p>
+    </div>
+    <div class="card">
+      <h3>روابط سريعة</h3>
+      <ul>
+        <li>الموقع: <strong>www.malamih.ps</strong></li>
+        <li>أعلن معنا: malamih.ps/advertise</li>
+        <li>دخول الطبيب: malamih.ps/doctor/login</li>
+        <li>البريد: ammar.shtayeh@gmail.com</li>
+      </ul>
+      <div class="callout strong" style="margin-top:3.5mm;padding:3mm">
+        ابدأوا اليوم — التفعيل خلال 24–48 ساعة
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">
+    <span class="brand">ملامح<span>.ps</span></span>
+    <span>انضم · سجّل · اشترك · واتساب</span>
+    <span>14</span>
+  </div>
+</section>
+
+<!-- 15. شكر / تواصل -->
+<section class="slide closing">
+  <div class="brand-lockup" style="justify-content:center;margin-bottom:2mm">
+    <img
+      class="logo-mark"
+      src="../../apps/web/public/brand/logo-mark.png"
+      alt="ملامح"
+      onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
+    />
+    <span class="logo-fallback" aria-hidden="true">م</span>
+  </div>
+  <p class="pill dark">شكراً لوقتكم</p>
+  <h1>ملامح<span>.ps</span></h1>
+  <p>دليل فلسطين لصحة وجمال الوجه<br />جاهزون لنكون قناة نمو لعيادتكم في 2026</p>
+
+  <div class="contact-grid">
+    <div class="contact-item">
+      <div class="label">الموقع</div>
+      <a href="https://www.malamih.ps">www.malamih.ps</a>
+    </div>
+    <div class="contact-item">
+      <div class="label">الهاتف</div>
+      <div class="val">0595537190</div>
+    </div>
+    <div class="contact-item">
+      <div class="label">البريد</div>
+      <a href="mailto:ammar.shtayeh@gmail.com">ammar.shtayeh@gmail.com</a>
+    </div>
+    <div class="contact-item">
+      <div class="label">واتساب</div>
+      <a href="https://wa.me/9720595537190">wa.me/9720595537190</a>
+    </div>
+  </div>
+
+  <p style="margin-top:8mm;font-size:12px;color:#94a3b8;font-weight:700">
+    © ملامح.ps 2026 — عرض شراكة للأطباء والعيادات
+  </p>
+</section>
 
 </body>
 </html>
