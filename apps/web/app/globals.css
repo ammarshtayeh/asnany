@@ -159,26 +159,24 @@
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cpath fill='none' stroke='%23ffffff' stroke-opacity='0.06' stroke-width='1' d='M0 60c20-20 40-20 60 0s40 20 60 0M0 30c20-20 40-20 60 0s40 20 60 0M0 90c20-20 40-20 60 0s40 20 60 0'/%3E%3C/svg%3E");
   }
 
-  /* Homepage clinic hero — full frame always visible (letterbox on teal, never crop) */
+  /* Homepage clinic hero — mobile: full frame on top fading into teal; sm+: full-bleed backdrop */
   .hero-clinic-photo {
-    width: auto;
+    position: absolute;
+    inset: 0 0 auto 0;
+    width: 100%;
     height: auto;
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-    object-position: center center;
-    opacity: 0.78;
+    -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
   }
 
   @media (min-width: 640px) {
     .hero-clinic-photo {
-      opacity: 0.82;
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .hero-clinic-photo {
-      opacity: 0.86;
+      inset: 0;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 40%;
+      -webkit-mask-image: none;
+      mask-image: none;
     }
   }
 

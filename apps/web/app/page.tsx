@@ -243,9 +243,8 @@ export default function Home() {
   return (
     <div className="min-h-screen overflow-x-hidden font-sans">
       <section className="relative isolate mb-8 sm:mb-12">
-        {/* Teal stage — photo scales inside the box with contain so nothing is cropped */}
-        <div className="hero-clinic relative overflow-hidden bg-[#295f59]">
-          <div className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center px-0">
+        <div className="hero-clinic relative overflow-hidden bg-[#1f4a45]">
+          <div className="pointer-events-none absolute inset-0 z-0">
             <Image
               src={HERO_IMAGE_URL}
               alt=""
@@ -257,11 +256,12 @@ export default function Home() {
               className="hero-clinic-photo select-none"
             />
           </div>
-          <div className="pointer-events-none absolute inset-0 z-[1] bg-[#295f59]/10" />
-          <div className="pointer-events-none absolute inset-0 z-[1] topo-teal opacity-15" />
-          <div className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-b from-[#295f59]/20 via-transparent to-[#0a1628]/80" />
+          <div className="pointer-events-none absolute inset-0 z-[1] topo-teal opacity-10" />
+          <div className="pointer-events-none absolute inset-0 z-[1] hidden bg-gradient-to-l from-[#0a1628]/70 via-[#1f4a45]/25 to-transparent sm:block" />
+          <div className="pointer-events-none absolute inset-x-0 top-0 z-[1] hidden h-40 bg-gradient-to-b from-[#0a1628]/45 to-transparent sm:block" />
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-[55%] bg-gradient-to-t from-[#0a1628]/90 via-[#0a1628]/45 to-transparent" />
 
-          <div className="relative z-10 mx-auto flex min-h-[min(100svh,780px)] w-full max-w-[1400px] flex-col justify-end gap-8 px-[var(--page-gutter)] pb-10 pt-24 sm:min-h-[min(88vh,800px)] lg:grid lg:min-h-[min(86vh,840px)] lg:grid-cols-[minmax(0,1fr)_minmax(320px,420px)] lg:items-end lg:gap-12 lg:pb-14 lg:pt-28">
+          <div className="relative z-10 mx-auto flex min-h-[min(100svh,780px)] w-full max-w-[1400px] flex-col justify-end gap-8 px-[var(--page-gutter)] pb-10 pt-[calc(56.25vw+0.5rem)] sm:min-h-[min(88vh,800px)] sm:pt-24 lg:grid lg:min-h-[min(86vh,840px)] lg:grid-cols-[minmax(0,1fr)_minmax(320px,420px)] lg:items-end lg:gap-12 lg:pb-14 lg:pt-28">
             <div className="max-w-xl text-right text-white lg:pb-4" dir="rtl">
               <motion.div
                 className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 backdrop-blur-sm"
