@@ -139,7 +139,7 @@ export default function HomeScreen() {
               </View>
             </View>
             <View style={{ flexDirection: "row-reverse", gap: 8, marginTop: 12 }}>
-              {["أطباء موثقون", "حجز أوضح", "كل المدن"].map((tag) => (
+              {["أطباء للدليل", "حجز أوضح", "كل المدن"].map((tag) => (
                 <View key={tag} style={{ backgroundColor: "rgba(255,255,255,0.08)", borderRadius: 999, paddingHorizontal: 10, paddingVertical: 5, borderWidth: 1, borderColor: "rgba(255,255,255,0.1)" }}>
                   <Text style={{ color: "#e2e8f0", fontSize: 10, fontWeight: "800" }}>{tag}</Text>
                 </View>
@@ -291,7 +291,7 @@ export default function HomeScreen() {
           <View style={{ backgroundColor: theme.navy, borderRadius: 24, padding: 22, gap: 14 }}>
             <Text style={{ fontSize: 18, fontWeight: "900", color: theme.white, textAlign: "right" }}>لماذا ملامح؟</Text>
             {[
-              { icon: "check-circle" as const, title: "أطباء موثقون", desc: "كل طبيب مراجع ومتحقق منه قبل نشر ملفه." },
+              { icon: "check-circle" as const, title: "دليل واضح", desc: "تخصص ومدينة وتقييم في ملف واحد مرتب." },
               { icon: "message-circle" as const, title: "تواصل مباشر", desc: "واتساب وهاتف بنقرة واحدة." },
               { icon: "tag" as const, title: "عروض وخصومات", desc: "احصل على أفضل الأسعار من العيادات المشاركة." },
             ].map((point) => (

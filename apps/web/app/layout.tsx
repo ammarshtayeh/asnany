@@ -43,13 +43,13 @@ export const metadata: Metadata = {
     siteName: "ملامح",
     url: siteBaseUrl(),
     title: "ملامح | دليل صحة وجمال الوجه في فلسطين",
-    description: "ابحث عن أطباء موثقين، احجز موعدك، وتابع العروض الطبية في فلسطين.",
+    description: "ابحث عن أطباء الأسنان والوجه في فلسطين، احجز موعدك، وتابع العروض الطبية.",
     images: [{ url: "/brand/og-share.png", width: 1200, height: 630, alt: "ملامح — دليل صحة وجمال الوجه في فلسطين" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "ملامح | دليل صحة وجمال الوجه في فلسطين",
-    description: "ابحث عن أطباء موثقين، احجز موعدك، وتابع العروض الطبية في فلسطين.",
+    description: "ابحث عن أطباء الأسنان والوجه في فلسطين، احجز موعدك، وتابع العروض الطبية.",
     images: ["/brand/og-share.png"],
   },
   other: {

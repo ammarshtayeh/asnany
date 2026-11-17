@@ -36,7 +36,7 @@ export default function SiteFooter() {
               <span className="whitespace-nowrap font-display text-2xl font-bold tracking-[0.28em] text-white">MALAMIH</span>
             </div>
             <p className="text-sm font-semibold leading-7 text-slate-400">
-              دليل فلسطين لصحة وجمال الوجه — أطباء موثّقون، حجز، عروض، وباقات للعيادات.
+              دليل فلسطين لصحة وجمال الوجه — أطباء، حجز، عروض، وباقات للعيادات.
             </p>
             <div className="mt-6 flex flex-col gap-3 text-sm font-bold">
               <a href={`mailto:${ownerEmail}`} className="inline-flex items-center gap-2 text-slate-400 transition-colors hover:text-[#d4af37]">

@@ -34,9 +34,6 @@ function BookingDoctorCard({ doctor }: { doctor: SharedDoctor }) {
             ) : (
               <span className="rounded-full bg-rose-50 border border-rose-200/50 px-3 py-1.5 text-rose-700">غير متاح الآن</span>
             )}
-            {doctor.verified ? (
-              <span className="rounded-full bg-slate-950 border border-slate-800 px-3 py-1.5 text-amber-400">موثق</span>
-            ) : null}
             {doctor.accepts_insurance ? (
               <span className="rounded-full bg-primary/5 border border-sky-200/50 px-3 py-1.5 text-primary">يقبل التأمين</span>
             ) : null}
@@ -137,7 +134,7 @@ export default async function BookingPage({
       listings={listings}
       emptyCta={{
         title: "ابدأ الحجز من دليل الأطباء",
-        description: "اختر طبيباً موثّقاً واحجز موعدك خلال دقيقة — بدون إنشاء حساب، رقم هاتفك يكفي للمتابعة.",
+        description: "اختر طبيباً واحجز موعدك خلال دقيقة — بدون إنشاء حساب، رقم هاتفك يكفي للمتابعة.",
         primaryHref: "/doctors/search",
         primaryLabel: "تصفّح الأطباء",
         secondaryHref: "/appointments",

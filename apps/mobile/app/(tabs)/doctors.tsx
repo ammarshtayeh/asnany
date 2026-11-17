@@ -116,7 +116,7 @@ export default function DoctorsTabScreen() {
     >
       <ScreenHero
         paddingTop={12}
-        badge="دليل موثّق"
+        badge="دليل الأطباء"
         title="دليل الأطباء"
         subtitle="ابحث، قارن، واحجز من أفضل الأخصائيين في فلسطين"
       >
@@ -124,7 +124,7 @@ export default function DoctorsTabScreen() {
           {[
             { value: String(doctors.length), label: "طبيب" },
             { value: String(ads.length), label: "إعلان" },
-            { value: "موثق", label: "التحقق" },
+            { value: "منظم", label: "الملف" },
           ].map((stat) => (
             <View
               key={stat.label}
@@ -224,7 +224,7 @@ export default function DoctorsTabScreen() {
         ) : doctors.length === 0 ? (
           <EmptyStateCTA
             icon="users"
-            title="لا يوجد أطباء موثّقون بعد"
+            title="لا يوجد أطباء في الدليل بعد"
             description="كن من أوائل الأطباء على ملامح.ps واحصل على ظهور مميز في الدليل."
             primaryLabel="سجّل عيادتك"
             secondaryHref="/advertise"

@@ -320,7 +320,6 @@ export function DoctorListCard({
           <View style={{ flex: 1 }}>
             <View style={{ flexDirection: "row-reverse", alignItems: "center", gap: 6 }}>
               <Text style={{ fontSize: 16, fontWeight: "900", color: theme.text, textAlign: "right", flex: 1 }}>{name}</Text>
-              {verified ? <Feather name="check-circle" size={16} color={theme.tealLight} /> : null}
             </View>
             <Text style={{ fontSize: 12, color: theme.teal, fontWeight: "800", textAlign: "right", marginTop: 2 }}>{specialty}</Text>
             <View style={{ flexDirection: "row-reverse", alignItems: "center", gap: 4, marginTop: 2 }}>

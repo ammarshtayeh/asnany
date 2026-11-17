@@ -139,7 +139,6 @@ export default function DoctorsTab({
                     <View style={styles.headerInfo}>
                       <View style={styles.nameRow}>
                         <Text style={styles.cardTitle}>{doc.name}</Text>
-                        {doc.verified && <Text style={styles.verifiedBadge}>✔ موثق</Text>}
                       </View>
                       <View style={styles.specialtyRow}>
                         {doc.specialty && doc.specialty.map((s, i) => (

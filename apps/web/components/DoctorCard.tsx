@@ -1,6 +1,6 @@
 import { Doctor } from "@/lib/types";
 import { asStringArray } from "@/lib/http";
-import { Star, MapPin, Award, CheckCircle2, ArrowLeft } from "lucide-react";
+import { Star, MapPin, Award, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -29,7 +29,6 @@ export default function DoctorCard({ doctor }: { doctor: Doctor }) {
         <div>
           <div className="mb-1 flex items-center gap-2">
             <h2 className="text-lg font-black tracking-tight text-slate-900">{doctor.name}</h2>
-            {doctor.verified ? <CheckCircle2 className="h-4 w-4 text-primary" /> : null}
           </div>
 
           <div className="mb-2 flex flex-wrap gap-1.5">

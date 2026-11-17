@@ -10,7 +10,7 @@ const STORAGE_KEY = "malamih_onboarding_v1";
 const SLIDES = [
   {
     emoji: "🔍",
-    title: "ابحث عن طبيب موثّق",
+    title: "ابحث عن الطبيب المناسب",
     body: "دليل أطباء فلسطيني معتمد — ابحث بالاسم، التخصص، أو المدينة.",
   },
   {

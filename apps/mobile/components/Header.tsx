@@ -24,7 +24,7 @@ export default function Header() {
 
         <Text style={styles.title}>ابحث، قارن، واحجز رعايتك الطبية من مكان واحد.</Text>
         <Text style={styles.subtitle}>
-          أطباء موثقون، عروض، متاجر، مختبرات، تجميل، واستشارات في تجربة واحدة مرتبة على الهاتف.
+          أطباء، عروض، متاجر، مختبرات، تجميل، واستشارات في تجربة واحدة مرتبة على الهاتف.
         </Text>
 
         <View style={styles.statsRow}>

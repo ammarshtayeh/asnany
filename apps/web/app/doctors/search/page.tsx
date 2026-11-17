@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import { Doctor } from '@pal-dental/shared';
-import { ArrowRight, BadgeCheck, Calendar, MapPin, PhoneCall, Search, Star } from 'lucide-react';
+import { ArrowRight, Calendar, MapPin, PhoneCall, Search, Star } from 'lucide-react';
 import EmptyStateCTA from '@/components/EmptyStateCTA';
 import { CITIES, SPECIALTIES } from '@/lib/constants';
 
@@ -102,7 +102,7 @@ function SearchPageContent() {
               </span>
             </h1>
             <p className="mt-4 max-w-2xl text-sm font-semibold leading-7 text-slate-300 md:text-base">
-              قارن الأطباء الموثّقين، تواصل مباشرة، واحجز موعدك بخطوات واضحة.
+              قارن الأطباء، تواصل مباشرة، واحجز موعدك بخطوات واضحة.
             </p>
 
             <div className="mt-8 rounded-[1.5rem] border border-white/12 bg-white/[0.06] p-4 shadow-[0_30px_60px_-28px_rgba(0,0,0,0.55)] backdrop-blur-xl sm:p-5">
@@ -216,15 +216,6 @@ function SearchPageContent() {
                     <div className="p-4 pb-0">
                     <div className="mb-1 flex items-center gap-1.5">
                       <h3 className="text-lg font-black tracking-tight text-slate-900">{doctor.name}</h3>
-                      {doctor.verified ? (
-                        <span
-                          className="inline-flex items-center gap-1 rounded-full border border-primary/15 bg-primary/5 px-2 py-0.5 text-[10px] font-black text-primary"
-                          title="راجعت الإدارة بيانات العيادة الأساسية"
-                        >
-                          <BadgeCheck className="h-3.5 w-3.5" />
-                          موثّق
-                        </span>
-                      ) : null}
                     </div>
                     <div className="mt-2 flex flex-wrap gap-1.5">
                       {(Array.isArray(doctor.specialty) ? doctor.specialty : [doctor.specialty || doctor.category]).filter(Boolean).map((s) => (

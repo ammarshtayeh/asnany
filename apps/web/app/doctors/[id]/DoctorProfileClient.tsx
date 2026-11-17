@@ -231,15 +231,6 @@ export default function DoctorProfileClient({ doctor, canBookOnWebsite }: { doct
                   <div>
                     <div className="flex items-center gap-3 mb-3">
                       <h1 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight">{doctor.name}</h1>
-                      {doctor.verified && (
-                        <span
-                          className="inline-flex items-center gap-1.5 rounded-full border border-emerald-100 bg-emerald-50 px-3 py-1 text-xs font-black text-emerald-700"
-                          title="راجعت الإدارة بيانات العيادة الأساسية قبل الظهور في الدليل"
-                        >
-                          <CheckCircle2 className="h-4 w-4" />
-                          موثّق
-                        </span>
-                      )}
                       {doctor.accepts_discount_card ? (
                         <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-black text-emerald-700">
                           بطاقة الخصم

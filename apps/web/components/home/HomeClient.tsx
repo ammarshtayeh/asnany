@@ -8,7 +8,6 @@ import { motion } from "framer-motion";
 import {
   ArrowLeft,
   CalendarCheck2,
-  CheckCircle2,
   ChevronDown,
   Clock,
   Ear,
@@ -373,7 +372,7 @@ export default function HomeClient({ initialDoctors }: { initialDoctors: Doctor[
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.65, delay: 0.16 }}
               >
-                دليل موثّق لأطباء الأسنان، العيون، الجلدية، التجميل، والأنف والأذن — ابحث، قارن، واحجز في مكان واحد.
+                دليل لأطباء الأسنان، العيون، الجلدية، التجميل، والأنف والأذن في فلسطين — ابحث، قارن، واحجز في مكان واحد.
               </motion.p>
               <motion.div
                 className="mt-7 flex flex-wrap gap-3"
@@ -409,7 +408,7 @@ export default function HomeClient({ initialDoctors }: { initialDoctors: Doctor[
                 </div>
                 {(publicStats.verifiedProviders > 0) && (
                   <p className="rounded-full border border-white/15 bg-white/10 px-3 py-1 text-[11px] font-black text-white/90">
-                    <AnimatedCounter target={publicStats.verifiedProviders} duration={1800} />+ مزود موثّق
+                    <AnimatedCounter target={publicStats.verifiedProviders} duration={1800} />+ طبيب في الدليل
                   </p>
                 )}
               </div>
@@ -526,7 +525,7 @@ export default function HomeClient({ initialDoctors }: { initialDoctors: Doctor[
       <div className="section-shell relative z-20 -mt-5 mb-6" dir="rtl">
         <div className="grid gap-3 rounded-[1.35rem] border border-slate-200/70 bg-white/95 p-3 shadow-[0_16px_40px_-24px_rgba(10,22,40,0.2)] backdrop-blur-md sm:grid-cols-3 sm:gap-0 sm:divide-x sm:divide-x-reverse sm:divide-slate-100 sm:p-1">
           {[
-            { label: "أطباء موثّقون", desc: "تحقق قبل الظهور في الدليل", href: "/trust" },
+            { label: "دليل واضح", desc: "تخصص ومدينة وتقييم في مكان واحد", href: "/doctors/search" },
             { label: "حجز أوضح", desc: "من البحث إلى الموعد بخطوات قليلة", href: "/booking" },
             { label: "تغطية المدن", desc: "ابحث حسب محافظتك وتخصصك", href: "/doctors/search" },
           ].map((item) => (
@@ -710,15 +709,6 @@ function DoctorResult({ doctor, showOpenStatus }: { doctor: Doctor; showOpenStat
               <Link href={`/doctors/${doctor.id}`} className="text-xl font-black text-slate-950 hover:text-primary transition-colors">
                 {doctor.name}
               </Link>
-              {doctor.verified ? (
-                <span
-                  className="inline-flex items-center gap-1 rounded-full border border-emerald-100 bg-emerald-50 px-2 py-0.5 text-[10px] font-black text-emerald-700"
-                  title="راجعت الإدارة بيانات العيادة الأساسية قبل الظهور"
-                >
-                  <CheckCircle2 className="h-3.5 w-3.5" />
-                  موثّق
-                </span>
-              ) : null}
               {doctor.accepts_discount_card ? (
                 <span className="inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-1 text-[11px] font-black text-emerald-700 border border-emerald-100">
                   بطاقة الخصم
