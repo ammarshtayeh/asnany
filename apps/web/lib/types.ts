@@ -32,6 +32,11 @@ export type Doctor = {
   verified: boolean;
   created_at: string;
   distance?: number; // for frontend sorting
+  /** Set by /api/doctors: online booking is enabled for this clinic. */
+  can_book_online?: boolean;
+  active_package_slug?: string | null;
+  /** Set by /api/doctors: 2 = premium/featured, 1 = directory package, 0 = no package. */
+  listing_tier?: number;
 };
 
 export type Advertisement = {

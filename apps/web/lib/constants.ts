@@ -18,6 +18,9 @@ export const CITIES = [
   "قطاع غزة - أخرى",
 ];
 
+/** Doctors shown on the homepage before "عرض المزيد" (also the number the server pre-renders). */
+export const HOME_DOCTORS_PAGE_SIZE = 8;
+
 export const SPECIALTIES = [
   { id: 'أسنان', label: 'أسنان (طب عام)' },
   { id: 'زراعة الأسنان', label: 'زراعة الأسنان' },

@@ -1,41 +1,15 @@
 import { NextResponse } from "next/server";
-import { isSupabaseConfigured, supabase, supabaseAdmin } from "@/lib/supabase";
 import { cityMatchesFilter } from "@/lib/city-match";
-
-async function activeBookableDoctorIds() {
-  const { data, error } = await supabaseAdmin
-    .from("doctor_accounts")
-    .select("doctor_id")
-    .eq("is_active", true);
-  if (error) throw error;
-  return new Set((data || []).map((row) => row.doctor_id as string));
-}
+import { fetchPublicDoctors } from "@/lib/public-doctors";
 
 export async function GET(request: Request) {
   try {
-    if (!isSupabaseConfigured) {
-      return NextResponse.json([]);
-    }
-
     const { searchParams } = new URL(request.url);
     const city = searchParams.get("city");
     const specialty = searchParams.get("specialty");
 
-    const query = supabase
-      .from("doctors")
-      .select(
-        "id, name, category, specialty, city, area, address, phone, whatsapp, bio, lat, lng, image_url, clinic_photos, rating, verified, is_featured, accepts_insurance, insurance_list, working_hours, is_available, availability_note, active_package_slug"
-      )
-      .eq("verified", true);
-
-    const [{ data, error }, bookableIds] = await Promise.all([query, activeBookableDoctorIds()]);
-
-    if (error) throw error;
-
-    let doctors = (data || []).map((doc: any) => ({
-      ...doc,
-      can_book_online: bookableIds.has(doc.id) || doc.active_package_slug === "premium",
-    }));
+    // Already ranked: subscribed clinics first, then by rating.
+    let doctors = await fetchPublicDoctors();
 
     if (city) {
       doctors = doctors.filter(

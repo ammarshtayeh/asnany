@@ -1,70 +1,88 @@
 'use client';
 
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
-import { Suspense, useState, useEffect } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import { Doctor } from '@pal-dental/shared';
 import { ArrowRight, BadgeCheck, Calendar, MapPin, PhoneCall, Search, Star } from 'lucide-react';
 import EmptyStateCTA from '@/components/EmptyStateCTA';
 import { CITIES, SPECIALTIES } from '@/lib/constants';
 
+type FilterKey = 'city' | 'specialty' | 'insurance';
+
 function SearchPageContent() {
   const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname() || '/doctors/search';
+
+  // The URL is the source of truth for filters, so any filtered view can be shared as a link
+  // (e.g. /doctors/search?city=نابلس&specialty=أسنان).
+  const city = searchParams?.get('city') || '';
+  const specialty = searchParams?.get('specialty') || '';
+  const insuranceParam = searchParams?.get('insurance') || '';
+  const insurance = insuranceParam === 'yes' || insuranceParam === 'no' ? insuranceParam : 'any';
+
   const [doctors, setDoctors] = useState<Doctor[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [query, setQuery] = useState('');
-  const [filters, setFilters] = useState({
-    city: searchParams?.get('city') || '',
-    specialty: searchParams?.get('specialty') || '',
-    insurance: searchParams?.get('insurance') || 'any',
-  });
+  const [query, setQuery] = useState(() => searchParams?.get('q') || '');
+  const latestRequest = useRef(0);
 
-  useEffect(() => {
-    void fetchDoctors();
-  }, [filters]);
-
-  const fetchDoctors = async () => {
+  const fetchDoctors = useCallback(async () => {
+    // Only the newest request may update the list, so quick filter changes cannot show stale results.
+    const requestId = ++latestRequest.current;
     setLoading(true);
     setError(null);
     try {
       const params = new URLSearchParams();
-      if (filters.city) params.append('city', filters.city);
-      if (filters.specialty) params.append('specialty', filters.specialty);
+      if (city) params.append('city', city);
+      if (specialty) params.append('specialty', specialty);
 
       const response = await fetch(`/api/doctors?${params}`);
       if (!response.ok) throw new Error('Failed to fetch');
 
-      let data = await response.json();
-
-      if (filters.insurance === 'yes') {
-        data = data.filter((d: Doctor) => d.acceptsInsurance || d.accepts_insurance);
-      } else if (filters.insurance === 'no') {
-        data = data.filter((d: Doctor) => !(d.acceptsInsurance || d.accepts_insurance));
-      }
-
-      setDoctors(data);
+      const data = await response.json();
+      if (requestId !== latestRequest.current) return;
+      setDoctors(Array.isArray(data) ? data : []);
     } catch {
+      if (requestId !== latestRequest.current) return;
       setError('تعذر تحميل نتائج البحث. تحقق من الاتصال وحاول مجدداً.');
     } finally {
-      setLoading(false);
+      if (requestId === latestRequest.current) setLoading(false);
     }
+  }, [city, specialty]);
+
+  useEffect(() => {
+    void fetchDoctors();
+  }, [fetchDoctors]);
+
+  const handleFilterChange = (key: FilterKey, value: string) => {
+    const params = new URLSearchParams(searchParams?.toString() || '');
+    if (!value || value === 'any') params.delete(key);
+    else params.set(key, value);
+    const nextQuery = params.toString();
+    router.replace(nextQuery ? `${pathname}?${nextQuery}` : pathname, { scroll: false });
   };
 
-  const handleFilterChange = (key: string, value: string) => {
-    setFilters((prev) => ({ ...prev, [key]: value }));
+  const applyTip = (tip: string) => {
+    setQuery('');
+    const params = new URLSearchParams();
+    params.set(CITIES.includes(tip) ? 'city' : 'specialty', tip);
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
   const needle = query.trim().toLowerCase();
-  const visibleDoctors = needle
-    ? doctors.filter((doctor) =>
-        [doctor.name, doctor.city, doctor.area, ...(Array.isArray(doctor.specialty) ? doctor.specialty : [doctor.specialty, doctor.category])]
-          .filter(Boolean)
-          .join(' ')
-          .toLowerCase()
-          .includes(needle),
-      )
-    : doctors;
+  const visibleDoctors = doctors.filter((doctor) => {
+    const acceptsInsurance = Boolean(doctor.acceptsInsurance || doctor.accepts_insurance);
+    if (insurance === 'yes' && !acceptsInsurance) return false;
+    if (insurance === 'no' && acceptsInsurance) return false;
+    if (!needle) return true;
+    return [doctor.name, doctor.city, doctor.area, ...(Array.isArray(doctor.specialty) ? doctor.specialty : [doctor.specialty, doctor.category])]
+      .filter(Boolean)
+      .join(' ')
+      .toLowerCase()
+      .includes(needle);
+  });
 
   return (
     <main className="min-h-screen animate-fade-in bg-transparent pb-24 pt-2 text-right" dir="rtl">
@@ -99,7 +117,7 @@ function SearchPageContent() {
               </label>
               <div className="grid gap-3 sm:grid-cols-3">
                 <select
-                  value={filters.city}
+                  value={city}
                   onChange={(e) => handleFilterChange('city', e.target.value)}
                   className="w-full rounded-2xl border border-white/10 bg-[#0b1526] px-4 py-3 text-sm font-black text-white outline-none focus:border-[#e8c86a]/40"
                 >
@@ -109,17 +127,21 @@ function SearchPageContent() {
                   ))}
                 </select>
                 <select
-                  value={filters.specialty}
+                  value={specialty}
                   onChange={(e) => handleFilterChange('specialty', e.target.value)}
                   className="w-full rounded-2xl border border-white/10 bg-[#0b1526] px-4 py-3 text-sm font-black text-white outline-none focus:border-[#e8c86a]/40"
                 >
                   <option value="">كل التخصصات</option>
+                  {/* A linked specialty that is not in the list still shows as the active choice. */}
+                  {specialty && !SPECIALTIES.some((spec) => spec.id === specialty) ? (
+                    <option value={specialty}>{specialty}</option>
+                  ) : null}
                   {SPECIALTIES.map((spec) => (
                     <option key={spec.id} value={spec.id}>{spec.label}</option>
                   ))}
                 </select>
                 <select
-                  value={filters.insurance}
+                  value={insurance}
                   onChange={(e) => handleFilterChange('insurance', e.target.value)}
                   className="w-full rounded-2xl border border-white/10 bg-[#0b1526] px-4 py-3 text-sm font-black text-white outline-none focus:border-[#e8c86a]/40"
                 >
@@ -160,6 +182,7 @@ function SearchPageContent() {
             secondaryLabel="عرض كل الأطباء"
             whatsappMessage="مرحباً، أريد تسجيل عيادتي على ملامح.ps"
             tips={['رام الله', 'نابلس', 'الخليل', 'أسنان', 'عيون', 'جلدية']}
+            onTipClick={applyTip}
           />
         )}
 

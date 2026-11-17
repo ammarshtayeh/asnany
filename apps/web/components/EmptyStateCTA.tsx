@@ -11,6 +11,8 @@ type EmptyStateCTAProps = {
   secondaryLabel?: string;
   whatsappMessage?: string;
   tips?: string[];
+  /** When provided, tips render as buttons that apply the suggestion. */
+  onTipClick?: (tip: string) => void;
 };
 
 export default function EmptyStateCTA({
@@ -22,6 +24,7 @@ export default function EmptyStateCTA({
   secondaryLabel,
   whatsappMessage = "مرحباً، أريد الانضمام لمنصة ملامح.ps",
   tips,
+  onTipClick,
 }: EmptyStateCTAProps) {
   return (
     <div className="bento-card shine-border rounded-3xl border border-dashed border-slate-300/80 bg-white/90 p-10 text-center shadow-bento backdrop-blur-md">
@@ -29,11 +32,22 @@ export default function EmptyStateCTA({
       <p className="mx-auto mt-3 max-w-lg text-sm font-semibold leading-7 text-slate-500">{description}</p>
       {tips?.length ? (
         <div className="mt-5 flex flex-wrap justify-center gap-2">
-          {tips.map((tip) => (
-            <span key={tip} className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-600">
-              {tip}
-            </span>
-          ))}
+          {tips.map((tip) =>
+            onTipClick ? (
+              <button
+                key={tip}
+                type="button"
+                onClick={() => onTipClick(tip)}
+                className="rounded-full border border-slate-200 bg-slate-100 px-3.5 py-1.5 text-xs font-black text-slate-700 transition hover:border-primary/30 hover:bg-white hover:text-primary"
+              >
+                {tip}
+              </button>
+            ) : (
+              <span key={tip} className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-600">
+                {tip}
+              </span>
+            )
+          )}
         </div>
       ) : null}
       <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
