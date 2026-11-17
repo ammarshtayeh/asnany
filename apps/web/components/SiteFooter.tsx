@@ -6,6 +6,7 @@ import { Mail, Phone, Sparkles } from "lucide-react";
 import { SITE_NAV_MORE_SECTIONS, SITE_NAV_PRIMARY } from "@pal-dental/shared";
 import { SITE_SUPPORT_EMAIL, SITE_SUPPORT_WHATSAPP, SITE_SUPPORT_PHONE_DISPLAY } from "@/lib/site-contact";
 import { MalamihLogoMark } from "@/components/MalamihLogoMark";
+import { useVisibleNavLinks } from "@/lib/nav-visibility";
 
 const ownerPhone = SITE_SUPPORT_WHATSAPP;
 const ownerEmail = SITE_SUPPORT_EMAIL;
@@ -13,6 +14,7 @@ const ownerEmail = SITE_SUPPORT_EMAIL;
 export default function SiteFooter() {
   const pathname = usePathname();
   const currentPath = pathname || "";
+  const primaryLinks = useVisibleNavLinks(SITE_NAV_PRIMARY);
   const isPortalRoute =
     currentPath === "/admin" ||
     currentPath.startsWith("/admin/") ||
@@ -59,7 +61,7 @@ export default function SiteFooter() {
               التصفح الرئيسي
             </p>
             <div className="flex flex-col gap-2.5 text-sm font-bold text-slate-300">
-              {SITE_NAV_PRIMARY.map((link) => (
+              {primaryLinks.map((link) => (
                 <Link key={link.href} href={link.href} className="transition-colors hover:text-white">
                   {link.label}
                 </Link>

@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { SITE_NAV_MOBILE_BOTTOM, SITE_NAV_MORE_SECTIONS, SITE_NAV_PRIMARY } from "@pal-dental/shared";
 import { MalamihLogoMark } from "@/components/MalamihLogoMark";
+import { useVisibleNavLinks } from "@/lib/nav-visibility";
 
 const ICON_MAP: Record<string, LucideIcon> = {
   Sparkles,
@@ -36,6 +37,8 @@ export default function Navbar() {
   const [moreOpen, setMoreOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const moreRef = useRef<HTMLDivElement>(null);
+  const primaryLinks = useVisibleNavLinks(SITE_NAV_PRIMARY);
+  const bottomLinks = useVisibleNavLinks(SITE_NAV_MOBILE_BOTTOM);
 
   useEffect(() => {
     const onScroll = () => {
@@ -110,7 +113,7 @@ export default function Navbar() {
 
           <div className="hidden min-w-0 flex-1 justify-center lg:flex">
             <div className="flex items-center gap-1 rounded-2xl border border-[#e5e0d8] bg-white p-1 shadow-sm">
-              {SITE_NAV_PRIMARY.map((link) => {
+              {primaryLinks.map((link) => {
                 const isActive =
                   currentPath === link.href || (link.href !== "/" && currentPath.startsWith(link.href));
                 const Icon = ICON_MAP[link.icon] || Sparkles;
@@ -211,7 +214,7 @@ export default function Navbar() {
               <div>
                 <p className="mb-2 text-[10px] font-black uppercase tracking-wider text-[#295f59]/70">التصفح الرئيسي</p>
                 <div className="grid grid-cols-1 gap-2 xs:grid-cols-2 sm:grid-cols-2">
-                  {SITE_NAV_PRIMARY.map((link) => {
+                  {primaryLinks.map((link) => {
                     const Icon = ICON_MAP[link.icon] || Sparkles;
                     const isActive = currentPath === link.href || currentPath.startsWith(link.href);
                     return (
@@ -273,8 +276,8 @@ export default function Navbar() {
         className="fixed bottom-3 left-3 right-3 z-50 lg:hidden"
         dir="rtl"
       >
-        <div className="mx-auto grid max-w-md grid-cols-5 gap-0.5 rounded-2xl border border-[#e5e0d8] bg-white p-1.5 shadow-float">
-          {SITE_NAV_MOBILE_BOTTOM.map((link) => {
+        <div className={`mx-auto grid max-w-md gap-0.5 rounded-2xl border border-[#e5e0d8] bg-white p-1.5 shadow-float ${bottomLinks.length === 4 ? "grid-cols-4" : "grid-cols-5"}`}>
+          {bottomLinks.map((link) => {
             const isActive =
               currentPath === link.href ||
               (link.href !== "/" && !link.href.includes("#") && currentPath.startsWith(link.href));

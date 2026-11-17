@@ -7,17 +7,25 @@ export async function GET() {
       verifiedProviders: 0,
       appointments: 0,
       cities: 0,
+      activeOffers: 0,
     });
   }
 
   try {
-    const [doctorsRes, appointmentsRes] = await Promise.all([
+    const [doctorsRes, appointmentsRes, offersRes] = await Promise.all([
       supabaseAdmin.from("doctors").select("city").eq("verified", true),
       supabaseAdmin.from("appointments").select("id", { count: "exact", head: true }),
+      // Same rule as the /offers page: an offer counts while it is still valid.
+      supabaseAdmin
+        .from("offers")
+        .select("id", { count: "exact", head: true })
+        .gte("valid_until", new Date().toISOString()),
     ]);
 
     if (doctorsRes.error) throw doctorsRes.error;
     if (appointmentsRes.error) throw appointmentsRes.error;
+    // The offers count only drives navigation, so a failure here must not zero the other stats.
+    if (offersRes.error) console.error("Public stats offers count error:", offersRes.error);
 
     const doctors = doctorsRes.data || [];
     const cities = new Set(
@@ -28,6 +36,7 @@ export async function GET() {
       verifiedProviders: doctors.length,
       appointments: appointmentsRes.count || 0,
       cities: cities.size,
+      activeOffers: offersRes.error ? 0 : offersRes.count || 0,
     });
   } catch (error) {
     console.error("Public stats error:", error);
@@ -35,6 +44,7 @@ export async function GET() {
       verifiedProviders: 0,
       appointments: 0,
       cities: 0,
+      activeOffers: 0,
     });
   }
 }

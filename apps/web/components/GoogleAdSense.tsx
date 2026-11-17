@@ -15,6 +15,8 @@ function hasAdConsent() {
 
 function isAdFreePath(pathname: string) {
   return (
+    // Homepage lists clinics and sells its own ad slots — keep third-party ads off it.
+    pathname === "/" ||
     pathname.startsWith("/admin") ||
     pathname.startsWith("/doctor") ||
     pathname.startsWith("/booking") ||
