@@ -88,7 +88,7 @@ export default function AdvancedSearchFilter({
           onChange={(e) => setIsActive(e.target.value as any)}
         >
           <option value="any">حالة الحساب</option>
-          <option value="active">نشط وموثق</option>
+          <option value="active">نشط في الدليل</option>
           <option value="inactive">غير نشط</option>
         </select>
 

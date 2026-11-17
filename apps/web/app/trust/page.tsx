@@ -17,7 +17,7 @@ export default function TrustPage() {
         <div className="mx-auto max-w-2xl space-y-3 text-center">
           <h2 className="text-2xl font-black text-slate-900 md:text-3xl">موثوقية عملية… بصراحة</h2>
           <p className="text-sm font-medium leading-relaxed text-slate-500 md:text-base">
-            شارة «موثّق» تعني أن الإدارة راجعت بيانات العيادة الأساسية وفعّلت ظهورها في الدليل.
+            العيادات الظاهرة في الدليل راجعَت الإدارة بياناتها الأساسية قبل النشر.
             لا تعني حالياً تحققاً حكومياً آلياً من الرخصة أو النقابة — ونعمل على تقوية هذه الطبقة تدريجياً.
           </p>
         </div>
@@ -26,8 +26,8 @@ export default function TrustPage() {
           <FeatureTile icon={ClipboardCheck} title="مراجعة البيانات" tone="primary">
             نراجع الاسم، التخصص، المدينة، العنوان، ووسائل التواصل قبل النشر العلني.
           </FeatureTile>
-          <FeatureTile icon={BadgeCheck} title="شارة التوثيق" tone="emerald">
-            تظهر بعد موافقة الإدارة. التقييم يظهر فقط عند وجود مراجعات حقيقية معتمدة.
+          <FeatureTile icon={BadgeCheck} title="نشر بعد المراجعة" tone="emerald">
+            العيادة تظهر في الدليل بعد موافقة الإدارة. التقييم يظهر فقط عند وجود مراجعات حقيقية معتمدة.
           </FeatureTile>
           <FeatureTile icon={MapPin} title="موقع واضح" tone="indigo">
             نخلي العنوان والخريطة متاحة عشان توصل بسهولة للعيادة.

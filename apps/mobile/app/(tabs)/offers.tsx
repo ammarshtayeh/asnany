@@ -72,7 +72,7 @@ export default function OffersScreen() {
         <View style={{ flexDirection: "row-reverse", gap: 10, marginTop: 18 }}>
           {[
             { value: String(offers.length || "—"), label: "عرض نشط" },
-            { value: "موثق", label: "مصدر العرض" },
+            { value: "من الدليل", label: "مصدر العرض" },
             { value: "سريع", label: "حجز فوري" },
           ].map((stat) => (
             <View key={stat.label} style={{ flex: 1, backgroundColor: "rgba(255,255,255,0.08)", borderWidth: 1, borderColor: "rgba(255,255,255,0.12)", borderRadius: 14, padding: 12, alignItems: "center" }}>

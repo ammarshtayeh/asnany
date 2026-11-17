@@ -380,7 +380,7 @@ export default function DoctorProfileScreen() {
         <AppCard>
           <AppTitle style={{ fontSize: 16, textAlign: "right" }}>الحجز عبر التطبيق غير متاح</AppTitle>
           <AppSubtitle style={{ textAlign: "right", marginTop: 8 }}>
-            الطبيب موثّق في الدليل، لكن الحجز الإلكتروني يتطلب حساب طبيب مفعّل. تواصل عبر واتساب أو الهاتف.
+            الحجز الإلكتروني يتطلب حساب طبيب مفعّل. تواصل عبر واتساب أو الهاتف.
           </AppSubtitle>
         </AppCard>
       )}
