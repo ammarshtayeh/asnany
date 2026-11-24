@@ -71,6 +71,7 @@ import CookieBanner from "@/components/CookieBanner";
 import SiteBodyWrapper from "@/components/SiteBodyWrapper";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import GoogleAdSense from "@/components/GoogleAdSense";
+import ComingSoonGate from "@/components/ComingSoonGate";
 
 export default function RootLayout({
   children,
@@ -93,6 +94,7 @@ export default function RootLayout({
         {/* <AIChatbot /> */}
         <CookieBanner />
         <PWARegister />
+        <ComingSoonGate />
       </body>
     </html>
   );

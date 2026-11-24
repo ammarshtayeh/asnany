@@ -14,6 +14,7 @@ import { AppToastProvider } from "../components/AppToast";
 import { ConnectivityBanner } from "../components/ConnectivityBanner";
 import { OnboardingModal } from "../components/OnboardingModal";
 import { AppErrorBoundary } from "../components/AppErrorBoundary";
+import { ComingSoonGate } from "../components/ComingSoonGate";
 
 export default function RootLayout() {
   const handledNotificationIds = useRef(new Set<string>());
@@ -80,6 +81,7 @@ export default function RootLayout() {
           <View style={{ flex: 1 }}>
             <ConnectivityBanner />
             <OnboardingModal />
+            <ComingSoonGate />
             <Stack screenOptions={{ headerShown: false }}>
             <Stack.Screen name="index" />
             <Stack.Screen name="(tabs)" />
