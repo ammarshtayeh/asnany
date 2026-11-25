@@ -1,6 +1,8 @@
-import { Users, Megaphone, CheckCircle2, Store, Sparkles, KeyRound, UserCheck, ShieldAlert, BadgeCheck, CreditCard } from "lucide-react";
+import { Users, CheckCircle2, Store, Sparkles, KeyRound, UserCheck, ShieldAlert, BadgeCheck, CreditCard } from "lucide-react";
 import Link from "next/link";
 import { getAdminDashboardStats, getAdminRecentDoctors, getAdminRecentStores } from "@/lib/admin-dashboard";
+import AdminDashboardVisuals from "@/components/admin/AdminDashboardVisuals";
+import { AnimatedCounter } from "@/components/AnimatedCounter";
 
 export default async function AdminDashboard() {
   const [stats, doctors, stores] = await Promise.all([
@@ -11,184 +13,141 @@ export default async function AdminDashboard() {
 
   const { totalDoctors, verifiedDoctors, pendingDoctors, activeAds, activeStores, totalAppointments, pendingAppointments, totalServices } = stats;
 
+  const statCards = [
+    { label: "إجمالي الأطباء", value: totalDoctors, icon: Users, tone: "bg-[#eef5f3] text-primary" },
+    { label: "موثّقون", value: verifiedDoctors, icon: BadgeCheck, tone: "bg-[#e8f2ee] text-[#0c5e47]" },
+    { label: "بانتظار التوثيق", value: pendingDoctors, icon: ShieldAlert, tone: "bg-[#f7f1e0] text-[#8a7020]" },
+    { label: "إجمالي الحجوزات", value: totalAppointments, icon: CheckCircle2, tone: "bg-[#eef5f3] text-primary" },
+    { label: "حجوزات معلّقة", value: pendingAppointments, icon: Sparkles, tone: "bg-[#f7f1e0] text-[#8a7020]" },
+    { label: "متاجر + إعلانات", value: activeStores + activeAds, icon: Store, tone: "bg-[#eef5f3] text-primary" },
+  ];
+
   return (
-    <div className="p-4 md:p-8 font-sans bg-slate-50 min-h-screen text-right" dir="rtl">
-      <div className="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+    <div className="min-h-screen bg-[#f7f5f0] p-3 font-sans text-right sm:p-4 md:p-8" dir="rtl">
+      <div className="mb-6 flex flex-col gap-4 sm:mb-8 md:flex-row md:items-center md:justify-between">
         <div>
-          <h1 className="text-3xl font-black text-slate-900 tracking-tight">لوحة التحكم</h1>
-          <p className="text-slate-500 mt-1 font-medium text-sm">نظرة عامة حية ومباشرة من قاعدة البيانات لمنصة ملامح.ps</p>
+          <h1 className="font-display text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">لوحة التحكم</h1>
+          <p className="mt-1 text-sm font-medium text-slate-500">نظرة عامة حية ومباشرة من قاعدة البيانات لمنصة ملامح.ps</p>
         </div>
-        <div className="flex items-center gap-2 bg-amber-50 border border-amber-200 text-amber-800 px-4 py-2 rounded-2xl text-xs font-black self-start">
-          <Sparkles className="w-4 h-4 text-amber-500 animate-pulse" />
+        <div className="inline-flex items-center gap-2 self-start rounded-full border border-primary/15 bg-[#eef5f3] px-4 py-2 text-xs font-extrabold text-primary">
+          <Sparkles className="h-4 w-4" />
           <span>الأول من نوعه في فلسطين 🇵🇸</span>
         </div>
       </div>
 
-      <div className="mb-10 bg-slate-950 rounded-3xl p-6 md:p-8 text-white relative overflow-hidden shadow-xl border border-slate-800">
-        <div className="absolute top-0 right-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10 pointer-events-none" />
-        <div className="absolute -top-32 -left-32 w-64 h-64 bg-primary/50 rounded-full blur-[100px] opacity-20 pointer-events-none" />
-        <div className="absolute -bottom-32 -right-32 w-64 h-64 bg-emerald-500 rounded-full blur-[100px] opacity-10 pointer-events-none" />
-
-        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-          <div>
-            <p className="text-primary font-black text-xs uppercase tracking-wider mb-2">تحديث المنصة الشامل</p>
-            <h2 className="text-xl md:text-2xl font-black leading-snug">إدارة الأقسام والخدمات مربوطة بالكامل</h2>
-            <p className="text-slate-400 mt-2 font-medium text-sm md:text-base max-w-2xl leading-relaxed">
+      <div className="relative mb-6 overflow-hidden rounded-[1.5rem] bg-primary p-5 text-white shadow-soft sm:mb-8 sm:p-6 md:p-8">
+        <div className="relative z-10 flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+          <div className="min-w-0">
+            <p className="mb-2 text-xs font-extrabold uppercase tracking-wider text-white/80">تحديث المنصة الشامل</p>
+            <h2 className="font-display text-lg font-extrabold leading-snug text-white sm:text-xl md:text-2xl">
+              إدارة الأقسام والخدمات مربوطة بالكامل
+            </h2>
+            <p className="mt-2 max-w-2xl text-sm font-medium leading-relaxed text-white/80 md:text-base">
               عيادات التجميل، أخصائيي الجلدية، البصريات والعيون، ومراكز الأنف والأذن والحنجرة أصبحت مفعلة وجاهزة للتحكم.
             </p>
           </div>
-          <Link
-            href="/admin/services"
-            className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 px-6 py-3.5 rounded-2xl font-black hover:from-amber-500 hover:to-amber-600 transition-all hover:scale-[1.02] active:scale-95 text-sm shadow-lg shadow-amber-500/10 self-start lg:self-auto"
-          >
-            <Sparkles className="w-4 h-4" />
+          <Link href="/admin/services" className="inline-flex shrink-0 items-center justify-center gap-2 self-start rounded-full bg-white px-5 py-3 text-sm font-extrabold text-primary transition hover:bg-[#f7f5f0] lg:self-auto">
+            <Sparkles className="h-4 w-4" />
             إدارة الخدمات الطبية ({totalServices})
           </Link>
         </div>
       </div>
 
-      <div className="mb-10 grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-        <Link
-          href="/admin/doctors"
-          className="group flex items-center gap-5 bento-card p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/10"
-        >
-          <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-primary/5 text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300">
-            <UserCheck className="h-8 w-8" />
-          </div>
-          <div>
-            <h3 className="text-lg font-black text-slate-950 group-hover:text-primary transition-colors">إدارة الأطباء والعيادات</h3>
-            <p className="mt-1 text-xs md:text-sm font-semibold text-slate-500">مراجعة بيانات الأطباء، الصور والتخصصات — {totalDoctors} طبيب مسجل</p>
-          </div>
-        </Link>
-        <Link
-          href="/admin/doctor-accounts"
-          className="group flex items-center gap-5 bento-card p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-emerald-300 hover:shadow-lg hover:shadow-emerald-500/5"
-        >
-          <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition-all duration-300">
-            <KeyRound className="h-8 w-8" />
-          </div>
-          <div>
-            <h3 className="text-lg font-black text-slate-950 group-hover:text-emerald-600 transition-colors">حسابات دخول الأطباء</h3>
-            <p className="mt-1 text-xs md:text-sm font-semibold text-slate-500">إدارة حسابات الدخول وكلمات المرور الخاصة بالأطباء لتعديل عياداتهم</p>
-          </div>
-        </Link>
-        <Link
-          href="/admin/discount-card"
-          className="group flex items-center gap-5 bento-card p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-blue-300 hover:shadow-lg hover:shadow-blue-500/5"
-        >
-          <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-blue-50 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300">
-            <CreditCard className="h-8 w-8" />
-          </div>
-          <div>
-            <h3 className="text-lg font-black text-slate-950 group-hover:text-blue-600 transition-colors">طلبات بطاقة الخصم</h3>
-            <p className="mt-1 text-xs md:text-sm font-semibold text-slate-500">مراجعة الطلبات، تفعيل المشتركين، وإظهار حالة البطاقة للطبيب داخل المواعيد</p>
-          </div>
-        </Link>
+      <AdminDashboardVisuals stats={stats} />
+
+      <div className="mb-6 grid grid-cols-1 gap-3 sm:mb-8 sm:grid-cols-2 sm:gap-4 xl:grid-cols-3">
+        {[
+          {
+            href: "/admin/doctors",
+            icon: UserCheck,
+            title: "إدارة الأطباء والعيادات",
+            desc: `مراجعة بيانات الأطباء، الصور والتخصصات — ${totalDoctors} طبيب مسجل`,
+          },
+          {
+            href: "/admin/doctor-accounts",
+            icon: KeyRound,
+            title: "حسابات دخول الأطباء",
+            desc: "إدارة حسابات الدخول وكلمات المرور الخاصة بالأطباء لتعديل عياداتهم",
+          },
+          {
+            href: "/admin/discount-card",
+            icon: CreditCard,
+            title: "طلبات بطاقة الخصم",
+            desc: "مراجعة الطلبات، تفعيل المشتركين، وإظهار حالة البطاقة للطبيب داخل المواعيد",
+          },
+        ].map((item) => (
+          <Link
+            key={item.href}
+            href={item.href}
+            className="group flex items-center gap-4 rounded-[1.25rem] border border-[#e8e4dc] bg-white p-4 shadow-soft transition hover:border-primary/25 hover:shadow-bento-hover sm:gap-5 sm:p-5"
+          >
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#eef5f3] text-primary transition group-hover:bg-primary group-hover:text-white sm:h-14 sm:w-14">
+              <item.icon className="h-6 w-6 sm:h-7 sm:w-7" />
+            </div>
+            <div className="min-w-0">
+              <h3 className="text-base font-extrabold text-slate-950 transition group-hover:text-primary sm:text-lg">{item.title}</h3>
+              <p className="mt-1 text-xs font-semibold leading-6 text-slate-500 sm:text-sm">{item.desc}</p>
+            </div>
+          </Link>
+        ))}
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 mb-10">
-        <div className="bento-card p-5 shadow-sm border border-slate-200/80 flex items-center gap-4 transition hover:shadow-md">
-          <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center flex-shrink-0">
-            <Users className="w-6 h-6" />
+      <div className="mb-6 grid grid-cols-2 gap-3 sm:mb-8 sm:grid-cols-3 sm:gap-4 xl:grid-cols-6">
+        {statCards.map((card) => (
+          <div key={card.label} className="flex items-center gap-3 rounded-[1.25rem] border border-[#e8e4dc] bg-white p-3 shadow-soft sm:gap-4 sm:p-4">
+            <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl sm:h-12 sm:w-12 ${card.tone}`}>
+              <card.icon className="h-5 w-5 sm:h-6 sm:w-6" />
+            </div>
+            <div className="min-w-0">
+              <p className="truncate text-[10px] font-bold text-slate-500 sm:text-xs">{card.label}</p>
+              <h3 className="mt-0.5 font-display text-xl font-extrabold text-slate-900 sm:text-2xl">
+                <AnimatedCounter target={card.value} duration={1000} />
+              </h3>
+            </div>
           </div>
-          <div>
-            <p className="text-slate-500 font-bold text-xs">إجمالي الأطباء</p>
-            <h3 className="text-2xl font-black text-slate-900 mt-0.5">{totalDoctors}</h3>
-          </div>
-        </div>
-
-        <div className="bento-card p-5 shadow-sm border border-slate-200/80 flex items-center gap-4 transition hover:shadow-md">
-          <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0">
-            <BadgeCheck className="w-6 h-6" />
-          </div>
-          <div>
-            <p className="text-slate-500 font-bold text-xs">موثّقون</p>
-            <h3 className="text-2xl font-black text-slate-900 mt-0.5">{verifiedDoctors}</h3>
-          </div>
-        </div>
-
-        <div className="bento-card p-5 shadow-sm border border-slate-200/80 flex items-center gap-4 transition hover:shadow-md">
-          <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center flex-shrink-0">
-            <ShieldAlert className="w-6 h-6" />
-          </div>
-          <div>
-            <p className="text-slate-500 font-bold text-xs">بانتظار التوثيق</p>
-            <h3 className="text-2xl font-black text-slate-900 mt-0.5">{pendingDoctors}</h3>
-          </div>
-        </div>
-
-        <div className="bento-card p-5 shadow-sm border border-slate-200/80 flex items-center gap-4 transition hover:shadow-md">
-          <div className="w-12 h-12 rounded-2xl bg-teal-50 text-teal-600 flex items-center justify-center flex-shrink-0">
-            <CheckCircle2 className="w-6 h-6" />
-          </div>
-          <div>
-            <p className="text-slate-500 font-bold text-xs">إجمالي الحجوزات</p>
-            <h3 className="text-2xl font-black text-slate-900 mt-0.5">{totalAppointments}</h3>
-          </div>
-        </div>
-
-        <div className="bento-card p-5 shadow-sm border border-slate-200/80 flex items-center gap-4 transition hover:shadow-md">
-          <div className="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center flex-shrink-0">
-            <Sparkles className="w-6 h-6" />
-          </div>
-          <div>
-            <p className="text-slate-500 font-bold text-xs">حجوزات معلّقة</p>
-            <h3 className="text-2xl font-black text-slate-900 mt-0.5">{pendingAppointments}</h3>
-          </div>
-        </div>
-
-        <div className="bento-card p-5 shadow-sm border border-slate-200/80 flex items-center gap-4 transition hover:shadow-md">
-          <div className="w-12 h-12 rounded-2xl bg-primary/5 text-primary flex items-center justify-center flex-shrink-0">
-            <Store className="w-6 h-6" />
-          </div>
-          <div>
-            <p className="text-slate-500 font-bold text-xs">متاجر + إعلانات</p>
-            <h3 className="text-2xl font-black text-slate-900 mt-0.5">{activeStores + activeAds}</h3>
-          </div>
-        </div>
+        ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div className="bento-card shadow-sm border border-slate-200/85 overflow-hidden flex flex-col">
-          <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
-            <h2 className="text-lg font-black text-slate-950">آخر الأطباء المسجلين</h2>
-            <Link href="/admin/doctors" className="text-primary text-xs font-black hover:text-primary transition">
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-2 lg:gap-6">
+        <div className="flex flex-col overflow-hidden rounded-[1.5rem] border border-[#e8e4dc] bg-white shadow-soft">
+          <div className="flex items-center justify-between gap-3 border-b border-slate-100 bg-[#faf8f5]/80 px-4 py-4 sm:px-6">
+            <h2 className="font-display text-base font-extrabold text-slate-950 sm:text-lg">آخر الأطباء المسجلين</h2>
+            <Link href="/admin/doctors" className="shrink-0 text-xs font-extrabold text-primary">
               إدارة الأطباء
             </Link>
           </div>
-
           <div className="flex-1 overflow-x-auto">
             {doctors.length === 0 ? (
-              <div className="p-10 text-center text-slate-400 font-bold text-sm">لا يوجد أطباء مسجلين حالياً في قاعدة البيانات.</div>
+              <div className="p-8 text-center text-sm font-bold text-slate-400 sm:p-10">لا يوجد أطباء مسجلين حالياً في قاعدة البيانات.</div>
             ) : (
-              <table className="w-full text-right text-sm border-collapse min-w-[500px]">
-                <thead className="bg-slate-50 text-slate-500 font-bold text-xs">
+              <table className="w-full min-w-[480px] border-collapse text-right text-sm">
+                <thead className="bg-[#faf8f5] text-xs font-bold text-slate-500">
                   <tr>
-                    <th className="px-6 py-4 border-b border-slate-100">الاسم</th>
-                    <th className="px-6 py-4 border-b border-slate-100">المدينة</th>
-                    <th className="px-6 py-4 border-b border-slate-100">التخصص</th>
-                    <th className="px-6 py-4 border-b border-slate-100 text-center">حالة التوثيق</th>
+                    <th className="border-b border-slate-100 px-4 py-3 sm:px-6 sm:py-4">الاسم</th>
+                    <th className="border-b border-slate-100 px-4 py-3 sm:px-6 sm:py-4">المدينة</th>
+                    <th className="border-b border-slate-100 px-4 py-3 sm:px-6 sm:py-4">التخصص</th>
+                    <th className="border-b border-slate-100 px-4 py-3 text-center sm:px-6 sm:py-4">حالة التوثيق</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100 font-semibold text-slate-700">
                   {doctors.map((doctor) => (
-                    <tr key={doctor.id} className="hover:bg-slate-50/60 transition-colors">
-                      <td className="px-6 py-4 font-black text-slate-900">د. {doctor.name}</td>
-                      <td className="px-6 py-4 text-slate-600">{doctor.city}</td>
-                      <td className="px-6 py-4">
-                        <span className="bg-slate-100 text-slate-600 px-2.5 py-1 rounded-xl text-xs font-black border border-slate-200/30">
+                    <tr key={doctor.id} className="transition-colors hover:bg-[#faf8f5]/70">
+                      <td className="px-4 py-3 font-extrabold text-slate-900 sm:px-6 sm:py-4">د. {doctor.name}</td>
+                      <td className="px-4 py-3 text-slate-600 sm:px-6 sm:py-4">{doctor.city}</td>
+                      <td className="px-4 py-3 sm:px-6 sm:py-4">
+                        <span className="rounded-full bg-[#f3f0ea] px-2.5 py-1 text-xs font-extrabold text-slate-600">
                           {Array.isArray(doctor.specialty) ? doctor.specialty[0] : doctor.specialty || doctor.category || "عام"}
                         </span>
                       </td>
-                      <td className="px-6 py-4 text-center">
+                      <td className="px-4 py-3 text-center sm:px-6 sm:py-4">
                         {doctor.verified ? (
-                          <span className="inline-flex items-center gap-1 bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full text-xs font-black border border-emerald-100">
-                            <BadgeCheck className="w-3.5 h-3.5" />
+                          <span className="inline-flex items-center gap-1 rounded-full border border-emerald-100 bg-emerald-50 px-3 py-1 text-xs font-extrabold text-emerald-700">
+                            <BadgeCheck className="h-3.5 w-3.5" />
                             موثق
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-1 bg-amber-50 text-amber-700 px-3 py-1 rounded-full text-xs font-black border border-amber-100">
-                            <ShieldAlert className="w-3.5 h-3.5" />
+                          <span className="inline-flex items-center gap-1 rounded-full border border-amber-100 bg-amber-50 px-3 py-1 text-xs font-extrabold text-amber-700">
+                            <ShieldAlert className="h-3.5 w-3.5" />
                             مراجعة
                           </span>
                         )}
@@ -201,32 +160,31 @@ export default async function AdminDashboard() {
           </div>
         </div>
 
-        <div className="bento-card shadow-sm border border-slate-200/85 overflow-hidden flex flex-col">
-          <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
-            <h2 className="text-lg font-black text-slate-950">المتاجر الطبية المسجلة</h2>
-            <Link href="/admin/stores" className="text-primary text-xs font-black hover:text-primary transition">
+        <div className="flex flex-col overflow-hidden rounded-[1.5rem] border border-[#e8e4dc] bg-white shadow-soft">
+          <div className="flex items-center justify-between gap-3 border-b border-slate-100 bg-[#faf8f5]/80 px-4 py-4 sm:px-6">
+            <h2 className="font-display text-base font-extrabold text-slate-950 sm:text-lg">المتاجر الطبية المسجلة</h2>
+            <Link href="/admin/stores" className="shrink-0 text-xs font-extrabold text-primary">
               إدارة المتاجر
             </Link>
           </div>
-
           <div className="flex-1 overflow-x-auto">
             {stores.length === 0 ? (
-              <div className="p-10 text-center text-slate-400 font-bold text-sm">لا يوجد متاجر طبية مسجلة حالياً في قاعدة البيانات.</div>
+              <div className="p-8 text-center text-sm font-bold text-slate-400 sm:p-10">لا يوجد متاجر طبية مسجلة حالياً في قاعدة البيانات.</div>
             ) : (
-              <table className="w-full text-right text-sm border-collapse min-w-[500px]">
-                <thead className="bg-slate-50 text-slate-500 font-bold text-xs">
+              <table className="w-full min-w-[420px] border-collapse text-right text-sm">
+                <thead className="bg-[#faf8f5] text-xs font-bold text-slate-500">
                   <tr>
-                    <th className="px-6 py-4 border-b border-slate-100">اسم الشركة</th>
-                    <th className="px-6 py-4 border-b border-slate-100">المدينة</th>
-                    <th className="px-6 py-4 border-b border-slate-100">رقم الهاتف</th>
+                    <th className="border-b border-slate-100 px-4 py-3 sm:px-6 sm:py-4">اسم الشركة</th>
+                    <th className="border-b border-slate-100 px-4 py-3 sm:px-6 sm:py-4">المدينة</th>
+                    <th className="border-b border-slate-100 px-4 py-3 sm:px-6 sm:py-4">رقم الهاتف</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100 font-semibold text-slate-700">
                   {stores.map((store) => (
-                    <tr key={store.id} className="hover:bg-slate-50/60 transition-colors">
-                      <td className="px-6 py-4 font-black text-slate-900">{store.store_name || store.storeName}</td>
-                      <td className="px-6 py-4 text-slate-600">{store.city || "فلسطين"}</td>
-                      <td className="px-6 py-4 text-slate-600 font-mono" dir="ltr">
+                    <tr key={store.id} className="transition-colors hover:bg-[#faf8f5]/70">
+                      <td className="px-4 py-3 font-extrabold text-slate-900 sm:px-6 sm:py-4">{store.store_name || store.storeName}</td>
+                      <td className="px-4 py-3 text-slate-600 sm:px-6 sm:py-4">{store.city || "فلسطين"}</td>
+                      <td className="px-4 py-3 font-mono text-slate-600 sm:px-6 sm:py-4" dir="ltr">
                         {store.phone}
                       </td>
                     </tr>

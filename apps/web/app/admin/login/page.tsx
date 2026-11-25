@@ -34,19 +34,19 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className="min-h-screen mesh-bg flex items-center justify-center p-4" dir="rtl">
-      <div className="absolute inset-0 flex items-center justify-center z-50 p-4">
-        <div className="max-w-md w-full bento-card p-8 text-center">
-          <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-xs font-black text-primary">
+    <div className="flex min-h-screen items-center justify-center bg-[#f7f5f0] p-4" dir="rtl">
+      <div className="z-50 flex w-full items-center justify-center p-2 sm:p-4">
+        <div className="w-full max-w-md rounded-[1.75rem] border border-[#e8e4dc] bg-white p-6 text-center shadow-soft sm:p-8">
+          <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/15 bg-[#eef5f3] px-4 py-1.5 text-xs font-extrabold text-primary">
             <Sparkles className="h-3.5 w-3.5" />
             لوحة إدارة ملامح
           </span>
-          <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-primary/10 text-primary">
-            <Lock className="h-10 w-10" />
+          <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-[#eef5f3] text-primary sm:h-20 sm:w-20">
+            <Lock className="h-8 w-8 sm:h-10 sm:w-10" />
           </div>
 
-          <h1 className="text-2xl font-black text-slate-900 mb-2">تسجيل دخول الإدارة</h1>
-          <p className="text-slate-500 mb-6 font-semibold">يرجى إدخال بيانات الاعتماد للوصول للوحة التحكم</p>
+          <h1 className="mb-2 font-display text-2xl font-extrabold text-slate-900">تسجيل دخول الإدارة</h1>
+          <p className="mb-6 font-semibold text-slate-500">يرجى إدخال بيانات الاعتماد للوصول للوحة التحكم</p>
 
           {error ? (
             <div className="mb-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-right text-sm font-bold text-red-600">

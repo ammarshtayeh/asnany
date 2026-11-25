@@ -331,7 +331,7 @@ export default function HomeClient({ initialDoctors }: { initialDoctors: Doctor[
               ملامح.ps
             </motion.p>
             <motion.h1
-              className="mt-3 font-display text-4xl font-extrabold leading-[1.2] tracking-tight text-[#0a1628] sm:text-5xl lg:text-[3.15rem]"
+              className="mt-3 font-display text-[1.85rem] font-extrabold leading-[1.25] tracking-tight text-[#0a1628] sm:text-4xl md:text-5xl lg:text-[3.15rem]"
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55, delay: 0.05 }}

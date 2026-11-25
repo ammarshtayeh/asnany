@@ -5,6 +5,7 @@ import { Feather } from "@expo/vector-icons";
 import { adminSession } from "../../lib/session";
 import { syncPushForCurrentUser } from "../../lib/push-manager";
 import { SITE_URL } from "../../lib/site-contact";
+import { theme } from "../../constants/theme";
 
 const WEB_ADMIN_BASE = `${SITE_URL}/admin`;
 
@@ -13,77 +14,77 @@ const ADMIN_SECTIONS = [
     icon: "bell" as const,
     title: "مركز الإشعارات",
     subtitle: "تنبيهات صوتية وفورية للحجوزات والطلبات",
-    color: "#0284c7",
+    color: "#295f59",
     nativePath: "/admin/notifications",
   },
   {
     icon: "credit-card" as const,
     title: "طلبات بطاقة الخصم",
     subtitle: "تفعيل، إيقاف، رفض، وتحديد انتهاء البطاقة",
-    color: "#2563eb",
+    color: "#3d7a73",
     nativePath: "/admin/discount-card",
   },
   {
     icon: "users" as const,
     title: "حسابات الأطباء",
     subtitle: "إنشاء أطباء وتحديد بيانات الخصم والعيادة",
-    color: "#0ea5e9",
+    color: "#1a433e",
     nativePath: "/admin/doctor-accounts",
   },
   {
     icon: "layers" as const,
     title: "الاشتراكات والباقات",
     subtitle: "تفعيل باقات الدليل والمميز والإعلانات",
-    color: "#7c3aed",
+    color: "#295f59",
     webPath: "/subscriptions",
   },
   {
     icon: "user-check" as const,
     title: "إدارة الأطباء",
     subtitle: "توثيق، تمييز، وتعديل بيانات العيادات",
-    color: "#10b981",
+    color: "#295f59",
     webPath: "/doctors",
   },
   {
     icon: "calendar" as const,
     title: "المواعيد",
     subtitle: "متابعة وإدارة حجوزات المرضى",
-    color: "#f59e0b",
+    color: "#d4af37",
     webPath: "/appointments",
   },
   {
     icon: "radio" as const,
     title: "الإعلانات",
     subtitle: "إدارة الإعلانات والحملات",
-    color: "#ec4899",
+    color: "#3d7a73",
     webPath: "/offers",
   },
   {
     icon: "shopping-bag" as const,
     title: "المتاجر",
     subtitle: "إدارة المتاجر والموردين",
-    color: "#8b5cf6",
+    color: "#0a1628",
     webPath: "/stores",
   },
   {
     icon: "star" as const,
     title: "التقييمات",
     subtitle: "مراجعة تقييمات المرضى",
-    color: "#f97316",
+    color: "#d4af37",
     webPath: "/reviews",
   },
   {
     icon: "layers" as const,
     title: "خدمات المنصة",
     subtitle: "إدارة الخدمات الطبية المعروضة",
-    color: "#06b6d4",
+    color: "#295f59",
     webPath: "/services",
   },
   {
     icon: "file-text" as const,
     title: "المحتوى والعروض",
     subtitle: "المقالات، العروض، والمحتوى الإعلامي",
-    color: "#64748b",
+    color: "#1a433e",
     webPath: "/content",
   },
 ];
@@ -111,27 +112,27 @@ export default function AdminDashboardScreen() {
 
   if (!ready) {
     return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: "#020617" }}>
-        <ActivityIndicator color="#fff" />
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: theme.bg }}>
+        <ActivityIndicator color={theme.teal} />
       </View>
     );
   }
 
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: "#020617" }} contentContainerStyle={{ padding: 20, paddingBottom: 48 }}>
-      <View style={{ marginBottom: 20, borderRadius: 24, borderWidth: 1, borderColor: "rgba(255,255,255,0.1)", backgroundColor: "rgba(255,255,255,0.05)", padding: 24 }}>
+    <ScrollView style={{ flex: 1, backgroundColor: theme.bg }} contentContainerStyle={{ padding: 20, paddingBottom: 48 }}>
+      <View style={{ marginBottom: 20, borderRadius: theme.radius.xl, borderWidth: 1, borderColor: theme.border, backgroundColor: theme.card, padding: 20, ...theme.shadow.card }}>
         <View style={{ flexDirection: "row-reverse", justifyContent: "space-between", alignItems: "center" }}>
-          <View style={{ alignItems: "flex-end", flex: 1 }}>
-            <Text style={{ fontSize: 30, fontWeight: "900", color: "#fff", textAlign: "right" }}>لوحة الأدمن</Text>
-            <Text style={{ marginTop: 8, fontSize: 14, fontWeight: "600", lineHeight: 22, color: "#cbd5e1", textAlign: "right" }}>
+          <View style={{ alignItems: "flex-end", flex: 1, paddingLeft: 12 }}>
+            <Text style={{ fontSize: 26, fontWeight: "900", color: theme.text, textAlign: "right" }}>لوحة الأدمن</Text>
+            <Text style={{ marginTop: 8, fontSize: 14, fontWeight: "600", lineHeight: 22, color: theme.textMuted, textAlign: "right" }}>
               كل أقسام إدارة الموقع متاحة من التطبيق — الأقسام الأساسية داخل التطبيق، والباقي يفتح لوحة الويب.
             </Text>
           </View>
-          <Pressable onPress={() => router.back()} style={{ height: 40, width: 40, borderRadius: 20, backgroundColor: "rgba(255,255,255,0.1)", alignItems: "center", justifyContent: "center" }}>
-            <Feather name="arrow-right" size={20} color="#fff" />
+          <Pressable onPress={() => router.back()} style={{ height: 40, width: 40, borderRadius: 20, backgroundColor: theme.tealMuted, alignItems: "center", justifyContent: "center" }}>
+            <Feather name="arrow-right" size={20} color={theme.teal} />
           </Pressable>
         </View>
-        <Pressable onPress={signOut} style={{ marginTop: 16, alignSelf: "flex-end", borderRadius: 16, backgroundColor: "#f43f5e", paddingHorizontal: 16, paddingVertical: 12 }}>
+        <Pressable onPress={signOut} style={{ marginTop: 16, alignSelf: "flex-end", borderRadius: theme.radius.pill, backgroundColor: theme.teal, paddingHorizontal: 16, paddingVertical: 12 }}>
           <Text style={{ color: "#fff", fontWeight: "900" }}>تسجيل خروج</Text>
         </Pressable>
       </View>
@@ -177,16 +178,16 @@ function AdminTile({
   badge: string;
 }) {
   return (
-    <Pressable onPress={onPress} style={{ borderRadius: 24, backgroundColor: "#fff", padding: 18, flexDirection: "row-reverse", alignItems: "center", gap: 14 }}>
-      <View style={{ width: 52, height: 52, borderRadius: 18, backgroundColor: `${color}15`, alignItems: "center", justifyContent: "center" }}>
-        <Feather name={icon} size={24} color={color} />
+    <Pressable onPress={onPress} style={{ borderRadius: theme.radius.xl, backgroundColor: theme.card, borderWidth: 1, borderColor: theme.border, padding: 16, flexDirection: "row-reverse", alignItems: "center", gap: 12, ...theme.shadow.card }}>
+      <View style={{ width: 48, height: 48, borderRadius: 16, backgroundColor: `${color}18`, alignItems: "center", justifyContent: "center" }}>
+        <Feather name={icon} size={22} color={color} />
       </View>
       <View style={{ flex: 1, alignItems: "flex-end" }}>
-        <Text style={{ color: "#0f172a", fontSize: 17, fontWeight: "900", textAlign: "right" }}>{title}</Text>
-        <Text style={{ color: "#64748b", fontSize: 12, fontWeight: "700", marginTop: 4, textAlign: "right", lineHeight: 18 }}>{subtitle}</Text>
+        <Text style={{ color: theme.text, fontSize: 16, fontWeight: "900", textAlign: "right" }}>{title}</Text>
+        <Text style={{ color: theme.textMuted, fontSize: 12, fontWeight: "700", marginTop: 4, textAlign: "right", lineHeight: 18 }}>{subtitle}</Text>
         <Text style={{ color: color, fontSize: 11, fontWeight: "900", marginTop: 6, textAlign: "right" }}>{badge}</Text>
       </View>
-      <Feather name="chevron-left" size={20} color="#94a3b8" />
+      <Feather name="chevron-left" size={20} color={theme.textSoft} />
     </Pressable>
   );
 }

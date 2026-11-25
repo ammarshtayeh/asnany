@@ -8,6 +8,7 @@ import { doctorSession } from "../../lib/session";
 import { onAuthLogin } from "../../lib/push-manager";
 import { useAppToast } from "../../components/AppToast";
 import { DOCTOR_LOGIN_EMAIL_PLACEHOLDER } from "../../lib/site-contact";
+import { theme } from "../../constants/theme";
 
 const API_BASE = getMobileApiBaseUrl();
 
@@ -57,53 +58,57 @@ export default function DoctorLoginScreen() {
   };
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={{ flex: 1, backgroundColor: "#020617" }}>
+    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={{ flex: 1, backgroundColor: theme.bg }}>
       <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps="handled">
-        <View style={{ flex: 1, paddingHorizontal: 20, paddingVertical: 40 }}>
-          <View style={{ flexDirection: "row-reverse", alignItems: "center", justifyContent: "space-between", marginBottom: 24, borderRadius: 24, borderWidth: 1, borderColor: "rgba(255,255,255,0.1)", backgroundColor: "rgba(255,255,255,0.05)", padding: 24 }}>
-            <View style={{ alignItems: "flex-end" }}>
-              <Text style={{ fontSize: 30, fontWeight: "900", color: "#fff", textAlign: "right" }}>دخول الطبيب</Text>
-              <Text style={{ marginTop: 8, fontSize: 13, fontWeight: "500", lineHeight: 20, color: "#cbd5e1", textAlign: "right" }}>إدارة العيادة والمواعيد</Text>
+        <View style={{ flex: 1, paddingHorizontal: 20, paddingVertical: 36 }}>
+          <View style={{ marginBottom: 20, borderRadius: theme.radius.xl, borderWidth: 1, borderColor: theme.border, backgroundColor: theme.card, padding: 20, ...theme.shadow.card }}>
+            <View style={{ flexDirection: "row-reverse", alignItems: "center", justifyContent: "space-between" }}>
+              <View style={{ alignItems: "flex-end", flex: 1, paddingLeft: 12 }}>
+                <Text style={{ fontSize: 26, fontWeight: "900", color: theme.text, textAlign: "right" }}>دخول الطبيب</Text>
+                <Text style={{ marginTop: 8, fontSize: 13, fontWeight: "600", lineHeight: 20, color: theme.textMuted, textAlign: "right" }}>إدارة العيادة والمواعيد</Text>
+              </View>
+              <Pressable onPress={() => router.back()} style={{ height: 40, width: 40, borderRadius: 20, backgroundColor: theme.tealMuted, alignItems: "center", justifyContent: "center" }}>
+                <Feather name="arrow-right" size={20} color={theme.teal} />
+              </Pressable>
             </View>
-            <Pressable onPress={() => router.back()} style={{ height: 40, width: 40, borderRadius: 20, backgroundColor: "rgba(255,255,255,0.1)", alignItems: "center", justifyContent: "center" }}>
-              <Feather name="arrow-right" size={20} color="#fff" />
-            </Pressable>
           </View>
 
-          <View style={{ borderRadius: 24, backgroundColor: "#fff", padding: 20 }}>
-            <Text style={{ marginBottom: 8, fontSize: 12, fontWeight: "900", color: "#64748b", textAlign: "right" }}>البريد الإلكتروني</Text>
+          <View style={{ borderRadius: theme.radius.xl, backgroundColor: theme.card, borderWidth: 1, borderColor: theme.border, padding: 20, ...theme.shadow.card }}>
+            <Text style={{ marginBottom: 8, fontSize: 12, fontWeight: "900", color: theme.teal, textAlign: "right" }}>البريد الإلكتروني</Text>
             <TextInput
               value={email}
               onChangeText={setEmail}
               autoCapitalize="none"
               keyboardType="email-address"
               placeholder={DOCTOR_LOGIN_EMAIL_PLACEHOLDER}
-              style={{ marginBottom: 16, minHeight: 56, borderRadius: 16, borderWidth: 1, borderColor: "#e2e8f0", backgroundColor: "#f8fafc", paddingHorizontal: 16, fontSize: 16, fontWeight: "500", color: "#0f172a", textAlign: "right" }}
+              placeholderTextColor={theme.textSoft}
+              style={{ marginBottom: 16, minHeight: 56, borderRadius: theme.radius.md, borderWidth: 1, borderColor: theme.border, backgroundColor: theme.bg, paddingHorizontal: 16, fontSize: 16, fontWeight: "600", color: theme.text, textAlign: "right" }}
             />
 
-            <Text style={{ marginBottom: 8, fontSize: 12, fontWeight: "900", color: "#64748b", textAlign: "right" }}>كلمة المرور</Text>
+            <Text style={{ marginBottom: 8, fontSize: 12, fontWeight: "900", color: theme.teal, textAlign: "right" }}>كلمة المرور</Text>
             <TextInput
               value={password}
               onChangeText={setPassword}
               secureTextEntry
               placeholder="••••••••"
-              style={{ marginBottom: 20, minHeight: 56, borderRadius: 16, borderWidth: 1, borderColor: "#e2e8f0", backgroundColor: "#f8fafc", paddingHorizontal: 16, fontSize: 16, fontWeight: "500", color: "#0f172a", textAlign: "right" }}
+              placeholderTextColor={theme.textSoft}
+              style={{ marginBottom: 20, minHeight: 56, borderRadius: theme.radius.md, borderWidth: 1, borderColor: theme.border, backgroundColor: theme.bg, paddingHorizontal: 16, fontSize: 16, fontWeight: "600", color: theme.text, textAlign: "right" }}
             />
 
             <Pressable
               onPress={signIn}
               disabled={!canSubmit}
-              style={{ minHeight: 56, alignItems: "center", justifyContent: "center", borderRadius: 16, backgroundColor: canSubmit ? "#0284c7" : "#cbd5e1" }}
+              style={{ minHeight: 56, alignItems: "center", justifyContent: "center", borderRadius: theme.radius.pill, backgroundColor: canSubmit ? theme.teal : "#c5d0cd" }}
             >
               {loading ? <ActivityIndicator color="#fff" /> : <Text style={{ fontSize: 16, fontWeight: "900", color: "#fff" }}>دخول</Text>}
             </Pressable>
 
-            <View style={{ marginTop: 16, borderRadius: 16, backgroundColor: "#f8fafc", padding: 16 }}>
-              <Text style={{ fontSize: 14, fontWeight: "600", lineHeight: 24, color: "#475569", textAlign: "right" }}>
+            <View style={{ marginTop: 16, borderRadius: theme.radius.md, backgroundColor: theme.tealMuted, padding: 16 }}>
+              <Text style={{ fontSize: 14, fontWeight: "600", lineHeight: 24, color: theme.textMuted, textAlign: "right" }}>
                 إذا ما عندك حساب طبيب، الأدمن لازم ينشئه من لوحة إدارة الأطباء.
               </Text>
               <Pressable onPress={() => router.push("/admin/login")} style={{ marginTop: 12 }}>
-                <Text style={{ fontSize: 14, fontWeight: "900", color: "#0369a1", textAlign: "right" }}>الانتقال إلى دخول الأدمن</Text>
+                <Text style={{ fontSize: 14, fontWeight: "900", color: theme.teal, textAlign: "right" }}>الانتقال إلى دخول الأدمن</Text>
               </Pressable>
             </View>
           </View>

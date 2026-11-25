@@ -28,7 +28,7 @@ export default function SiteBodyWrapper({ children }: { children: React.ReactNod
       style={
         portal
           ? undefined
-          : { paddingTop: "calc(var(--navbar-height, 72px) + var(--ticker-height, 0px))" }
+          : { paddingTop: "calc(var(--navbar-height, 96px) + var(--ticker-height, 0px))" }
       }
       className={`flex min-h-screen flex-1 flex-col ${portal ? "" : "animate-fade-in"}`}
     >

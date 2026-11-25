@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { LockKeyhole, Mail, Stethoscope } from "lucide-react";
+import { LockKeyhole, Mail, Stethoscope, ArrowRight } from "lucide-react";
+import { MalamihLogoMark } from "@/components/MalamihLogoMark";
 
 export default function DoctorLoginPage() {
   const router = useRouter();
@@ -39,29 +40,37 @@ export default function DoctorLoginPage() {
   };
 
   return (
-    <main className="min-h-screen bg-slate-950 px-4 py-10 text-white" dir="rtl">
-      <div className="mx-auto grid min-h-[calc(100vh-5rem)] max-w-6xl items-center gap-8 lg:grid-cols-[1fr_430px]">
-        <section>
-          <div className="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/50 text-white shadow-lg shadow-sky-500/25">
-            <Stethoscope className="h-7 w-7" />
+    <main className="min-h-screen bg-[#f7f5f0] px-4 py-8 font-sans text-slate-900 sm:py-12" dir="rtl">
+      <div className="mx-auto grid min-h-[calc(100vh-4rem)] max-w-5xl items-center gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12">
+        <section className="order-2 text-right lg:order-1">
+          <div className="mb-5 flex items-center gap-3">
+            <MalamihLogoMark size={120} className="h-14 w-14" />
+            <span className="font-brand text-lg font-bold tracking-[0.2em] text-primary">MALAMIH</span>
           </div>
-          <h1 className="max-w-2xl text-4xl font-black leading-tight md:text-6xl">
+          <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[#eef5f3] text-primary">
+            <Stethoscope className="h-6 w-6" />
+          </div>
+          <h1 className="max-w-xl font-display text-3xl font-extrabold leading-[1.25] tracking-tight text-[#0a1628] sm:text-4xl md:text-5xl">
             بوابة الطبيب لإدارة العيادة والحجوزات.
           </h1>
-          <p className="mt-5 max-w-2xl text-lg font-semibold leading-9 text-slate-300">
+          <p className="mt-4 max-w-xl text-base font-semibold leading-8 text-slate-600 sm:text-lg">
             حدث الدوام، أعلن أنك موجود في العيادة، تابع حجوزات المرضى، وشاهد بياناتهم الأساسية من لوحة منفصلة عن لوحة الأدمن.
           </p>
-          <Link href="/" className="mt-8 inline-flex rounded-xl border border-white/15 px-5 py-3 text-sm font-black text-slate-200 hover:bg-white/10">
+          <Link href="/" className="btn-malama-outline mt-8 inline-flex">
+            <ArrowRight className="h-4 w-4" />
             العودة للموقع
           </Link>
         </section>
 
-        <form onSubmit={submit} className="rounded-3xl border border-white/10 bg-white p-6 text-slate-950 shadow-2xl">
-          <p className="text-sm font-black text-primary">دخول الطبيب</p>
-          <h2 className="mt-1 text-3xl font-black">أدخل بيانات حسابك</h2>
+        <form
+          onSubmit={submit}
+          className="order-1 rounded-[1.75rem] border border-[#e8e4dc] bg-white p-6 shadow-soft sm:p-8 lg:order-2"
+        >
+          <p className="section-kicker">دخول الطبيب</p>
+          <h2 className="mt-2 font-display text-2xl font-extrabold text-slate-950 sm:text-3xl">أدخل بيانات حسابك</h2>
           <div className="mt-6 space-y-3">
-            <label className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 focus-within:border-sky-300 focus-within:bg-white">
-              <Mail className="h-5 w-5 text-slate-400" />
+            <label className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-[#faf8f5] px-4 transition focus-within:border-primary/40 focus-within:bg-white focus-within:ring-4 focus-within:ring-primary/10">
+              <Mail className="h-5 w-5 text-primary/70" />
               <input
                 type="email"
                 required
@@ -72,8 +81,8 @@ export default function DoctorLoginPage() {
                 dir="ltr"
               />
             </label>
-            <label className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 focus-within:border-sky-300 focus-within:bg-white">
-              <LockKeyhole className="h-5 w-5 text-slate-400" />
+            <label className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-[#faf8f5] px-4 transition focus-within:border-primary/40 focus-within:bg-white focus-within:ring-4 focus-within:ring-primary/10">
+              <LockKeyhole className="h-5 w-5 text-primary/70" />
               <input
                 type="password"
                 required
@@ -84,12 +93,8 @@ export default function DoctorLoginPage() {
               />
             </label>
           </div>
-          {error ? <p className="mt-4 rounded-xl bg-rose-50 px-4 py-3 text-sm font-bold text-rose-700">{error}</p> : null}
-          <button
-            type="submit"
-            disabled={loading}
-            className="mt-6 w-full rounded-2xl bg-slate-950 px-5 py-4 text-sm font-black text-white transition hover:bg-primary disabled:opacity-60"
-          >
+          {error ? <p className="mt-4 rounded-2xl bg-rose-50 px-4 py-3 text-sm font-bold text-rose-700">{error}</p> : null}
+          <button type="submit" disabled={loading} className="btn-malama mt-6 w-full py-4 disabled:opacity-60">
             {loading ? "جاري الدخول..." : "دخول لوحة الطبيب"}
           </button>
         </form>
