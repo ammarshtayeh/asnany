@@ -16,7 +16,7 @@ export default function DoctorCard({ doctor }: { doctor: Doctor }) {
             alt={doctor.name || "طبيب"}
             fill
             sizes="(max-width: 768px) 100vw, 160px"
-            className="object-cover object-[center_18%] transition-transform duration-500 ease-spring group-hover:scale-[1.03]"
+            className="object-cover object-[center_18%] transition-transform duration-500 ease-spring group-hover:scale-[1.02]"
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center text-[#295f59]/35">
@@ -28,14 +28,14 @@ export default function DoctorCard({ doctor }: { doctor: Doctor }) {
       <div className="flex flex-grow flex-col justify-between">
         <div>
           <div className="mb-1 flex items-center gap-2">
-            <h2 className="text-lg font-black tracking-tight text-slate-900">{doctor.name}</h2>
+            <h2 className="text-lg font-extrabold tracking-tight text-slate-900">{doctor.name}</h2>
           </div>
 
           <div className="mb-2 flex flex-wrap gap-1.5">
             {specialties.map((spec, idx) => (
               <span
                 key={`${spec}-${idx}`}
-                className="rounded-lg bg-primary/8 px-2.5 py-1 text-xs font-bold text-primary"
+                className="rounded-full bg-[#eef5f3] px-2.5 py-1 text-xs font-bold text-primary"
               >
                 {spec}
               </span>
@@ -51,9 +51,9 @@ export default function DoctorCard({ doctor }: { doctor: Doctor }) {
         </div>
 
         <div className="mt-2 flex items-center justify-between border-t border-slate-100 pt-3">
-          <div className="flex items-center gap-1 rounded-lg bg-[#f7f1e0] px-2 py-1">
+          <div className="flex items-center gap-1 rounded-full bg-[#f7f1e0] px-2.5 py-1">
             <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
-            <span className="text-sm font-black text-slate-800">
+            <span className="text-sm font-extrabold text-slate-800">
               {doctor.rating && Number(doctor.rating) > 0 ? doctor.rating : "جديد"}
             </span>
           </div>

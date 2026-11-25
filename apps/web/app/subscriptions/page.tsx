@@ -63,20 +63,18 @@ export default function SubscriptionsPage() {
   return (
     <main className="min-h-screen animate-fade-in bg-transparent pb-24" dir="rtl">
       <div className="section-shell pb-2 pt-3 sm:pt-4">
-        <section className="page-hero-dark relative overflow-hidden px-6 py-14 text-right text-white sm:px-10 sm:py-16">
-          <div className="pointer-events-none absolute -right-16 top-0 h-64 w-64 rounded-full bg-primary/15 blur-[100px]" />
-          <div className="pointer-events-none absolute -left-16 bottom-0 h-72 w-72 rounded-full bg-emerald-500/10 blur-[100px]" />
+        <section className="page-hero-dark relative overflow-hidden px-6 py-12 text-right text-white sm:px-10 sm:py-14">
           <div className="relative z-10 mx-auto max-w-5xl">
-          <Link href="/join" className="btn-malama-ghost mb-6 inline-flex px-4 py-2 text-xs sm:text-sm">
-            <ArrowRight className="h-4 w-4" /> انضم كطبيب شريك
-          </Link>
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-[#d4af37]/30 bg-[#d4af37]/10 px-3 py-1 text-xs font-black text-[#fde68a]">
-            <Sparkles className="h-3.5 w-3.5" /> باقات ملامح للأطباء والشركاء
-          </span>
-          <h1 className="mt-4 text-4xl font-black md:text-5xl">اختر باقتك وابدأ الظهور</h1>
-          <p className="mt-3 max-w-2xl text-slate-300 font-semibold leading-7">
-            ثلاث باقات واضحة: دليل، مميز، وإعلانات. كل باقة توضّح بالضبط ماذا تحصل — بدون التباس. الأسعار بالدولار الأمريكي.
-          </p>
+            <Link href="/join" className="btn-malama-ghost mb-6 inline-flex px-4 py-2 text-xs sm:text-sm">
+              <ArrowRight className="h-4 w-4" /> انضم كطبيب شريك
+            </Link>
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-extrabold text-white">
+              <Sparkles className="h-3.5 w-3.5" /> باقات ملامح للأطباء والشركاء
+            </span>
+            <h1 className="mt-4 font-display text-4xl font-extrabold text-white md:text-5xl">اختر باقتك وابدأ الظهور</h1>
+            <p className="mt-3 max-w-2xl font-semibold leading-7 text-white/80">
+              ثلاث باقات واضحة: دليل، مميز، وإعلانات. كل باقة توضّح بالضبط ماذا تحصل — بدون التباس. الأسعار بالدولار الأمريكي.
+            </p>
           </div>
         </section>
       </div>
@@ -89,20 +87,20 @@ export default function SubscriptionsPage() {
           return (
             <article
               key={pkg.id}
-              className={`bento-card shine-border relative p-6 transition hover:-translate-y-1 ${
-                selected ? "ring-2 ring-slate-950" : recommended ? "border-primary/30" : ""
+              className={`bento-card relative p-6 transition ${
+                selected ? "ring-2 ring-primary" : recommended ? "border-primary/30" : ""
               }`}
             >
               {recommended ? (
-                <span className="absolute -top-3 right-4 inline-flex items-center gap-1 rounded-full bg-primary px-3 py-1 text-[10px] font-black text-white">
+                <span className="absolute -top-3 right-4 inline-flex items-center gap-1 rounded-full bg-primary px-3 py-1 text-[10px] font-extrabold text-white">
                   <Star className="h-3 w-3 fill-current" /> الأكثر طلباً
                 </span>
               ) : null}
-              <h2 className="text-2xl font-black text-slate-950">{pkg.name}</h2>
+              <h2 className="text-2xl font-extrabold text-slate-950">{pkg.name}</h2>
               <p className="mt-2 text-sm font-bold text-slate-500">{pkg.subtitle}</p>
               <div className="mt-5 flex items-end gap-2">
-                <span className="text-4xl font-black text-emerald-600">${pkg.price_usd}</span>
-                <span className="pb-1 text-sm font-black text-slate-500">{SUBSCRIPTION_PERIOD_LABELS[pkg.billing_period]}</span>
+                <span className="text-4xl font-extrabold text-primary">${pkg.price_usd}</span>
+                <span className="pb-1 text-sm font-extrabold text-slate-500">{SUBSCRIPTION_PERIOD_LABELS[pkg.billing_period]}</span>
               </div>
               {pkg.original_price_usd ? (
                 <p className="mt-1 text-sm font-bold text-rose-500 line-through">${pkg.original_price_usd}</p>
@@ -118,8 +116,8 @@ export default function SubscriptionsPage() {
               <button
                 type="button"
                 onClick={() => setForm((current) => ({ ...current, package_id: pkg.id }))}
-                className={`mt-6 w-full rounded-2xl py-3 font-black transition ${
-                  selected ? "bg-slate-950 text-white" : recommended ? "bg-primary text-white hover:bg-primary-dark" : "bg-slate-100 text-slate-900 hover:bg-slate-200"
+                className={`mt-6 w-full rounded-full py-3 font-extrabold transition ${
+                  selected ? "bg-primary text-white" : recommended ? "bg-primary text-white hover:bg-primary-dark" : "bg-[#f3f0ea] text-slate-900 hover:bg-[#eef5f3]"
                 }`}
               >
                 {selected ? "✓ الباقة المختارة" : "اختيار هذه الباقة"}
@@ -129,19 +127,19 @@ export default function SubscriptionsPage() {
         })}
       </div>
 
-      <div className="mx-auto mt-10 max-w-3xl bento-card shine-border p-6">
-        <h3 className="text-xl font-black text-slate-950">طلب تفعيل الباقة</h3>
+      <div className="mx-auto mt-10 max-w-3xl bento-card p-6">
+        <h3 className="text-xl font-extrabold text-slate-950">طلب تفعيل الباقة</h3>
         {selectedPackage ? (
-          <p className="mt-2 text-sm font-bold text-emerald-700">الباقة المختارة: {selectedPackage.name}</p>
+          <p className="mt-2 text-sm font-bold text-primary">الباقة المختارة: {selectedPackage.name}</p>
         ) : (
-          <p className="mt-2 text-sm font-bold text-amber-600">اختر باقة من الأعلى أولاً</p>
+          <p className="mt-2 text-sm font-bold text-slate-500">اختر باقة من الأعلى أولاً</p>
         )}
         <div className="mt-4 grid gap-3">
-          <input className="rounded-xl border border-slate-200 px-4 py-3 font-bold text-right" placeholder="اسم العيادة / الشركة *" value={form.advertiser_name} onChange={(e) => setForm((c) => ({ ...c, advertiser_name: e.target.value }))} />
-          <input className="rounded-xl border border-slate-200 px-4 py-3 font-bold text-right" placeholder="نوع النشاط (طبيب، مختبر، تجميل...)" value={form.advertiser_type} onChange={(e) => setForm((c) => ({ ...c, advertiser_type: e.target.value }))} />
-          <input className="rounded-xl border border-slate-200 px-4 py-3 font-bold text-right" placeholder="رقم الهاتف / واتساب" value={form.phone} onChange={(e) => setForm((c) => ({ ...c, phone: e.target.value }))} />
-          <textarea className="min-h-24 rounded-xl border border-slate-200 px-4 py-3 font-bold text-right" placeholder="ملاحظات إضافية" value={form.notes} onChange={(e) => setForm((c) => ({ ...c, notes: e.target.value }))} />
-          <button type="button" onClick={submit} disabled={submitting || !form.package_id} className="rounded-2xl bg-emerald-600 py-3 font-black text-white disabled:opacity-60">
+          <input className="form-field" placeholder="اسم العيادة / الشركة *" value={form.advertiser_name} onChange={(e) => setForm((c) => ({ ...c, advertiser_name: e.target.value }))} />
+          <input className="form-field" placeholder="نوع النشاط (طبيب، مختبر، تجميل...)" value={form.advertiser_type} onChange={(e) => setForm((c) => ({ ...c, advertiser_type: e.target.value }))} />
+          <input className="form-field" placeholder="رقم الهاتف / واتساب" value={form.phone} onChange={(e) => setForm((c) => ({ ...c, phone: e.target.value }))} />
+          <textarea className="form-field min-h-24" placeholder="ملاحظات إضافية" value={form.notes} onChange={(e) => setForm((c) => ({ ...c, notes: e.target.value }))} />
+          <button type="button" onClick={submit} disabled={submitting || !form.package_id} className="btn-malama w-full disabled:opacity-60">
             {submitting ? "جارٍ الإرسال..." : "إرسال طلب الاشتراك"}
           </button>
           {message ? (

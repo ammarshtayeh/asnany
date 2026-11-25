@@ -36,27 +36,22 @@ export default async function LabDetailPage({ params }: { params: Promise<{ id: 
   return (
     <main className="min-h-screen animate-fade-in bg-transparent" dir="rtl">
       <section className="page-hero-dark relative overflow-hidden text-white">
-        {service.image_url && (
+        {service.image_url ? (
           <div className="absolute inset-0">
             <img
               src={service.image_url}
               alt={service.name}
-              className="w-full h-full object-cover opacity-15"
+              className="h-full w-full object-cover opacity-20"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/80 to-slate-950/60" />
+            <div className="absolute inset-0 bg-primary/85" />
           </div>
-        )}
+        ) : null}
 
-        {/* Glow effects */}
-        <div className="absolute top-0 right-1/4 h-80 w-80 rounded-full bg-primary/10 blur-[100px]" />
-        <div className="absolute bottom-0 left-1/4 h-80 w-80 rounded-full bg-emerald-500/8 blur-[100px]" />
-
-        <div className="relative z-10 max-w-4xl mx-auto px-4 pt-12 pb-20">
-          {/* Breadcrumb */}
-          <div className="flex items-center gap-2 text-xs text-slate-400 mb-8 font-black">
-            <Link href="/" className="hover:text-white transition-colors">الرئيسية</Link>
+        <div className="relative z-10 mx-auto max-w-4xl px-4 pb-20 pt-12">
+          <div className="mb-8 flex items-center gap-2 text-xs font-extrabold text-white/70">
+            <Link href="/" className="transition-colors hover:text-white">الرئيسية</Link>
             <span>/</span>
-            <Link href="/labs" className="hover:text-white transition-colors">المختبرات الطبية</Link>
+            <Link href="/labs" className="transition-colors hover:text-white">المختبرات الطبية</Link>
             <span>/</span>
             <span className="text-slate-200 truncate max-w-[160px]">{service.name}</span>
           </div>

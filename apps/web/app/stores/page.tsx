@@ -98,35 +98,30 @@ export default function StoresPage() {
           <ArrowRight className="w-4 h-4" />
           الرئيسية
         </Link>
-        <div className="page-hero-dark relative overflow-hidden rounded-3xl px-6 py-14 text-center md:py-16">
-        <div className="absolute top-0 right-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10 pointer-events-none" />
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-emerald-500 rounded-full blur-[120px] opacity-15" />
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-amber-500 rounded-full blur-[120px] opacity-10" />
-
+        <div className="page-hero-dark relative overflow-hidden rounded-[1.75rem] px-6 py-12 text-center md:py-14">
         <div className="relative z-10 mx-auto max-w-4xl text-center">
-          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-white/15 bg-white/10 backdrop-blur-md text-white mb-6">
-            <Package className="w-4 h-4 text-blue-400" />
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-white">
+            <Package className="h-4 w-4 text-white" />
             <span className="text-sm font-bold">للأطباء والعيادات والمراكز الطبية والتجميلية (B2B)</span>
           </div>
-          <h1 className="text-4xl md:text-6xl font-black text-white mb-6 tracking-tight">
-            دليل الموردين و <span className="text-gradient-gold">الشركات الطبية</span>
+          <h1 className="mb-6 font-display text-4xl font-extrabold tracking-tight text-white md:text-5xl">
+            دليل الموردين والشركات الطبية
           </h1>
-          <p className="text-slate-300 text-lg md:text-xl font-medium max-w-2xl mx-auto mb-10 leading-relaxed">
+          <p className="mx-auto mb-10 max-w-2xl text-lg font-medium leading-relaxed text-white/80 md:text-xl">
             تواصل مباشرة مع كبرى شركات الأجهزة والمستلزمات الطبية، التجميلية، والبصريات في فلسطين، واحصل على أفضل عروض التوريد لعيادتك أو مركزك.
           </p>
 
-          <div className="flex flex-col sm:flex-row justify-center items-center gap-4 max-w-2xl mx-auto">
-            {/* Search Box */}
-            <div className="w-full bg-white/10 backdrop-blur-xl p-2 rounded-2xl border border-white/20 flex gap-2">
+          <div className="mx-auto flex max-w-2xl flex-col items-center justify-center gap-4 sm:flex-row">
+            <div className="flex w-full gap-2 rounded-full border border-white/20 bg-white/10 p-2">
               <input 
                 type="text" 
                 placeholder="ابحث عن شركة، منتج، أو مدينة..." 
                 value={searchQuery}
                 onChange={handleSearch}
-                className="flex-1 bg-white/10 border-none outline-none text-white placeholder:text-white/50 px-4 py-3 rounded-xl focus:bg-white/20 transition-colors text-right"
+                className="flex-1 rounded-full border-none bg-transparent px-4 py-3 text-right text-white outline-none placeholder:text-white/50"
               />
-              <div className="bg-blue-500 text-white p-3 rounded-xl">
-                <Search className="w-5 h-5" />
+              <div className="rounded-full bg-white p-3 text-primary">
+                <Search className="h-5 w-5" />
               </div>
             </div>
 
@@ -183,7 +178,7 @@ export default function StoresPage() {
               return (
                 <div 
                   key={store.id} 
-                  className="bento-card shine-border p-6 flex flex-col sm:flex-row gap-6 group hover:-translate-y-0.5 transition-all duration-300"
+                  className="bento-card group flex flex-col gap-6 p-6 transition-all duration-200 sm:flex-row"
                 >
                   {/* Logo */}
                   <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-2xl overflow-hidden bg-slate-100 flex-shrink-0 relative border border-slate-100">

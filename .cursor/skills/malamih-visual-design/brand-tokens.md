@@ -35,9 +35,9 @@ Official lockup only (circular cream + serif M with face profile + spaced MALAMI
 
 ## Typography
 
-- Web: keep established Arabic/Latin stack already loaded (e.g. Cairo / project fonts in layout)—strengthen **heading vs body** roles via weight/size/tracking, don’t add random third families.
-- Display: heavier weight, tighter tracking for brand moments; body: readable sans for UI.
-- English brand moments may use spaced uppercase feel; Arabic brand moments keep calligraphic/display hierarchy without changing the word «ملامح» itself.
+- Web: **Cairo** for body + display headings (`font-display` = Cairo ExtraBold / black) — thick, neat, orderly medical UI.
+- Brand English wordmark only: **Amiri** via `font-brand` (MALAMIH spaced caps).
+- Don’t add random third families; strengthen weight/size hierarchy instead.
 
 ## Pattern
 

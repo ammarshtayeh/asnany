@@ -86,87 +86,81 @@ function SearchPageContent() {
 
   return (
     <main className="min-h-screen animate-fade-in bg-transparent pb-24 pt-2 text-right" dir="rtl">
-      <section className="relative isolate overflow-hidden">
-        <div className="relative min-h-[420px] bg-[#060c18]">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_80%_10%,rgba(16,185,129,0.16),transparent_42%),linear-gradient(180deg,rgba(6,12,24,0.2)_0%,rgba(6,12,24,0.95)_100%)]" />
-          <div className="relative z-10 mx-auto w-full max-w-[1400px] px-[var(--page-gutter)] pb-24 pt-10">
-            <Link href="/" className="mb-6 inline-flex items-center gap-2 rounded-xl border border-white/15 bg-white/5 px-4 py-2 text-xs font-black text-white transition hover:bg-white/10">
-              <ArrowRight className="h-3.5 w-3.5" />
-              الرئيسية
-            </Link>
-            <p className="text-sm font-black tracking-[0.18em] text-[#e8c86a]">ملامح</p>
-            <h1 className="mt-2 max-w-3xl text-3xl font-black tracking-tight text-white md:text-5xl">
-              ابحث عن الطبيب المناسب
-              <span className="mt-2 block bg-gradient-to-l from-[#e8c86a] via-[#f5d76e] to-[#fff4c2] bg-clip-text text-transparent">
-                حسب مدينتك وتخصصك
-              </span>
-            </h1>
-            <p className="mt-4 max-w-2xl text-sm font-semibold leading-7 text-slate-300 md:text-base">
-              قارن الأطباء، تواصل مباشرة، واحجز موعدك بخطوات واضحة.
-            </p>
+      <section className="section-shell pt-4">
+        <div className="page-hero-light px-6 py-10 sm:px-10">
+          <Link href="/" className="btn-malama-outline mb-6 inline-flex text-xs">
+            <ArrowRight className="h-3.5 w-3.5" />
+            الرئيسية
+          </Link>
+          <p className="section-kicker">ملامح</p>
+          <h1 className="mt-2 max-w-3xl font-display text-3xl font-extrabold tracking-tight text-[#0a1628] md:text-5xl">
+            ابحث عن الطبيب المناسب حسب مدينتك وتخصصك
+          </h1>
+          <p className="mt-4 max-w-2xl text-sm font-semibold leading-7 text-slate-600 md:text-base">
+            قارن الأطباء، تواصل مباشرة، واحجز موعدك بخطوات واضحة.
+          </p>
 
-            <div className="mt-8 rounded-[1.5rem] border border-white/12 bg-white/[0.06] p-4 shadow-[0_30px_60px_-28px_rgba(0,0,0,0.55)] backdrop-blur-xl sm:p-5">
-              <label className="mb-3 flex min-h-12 items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.05] px-4">
-                <Search className="h-5 w-5 text-[#e8c86a]" />
-                <input
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  className="w-full bg-transparent py-3 text-sm font-bold text-white outline-none placeholder:text-slate-400"
-                  placeholder="ابحث بالاسم أو المنطقة..."
-                />
-              </label>
-              <div className="grid gap-3 sm:grid-cols-3">
-                <select
-                  value={city}
-                  onChange={(e) => handleFilterChange('city', e.target.value)}
-                  className="w-full rounded-2xl border border-white/10 bg-[#0b1526] px-4 py-3 text-sm font-black text-white outline-none focus:border-[#e8c86a]/40"
-                >
-                  <option value="">كل المدن</option>
-                  {CITIES.map((city) => (
-                    <option key={city} value={city}>{city}</option>
-                  ))}
-                </select>
-                <select
-                  value={specialty}
-                  onChange={(e) => handleFilterChange('specialty', e.target.value)}
-                  className="w-full rounded-2xl border border-white/10 bg-[#0b1526] px-4 py-3 text-sm font-black text-white outline-none focus:border-[#e8c86a]/40"
-                >
-                  <option value="">كل التخصصات</option>
-                  {/* A linked specialty that is not in the list still shows as the active choice. */}
-                  {specialty && !SPECIALTIES.some((spec) => spec.id === specialty) ? (
-                    <option value={specialty}>{specialty}</option>
-                  ) : null}
-                  {SPECIALTIES.map((spec) => (
-                    <option key={spec.id} value={spec.id}>{spec.label}</option>
-                  ))}
-                </select>
-                <select
-                  value={insurance}
-                  onChange={(e) => handleFilterChange('insurance', e.target.value)}
-                  className="w-full rounded-2xl border border-white/10 bg-[#0b1526] px-4 py-3 text-sm font-black text-white outline-none focus:border-[#e8c86a]/40"
-                >
-                  <option value="any">كل خيارات التأمين</option>
-                  <option value="yes">يقبل التأمين</option>
-                  <option value="no">دفع شخصي فقط</option>
-                </select>
-              </div>
+          <div className="mt-8 rounded-[1.5rem] border border-[#e8e4dc] bg-[#faf8f5] p-4 sm:p-5">
+            <label className="mb-3 flex min-h-12 items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4">
+              <Search className="h-5 w-5 text-primary" />
+              <input
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                className="w-full bg-transparent py-3 text-sm font-bold text-slate-800 outline-none placeholder:text-slate-400"
+                placeholder="ابحث بالاسم أو المنطقة..."
+              />
+            </label>
+            <div className="grid gap-3 sm:grid-cols-3">
+              <select
+                value={city}
+                onChange={(e) => handleFilterChange('city', e.target.value)}
+                className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-extrabold text-slate-800 outline-none focus:border-primary/40"
+              >
+                <option value="">كل المدن</option>
+                {CITIES.map((city) => (
+                  <option key={city} value={city}>{city}</option>
+                ))}
+              </select>
+              <select
+                value={specialty}
+                onChange={(e) => handleFilterChange('specialty', e.target.value)}
+                className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-extrabold text-slate-800 outline-none focus:border-primary/40"
+              >
+                <option value="">كل التخصصات</option>
+                {/* A linked specialty that is not in the list still shows as the active choice. */}
+                {specialty && !SPECIALTIES.some((spec) => spec.id === specialty) ? (
+                  <option value={specialty}>{specialty}</option>
+                ) : null}
+                {SPECIALTIES.map((spec) => (
+                  <option key={spec.id} value={spec.id}>{spec.label}</option>
+                ))}
+              </select>
+              <select
+                value={insurance}
+                onChange={(e) => handleFilterChange('insurance', e.target.value)}
+                className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-extrabold text-slate-800 outline-none focus:border-primary/40"
+              >
+                <option value="any">كل خيارات التأمين</option>
+                <option value="yes">يقبل التأمين</option>
+                <option value="no">دفع شخصي فقط</option>
+              </select>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="section-shell relative z-20 -mt-14 pb-16">
+      <section className="section-shell relative z-20 mt-6 pb-16">
         {loading && (
-          <div className="flex flex-col items-center justify-center rounded-[1.5rem] border border-slate-200/70 bg-white p-16 text-center shadow-[0_16px_40px_-24px_rgba(10,22,40,0.18)]">
+          <div className="flex flex-col items-center justify-center rounded-[1.5rem] border border-[#e8e4dc] bg-white p-16 text-center shadow-soft">
             <div className="mb-4 h-10 w-10 animate-spin rounded-full border-4 border-primary border-t-transparent" />
             <span className="text-sm font-bold text-slate-500">جاري البحث عن الأطباء المناسبين...</span>
           </div>
         )}
 
         {error && !loading && (
-          <div className="rounded-[1.5rem] border border-rose-100 bg-white p-12 text-center shadow-sm">
-            <p className="mb-4 font-black text-rose-600">{error}</p>
-            <button type="button" onClick={() => void fetchDoctors()} className="rounded-xl bg-primary px-5 py-3 text-sm font-black text-white">
+          <div className="rounded-[1.5rem] border border-rose-100 bg-white p-12 text-center shadow-soft">
+            <p className="mb-4 font-extrabold text-rose-600">{error}</p>
+            <button type="button" onClick={() => void fetchDoctors()} className="btn-malama">
               إعادة المحاولة
             </button>
           </div>
@@ -200,7 +194,7 @@ function SearchPageContent() {
             <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
               {visibleDoctors.map((doctor: Doctor) => (
                 <article
-                  className="group flex flex-col justify-between overflow-hidden rounded-[1.5rem] border border-[#e5e0d8] bg-white shadow-[0_12px_36px_-18px_rgba(10,22,40,0.12)] transition duration-300 hover:-translate-y-0.5 hover:border-primary/25 hover:shadow-[0_22px_48px_-18px_rgba(10,22,40,0.16)]"
+                  className="group flex flex-col justify-between overflow-hidden rounded-[1.5rem] border border-[#e8e4dc] bg-white shadow-soft transition duration-200 hover:shadow-bento-hover"
                   key={doctor.id}
                 >
                   <div>
@@ -215,11 +209,11 @@ function SearchPageContent() {
                     </div>
                     <div className="p-4 pb-0">
                     <div className="mb-1 flex items-center gap-1.5">
-                      <h3 className="text-lg font-black tracking-tight text-slate-900">{doctor.name}</h3>
+                      <h3 className="text-lg font-extrabold tracking-tight text-slate-900">{doctor.name}</h3>
                     </div>
                     <div className="mt-2 flex flex-wrap gap-1.5">
                       {(Array.isArray(doctor.specialty) ? doctor.specialty : [doctor.specialty || doctor.category]).filter(Boolean).map((s) => (
-                        <span key={String(s)} className="rounded-lg border border-slate-100 bg-slate-50 px-2 py-1 text-[10px] font-black text-slate-600">
+                        <span key={String(s)} className="rounded-full bg-[#f3f0ea] px-2.5 py-1 text-[10px] font-extrabold text-slate-600">
                           {s}
                         </span>
                       ))}
@@ -243,21 +237,21 @@ function SearchPageContent() {
                     </div>
                     <div className="flex gap-2">
                       <Link
-                        className="flex flex-1 items-center justify-center gap-1.5 rounded-2xl bg-primary py-3 text-xs font-black text-white transition hover:bg-primary/90"
+                        className="btn-malama flex flex-1 py-3 text-xs"
                         href={`/doctors/${doctor.id}#booking`}
                       >
                         <Calendar className="h-3.5 w-3.5" />
                         احجز
                       </Link>
                       <Link
-                        className="flex flex-1 items-center justify-center rounded-2xl border border-slate-200 bg-slate-50 py-3 text-xs font-black text-slate-800 transition hover:bg-white"
+                        className="btn-malama-outline flex flex-1 py-3 text-xs"
                         href={`/doctors/${doctor.id}`}
                       >
                         الملف
                       </Link>
                       {doctor.whatsapp ? (
                         <a
-                          className="inline-flex items-center justify-center rounded-2xl border border-emerald-200 bg-emerald-50 px-3.5 py-3 text-emerald-700 transition hover:bg-emerald-100"
+                          className="inline-flex items-center justify-center rounded-full border border-primary/15 bg-[#eef5f3] px-3.5 py-3 text-primary transition hover:bg-[#e0ece9]"
                           href={`https://wa.me/${String(doctor.whatsapp).replace(/[^0-9]/g, '')}`}
                           target="_blank"
                           rel="noopener noreferrer"

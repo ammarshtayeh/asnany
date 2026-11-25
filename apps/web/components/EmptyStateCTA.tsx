@@ -27,8 +27,8 @@ export default function EmptyStateCTA({
   onTipClick,
 }: EmptyStateCTAProps) {
   return (
-    <div className="bento-card shine-border rounded-3xl border border-dashed border-slate-300/80 bg-white/90 p-10 text-center shadow-bento backdrop-blur-md">
-      <h3 className="text-xl font-black text-slate-900">{title}</h3>
+    <div className="bento-card rounded-[1.5rem] border border-dashed border-slate-300 bg-white p-10 text-center">
+      <h3 className="text-xl font-extrabold text-slate-900">{title}</h3>
       <p className="mx-auto mt-3 max-w-lg text-sm font-semibold leading-7 text-slate-500">{description}</p>
       {tips?.length ? (
         <div className="mt-5 flex flex-wrap justify-center gap-2">
@@ -38,12 +38,12 @@ export default function EmptyStateCTA({
                 key={tip}
                 type="button"
                 onClick={() => onTipClick(tip)}
-                className="rounded-full border border-slate-200 bg-slate-100 px-3.5 py-1.5 text-xs font-black text-slate-700 transition hover:border-primary/30 hover:bg-white hover:text-primary"
+                className="rounded-full border border-slate-200 bg-[#faf8f5] px-3.5 py-1.5 text-xs font-extrabold text-slate-700 transition hover:border-primary/30 hover:bg-white hover:text-primary"
               >
                 {tip}
               </button>
             ) : (
-              <span key={tip} className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-600">
+              <span key={tip} className="rounded-full bg-[#f3f0ea] px-3 py-1 text-xs font-extrabold text-slate-600">
                 {tip}
               </span>
             )
@@ -51,18 +51,12 @@ export default function EmptyStateCTA({
         </div>
       ) : null}
       <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-        <Link
-          href={primaryHref}
-          className="btn-malama inline-flex items-center gap-2 px-6 py-3.5 text-sm"
-        >
+        <Link href={primaryHref} className="btn-malama inline-flex items-center gap-2 px-6 py-3.5 text-sm">
           {primaryLabel}
           <ArrowRight className="h-4 w-4" />
         </Link>
         {secondaryHref && secondaryLabel ? (
-          <Link
-            href={secondaryHref}
-            className="inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-6 py-3.5 text-sm font-black text-slate-700 transition hover:border-primary/30"
-          >
+          <Link href={secondaryHref} className="btn-malama-outline px-6 py-3.5 text-sm">
             {secondaryLabel}
           </Link>
         ) : null}
@@ -70,7 +64,7 @@ export default function EmptyStateCTA({
           href={whatsappHref(whatsappMessage)}
           target="_blank"
           rel="noreferrer"
-          className="inline-flex items-center gap-2 rounded-2xl border border-emerald-200 bg-emerald-50 px-6 py-3.5 text-sm font-black text-emerald-700 transition hover:bg-emerald-100"
+          className="inline-flex items-center gap-2 rounded-full border border-primary/15 bg-[#eef5f3] px-6 py-3.5 text-sm font-extrabold text-primary transition hover:bg-[#e0ece9]"
         >
           <MessageCircle className="h-4 w-4" />
           واتساب

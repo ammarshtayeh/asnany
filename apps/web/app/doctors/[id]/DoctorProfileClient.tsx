@@ -209,12 +209,12 @@ export default function DoctorProfileClient({ doctor, canBookOnWebsite }: { doct
         <div className="flex-1 space-y-8">
           
           {/* Main Card */}
-          <div className="bento-card shine-border backdrop-blur-xl p-6 md:p-10">
+          <div className="bento-card backdrop-blur-xl p-6 md:p-10">
             <div className="flex flex-col sm:flex-row gap-8 items-start">
               
               {/* Doctor Avatar */}
-              <div className="relative w-36 h-36 md:w-48 md:h-48 rounded-[2rem] p-2 bg-gradient-to-br from-slate-900 via-slate-700 to-amber-500 shadow-xl shadow-slate-950/20 group-hover:scale-105 transition-transform duration-500">
-                <div className="w-full h-full bg-white rounded-[1.6rem] overflow-hidden relative">
+              <div className="relative h-36 w-36 rounded-[1.5rem] border border-[#e8e4dc] bg-[#eef5f3] p-1.5 shadow-soft md:h-48 md:w-48">
+                <div className="relative h-full w-full overflow-hidden rounded-[1.15rem] bg-white">
                   {doctor.image_url ? (
                     <Image src={doctor.image_url} alt={doctor.name} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
                   ) : (
@@ -332,7 +332,7 @@ export default function DoctorProfileClient({ doctor, canBookOnWebsite }: { doct
 
           {/* About & Stats */}
           <div className="grid md:grid-cols-3 gap-6">
-            <div className="md:col-span-2 bento-card shine-border p-8 relative overflow-hidden">
+            <div className="md:col-span-2 bento-card p-8 relative overflow-hidden">
               <div className="absolute top-0 left-0 w-32 h-32 bg-primary/5 rounded-full -translate-x-16 -translate-y-16" />
               <h2 className="text-xl font-black text-slate-900 mb-5 flex items-center gap-2">
                 <Award className="w-6 h-6 text-primary" /> نبذة عن الطبيب
@@ -365,7 +365,7 @@ export default function DoctorProfileClient({ doctor, canBookOnWebsite }: { doct
           </div>
 
           {/* Smart Map Section */}
-          <div className="bento-card shine-border p-3 relative h-[450px] overflow-hidden group">
+          <div className="bento-card p-3 relative h-[450px] overflow-hidden group">
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-20 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             <DoctorMap doctors={[doctor]} userLocation={userLoc || undefined} />
             <div className="absolute bottom-6 right-6 z-30 flex gap-2">
@@ -496,7 +496,7 @@ export default function DoctorProfileClient({ doctor, canBookOnWebsite }: { doct
         <div className="w-full lg:w-[380px] space-y-6">
           
           {/* Quick Actions Panel */}
-          <div className="bento-card shine-border p-6 sticky top-6">
+          <div className="bento-card p-6 sticky top-6">
             <h3 className="font-black text-slate-900 text-lg mb-6">تواصل وحجز مباشر</h3>
             
             {canBookOnWebsite ? (
@@ -541,7 +541,7 @@ export default function DoctorProfileClient({ doctor, canBookOnWebsite }: { doct
         </div>
       </div>
 
-      <div className="section-shell mt-8 bento-card shine-border p-6 scroll-mt-28" id="booking">
+      <div className="section-shell mt-8 bento-card p-6 scroll-mt-28" id="booking">
         <div className="mb-6 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
           <div>
             <span className="text-sm font-black text-primary">حجز موعد</span>
@@ -677,7 +677,7 @@ export default function DoctorProfileClient({ doctor, canBookOnWebsite }: { doct
       ) : null}
 
       {/* Modern Contact Banner replacing booking form */}
-      <div className="section-shell mt-8 bento-card shine-border p-8 md:p-12 relative overflow-hidden text-center">
+      <div className="section-shell mt-8 bento-card p-8 md:p-12 relative overflow-hidden text-center">
         <div className="absolute top-0 right-0 w-32 h-full bg-gradient-to-l from-primary/5 to-transparent pointer-events-none" />
         <div className="max-w-3xl mx-auto relative z-10">
           <span className="bg-primary/10 text-primary font-bold px-4 py-1.5 rounded-full text-sm inline-block mb-4">قنوات التواصل المباشرة</span>

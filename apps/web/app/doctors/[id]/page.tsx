@@ -56,21 +56,14 @@ export default async function DoctorPage({ params }: { params: Promise<{ id: str
   return (
     <main className="animate-fade-in bg-transparent min-h-screen relative font-sans selection:bg-primary/20 selection:text-primary pb-24">
       <div className="section-shell pt-4">
-      <div className="page-hero-dark relative h-[280px] md:h-[340px] w-full overflow-hidden">
-        {/* Abstract shapes & gradients */}
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/80 via-slate-900 to-secondary/80" />
-        <div className="absolute top-0 right-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10" />
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-primary rounded-full blur-[100px] opacity-40 mix-blend-screen" />
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-secondary rounded-full blur-[100px] opacity-30 mix-blend-screen" />
-        
-        {/* Back Button */}
-        <div className="absolute top-6 right-4 md:right-6 z-50">
-          <Link href="/" className="btn-malama-ghost px-4 py-2 text-xs sm:text-sm">
-            <ArrowRight className="w-4 h-4" />
-            العودة للرئيسية
-          </Link>
+        <div className="page-hero-dark relative h-[220px] w-full overflow-hidden md:h-[260px]">
+          <div className="absolute top-6 right-4 z-50 md:right-6">
+            <Link href="/" className="btn-malama-ghost px-4 py-2 text-xs sm:text-sm">
+              <ArrowRight className="h-4 w-4" />
+              العودة للرئيسية
+            </Link>
+          </div>
         </div>
-      </div>
       </div>
 
       <DoctorProfileClient doctor={doctor} canBookOnWebsite={canBookOnWebsite} />

@@ -45,11 +45,11 @@ export default function BlogPage() {
               <ArrowRight className="w-3.5 h-3.5" />
               الرئيسية
             </Link>
-            <span className="mb-4 inline-flex w-fit items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-4 py-2 text-xs font-black text-emerald-700">
+            <span className="mb-4 inline-flex w-fit items-center gap-2 rounded-full border border-primary/15 bg-[#eef5f3] px-4 py-2 text-xs font-extrabold text-primary">
               <BookOpen className="h-4 w-4" />
               مجلة ملامح
             </span>
-            <h1 className="text-4xl font-black leading-tight text-slate-950 md:text-6xl">
+            <h1 className="font-display text-4xl font-extrabold leading-tight text-slate-950 md:text-5xl">
               محتوى طبي واضح، بلا تعقيد.
             </h1>
             <p className="mt-4 max-w-2xl text-base font-semibold leading-8 text-slate-600">
@@ -68,10 +68,10 @@ export default function BlogPage() {
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              className={`rounded-2xl px-5 py-3 text-xs md:text-sm font-black transition-all hover:scale-[1.02] active:scale-95 border ${
+              className={`rounded-full border px-5 py-3 text-xs font-extrabold transition-all active:scale-95 md:text-sm ${
                 selectedCategory === cat
-                  ? "bg-slate-950 border-slate-950 text-white shadow-lg"
-                  : "bg-white border-slate-200 text-slate-700 hover:bg-slate-50"
+                  ? "border-primary bg-primary text-white"
+                  : "border-slate-200 bg-white text-slate-700 hover:bg-[#faf8f5]"
               }`}
             >
               {cat}
@@ -82,7 +82,7 @@ export default function BlogPage() {
         {loading ? (
           <div className="h-[420px] animate-pulse rounded-2xl bg-white" />
         ) : lead ? (
-          <Link href={`/blog/${lead.id}`} className="group bento-card shine-border grid overflow-hidden transition hover:-translate-y-0.5 lg:grid-cols-[1.1fr_0.9fr]">
+          <Link href={`/blog/${lead.id}`} className="group bento-card grid overflow-hidden transition lg:grid-cols-[1.1fr_0.9fr]">
             <div className="relative min-h-[320px] overflow-hidden bg-slate-100">
               <Image src={lead.image_url} alt={lead.title} fill priority className="object-cover transition duration-700 group-hover:scale-105" />
               <span className="absolute right-5 top-5 rounded-xl bg-white/90 px-3 py-1.5 text-xs font-black text-emerald-700 backdrop-blur">

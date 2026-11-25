@@ -83,7 +83,7 @@ export default function AppointmentsPage() {
           الرئيسية
         </Link>
 
-        <div className="bento-card shine-border mt-6 p-5 sm:p-7">
+        <div className="bento-card mt-6 p-5 sm:p-7">
           <div className="flex items-start gap-4">
             <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-primary/5 text-primary">
               <CalendarCheck2 className="h-6 w-6" />

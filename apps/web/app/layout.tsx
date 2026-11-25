@@ -80,7 +80,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ar" dir="rtl">
-      <body className={`${cairoFont.variable} ${amiriFont.variable} font-sans aurora-bg bg-grid-pattern text-slate-900 min-h-screen flex flex-col pb-28 lg:pb-0`}>
+      <body className={`${cairoFont.variable} ${amiriFont.variable} font-sans bg-[#f7f5f0] text-slate-900 min-h-screen flex flex-col pb-28 lg:pb-0`}>
         <GoogleAnalytics />
         <GoogleAdSense />
         <Navbar />

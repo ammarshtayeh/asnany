@@ -111,28 +111,28 @@ export default function MarketplacePage() {
           الرئيسية
         </Link>
         <div className="mb-10 grid gap-6 lg:grid-cols-[minmax(0,1fr)_420px]">
-          <div className="page-hero-dark relative overflow-hidden rounded-3xl p-7 text-white md:p-10">
+          <div className="page-hero-dark relative overflow-hidden rounded-[1.75rem] p-7 text-white md:p-10">
             <Image
               src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1400&q=80"
               alt="مستلزمات وأجهزة العيادات الطبية والتجميلية"
               fill
               priority
-              className="object-cover opacity-28"
+              className="object-cover opacity-20"
             />
-            <div className="absolute inset-0 bg-gradient-to-l from-slate-950 via-slate-950/80 to-slate-900/40" />
+            <div className="absolute inset-0 bg-primary/80" />
             <div className="relative z-10 max-w-3xl text-right">
-              <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs font-black text-amber-200 backdrop-blur">
+              <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-extrabold text-white">
                 <Megaphone className="h-4 w-4" />
                 سوق ملامح للأجهزة والمستلزمات الطبية والتجميلية
               </span>
-              <h1 className="text-4xl font-black leading-tight md:text-6xl">معدات، وظائف، وفرص للعيادات.</h1>
-              <p className="mt-5 max-w-2xl text-base font-semibold leading-8 text-slate-200">
+              <h1 className="font-display text-4xl font-extrabold leading-tight text-white md:text-5xl">معدات، وظائف، وفرص للعيادات.</h1>
+              <p className="mt-5 max-w-2xl text-base font-semibold leading-8 text-white/85">
                 مساحة منظمة لبيع وشراء أجهزة العيادات، ونشر فرص العمل الطبية، والتواصل المباشر مع أصحاب الإعلان.
               </p>
               <div className="mt-7 flex flex-wrap gap-3">
               <button
                 onClick={() => setShowPublishForm(true)}
-                className="flex items-center gap-2 rounded-xl bg-amber-400 px-5 py-3 text-sm font-black text-slate-950 transition hover:bg-amber-300"
+                className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-extrabold text-primary transition hover:bg-[#f7f5f0]"
               >
                 <PlusCircle className="h-5 w-5" /> انشر إعلان
               </button>
@@ -197,7 +197,7 @@ export default function MarketplacePage() {
             {filteredAds.map((ad) => (
               <div
                 key={ad.id}
-                className={`bento-card shine-border relative flex flex-col overflow-hidden p-5 transition duration-300 hover:-translate-y-1 ${
+                className={`bento-card relative flex flex-col overflow-hidden p-5 transition duration-300 hover:-translate-y-1 ${
                   ad.is_featured ? "ring-2 ring-amber-200" : ""
                 }`}
               >

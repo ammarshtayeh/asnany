@@ -70,7 +70,7 @@ export default function DoctorMapPage() {
           </p>
         </section>
 
-        <section className="bento-card shine-border overflow-hidden p-4">
+        <section className="bento-card overflow-hidden p-4">
           <div className="rounded-[1.6rem] border border-primary/15 bg-primary/5 p-4">
             
             {/* Live Location Alert Status */}

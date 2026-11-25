@@ -37,36 +37,29 @@ export default async function BeautyDetailPage({ params }: { params: Promise<{ i
   return (
     <main className="min-h-screen animate-fade-in bg-transparent" dir="rtl">
       <section className="page-hero-dark relative overflow-hidden text-white">
-        {/* Background image */}
-        {service.image_url && (
+        {service.image_url ? (
           <div className="absolute inset-0">
             <img
               src={service.image_url}
               alt={service.name}
-              className="w-full h-full object-cover opacity-20"
+              className="h-full w-full object-cover opacity-25"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/80 to-slate-950/60" />
+            <div className="absolute inset-0 bg-primary/85" />
           </div>
-        )}
+        ) : null}
 
-        {/* Glow effects */}
-        <div className="absolute top-0 right-1/4 h-80 w-80 rounded-full bg-pink-500/10 blur-[100px]" />
-        <div className="absolute bottom-0 left-1/4 h-80 w-80 rounded-full bg-amber-500/10 blur-[100px]" />
-
-        <div className="relative z-10 max-w-4xl mx-auto px-4 pt-12 pb-20">
-          {/* Breadcrumb */}
-          <div className="flex items-center gap-2 text-xs text-slate-400 mb-8 font-black">
-            <Link href="/" className="hover:text-white transition-colors">الرئيسية</Link>
+        <div className="relative z-10 mx-auto max-w-4xl px-4 pb-20 pt-12">
+          <div className="mb-8 flex items-center gap-2 text-xs font-extrabold text-white/70">
+            <Link href="/" className="transition-colors hover:text-white">الرئيسية</Link>
             <span>/</span>
-            <Link href="/beauty" className="hover:text-white transition-colors">مراكز التجميل</Link>
+            <Link href="/beauty" className="transition-colors hover:text-white">مراكز التجميل</Link>
             <span>/</span>
-            <span className="text-slate-200 truncate max-w-[160px]">{service.name}</span>
+            <span className="max-w-[160px] truncate text-white">{service.name}</span>
           </div>
 
-          {/* Back button */}
           <Link
             href="/beauty"
-            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-black text-slate-300 transition-all hover:border-amber-500/30 hover:bg-white/10 hover:text-white mb-8"
+            className="btn-malama-ghost mb-8 inline-flex px-4 py-2 text-xs"
           >
             <ArrowRight className="w-3.5 h-3.5" />
             العودة إلى مراكز التجميل

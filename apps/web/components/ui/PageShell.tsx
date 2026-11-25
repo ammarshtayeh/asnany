@@ -7,7 +7,7 @@ const MAX_WIDTH: Record<string, string> = {
   "4xl": "max-w-4xl",
   "5xl": "max-w-5xl",
   "6xl": "max-w-6xl",
-  full: "max-w-[1400px]",
+  full: "max-w-[1200px]",
 };
 
 type PageShellProps = {
@@ -33,43 +33,43 @@ export default function PageShell({
   backHref = "/",
   backLabel = "العودة للرئيسية",
   useBackButton = false,
-  overlap = true,
+  overlap = false,
 }: PageShellProps) {
   return (
     <main className="min-h-screen animate-fade-in bg-transparent pb-24 font-sans" dir="rtl">
       <div className="section-shell pb-2 pt-3 sm:pt-4">
-        <section className="page-hero-dark relative overflow-hidden px-6 py-12 text-center text-white sm:px-10 sm:py-16 md:py-20">
-          <div className="pointer-events-none absolute -right-16 top-0 h-64 w-64 rounded-full bg-amber-500/12 blur-[100px]" />
-          <div className="pointer-events-none absolute -left-16 bottom-0 h-72 w-72 rounded-full bg-emerald-500/10 blur-[100px]" />
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(212,175,55,0.1),transparent_55%)]" />
+        <section className="page-hero-light relative overflow-hidden px-6 py-10 text-right sm:px-10 sm:py-12 md:py-14">
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-[#eef5f3] to-transparent" />
 
-          <div className="absolute right-4 top-4 z-20 sm:right-6 sm:top-6">
+          <div className="absolute left-4 top-4 z-20 sm:left-6 sm:top-6">
             {useBackButton ? (
               <BackButton fallbackHref={backHref} label={backLabel} />
             ) : (
-              <Link href={backHref} className="btn-malama-ghost px-4 py-2 text-xs sm:text-sm">
+              <Link href={backHref} className="btn-malama-outline px-4 py-2 text-xs sm:text-sm">
                 <ArrowRight className="h-4 w-4" />
                 {backLabel}
               </Link>
             )}
           </div>
 
-          <div className="relative z-10 mx-auto max-w-3xl px-2">
+          <div className="relative z-10 max-w-3xl pt-8 sm:pt-2">
             {badge ? (
-              <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#d4af37]/30 bg-[#d4af37]/10 px-4 py-1.5 text-xs font-black text-[#fde68a] backdrop-blur-sm">
+              <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/15 bg-[#eef5f3] px-4 py-1.5 text-xs font-extrabold text-primary">
                 <BadgeIcon className="h-3.5 w-3.5" />
                 {badge}
               </span>
             ) : null}
-            <h1 className="text-3xl font-black leading-[1.15] tracking-tight sm:text-4xl md:text-5xl">{title}</h1>
+            <h1 className="font-display text-3xl font-extrabold leading-[1.2] tracking-tight text-[#0a1628] sm:text-4xl md:text-[2.75rem]">
+              {title}
+            </h1>
             {description ? (
-              <p className="mx-auto mt-4 max-w-2xl text-sm font-semibold leading-8 text-slate-300 sm:text-base">{description}</p>
+              <p className="mt-4 max-w-2xl text-sm font-semibold leading-8 text-slate-600 sm:text-base">{description}</p>
             ) : null}
           </div>
         </section>
       </div>
 
-      <div className={`section-shell relative z-10 pb-24 ${overlap ? "-mt-14 sm:-mt-16" : "mt-6"}`}>
+      <div className={`section-shell relative z-10 pb-24 ${overlap ? "-mt-8 sm:-mt-10" : "mt-6"}`}>
         <div className={`mx-auto ${MAX_WIDTH[maxWidth]} w-full`}>{children}</div>
       </div>
     </main>
@@ -78,7 +78,7 @@ export default function PageShell({
 
 export function ContentPanel({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={`bento-card shine-border space-y-8 p-8 text-right md:p-12 ${className}`}>{children}</div>
+    <div className={`bento-card space-y-8 p-8 text-right md:p-10 ${className}`}>{children}</div>
   );
 }
 
@@ -94,11 +94,11 @@ export function FeatureTile({
   tone?: "primary" | "emerald" | "indigo" | "amber" | "sky";
 }) {
   const tones = {
-    primary: "bg-primary/10 text-primary border border-primary/10",
-    emerald: "bg-[#e8f2ee] text-[#0c5e47] border border-[#d5e8e1]",
-    indigo: "bg-[#f0ebe3] text-[#0a1628] border border-[#e5e0d8]",
-    amber: "bg-[#f7f1e0] text-[#8a7020] border border-[#efe4c4]",
-    sky: "bg-[#eef6f3] text-[#1a7a64] border border-[#d5e8e1]",
+    primary: "bg-[#eef5f3] text-primary",
+    emerald: "bg-[#e8f2ee] text-[#0c5e47]",
+    indigo: "bg-[#f3f0ea] text-[#0a1628]",
+    amber: "bg-[#f7f1e0] text-[#8a7020]",
+    sky: "bg-[#eef6f3] text-[#1a7a64]",
   };
 
   return (
@@ -106,7 +106,7 @@ export function FeatureTile({
       <div className={`mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-2xl ${tones[tone]}`}>
         <Icon className="h-6 w-6" />
       </div>
-      <h3 className="font-black text-slate-900">{title}</h3>
+      <h3 className="font-extrabold text-slate-900">{title}</h3>
       <div className="mt-2 text-xs font-semibold leading-relaxed text-slate-500">{children}</div>
     </div>
   );
@@ -114,9 +114,9 @@ export function FeatureTile({
 
 export function PromoBanner({ eyebrow, title, children }: { eyebrow?: string; title: string; children?: React.ReactNode }) {
   return (
-    <div className="shine-border mb-8 rounded-3xl border border-[#efe4c4]/80 bg-gradient-to-l from-[#f7f1e0] via-white to-white p-6 text-center shadow-bento md:p-8">
-      {eyebrow ? <p className="text-xs font-black text-[#8a7020]">{eyebrow}</p> : null}
-      <h2 className="mt-2 font-display text-2xl font-bold text-slate-900">{title}</h2>
+    <div className="mb-8 rounded-[1.5rem] border border-[#e5ebe8] bg-[#eef5f3] p-6 text-center md:p-8">
+      {eyebrow ? <p className="text-xs font-extrabold text-primary">{eyebrow}</p> : null}
+      <h2 className="mt-2 font-display text-2xl font-extrabold text-slate-900">{title}</h2>
       {children}
     </div>
   );
@@ -144,12 +144,12 @@ export function SplitPageIntro({
       <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(380px,1fr)] lg:items-center">
         <div className="text-right">
           {badge ? (
-            <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-xs font-black text-primary">
+            <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/15 bg-[#eef5f3] px-4 py-1.5 text-xs font-extrabold text-primary">
               <Sparkles className="h-3.5 w-3.5" />
               {badge}
             </span>
           ) : null}
-          <h1 className="text-3xl font-black leading-tight tracking-tight text-slate-950 md:text-5xl">{title}</h1>
+          <h1 className="font-display text-3xl font-extrabold leading-tight tracking-tight text-slate-950 md:text-5xl">{title}</h1>
           <p className="mt-4 max-w-2xl text-base font-semibold leading-8 text-slate-600">{description}</p>
         </div>
         {children}

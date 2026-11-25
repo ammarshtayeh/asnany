@@ -84,7 +84,7 @@ export default function ArticlePage() {
       </div>
 
       <div className="section-shell max-w-4xl mx-auto px-4 py-12 flex flex-col md:flex-row gap-12">
-        <div className="flex-1 bento-card shine-border p-8 md:p-10">
+        <div className="flex-1 bento-card p-8 md:p-10">
           <div className="prose prose-slate prose-lg max-w-none text-slate-700 leading-loose">
             <p className="text-xl font-medium text-slate-500 mb-8 leading-relaxed">
               {article.excerpt}
@@ -107,7 +107,7 @@ export default function ArticlePage() {
 
         {/* Sidebar / Embedded CTA */}
         <div className="w-full md:w-[350px]">
-          <div className="bento-card shine-border p-6 sticky top-28">
+          <div className="bento-card p-6 sticky top-28">
             <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-6 shadow-sm border border-slate-100 text-primary">
               <Sparkles className="w-8 h-8" />
             </div>

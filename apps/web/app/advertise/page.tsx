@@ -67,7 +67,7 @@ export default function AdvertiseWithUs() {
           </div>
           </div>
 
-        <form onSubmit={handleSubmit} className="bento-card shine-border p-5 text-right md:p-7">
+        <form onSubmit={handleSubmit} className="bento-card p-5 text-right md:p-7">
           <div className="mb-5">
             <p className="text-sm font-black text-primary">استمارة الإعلان</p>
             <h2 className="mt-1 text-2xl font-black text-slate-950">احكيلنا شو الإعلان وطبيعته</h2>

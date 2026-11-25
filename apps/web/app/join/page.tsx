@@ -20,12 +20,12 @@ export default function JoinAsDoctor() {
       </PromoBanner>
 
       <div className="grid gap-6 md:grid-cols-2 md:gap-8">
-        <div className="bento-card shine-border flex flex-col justify-between p-8">
+        <div className="bento-card flex flex-col justify-between p-8">
           <div className="space-y-4">
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#eef5f3] text-primary">
               <FileText className="h-8 w-8" />
             </div>
-            <h2 className="text-2xl font-black text-slate-900">نموذج التسجيل الإلكتروني</h2>
+            <h2 className="text-2xl font-extrabold text-slate-900">نموذج التسجيل الإلكتروني</h2>
             <p className="text-sm font-medium leading-relaxed text-slate-500">
               سجّل عيادتك بنفسك عبر الاستمارة الإلكترونية مع رفع صور العيادة وتحديد موقعها على الخريطة.
             </p>
@@ -48,12 +48,12 @@ export default function JoinAsDoctor() {
           </div>
         </div>
 
-        <div className="bento-card shine-border flex flex-col justify-between p-8">
+        <div className="bento-card flex flex-col justify-between p-8">
           <div className="space-y-4">
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-emerald-100 bg-emerald-50 text-emerald-500">
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#eef5f3] text-primary">
               <MessageSquare className="h-8 w-8" />
             </div>
-            <h2 className="text-2xl font-black text-slate-900">تواصل مباشر عبر واتساب</h2>
+            <h2 className="text-2xl font-extrabold text-slate-900">تواصل مباشر عبر واتساب</h2>
             <p className="text-sm font-medium leading-relaxed text-slate-500">
               تحدث مع مسؤول البوابة وسنقوم بإنشاء وتفعيل حساب عيادتك فوراً.
             </p>
@@ -80,10 +80,10 @@ export default function JoinAsDoctor() {
         </div>
       </div>
 
-      <div className="mt-8 flex gap-3 rounded-2xl border border-amber-100 bg-amber-50 p-5 text-sm font-bold text-amber-800">
-        <ShieldAlert className="mt-0.5 h-5 w-5 shrink-0 text-amber-600" />
+      <div className="mt-8 flex gap-3 rounded-[1.25rem] border border-primary/15 bg-[#eef5f3] p-5 text-sm font-bold text-slate-700">
+        <ShieldAlert className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
         <div>
-          <span className="block text-amber-900">ملاحظة هامة للأطباء:</span>
+          <span className="block text-primary">ملاحظة هامة للأطباء:</span>
           <span>بمجرد تقديم طلبك، يقوم مسؤول البوابة بمراجعة البيانات قبل تفعيل عيادتك على الدليل العام.</span>
         </div>
       </div>

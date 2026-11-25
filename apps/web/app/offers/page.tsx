@@ -44,11 +44,11 @@ export default function OffersPage() {
         </Link>
         <div className="grid gap-8 lg:grid-cols-[minmax(0,0.95fr)_minmax(420px,1.05fr)] lg:items-center">
           <div className="text-right">
-            <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-xs font-black text-primary">
+            <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/15 bg-[#eef5f3] px-4 py-1.5 text-xs font-extrabold text-primary">
               <Sparkles className="h-3.5 w-3.5" />
               عروض مختارة
             </span>
-            <h1 className="text-3xl font-black leading-tight tracking-tight text-slate-950 md:text-5xl">
+            <h1 className="font-display text-3xl font-extrabold leading-tight tracking-tight text-slate-950 md:text-5xl">
               أفضل عروض العناية والجمال بدون مساومة على الجودة.
             </h1>
             <p className="mt-4 max-w-2xl text-base font-semibold leading-8 text-slate-600">
@@ -56,25 +56,25 @@ export default function OffersPage() {
             </p>
           </div>
 
-          <div className="page-hero-dark relative min-h-[360px] overflow-hidden">
-          <Image
-            src={getOfferImage(0)}
-            alt={featuredOffer?.title || "عروض ملامح"}
-            fill
-            priority
-            className="object-cover opacity-75"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/45 to-transparent" />
-          <div className="absolute inset-x-0 bottom-0 p-6 text-right text-white md:p-8">
-            <span className="mb-3 inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1.5 text-xs font-black backdrop-blur">
-              <Sparkles className="h-4 w-4 text-amber-300" />
-              العرض الأبرز
-            </span>
-            <h2 className="text-2xl font-black leading-9 md:text-3xl">{featuredOffer?.title || "عروض ملامح الخاصة"}</h2>
-            <p className="mt-2 line-clamp-2 text-sm font-semibold leading-7 text-slate-200">
-              {featuredOffer?.description || "تابع أحدث الخصومات والعروض من العيادات المعتمدة."}
-            </p>
-          </div>
+          <div className="relative min-h-[360px] overflow-hidden rounded-[1.75rem] border border-[#e8e4dc] bg-white shadow-soft">
+            <Image
+              src={getOfferImage(0)}
+              alt={featuredOffer?.title || "عروض ملامح"}
+              fill
+              priority
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0a1628]/80 via-[#0a1628]/25 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 p-6 text-right text-white md:p-8">
+              <span className="mb-3 inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1.5 text-xs font-extrabold backdrop-blur">
+                <Sparkles className="h-4 w-4 text-[#e8c86a]" />
+                العرض الأبرز
+              </span>
+              <h2 className="font-display text-2xl font-extrabold leading-9 md:text-3xl">{featuredOffer?.title || "عروض ملامح الخاصة"}</h2>
+              <p className="mt-2 line-clamp-2 text-sm font-semibold leading-7 text-white/85">
+                {featuredOffer?.description || "تابع أحدث الخصومات والعروض من العيادات المعتمدة."}
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -89,33 +89,33 @@ export default function OffersPage() {
               const discount = offer.discount_percentage ?? 0;
 
               return (
-                <article key={offer.id} className="bento-card shine-border group overflow-hidden">
-                  <div className="relative h-56 overflow-hidden bg-slate-100">
-                    <Image src={getOfferImage(index + 1)} alt={offer.title} fill className="object-cover transition duration-700 group-hover:scale-105" />
-                    <div className="absolute right-4 top-4 rounded-xl bg-rose-600 px-4 py-3 text-center text-white shadow-lg">
-                      <span className="block text-2xl font-black leading-none">{discount}%</span>
-                      <span className="text-[11px] font-black">خصم</span>
+                <article key={offer.id} className="bento-card group overflow-hidden">
+                  <div className="relative h-56 overflow-hidden bg-[#e8f0ef]">
+                    <Image src={getOfferImage(index + 1)} alt={offer.title} fill className="object-cover transition duration-500 group-hover:scale-[1.02]" />
+                    <div className="absolute right-4 top-4 rounded-2xl bg-primary px-4 py-3 text-center text-white shadow-soft">
+                      <span className="block text-2xl font-extrabold leading-none">{discount}%</span>
+                      <span className="text-[11px] font-extrabold">خصم</span>
                     </div>
-                    <div className="absolute bottom-4 left-4 inline-flex items-center gap-1.5 rounded-xl bg-slate-950/70 px-3 py-2 text-xs font-black text-white backdrop-blur">
-                      <CalendarClock className="h-4 w-4 text-amber-300" />
+                    <div className="absolute bottom-4 left-4 inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-2 text-xs font-extrabold text-slate-800 shadow-sm">
+                      <CalendarClock className="h-4 w-4 text-primary" />
                       {daysLeft ? `${daysLeft} يوم متبقي` : "ينتهي اليوم"}
                     </div>
                   </div>
                   <div className="p-5">
-                    <p className="mb-2 flex items-center gap-2 text-sm font-black text-slate-500">
-                      <Tag className="h-4 w-4 text-amber-500" />
+                    <p className="mb-2 flex items-center gap-2 text-sm font-extrabold text-slate-500">
+                      <Tag className="h-4 w-4 text-primary" />
                       {offer.doctor_name || "عرض طبي"}
                     </p>
-                    <h3 className="line-clamp-2 text-xl font-black leading-8 text-slate-950">{offer.title}</h3>
+                    <h3 className="line-clamp-2 text-xl font-extrabold leading-8 text-slate-950">{offer.title}</h3>
                     <p className="mt-2 line-clamp-3 text-sm font-semibold leading-7 text-slate-500">{offer.description}</p>
                     <div className="mt-5 flex items-end justify-between gap-3 border-t border-slate-100 pt-5">
                       <div>
                         {discount === 100 ? (
-                          <span className="text-2xl font-black text-emerald-600">مجاناً</span>
+                          <span className="text-2xl font-extrabold text-primary">مجاناً</span>
                         ) : (
                           <>
                             {offer.original_price ? <span className="block text-sm font-bold text-slate-400 line-through">{offer.original_price} شيكل</span> : null}
-                            <span className="text-2xl font-black text-slate-950">{offer.discounted_price || "خاص"} <span className="text-sm text-slate-500">شيكل</span></span>
+                            <span className="text-2xl font-extrabold text-slate-950">{offer.discounted_price || "خاص"} <span className="text-sm text-slate-500">شيكل</span></span>
                           </>
                         )}
                       </div>
@@ -123,14 +123,14 @@ export default function OffersPage() {
                         {offer.doctor_id ? (
                           <Link
                             href={`/doctors/${offer.doctor_id}#booking`}
-                            className="inline-flex items-center gap-1.5 rounded-xl bg-amber-500 px-4 py-3 text-xs font-black text-slate-950 transition hover:bg-amber-400"
+                            className="btn-malama px-4 py-3 text-xs"
                           >
                             <CalendarCheck2 className="h-4 w-4" />
                             احجز العرض
                           </Link>
                         ) : null}
                         {offer.doctor_id ? (
-                          <Link href={`/doctors/${offer.doctor_id}`} className="flex h-12 w-12 items-center justify-center rounded-xl bg-slate-950 text-white transition group-hover:bg-amber-500">
+                          <Link href={`/doctors/${offer.doctor_id}`} className="flex h-12 w-12 items-center justify-center rounded-full bg-[#eef5f3] text-primary transition hover:bg-primary hover:text-white">
                             <ArrowLeft className="h-5 w-5" />
                           </Link>
                         ) : null}

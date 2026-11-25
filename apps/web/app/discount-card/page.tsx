@@ -83,7 +83,7 @@ export default function DiscountCardPage() {
             </div>
           </div>
 
-          <form onSubmit={submit} className="bento-card shine-border p-5 md:p-6">
+          <form onSubmit={submit} className="bento-card p-5 md:p-6">
             <div className="mb-5 rounded-3xl bg-slate-950 p-5 text-white">
               <p className="text-xs font-black text-slate-400">بطاقة خصم ملامح</p>
               <p className="mt-8 text-2xl font-black">طلب بطاقة خصم</p>
@@ -104,7 +104,7 @@ export default function DiscountCardPage() {
       </section>
 
       <section className="section-shell pb-24">
-        <div className="bento-card shine-border mx-auto max-w-6xl p-5 md:p-7">
+        <div className="bento-card mx-auto max-w-6xl p-5 md:p-7">
           <div className="mb-6 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <div>
               <h2 className="text-2xl font-black text-slate-950">العيادات المشاركة</h2>

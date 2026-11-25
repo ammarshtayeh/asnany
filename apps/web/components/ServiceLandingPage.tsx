@@ -41,45 +41,27 @@ export default function ServiceLandingPage({
 }: ServiceLandingPageProps) {
   return (
     <main className="min-h-screen bg-transparent" dir="rtl">
-      <section className="page-hero-dark relative px-4 pb-32 pt-20 sm:px-6 sm:pb-36 sm:pt-24">
-        <div className="pointer-events-none absolute -right-20 top-0 h-80 w-80 rounded-full bg-amber-500/10 blur-[120px]" />
-        <div className="pointer-events-none absolute -left-20 bottom-0 h-96 w-96 rounded-full bg-emerald-500/10 blur-[120px]" />
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(212,175,55,0.08),transparent_50%)]" />
-
-        <div className="relative z-10 mx-auto max-w-5xl">
-          <Link
-            href="/"
-            className="mb-8 inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-4 py-2 text-xs font-black text-slate-300 backdrop-blur-sm transition-all hover:border-amber-500/30 hover:bg-white/10 hover:text-white"
-          >
+      <section className="section-shell pt-4">
+        <div className="page-hero-light relative px-6 py-10 sm:px-10 sm:py-12">
+          <Link href="/" className="btn-malama-outline mb-6 inline-flex text-xs">
             <ArrowRight className="h-3.5 w-3.5" />
             الرئيسية
           </Link>
 
-          <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#d4af37]/25 bg-[#d4af37]/10 px-4 py-1.5 text-xs font-black text-[#f5d76e] backdrop-blur-sm">
+          <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/15 bg-[#eef5f3] px-4 py-1.5 text-xs font-extrabold text-primary">
             <Sparkles className="h-3.5 w-3.5" />
             {badge}
           </span>
 
-          <h1 className="mt-4 text-3xl font-black leading-[1.15] tracking-tight text-white sm:text-5xl md:text-6xl">
-            {title.includes(" ") ? (
-              <>
-                {title.split(" ").slice(0, -2).join(" ")}{" "}
-                <span className="text-gradient-gold">{title.split(" ").slice(-2).join(" ")}</span>
-              </>
-            ) : (
-              title
-            )}
+          <h1 className="mt-2 max-w-3xl font-display text-3xl font-extrabold leading-[1.2] tracking-tight text-[#0a1628] sm:text-4xl md:text-5xl">
+            {title}
           </h1>
 
-          <p className="mt-5 max-w-3xl text-base font-semibold leading-8 text-slate-300 md:text-lg">{description}</p>
+          <p className="mt-4 max-w-2xl text-base font-semibold leading-8 text-slate-600 md:text-lg">{description}</p>
 
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div className="mt-7 flex flex-wrap gap-3">
             {actions.map((action, i) => (
-              <Link
-                key={action.href}
-                href={action.href}
-                className={i === 0 ? "btn-malama" : "btn-malama-ghost"}
-              >
+              <Link key={action.href} href={action.href} className={i === 0 ? "btn-malama" : "btn-malama-outline"}>
                 {action.label}
                 <ArrowRight className="h-4 w-4" />
               </Link>
@@ -88,29 +70,27 @@ export default function ServiceLandingPage({
         </div>
       </section>
 
-      <section className="relative z-10 mx-auto max-w-5xl -mt-16 px-4 pb-24 sm:-mt-20">
+      <section className="section-shell relative z-10 mt-6 pb-24">
         {topSlot ? <div className="mb-8">{topSlot}</div> : null}
 
-        {/* Feature Grid */}
         <div className="grid gap-4 sm:grid-cols-2">
           {features.map((feature) => (
             <div key={feature} className="bento-card flex gap-4 p-5">
-              <CheckCircle2 className="mt-1 h-5 w-5 flex-shrink-0 text-emerald-500" />
+              <CheckCircle2 className="mt-1 h-5 w-5 flex-shrink-0 text-primary" />
               <p className="text-sm font-bold leading-7 text-slate-700 sm:text-base">{feature}</p>
             </div>
           ))}
         </div>
 
-        {/* Providers Section */}
-        <div className="mt-16">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+        <div className="mt-12">
+          <div className="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
             <div>
-              <h2 className="text-2xl md:text-3xl font-black text-slate-950">مزودو الخدمة المعتمدون</h2>
-              <p className="text-slate-500 mt-1 font-semibold text-sm sm:text-base">
+              <h2 className="font-display text-2xl font-extrabold text-slate-950 md:text-3xl">مزودو الخدمة المعتمدون</h2>
+              <p className="mt-1 text-sm font-semibold text-slate-500 sm:text-base">
                 نتائج مختارة ومنظمة لمساعدتك على المقارنة والتواصل بثقة.
               </p>
             </div>
-            <span className="self-start sm:self-auto rounded-full bg-slate-200/80 border border-slate-300/40 text-slate-700 px-4.5 py-1.5 text-xs font-black">
+            <span className="self-start rounded-full border border-[#e8e4dc] bg-[#faf8f5] px-4 py-1.5 text-xs font-extrabold text-slate-600 sm:self-auto">
               {listings.length} نتيجة
             </span>
           </div>
@@ -119,16 +99,16 @@ export default function ServiceLandingPage({
             emptyCta ? (
               <EmptyStateCTA {...emptyCta} />
             ) : (
-              <div className="rounded-3xl border border-dashed border-slate-300 bg-white/70 backdrop-blur-md p-12 text-center shadow-sm">
-                <p className="text-slate-500 font-bold text-base">{emptyLabel}</p>
+              <div className="rounded-[1.5rem] border border-dashed border-slate-300 bg-white p-12 text-center">
+                <p className="text-base font-bold text-slate-500">{emptyLabel}</p>
               </div>
             )
           ) : (
-            <div className="grid sm:grid-cols-2 gap-6">
+            <div className="grid gap-6 sm:grid-cols-2">
               {listings.map((item) => {
                 const CardWrapper = detailsBasePath
                   ? ({ children }: { children: React.ReactNode }) => (
-                      <Link href={`${detailsBasePath}/${item.id}`} className="block group">
+                      <Link href={`${detailsBasePath}/${item.id}`} className="group block">
                         {children}
                       </Link>
                     )
@@ -136,88 +116,78 @@ export default function ServiceLandingPage({
 
                 return (
                   <CardWrapper key={item.id}>
-                    <article className="bento-card shine-border flex h-full flex-col overflow-hidden">
+                    <article className="bento-card flex h-full flex-col overflow-hidden">
                       {item.image_url ? (
-                        <div className="h-52 bg-slate-100 overflow-hidden relative flex-shrink-0">
+                        <div className="relative h-52 flex-shrink-0 overflow-hidden bg-[#e8f0ef]">
                           <img
                             src={item.image_url}
                             alt={item.name}
-                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
                           />
-                          {detailsBasePath && (
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                              <span className="text-white text-xs font-black bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 border border-white/30">
-                                عرض التفاصيل ←
-                              </span>
-                            </div>
-                          )}
                         </div>
                       ) : null}
-                      <div className="p-6 flex flex-col flex-1">
+                      <div className="flex flex-1 flex-col p-6">
                         <div className="flex items-start justify-between gap-4">
                           <div>
-                            <h3 className="text-xl font-black text-slate-950 group-hover:text-amber-600 transition-colors">{item.name}</h3>
-                            <p className="text-xs text-amber-600 font-black mt-1 bg-amber-500/5 border border-amber-500/10 rounded-full px-3 py-1 inline-block">
+                            <h3 className="text-xl font-extrabold text-slate-950 transition-colors group-hover:text-primary">{item.name}</h3>
+                            <p className="mt-1 inline-block rounded-full bg-[#eef5f3] px-3 py-1 text-xs font-extrabold text-primary">
                               {item.category || "خدمة طبية"}
                             </p>
                           </div>
                           {item.is_featured ? (
-                            <span className="inline-flex items-center gap-1 bg-slate-950 text-amber-400 border border-slate-800 rounded-full px-3.5 py-1.5 text-xs font-black shadow-sm flex-shrink-0">
-                              <Star className="w-3.5 h-3.5 fill-current" />
+                            <span className="inline-flex flex-shrink-0 items-center gap-1 rounded-full bg-primary px-3.5 py-1.5 text-xs font-extrabold text-white">
+                              <Star className="h-3.5 w-3.5 fill-current" />
                               مميز
                             </span>
                           ) : null}
                         </div>
 
-                        <p className="text-slate-600 leading-7 mt-4 font-semibold text-sm line-clamp-3 flex-1">
+                        <p className="mt-4 flex-1 text-sm font-semibold leading-7 text-slate-600 line-clamp-3">
                           {item.description}
                         </p>
 
                         {item.services?.length ? (
-                          <div className="flex flex-wrap gap-2 mt-4">
+                          <div className="mt-4 flex flex-wrap gap-2">
                             {item.services.slice(0, 4).map((service) => (
-                              <span
-                                key={service}
-                                className="bg-slate-100 text-slate-600 rounded-lg px-2.5 py-1 text-xs font-black"
-                              >
+                              <span key={service} className="rounded-full bg-[#f3f0ea] px-2.5 py-1 text-xs font-extrabold text-slate-600">
                                 {service}
                               </span>
                             ))}
-                            {item.services.length > 4 && (
-                              <span className="bg-amber-50 text-amber-700 border border-amber-200/60 rounded-lg px-2.5 py-1 text-xs font-black">
+                            {item.services.length > 4 ? (
+                              <span className="rounded-full bg-[#eef5f3] px-2.5 py-1 text-xs font-extrabold text-primary">
                                 +{item.services.length - 4} خدمات
                               </span>
-                            )}
+                            ) : null}
                           </div>
                         ) : null}
 
-                        <div className="mt-6 pt-5 border-t border-slate-100 flex flex-wrap gap-3 text-xs sm:text-sm font-black text-slate-600">
+                        <div className="mt-6 flex flex-wrap gap-3 border-t border-slate-100 pt-5 text-xs font-extrabold text-slate-600 sm:text-sm">
                           {item.city ? (
-                            <span className="inline-flex items-center gap-1.5 bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-100">
-                              <MapPin className="w-4 h-4 text-amber-500" />
+                            <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-100 bg-[#faf8f5] px-3 py-1.5">
+                              <MapPin className="h-4 w-4 text-primary" />
                               {item.city}
                             </span>
                           ) : null}
                           {item.price_range ? (
-                            <span className="inline-flex items-center bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-100">
+                            <span className="inline-flex items-center rounded-full border border-slate-100 bg-[#faf8f5] px-3 py-1.5">
                               {item.price_range}
                             </span>
                           ) : null}
                           {!detailsBasePath && item.phone ? (
                             <a
                               href={`tel:${item.phone}`}
-                              className="inline-flex items-center gap-1.5 bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-100 hover:bg-primary/5 hover:text-primary transition-colors"
+                              className="inline-flex items-center gap-1.5 rounded-full border border-slate-100 bg-[#faf8f5] px-3 py-1.5 transition-colors hover:bg-[#eef5f3] hover:text-primary"
                             >
-                              <Phone className="w-4 h-4 text-primary" />
+                              <Phone className="h-4 w-4 text-primary" />
                               اتصال
                             </a>
                           ) : null}
                           {!detailsBasePath && item.whatsapp ? (
                             <a
                               href={`https://wa.me/${item.whatsapp.replace(/\D/g, "")}`}
-                              className="inline-flex items-center gap-1.5 bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-100 hover:bg-emerald-50 hover:text-emerald-700 transition-colors"
+                              className="inline-flex items-center gap-1.5 rounded-full border border-slate-100 bg-[#faf8f5] px-3 py-1.5 transition-colors hover:bg-[#eef5f3] hover:text-primary"
                             >
-                              <MessageCircle className="w-4 h-4 text-emerald-600" />
+                              <MessageCircle className="h-4 w-4 text-primary" />
                               واتساب
                             </a>
                           ) : null}
@@ -226,18 +196,18 @@ export default function ServiceLandingPage({
                               href={item.website}
                               target="_blank"
                               rel="noreferrer"
-                              className="inline-flex items-center gap-1.5 bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-100 hover:bg-primary/5 hover:text-primary transition-colors"
+                              className="inline-flex items-center gap-1.5 rounded-full border border-slate-100 bg-[#faf8f5] px-3 py-1.5 transition-colors hover:bg-[#eef5f3] hover:text-primary"
                             >
-                              <Globe className="w-4 h-4 text-primary" />
+                              <Globe className="h-4 w-4 text-primary" />
                               موقع
                             </a>
                           ) : null}
-                          {detailsBasePath && (
-                            <span className="ms-auto inline-flex items-center gap-1.5 bg-amber-500 text-white px-4 py-1.5 rounded-xl text-xs font-black shadow-sm hover:bg-amber-400 transition-colors">
+                          {detailsBasePath ? (
+                            <span className="ms-auto inline-flex items-center gap-1.5 rounded-full bg-primary px-4 py-1.5 text-xs font-extrabold text-white">
                               عرض التفاصيل
-                              <ArrowRight className="w-3.5 h-3.5" />
+                              <ArrowRight className="h-3.5 w-3.5" />
                             </span>
-                          )}
+                          ) : null}
                         </div>
                       </div>
                     </article>
@@ -248,13 +218,9 @@ export default function ServiceLandingPage({
           )}
         </div>
 
-        {/* Back Button */}
-        <div className="mt-16 flex justify-center">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2 bg-slate-950 hover:bg-slate-900 text-white px-8 py-4 rounded-2xl text-sm font-black shadow-xl transition-all hover:scale-[1.02]"
-          >
-            <ArrowRight className="w-4 h-4" />
+        <div className="mt-12 flex justify-center">
+          <Link href="/" className="btn-malama px-8 py-4">
+            <ArrowRight className="h-4 w-4" />
             العودة للرئيسية
           </Link>
         </div>
@@ -262,4 +228,3 @@ export default function ServiceLandingPage({
     </main>
   );
 }
-

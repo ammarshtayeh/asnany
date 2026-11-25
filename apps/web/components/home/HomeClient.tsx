@@ -319,230 +319,218 @@ export default function HomeClient({ initialDoctors }: { initialDoctors: Doctor[
 
   return (
     <div className="min-h-screen overflow-x-hidden font-sans">
-      <section className="relative isolate mb-8 sm:mb-12">
-        <div className="hero-clinic relative overflow-hidden bg-[#1f4a45]">
-          <div className="pointer-events-none absolute inset-0 z-0">
+      <section className="section-shell relative isolate pb-4 pt-2 sm:pt-4" dir="rtl">
+        <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-12">
+          <div className="order-2 text-right lg:order-1">
+            <motion.p
+              className="section-kicker"
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.45 }}
+            >
+              ملامح.ps
+            </motion.p>
+            <motion.h1
+              className="mt-3 font-display text-4xl font-extrabold leading-[1.2] tracking-tight text-[#0a1628] sm:text-5xl lg:text-[3.15rem]"
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.55, delay: 0.05 }}
+            >
+              ابحث عن الطبيب المناسب لوجهك وأسنانك
+            </motion.h1>
+            <motion.p
+              className="mt-4 max-w-lg text-base font-semibold leading-8 text-slate-600 sm:text-lg"
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+            >
+              دليل لأطباء الأسنان، العيون، الجلدية، التجميل، والأنف والأذن في فلسطين — ابحث، قارن، واحجز في مكان واحد.
+            </motion.p>
+            <motion.div
+              className="mt-7 flex flex-wrap gap-3"
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.45, delay: 0.16 }}
+            >
+              <button
+                type="button"
+                onClick={() => document.getElementById("doctors")?.scrollIntoView({ behavior: "smooth", block: "start" })}
+                className="btn-malama"
+              >
+                <Search className="h-4 w-4" />
+                ابدأ البحث
+              </button>
+              <Link href="/join" className="btn-malama-outline">
+                انضم كطبيب
+              </Link>
+            </motion.div>
+            {publicStats.verifiedProviders > 0 ? (
+              <p className="mt-6 text-sm font-bold text-slate-500">
+                <span className="font-extrabold text-primary">
+                  <AnimatedCounter target={publicStats.verifiedProviders} duration={1800} />+
+                </span>{" "}
+                طبيب في الدليل
+              </p>
+            ) : null}
+          </div>
+
+          <motion.div
+            className="order-1 relative aspect-[4/5] overflow-hidden rounded-[1.75rem] bg-[#e8f0ef] shadow-soft sm:aspect-[5/4] lg:order-2 lg:aspect-auto lg:min-h-[420px]"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.08 }}
+          >
             <Image
               src={HERO_IMAGE_URL}
-              alt=""
-              width={2400}
-              height={1350}
+              alt="عيادة أسنان حديثة"
+              fill
               priority
-              sizes="100vw"
+              sizes="(max-width: 1024px) 100vw, 520px"
               quality={90}
-              className="hero-clinic-photo select-none"
+              className="object-cover object-[center_30%]"
             />
-          </div>
-          <div className="pointer-events-none absolute inset-0 z-[1] topo-teal opacity-10" />
-          <div className="pointer-events-none absolute inset-0 z-[1] hidden bg-gradient-to-l from-[#0a1628]/70 via-[#1f4a45]/25 to-transparent sm:block" />
-          <div className="pointer-events-none absolute inset-x-0 top-0 z-[1] hidden h-40 bg-gradient-to-b from-[#0a1628]/45 to-transparent sm:block" />
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-[55%] bg-gradient-to-t from-[#0a1628]/90 via-[#0a1628]/45 to-transparent" />
-
-          <div className="relative z-10 mx-auto flex min-h-[min(100svh,780px)] w-full max-w-[1400px] flex-col justify-end gap-8 px-[var(--page-gutter)] pb-10 pt-[calc(56.25vw+0.5rem)] sm:min-h-[min(88vh,800px)] sm:pt-24 lg:grid lg:min-h-[min(86vh,840px)] lg:grid-cols-[minmax(0,1fr)_minmax(320px,420px)] lg:items-end lg:gap-12 lg:pb-14 lg:pt-28">
-            <div className="max-w-xl text-right text-white lg:pb-4" dir="rtl">
-              <motion.div
-                className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 backdrop-blur-sm"
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.55 }}
-              >
-                <span className="font-display text-lg font-bold tracking-wide text-white sm:text-xl">ملامح</span>
-                <span className="text-[10px] font-bold text-white/70">.ps</span>
-              </motion.div>
-              <motion.h1
-                className="mt-5 font-display text-4xl font-bold leading-[1.2] tracking-tight sm:text-5xl lg:text-[3.25rem]"
-                initial={{ opacity: 0, y: 28 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.08 }}
-              >
-                <span className="block text-white">ابحث عن الطبيب المناسب</span>
-                <span className="mt-4 flex flex-wrap items-center justify-end gap-2.5">
-                  <span className="inline-block rounded-xl bg-[#f7f5f0] px-4 py-1.5 text-[#295f59] shadow-[0_8px_24px_-8px_rgba(0,0,0,0.35)]">
-                    لوجهك
-                  </span>
-                  <span className="text-white/75">و</span>
-                  <span className="inline-block rounded-xl border border-[#e8c86a]/50 bg-[#e8c86a]/15 px-4 py-1.5 text-[#f5d76e]">
-                    أسنانك
-                  </span>
-                </span>
-              </motion.h1>
-              <motion.p
-                className="mt-5 max-w-lg text-base font-semibold leading-8 text-white/85 sm:text-lg"
-                initial={{ opacity: 0, y: 18 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.65, delay: 0.16 }}
-              >
-                دليل لأطباء الأسنان، العيون، الجلدية، التجميل، والأنف والأذن في فلسطين — ابحث، قارن، واحجز في مكان واحد.
-              </motion.p>
-              <motion.div
-                className="mt-7 flex flex-wrap gap-3"
-                initial={{ opacity: 0, y: 14 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.24 }}
-              >
-                <button
-                  type="button"
-                  onClick={() => document.getElementById("doctors")?.scrollIntoView({ behavior: "smooth", block: "start" })}
-                  className="inline-flex items-center gap-2 rounded-2xl bg-[#f7f5f0] px-6 py-3.5 text-sm font-black text-[#295f59] shadow-[0_12px_40px_-12px_rgba(0,0,0,0.4)] transition hover:-translate-y-0.5 hover:bg-white"
-                >
-                  <Search className="h-4 w-4" />
-                  ابدأ البحث
-                </button>
-                <Link href="/join" className="inline-flex items-center gap-2 rounded-2xl border border-white/25 bg-white/5 px-6 py-3.5 text-sm font-black text-white backdrop-blur-md transition hover:bg-white/12">
-                  انضم كطبيب
-                </Link>
-              </motion.div>
-            </div>
-
-            <motion.div
-              className="w-full rounded-[1.75rem] border border-white/15 bg-[#0a1628]/55 p-5 text-right shadow-[0_40px_80px_-28px_rgba(0,0,0,0.5)] backdrop-blur-xl sm:p-6"
-              dir="rtl"
-              initial={{ opacity: 0, y: 32 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.18 }}
-            >
-              <div className="mb-4 flex items-end justify-between gap-3">
-                <div>
-                  <p className="text-[11px] font-black uppercase tracking-[0.18em] text-[#e8c86a]">بحث سريع</p>
-                  <h2 className="mt-1 font-display text-xl font-bold text-white sm:text-2xl">من تبحث عنه اليوم؟</h2>
-                </div>
-                {(publicStats.verifiedProviders > 0) && (
-                  <p className="rounded-full border border-white/15 bg-white/10 px-3 py-1 text-[11px] font-black text-white/90">
-                    <AnimatedCounter target={publicStats.verifiedProviders} duration={1800} />+ طبيب في الدليل
-                  </p>
-                )}
-              </div>
-
-              <div className="mb-4 grid grid-cols-2 gap-2 sm:grid-cols-3">
-                {QUICK_CATEGORIES.map((category) => {
-                  const active = selectedSpecialty === category.label;
-                  return (
-                    <button
-                      key={category.id}
-                      type="button"
-                      onClick={() => selectSpecialty(active ? "" : category.label)}
-                      className={`group flex items-center gap-2 rounded-xl border px-3 py-2.5 text-right transition duration-300 ${
-                        active
-                          ? "border-[#e8c86a]/45 bg-[#e8c86a]/15 text-white"
-                          : "border-white/12 bg-white/5 text-white/85 hover:border-white/25 hover:bg-white/10"
-                      }`}
-                    >
-                      <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${active ? "bg-[#e8c86a]/25 text-[#f5d76e]" : "bg-white/10 text-white/70 group-hover:text-white"}`}>
-                        <category.icon className="h-4 w-4" />
-                      </span>
-                      <span className="text-xs font-black leading-tight">{category.label}</span>
-                    </button>
-                  );
-                })}
-              </div>
-
-              <div className="space-y-3">
-                <label className="flex min-h-12 items-center gap-3 rounded-2xl border border-white/12 bg-white/[0.07] px-4 transition focus-within:border-[#e8c86a]/40 focus-within:bg-white/10">
-                  <Search className="h-5 w-5 text-[#e8c86a]" />
-                  <input
-                    value={searchQuery}
-                    onChange={(event) => setSearchQuery(event.target.value)}
-                    className="w-full bg-transparent py-3 text-sm font-bold text-white outline-none placeholder:text-white/45"
-                    placeholder="اسم الطبيب، المنطقة، أو التخصص"
-                  />
-                </label>
-                <div className="grid gap-3 sm:grid-cols-2">
-                  <SelectShellDark icon={<MapPin className="h-5 w-5 text-[#e8c86a]" />}>
-                    <select value={selectedCity} onChange={(event) => setSelectedCity(event.target.value)} className="w-full cursor-pointer appearance-none bg-transparent py-3 pl-6 text-sm font-black text-white outline-none [&>option]:text-slate-900">
-                      <option value="">كل المحافظات</option>
-                      {CITIES.map((city) => <option key={city} value={city}>{city}</option>)}
-                    </select>
-                  </SelectShellDark>
-                  <SelectShellDark icon={<Stethoscope className="h-5 w-5 text-[#e8c86a]" />}>
-                    <select value={selectedSpecialty} onChange={(event) => setSelectedSpecialty(event.target.value)} className="w-full cursor-pointer appearance-none bg-transparent py-3 pl-6 text-sm font-black text-white outline-none [&>option]:text-slate-900">
-                      <option value="">كل التخصصات</option>
-                      {QUICK_CATEGORIES.map((category) => <option key={category.id} value={category.label}>{category.label}</option>)}
-                      <option value="أسنان الأطفال">أسنان الأطفال</option>
-                    </select>
-                  </SelectShellDark>
-                </div>
-                <div className="grid gap-3 sm:grid-cols-2">
-                  <SelectShellDark icon={<Clock className="h-5 w-5 text-[#e8c86a]" />}>
-                    <select value={selectedWorkStatus} onChange={(event) => setSelectedWorkStatus(event.target.value as "any" | "open" | "closed")} className="w-full cursor-pointer appearance-none bg-transparent py-3 pl-6 text-sm font-black text-white outline-none [&>option]:text-slate-900">
-                      <option value="any">كل الأوقات</option>
-                      <option value="open">مفتوح الآن</option>
-                      <option value="closed">مغلق حاليا</option>
-                    </select>
-                  </SelectShellDark>
-                  <SelectShellDark icon={<ShieldCheck className="h-5 w-5 text-[#e8c86a]" />}>
-                    <select value={selectedInsurance} onChange={(event) => setSelectedInsurance(event.target.value)} className="w-full cursor-pointer appearance-none bg-transparent py-3 pl-6 text-sm font-black text-white outline-none [&>option]:text-slate-900">
-                      <option value="">كل التأمينات</option>
-                      {PALESTINIAN_INSURANCES.map((insurance) => <option key={insurance} value={insurance}>{insurance}</option>)}
-                    </select>
-                  </SelectShellDark>
-                </div>
-                <div className="grid gap-2 sm:grid-cols-2">
-                  <button
-                    type="button"
-                    onClick={handleLocationSearch}
-                    className={`flex items-center justify-center gap-2 rounded-2xl px-5 py-3.5 text-sm font-black text-white transition duration-300 ${
-                      userLoc
-                        ? "bg-[#3d7a73] shadow-[0_10px_28px_rgba(41,95,89,0.4)]"
-                        : "bg-[#295f59] hover:-translate-y-0.5 hover:bg-[#2f6f68] hover:shadow-[0_10px_28px_rgba(41,95,89,0.45)]"
-                    }`}
-                  >
-                    <Navigation className={`h-5 w-5 -rotate-45 ${userLoc ? "animate-pulse" : ""}`} />
-                    {userLoc ? "مرتّب حسب الأقرب" : "الأقرب لي"}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => document.getElementById("doctors")?.scrollIntoView({ behavior: "smooth", block: "start" })}
-                    className="flex items-center justify-center gap-2 rounded-2xl border border-white/20 bg-white/10 px-5 py-3.5 text-sm font-black text-white transition hover:bg-white/16"
-                  >
-                    عرض النتائج
-                    <ArrowLeft className="h-4 w-4" />
-                  </button>
-                </div>
-                {locationError ? (
-                  <p role="alert" className="rounded-xl border border-[#e8c86a]/30 bg-[#e8c86a]/10 px-3 py-2 text-xs font-bold leading-6 text-[#f5d76e]">
-                    {locationError}
-                  </p>
-                ) : null}
-                {hasActiveFilters ? (
-                  <div className="flex flex-wrap items-center gap-2 pt-1">
-                    {selectedCity ? <FilterChipDark label={selectedCity} onClear={() => setSelectedCity("")} /> : null}
-                    {selectedSpecialty ? <FilterChipDark label={selectedSpecialty} onClear={() => setSelectedSpecialty("")} /> : null}
-                    {selectedInsurance ? <FilterChipDark label={selectedInsurance} onClear={() => setSelectedInsurance("")} /> : null}
-                    {selectedWorkStatus !== "any" ? (
-                      <FilterChipDark label={selectedWorkStatus === "open" ? "مفتوح الآن" : "مغلق حاليا"} onClear={() => setSelectedWorkStatus("any")} />
-                    ) : null}
-                    <button type="button" onClick={resetFilters} className="text-xs font-black text-white/50 hover:text-[#e8c86a]">
-                      مسح الكل
-                    </button>
-                  </div>
-                ) : null}
-              </div>
-            </motion.div>
-          </div>
+          </motion.div>
         </div>
-      </section>
 
-      <div className="section-shell relative z-20 -mt-5 mb-6" dir="rtl">
-        <div className="grid gap-3 rounded-[1.35rem] border border-slate-200/70 bg-white/95 p-3 shadow-[0_16px_40px_-24px_rgba(10,22,40,0.2)] backdrop-blur-md sm:grid-cols-3 sm:gap-0 sm:divide-x sm:divide-x-reverse sm:divide-slate-100 sm:p-1">
+        <motion.div
+          className="mt-8 rounded-[1.75rem] border border-[#e8e4dc] bg-white p-5 shadow-soft sm:p-6"
+          dir="rtl"
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.14 }}
+        >
+          <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <p className="section-kicker">بحث سريع</p>
+              <h2 className="mt-1 font-display text-xl font-extrabold text-slate-900 sm:text-2xl">من تبحث عنه اليوم؟</h2>
+            </div>
+          </div>
+
+          <div className="mb-4 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5">
+            {QUICK_CATEGORIES.map((category) => {
+              const active = selectedSpecialty === category.label;
+              return (
+                <button
+                  key={category.id}
+                  type="button"
+                  onClick={() => selectSpecialty(active ? "" : category.label)}
+                  className={`group flex items-center gap-2 rounded-2xl border px-3 py-2.5 text-right transition duration-200 ${
+                    active
+                      ? "border-primary/25 bg-[#eef5f3] text-primary"
+                      : "border-[#ebe7df] bg-[#faf8f5] text-slate-700 hover:border-primary/20 hover:bg-white"
+                  }`}
+                >
+                  <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-xl ${active ? "bg-primary/10 text-primary" : "bg-white text-primary/70"}`}>
+                    <category.icon className="h-4 w-4" />
+                  </span>
+                  <span className="text-xs font-extrabold leading-tight">{category.label}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="space-y-3">
+            <label className="flex min-h-12 items-center gap-3 rounded-2xl border border-slate-200 bg-[#faf8f5] px-4 transition focus-within:border-primary/40 focus-within:bg-white focus-within:ring-4 focus-within:ring-primary/10">
+              <Search className="h-5 w-5 text-primary" />
+              <input
+                value={searchQuery}
+                onChange={(event) => setSearchQuery(event.target.value)}
+                className="w-full bg-transparent py-3 text-sm font-bold text-slate-800 outline-none placeholder:text-slate-400"
+                placeholder="اسم الطبيب، المنطقة، أو التخصص"
+              />
+            </label>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <SelectShellLight icon={<MapPin className="h-5 w-5 text-primary" />}>
+                <select value={selectedCity} onChange={(event) => setSelectedCity(event.target.value)} className="w-full cursor-pointer appearance-none bg-transparent py-3 pl-6 text-sm font-extrabold text-slate-800 outline-none">
+                  <option value="">كل المحافظات</option>
+                  {CITIES.map((city) => <option key={city} value={city}>{city}</option>)}
+                </select>
+              </SelectShellLight>
+              <SelectShellLight icon={<Stethoscope className="h-5 w-5 text-primary" />}>
+                <select value={selectedSpecialty} onChange={(event) => setSelectedSpecialty(event.target.value)} className="w-full cursor-pointer appearance-none bg-transparent py-3 pl-6 text-sm font-extrabold text-slate-800 outline-none">
+                  <option value="">كل التخصصات</option>
+                  {QUICK_CATEGORIES.map((category) => <option key={category.id} value={category.label}>{category.label}</option>)}
+                  <option value="أسنان الأطفال">أسنان الأطفال</option>
+                </select>
+              </SelectShellLight>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <SelectShellLight icon={<Clock className="h-5 w-5 text-primary" />}>
+                <select value={selectedWorkStatus} onChange={(event) => setSelectedWorkStatus(event.target.value as "any" | "open" | "closed")} className="w-full cursor-pointer appearance-none bg-transparent py-3 pl-6 text-sm font-extrabold text-slate-800 outline-none">
+                  <option value="any">كل الأوقات</option>
+                  <option value="open">مفتوح الآن</option>
+                  <option value="closed">مغلق حاليا</option>
+                </select>
+              </SelectShellLight>
+              <SelectShellLight icon={<ShieldCheck className="h-5 w-5 text-primary" />}>
+                <select value={selectedInsurance} onChange={(event) => setSelectedInsurance(event.target.value)} className="w-full cursor-pointer appearance-none bg-transparent py-3 pl-6 text-sm font-extrabold text-slate-800 outline-none">
+                  <option value="">كل التأمينات</option>
+                  {PALESTINIAN_INSURANCES.map((insurance) => <option key={insurance} value={insurance}>{insurance}</option>)}
+                </select>
+              </SelectShellLight>
+            </div>
+            <div className="grid gap-2 sm:grid-cols-2">
+              <button
+                type="button"
+                onClick={handleLocationSearch}
+                className={`flex items-center justify-center gap-2 rounded-full px-5 py-3.5 text-sm font-extrabold text-white transition duration-200 ${
+                  userLoc ? "bg-[#3d7a73]" : "bg-primary hover:bg-primary-dark"
+                }`}
+              >
+                <Navigation className={`h-5 w-5 -rotate-45 ${userLoc ? "animate-pulse" : ""}`} />
+                {userLoc ? "مرتّب حسب الأقرب" : "الأقرب لي"}
+              </button>
+              <button
+                type="button"
+                onClick={() => document.getElementById("doctors")?.scrollIntoView({ behavior: "smooth", block: "start" })}
+                className="btn-malama-outline justify-center"
+              >
+                عرض النتائج
+                <ArrowLeft className="h-4 w-4" />
+              </button>
+            </div>
+            {locationError ? (
+              <p role="alert" className="rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-xs font-bold leading-6 text-amber-800">
+                {locationError}
+              </p>
+            ) : null}
+            {hasActiveFilters ? (
+              <div className="flex flex-wrap items-center gap-2 pt-1">
+                {selectedCity ? <FilterChipLight label={selectedCity} onClear={() => setSelectedCity("")} /> : null}
+                {selectedSpecialty ? <FilterChipLight label={selectedSpecialty} onClear={() => setSelectedSpecialty("")} /> : null}
+                {selectedInsurance ? <FilterChipLight label={selectedInsurance} onClear={() => setSelectedInsurance("")} /> : null}
+                {selectedWorkStatus !== "any" ? (
+                  <FilterChipLight label={selectedWorkStatus === "open" ? "مفتوح الآن" : "مغلق حاليا"} onClear={() => setSelectedWorkStatus("any")} />
+                ) : null}
+                <button type="button" onClick={resetFilters} className="text-xs font-extrabold text-slate-400 hover:text-primary">
+                  مسح الكل
+                </button>
+              </div>
+            ) : null}
+          </div>
+        </motion.div>
+
+        <div className="feature-strip mt-5" dir="rtl">
           {[
-            { label: "دليل واضح", desc: "تخصص ومدينة وتقييم في مكان واحد", href: "/doctors/search" },
-            { label: "حجز أوضح", desc: "من البحث إلى الموعد بخطوات قليلة", href: "/booking" },
-            { label: "تغطية المدن", desc: "ابحث حسب محافظتك وتخصصك", href: "/doctors/search" },
+            { label: "دليل واضح", desc: "تخصص ومدينة وتقييم في مكان واحد", icon: Search, href: "/doctors/search" },
+            { label: "حجز أوضح", desc: "من البحث إلى الموعد بخطوات قليلة", icon: CalendarCheck2, href: "/booking" },
+            { label: "تغطية المدن", desc: "ابحث حسب محافظتك وتخصصك", icon: MapPin, href: "/doctors/search" },
+            { label: "تواصل سريع", desc: "واتساب وحجز من صفحة الطبيب", icon: MessageCircle, href: "/doctors/search" },
           ].map((item) => (
-            <Link
-              key={item.label}
-              href={item.href}
-              className="rounded-2xl px-4 py-3 text-right transition hover:bg-slate-50"
-            >
-              <p className="text-sm font-black text-slate-900">{item.label}</p>
-              <p className="mt-0.5 text-xs font-semibold text-slate-500">{item.desc}</p>
+            <Link key={item.label} href={item.href} className="feature-strip-item transition hover:bg-white/70">
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-white text-primary shadow-sm">
+                <item.icon className="h-5 w-5" />
+              </span>
+              <span>
+                <p className="text-sm font-extrabold text-slate-900">{item.label}</p>
+                <p className="mt-0.5 text-xs font-semibold text-slate-500">{item.desc}</p>
+              </span>
             </Link>
           ))}
         </div>
-      </div>
+      </section>
 
-
-      <main className="mx-auto w-full max-w-[1400px] px-4 py-8 lg:px-8">
+      <main className="section-shell py-8">
         {/* Doctors Section (#doctors) */}
         {/* scroll margin clears the fixed navbar and the news ticker so the heading is not hidden behind them */}
         <section id="doctors" className="relative z-20 flex scroll-mt-[calc(var(--navbar-height,112px)+var(--ticker-height,0px)+1rem)] flex-col gap-6 lg:flex-row" dir="rtl">
@@ -553,20 +541,20 @@ export default function HomeClient({ initialDoctors }: { initialDoctors: Doctor[
           ) : null}
 
           <div className={`flex flex-col gap-5 ${showMap ? "lg:w-[58%]" : "w-full"}`}>
-            <div className="flex flex-col gap-3 rounded-3xl border border-slate-200/70 bg-white/90 p-5 shadow-[0_16px_40px_-24px_rgba(10,22,40,0.18)] backdrop-blur-sm sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex flex-col gap-3 rounded-[1.5rem] border border-[#e8e4dc] bg-white p-5 shadow-soft sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <h2 className="font-display text-2xl font-bold tracking-tight text-slate-950">
+                <h2 className="font-display text-2xl font-extrabold tracking-tight text-slate-950">
                   {showSkeleton ? "جاري تحميل الأطباء" : filteredDoctors.length ? "الأطباء المتاحون" : "لم نجد نتائج مطابقة"}
                 </h2>
                 <p className="mt-1 text-sm font-bold text-slate-500">
                   {showSkeleton || !fullListLoaded ? "لحظات ونرتب القائمة." : `${filteredDoctors.length} نتيجة حسب اختياراتك`}
                 </p>
               </div>
-              <div className="flex w-fit items-center rounded-2xl border border-slate-200 bg-slate-50 p-1">
-                <button type="button" onClick={() => setShowMap(false)} className={`rounded-xl px-4 py-2 text-xs font-black transition ${!showMap ? "bg-slate-950 text-white shadow-sm" : "text-slate-500 hover:text-slate-800"}`}>
+              <div className="flex w-fit items-center rounded-full border border-slate-200 bg-[#faf8f5] p-1">
+                <button type="button" onClick={() => setShowMap(false)} className={`rounded-full px-4 py-2 text-xs font-extrabold transition ${!showMap ? "bg-primary text-white" : "text-slate-500 hover:text-slate-800"}`}>
                   القائمة
                 </button>
-                <button type="button" onClick={() => setShowMap(true)} className={`rounded-xl px-4 py-2 text-xs font-black transition ${showMap ? "bg-primary text-white shadow-sm" : "text-slate-500 hover:text-slate-800"}`}>
+                <button type="button" onClick={() => setShowMap(true)} className={`rounded-full px-4 py-2 text-xs font-extrabold transition ${showMap ? "bg-primary text-white" : "text-slate-500 hover:text-slate-800"}`}>
                   الخريطة
                 </button>
               </div>
@@ -581,7 +569,7 @@ export default function HomeClient({ initialDoctors }: { initialDoctors: Doctor[
               <button
                 type="button"
                 onClick={() => setVisibleCount((count) => count + HOME_DOCTORS_PAGE_SIZE)}
-                className="flex items-center justify-center gap-2 rounded-2xl border border-[#d5e8e1] bg-white px-6 py-4 text-sm font-black text-[#295f59] shadow-[0_12px_32px_-20px_rgba(10,22,40,0.2)] transition hover:-translate-y-0.5 hover:border-primary/30 hover:bg-[#e8f0ef]"
+                className="btn-malama-outline justify-center py-4"
               >
                 عرض المزيد من الأطباء
                 <span className="rounded-full bg-[#295f59]/10 px-2.5 py-0.5 text-xs">{hiddenDoctorsCount}</span>
@@ -590,18 +578,16 @@ export default function HomeClient({ initialDoctors }: { initialDoctors: Doctor[
             ) : null}
             {!showSkeleton && !filteredDoctors.length ? <EmptyResults onReset={resetFilters} onPick={applySuggestion} /> : null}
 
-            <div className="relative overflow-hidden rounded-[1.75rem] bg-[#295f59] p-8 text-center text-white topo-teal">
-              <div className="pointer-events-none absolute -left-16 top-0 h-40 w-40 rounded-full bg-white/10 blur-3xl" />
-              <div className="pointer-events-none absolute -right-10 bottom-0 h-36 w-36 rounded-full bg-[#d4af37]/15 blur-3xl" />
-              <h3 className="relative font-display text-2xl font-bold tracking-tight sm:text-3xl">هل أنت طبيب أو أخصائي رعاية؟</h3>
-              <p className="relative mx-auto mt-3 max-w-2xl text-sm font-semibold leading-7 text-slate-300">
+            <div className="relative overflow-hidden rounded-[1.75rem] bg-primary p-8 text-center text-white">
+              <h3 className="font-display text-2xl font-extrabold tracking-tight text-white sm:text-3xl">هل أنت طبيب أو أخصائي رعاية؟</h3>
+              <p className="mx-auto mt-3 max-w-2xl text-sm font-semibold leading-7 text-white/80">
                 انضم إلى شبكة ملامح، اعرض خدماتك الطبية والتجميلية، واستقبل طلبات المراجعين من مكان واحد.
               </p>
               <div className="relative mt-6 flex flex-wrap justify-center gap-3">
-                <Link href="/join" className="inline-flex items-center justify-center rounded-2xl bg-white px-6 py-3 text-sm font-black text-primary transition hover:-translate-y-0.5 hover:bg-emerald-50">
+                <Link href="/join" className="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-extrabold text-primary transition hover:bg-[#f7f5f0]">
                   سجل عيادتك الآن
                 </Link>
-                <Link href="/subscriptions" className="inline-flex items-center justify-center rounded-2xl border border-white/20 bg-white/10 px-6 py-3 text-sm font-black text-white transition hover:bg-white/20">
+                <Link href="/subscriptions" className="inline-flex items-center justify-center rounded-full border border-white/25 bg-white/10 px-6 py-3 text-sm font-extrabold text-white transition hover:bg-white/20">
                   عرض باقات الاشتراك
                 </Link>
               </div>
@@ -609,25 +595,25 @@ export default function HomeClient({ initialDoctors }: { initialDoctors: Doctor[
           </div>
         </section>
 
-        <section className="mt-8 overflow-hidden rounded-[1.75rem] border border-slate-200/70 bg-gradient-to-br from-white via-white to-emerald-50/40 p-6 shadow-[0_20px_50px_-28px_rgba(10,22,40,0.2)] sm:p-8" dir="rtl">
+        <section className="mt-8 overflow-hidden rounded-[1.75rem] border border-[#e8e4dc] bg-white p-6 shadow-soft sm:p-8" dir="rtl">
           <div className="mb-6 text-right">
-            <p className="text-xs font-black tracking-[0.16em] text-primary">كيف تعمل ملامح</p>
-            <h3 className="mt-1 font-display text-2xl font-bold text-slate-950">ثلاث خطوات للوصول للعيادة المناسبة</h3>
+            <p className="section-kicker">كيف تعمل ملامح</p>
+            <h3 className="mt-1 font-display text-2xl font-extrabold text-slate-950">ثلاث خطوات للوصول للعيادة المناسبة</h3>
           </div>
           <div className="grid gap-5 md:grid-cols-3">
             {HOW_IT_WORKS.map((step, i) => (
               <motion.div
                 key={step.title}
-                className="relative text-right"
-                initial={{ opacity: 0, y: 20 }}
+                className="relative rounded-2xl border border-[#ebe7df] bg-[#faf8f5] p-5 text-right"
+                initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.5, delay: i * 0.12 }}
+                transition={{ duration: 0.4, delay: i * 0.08 }}
               >
-                <span className="mb-3 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+                <span className="mb-3 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-primary shadow-sm">
                   <step.icon className="h-5 w-5" />
                 </span>
-                <strong className="block text-base font-black text-slate-950">{step.title}</strong>
+                <strong className="block text-base font-extrabold text-slate-950">{step.title}</strong>
                 <span className="mt-1.5 block text-sm font-semibold leading-6 text-slate-500">{step.desc}</span>
               </motion.div>
             ))}
@@ -645,9 +631,9 @@ export default function HomeClient({ initialDoctors }: { initialDoctors: Doctor[
   );
 }
 
-function SelectShellDark({ icon, children }: { icon: ReactNode; children: ReactNode }) {
+function SelectShellLight({ icon, children }: { icon: ReactNode; children: ReactNode }) {
   return (
-    <label className="relative flex min-h-12 cursor-pointer items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.06] px-4 transition focus-within:border-[#e8c86a]/40 focus-within:bg-white/10">
+    <label className="relative flex min-h-12 cursor-pointer items-center gap-3 rounded-2xl border border-slate-200 bg-[#faf8f5] px-4 transition focus-within:border-primary/40 focus-within:bg-white focus-within:ring-4 focus-within:ring-primary/10">
       {icon}
       <div className="w-full flex-1">{children}</div>
       <ChevronDown className="pointer-events-none absolute left-4 h-4 w-4 text-slate-400" />
@@ -655,15 +641,15 @@ function SelectShellDark({ icon, children }: { icon: ReactNode; children: ReactN
   );
 }
 
-function FilterChipDark({ label, onClear }: { label: string; onClear: () => void }) {
+function FilterChipLight({ label, onClear }: { label: string; onClear: () => void }) {
   return (
     <button
       type="button"
       onClick={onClear}
-      className="inline-flex items-center gap-2 rounded-full border border-[#e8c86a]/30 bg-[#e8c86a]/10 px-3 py-1.5 text-xs font-black text-[#f5d76e]"
+      className="inline-flex items-center gap-2 rounded-full border border-primary/15 bg-[#eef5f3] px-3 py-1.5 text-xs font-extrabold text-primary"
     >
       {label}
-      <span className="text-sm leading-none text-[#e8c86a]">×</span>
+      <span className="text-sm leading-none">×</span>
     </button>
   );
 }
@@ -674,11 +660,9 @@ function DoctorResult({ doctor, showOpenStatus }: { doctor: Doctor; showOpenStat
   const whatsappHref = doctor.whatsapp ? `https://wa.me/${doctor.whatsapp.replace(/[^\d]/g, "")}` : undefined;
 
   return (
-    <article className="relative group flex flex-col gap-5 overflow-hidden rounded-[1.6rem] border border-[#e5e0d8] bg-white p-4 shadow-[0_12px_36px_-16px_rgba(10,22,40,0.12)] transition-all duration-300 ease-spring hover:-translate-y-0.5 hover:border-primary/25 hover:shadow-[0_22px_48px_-18px_rgba(10,22,40,0.16)] sm:flex-row sm:p-5" dir="rtl">
-      
-      {/* Top Left Absolute Rating Badge */}
+    <article className="relative group flex flex-col gap-5 overflow-hidden rounded-[1.5rem] border border-[#e8e4dc] bg-white p-4 shadow-soft transition-all duration-200 ease-spring hover:shadow-bento-hover sm:flex-row sm:p-5" dir="rtl">
       {(doctor.rating || 0) > 0 ? (
-        <span className="absolute left-4 top-4 inline-flex items-center gap-1 rounded-xl bg-white px-2.5 py-1 text-xs font-black text-[#d4af37] shadow-sm z-10 border border-slate-100">
+        <span className="absolute left-4 top-4 z-10 inline-flex items-center gap-1 rounded-full border border-slate-100 bg-white px-2.5 py-1 text-xs font-extrabold text-[#b8962e] shadow-sm">
           {doctor.rating}
           <Star className="h-3.5 w-3.5 fill-current" />
         </span>
@@ -706,18 +690,18 @@ function DoctorResult({ doctor, showOpenStatus }: { doctor: Doctor; showOpenStat
         <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
           <div>
             <div className="flex items-center gap-2">
-              <Link href={`/doctors/${doctor.id}`} className="text-xl font-black text-slate-950 hover:text-primary transition-colors">
+              <Link href={`/doctors/${doctor.id}`} className="text-xl font-extrabold text-slate-950 transition-colors hover:text-primary">
                 {doctor.name}
               </Link>
               {doctor.accepts_discount_card ? (
-                <span className="inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-1 text-[11px] font-black text-emerald-700 border border-emerald-100">
+                <span className="inline-flex items-center rounded-full border border-primary/15 bg-[#eef5f3] px-2.5 py-1 text-[11px] font-extrabold text-primary">
                   بطاقة الخصم
                 </span>
               ) : null}
             </div>
             <div className="mt-3 flex flex-wrap gap-2">
               {(Array.isArray(doctor.specialty) ? doctor.specialty : []).map((specialty) => (
-                <span key={specialty} className="rounded-lg bg-slate-100 px-3 py-1 text-xs font-bold text-slate-600 border border-slate-200/20">
+                <span key={specialty} className="rounded-full bg-[#f3f0ea] px-3 py-1 text-xs font-bold text-slate-600">
                   {specialty}
                 </span>
               ))}
@@ -733,15 +717,15 @@ function DoctorResult({ doctor, showOpenStatus }: { doctor: Doctor; showOpenStat
             </p>
             <div className="flex min-h-[26px] flex-wrap gap-2">
               {showOpenStatus ? (
-                <span className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-black ${
+                <span className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-extrabold ${
                   openNow ? "border-emerald-100 bg-emerald-50 text-emerald-600" : "border-slate-200 bg-slate-100 text-slate-500"
                 }`}>
-                  <span className={`h-1.5 w-1.5 rounded-full ${openNow ? "bg-emerald-500 animate-pulse" : "bg-slate-400"}`} />
+                  <span className={`h-1.5 w-1.5 rounded-full ${openNow ? "bg-emerald-500" : "bg-slate-400"}`} />
                   {openNow ? "مفتوح الآن" : "مغلق حاليا"}
                 </span>
               ) : null}
               {doctor.distance !== undefined ? (
-                <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-3 py-1 text-xs font-black text-primary border border-emerald-100">
+                <span className="inline-flex items-center gap-1 rounded-full border border-primary/15 bg-[#eef5f3] px-3 py-1 text-xs font-extrabold text-primary">
                   <Route className="h-3.5 w-3.5" />
                   {doctor.distance.toFixed(1)} كم
                 </span>
@@ -749,9 +733,8 @@ function DoctorResult({ doctor, showOpenStatus }: { doctor: Doctor; showOpenStat
             </div>
           </div>
 
-          {/* Action Buttons arranged horizontally */}
           <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
-            <Link href={`/doctors/${doctor.id}#booking`} className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#295f59] px-4 py-3 text-sm font-black text-white transition-all hover:bg-[#1a433e] hover:shadow-lg hover:shadow-[#295f59]/20">
+            <Link href={`/doctors/${doctor.id}#booking`} className="btn-malama py-3 text-sm">
               {doctor.can_book_online ? "احجز" : "طلب موعد"}
               <ArrowLeft className="h-4 w-4" />
             </Link>
@@ -767,13 +750,13 @@ function DoctorResult({ doctor, showOpenStatus }: { doctor: Doctor; showOpenStat
                     source: "home_card",
                   })
                 }
-                className="inline-flex items-center justify-center gap-2 rounded-xl border border-[#d5e8e1] bg-[#e8f0ef] px-4 py-3 text-sm font-black text-[#295f59] hover:bg-[#dceae7] transition-all"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-[#d5e8e1] bg-[#eef5f3] px-4 py-3 text-sm font-extrabold text-primary transition hover:bg-[#e0ece9]"
               >
                 <MessageCircle className="h-4 w-4" />
                 واتساب
               </a>
             ) : null}
-            <Link href={`/doctors/${doctor.id}/map`} className="inline-flex items-center justify-center gap-2 rounded-xl border border-[#e5e0d8] bg-[#f7f5f0] px-4 py-3 text-sm font-black text-slate-800 hover:bg-white transition-all">
+            <Link href={`/doctors/${doctor.id}/map`} className="btn-malama-outline py-3 text-sm">
               <MapPin className="h-4 w-4" />
               الخريطة
             </Link>

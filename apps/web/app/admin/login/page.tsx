@@ -36,7 +36,7 @@ export default function AdminLogin() {
   return (
     <div className="min-h-screen mesh-bg flex items-center justify-center p-4" dir="rtl">
       <div className="absolute inset-0 flex items-center justify-center z-50 p-4">
-        <div className="max-w-md w-full bento-card shine-border p-8 text-center">
+        <div className="max-w-md w-full bento-card p-8 text-center">
           <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-xs font-black text-primary">
             <Sparkles className="h-3.5 w-3.5" />
             لوحة إدارة ملامح

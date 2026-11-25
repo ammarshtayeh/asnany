@@ -44,7 +44,7 @@ export default function Navbar() {
     const onScroll = () => {
       const next = window.scrollY > 16;
       setScrolled(next);
-      document.documentElement.style.setProperty("--navbar-height", next ? "96px" : "112px");
+      document.documentElement.style.setProperty("--navbar-height", next ? "88px" : "96px");
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -80,15 +80,13 @@ export default function Navbar() {
   return (
     <>
       <header
-        className={`fixed inset-x-0 top-0 z-50 px-3 transition-all duration-500 ease-spring sm:px-4 lg:px-6 ${
+        className={`fixed inset-x-0 top-0 z-50 px-3 transition-all duration-300 ease-spring sm:px-4 lg:px-6 ${
           scrolled ? "pt-2" : "pt-3"
         }`}
       >
         <nav
-          className={`mx-auto flex max-w-[1600px] items-center justify-between gap-2 border transition-all duration-500 ease-spring ${
-            scrolled
-              ? "nav-island h-[88px] px-3 shadow-float sm:px-4"
-              : "h-[96px] rounded-3xl border-transparent bg-transparent px-1 sm:h-[100px]"
+          className={`nav-island mx-auto flex max-w-[1200px] items-center justify-between gap-2 px-3 transition-all duration-300 ease-spring sm:px-4 ${
+            scrolled ? "h-[72px]" : "h-[80px]"
           }`}
         >
           <Link
@@ -98,21 +96,21 @@ export default function Navbar() {
           >
             <MalamihLogoMark
               size={180}
-              className="h-14 w-14 shrink-0 shadow-[0_8px_20px_-8px_rgba(41,95,89,0.4)] sm:h-[72px] sm:w-[72px]"
+              className="h-12 w-12 shrink-0 sm:h-14 sm:w-14"
               priority
             />
             <span className="flex flex-col items-start justify-center leading-none">
-              <span className="whitespace-nowrap font-display text-[15px] font-bold tracking-[0.16em] text-[#295f59] sm:text-[1.35rem] sm:tracking-[0.28em]">
+              <span className="whitespace-nowrap font-brand text-[15px] font-bold tracking-[0.18em] text-[#295f59] sm:text-[1.2rem] sm:tracking-[0.22em]">
                 MALAMIH
               </span>
-              <span className="mt-1 text-[9px] font-bold tracking-[0.18em] text-[#295f59]/65 sm:text-[10px]">
+              <span className="mt-1 text-[9px] font-bold tracking-[0.16em] text-[#295f59]/65 sm:text-[10px]">
                 .ps
               </span>
             </span>
           </Link>
 
           <div className="hidden min-w-0 flex-1 justify-center lg:flex">
-            <div className="flex items-center gap-1 rounded-2xl border border-[#e5e0d8] bg-white p-1 shadow-sm">
+            <div className="flex items-center gap-0.5">
               {primaryLinks.map((link) => {
                 const isActive =
                   currentPath === link.href || (link.href !== "/" && currentPath.startsWith(link.href));
@@ -122,13 +120,13 @@ export default function Navbar() {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className={`flex items-center gap-1.5 whitespace-nowrap rounded-xl px-3.5 py-2 text-sm font-black transition-all duration-300 ease-spring ${
+                    className={`flex items-center gap-1.5 whitespace-nowrap rounded-full px-3.5 py-2 text-sm font-extrabold transition-all duration-200 ${
                       isActive
-                        ? `${link.active} shadow-sm`
-                        : "text-slate-600 hover:bg-white hover:text-slate-900 hover:shadow-sm"
+                        ? "bg-[#eef5f3] text-primary"
+                        : "text-slate-600 hover:bg-[#f7f5f0] hover:text-slate-900"
                     }`}
                   >
-                    <Icon className={`h-3.5 w-3.5 ${isActive ? "" : link.color}`} />
+                    <Icon className={`h-3.5 w-3.5 ${isActive ? "text-primary" : "text-slate-400"}`} />
                     {link.label}
                   </Link>
                 );
@@ -138,14 +136,14 @@ export default function Navbar() {
                 <button
                   type="button"
                   onClick={() => setMoreOpen((o) => !o)}
-                  className={`flex items-center gap-1 whitespace-nowrap rounded-xl px-3.5 py-2 text-sm font-black transition-all duration-300 ${
+                  className={`flex items-center gap-1 whitespace-nowrap rounded-full px-3.5 py-2 text-sm font-extrabold transition-all duration-200 ${
                     isMoreActive || moreOpen
-                      ? "bg-white text-slate-900 shadow-sm"
-                      : "text-slate-600 hover:bg-white hover:text-slate-900"
+                      ? "bg-[#eef5f3] text-primary"
+                      : "text-slate-600 hover:bg-[#f7f5f0] hover:text-slate-900"
                   }`}
                 >
                   المزيد
-                  <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-300 ${moreOpen ? "rotate-180" : ""}`} />
+                  <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${moreOpen ? "rotate-180" : ""}`} />
                 </button>
 
                 {moreOpen ? (
@@ -184,12 +182,12 @@ export default function Navbar() {
           <div className="hidden flex-shrink-0 items-center gap-2 sm:flex">
             <Link
               href="/doctor/login"
-              className="hidden items-center gap-1.5 rounded-xl px-3.5 py-2 text-xs font-bold text-slate-600 transition-all hover:bg-slate-100 hover:text-slate-900 xl:flex"
+              className="hidden items-center gap-1.5 rounded-full px-3.5 py-2 text-xs font-bold text-slate-600 transition-all hover:bg-[#f7f5f0] hover:text-slate-900 xl:flex"
             >
               <UserCircle2 className="h-4 w-4 text-slate-400" />
               دخول الطبيب
             </Link>
-            <Link href="/join" className="hidden items-center rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-xs font-black text-slate-800 transition hover:border-primary/30 hover:text-primary lg:inline-flex">
+            <Link href="/join" className="hidden items-center rounded-full border border-slate-200 bg-white px-4 py-2.5 text-xs font-extrabold text-slate-800 transition hover:border-primary/30 hover:text-primary lg:inline-flex">
               انضم كطبيب
             </Link>
             <Link href="/doctors/search" className="btn-malama gap-1.5 px-5 py-2.5 text-xs">
@@ -201,7 +199,7 @@ export default function Navbar() {
           <button
             type="button"
             onClick={() => setMenuOpen((open) => !open)}
-            className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-slate-200/80 bg-white/90 text-slate-900 shadow-sm backdrop-blur-sm transition active:scale-95 lg:hidden"
+            className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-900 transition active:scale-95 lg:hidden"
             aria-label={menuOpen ? "إغلاق القائمة" : "فتح القائمة"}
           >
             {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}

@@ -135,26 +135,22 @@ export default function DoctorRegister() {
   return (
     <main className="min-h-screen animate-fade-in bg-transparent relative font-sans pb-24" dir="rtl">
       <div className="section-shell pt-4 pb-0">
-      <div className="page-hero-dark relative overflow-hidden rounded-3xl py-16 text-center text-white">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/80 via-slate-900 to-secondary/80" />
-        <div className="absolute top-8 right-8 z-50">
-          <Link
-            href="/join"
-            className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white px-5 py-2.5 rounded-full text-sm font-bold transition-all hover:scale-105 shadow-lg"
-          >
-            <ArrowRight className="w-4 h-4" />
+      <div className="page-hero-dark relative overflow-hidden rounded-[1.75rem] py-14 text-center text-white">
+        <div className="absolute right-8 top-8 z-50">
+          <Link href="/join" className="btn-malama-ghost px-5 py-2.5 text-sm">
+            <ArrowRight className="h-4 w-4" />
             رجوع
           </Link>
         </div>
 
         <div className="relative z-10 px-4">
-          <span className="bg-white/10 border border-white/20 text-white text-xs font-black px-4 py-1.5 rounded-full inline-flex items-center gap-1.5 mb-3">
-            <Sparkles className="w-3.5 h-3.5 text-yellow-400 fill-current animate-pulse" /> بوابة الانضمام إلى ملامح.ps
+          <span className="mb-3 inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-extrabold text-white">
+            <Sparkles className="h-3.5 w-3.5" /> بوابة الانضمام إلى ملامح.ps
           </span>
-          <h1 className="text-3xl md:text-5xl font-black text-white tracking-tight">
+          <h1 className="font-display text-3xl font-extrabold tracking-tight text-white md:text-5xl">
             استمارة تسجيل العيادة
           </h1>
-          <p className="text-slate-300 mt-2 text-sm md:text-base font-medium max-w-xl mx-auto">
+          <p className="mx-auto mt-2 max-w-xl text-sm font-medium text-white/80 md:text-base">
             أرسل طلبك الآن وسيقوم مسؤول المنصة بمراجعته وتفعيل عيادتك في أقرب وقت.
           </p>
         </div>
@@ -163,7 +159,7 @@ export default function DoctorRegister() {
 
       <div className="section-shell relative z-10 -mt-12 pb-24">
       <div className="mx-auto max-w-3xl">
-        <div className="bento-card shine-border p-6 md:p-10">
+        <div className="bento-card p-6 md:p-10">
 
           {success ? (
             <div className="text-center py-10 space-y-6">
