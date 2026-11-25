@@ -27,8 +27,7 @@ import {
   SurfaceCard,
 } from "../../components/ui/premium";
 
-const HERO_IMAGE =
-  "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1200&q=80";
+const HERO_IMAGE = require("../../assets/hero-clinic.png");
 
 const QUICK_CATEGORIES = [
   { label: "أسنان", query: "أسنان", icon: "shield" as const, color: theme.teal, bg: theme.tealMuted },
@@ -106,7 +105,7 @@ export default function HomeScreen() {
     <View style={{ flex: 1, backgroundColor: theme.bg }}>
       <ScrollView contentContainerStyle={{ paddingBottom: 120 }} showsVerticalScrollIndicator={false}>
         <Animated.View style={{ height: 320, opacity: heroOpacity, transform: [{ translateY: heroSlide }] }}>
-          <Image source={{ uri: HERO_IMAGE }} style={{ width: "100%", height: "100%" }} resizeMode="cover" />
+          <Image source={HERO_IMAGE} style={{ width: "100%", height: "100%" }} resizeMode="cover" />
           <View style={{ position: "absolute", inset: 0, backgroundColor: "rgba(10,22,40,0.55)" }} />
           <View style={{ position: "absolute", top: -40, right: -20, width: 160, height: 160, borderRadius: 80, backgroundColor: "rgba(16,185,129,0.15)" }} />
           <View style={{ position: "absolute", bottom: 40, left: -30, width: 120, height: 120, borderRadius: 60, backgroundColor: "rgba(212,175,55,0.12)" }} />
@@ -204,7 +203,7 @@ export default function HomeScreen() {
                       style={{ width: 230, borderRadius: 20, overflow: "hidden", backgroundColor: theme.card, borderWidth: 1, borderColor: theme.borderLight, ...theme.shadow.card }}
                     >
                       <View style={{ height: 120, backgroundColor: theme.navy }}>
-                        <Image source={{ uri: HERO_IMAGE }} style={{ width: "100%", height: "100%", opacity: 0.6 }} resizeMode="cover" />
+                        <Image source={HERO_IMAGE} style={{ width: "100%", height: "100%", opacity: 0.6 }} resizeMode="cover" />
                         {discount > 0 ? (
                           <View style={{ position: "absolute", top: 10, right: 10, backgroundColor: "#dc2626", borderRadius: 10, paddingHorizontal: 10, paddingVertical: 5 }}>
                             <Text style={{ color: theme.white, fontWeight: "900", fontSize: 13 }}>{discount}%</Text>

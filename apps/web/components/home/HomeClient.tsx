@@ -375,7 +375,7 @@ export default function HomeClient({ initialDoctors }: { initialDoctors: Doctor[
           </div>
 
           <motion.div
-            className="order-1 relative aspect-[4/5] overflow-hidden rounded-[1.75rem] bg-[#e8f0ef] shadow-soft sm:aspect-[5/4] lg:order-2 lg:aspect-auto lg:min-h-[420px]"
+            className="order-1 relative aspect-[4/5] overflow-hidden rounded-[1.75rem] bg-[#e8f0ef] shadow-soft sm:aspect-[5/4] lg:order-2 lg:min-h-[440px] lg:aspect-auto"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.08 }}
@@ -385,9 +385,9 @@ export default function HomeClient({ initialDoctors }: { initialDoctors: Doctor[
               alt="عيادة أسنان حديثة"
               fill
               priority
-              sizes="(max-width: 1024px) 100vw, 520px"
-              quality={90}
-              className="object-cover object-[center_30%]"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 560px"
+              quality={92}
+              className="object-cover object-[center_18%] sm:object-[center_22%] lg:object-[center_28%]"
             />
           </motion.div>
         </div>

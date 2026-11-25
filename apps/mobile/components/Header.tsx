@@ -2,12 +2,11 @@ import React from "react";
 import { ImageBackground, Image, StyleSheet, Text, View } from "react-native";
 import { colors } from "../constants/theme";
 
-const HERO_IMAGE_URL =
-  "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&q=80&w=1400";
+const HERO_IMAGE = require("../assets/hero-clinic.png");
 
 export default function Header() {
   return (
-    <ImageBackground source={{ uri: HERO_IMAGE_URL }} style={styles.header} imageStyle={styles.headerImage}>
+    <ImageBackground source={HERO_IMAGE} style={styles.header} imageStyle={styles.headerImage}>
       <View style={styles.overlay} />
       <View style={styles.content}>
         <View style={styles.brandRow}>
