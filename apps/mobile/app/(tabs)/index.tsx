@@ -27,7 +27,7 @@ import {
   SurfaceCard,
 } from "../../components/ui/premium";
 
-const HERO_IMAGE = require("../../assets/hero-clinic.png");
+const HERO_IMAGE = require("../../assets/hero-clinic.jpg");
 
 const QUICK_CATEGORIES = [
   { label: "أسنان", query: "أسنان", icon: "shield" as const, color: theme.teal, bg: theme.tealMuted },

@@ -2,7 +2,7 @@ import React from "react";
 import { ImageBackground, Image, StyleSheet, Text, View } from "react-native";
 import { colors } from "../constants/theme";
 
-const HERO_IMAGE = require("../assets/hero-clinic.png");
+const HERO_IMAGE = require("../assets/hero-clinic.jpg");
 
 export default function Header() {
   return (

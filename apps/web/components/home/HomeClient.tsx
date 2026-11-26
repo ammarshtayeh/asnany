@@ -48,7 +48,7 @@ const DoctorMap = dynamic(() => import("@/components/DoctorMap"), {
   ),
 });
 
-const HERO_IMAGE_URL = "/brand/hero-clinic.png";
+const HERO_IMAGE_URL = "/brand/hero-clinic.jpg";
 
 const QUICK_CATEGORIES = [
   { id: "dental", label: "أسنان", icon: Stethoscope, color: "text-primary", bg: "bg-primary/10" },
@@ -387,7 +387,7 @@ export default function HomeClient({ initialDoctors }: { initialDoctors: Doctor[
               priority
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 560px"
               quality={92}
-              className="object-cover object-[center_18%] sm:object-[center_22%] lg:object-[center_28%]"
+              className="object-cover object-[center_20%] sm:object-[center_25%] lg:object-center"
             />
           </motion.div>
         </div>
